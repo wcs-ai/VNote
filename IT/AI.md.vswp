@@ -126,7 +126,7 @@ gooleNET模型：https://www.jianshu.com/p/006248a3fd7f
 机器之心网站：https://www.jiqizhixin.com/
 算法、AI竞赛社区：https://www.flyai.com/
 AllenNLP：https://allennlp.org/。[几个nlp工具库的描述](https://www.csdn.net/gather_21/MtTacg4sNjM2OC1ibG9n.html)
-NLP工具库汇总：[几乎包含所有的NLP工具库(有简短介绍和git地址)](https://www.ctolib.com/article/compares/109139)
+nlp相关资源：[很多nlp工具、学习资源、开源代码(还有几乎所有it领域的资源，点见项目描述页面右侧可以点击访问github项目地址)](https://www.ctolib.com/python/categories/python-natural-language-processing.html)
 几乎能找到所有python库的下载：https://pypi.org/project/tensorflow/#files
 人工智能技术博客：
 https://baijiahao.baidu.com/s?id=1575598730603787&wfr=spider&for=pc
@@ -2322,7 +2322,7 @@ copynet模型：https://github.com/MultiPath/CopyNet?spm=a2c4e.10696291.0.0.727d
 <span class="label3">两个实体消歧办法：</span><span class="blue">基于链接的实体消歧</span>(根据规则、相似度等方法选择)，如<span class="green">knn，取第一个实体词的上下文词向量与后面每个实体词的上下文词向量或实体描述做距离计算，选择最小那个。</span><span class="blue">基于聚类的实体消歧</span>(<i class="gray">将所有候选实体进行聚类</i>)。
 <span class="label3">关系抽取：</span><em class="blue">传统关系抽取</em>(为每对实体做好关系标记，然后使用svm等算法进行分类训练)。<em class="blue">开放域关系抽取</em>(基于Query Log的抽取方法，基于Web Page的抽取方法，融合多个数据源的抽取方法)。(不限定关系类别、不限定目标文本)、<em class="blue">按需抽取</em>。
 <em class="blue">深度学习方法：</em> Bidirectional Recurrent Convolutional Neural Network for Relation Classification论文模型：文中使用语句实体的SDP作为输入(对语句进行简化,实体换为相关类代表词的语句)，网络结构是两个双向LSTM网络，这两个是并行的结构，然后各接一层cnn，再接全链接或全剧池化做分类，计算loss。然后将前面两个网络经过cnn的结果拼接起来再经过一个
-cnn或dl做第三个分类器，所有有3个分类器、3个loss，total_loss用3个相加即可。最后预测时的分类结果用公式：y_last=a*y + (1-a)*y' #论文中取a=0.65。[一个深度学习信息抽取模型。](https://www.ctolib.com/yuanxiaosc-Entity-Relation-Extraction.html)
+cnn或dl做第三个分类器，所有有3个分类器、3个loss，total_loss用3个相加即可。最后预测时的分类结果用公式：y_last=a*y + (1-a)*y' #论文中取a=0.65。[一个深度学习信息抽取模型](https://www.ctolib.com/yuanxiaosc-Entity-Relation-Extraction.html)。[一个使用依存句法分析的三元信息抽取库](https://github.com/lemonhu/open-entity-relation-extraction)。[一个基于pytorch的关系抽取模型](https://www.ctolib.com/zjunlp-deepke.html)
 [关系抽取的多篇深度学习论文简述](https://www.cnblogs.com/sandwichnlp/p/12020066.html)
 <I class="label1">使用cocoNLP库进行信息抽取：</i>若一直安装不上可以直接将下载包里面的cocoNLP复制到对应的环境下，然后运行cocoNLP中的extractor.py文件，接下来会报很多的包名导入失败，一一安装这些依赖包即可(<span class="green">pyhanlp需要下载数据包，按提示的地址下载后放到指定位置即可，需要安装jdk并配好环境变量</span>)。[cocoNLP库github地址(有教程)](https://github.com/fighting41love/cocoNLP)
 <i class="red">pyhanlp库：</i>[pyhanlp库git地址，含教程(分词、依存句法分析、自动摘要等)](https://github.com/hankcs/pyhanlp)。

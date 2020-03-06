@@ -152,7 +152,9 @@ vi a.txt  #使用vim编辑器打开文件，不过内容是显示在终端。
 https://www.runoob.com/linux/linux-system-boot.html
 <i class="label1">ubuntu为到登陆界面就黑屏问题</i>刚安装好系统时没有显卡驱动，开机进入系统时容易黑屏，在3个选项那个界面，第一个按e进入编辑，将ro改为rw，在quit splish后加上nomodeset(因为没有安装显卡驱动只能调用集显)然后按F10保存并重启，进入系统后打开/etc/default/grub修改相应位置。如果是已经安装了驱动造成黑屏可以将nomodeset改为acpi_osi=linux试试<em class="green">显卡驱动未清理干净又安装先的显卡驱动造成的依赖错误也会导致开机黑屏</em>，此时卸载和安装驱动都会报依赖错误，使用以下命令解除指定显卡的所有依赖：
 <i class="orange">LC_MESSAGES=C dpkg-divert --list '*nvidia-440*' | sed -nre 's/^diversion of (.*) to .*/\1/p' | xargs -rd'\n' -n1 -- sudo dpkg-divert --remove</i> #报(错误可用 \(\)
-解除依赖后再`sudo apt --fix-broken install`然后按造提示sudo apt autoremove卸调不用的软件包。
+解除依赖后再`sudo apt --fix-broken install`然后按造提示sudo apt autoremove卸调不用的软件包。<span class="green">所有驱动软件包放在/var/cache/apt/archives/</span>。
+<i class="label2">安装驱动时出现libglx-... 解包到 ...上 ... 处理归档 /var/cache/apt/arch...64.deb 时出错： 正试图覆盖 /usr/lib...direct.so.0，它同时被包含于软件包 nvi...</i>使用如下命令：
+`sudo dpkg -i --force-overwrite 报错那个驱动包位置路径`，#这条命令是忽略上面出现的错误。然后sudo dkpg -i /var/...(驱动包路径) #安装，然后`sudo apt-get install -f` #排查软件包之间是否有问题。没有则重启(每次安装驱动后重启才能生效)。[linux系统驱动的安装，及相关命令。](https://blog.csdn.net/wf19930209/article/details/81877822)
 <i class="label1">用命令来连接wifi</i>tui界面进入的终端也能用，的先确保已经安装了wifi驱动，`sudo service network-manager start`#先打开网络管理。`nmcli dev status`#显示所有本地网卡(红色那个是可用的，记住它的名字)。`nmcli dev wifi`#查看所有可用wifi。`nmcli d wifi connect "xsww" password "7578129qq" wlx30...(刚才看到的红色网卡名) `#连接wifi
 VNote(Appimage结尾文件)：下载下来是以AppImage结尾的后缀名，赋予其权限后运行它直接使用，这并不是安装到系统上的。
 ctrl+T切换编辑模式。似乎没有登陆。[自定义css样式]包括字体大小，颜色，间距。点击markdown>点击添加样式，会提示添加的方法(文件>打开配置文件夹，然后找到styles文件夹，可将自己写的css文件放到里面，不过后缀名为.mhdl，也可以打开resource文件夹写在common.css文件中)。使用：在笔记中使用HTML标签，然后写上配置的类名或id名，<span class="a"></span>
