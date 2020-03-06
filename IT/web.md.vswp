@@ -1,0 +1,37 @@
+vnote_backup_file_826537664 /home/wcs/software/VNote/IT/web.md
+### 一、HTML
+### 二、CSS
+### 三、javascript
+### 四、库、框架、工具
+#### 1、gitHub的使用：
+ 进入gitHub官网先注册一个账号,进入菜鸟教程点击git本地命令工具下载链接下载
+git Barsh安装成功后打开(是一个命令行工具),操作如下：
+输入ssh-keygen -t rsa -C "1815161966@qq.com"回车会提示要在/c/Users/Administrator/.ssh/id_rsa生成秘钥，之后一直回车到生成为止,此时在该路径下找到id_rsa.pub文件用记事本打开复制里面的所有内容,再在gitHub官网用户设置中找到SSH和GPG项将复制内容粘到键文本域中(title随意),回到命令行工具输入SSH -T git@github.com若成功会有提示成功信息。
+// 把本地项目上传到github：
+在github上创建一个仓库(点击加号选择第一个New repository),复制第一项中的url地址,然后打开Git Bush进入一个想放项目的文件目录中使用cd进入(cd G:/web),使用语句：git clone https://github.com/master,之后会在该目录下生产一个与你的仓库名同名的一个文件夹,将代码文件复制到该文件夹中,然后命令进入该文件夹(cd GanMa)再输入git add .(把文件添加进来)再输入git commit -m"xiaoswuwei"读
+入完文件后输入git push -u origin master（传入到仓库中）.使用git clone +地址，也能下载别人仓库中的文件。http://www.runoob.com/w3cnote/git-guide.html
+团队协作：https://blog.csdn.net/carfge/article/details/79691360
+各种场景的撤销命令：
+git merge --abort //合并过程中的撤销合并
+git reset --hard HEAD^ //回退到前一个版本 ^^回退两个  ~100回退多个
+https://baijiahao.baidu.com/s?id=1609673670814569258&wfr=spider&for=pc
+git pull  //从远程更新代码到本地
+git remote //查看远程信息
+git remote -v //查看远程库信息
+git push origin second //将本地分支推送到远程，远程也创建这个分支(远程未存在该分支的
+情况，否则就是普通的提交信息)
+git checkout master  //切换分支
+git checkout -b main //创建并切换本地分支
+git checkout -b ben origin/wcs //创建本地分支并关联到远程指定分支。
+git merge WCS//合并WCS分支到当前分支，再git push origin master//更新，git status查看
+合并情况若合并发生冲突的话会提示冲突的文件，找到该文件并处理标记了冲突的地方然后
+git add filename 然后git commit -m 'merge'即可
+git checkout -b origin/second //拉取second分支下的代码到本地
+git branch -D second //删除本地分支second
+git branch -a //查看所有分支
+git push origin --delete yc //删除远程分支
+.gitignore文件忽略设置(任何时候更改忽略文件都会有效)从主目录开始算路径
+index.html //忽略文件
+/dist/   //忽略整个dist文件夹
+front/dist/  //忽略front文件夹下的整个dist文件夹
+front/index.html  //忽略front文件夹下的Index.html文件

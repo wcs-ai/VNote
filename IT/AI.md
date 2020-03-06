@@ -1,0 +1,2684 @@
+
+想做的项目：
+(1)、一个能与人智能对弈五子棋或象棋的智能程序;(2)、机器与机器的博弈；
+(3)、一个集成了图像识别(识别常见事物)，智能聊天，能和人互动的3D美女。
+(4)、搜索算法、搜索引擎。(5)、人脸识别。(6)、关联分析+深度神经网络打造推荐功能。
+(7)、撩妹神器。(8)、根据文章给出摘要。(9)、时间识别。(10)、地名识别。(11)、关键词提取。
+(12)、输入联想词。(13)、图片文字互转。(14)、计算文档或网页相似度。(15)、物体分割。
+(16)、定制一个指定物体检测器。(17)、智能聊天。(18)、语音识别。(19)、中英互译。
+(20)、根据题目写一篇简短文章。(21)、对对联。
+#### 1、备忘、疑问项：
+tensorbord怎么看;
+找到tensorflow中GRUCell函数所在文件在源码上加入批量归一化实现对输出的数据归一化(tensorflow中不支持cell中归一化)。
+学会计算空间复杂度和时间复杂度。
+第二层原理学习：自己动手实现一些主要的算法。包括：HMM、决策树、GRUCell的实现。
+文本型数学符号集：∑ † ← ↑ → ↓ ↔ €  Œ œ Š š Ÿ ƒ ⊗  σ η ω μ ρ ∈ ⊙▽⊙
+#### 2、python操作mysql：
+windows上安装：安装包解压后进入文件夹复制一个my-small.ini文件然后在文件最低部添加：basedir=该文件夹绝对路径	/n  datadir=文件夹绝对路径/data
+进入bin目录cmd>>mysql --initialize --console //初始化数据库
+>>mysqld install //安装mysql
+>>net start mysql //启动mysql服务 >>mysql -h root -p //登录(初始密码为空)
+mysql可视化管理工具navicat for MySQL破解：https://blog.csdn.net/wypersist/article/details/79834490
+from mysql import connector #pip install mysql-connector
+#连接mysql,主机名(ip),..database指定连接到的数据库，没有的话则只是连接mysql
+wcs=connector.connector(host='localhost',user='root',passwd='',database='')
+ac=wcs.cursor()#创建一个光标用于操作mysql
+#execute()执行sql语句来操作mysql，SHOW DATABASES展示数据库
+ac.execute("SHOW DATABASES")#SHOW TABLES 显示当期库下的所有表格
+for x in ac:print(x)#查看所有数据库或当期数据库下的所有表格；配合上面的语句
+#一些execute()中使用的sql语句
+CREATE TABLE sites (name VARCHAR(255),url VARCHAR(255))#当前库下创建一名为sites的表
+...(id INT AUTO_INCREMENT PRIMARY KEY,...) #括号内的是字段，这个表示设置一个为主键
+ALTER TABLE sites ADD COLUMN id INT AUTO_INCREMNT PRIMARY KEY#动态添加主键
+增、删、查、改：
+#插入数据,（增）。单条插入,使用占位符%时execute()内需要填两个值
+sql = "INSERT INFO sites (name,url) VALUES (%s,%s)"
+ac.execute(sql,('wcs','http:'))#批量插入操作，第二值传入一个数组,改成executemany()即可
+ac.executemany(sql,[('google','url'),('github','url'),...])
+wcs.commit()#涉及到更改数据库的操作需要使用commit()提交。
+#查找数据,(查)。查找表sites中的所有数据
+ac.execute("SELECT * FROM sites")#"SELECT name FROM sites"只查找name字段数据
+#"SELECT * From sites ORDER BY name DESC"按name字段排序，默认升序，DESC为降
+#"SELECT * FROM sites WHERE name = 'google'" 按条件查询
+#定义占位符，避免sql注入攻击
+sql1 = "SELECT * FROM sites WHERE name = %s"
+ac.execute(sql1,("wcs",))#第二个参数必须是一个元组或列表
+res=ac.fetchall()#获取到结果的一个迭代对象，需要使用for循环来获取
+#删除表数据"DELETE FROM sites WHERE name = %s"不用WHERE的话会删除说所有数据
+#更新数据，修改数据,更新name为wcs的数据为xsww
+sql2 = "UPDATA sites SET name = 'xsww' WHERE name = %s"
+ac.execute(sql2,('wcs',))
+wcs.commit()
+#删除数据表 "DROP TABLE IF EXISTS sites"   IF EXISTS为判断
+
+#### 4、爬虫：
+python2方法：
+```
+url = “http://www.huaban.com”
+Req = urllib2.Request(url，data,header)#3个参数
+Res = urllib2.urlopen(Req,timeout=10)#2个参数
+print Res.read()
+```
+python3方法：
+```
+import requests
+url = “http://www.huaban.com”
+s = request.get(url=url)
+print(s.text)
+```
+若未获得内容则有可能是网页设置了需要头部请求,打开要扒的网页打开f12下的
+Network项查看Response header中的内容,注意其中的 User-Agent,Content-Type,Referer项，将其内容写到头部字典中一并发送 出去.
+python3爬虫教程：https://www.w3cschool.cn/python3/python3-enbl2pw9.html
+from bs4 import BeautifulSoup
+//BeautifulSoup是一个html解析器
+bf = BeautifulSoup(html)//html是上面获取到的网页内容
+//find_all()方法按条件查找：标签名、类名、id名,返回一个列表
+content = bf.find_all('div',class_='a',id='k')
+print(content[0].text)//返回的是带着标签的列表，用text获取标签内文本内容。
+
+爬取js动态加载数据的网页的方法：https://www.znian.cn/932.html
+#### 5、python后台框架Django:
+<i class="label1">安装</i>下载地址https://www.djangoproject.com/download/，使用git下载到本地后使用python来安装(也可以使用pip或conda安装，下载的和地址下载中的django文件夹一样)，进入到下载好的django目录下使用命令：python setup.py install //如果想安装到anaconda环境中使用其python对应系统变量即可。安装后在python环境中的script文件夹下会有dnango-admin.exe文件可以直接在cmd中使用,cmd中输入django-admin能运行则成功。(若无法全局使用django-admin的话直接进入scripts文件夹下去运行即可。)
+[开始一个项目]django-admin startproject HelloWorld //创建一个HelloWorld目录,
+里面有一些初始化文件，再使用命令：python manage.py runserver 0.0.0.0:8000,然后在浏览器输入127.0.0.1:8000即可看到初始化页面。在urls.py文件配置如下：
+from django.conf.urls import url
+#2.0以后的版本的path在django.urls下,1.0所属版本在conf.urls下
+from django.urls import path
+#from django.conf.urls import path
+from . import view#这样写直接运行view文件可能会报错,不过cmd运行不会
+#导入非环境中的包必须这样，否则会报错;导入anaconda中的包没问题
+#urlpatterns中配置接口路径对应的指定页面中的函数，可以全部改成url配置
+urlpatterns = [url(r'^$',view.hello),path('index/',view.ajax)]
+#前端访问接口或浏览器打开时为http://127.0.0.1:8000/index/最后一个斜杠
+#与urls文件同级的view.py文件中：
+```
+from django.http import HttpResponse,JsonResponse
+import json
+def hello(request):
+    return JsonResponse('hello')
+#当浏览器输入127.0.0.1:8000/index时就会触发ajax()函数
+def ajax(request):#若有值传来则
+```
+<i class="label1">使用docker部署django项目</i>可以使用apache来部署django项目，但是经常遇到很多问题，而docker部署可以为每个项目单独建一个环境，将多个项目分开，非常便于维护(docker的安装见36)，而且使用docker来部署项目也会方便很多(只不过windows上docker的安装很多坑)。[docker部署django教程。](https://blog.csdn.net/BlueBlueSkyZ/article/details/89083285)[Dockerfile文件编写规则。](https://www.cnblogs.com/549294286/p/11044901.html)
+#### 15、收集到的算法论文地址：
+脸部特征点检测(face landmark estimation)http://www.csc.kth.se/~vahidk/papers/KazemiCVPR14.pdf
+方向梯度直方图：http://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf
+FLANN:https://www.cs.ubc.ca/~lowe/papers/ijcv04.pdf
+卡尔曼滤波：https://www.cs.unc.edu/~welch/kalman/media/pdf/kalman_intro_chinese.pdf
+Google Vizier：https://research.google.com/pubs/pub46180.html
+微软小冰实现：https://arxiv.org/pdf/1812.08989v1.pdf
+transformer模型：https://arxiv.org/pdf/1706.03762.pdfs
+BERT模型：https://arxiv.org/pdf/1810.04805.pdf
+WordPiece：https://arxiv.org/pdf/1609.08144.pdf
+多轮对话实现论文：https://www.aclweb.org/anthology/P18-1103.pdf
+oov和低频词解决：https://arxiv.org/pdf/1602.06023.pdf
+关系抽取BRCNNRC：https://www.aclweb.org/anthology/P16-1072.pdf
+基于bert的文本摘要实现：https://arxiv.org/pdf/1902.09243.pdf
+#### 16、一些知识来源：
+国外论文来源网站：https://arxiv.org/
+小波分析文档：https://max.book118.com/html/2019/0315/8070124126002012.shtm
+好多陌生的模型：https://www.cnblogs.com/jiangxinyang/p/10207482.html    DBN/SparceCoding
+多数库whl文件的下载地址：https://www.lfd.uci.edu/~gohlke/pythonlibs/
+python设计模式书籍、腾讯基于SKIP-GRAM改进的DSG词向量训练算法、
+gooleNET模型：https://www.jianshu.com/p/006248a3fd7f
+机器学习测试题：https://www.sohu.com/a/214560722_728045
+机器之心网站：https://www.jiqizhixin.com/
+算法、AI竞赛社区：https://www.flyai.com/
+AllenNLP：https://allennlp.org/。[几个nlp工具库的描述](https://www.csdn.net/gather_21/MtTacg4sNjM2OC1ibG9n.html)
+NLP工具库汇总：[几乎包含所有的NLP工具库(有简短介绍和git地址)](https://www.ctolib.com/article/compares/109139)
+几乎能找到所有python库的下载：https://pypi.org/project/tensorflow/#files
+人工智能技术博客：
+https://baijiahao.baidu.com/s?id=1575598730603787&wfr=spider&for=pc
+https://blog.csdn.net/qq_35409640/article/details/72453599
+国内百度学术论文：http://xueshu.baidu.com/usercenter/paper/show?paperid=c59cc405abea2084c3c05a82b102a1a4&site=xueshu_se
+#### 17、几个提供数据集的网站：
+ICPSR:http://www.icpsr.umich.edu/icpsrweb/ICPSR/
+UMLR(uci数据库):http://archive.i cs.uci.edu/ml/
+myPersonalityProject:http://mypersonality.org/wiki/doku.php?id=start
+APublicDatasets:https://github.com/caesar0301/awesome-public-datasets
+YahooWebscopeProgram:http://webscope.sandbox.yahoo.com/
+数据堂:http://www.datatang.com/
+图像识别(文章)：https://blog.csdn.net/Song_Esther/article/details/82808281
+http://www.atyun.com/resources/?act=download_list&id=1
+各种类型数据集下载地址：https://blog.csdn.net/m0_37167788/article/details/79093827
+IDM情感分析数据集下载：http://ai.stanford.edu/~amaas/data/sentiment/
+自然语言处理数据集：https://blog.csdn.net/tmb8z9vdm66wh68vx1/article/details/93426915
+对话系统语料数据：https://github.com/candlewill/Dialog_Corpus    (点击README.md,里面有很多对话语料数下载链接)
+目标跟踪视频数据：https://blog.csdn.net/weixin_30679823/article/details/94832966
+文本分类数据：https://github.com/fate233/toutiao-text-classfication-dataset
+一些中文数据：https://blog.csdn.net/mrjkzhangma/article/details/91988492
+中文词向量训练数据：https://zhuanlan.zhihu.com/p/47133426
+https://chinesenlp.xyz/zh/docs/word_embedding.html
+文本摘要数据：http://www.sogou.com/labs/resource/cs.php
+#### 18、各库学习地址：
+numpy:https://www.yiibai.com/numpy/numpy_linear_algebra.html
+pandas:http://pandas.pydata.org/pandas-docs/stable/10min.html#concat
+https://www.e-learn.cn/content/qita/1236403
+matplotlib:https://wizardforcel.gitbooks.io/matplotlib-intro-tut/content/
+scipy:https://www.yiibai.com/scipy/scipy_integrate.html
+statsmodels:http://www.statsmodels.org/stable/
+scikit-learn:https://sklearn.apachecn.org/
+pyqt5:https://maicss.gitbooks.io/pyqt5/content/hello_world.html
+python中文文档:https://yiyibooks.cn/xx/python_352/tutorial/index.html
+Tensorflow官网：https://www.tensorflow.org/versions
+[tensorflow2.0知乎中文教程](https://zhuanlan.zhihu.com/c_1091021863043624960)
+https://www.w3cschool.cn/tensorflow_python/tensorflow_python-bm7y28si.html
+opencv学习：http://www.opencv.org.cn/opencvdoc/2.3.2/html/doc/tutorials/tutorials.html
+#### 27、python知识积累：
+在编写python程序时开头使用# -*-coding:utf-8-*-用于规定使用的字符集编码,这	样程序注释中可以使用中文，#!/usr/bin/python规定使用python解析器解析程序。
+frozenset(range(10))//创建一个不可变集，frozenset('thisisaman')//返回：
+frozenset({'s', 'h', 'm', 'a', 'n', 't', 'i'})；set(range(5))//创建一个可变集。
+双斜杠运算符, // 表示取整除部分(向上取整)
+<i class="label1">collections模块</i>
+```
+from collections import Counter,OrderedDict
+print(Counter('string'))//将字符串转换为一个字典,以每个字符为键，以其出现次数为值。若目标对象是一个列表则是一个一维数组时才能使用Counter()方法。
+Counter('str').most_common(2)//Counter()对象下的方法得到出现数最大的前两组。
+import random
+list = [1,2,3,4,5]
+'+'.join(list)#将数组各个数之间用+号连接。
+random.shuffle(list)#打乱数组List中值的顺序,但并不返回一个打乱后的结果
+print(list)#[3,1,5,4,2]
+#非运算：if not (y=20):print('ok')
+#OrderedDict也是一个字典，不过里面存储会按添加的顺序来顺序存储，而普通字典不一定
+d = OrderedDict()
+for c,n in d.items():
+```
+<i class="label1">数据类型转换</i>
+int('8'),str(12),eval("1+2")//转为整型、字符串、可执行的python语句
+float(1),ord("w")//转为浮点型、反回对应的ASCII码(同时只能转一个长度字符串)
+hex(10),oct(10)//返回对应的16进制，8进制。
+b'123',bytes('string')//变为byte型,(字符串可被编码为字节,字节可解码为字符串)
+string.endswith('.av')//判断字符是否以.av结尾，返回布尔值。
+string.strip('0')//删除字符串首尾所有满足条件的字符,如果是byte型则条件也要加上
+byte型【string.strip(b'0')】
+string.split('avbnvmk'.split('v',1))//将字符串以第1个v开始分割['a',bnvmk'']
+string.count('i')//反回子字符串在string中出现的次数。
+对列表进行排序时直接x.sort(),x = x.sort()会被置为None因为sort()方法不返回值
+编码：'wcs'.encode(encoding='utf-8')  >> b'wcs'
+解码：b'wcs'.decode(encoding='utf-8') >> wcs。[python中的字符集有：gbk,utf-8,
+gb2312,ascii]
+触发异常:if not s:#not是非运算,raise抛出异常,后面是异常名,括号内是输出的内容
+raise ValueError('s is not false')#后面的代码会终止运行
+__import__('a')//动态导入a.py模块，如果导入的类，函数是经常变化的情况
+<i class="label1">字符串</i>b'xx08eu'(字符串前加b表示是一个byte类型)，r'e:\b\d'(字符串前加r表示去掉反斜杆的影响)。
+u'字符'(字符串前加u表示使用unicode[utf-8]进行编码，中文使用)。f"zzr{name}ko"，字符串前加f后该字符串中可以用{}号然后里面写变量名。
+[格式化字符串]print('a is s% and %d c'%('b',20))>'a is b and 20 c' //%s和%d相当与占位符把%后的元组依次写入站位符中。s%,d%,c%,o%,x%...分别表示占位字符串、整数、字符及ASCII码、八进制数、十六进制数。字符串前使用r或R可以输出原始字符串：r'\n,%s,uio',里面的特殊字符不会被转译。'%(name)s--%(age)d'%{'name':'wcs','age':21}
+[保留两位小数]使用round()不生效的时候可以："%.2f"%number
+cv = x.replace('二',1)#替换x中为二的字符串为1，返回一个结果，不在原结果上修改
+'str'.find('t')//匹配字符串中所包含的指定子字符的第一次出现位置有则返回位置无则返回-1
+str()方法将数据转换为字符串类型，可以直接转换一个数组的所有值：str(list)
+#join()的使用：
+```
+c = '-'.join(('a','b'))#将列表或元组用指定字符连接，如果列表值为数值型要转str
+txt.strip('\n')//删除字符串中的转行符，rstrip(),lstrip()删除左右的，string.replace('a','s')//将string字符串中的a全部替换为s。
+[startswith()]str.startswith(str, beg=0,end=len(string));检查字符串是否以指定字符开头，beg，end指定检查的起始和结束位置。
+[format格式化函数]使用方法与格式化字符串类似：(与字符串连接使用)
+print("name is {0},age is {1}".format('w',22))#{}内传索引时指定顺序
+print("{0},{1},{0}").format('a','b')
+print("{name},{age}".format(name='wcs',age=22))#指定键值
+```
+条件赋值简写：tag = 10 if tag>15 else 20
+使用with同时打开多个操作：用逗号隔开，换行写时加上\号。
+```
+with open('data/train.txt','w') as data_a,\
+    open('data/test.txt','a') as data_b,open('c.txt','r') as c:
+    print(data_a.read())
+```
+<i class="label2">sys模块</i>：import sys
+print(sys.maxunicode)#查看python内部使用的编码，1114111就是UCS-4编码，65535就是UCS-2
+codecs模块：python的内部是使用unicode来处理的，但是unicode的使用需要考虑的是它的编码格式有两种，一是UCS-2，它一共有65536个码 位，另一种是UCS-4，它有2147483648g个码位。对于这两种格式，python都是支持的。import codecs
+```
+look1 = codecs.lookup('gb2312')#创建编码器，传入类型。
+a = look1.encode('中文')#对str类型编码
+b = look1.decode(a)#对bytes类型解码
+#codecs模块自带的open()方法在读取文件时按指定编码类型解码数据。
+file = codecs.open('data/words.txt','r','gb2312')
+print(file.read())
+```
+<i class="label2">yield的使用</i>举例，如果我们想要自己实现一个和range()函数一样功能的函数可能会使用循环来生成一个列表然后返回该列表来实现，但当要生产的列表非常长时这会非常占用内存，更有效的解决办法是让其变成一个迭代对象(一种惰性获取数据项的方式：可理解为先记录要生产的列表长度，然后在使用其值时才会去生成对应的那个值，这样就解决了占用内存的问题)，所以在用print()打印出来时，列表直接时一串值，而迭代对像是一个(iterable(i=10))之类的信息。python中使用yield实现：
+```
+def self_range(x):
+    i = 0
+    while i<x:
+        yield i
+        i += 1
+#在赋值给一个变量时不会运行，获取所有迭代值后才运行这里        
+    print('err')    
+for n in self_range(5):
+    print(n)#0,1,2,3,4 
+```
+#注意：如果将该迭代赋值给一个变量则智能执行一个完整迭代(迭代完后失效)
+@修饰符的使用：常用于插入日志、性能测试等
+```
+def log(func):#会先运行log函数再运行test函数
+    print('enter log')
+    func()
+    def back():
+        return 20
+    return back#被@修饰的函数必须返回一个函数
+@log#@修饰一个函数将下一个函数test作为log的参数
+def test():
+    print('test')
+```
+test()#若不运行test函数也不会运行log函数 
+类中使用的@property：
+```
+class animale(object):
+    @property#为避免类中的公共变量被随意修改，使用@property和函数
+    def weight(self):#配合才能修改，确保一定安全
+        return self.aw
+#函数上加了@property后这个函数就成了@property的一个实例，
+#下面才能使用@weight      
+    @weight.setter#还有.deleter
+    def height(self,inp):
+        self.aw = inp    
+dog = animale()
+print(dog.weight)#直接获取其值
+dog.weight = 15#其实改变的是aw的值。若是改变一个列表or字典的值可
+#改为dog.list=('a',12);修饰符内:self._val[arg[0]]=arg[1]形式     
+```
+<i class="label1">json与python字典互转</i>
+```
+import json
+dat = open("dat.json","r")
+dat = dat.read()#获取json文件中的数据
+res = json.loads(dat)#将json转为字典
+x = json.dumps(res)#将字典转为json对象
+#当数据中有自己定义的类如numpy时，json不能将其序列化存储，可以：
+class DecimalEncoder(json.JSONEncoder):#似乎无效，以后研究
+	def default(self,o):
+		if isinstance(o,decimal.Decimal):
+			for i,j in enumerate(o):
+				o[i] = list(j)
+			return list(o)
+		super(DecimalEncoder,self).default(o)
+```
+[Decode error - output not utf-8]错误解决：python默认使用的编码方式一般是cp936而文件一般使用的编码是utf-8，在运行中解析非英文型字符时就会报这种错误，一些编辑器对此问题做了处理所以不会报错，而一些编辑器未做处理时就有这样的错误，解决如下：
+import sys,io
+sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
+
+【编解码器模块】https://yiyibooks.cn/xx/python_352/library/codecs.html#module-codecs
+https://www.cnblogs.com/misswangxing/p/8603529.html
+<i class="label1">piclke模块的使用</i>pickle类似于json的使用，pickle也是用于序列化的模块，不过pickle用于python特有的类型和python数据类型间进行转换。
+```
+import pickle
+obj = ['a','b',1]
+with open('k.txt','wb') as file:
+#dump将数据obj转换为byte型,写入文件,file为文件对象,必须以二进制模式打开,若不
+#传入文件对象则不写入文件，返回序列化后的数据，protocol为协议
+    pickle.dump(obj,file,protocol=None)
+#以二进制打开文件后用load导入，file一样是文件对象
+    ag = pickle.load(file,encoding='ascii',errors='strict')
+```
+PIL模块：https://www.cnblogs.com/moying-wq/p/10982135.html
+<i class="label1">math模块</i>
+```
+import math
+x = math.floor(2.3)#2 下舍
+x = math.ceil(2.3)#3 上舍
+```
+lambda的使用：lambda用于构成一个简单的函数：
+h = lambda x,y:x+y#x,y为参数，返回引号后的结果。
+print(h(1,2))#3，不能直接将lamnda函数体做参数写到其它函数括号内。
+
+callable()函数：判断一个对象是否是可调用()函数
+if callable(fun):#若fun是一个函数的话则返回True
+
+[对象的深拷贝]分普通深拷贝和绝对深拷贝
+```
+import copy
+x = [1,23,5,6,7]
+y = x.copy()#普通深拷贝，改变x的值y不会改变，但在维数过多情况还是会
+z = copy.deepcopy(x)#绝对的深拷贝
+```
+[argparse模块]https://www.cnblogs.com/dengtou/p/8413609.html
+[tqdm]tqdm模块可以在循环体中显示进度。(非python自带模块，需要pip install tqdm)
+```
+from tqdm import tqdm
+for i in tqdm(range(1314520)):#套在一个迭代器外使用即可
+    print('zz')
+```
+[__future__模块]把下一个版本的功能导入到这个版本测试使用。
+[random模块]
+```
+import random
+a = random.random()#随机生成一个在0-1之间的数
+b = random.uniform(1,10)#随机生成指定范围内的浮点数
+c = random.randint(1,10)#随机生成指定范围内的整数
+d = random.randrange(1,10,2)#相当于从[1,3,5,...,9]中随机选一个数
+e = random.choice('l love math')#math,向指定序列(list,tuple等)中随机选一个
+f = random.shuffle([1,2,3])#打乱指定序列顺序，作用于原始序列，不返回值
+g = random.sample(lst,3)#向lst中随机选取3个数
+```
+**<i class="label1">python正则</i>**：在匹配函数后加.span()获得索引值，加group()获得匹配结果
+r = re.compile(r'*c$',re.l)#compile()创建一个正则模式,参数为正则规则,第二个参数为匹配模式，re.l表示忽略大小写,re.M(多行模式),re.X(忽略空格和#后面的注释)
+import re
+s = re.search(reg,'qq68786476号哈哈')#查找符合规则的第一个位置及返回结果。
+s.group()#qq68786476,查找结果为None的话则会报错。
+s1=re.sub(reg,'替换值','qq26号string')#替换符合规则的字符串
+s2=re.match(reg,'string')#只匹配字符串的开头，没有则失败。
+<i class="label1">python程序调试方法</i>
+1、断点打印：怀疑会出错的地方用print()输出，太low！
+2、assert断言：assert a==0,'a不等于0' //不满足a==0的话就会在控制台打印逗号后的字符串，且中断后面的代码。(与print一样，程序太大时也不建议使用)。
+3、日志logging：使用时需要导入import
+logger = logging.getLogger()
+logging.basicConfig(level=logging.INFO)
+logger.info('open file')#用basicConfig设置level为INFO后该信息能打印出来。
+其它日志等级：
+FATAL：致命错误
+CRITICAL：特别糟糕的事情，如内存耗尽、磁盘空间为空，一般很少使用
+ERROR：发生错误时，如IO操作失败或者连接问题
+WARNING：发生很重要的事件，但是并不是错误时，如用户登录密码错误
+INFO：处理请求或者状态变化等日常事务
+DEBUG：调试
+4、pdb调试：import pdb 然后在想设置断点的地方pdb.set_trace()，运行时会在此处停止，控制台出现(pdb)输入n运行下一步。
+5，raise:显示的触发异常，直接抛出指定异常，停止运行后面的代码
+if a==None:
+    raise ValueError('this value is None')#错误类型和详细提示。
+
+https://blog.csdn.net/qq_38542085/article/details/78562458
+#### 31、自然语言处理细小问题集：
+一篇比较全的seq2seq模型涉及的问题：https://jianwenjun.xyz/2018/07/18/Seq2Seq%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/
+<i class="violet">(1)部分文字编码问题：</i>一些特殊字符和汉字放到一起，特殊字符使用的编码和汉字的会不一样，所以在写入文件时会报错，读取出来连成字符时部分显示decode error(在列表中时正常的)。
+<i class="violet">(2)文字中空格：</i>部分分词结果中会有空格，且这些空格用replace()方法无法去除，需要用正则表达中的sub()方法,re.sub(r'\s','',string),模式一定用r'\s'，或strip('\s')
+<i class="violet">(3)一行字符太长显示Decode error问题：</i>该问题引起上面两条错误，将太多的汉字链接做一行会发现打印出来的有Decode error问题。逐条打印时没有但写入文件时会报错。
+(4)解决以上3条的办法：在打开文件(open(file,'w'))时加上encoding='utf-8',即可，只要时报错
+'gbk' codec can't encode character '\xa0'...都可以这样。(但即使这样写入文件成功，在同样的方式读取文件时还是会显示部分字符无法解码)
+<i class="violet">(5)Word2Vec()中用Linesentence()训练词向量时报错：</i>https://www.cnblogs.com/jiangxinyang/p/10411595.html
+(6)使用word2vec训练词向量时应该去除所有符号即可拿来训练，而'是'之类的停用词不该去除。
+<i class="violet">(7)词向量维度选择：</i>维度至少为50，多为256，512维，很大的语料库使用1024维。迭代次数大约
+30-50次，语料大于500M时选CBOW模型，小的时候可以选skip-gram(1)。
+<i class="violet">(8)部分词无词向量问题：</i>一些普通的通用词向量数据会缺少很多专项的词向量，比如人名、小地名、
+电影电视剧名、游戏名、新词、缩写词等(因为jieba库在分词时默认使用HMM模型发现新词，所以这些词会被分出来，这些词过多时会影响准确度，只能通过专门训练来提升准确率)。
+(9)如果所使用的编辑器编码有问题(控制台打印中文乱码)会影响分词等操作。
+<i class="violet">(10)训练模型中的词向量选用：</i>我之前使用的是已经训练好的词向，在训练模型前找到对应词的词向量后用到训练当中，这样导致在用于生成模型时只能与目标词向量求一个均方差计算loss，然后测试阶段只能用匹配最相似的词。推荐使用：训练模型中将词转化为id的形式，然后使用tensorflow的embedding_lookup()来生成词向量，训练中不断优化改词向量，然后在计算loss时把每条数据的词id转换为one_hot这样又可以用交叉熵的形式来计算loss。这是别人的做法。
+<i class="violet">(11)词频统计注意：</i>在上一条中我们决定使用统计词频生成词-id的文件到使用中，除了生成所有词的id数据之外我还需要加入几个标记符：\<pad>符号(填充符,在使用中因为每批数据的序列长度需要填充一致，使用词符号对应的id来填充)、\<s>符号(开始符，在seq2seq或transformer这类的模型中需要对decode输入的数据加1个开始符)、\<s/>(结尾符，encode和decode的输入数据都要加上该符号)、\<unk>符号(未知词符号，应用阶段可能会出现未在词典中的词，用这个符号的id代替)、\<total>符号(词数总量，在词频统计文件中可以加入此符号，但转换为词-id文件后该符号无用，可以去除)。
+词频统计的目的：统计完词频后往往会发现词典中有几十万的词汇量，而我们选用的又是一个分类型的loss计算，如果使用这么大的词典这意味着我们最后的数据维度是[batch,seq_len,10000+],这可能直接导致Resource Exhoust，即使够用也会严重拖拽模型的训练，所以一般选用词频较高的词放到词表(15000词是我的电脑极限,这些词能覆盖多数情况)。但这会导致另一个问题——未登录词过多
+<i class="violet">(12)生成模型决定生成序列长度问题：</i>由上面两条得到的启发，因为训练是如果一句话的长度小于最大要求长度，其余的长度用\<pad>符号的id来填充，taget序列也是如此，所以inference阶段可以检测生成的词id(使用tf.argmax()获取到的)，哪个位置出现\<pad>符号的id就从这个位置截断。
+<i class="violet">(13)生成模型使用数据注意：</i>类似seq2seq这样的模型 需要对输入数据做一点特殊处理；decode层在inference阶段是没有decode_input的只能随机一个开始值通过一个cell预测下一个字，然后用预测到的下一个字再往下预测，所以inference阶段都会为decode_input数据前加一个一样的开始符(11中的\<s>符对应的id)。因为最后一个词预测出的下一个词是无效的，所以我们会为encode层和decode层的
+数据最后都加一个\<s/>结尾符，让每句话的最后一个词预测出的都是这个符号，这样在inference时可以检测\<s/>符的id决定生成的序列；不过在取数据时取得不一样：
+decode_input = data[:-1]#decode的输入数据不包含结束符target = data[1:]#用于计算loss的标签数据不需要开始符。
+虽然transformer模型不同于seq2seq，但都是依靠上一个词来预测下一个词，所以在预处理数据时都要加上上面的符号。
+<i class="violet">(14)未登录词和词表大小的处理：</i>具体处理见66。BPE处理英文中的oov问题：https://blog.csdn.net/weixin_38937984/article/details/101723700
+<i class="violet">(15)loss添加mask技巧：</i>生成式模型中为了让得到的结果更准确可以在计算出loss值后将loss与target_mask相乘，然后除以mask的和来当作最终loss，batch_loss。公式：
+`batch_loss = tf.div(tf.multiply(loss,target_mask),tf.reduce_sum(target_mask))`
+#### 32、计算机视觉细小问题集：
+[1]使用tensorflow中的损失函数(soft_max_crop_...)求出来的是一个矩阵，因为部分值会非常小时就会显示none，一般又会对结果求均值结果得到的值就会是一个none，对损失函数求得的值可以使用 tf.clip_by_value(cost,1e-10,1.0)>>低于1.0时就返回1.0。
+[2]图片数据一般会比较大，建议先将图片压缩、裁剪到150x150以下进行计算，不然很容易导致内存不足报错：ResourceExhaustError.
+[3]数据批量使用注意:如果使用yield创建数据批量获取函数则在用for循环迭代时千万不能将其赋给一个变量来迭代该变量，因为赋给一个变量，迭代完后，这个迭代对象就失效了。
+[4]多维数据计算的维度变化：多维矩阵与二维矩阵相乘是将先前的维度都与二维矩阵分别相乘，库内部实现该机制。维度为[5,10,100]的矩阵与维度为[5,1,100]的矩阵相加后维度不变。维度为[2,1,4]的矩阵乘以维度为[2,3,4]的矩阵得到维度为[2,3,4]的矩阵。
+#### 33、部分词向量数据的使用
+当词向量文件只有几个G大小时一般用gensim库就导入查询相似向量就能满足(对于直接查找词对应的词向量似乎没有速度提升)。annoy库处理腾讯词向量：腾讯AI实验室训练的882万条词向量，每个词向量长200，两次解压后得到一个txt文件大概16G大，直接查找使用的话非常慢，需要使用annoy库和gensim库特殊的搜索方法：
+```
+from gensim.models import KeyedVectors
+tc_wv_model = KeyedVectors.load_word2vec_format('G:/cnWords/Tencent_AILab_ChineseEmbedding.txt',binary=False)
+word_index = OrderedDict()
+for counter,key in enumerate(tc_wv_model.vocab.keys()):
+    word_index[key] = counter
+with open('tc_word_index.json','w') as fp:
+    json.dump(word_index,fp)
+    #词向量长度为200
+tc_index = AnnoyIndex(200)
+i = 0
+for key in tc_wv_model.vocab.keys():
+    v = tc_wv_model[key]
+        #索引，词
+    tc_index.add_item(i,v)
+    i = i + 1
+tc_index.build(10)
+tc_index.save('tc_index_build10.index')
+```
+
+https://zhuanlan.zhihu.com/p/36835964
+https://cloud.tencent.com/developer/article/1441591
+annoy原理及使用：https://blog.csdn.net/m0_37850187/article/details/92712490
+https://zhuanlan.zhihu.com/p/50604120
+百度百科，搜狐新闻等训练好的词向量：https://www.jianshu.com/p/ae5b45e96dbf
+#导入.bin文件使用
+model = gensim.models.KeyedVectors.load_word2vec_format(model_path, binary=True)
+#导入.model文件使用
+model = gensim.models.Word2Vec.load(model_path)
+
+搜狐新闻中文数据：https://www.jianshu.com/p/370d3e67a18f
+#### 34、python多线程和锁:
+一个程序可以有多个进程,一个进程可以有多个线程这与js的异步执行是一样的，Python2中使用thread模块，在python3中废弃，使用_thread和threading模块，这里记录threading模块的使用。
+```
+import threading
+arr = []
+class c_thread(threading.Thread):#继承threading中的Thread类
+    def __init__(self,id,name,value):
+        self.ID = id
+        self.NAME = name
+        self.VALUE = value
+    def run():#会自动运行run()函数，应该与Thread类内部设置有关
+        print(self.NAME+'start')#线程开始运行
+       function()#要执行的操作
+       print(self.NAME+'end')#结束
+#创建两个线程
+td1 = c_thread(1,'td1',1)
+td2 = c_thread(2,'td2',2)
+td1.start()#开启线程
+td1.join()#结束线程
+```
+虽然是多线程不过在计算的数据量不大时还是几乎会看到一个线程运行的结束了另一个才开始这种效果，因为计算机的运行速度很快的原因。如果多个线程都操作一个共同的变量可能产生的结果并不是我们想要的(例如:我们运行一段代码看结果是否要继续之后的操)。<i class="blue">所以引入了锁的概念(这也叫线程同步)，锁有两个状态：锁定和未锁定</i>，当第一个线程访问到共享变量时获得锁定，操作完共享变量后结束锁定，如果该操作期间有其它线程也运行到访问该变量则让该线程挂起，即同步阻塞,实现如下：
+```
+lock = threading.Lock()#创建锁
+#run()函数中如下
+lock.acquire()#运行到此处的线程获得锁定
+function()#执行的操作
+lock.release()#释放锁，让下一个线程进入。
+```
+<i class="blue">线程优先级队列Queue</i>，Queue模块提供了同步的、安全的队列类：
+```
+import queue
+q = queue.Queue(10)#创建先进先出队列，10个
+q.put(1)#填充数据
+a = q.get()#获取数据，一次取一个
+#后进先出队列,使用与上一个一样
+q2 = queue.LifoQueue()
+```
+Queue.qsize()#返回队列大小，Queue.empty()#判断队列是否为空，Queue.join()#等队列为空再执行其它操作。 
+https://blog.csdn.net/hellenlee22/article/details/91047807
+#### 35、Anaconda:
+搜索Anaconda官网可直接进入下载Anaconda；打开Anaconda prompt命令 窗口；自己	使用pip安装的第三方库会出现下载不全，子模块缺失等问题， 非常头疼，而安装	Anaconda后在其中下载并使用它里面的软件进行编程则 不会出现问题。以Anaconda2开头命名的是对python2版本的支持,以Anaconda3开头的是对python3版本的支持。
+进入Anaconda自带指令工具Anaconda Prompt的base环境安装各种第三方库后可以不用进入设置的虚拟环境中更不用使用Anacaonda中打开代码编辑工具就可以编程使用。
+创建环境:使用conda create -n name python=3.5可以创建一个虚拟环境， name名可随意起，后面是想使用的python的版本号。自己安装的Anaconda包目录下有一个envs文件夹(environments的缩写)是放自己所创建的环境的。script文件夹下是一些库附带的可直接运行的cmd命令程序，如tensorboard。
+<i class="red">进入环境</i>：windows使用activate name；linux使用source activate wcs.
+<i class="red">安装库</i>：conda install scipy (安装的库在所有虚拟环境中可用)
+<i class="red">卸载库</i>：conda remove scipy
+<i class="red">更新包</i>：pip install --upgrade package_name    	conda update package_name
+或 pip install 包名 --upgrade --ignore-installed 包名    #能忽略一些问题
+pip和conda更新：若非要求，不要随便更新
+pip install requests		pip install requests --upgrade
+conda install requests		conda update requests
+<i class="red">查看所有包</i>：conda list,[存在包库的地方:安装目录下的Lib>site-packages,每个环境下的Lib>site-packages和安装目录下的pkgs,如果想要做库的转译可以转到这三个目录试试]
+注：打开Anaconda Prompt使用conda install tensorflow安装tenforflow框架，若
+弹出提示有包与该框架冲突则将其卸载直到没有冲突的包为止，将删除的包做好记录
+。在Anaconda Prompt也可以使用pip指令。各个环境安装的库不能共用
+(当使用conda 下载包时若出现中断或缓慢的问题可以尝试使用pip下载)
+<i class="red">安装指定版本</i>：conda install cudatoolkit==8.0
+<i class="red">在Anaconda中加入自己的库</i>：只要把自己的个人库放到相应的python环境中(site-packages文件夹下)，就能向其它环境中的包一样导入使用。
+Anaconda下载pytesseract库：https://www.cnblogs.com/daacheng/p/9627136.html
+<i class="red">安装后无法进入base环境问题</i>：不能安装在中文名文件下，需要加入环境变量。
+<i class="red">配置安装源和克隆环境：</i>conda create --name wcs --clone base  #克隆已有的库，克隆base并命名为。若克隆环境的pip报错就将原克隆环境的pip包复制过来，bin/pip文件的导入main的命令也改为和原环境的bin/pip一致。conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ # 配置库的下载源。[统一配置安装源](https://blog.csdn.net/hanguo1577717382/article/details/80245707)
+[cannot import relative]relative在dateutil包下，重新安装即可，但使用:pip install python-dateutil
+<i class="red">pip安装经常中断</i>：将外国的安装源改为国内的会有所改善：（-i参数指定安装源）
+Pip install rasa_core -i https://pypi.douban.com/simple
+豆瓣：https://pypi.douban.com/simple		阿里：https://mirrors.aliyun.com/pypi/simple
+清华： https://pypi.tuna.tsinghua.edu.cn/simple/ 		中科大：http://pypi.mirrors.ustc.edu.cn/simple/
+#### 36、tensorflow serving的安装与使用：
+<span class="label1">安装</span>tensorflow serving可以将深度学习模型部署到线上，在服务器上开启一个服务提供访问的api。可以使用3种方法安装(docker、源码安装、二进制编译)。
+使用命令：`docker run -p 8500:8500 --mount type=bind,source=/tmp/counter,target=/models/test -e MODEL_NAME=test -t tensorflow/serving`  #布置模型。其中MODEL_NAME的值与target指定的最后一个目录文件名一致，target指定的路径会作为api的路径，-t指定使用的镜像。
+<i class="blue">获取模型状态：</i>`curl 0.0.0.0:8500/v1/models/test `   获取可用模型元数据：`curl 0.0.0.0:8050/v1/models/test/meradata`
+<i class="blue">传值获取结果：</i>`curl 0.0.0.0:8500/v1/models/test:predict -X POST -d'{...}'`
+[学习地址1](https://www.cnblogs.com/weiyinfu/p/9928363.html#7)。[学习地址2](https://www.jianshu.com/p/d11a5c3dc757)。
+<span class="label2">linux上docker的安装</span>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后能发布到任何windows或linux上。使用docker pull拉取镜像时显示连接不到docker-daemon(可以用`find / -name docker.service`找到docker的service文件(最后显示那个)，更改ExecStart项-H后的资源路径：`fd:// --containerd=/run/containerd/containerd.sock -H 0.0.0.0:2375`，在/etc/docker/daemon.json文。
+)不存在该文件的话直接创建一个，保存好然后使用`systemctl daemon-reload然后systemctl restart docker`。
+<em class="label3">拉取镜像文件太慢问题</em>[解决方法](https://www.cnblogs.com/sxdcgaq8080/p/9198748.html)。[docker的安装](https://blog.csdn.net/weixin_42273782/article/details/88942204) <span class="green">在添加官方GPG密钥时出错则可以从[gpg文件下载](https://download.docker.com/linux/ubuntu/gpg)下载GPG key到本地，然后`sudo apt-key gpg`安装。<em class="green">docker ps报错：</em>[将docker加入用户组、用户加入docker组即可。](https://blog.csdn.net/qq_40600507/article/details/101679838) 
+<i class="label3">docker常用命令</i>
+```
+# 启动/停止容器
+docker start/stop $container_id或$container_name
+# 查看运行容器
+docker ps #以一个表格形式展示，第一行是表头，意思：容器id、使用的镜像、启动容器时运行的命令、容器的创建时间、容器状态。
+# 查看全部容器
+docker ps -a
+# 删除指定容器
+docker rm $container_id或$container_name
+# 查看运行容器的日志
+docker logs -f $container_id或$container_name
+# docker 删除镜像
+docker rmi image:tag # 例如docker rmi tensorflow/serving:latest
+```
+<i class="label3">docker run参数解释</i>
+```
+--mount：   表示要进行挂载
+source：    指定要运行部署的模型地址， 也就是挂载的源，这个是在宿主机上的servable模型目录（pb格式模型而不是checkpoint模型）
+target:     这个是要挂载的目标位置，也就是挂载到docker容器中的哪个位置，这是docker容器中的目录，模型默认挂在/models/目录下，如果改变路径会出现找不到model的错误
+-t:         指定的是挂载到哪个容器
+-d:         后台运行
+-p:         指定主机到docker容器的端口映射
+-e:         环境变量
+-v:         docker数据卷
+--name:     指定容器name，后续使用比用container_id更方便
+```
+<i class="label1">转换模型为可部署的形式</i>代码如下：
+```
+import os
+import tensorflow as tf
+# 处理输入输出。
+def signature(function_dict):
+    signature_dict = {}
+    for k, v in function_dict.items():
+        inputs = {k: tf.saved_model.utils.build_tensor_info(v) for k, v in v['inputs'].items()}
+        outputs = {k: tf.saved_model.utils.build_tensor_info(v) for k, v in v['outputs'].items()}
+        signature_dict[k] = tf.saved_model.build_signature_def(inputs=inputs, outputs=outputs, method_name=v['method_name'])
+    return signature_dict
+#模型保存路径
+output_dir = "/tmp/counter"
+for i in range(100000, 9999999):
+    # /tmp/counter/100000
+    cur = os.path.join(output_dir, str(i))
+    if not tf.gfile.Exists(cur):
+        output_dir = cur
+        break
+method_name = tf.saved_model.signature_constants.PREDICT_METHOD_NAME
+with tf.Graph().as_default(),tf.Session() as sess:
+    # ...这中间写模型迭代训练的代码和变量初始化，一些构建模型的代码可写在with外。
+    # 配合signature()函数，定义好接口可传入的参数，及其返回的值。
+    signature_def_map = signature({
+        "get_counter": {"inputs": {"nothing": nothing},
+                        "outputs": {"output": counter},
+                        "method_name": method_name},
+        "incr_counter": {"inputs": {"nothing": nothing},
+                         "outputs": {"output": incr_counter},
+                         "method_name": method_name},
+        "incr_counter_by": {"inputs": {'delta': delta, },
+                            "outputs": {'output': incr_counter_by},
+                            "method_name": method_name},
+        "reset_counter": {"inputs": {"nothing": nothing},
+                          "outputs": {"output": reset_counter},
+                          "method_name": method_name}
+    })
+
+    #调用saved_model,传入生成的路径。
+    builder = tf.saved_model.builder.SavedModelBuilder(output_dir)
+    # 生成tensorflow serving可部署的模型文件。
+    builder.add_meta_graph_and_variables(sess, tags=[tf.saved_model.tag_constants.SERVING], signature_def_map=signature_def_map)
+    builder.save()
+```
+
+#### 40、IDE工具:
+##### (1)、vscode：
+支持各种语言的开发,但需要对应的插件来支持,所以会有一定缺陷。
+打开vscode点击第四个图标(方形)，安装python在点右边的安装.
+(开始运行程序时编辑器会先代码进行从上到下的扫描存储好变量名,函数名,确定指针、执行上下文等操作,在这个期间debugger调是处于右三角形形态,如果这部分的操作没问题的话会变成双竖杆形状开始执行语句,如果一直是处于右三角形态的话可能是某些语句写法错误,但编译器不会提示,建议用其它编辑器运行以下可能会出提示;如果一直是双竖杆形态的话多半是其中需要的计算比较多或者设计到下载之类的。)
+快捷键: 参考地址:https://www.cnblogs.com/pleiades/p/8146658.html
+· 首先是F1/Ctrl+Shit+P万能键，谁用谁知道
+· Ctrl+P：文件切换
+· Ctrl+空格：自动提示
+· F12/Ctrl+左键：跳转到定义
+· Shift+F12：预览定义
+· Ctrl+G：跳转行号
+· Ctrl+/：注释切换
+· Alt+↑↓：整行上下移动
+· Ctrl+↑↓：编辑器垂直滚动条上下移动，光标不动
+· Ctrl+Backspace/Delete：整词/连续空白删除
+· Ctrl+→←：光标整词移动
+· Ctrl+F查找/Ctrl+Shift+F在文件中查找，这都属于通用的，类似的就不说了啊。
+F5：运行代码
+Ctrl+F5：运行当前文件代码
+[部分插件配置]vscode上一款不错的颜色主题：搜索Code Blue点击install右界面点击Reload使用
+ vscode下载项输入框搜索Live Serve点击下载安装后右界面点击Reload to Active 后在html文件页面点击最下方(软件脚部)的Go Live(也可能是@go live)会在浏览器打开页面此时浏览器地址栏就变成了ip地址而不是本地路径地址，(使用默认浏览器时有效)。
+Powern Model插件：在选择颜色主题栏最下方选择安装其它主题，下载Power Model插件然后在左下角点击设置打开 user settings文件或按F1输入user settings，界面右半部分大括号中加上"powermode.enabled":true,就能使用该插件了,"powermode.enableShake":false//桌面是否震动
+，"powermode.presets":"particles"/"fireworks"/"magic"/"flames"/样式。
+(配置的文件是json文件一定要用双引号)然后点击Reload to Active载入即可使用。
+vscode-icons:颜色主题安装列表中安装vscode-icoons，点击Reload to Active然后按F1输入
+icon在弹出的列表中点击激活vscode icons即可使用该插件。
+[同时选中多个相同的字符]ctrl+shift+L选中该页中所有相同的字符。ctrl+D选择下一个相同的字符
+[代码格式化]先安装yapf库，pip install yapf 然后在cscode设置搜索框中搜python.formatting.provider
+右边下拉框中选择yapf。设置好后选中要整理的代码块，右键点format selection整理，但对缩进无效
+[空格只有半字符长问题]设置>搜索框输入font，FontFamily项输入'monospace'
+[控制台打印中文乱码问题]点击左侧工具栏第四个按钮，左上角点击生成launch.json文件，选择python环境，然后在生成的文件中以下位置填入：
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: 当前文件",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "env":{/*添加这个env配置*/
+        "PYTHONIOENCODING":"GBK"
+      }
+    }
+ [Anaconda环境设置]插件安装栏搜索anaconda安装运行即可。
+##### (2)、sublim编辑器：
+sublim使用起来在提示方面和运行速度方面都很不错，要使用Anaconda中的环境需要安装一些插件:
+CTRL+SHIFT+p打开输入框输入install Package Control 回车安装再：install Package都安装好后就可以在搜索框中搜索Anaconda回车安装了(左下角)
+[ctrl+Tab]鼠标放在一个调用的函数括号中按ctrl+Tab能还呼出该函数的所有参数。
+去除白框：anaconda插件，用户设置中添加："anaconda_linting": false
+sublim3配置python环境：https://blog.csdn.net/Ti__iT/article/details/78830040
+https://www.jianshu.com/p/0ad5625e9717
+[选中多个相同字符]ctrl + d,一直按，从当前向下查找相同字符。
+[改变运行环境]anaconda插件，默认设置下修改python_interpreter后的值为想要设置的python.exe
+文件所在的目录，注意使用\\。然后工具栏>编译系统中选择Anaconda Python Build
+[新建一个编译系统]选择编译系统后，sublim会按指定的编译系统解析文件中的代码。编译系统,新建:
+#修改下面python.exe所在的路径path即可。
+{
+ "cmd":["python.exe", "-u", "$file"], 
+ "path":"E:\\somtwar\\Anaconda\\plateform\\envs\\wcs",
+ "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+ "selector": "source.python"
+}
+##### (3)、jetBring公司产品：
+[获取注册码]http://idea.lanyus.com/
+【永久破解】https://www.jianshu.com/p/4c81cf31b94d
+[主题样式下载]http://www.riaway.com/theme.php，更换主题后字体会变小，在setting>Editor>Color Scheme>console Font中设置字体大小。
+pycharm破解：https://blog.csdn.net/fantasic_van/article/details/89282100
+ctrl+r或ctrl+f调出全局搜索字符。
+[使用Anaconda环境]setting>project:name>Project interpreter下拉框中选择运行的环境，添加新的运行环境：下拉框点show all后点击+号>选第二个单选文件夹中选择Anaconda安装目录>envs>wcs>python.exe(envs是自己在anaconda创建的所有环境,wcs是自己创建的一个环境,每个环境下都有一个python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括sublim中切换环境也是切换python.exe的位置。
+#### 41、numpy库常用函数:
+【数据的生成】
+av=np.arange(10,20,3,dtype='int32');#3是每两个值之间的差值
+a = np.array([[],[],[]]);//a.tolist()//将numpy数组转为python列表
+np.random.shuffle(av)//打乱指定数组的顺序,再a[av]获取打乱后的数据
+np.random.rand(10,15)#随机生成一个10X15的二维数组与random.random()一样[0~1]之间
+np.random.randn(2,3)//生成的值在-1~1之间。
+np.random.choice(2,5)//根据第一个参数生成一个序列数组,然后生成一个长度与第二个参数一样的数组(每个值从刚才生成的数组中随机抽取,第一个值必须是整型)
+np.linspace(1,45,15);#15个数
+np.logspace(18,69,3);#3个数
+np.zeros(5),np.one(3).....
+np.zeros_like([1,2,3,4,5])//生成一个维度与目标数组维度相同的0矩阵。(如果目标矩阵不规			则的话只能生成行数相同的0矩阵)
+x = np.array([[1,2,3],[2,3,4],[3,np.nan,5]])
+[矩阵的转置]x.T 不改变原矩阵
+[对比两个矩阵]
+z = x==y =>[True,False,True] //numpy数据写等于时返回对应位置是否相等的布尔矩阵
+(x==y).all() //如果所有位置全等反回True
+(x==y).any() //存在相等的位置就返回True
+[读存文件]
+data = np.genfromtxt('aa.csv',delimiter="",skip_header=1,dtype='U75')
+np.save('name.npy',x);np.load('name.npy')#保存数组到文件，导出数据。
+np.savetext('name.text',x);np.load('name.text')#文本形式
+【数据操作、计算】
+x = np.transpose(data,[1,0,2])#与tensorflow的transpose作用一样
+data.astype(np.int32)//数据类型
+b=np.argsort(a)//返回数组a培训后的值对应在排序前的索引位置。
+x.itemsize;#返回存储的字节长
+x.shape=(2,-1)#改变行列比//shape是改变该数组的形状,reshape是复制该数组然后
+改变其形状(不影响原数组的形状)，返回被改变的那个数组。
+x.min();x.max();x.var()#求最大最小值,方差
+x.std()或np.std(x,axis=0)#计算矩阵的标准差
+x.mean()或np.mean(x,axis=1)#计算矩阵的平均值
+Print(:,1)#[[2],[3],[np.nan]]
+Y = np.splice([2,0])   print(x[y])#3
+X[~np.isnan(x)]#去除缺失值返回一维x[np.iscomplex()]  
+x*2(整个数组乘2)  x.T(求转置矩阵)
+np.concatenate((a,b),axis=0) #连接两个矩阵 行/列
+np.broadcast(x,y)#将数组x广播到y
+np.add(a,b)//矩阵与值，矩阵与矩阵的相加
+np.multiply(x,y)//矩阵与值相乘，若都是矩阵则是对应位置乘。
+np.matmul(a,b)//矩阵与矩阵的内积实现，与np.dot()一样，一维矩阵相乘时结果是一个值，但在进行多维矩阵相乘时np.matmul()能保证预期的结果(将大于2维外的看成一个batch，然后与对应的b中的那个batch相乘)，而dot则是按照叉乘来的。
+np.squeeze(x)#将目标数组降低一维(数组为最高维的第0个)，如果这个二维数组还
+存在行标记或列标记的话则squeeze()无效，得先用x.values去除标记再squeeze()(pandas中的Series和DataFrame创建的数组也能用)。
+X.flat[2]#左到右，上到下的索引位置处的值
+X.flatten(order=”F”)#转为一维数组输出 C为按行的顺序，F为按列的 顺序;
+np.split(a,3)#将一维数组分为3份  np.split(a,[2,4])#指定位置处分
+np.roll(x,3)//将数组x按第二个参数位移(0位移到3,最后一位移到2位...)
+np.hsplit(b,1)#划分二维数组，1表示按列化分。
+x=np.append(a,[1,2,3])#目标、位置、值、轴;不填写axis值时返回一维数组，填写
+axis值时添加的数组的维数需要与目标数组维数一致。如：
+x=np.array([[1,2,3],[4,5,6]])
+y = np.append(x,[[7,8,9]],axis=0)#[7,8,9]外多套了一维。
+
+np.insert(a,2,[2,5,8],axis=1);
+np.unique(c)#去除重复的值，返回去重后的一维数组
+x.resize(3,4)#与reshape()方法一样
+np.vdot(a,b)#x1*y1+x2*y2+...+xn*yn  计算来个向量的点积
+np.matrix([[1,2,3],[4,5,6],[7,8,9]])#matrix()生成一个矩阵
+np.c_[[1,2],[2,3],[3,4]]#np.c_[]方法中每一个数组为一列生成在这个新数组中最后的结果是2行3列的一个二维数组。
+np.flipud(x)#将一个二维数组倒置(非转置)即：第一行变为最后一行.....
+np.meshgrid([0,1,2],[0,1,2],sparse=False)#meshgrid()方法用于将两个数组扩展构成一个二维坐标系，扩展为([[0,1,2],[0,1,2],[0,1,2]],[[0,0,0],
+[1,1,1],[2,2,2]]),以上两个二维数组重合对应的点的位置就是坐标点若sparse改为True则不会扩展
+np.diag(s)#diag()方法将一维数组变为对角矩阵。
+(NumPy 经常用于加载、操作和预处理数据。)
+a,b,c = np.linalg.svd(arr)#调用奇异值分解方法
+【numpy中的newaxis】
+A = np.array([1,2,3,4,5])
+B = A[np.newaxis,:]
+C = A[:,np.newaxis]
+Print(C);   》》[[1],[2],[3],[4],[5]] 冒号放第一位是降维
+Print(C[0])   》》[1]
+Print(B)；   》》[[1,2,3,4,5]]np.newaxis让原本的数组加一维
+#### 42、Pandas库常用函数：
+[创建数据]
+Pandas中常用Series()和DataFrame()创建数组;
+DF.index #获取所有列索引
+Df.columns #显示所有列标记；
+Df.values #显示整个数组(不显示标记);
+用a['a']查找列，Series()创建的数组可用a[0]的方式查找行。
+Pd.Series([[1,2],[2,1]],index=pd.date_range(“20181025”,periods=2),columns=[])
+#columns属性中写列标记
+#date_range()方法生成时间系列,periods:周期，时期；
+每一个DataFrame()创建的数组中都可以有index（行标记）,columns(列标记)，
+若Series创建的数据再放到DataFrame()中则所有的列会被当成1个列。
+x.isnull()#isnull()方法将数组中的所有值变为True和False，nan的值为True，其余为False；x.isnull().any()则判断哪些列存在缺失值。
+notnull()方法与isnull()方法相反
+[切片、索引]
+a.loc[0]或 a.loc[0,'a']查找行,Df.iloc[1,2]#按索引查值;
+x['a'][0]能精确的访问到一个具体的值，如果要
+很明确的访问那几个值得使用x['a'][[0,6,3,4]]的格式.如果x是一个二维数组就直接用x[[1,2,3]]会报错的。)若选取的位置超出范围会被算做None填充查找。使用x['a'][0:5]能访问紧挨着的值。
+x[x.notnull()]返回的是去除nan的值后的数组使用list(x)的效果和x.values()的效果一样都是去除了标记后的数组。
+[多条件查找操作]
+[查找指定值的行索引]c=x[x.values==3].index.tolist()#部分值找不到(None)
+x[(x.values[:,1]>1)&(x.values[:,1]<10)] //and操作
+x[(x.values[:,1]>1)|(x.values[:,1]==10)] //一个竖杆表示 or操作
+x[x.values[:,:]==None] = 1 #报错，必须有一项索引是具体的数值
+Df[df[‘a’]>1],df[df>0] #按条件查值,若是使用索引的话当然的加上values
+df['a'][df['a']>10] = None与df[df["a"]>10]=None查找出的结果不同,前一个只
+会将列a中的符合条件的数据置为NaN,而后一个会将满足条件的那一列置为NaN。
+Df[df[‘b’].isin[1,2]] #isin查找在b列有1和2的所对应的行；
+[去除None值]
+res = X.dropna(axis=0)#axis为0表示去掉None值所在的那一行,1为去掉列返回结果
+x = x.drop(index=[0,1],0)#drop()方法去掉数组的行和列,第二个参axis值指定列或行index,columns中写删除的具体位置。
+X.fillna(value=2,method,axis) #将缺失值替代为2
+X.fillna({1:x[1].mean(),3:x[3].mean()})#传入字典表示，第1列缺失值用均值代替,第3列缺失值用均值代替
+
+Df.sort_index(axis=1) #按行标来排序
+Df.sort_values(axis=1,by=0,ascending=True,inplace=False,kind="quicksort")
+#axis为0/index 或 1/columns,表示对行或列上的元素排序(相反的);axis=0则by值为列标记，相反..排序后标记会跟随元素值的排序一起变化。
+ascending为True则升序(默认)，inplace表示排序后的数据是否替换原先的数据(默认False)
+kind表示排序使用的方法('quicksort','mergesort','headsort')。
+df.count()#统计非NaN值的数量，不是python自带的count()方法。
+[计算]
+data.describe()#describe()方法返回数组的一些信息，如下：
+count：描述每列的数值个数，max,min:描述每列的最大最小值；
+mean,std:描述每列的平均值，方差；25%,50%,75%...??
+x.mean()#求平均值; x.std(ddof=1)#标准方差，要使用pandas中的std求标准差
+时需要加ddof=1属性。
+pd.concat([a,b])#连接两个数组(添加新的列的方式做连接)
+df.sum(axis=1)#求数组每列的和，axis=1时求每行的和
+df.idxmin(axis=0)#求每列的最小值所在的行,axis=1时相反
+df.idxmax(axis=0)#与idxmin()相反
+df.var()#var()方法计算数组方差
+[读存csv文件和xlsx文件]
+pd.read_csv('a.csv',names={"a":np.str[],skiprows =1,dtype=,na_filter=True,
+skip_blank_lines=True,encoding="gb231")
+#read_csv()方法将csv中的数据读入(自动成为一个数组，names设置列标记,skipprows指定跳过多少行，na_filter为True表示不读取缺失值skip_blank_lines为True表示跳过空格行,否则记为None);#读取的数据有限，一个csv文档中最多读取30000多条数据。读取含有中文的csv文件时可能报错，可尝试encoding改为gb231
+pd.read_excel("data/cat.xlsx")#读取xlsx类型的文件。
+(在网站中下载好数据(点进去是数据的页面按ctrl+s直接进行下载)后将文件扩展改为csv(早前的一种存数据的格式,读取到的数据格式比较神奇难于与其它数据类型做匹配调缺失值，例：一些数据文件会使用一些特定的值表示缺失值如"?",但用dat["col"][dat["col"]=="?"]==None))并不能更改其值，因为读取的"?"与"?"不一样(未知原因),解决方法：可以用读取的文件中的值与缺失值匹配，例：dat["col"][2]="?",dat["row"][dat["row"]==dat["col"][2]]=None;这样就能将dat中表示缺失值的"?"改成None进一步解决缺失值问题。但这种改变值的方法配合for循环使用会报invalid type comparison,如下：)
+for i in dat.columns:
+    dat[i][dat[i]=dat['a'][2]] = None
+valueTypeError:invalid type comparison
+#可使用这种方式批量修改：
+for i in dat.columns:
+    for j in range(len(dat[i])):
+        if(dat[i][j]==dat['a'][2]):
+            dat[i][j] = None
+        else:
+            continue
+
+dat.to_csv("file.csv",sep="?")#to_csv()保存数据到csv文件,sep设置数据分隔符
+pd.read_excel("dat.xlsx")#read_excel()方法读取xlsx(wps的excel文件)格式中的数据,但使用前需要确保环境中安装了xlrd用于支持读取xlsx文件，Anaconda中直接使用conda安装xlrd即可(将xlsx改为csv扩展名用read_csv()方法并不能读取)。
+data.diff(1)#diff()方法用于做时间序列的差分，1表示做1次差分(numpy创建的数组不能使用)，差分就是数组后一个数减去前一个数。x.set_index('lag')#set_index()方法是按参数查找列标记，但输出的结果是整个数组，但显示的数组没有行标记(???)。
+dat.predict([[1,2,3]])#predict()方法用于根据先前fit()方法拟合的结果做一个预测，若拟合用的数据是结果preprocession中的方法归一化的则在预测时也会对数据有此操作
+df.to_csv("a.csv",index=False)#将数组df保存为csv文件中，index=False表示不加行序号
+#### 43、Scipy库常用函数：
+from scipy.interpolate import UnivariateSpline,interp1d,lagrange
+from scipy import misc,ndimage
+
+[插值]
+f = interp1d(x,y,kind='line')#x,y是已知的一组数据的输入，输出
+g = UnicariateSpline(x,y)
+lagrange(x,y)(10)
+print(f(2),g(missi))#f成为一个回归函数，来预测新值。kind还有cubic...
+
+[图片处理模块]
+face = misc.face()#misc模块中存放着图片,face()方法表示选中了里面的一张
+face.png图片，应该说是获得了该图片的像素数据以一个矩阵的形式
+x,y=face.shape#获得像素矩阵face的行数和列数。
+dat=face[int(x/4):-int(x/4),int(y/4):-int(y/4)]#获取face矩阵中心区域做裁剪用。
+ndimage.gaussian_filter(face,sigma=3)#ndimage模块用于做图像的处理其中的
+gaussian_filter()方法用于模糊图像,face是要模糊的像素数据，sigma是模糊度
+模糊广泛用于减少图像中的噪声。
+ndimage.imread('ss.jpg')#imread()方法读取外部图片数据转化为像素矩阵。
+misc.imread(path)//与上相同
+x=ndimage.gaussian_filter(img,sigma=3)//高斯模糊sigma值大于0时为黑白，为0时则是还是彩色图片
+ndimage.rotate(face,45)#rotate()方法旋转图片第二个参数为旋转度数
+ndimage.sobel(face,axis=0,mode='constant')#sobel(）方法是ndimage模块下的一个边缘检测算法返回face像素矩阵中检测到的物体轮廓像素数据(将其标记)
+需要检测x轴和y轴的再用np.hypot(x,y)合成一个矩阵。
+边缘检测算法还有(canny坎尼)、(Prewitt普鲁伊特)、(Roberts罗伯)、模糊逻辑方法。
+misc.toimage(imgDat).save('av.jpg')//将数组数据变为图片数据保存到av中
+misc.imsave('ac.jpg',img)//也是一个图片保存的方法
+from scipy.linalg import svd
+u,s,v = svd(X)#调用奇异值分解方法得到mxm的矩阵u，奇异值数为n的s，nxr的矩阵v
+卷积：ndimage.convolve(img,kernel)#卷积操作，img是图片数据,kernel是卷积核
+[读取音频文件]
+from scipy.io import wavfile as wav
+rate,sig = wav.read('av.wav')#rate是采样率，sig是采样得的数据
+#### 44、Scikit-learn库常用函数：
+##### a：数据处理、插值、规范化。
+```
+from sklearn import preprocessing,datasets,linear_model,svm,tree,metrics
+from sklearn.preprocessing import Imputer
+scaler = preprocessing.MinMaxScaler() #调用最大最小归一化
+scaler = preprocessing.MaxAbsScaler()#只除以最大值，将数据缩放到-1~1范围，所以它应该处理已经中心化的数据或者稀疏数据。
+scaler=preprocessing.PowerTransformer(method='box-cox',standardize=False)#使用box-cox方法将数据映射到正太分布。
+scaler=preprocessing.QuantileTransformer(output_distribution='normal',random_state=0)#使用QuantileTransformer将数据变化到正太分布。
+norm = preprocessing.normalize(x,norm='12')#直接规范化，不需要再调用fit_transform
+res = scaler.fit_transform(data)# 处理数据
+preprocessing.scale(x)#scale()方法将数组伸缩到-2到2范围，但并不是使用最大最小规范
+```
+化方法(原理未知!!!)。
+preprocessing.Binarizer(threshold=1.1).transform(x)#二值化使用，threshold是赋予一个阙值
+(暂不清楚)，二值化(Binarizer())得配合transform()方法使用，与fit()方法使用无效。
+[单变量插值]思想与多变量插补相似
+```
+imp = Imputer(missing_values='NaN', strategy='mean', axis=0)
+imp.fit([[1, 2], [np.nan, 3], [7, 6]])#需要先拟合数据，？？？
+X = [[np.nan, 2], [6, np.nan], [7, 6]]
+res = imp.transform(X)#插补结果
+```
+[多变量插补]将每个缺失值的特征建模为其他特征的函数，并使用该估计值进行估算。它以迭代循环方式执行：在每个步骤中，将要素目标列指定为输出y，将其他列视为输入X。使用一个回归器来在已知（未缺失）ｙ的样本上，对（Ｘ，ｙ）进行拟合。
+```
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
+imp = IterativeImputer(max_iter=10, random_state=0)
+imp.fit([[1, 2], [3, 6], [4, 8], [np.nan, 3], [7, np.nan]])
+X_test = [[np.nan, 2], [6, np.nan], [np.nan, 6]]
+print(np.round(imp.transform(X_test)))
+```
+##### b：KNN算法的使用。
+```
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+knn=KNeighborsClassifier(n_neighbors=3,#对应分类个数
+                        algorithm='auto',
+                        leaf_size=30,
+                        weights='uniform')
+```
+#然后fit(),predict()一样操作。
+所有参数：https://blog.csdn.net/weixin_41990278/article/details/93169529
+##### c：支持向量机。(支持向量机允许数据x有负值)
+res = svm.SVC(kernel='rbf',class_weight='balanced')#SVC()方法调用支持向量机,kernel是指定选择的核函数，默认是rbf，其它核函数如下：
+linear:线性核函数；poly:多项式核函数；rbf:高斯核函数；sigmoid;precomputed：核矩阵。
+所有参数：https://blog.csdn.net/sinat_23338865/article/details/80290162
+res.fit([[0.1,0.8],[1.2,1.9]],[0,1])#fit()方法拟合前后两组数据，第一组是各类的特征
+值，第二组是第一组对应的所属类别。
+res.predict([[1.1,1]])#预测数据格式与上面第一组数据格式统一。
+lin_clf=svm.LinearSVC()#实现one-vs-rest多类别策略，训练n类别模型，不过感觉不行？
+##### d：最小二乘法。
+```
+regr = linear_model.LinearRegression()#调用linear_model类中的
+LinearRegression()#方法，用于最小二乘法拟合曲线，当输入的数据是多个自变量一个因变量时就是做多元线性回归。
+linear_model.Ridge(alpha = 0.5)#Ridge()为岭回归，alpha值是第39条中λ值
+linear_model.RidgeCV(alpha[1.0,0.1,10])#Lasso回归时使用。
+regr.fit(x,y)#根据数据拟合曲线，注意x和与的数据格式都为[[1],[2],...]
+res = regr.predict(test)#test的数据格式也和输入的x，y一样。
+```
+##### e：决策树。
+ctt = tree.DecisionTreeClassifier(max_feature=7,max_depth=6,min_samples=5,
+criterion='gini',splitter='best',min_wight_fraction_leaf=0,max_leaf_nodes=15,)#调用决策树方法,max_depth控制树的最大深度，min_samples控制一个叶节点所需的最小样本数，max_feature指定要考虑的特征项数；citterion指定使用的风烈节点的方法默认为gini指数即:CART算法，可选entropy信息增益方法,min_wight_fraction_leaf指定叶子节点最小样本权重和,小于这个值会和兄弟节点一起被剪枝,默认为0则不考虑,max_leaf_nodes:最大叶子节点数,可防止过拟合,默认情况下不设该值，在特征项多时可考虑设置k=ctt.fit([[1,2,3],[4,5,60]],[0,1]);k.predict([[7,5,6]])
+##### f：多层感知机的使用。
+from sklearn.neural_network import MLPClassifier,MLPRegressor
+MLPClassifier(solver='lbfgs',alpha=1e-5,hidden_layer_sizes=(5,2),random_state=1,
+max_iter=2000).fit(x,y)#max_iter属性定义迭代次数，solver规定求解方式用于优化权重(lbfgs在面对较小的数据时比较好,Adam的鲁棒性好,sgd在参数调整到最优时使用较好),max_iter:最大迭代次数默认200,shuffle:默认True只有solver为sgd或adam时使用判断是在,learning_rate_int:初始学习率,默认0.001只有solver为sgd,adam时使用,verbose:True是否将过程打印到stdout默认False，hidden_layer_size:第i个隐藏层神经元个数。
+MLPClassifier()用于调用多层感知机；alpha 作为正则化( L2 正则化)系数，正则化
+MLPRegressor(solver='sgd',hidden_layer_sizes=(1,3),max_iter=1500).fit(x,y)#MLPRegressor()方法调用BP神经网络模型，其中的参数与MLPClassifier()方法中的参数一样，迭代次数设置为几千也是常态，需要多次调整hidden_layer_sizes值。通过惩罚大数量级的权重值以避免过拟合问题，hidden_layer_sizes控制隐藏层层数及神经元个数 。
+##### g：bagging随机森林。
+from sklearn.ensemble import RandomForestClassifier,RandomForestRegressor
+clf = RandomForestClassifier(n_estimators=8,criterion='gini',max_depth=None,...)
+RandomForestClassifier()方法调用随机森林算法，其中的参数有：n_estimators:决策树数量(默认10);criterion:决策树中构建节点(分裂质量)的方法，有信息增益(entropy)和基尼指数(gini),默认基尼
+max_features:寻找最佳分割节点时需要考虑的特征数目；max_depth:决策树的最大深度;
+min_samples_split:分割内部节点所需的最小样本数量(样本量)...(其余属性参数查看85中资源)
+##### h：AdaBoost的使用。
+from sklearn.datasets import make_gaussian_quantiles
+from sklearn.ensemble import AdaBoostClassifier
+bdt=AdaBoostClassifier(tree.DecisionTreeClassifier(),algorithm='SAMME',n_estimators=200,
+learning_rate=0.8)#AdaBoostClassifier()方法调用Adaboost算法,第一个参数为使用的弱分类器类型，可直接写入并在其中规定参数,n_estimators为使用的弱分类器个数learning_rate为学习率，越小迭代的次数越多。
+bdt.score(x,y)#score()方法对需要拟合的数据集做出精度计算，反回0-100之间的打
+分，可用此方法来调整参数 ；bdt是调用的sklearn库中的算法。
+##### i：PCA主成分分析法与奇异值分解。
+```
+from sklearn.datasets.samples_generator import make_blobs
+from sklearn.decomposition import PCA
+x,y=make_blobs(n_samples=100,n_features:3,centers=5,cluster_std=[1,2,3,4],)#其中x是数据，y是标签。make_blobs()方法用于生产数据集,n_samples是总的样本	数,n_features每个样本的特征数(空间维数)，centers是每个维的样本中心,cluster_std是每个类别的方差.
+pca = PCA(n_components=None,copy=True,whiten=False,svd_solver='auto',tol=0.0,iterated
+_power='auto',random_state=None)#调用PCA()方法(主成分分析法)做数据降维。参数介绍：
+```
+n_components:降维后的特征维度数目,有默认值，写"mle"时内部会用MLE算法根据特征的方差分布情况自己选择一定数量的特征维数。
+whiten:表示是否对数据进行白化。
+svd_solver:指定奇异值分解SVD的方法，特征分解pca是奇异值分解的一个特例，可选值有：
+auto,full,arpack,randomized(randomized适用于数据量大，数据维度多，同时主成分数目比例
+较低的pca降维。full是传统的svd，arpack与randomized类似)
+```
+pca.fit(dat)#线拟合数据然后求该数据中的一些性质、特征。
+pca.components_#求模型的各个特征向量
+pca.explained_variance_#求模型的各个特征值,选取最大的几个特征值相加若是总值的90%以上则就将该数据降为几维的。(忽略掉作用小的特征项)
+new_dat = pca.transform(dat)#用fit()方法拟合后再调用transform()方法求降维结果
+pca.inverse_transform(new_dat)#恢复数据
+```
+
+from sklearn.pipeline import make_pipeline
+make_pipeline(scal,kmeans)#make_pipeline()方法组合操作，按参数顺序执行各个操作，scal,kmeans是定义了的sklearn中的方法操作。
+##### j：无监督kmeans聚类使用。
+```
+from sklearn.cluster import KMeans,MiniBatchKMeans
+kmeans = KMeans(init="k-means++",n_clusters=4)#调用kmeans算法，n_clusters规定聚类的类数。
+kmeans.fit_predict(x);
+print(kmeans.cluster_centers_)#聚类中心点，并不是已知数据点中的。对应的类别为0,1,2,...
+print(kmeans.labels_)#每条数据被分到的类
+print(kmeans.inertia_)#所有数据到聚簇点的距离总和
+dat.score(x,y)#score()方法计算分类精度，x,y是用于训练的数据集
+metrics.calinski_harabaz_score(x,y,normalize=True)#metrics.calinski_harabaz
+```
+_score()方法评估聚类结果的好坏(分数),x为数据集，y为fit_predict()得的结果。
+metrics.precision_score(y_true,y_pred);metrics.recall_score(y_true,y_pred);
+metrics.f1_score(y_true,y_pred);#三个方法均用于计算准确率，y_true为正确分类的结果集，y_pred为使用predict()预测得到的结果集。(未清楚三者区别)
+##### k：朴素贝叶斯，有负数的数据(x)无法使用。
+from sklearn.naive_bayes import GaussianNB,MultinomialNB,BernoulliNB,ComplementNB
+clf = GaussianNB()#GaussianNB()调用高斯朴素贝叶斯方法
+clf.fit(data,target)#数据个数分别为:[[5.1,3.5,...],[1.4,2.6,...],...]		[0,1]
+clf.partial_fit()#partial_fit()方法在数据集太多时分批输入训练。虽然朴树贝叶
+斯对非数值型的特征项能进行分类，但scikit-learn库中的朴素贝叶斯在调用fit()方法
+处理数据时会有一个类型转变为浮点型的过程，且对字符型数据不做映射处理，所以对非数值型	
+特征项需要做映射为数值的处理。映射后需要再转化一下数据类型。
+dat=pd.DataFrame(dat,dtype=int8),然可能会报错。
+print(clf.predict(dat));clf.predict_proba(dat)#predict_proba()方法显示两类别的概率
+mnb=MultinomialNB()#调用多项分布朴素贝叶斯,用法与上面一样(输入的x数据中不能有负)
+BNB=BernoulliNB()#调用伯努利朴素贝叶斯算法
+cnb=ComplementNB()#调用补充朴素贝叶斯算法
+##### L：模型的保存于读取。
+可以使用两种方法实现，第一种是使用python的pickle模块直接保存模型，第
+二种是使用scikit-learn库的joblib模块：
+from sklearn.externals import joblib
+svm = SVC()#svc()是sklearn中导入的支持向量机算法，这里省略
+svm.fit(x,y)
+joblib.dump(svm,'data/svm.pkl')#将训练的参数保存到文件中
+ns = joblib.load('data/svm.pkl')
+print(ns.predict(x[0:1]))#导入后直接是一个svm对象，拿来预测。
+#### 45、matplotlib库常用函数:
+import matplotlib.pyplot as plt
+plt.plot([],[],color="red",label='aa',linewidth=2,'b--')#plot()方法绘线,b--表示画虚线。
+plt.scatter()#绘制散点图
+plt.bar()#绘制柱状图
+plt.staceplot()#绘制堆叠图
+plt.xlabel(),plt.ylabel(),plt.title()#设置x轴备注，y轴备注，标题
+plt.xlim(a,b);plt.ylim(a,b)#设置x轴，y轴取值范围
+plt.figure(figsize=(10,5))#sigsize设置画布宽高1单位为100px，如果设置的尺寸差不多已经占满屏幕大小的话，则再设置更大的尺寸也不会更大了。
+plt.add_subplot(3,4,10)#add_subplot()方法划分画布区域，其中的3个参数表示将画布划分为3行4列，图像绘制在从上到下从左到右数的第10个区域。
+#同时绘制两个图表
+plt.figure(figsize=(10,5))
+plt.subplot(1,2,1)
+plt.plot(x,y,color='red')
+plt.subplot(1,2,2)
+plt.scatter(tx,ty,color='blue')
+plt.show()
+
+sm.graphics.tsa.plot_acf(dta,lags=40,ax=ax1)#sm.pgraphics.tsa是statsmodels库中的模块与plot_acf()方法配合画自相关图;lags为滞后阶数一般设为40,ax指定使用的布局如add_subplot(111);plot_acf()中传入的数据必须是一维
+sm.graphics.tsa.plot_pacf()#plot_pacf()画偏自相关图
+plt.imread("mv.png")#导入图片数据(三维数组，分别为R,G,B值)，只能导png图片
+plt.imshow(dat)#用于将像素数据绘制出来，注意使用的图片数据的尺寸为[高，宽，通道数]		或[宽，高]
+plt.contour(x,y,z,cmap=cmap)#contour()方法绘制等高线(在数据集x,y,z间做分割线二维图时不显示z轴的分割)，x,y,z是设置的坐标位置(一般用numpy库中的meshgrid()方法创建坐标)；contourf()方法与contour()方法一样不过contourf()方法为每个分割出的区域填充了颜色。
+plt.show()#显示所画图形
+#### 46、TensorFlow框架：
+<i class="label1">windows上tensorflow安装：</i>(nightly包包含一些依赖库,纯净版的只有tensroflow)
+<i class="orange">安装nightly包：</i>pip install tf-nightly(cpu版本)conda install tf-nightly-gpu(gpu版本)
+<i class="orange">安装纯净版：</i>conda install tensorflow(cpu版本)conda install tensorflow-gpu(gpu版)
+建议安装gpu版本的tensorflow,安装gpu版本的话还需要下载CUDA和CUDNN,tensorflow1.0到
+tensorflow1.5只支持CUDA8.0版本;CUDNN版本也要和CUDA版本对应,可到下面cudnn下载地址
+中查看其对应版本,CUDNN5.1对应CUDA8.0版本;安装CUDA8.0前需要先安装viue studio软件
+<span class="violet">visua studio下载地址:</span>https://visualstudio.microsoft.com/zh-hans/thank-you-downloading-visual-studio/?sku=Community&rel=15
+<span class="violet">CUDA下载地址：</span>[各版本下载地址](https://developer.nvidia.com/cuda-toolkit-archive)
+<span class="violet">CUDNN下载地址：</span>https://developer.nvidia.com/rdp/cudnn-archive
+<span class="violet">tensorflow与各版本 cuda对应表</span>：https://blog.csdn.net/omodao1/article/details/83241074
+tensorflow2.0对应的cuda版本是10.0
+安装好CUDA(尽量安装到默认地址)后再下载CUDNN解压,cudnn解压后有3个文件夹bin,include,lib将它们分别复制到cuda3个对应的文件夹下如果是默认位置的话应该在C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0。(注意是将解压出来的bin文件夹下的文件复制到安装好的bin文件夹下，include文件夹下的文件复制到include文件夹下，lib/x64/路径下的文件复制到安装好的lib/x64/路径下)。(不安装gpu版本的话一些只支持gpu运算的方法无法使用会报未在openeral注册的错误)
+<i class="label2">配置环境变量</i>：tensorflow需要靠设置好的环境变量找到安装好的cuda下的某些dll文件运行，部分环境变量在安装cuda时会自动加上，完整的环境变量需要有如下：
+CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0
+CUDA_PATH_V8_0=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0
+CUDA_SDK_BIN_PATH = %CUDA_SDK_PATH%\bin\win64
+CUDA_SDK_LIB_PATH = %CUDA_SDK_PATH%\common\lib\x64
+NUMBER_OF_PROCESSORS=8
+NVCUDASAMPLES_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v8.0
+NVCUDASAMPLES8_0_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v8.0
+NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
+path中的的环境变量有如下：
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin;
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\libnvvp;
+C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;
+C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;		//这条容易缺失
+%CUDA_LIB_PATH%;
+%CUDA_BIN_PATH%;
+%CUDA_SDK_LIB_PATH%;
+%CUDA_SDK_BIN_PATH%;
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin;
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\lib\x64；
+C:\ProgramData\NVIDIA Corporation\CUDA Samples\v8.0\common\lib\x64;
+C:\ProgramData\NVIDIA Corporation\CUDA Samples\v8.0\bin\win64;
+[安装检验]进入上面的安装路径下extras/demo_suite路径下进入cmd运行：bandwidthTest.exe  然后运行deviceQuery.exe如果结果都是Result = PASS则安装成功。
+nvidia-smi查看是否已经安装cuda和gpu运行情况。
+[注意:若使用sublim运行则编译系统要选用安装Anaconda插件时生成的Anaconda Python Builder.
+使用自己定义的Anaconda环境下的python编译也会报错not found curda64_80.dll]
+[error!CUDA driver version is insufficient for CUDA runtime version(cuda驱动版本与运行时版本不一
+致)尝试用Anaconda重新安装cudatoolkit版本但似乎安装不了，尝试更新显卡驱动]
+[更新tensorflow后会导致cuda版本与其不对应，不到不得已不要更新]
+[此次成功配比：tensoflow_gpu-1.4+cuda-8.0.44+cudnn-6.0]
+[运行时的错误提示]https://blog.csdn.net/aojue1109/article/details/88824124
+import tensorflow as tf
+from tensorflow.examples.tutorials.mnist import input_data
+from tensorflow.python.client import device_lib
+[查看gpu信息] print(device_lib.list_local_devices())
+tensorflow中的计算是使用c++实现的所以运行计算要创建一个会话和c++对接。
+mnist = input_data.read_data_sets("MNIST_data",on_hot=true);#下载mnist数据。若要将大量外部数剧转化为tensorflow中的变量类最好先将其转化为numpy中的array型再转化。
+init=tf.global_variables_initializer()#初始化所有变量,若代码中有使用到变量的话一定用使用此方法初始化所有变量【注意将所有有关赋值的操作、变量都写在初始化变量之前】
+[tf.ploaceholder()的注意事项]，先写数据类型，再写尺寸
+y=tf.placeholder(tf.float32)#placeholder()方法用于占位[5,5]规定了之后输入的数组必须是这个维数。若需要对y再做什么操作可以将其放到函数中处理或者换一个变量名来接收处理后的结果，如:ya = tf.reshape(y,[])否则在填充运行时会报错。对于占位输入为一维的数据tf.placeholder(tf.int32,[None])维数写一个None即可。这样可以在之后再输入x，y的值，其中的参数规定值的类型。
+linear=w*x+b#自定义的一个线性模型
+[程序挂起不运行也不报错问题]读入数据和计算是异步的，若计算处的线程使用数据为空就会是挂起状态，superSession()使用后也无效。可在读入数据出自开启一个多线程即可解决。
+<i class="label1">ubuntu上的安装与卸载</i>下载好相应版本的cuda的deb文件后用sudo dpkg -i cuda.deb(具体用下载好的文件名)，然后sudo apt-get upgrade =》sudo apt-get install cuda。
+如果是run后缀的文件用sudo sh cuda_..run运行安装(一直按住回车读完协议，然后accept>y>...)。
+<i class="label3">两个报错</i>error1:unsupported compiler #在运行安装文件时后面加上--override(终端上有提示)。error2:cannot find Toolkit in /usr/local/cuda-8.0 #sudo apt install nvidia-cuda-toolkit安装cuda-toolkit，然后重新安装，若还不成功且报错error3:/cuda-install-samples-8.0.sh: not found #使用`sudo  sh ./cuda*.run --tar mxvf` 然后当前文件夹下会出现一些文件，使用命令：
+`sudo cp InstallUtils.pm  /usr/lib/x86_64-linux-gnu/perl-base`=>export $PERL5LIB=>`sudo sh cuda_..run --no-opengl-libs --override`安装。``
+卸载：ubuntu上命令卸载不干净，重新安装其它版本的cuda时会报依赖错误，在/usr/local/cuda/bin下(默认安装路径)找到uninstall_...pl的文件以程序方式运行卸载。
+cuda检验：`cd /usr/local/cuda-8.0/samples/1_Utilities/deviceQuery`=>`sudo make`=>./deviceQuery
+<i class="label2">linux上cudnn安装</i>与windows上的安装类似，上面链接中下载对应的cudnn版本(for linux结尾的)，下载后解压进入目录然后使用命令：linux版没有bin文件夹。
+```
+sudo cp cuda/include/cudnn.h /usr/local/cuda/include/
+sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64/
+sudo chmod a+r /usr/local/cuda/include/cudnn.h
+sudo chmod a+r /usr/local/cuda/lib64/libcudnn*
+```
+然后输入cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2 #没有报错则说明安装成功。
+<i class="label1">会话：</i>(启动对话后关于计算会使用c语言运行)
+```
+a = tf.Session()#创建一个对话，使用a.close()后才会结束会话
+#/运行完后自动关闭会话，然后再次用这个session运行时会正常运行但结果会报错。
+#这时可以使用tf.InteractiveSession()
+with tf.Session() as sess:
+    sess.run(tf.gloal_varibale_initialize())
+with tf.Session().as_default() as sess:#运行完后也不会关闭会话
+sess=tf.InteractiveSession()#交替式会话，整个程序中只有一个会话时，不用指定
+#是那个会话就可直接进行计算操作,初始化所有图中变量，使用前一定要先完成构建
+sess.run(tf.global_variable_initialize())
+a,b=sess.run([loss,optimize],feed_dict={})#同时计算多个量时
+```
+<i class="label1">指定使用GPU运算：</i>(计算大量数据时可以指定使用GPU或多个GPU计算)
+```
+with tf.Session() as sess:
+    with tf.device("/gpu:1")：
+        a = tf.Variable(12)
+        b = tf.constant('str')
+#这种情况也可以叫分布式训练
+    with tf.device("/cpu:0"):
+        y = a+b
+# cpu:0指机器的cpu ,gpu:0,gpu:1 ...  为GPU按需分配计算资源：
+config=tf.ConfigProto(log_device_placement=True,allow_soft_placement=True)
+config.gpu_options.allow_growth = True# 指定按需慢慢的分配GPU容量，也可以在
+# 创建config时直接写如gpu_options属性。如下：
+gpu_options = tf.GPUOptions(allow_growth=True)
+config = tf.ConfigProto(gpu_options=gpu_options)
+# 给GPU分配固定大小计算资源：
+gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.7)#分配到的
+# 计算资源为GPU实际显存*0.7
+session = tf.Session(config=config)# 传入会话中
+
+```
+把数据，建立的变量放到cpu上，创建的占位符放到gpu上(默认)，计算放到gpu上。
+GPU需要将计算时用到的数据从内存复制到GPU设备上，这也需要额外的时间。gpu显存不足时也会
+出现Resource Exhausted情况。
+https://dataxujing.github.io/TensorFlow-GPU-%E5%B9%B6%E8%A1%8C/
+<i class="label1">模型的保存与恢复示例：</i>保存路径为file/a.cpkt]全部训练完后可直接放到项目中(直接从文件中恢复模型跳过了训练这样就直接用于预测了)
+```
+save_path = 'file'
+file_name = 'a.cpkt'
+vs=tf.contrib.framework.get_variables_to_restore()#获取所有可恢复的参数
+start = 0
+saver = tf.train.saver(max_to_keep=1)#saver处指定最大保存的节点数。
+files = os.listdir(save_path+'/'+file_name)
+with tf.Session() as sess:
+    for i in files:#若发生中断则只需要再次运行程序即可接着计算。
+        if file_name in i:
+            strs = i.split('.')[1]
+           ord = int(strs.find('-'))
+           start = strs[ord+1:]
+           #恢复路径直接写路径加次数即可
+           saver.restore(sess,save_path+'/'+file_name+'-'+str(start))
+    for j in rage(start,550):
+         #写训练的代码...
+         saver.save(sess,save_path+'/'+file_name,global_step=j)
+```
+注：恢复模型时会将checkpoint文件中存储的所有变量名及对应的值恢复到构建的图中，所以save时的图和restore时的图中的变量需要完全一致，restore过程中也需要对所有的占位符进行填充，不然会报错。
+<i class="label1">指定恢复部分变量</i>：若训练阶段和预测阶段使用的变量不一样，在预测阶段恢复训练使用的节点文件时会报错，使用如下方法：
+```
+vs = tf.contrib.framework.get_variables_to_restore()#获取所有可恢复变量
+restore_obj = {}
+for i in vs:
+    restore_obj[i.name] = i#变量名与值对应
+del restore_obj['Variable_1:0']#删掉不需要恢复的值
+ts.train.Saver(restore_obj)#传入到Saver()中，在下面调用restore()即可。
+```
+<i class="label1"> tensorBoard可视化：</i>(构建模型中加一些语句，纯净版下载的tensorflow无tensorBoard)
+以线性模型为例，下面是其中做tensorBoard可视化的相关代码
+```
+z = tf.multiply(x,w)+b
+tf.summary.histogram('z',z)# 预测值以直方图显示
+cost = tf.reduce_mean(tf.square(y-z))
+tf.summary.scalar('loss',cost)# 损失值以标量形式显示
+merged = tf.summary.merge_all()# 合并所有摘要，初始化所有变量后使用
+summary_writer=tf.summary.FileWriter('log/mnist_with_summaries',sess.graph)
+```
+将可视化文件保存到log目录下,若使用的是纯净版tensorflow需要再下载tensorboard>
+conda install tensorboard# 安装好后安装以下步骤即可
+然后就在编辑器运行结果栏中输入：(--logdir后是文件绝对路径)
+tensorboard --logdir G:\web\pythonKU\data/mnist_with_summaries
+回车，此时可能会弹出是否允许跨过防火墙，点击允许
+然后在浏览器中输入>>http:127.0.0.1:6006访问即可,(怎么看暂留)
+<i class="label1">变量共享：</i>variable_scope()中reuse为True时里面使用的get_variable()的张量名必须是在外部已经存在的所以使用时要注意。get_variable()中initialize指定的是一个有维度的值时不要使用shape属性。
+name_scope主要与Variable()配合使用，variable_scope主要与get_variable()使用。
+va = tf.variable(2.0,name='var')# 名字为var:0
+va = tf.variable(3.0,name='var')# 名字变为了var_1:0
+获取一个操作的名字y.op.name;y是一个运算类的运算式不过获得的名后不带数字
+#get_variable()创建变量，名，形状，初始化值，不能取同名的get_variable，如果
+#initializer直接是一个值时，则外面不能写shape，相反外面写了shape则initializer
+内不能再指定形状。
+```
+vb = tf.get_variable('var2',[1],initializer=tf.constant_initializer(0.3))
+#可使用变量作用域取同名get_variable(),若reuse为True则其内部变量会继承外部同名的
+#get_variable变量，variable_scope可以嵌套使用
+with tf.variable_scope('test',reuse=True):
+     vb = tf.Variable([1,2,3],name='vv')
+     vc = tf.get_variable('var2',shape=[1],dtype=tf.init8)//name>>test/var2
+#继承的名为var2的变量必须也是在一个名为test的作用域下
+```
+<i class="red">建立图：</i>
+```
+c = tf.constant(0.1)
+g = tf.Graph()#调用图
+with g.as_default():#启用图
+    c1 = tf.constant(0.2)
+    print(c.graph,c1.graph)#查看它们所在的图，在两个图里
+tf.reset_default_graph()#as_default()关闭后再运行次方法(重置图)
+g2 = tf.get_default_graph() # 一个新的图
+```
+<i class="label1">获取张量，节点：</i>
+g = tf.get_default_graph()#获取默认图
+t = g.get_tensor_by_name("Const:0")#通过名字获取图中的张量，注意加冒号
+v= g.get_operation_by_name('test')# 图中获取操作名
+g.get_operation()#获取操作列表
+#若g = tf.Graph()则需要在g建立一个图并关闭后再获取张量
+nam=tf.trainable_variables()#获取所有可训练的变量
+
+tensorflow分布式训练：(要训练的数据量非常庞大时使用一台计算机可能需要花费若干天时间，tensorflow可以将一些训练量分配给其它计算机辅助计算)
+一机多卡：https://zhuanlan.zhihu.com/p/55051665
+多机多卡：https://blog.csdn.net/BmwGaara/article/details/94021563
+多机多卡：https://www.cnblogs.com/hellcat/p/9194115.html
+服务端(本机)，都需要是数组形式,ip不能写成localhost，因为在worker终端运行时，worker
+建立好session后要通过此ip告知ps端，然后ps端再接着运行。
+```
+psHost = ["192.168.8.83:8080"]
+workerHost=['127.0.50.3:1213','192.168.14.5:1121']#终端(也可以是本机其它接口)
+task_index = 0,strjob_name = 'ps'
+cluster_spec = tf.train.ClusterSpec({'ps':psHost,'worker':workerHost})
+#创建服务用于连接其它端口或计算机,指定这台计算机使用的是ps中的第0个，在终端上运行
+#此代码为server中的job_name需要改为worker,task_index改为0或1
+
+#挂起线程，连接各终端,需要再在其它计算机上运行此代码(改变server中的job_name..)
+isPS = True #worker上运行时isPS改为False
+if isPS:
+    # 可以有多个ps，改变task_index值即可。
+    server = tf.train.server({'ps':psHost,'worker':workerHost},job_name="ps",task_index=0)
+    print("plase wait...")
+    server.join()
+else:
+    # 多个worker端时改变task_index。
+    server = tf.train.server({'ps':psHost,'worker':workerHost},job_name="worker",task_index=0)
+    with tf.device(tf.train.replica_device_setter(worker_device="/job:worker/task:%d"%task_index,cluster=cluster_spec)):
+    # 这里定义该机器上使用的参数，计算的op。
+      saver = tf.train.saver(max_to_keep=1)
+      global_step = tf.train.get_or_create_global_step()
+train_epochs = 2200
+display_step = 2
+init = tf.global_variable_initializer()
+
+# 在worker端运行时需要把is_chief去掉。
+sv = tf.train.Supervisor(is_chief=TRUE,
+                         saver=saver,
+                         global_step=global_step,
+                         logdir="log/super",
+                         global_step=global_step,
+                         init_op=init,
+                         saver=saver,
+                         summary_op=None,
+                         save_model_secs=5)
+# Supervisor()为一个session()管理器,启动时管理全局学习参数*/
+with sv.managed_session(server.target) as sess:
+    # 用managed_session()管理3台计算机的计算
+    # 这里面写循环迭代训练
+# https://blog.csdn.net/hjimce/article/details/61197190
+```
+<i class="label1">统一入口模块tf.app模块的使用：</i>在使用命令行运行程序时，可以通过命令行添加程序参数。
+```
+flags = tf.app.flags
+flags.DEFINE_string('name1','val','discript')
+flags.DEFINE_integer('name2',22,'a integer')
+flags.DEFINE_boolean('name3',True,'a bool type')
+FLAGS = flags.FLAGS
+print(FLAGS.name1)# 直接调用name
+def main():pass
+tf.app.run(main)# 执行min函数
+```
+##### 零碎操作：
+x = tf.Variable(initialVal=[[1,2],[3,4],[5,6]],dtype=tf.int16,name='x')
+张量允许索引取值：x[0,:],但打印出来的依然是tensor，不支持索引赋值操作。
+//2x3的矩阵乘3x2的矩阵得到2x2的矩阵，y的每一行与x的每一列相乘再加...
+tf.mulpy(a,b)// 计算两个张量的乘积。tf.add(a,b)// 求和,也可求矩阵的和
+tf.sqrt(x)//求x的开方，如果x是一个数组则求得的是数组的标准差,但数据类型只能使用float32
+tf.one_hot(x,5)//将张量x转换成onehot编码,5是对应的o_hot长度，对高维数据也能用。
+da = tf.reverse(da,[0,1])//两个维度上翻转矩阵
+tf.scatter_nd([[1],[2]],b,shape)//根据a中所列的位置将b中的值放到一个全新的0矩阵中(shape决定的形状),b的形状要和shape写的形状一致.
+tf.subtract(a,b),tf.square(x)// 减法,平方
+tf.log(a,b)#有两个值时以第二个输入为底，一个输入时以e为底(参数值必须是tf所创)
+tf.gather(i,j)#j是一维，从i中按照j的每个值取对应的行索引对应的值。
+tf.gather_nd(i,[[0,1],[1,2])#按照具体的索引位置从i中取单个值。
+[生成随机数:应该根据数据的特性决定使用哪种函数生成随机数及决定其范围]
+#这些随机生成函数中若形状传空()则生成的是一个标量
+tf.random_normal([4,2],stddev=1,mean=0.5)//从正太分布中生成随机值指定形状、标准差、均值。
+tf.random_uniform(shape,minval,maxval,dtype)//从均匀分布中返回随机值，最小最大值范围、类型
+tf.truncated_normal(shape,mean,stddev)//截断的正太分布,生成值不会大于平均值两个标准差
+tf.random_shuffle(x)//将目标张量沿着第一个维度打乱其顺序。
+tf.one_hot(5,depth=10)//[0,0,0,0,0,1,0,0,0,0]
+tf.fill(dims,value,name)#生成一个维度为dim，每个值都为value的矩阵
+tf.zeros(shape),tf.zero_like(a)
+[image模块部分]//以下加上tf.image
+decode_jpeg()//将读取的图片解码
+resize_image_with_pad(img,height,width)//截取图中一块指定大小区域(图中心)
+resize_image_with_crop_or_pad(img.height,width)//与上差不多...
+resize_image(img,size,method=ResizeMethod.BILINEAR)//使用指定方法调整图像大小
+resize_area(img,[h,w])//使用区域插值调整图像大小(调整图像大小要求图像数据是四维的)
+resize_bic(img,[h,w])//使用双三次插值调整图像大小(与区域插值调整出的图像会呈比较混乱的结果)
+resize_nearest_neighbor(img,[h,w])//最近邻插值调整图像大小(调整出的图像显示得比较好)。
+tf.slice(inputs,begin,size)#从inputs数据中提取出一块和size一样大小的数据，从begin位置开始。
+[操作矩阵变换、求矩阵属性]
+x=tf.concat(list,concat_dim)//list是一个列表，concat_dim指定在哪个维度上连接
+dat = tf.reshape(dat,[10,20])//改变形状，例如要将一个数组转为80条，每条数据10个值的格式只需要tf.reshape(dat,[-1,10]),而不用tf.reshape(dat,[-1,1,10])；//reshape(data,[-1])//转为一维数组形式
+tf.reduce_sum(x,0)//[9,12],0表示行相加,tf.reduce_sum(x)>>21
+tf.reduce_mean(x,1)//求平均值
+tensor.get_shape().as_list()#获取一个张量的形状，然后将其转换为列表。
+tf.maximum(x,y),tf.minimum(x,y)//返回两数中的最大值、最小值。 
+tf.argmax(dat,0),tf.argmin(dat,1)//返回dat的最大最小值，0表示求每一列最大的值。
+tf.equal(a,b)//比较张量a,b是否相同返回bool值，都是数组则是数组的形式，第二个值可以是标量，与
+tf.not_equal(a,b)相反，不同的为True。
+[向量与矩阵相加]res = tf.nn.bias_add(x,y)
+tf.train.batch(tensors,batch_size,num_threads)//批量读取样本数据tensors是数据可以是一个数组同时读取多批值，batch_size为每次读取的数量，num_tfreads来控制入队tensors线程的数量.
+tf.cast(dat,tf.int32)//转化数据类型;[True,False,True]>(float)>[1.,0.,1.],若data只是数值类型则其作用与int(),float()等的方法一样。
+tf.eval()//eval()方法作用与sess.run()方法类似,不过eval()方法只执行有op的式子
+tf.stack([a,b],0)//合并两个矩阵,0是在行方向;与tf.concat()的使用一样.
+tf.unstack(x,10,axis=1)//按第二个参数将数组分为10份，注意的是axis为1时是划分列。
+tf.transpose(x,[0,2,1])//转置矩阵x,0,1,2分别对应矩阵中的每个维度
+tf.squeeze(x,[])//降掉所有维度为1的维度。
+tf.nn.moments(x,list(range(len(x.get_shape())-1))//获取x指定轴上的均值和方差，反回一个元组：（均值组，方差组）.
+tf.assert_less_equal(x,y)#如果x>y就抛出异常
+tf.control_dependencies([a,b])#返回一个控制依赖的上下文管理器，配合with使用，表示执行完a,b
+操作之后才能执行下面的语句。
+tf.gradients(ys,xs)//xs和ys可以是一个张量，也可以是张量列表，tf.gradients(ys,xs) 实现的功能是求ys（如果ys是列表，那就是ys中所有元素之和）关于xs的导数（如果xs是列表，那就是xs中每一个元素分别求导），返回值是一个与xs长度相同的列表。
+tf.nn.batch_normal(x,mean,std,offset,scale)//对x归一化,均值、方差、偏移量、缩放
+fw=tf.assign(w,[-1]),fb=tf.assign(b,[1.])#assign()方法用于在之后修改w,b的值来调整参数将损失函数值降小tf.Session().run([fw,wb]);
+tf.tile(inputs,multiples)#复制inputs矩阵，multiples表示在相应的维度复制几份，multiples=[2]表示将inputs的所有行复制一份，[2,3]表示列复制两份后行再复制1份。
+tf.expand_dims(inputs,axis=0)#为数组增加维度，axis为-1时表示最后一维。
+tf.where(tensor)#只有1个参数时tensor要求是布尔矩阵，返回为Tue的位置。tf.where(
+tensor,a,b)#3个参数时要求他们维度一样，tensor中为True的位置替换为a中对应位置的值，为False的位置替换为b中相应的值。
+tf.einsum(‘ij,jk->ik’, ts1,ts2) #矩阵乘法；tf.einsum(‘ij->ji’,ts1) #矩阵转置；按照指定的规则，确定两个矩阵的维度，和计算方式。而且可以实现3维x2为的实现，但matmul函数中没有该机制。
+tf.less(a,b) #对比两个张量，返回a<b的布尔值。
+[tf.linalg模块]用于线性计算的类，下面包括了好多线性操作的类。一些借口移到了contrib.linalg下。
+tf.linalg.LinearOperatorLowerTriangular(a)#将一个矩阵转化为三角矩阵，tensorflow1.4版本之后用：tf.contrib.LinearOperatorTriL(a)
+[全连接层使用]tf.contrib.layers.fully_connected(x,2,activation_fn=tf.relu)//根据输入数据x和第二个参数生成一个全连接层内部自己生成对应维度的权重和偏置值然后与输入数据相乘在经过激活函数。
+tf.layer.dense(inputs,units,activation,use_bias=True,kernel_initializer=None,trainable=True)#也是实现一个全连接层,参数分别为：数据，输出维度(最后一维)，激活函数、是否使用偏置、卷积核初始化值、改层内的参数是否参与训练。
+tf.image.resize_image_with_crop_or_pat(img,height,width)//将图片数据剪切或填充至指定大小。
+[密集矩阵与稀疏矩阵]密集矩阵就是常见的矩阵，当密集矩阵中大部分值都为0时即鞥为稀疏矩阵，为了节省存储空间将稀疏矩阵转为另一种方式存储(记录矩阵中不为0位置的值和矩阵形状即可)，在使用时再转为矩阵使用：tf.Sparse(indices,values,shape)#存储不为0的值得索引、对应indeces的一维值矩阵、原矩阵的形状。
+##### 激活函数：
+激活函数的主要作用就是用来加入非线性因素，解决线性模型表达不足
+tf.nn.sigmoid(x)//f(x)=1/(1+e^-x),sigmoid函数(将值映射到0到1之间)，结合sigmoid
+//的图像观察x取值在-6~6之间是合理的范围,最好的取值范围是-3~3之间看数据情况决定使用
+tf.nn.tanh(x)//tanh(x)=2sigmoid(2x)-1,值域变为(-1,1)但对于某些需要y值为正的情
+况还是得使用sigmoid()函数,合理的x取值范围为(-4,4)
+tf.nn.relu()//f(x)=max(0,x)计算快但对负值不友好，经过原点的y=x方程且不取负值
+<i class="label2">ReLU激活函数：</i>大于0的留下,小于0的一律为0
+tf.nn.softplus()//f(x)=ln(1+e^x)约-3时y值为0的增函数
+tf.nn.elu()//Elus函数f(x)>>x>=0:x;x<0:a(e^x -1)分为x>=0和x<0处理，Elu不使用批
+处理比使用批处理效果更好,Elu使用批处理比Relu使用批处理效果更好。
+tf.nn.relu6()//f(x)=min(max(x,0),6)
+<i class="label2">Swish函数：</i>谷歌公司发现的一个效果更优与Relu的函数：f(x)=x*sigmoid(bx)用b值对x进行缩放调整
+低版本tensorflow中没有swish函数自己封装为：x*tf.nn.sigmoid(x*b)。
+【我的领悟:数据很多当然是如果对不同的值给出相应的变换才是最好的，swish函数就有这个特征】
+##### 损失函数：
+按照下列中列出的例子就是每个函数适合使用的场景。
+res1 = tf.nn.softmax_cross_entropy_with_logits(labels=a,logits=b)
+loss1 = tf.reduce_mean(res1)
+res2 = -tf.reduce_sum(labels*tf.log(logits))#等价于res1,结果相同
+loss2 = tf.re1duce_mean(res2)#与结果loss1相同
+
+//分类标签a为one_hot时使用，例：[***实现原理***]a=[[0,0,1],[0,1,0]];b=[[2,0.5,6],[0.1,0,3]]，先对b做softmax处理>>b=softmax(b)【分别对[2,0.5,6]和[0.1,0,3]做softmax变换并不是对整体的数组做softmax变换,这两者结果不一样】然后>>k=a*math.log(b)【这里两个数组的相乘是对应位置的值相乘(所以one_hot标签的深度和logits中每维值的个数需要是对应的，否则不能运算),这与矩阵的乘法不一样,矩阵的乘法调用tf.matmul()】再>>res=-tf.reduce_sum(k,0)//对每一行求和
+loss=tf.nn.sparse_cross_entropy_with_logits(labels=a,logits=b)//labels为整型
+cost = tf.reduce_mean(loss)#loss是损失总和，需要求均值才能满足使用。
+//标签a为非one_hot型时使用例：[***实现原理***]a=[1,2];b=[[2,0.5,6],[0.1,0,3]],sparse_cross..交叉熵函数与softmax_cross_...交叉熵函数的计算差不多只是sparse_cross_...函数多了一步转换需要将
+a=[1,2]转为对应的one_hot标签[[0,0,1],[0,1,0]]。[注意：2表示有3各类，所以要保证标签的类别是从0开始的，否则得到的loss值可能就是nan]
+tf.nn.sigmoid_cross_entropy_with_logits(x,y)//要求y为浮点型
+
+[****实现原理****]例:logits=[1,2,0],labels=[0,2,1]先对logits做sigmoid变换>>logits=[1/(1+exp(-1)),...]
+再根据交叉熵公式：res1=labels[0]*log(logits[0])+(1-labels[0]*log(1-logits[0])),...需要加 负号。
+tf.nn.weighted_cross_entropy_with_logits(logits,targets,pos_weight)
+
+https://www.w3cschool.cn/tensorflow_python/tf_nn_weighted_cross_entropy_with_logits.html
+//在交叉熵的基础上给第一项乘以一个系数(增加或减少正样本在计算交叉熵时的损失)
+tf.reduce_mean(tf.pow(tf.subtract(logits,outs),2))#均值方差,对应相减求平方
+或tf.reduce_mean(tf.square(tf.substract(a,b)))#suqare是求平方
+对于预测类模型(一般值无边界)使用均值方差的方法比较简单因此tensorflow没提供相应函数。
+带采样的损失函数：训练阶段使用此采样函数即可
+```
+tf.nn.sampled_softmax_loss(weights,biases,labels,inputs,
+        num_sampled,#每一个类别随机选择的类别
+        num_classes,#所有的类别数量
+        num_true=1,#每一个sample的类别数量)
+```
+<i class="label2">计算时序类模型的损失函数：</i>ctc_loss
+`loss = tf.nn.ctc_loss(labels,inputs,seq_length)`
+<i class="label2">crf计算loss：</i>返回值是一个损失，和转移矩阵。
+```
+log_likelihood,trans = tf.contrib.crf_log_likelihood(
+        inputs,#结果lstm等处理后的输入[batch,seq_len,num_tags]
+        tag_indices,#对应的标签[batch,seq_len]
+        sequence_lengths,#每个序列的长度[batch]
+        transition_params#状态转移矩阵[num_tags,num_tags])
+cost=tf.resuce_mean(-log_likelihood)
+```
+https://www.jianshu.com/p/3b084ec9ed80	https://blog.csdn.net/heyc861221/article/details/80127148
+##### 退化学习率：
+学习率用于在梯度下降寻找最优值的速度,一般在学习开始时梯度下降得到的都不是合适值,所以会先使用大的学习率再在训练到一定量后使用小的学习率;
+<i class="orange">[指数式衰退学习率]公式：</i>rate*decay_rate^(global_step/decay_step)
+rate=tf.train.exponential_decay(rate,global_step,decay_step,decay_rate,staircase=False)
+参数为：初始学习率，当前迭代步数，衰退到decay_step时速度变为初始学习率的decay_rate倍。
+global_step逐渐增加才能一直衰退,staircase为False表示连续型衰减，True时为阶梯型衰减。由公式可以看出，global_step大于decay_rate太多时rate反而会变成一个大于1的值，所以使用时，decay_step一般设置为data_num*iter_num*2/3
+```
+x = tf.Variable(0,trainable=False)#初始迭代步数为0
+rate = tf.train.exponential_decay(0.1,x,100000,0.1)
+opt=tf.train.AdamOptimize(rate).minimize(loss)
+add_global = x.assign_add(1)#让迭代步数加1操作
+for i in range(20):#循环迭代的时候add_global也要放到run里面，否则指挥衰减1步
+    sess.run([rate,add_global])
+```
+<i class="orange">多项式衰减]公式:</i>(slr-end_learning)*(1-global_step/decay_step)^poser +end_learning_rate
+rate=tf.train.polynomial_decay(slr,global_step,decay_step,end_learning_rate,power=0.5)
+<i class="orange">自然指数衰减</i>
+rate=tf.train.natural_exp_decay(rate,global_step,decay_step,decay_rate,staircase=False)
+<i class="red">使用正则化避免过拟合：</i>（在损失函数后添加正则化值,w是参数,a是可调节参数）
+L1 = less + a*sum(|w|)；L2 = less + sum(w^2)*a/2
+L2的正则化函数:tf.nn.12_loss(t,name=None)//t为权重
+dropout避免过拟合：输入的数据是不可能绝对纯净的,dropout技术在给定的训练数据中丢弃其中的几条数据,用其余数据进行训练。tf.nn.dropout(x,keep_prob,noise_shape=None)//x为输入数据,keep_prob为保持率,为1则表示全部进行学习,noise_shape指定x中哪些维度可以用dropout例:x的shape为[n,len,w,h],noise_shape=[n,1,1,h]表示二、三维度进行dropout。
+##### 优化器(梯度下降)：详细原理解释见61
+https://zhuanlan.zhihu.com/p/38005390（非常详细的全连接网络讲解）
+https://blog.csdn.net/fireflychh/article/details/73691373
+https://www.cnblogs.com/pinard/p/5970503.html
+【批量梯度下降:遍历全部数据集算一次损失函数，然后算函数对各个参数的梯度,计算速度慢】
+【随机梯度下降:没看一条数据就算一下损失函数求一次梯度，速度快但不易命中，精度低。】
+【小批量梯度下降:结合上面两种取中每计算一批数据求一次梯度。】
+```
+opt=tf.train.GradientDescentOptimizer(rate).minimizer(cost)#一般的
+oct=tf.train.AdadeltaOptimizer()#/Adadelta优化器
+tf.train.MonmentumOptimizer(rate)
+tf.train.AdamOptimizer()#Adam优化器
+tf.train.FtrlOptimizer()#创建FTRL算法优化器
+tf.train.RMSPropOptimizer()#创建RMSProp算法优化器
+#梯度下降并不返回值，但训练时要放入到run()中运行
+cost,_opt=sess.run(loss,opt,feed_dict={})
+#minimizer()中包含两个操作：
+gad=oct.compute_gradients(loss)#计算梯度
+#用clip_by_value()截断梯度值，防止梯度爆炸和消失。
+clip_gad=[[tf.clip_by_value(g, 0, 12), v]for g, v in grads_vars]
+train_op=apply_gradients(clip_gad, global_step)#反向更新值
+```
+各种优化器解释：https://www.cnblogs.com/wisteria68/p/10849109.html
+模型评估[准确率]：预测模型直接看其差值即可
+#分类模型一般是使用one_hot标签对比，先求出每条标签中最大的值的位置，然后对比求均值
+correct_prediction = np.equal(tf.argmax(input_y, 1), tf.argmax(logits, 1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32), name='acc')
+##### 卷积神经网络：
+tf.nn.conv2d(input,filter,strides,padding,use_cudnn_on_gpu=None,name=None)
+//input是输入的图像要求是张量形状为[一批中图像数量,图宽,图高,通道数]，filter为卷积核数据	形状为[卷积核宽,卷积核高,图像通道数,滤波器个数],strides为卷积核滑动,步长(长度为4,中间两个值是列行上的每次滑动步数),padding有'VALID'和'SAME',VALID表示不填充padding,SAME则填充。填充数计算如下：
+// VALID情况:输出图宽 = (输入图宽 - 卷积核宽 + 1)/行上滑动步长；(对应求出输出高)
+#valid情况就是卷积核不会超出图像区域的情况，而same会。
+//SAME情况：(SAME情况下步长取1时为全卷积)outWidth = inWidth/stridesWidth
+same情况outwidth若为小数则上舍，valid情况则下舍。
+填充0的列数 = max((outWidth-1)*2+filterWidth-inWidth,0)
+tensorflow中提供了一个合并卷积、激活函数简化输入的方法:tf.contrib.layers.conv2d(img,64,
+[5,5],1,'SAME',activation_fn=tf.nn.elu)//img是输入数据维数与之前的一样,64是输出的通道数
+[5,5]是卷积核大小(内部自己生产卷积核),1是步长,activation代表卷积后使用哪个激活函数。
+【卷积神经网络的训练也需要加上偏置值，示例如下：】
+//卷积核中第三个值为1表示输入的图像数据是单通道灰色的，若为彩色图片则为3在计算时
+//会对图像的每一层通道数据做同样处理，最后合并,30表示30个卷积核，同一通道与这30个
+//卷积核分别计算最后变成30个通道的图片
+b1 = tf.Variable(tf.constant(0.1,shape=[30]))//偏置列数与卷积核个数对应
+re1 = tf.conv2d(mnist,[3,3,1,30],[1,1,1,1],'SAME')+b1
+re2 = tf.conv2d(re1,[2,2,30,10],[1,2,2,1],'SAME') + b2
+//由于re1的计算得到的每个图像数据是30通道的所以第二次卷积时卷集合通道设为30
+
+池化操作:tf.nn.max_pool(input,ksize,strides,padding)//卷积后的图像,滤波器、滑动
+步长、[VALID,SAME]要求的形状与conv2d()的一样,ksize(中间两个值时滤波器高和宽)和strides(中间两个值是列向滑动步长,行向滑动步长，注意顺序。)都只用指定尺寸步长而已，不用像卷积一样还要生成一个卷积核。
+均值池化：tf.nn.avg_pool(),池化后的图像大小与卷积中的计算一样,SAME情况下步长为1得到的池化结果与原图一样大[均值池化可以使用SAME方式但最大池化只能使用VALID]
+tf.contrib.layers.avg_pool2d(),tf.contrib.layers.max_pool2d(conv,[2,2],stride=2,'SAME')
+反卷积反池化见21.
+##### tensorflow读取文件：(当读取大量的文件时使用python会比较慢,tensorflow提供的api非常快速)
+```
+files = ['a.bin','b.bin',...]
+#用train.string_input_producer()方法生成一个文件队列供tensorflow读取
+fileQue = tf.train.string_input_producer(files)
+#FixedLengthRecordReader()是一个读取二进制文件的读取器
+#类似的还有读取csv的读取器,对应的解析器也不一样
+reader = tf.FixedLengthRecordReader(record_bytes=20*20*3)#若文件中没有这么多
+#数据会默认用0来填充
+#label得到的是文件绝对路径,datas是文件中的数据
+label,datas = reader.read(fileQue)
+#解析读取的数据变为像素数据,tf.uint8是c语言中自定义的处理过的数据格式
+res = tf.decode_raw(datas,tf.uint8)
+with tf.Session() as sess:
+    coord = tf.train.Coordinator()#创建一个线程管理，启用队列
+#用多线程一边读入数据一边计算数据高效的用了cpu,gpu资源(不然读完数据才会开始计算)
+    heread = tf.train.start_queue_runners(coord=coord)
+    res_ = sess.run(res)
+    imgDat = np.array(np.reshape(res_,[50,50,3]),dtype=np.float16)
+    #reshape时注意维度是：高、宽、通道数，不然显示出来会是扭曲的
+    coord.request_stop()#停止所有读取图片的线程
+    coord.join()
+```
+<i class="label1">单张图片的读取</i>先用gfile中的方法读取再用image模块下的方法解码。
+ir = tf.gfile.FastGFile('a.jpg','rb').read()
+img=tf.image.decode_jpeg(ir)
+print(img.eval())
+
+<i class="label1">多张图片的读取</i>
+```
+imgs = ['a.jpg','b.jpg','c.jpg']
+quee = tf.train.string_input_prodecer(imgs)#创建队列
+reader = tf.WholeFileReader()#用WholeFileReader读取器读取文件
+_p,img = reader.read(quee)#/_p为路径，img为图片数据
+image = tf.image.decode_image(img)#对img解码变为像素数据
+image=tf.image.resize_img(img,size)#解码后做变换，记得变换形状
+#没运行一次image就读取一个文件的数据(倒着读取的)
+coord=tf.train.Coordinator()#创建多线程读取
+threads = tf.train.start_quue_runners(sess,coord=coord)
+...#云行session.run(image)
+```
+##### tf.data新的读入数据的API1.3版本位于tf.contrib.data,1.4版本位于tf.data
+之前使用feed_dict填充数据效率低，使用quee读入文件不灵活所以先出了data的API解决数据读入问题。tf.data.Dataset的使用分为两种模式：Eage模式和非Eage模式
+#若传入的数据每条维度不一致会报错：expected binary or unicode string
+```
+dats = tf.data.Dataset.from_tensor_slices(np.random.randn(5,3))
+dats = dats.map(lambd x:x+2.0)#调用map方法把每个数据都用括号内函数运行
+dats = dats.batch(2)#将每两条数据组成一条，配合平时的批次训练数据使用
+dats = dats.shuffle(buffer_size=100)#打乱数据
+dats = dats.repeat(3)#/将数据复制3份添加到原数组的后面
+#为该数据创建一个迭代器（只读一次，读完一次后清空）
+iterator = dats.make_one_shot_iterator()
+#指定该迭代器每次只读取一条数据
+one_ele = iterator.get_next()
+#读入图片、标签示例
+fil=tf.constant(['data/av1.jpg',...]),lab=tf.constant([1,2,3,...])
+dat = tf.data.Dataset.from_tensor_slices((fil,lab))
+def read(fils,labs):
+    str = tf.read_file(fils)
+    str_decode = tf.image.decode_image(str)
+    resize = tf.image.resize_images(str_decode)
+    return resize,labs
+dat = dat.map(read)#传入函数处理
+```
+
+[读入变长数据]依然不是本质上的处理未对齐数据
+```
+def gen():
+    for i in [[1,2,3],[2,2]]:#每一行长度不等
+        yield i,len(i)#这里可以同时返回多个数据
+#from_generator()会观察所有数据决定将不同长度的序列填充到最长那个。output_types
+#与回调函数generator中返回的数据格式相对于，例如两个值时:[tf.int32,tf.int32]
+#对应的output_shapes也是。
+dt=tf.data.Dataset.from_generator(generator=gen,
+                                  output_types=[tf.float32,tf.float32],
+#如果回调函数中返回的有标量，则对应的shape写成()
+                                  output_shapes=([None],[]))
+dt = dt.batch(5)#两个batch中只用1个
+#二者都可以使用，padded_batch可以指定batch数和用什么值填充，格式对应。
+#对应的值是标量时，也写成0填充
+dt = dt.padded_batch(3,shapes,paddings=(0,0))
+iter_da=dt.make_one_shot_iterator()
+dt_one = iter_dt.get_next()
+
+[使用Iterator构造迭代器]#代替上面的make_one_shot_iterator()，新版本才能使用。
+iterator=tf.data.Iterator.from_structure(dats.output_types,dats.output_shapes)
+sess.run(iterator.make_initializer(dats))#迭代器需要初始化
+x=iterator.get_next()#获取数据
+```
+https://zhuanlan.zhihu.com/p/30751039
+https://blog.csdn.net/briblue/article/details/80789608
+<i class="label1">循环神经网络相关</i>
+下面的细胞类中的num_units参数是每层隐藏层输出的数据的列数，因为每个细胞中需要经过几个门的计算而这些门的计算是仿全连接网络的计算这就设计到设置权重的位数来调整输出数据的维数(他们称这个num_units是每层的神经元个数)每层隐藏层的细胞个数是有输入数据的时间序列数决定的，因为每个细胞都需要一个时间序列的输入来进行计算。
+https://blog.csdn.net/notHeadache/article/details/81164264
+[基本cell类]um_units是输出结果最后一个维度的维数，并不是cell个数。
+```
+tf.contrib.rnn.BasicRNNCell(num_units,activation,reuse)//最基本的RNN类,
+tf.contrib.rnn.BasicLSTMCell(num_units,forget_bias,reuse=None)//LSTM的一个基本版,分到忘记的偏置,reuse:变量是否重用，一般默认。
+cell=tf.contrib.rnn.LSTMCell(num_units,forget_bias,cell_clip)//LSTM的一个高级版本。
+cell=tf.contrib.rnn.GRUCell(num_units,actiion,reuser)//GRU网络
+```
+[静态rnn构建]sequence_length可以不输，cell是上面的cell类，需要传入dtype，intial_state可不传
+result,state=tf.contrib.rnn.static_rnn(cell,inputs,sequence_length=None,dtype,initial_state)
+
+静态rnn要求输入的数据是[seq_num,batch,seq_len],若抱错:inputs must be sequence可以先对数据使用tf.unstack(input,seq_num,1)。
+[动态rnn构建]无论cell是GRU还是LSTM都有两个输出。注意这里的sequence_length是每条数据的序列数量，但是在传入数据时需要将每条数据的序列数量填充一致，tensorflow内部在构建图时会根据传入的这个sequence_lengh减掉我们后面补充的序列数。
+x,state=tf.nn.dynamic_rnn(cell,inputs,sequence_length=None,dtype,initial_state)
+
+[动态RNN与静态RNN]（用mnist数据集示例:一次输入100张图片,28个时间序列）】动态RNN与静态RNN的构建不同，静态RNN要求输入的数据是分好时间序列数后的数据即输入维度为[序列数,图片数,每张图列数]。一条序列对应一个Cell所以静态RNN会先构建28个cell每个cell输入对应的时间序列(一个时间序列的维度是[100,28]{100张图片,每张图片的宽度})再按照调用调用cell类时输入的num_units来调整cell中各门的权重维数使最后输出为：[28,100,num_units]。而动态RNN要求输入的数据是原始数据即可不要求对数据做tf.unstack()划分时间序列处理(输入维度是[100,28,28])，dynamic_rnn()函数内会先为第一条数据划分其时间序列构建对应数量的Cell进行输入计算，然后再循环计算其它每条数据的序列，而如果下一条数据划分出的序列数不一样时就重新调整对应的Cell个数，最后输出维度为[100,28,100]([数据条数,序列数,num_units])所以动态RNN生成的结果需要先转置tf.transpose(outputs,[1,0,2])把序列维度放到前面然后取最后一条序列再计算。【所以静态RNN在生成模型需要更长的时间，其次静态生成的模型更大、耗内存更多、动态RNN能应对每条数据不同序列的情况而静态则需要保持每条数据维数一样】。
+<i class="label2">多层RNN,单向时的多层</i>：将Cell类放入到一个list中cell=[LSTMCell(),...],然后做为参数传入mcell=tf.contrib.rnn.MultiRNNCell(cell),将mcell传入动态或静态rnn中tf.contrib.rnn.static_rnn(mcell,x,dtype=tf.float32)。
+双向多层：双向多层rnn的构建使用如下函数：(将正向cell类列表和反向cell类列表传入到对应参数即可，或第二种是使用单向时的多层MultiRNNCell(cell)函数再将其传入到对应参数中，不过得将其放在list内：stack_bidirectional_rnn([mcell1],[mcelll2])...）
+```
+result,_bs,_fs=tf.contrib.rnn.stack_bidirectional_rnn(cfs,cbs,inputs,initial_states_fw,
+initial_states_bw,sequence_length)//多层双向静态构建
+result,_bs,_fs=tf.contrib.rnn.stack_bidirectional_dynamic_rnn(...)//参数与上面一样。
+模型最后输出的state是三维的[hidden_size,batch,num_unite]，会输出每一层的cell status。
+```
+动态rnn的话输出的是[batch,seq_num,unm_unite]
+<i class="label2">双向RNN</i>双向RNN擅长对连续数据的处理，对于连续型数据可学习其正向规律和反向规律。使用下列函数构建双向后就不需要再使用static_rnn()或dynamic_rnn()了。注意双向rnn返回的都是3个值(一个元组中的3个值)结果、反向细胞状态、正向细胞状态。
+ 动态双向RNN构建，参数分别为：反向cell类，正向cell类、输入数据(形状为[数据量,序列数,列数])、序列长度、反向正向细胞初始化状态。
+```
+output,state=tf.nn.bidrectional_dynamic_rnn(cell_fw,cell_bw,inputs,sequence_length,
+initial_state_fw,initial_state_bw,dtype)
+outputs = tf.concat(output,axis=-1)#连接正反向结果。
+静态双向RNN构建，输入数据维度：[序列数,数据量,列数]
+tf.contrib.rnn.static_bidrectional_rnn(cf,cb,inputs,initial_state_fw,
+initial_state_bw,dtype,sequence_length)
+```
+<i class="label2">计算注意及优化</i>当使用LSTM<em class="violet">静态构建时rnn.static_rnn()</em>输出两个数组，第一个是结果第二个是细胞状态，取结果最后一个序列(最后一条数据)做全连接计算。
+当使用GRU静态时输出只有一个，取输出最后一索引计算。ouputs[-1]
+<i class="label3">当使用动态RNN</i>，tf.nn.dynamic_rnn()时都有两个输出取第一个结果转置(0维与1维互换)再取最后一条值做全连接计算。tf.transpose(outputs,[1,0,2])[-1].
+[rnn的dropout]：tf.nn.rnn_cell.DropoutWrapper(lstm_cell,output_keep_prob,input_keep_prob)//
+lstm是定义好的cell类、数据输入前的保留率、数据输出前的保留率。由于门的计算被cell类封装起来所以要对内部的数据进行droup不能再使用cnn的dropout方法。
+[词向量的生成]首先，随机生成一个[vocab_size,dim]大的随机矩阵，然后embedding_lookup()函数中根据输入的inputs([batch,words_num])每一行的ids，如[1,7,9]就去embeddingh中找到对应行1,7,9的值,所以最后得返回结果就变成了：[batch,words_num,dim],然后直接参与到后续的模型训练当中，随着模型使用的梯度不断更新embedding矩阵的值。
+with tf.device("/cpu:0"):#暂时只支持在cpu上计算
+#生成一个vocab_size:词的个数，dim:想生成的词向量的长度
+    embedding = tf.Variable(tf.random_uniform([vocab_size,dim],-1.0,1.0))
+    embed = tf.nn.embedding_lookup(embedding,inputs)#inputs是每批次输入的词
+#inputs是二维数据    
+
+[word2vec模型的损失函数]封装了对比样本损失值、计算softmax、负采样操作
+loss=tf.nn.nce_loss(weight,biase,input,label,num_sampled,num_classes)//权重、偏置、词向量(上面的embed)、标签(一维数据)、负采样个数、类的个数。
+[旧版本(1.0前)seq2seq接口]该模型传入的值与其它网络传入的方式有些不同
+```
+tf.contrib.legacy_seq2seq(inp,oup,cell)//inp为输入的序列，oup为对应的目标序列，cell是传入的网络反回两个值，第一个值是各cell输出组成的序列，第二个值是cell状态。
+inp = [],oup = [],cells = [],connect = []，loss = 0,expected = []
+#要求输入的是一个列表，所以列表内每个索引都设置占位符
+for i in range(sequence_num):#长度为序列数，所以要求每条数据序列数，长度一样
+#这类似于静态rnn的数据要求，所以在传入数据时如果维度是(batchSize,seqnum,seqlen)
+#则需要用tf.transpose(data,[1,0,2])转换一下
+    inp.append(tf.placeholder(tf.float32,[None,9]))#9为序列长度
+#oup是decode层的输入，序列数量可以不跟inp的一致，不同时单独用个循环创建占位符。
+    expected.append(tf.placeholder(tf.float32,[None,9]))
+#decode层的输入数据比encode层多1个序列，多余的那个序列用来做decode层的go序列，
+#用的是第一个，一般用0填充。
+for j in range(sequence_num+1):
+    oup.append(tf.placeholder(tf.float32,[None,9]))
+for j in range(2):#两层隐藏层，不能使用python列表的[]*3，会报错
+    cells.append(tf.contrib.rnn.GRUCell(18))
+ mcell = tf.contrib.rnn.MultiRNNCell(cells)
+res,state=tf.contrib.legacy_seq2seq.basic_rnn_seq2seq(inp,oup,mcell)
+#为每一个序列，加一个全连接层，转换其维度。
+for k in res:
+    connect.append(tf.contrib.layers.fully_connected(k,1))
+#计算loss值，
+for m,n in zip(connect,oup):
+    loss += tf.reduce_mean(tf.pow(m-n,2))
+#数据填充,循环完所有键值对
+feed = {inp[i]:data[i] for i in range(len(data))}
+feed.update({expected[j]:lab[j] for j in range(len(lab))})
+c = np.concatenate(([np.zeros_like(lab[0])],lab[:-1]),axis=0)
+feed.update({oup[i]:c[i] for i in range(len(c))})
+
+[rnn的dropout]rnn网络的权重被cell包裹住，所以对数据进行dropout时重新用一个函数
+tf.contrib.rnn.DropoutWrapper(tf.contrib.rnn.GRUCell(2),input_keep_prob,
+output_keep_prob)#参数分为rnn网络，encode层数据保持率，decode层...
+```
+[基于注意力的seq2seq]
+tf.contrib.legacy_seq2seq.embedding_attention_seq2seq(encoder_inputs,decoder_inputs,cell,num_encoder_symbols,num_decoder_symbols,embedding_size,num_heads,output_projection,
+feed_previous)//对应的参数代表分别为：输入序列，目标序列，cell层、输入数据对应的词总数、输出数据对应的词总数、每个输入对应的词向量编码大小、从注意力状态读取的个数、
+[带桶机制的seq2seq]由于每条数据的序列数量是不一样的，使用上面的basic_rnn_seq2seq传入数据前需要将每条数据的序列数量填充相等，如果是序列数量相差比较大的情况则对不易计算，如：
+一条语句序列数为5，一条语句序列数为30，第一条语句要填充25个为0的空序列补充相等，这会代入很多无用的信息，数据量比较大时还会需要构建一个很大的计算图，计算也会比较缓慢。所以分成几个桶将序列数相近的放一起计算。(但是在传入数据时还是以[seqnum,batch,seq_len]的形状传入)
+实现函数(封装了桶,模型,loss计算：
+tf.contrib.legacy_seq2seq.model_with_buckets(enc,dec,targets,target_weights,buckets,seq2seq,softmax_loss_function,pre_example_loss=False)。参数:输入输出层数据，目标数据，权重(与dec维度相同，用于计算loss时做基于权重的交叉熵计算)，桶([(5,5),(20,20)]每组值得第一个是encode层序列数，第二个值是decode层序列数)，seq2seq是自己定义好的含seq2seq结构的函数(其中是自己封装好的cell,basic_rnn_seq2seq等并将其return);传入一个自己指定的loss函数；是否对每个样本求loss。返回的值是一个元祖，有几个桶就返回几项，每一项的维度是：seq_num,batch,unit
+unit是最后一层cell层传入的单元数。所以暂时不清楚这桶机制的体现在哪。
+
+[新版seq2seq口]在tf.contrib.seq2seq模块下，新版本接口被分成多个块使用，支持变长序列的数据
+(tensorflow的所有读入数据的api都要求数据是对齐的，但动态rnn，新版seq2seq可处理变长序列，对长度不够的序列补0，内部tensorflow会自动求出真实序列数量)
+tensorflow内的求数据真实序列长度：https://danijar.com/variable-sequence-lengths-in-tensorflow/
+https://www.cnblogs.com/wf-ml/p/10967042.html
+https://blog.csdn.net/thriving_fcl/article/details/74165062
+http://www.wepeng.net/article/detail/74165062.html
+基于注意力的：https://blog.csdn.net/qsczse943062710/article/details/79539005
+求loss：https://blog.csdn.net/zjm750617105/article/details/88778442
+encoder层：encoder层使用一个普通的多层动态rnn实现：
+cells=[tf.contrib.rnn.GRUCell(50),...]
+mcell=tf.contrib.rnn.MultiRNNCell(cells)
+output,state=tf.nn.dynamic_rnn(mcell,input_data,dtype=tf.float32,sequence_length)
+
+普通decoder层：建立一个decoder层对输入和encoder层state进行解码
+#helper类用于辅助处理数据，例如旧版接口中需要在decode数据中加go字符
+if inference:#是预测阶段,embedding可以是一个回调函数(tf.nn.embedding_lookup)
+#或是一个二维张量,start_token是每条数据的起始序列([batch])，end_token是序列结束索引,
+#默认所有序列填充一致，所以是一个标量，预测阶段一般是一条数据，就写0
+    embedding=tf.Variable(tf.truncated_normal(shape=[1,200], stddev=0.1))
+#embedding可以是一个词嵌入回调函数,返回值用于decode层输入    
+    helper=GreedyEmbeddingHelper(embedding,start_token,end_token)
+else：#训练阶段使用,传入每条数据对应的序列数,
+    helper=TrainingHelper(decode_data,decode_seq,time_major=False)
+#创建一个全连接层，每个序列计算后将最后一维num_units数转为vocab_size维数。
+from tesorflow.python.layers.core import Dense#需要这样用
+project_layer=Dense(200)
+#decode_cell是一个多层rnn结构mcell,state是encode层的state
+train_decode=BasicDecoder(cell=decode_cell,helper,output_layer=project_layer,
+    initial_stae=state)
+#logits中有两个对象，final_state维度与logits的rnn_output维度一样[seq_num,batch,dim]
+logits,final_state,final_sequence=dynamic_decode(train_deocde,
+        output_time_major=True,#True时输出数据是[batch,seq_num,dim]维度
+        impute_finished=True,#为True时会拷贝最后一个时刻的状态并将输出置零，程序运行更稳定，
+        #使最终状态和输出具有正确的值，在反向传播时忽略最后一个完成步。但是会降低程序运行速度。
+        maximum_iterations#最大解码步数，一般训练设置为decoder_inputs_length，预测时设置一个想要的最大序列长度即可。程序会在产生<eos>或者到达最大步数处停止。)
+
+在预测阶段如果不指定maximum_iterations值计算会非常耗时，因为一般全部解码由9万多。
+基于注意的decoder层：在普通decoder层前多加了两步操作：
+#num_units与encode层使用的num_units一样大小，output是encode层的输出，
+#memory_sequence_length是decode输入的每条数据的序列数
+#LuongAttention()实现将encode层输出乘以权重变成attention输入
+mechanism=LuongAttention(num_units,memory=output,memory_sequence_length)
+#AttentionWrapper()调用整个attention机制流程
+decode_cell = AttentionWrapper(cell=decode_cell,attention_mechanism=mechanism,
+			attention_layer_size=None,alignment_history=False)
+#cell与上面一样，赋值decode_cell为一个实例，然后再用上面的普通decode
+#cell改为这个decode_cell,initial_state改为：
+initial_state = decode_cell.zero_state(batch,tf.float32) 
+#注意这里的batch,在最后一批数据传入时batch一般会改变，写成:tf.shape(encode_input)[0]。
+
+beamsearchDecoder的使用：因为生成模型中生成的最后一维长度是词表长度，然后用arg_max()获取概率最大值得那个位置来预测词id，这其实是一种贪心策略；而beamSearch会获取前几个最大概率值得位置作为预测词id，然后预测下一个词时这些候选词都拿来预测下一个词，依次类推，然后最后选择每个词的候选项中概率最大的那个作为最终输出(这种效果会比greedy稍好)。由于这种输入的机制所以直接将预测前的数据复制几份，分别输入。
+```
+from tensorflow.contrib.seq2seq import *
+beamWidth = 4#repeat quantity
+encode_result = tile_batch(encode_result,multiplier=beamWidth)
+encode_seq_num = tile_batch(encode_seq_num,multiplier=beamWidth)
+attention_mechanism = LuongAttention(num_units=CELL_UNITE,memory=encode_result,memory_sequence_length=encode_seq_num)
+decode_cell = AttentionWrapper(...)
+memory=tile_batch(encode_state,beamWidth)
+decoder_initial_state=decode_cell.zero_state(beamWidth*batch,tf.float32)
+decoder_initial_state = decoder_initial_state.clone(cell_state=memory)
+train_decode=BeamSearchDecoder(cell=decode_cell,
+            embedding=embed,
+            start_tokens=tf.fill([1],0),
+            end_token=1,
+            initial_state=decoder_initial_state,
+            beam_width=beamWidth,
+            output_layer=project_layer,
+            length_penalty_weight=1.0)#惩罚项。
+
+```
+https://zhuanlan.zhihu.com/p/47929039
+tf.contrib.seq2seq.tile_batch(var,3)#将值var的每一行都复制3份
+一个seq2seq模型：https://github.com/qhduan/just_another_seq2seq/blob/master/sequence_to_sequence.py
+
+GreedyHelper：https://blog.csdn.net/tudaodiaozhale/article/details/99335220
+注意：inference阶段的embedding是二维(shape[0]为1)，会与state合并做输入，attention_decode模型的zero_state(batch)的batch就写1.
+https://yiyibooks.cn/yiyi/tensorflow_13/index.html 
+https://www.w3cschool.cn/tensorflow_python/tensorflow_python-bm7y28si.html
+tensorflow中添加新的op操作：
+http://wiki.jikexueyuan.com/project/tensorflow-zh/how_tos/adding_an_op.html
+#### 47、数据预处理：
+多数机器学习算法都需要先使用大量的数据做训练算法,如果数据中存在异常值则训练出来的算法准确度会低很多,输入的质量决定了输出的质量,数据处理阶段一般会占据整个项目70%左右的时间。(项目中先处理缺失值再检测异常值)
+##### 一、数据预处理步骤：
+数据清洗：包括异常数据处理、缺失值处理、噪声数据处理。
+数据集成：使用多个数据库，数据立方体或文件,将多个数据源合并，或统一单位等工作；
+数据变换：将数据变换成使用挖掘的形式，将数据变换为适合机器学习的形式，如将文字用数值表示、连续型数据变为离散型数据、数据归一化。
+数据归约： 用替代的，较小的数据表示形式替换元数据，得到信息内容的损失最小化，方法包括维规约，数量规约和数据压缩；如去掉不相关的属性。
+##### 二、异常检测和相关性检测：
+造成异常值的原因有人为原因和自然原因,数据有分类型(例:一个特征项中只有0，1，3的数据)和连续型,两种类型的数据在检测异常和处理时会有些不同，分类型数据比较易于检测和处理(一般知道某个分类型数据项有哪几个类别找到不是的数据建议使用直接删除该项(所处的行)的方法处理),在检测异常值时又分单变量检测和双,多变量检测(因为一些特征项之间是有关联的如身高和体重)，常用的观察数据异常的方法是数据可视化观察。
+单变量(对每一特征项逐项检查)检测方法：
+1、经验法：通过对业务的连接程度能凭经验直接的看出哪些数据是异常的。
+2、正态分布，距离平均值3a外的数值认为是小概率事件。
+Normal distribution(正态分布):
+正态分布也称常态分布，也叫高斯分布。定义:若随机变量x服从一个数学期望为	μ(一系列数据的平均值),方差为σ^2的正态分布,其概率密度函数为正态分布的期望μ决定其位置,标准差σ决定了分布幅度,μ=0,σ=1的正太分布是标准正太分布。
+
+ 公式:f(x)=1/sqrt(2π)σ*exp(-(x-μ)^2/2σ^2) ；
+这个随机变量称为正态随机变量。
+(一个变量如果受到大量微小的、独立的随机因素影响那么这个变量一般是一个正态变量)
+假设一组数据[x1,x2,x3,...xn]np.mean()求其平均值，np.var()求其方差,np.std()
+求出其标准差，若数据中x1,..xn某个值超出了3*np.std()则认为是异常值。
+3、使用箱形图判断。
+箱形图：(盒须图、盒式图、箱线图)
+显示一组数据分散情况的统计图,各领域常用,常见与品质管理、人事管理、探索测评,反应原始数据分分布特征。步骤：找出数据集中的最大值、最小值、中位数、均值、上四分位值下四分位值，以两个四分位值为边界画一个矩形，中位数处画一根线分割箱子，两个最值处画线做为箱子的边界并连接箱子。记上四分位点为Q3,下四分位点Q1,QR=Q3-Q1,在Q3+1.5QR和Q1-1.5QR处画线称其为内限,Q3+3QR和Q1-3QR处画线,称其为外限，内限以外的点都称为异常值，内限到外限线的值为温和的异常值。(上下四分位值和中位值是指数据序列号处对应的数据值,Q1一般用(n+1)/4计算，Q3=(n+1)*3/4,若为小数则取整,所以箱形图是以其序列号值计算判断其异常值）
+4、封顶法：超出数据5%,95%的认为是异常数据。
+双变量检测：以下相关性检测是特征项与目标项之间的数据检测，若相关性很小则可以忽略该项特征，使用其余的特征项进行机器学习。
+a、连续型与连续型：观察两个连续型变量之间的关系用散点图观察是一个不错
+的方法。可以用以下公式看出它们之间的相关性。
+x,y的协方差比上x,y的方差的乘积的开方。
+pccs = np.corrcoef(x, y)
+from scipy.stats import pearsonr
+pccs = pearsonr(x, y)
+
+pearson(皮尔森系数) = COV(x,y)/sqrt(var(x)*var(y))(为0则无相关性,>0为正相关,反之.)
+b、分类型与分类型:使用双向表即统计出两个或多个分类项数据中涉及到的类别(一般都会用0,1..表示,)作为x轴坐标,统计各个类别中(0,1..项)各属性所占的多少;堆积柱图：
+
+卡方分布：若n个相互独立的随机变量ξ₁，ξ₂，...,ξn ，均服从标准正态分布（也称独立同分布于标准正态分布），则这n个服从标准正态分布的随机变量的平方和构成一新的随机变量，其分布规律称为卡方分布。求出卡方值再与卡方分布表对比，大于则假设成立。 
+https://blog.csdn.net/snowdroptulip/article/details/78770088
+用sklearn实现：https://blog.csdn.net/snowdroptulip/article/details/78867053
+卡方检验(检验定性自变量对定性因变量的相关性。假设自变量有N种取值，因变量有M种取值，考虑自变量等于i且因变量等于j的样本频数的观察值与期望的差距)公式：X^2 = Σ(O-E)^2/E ;//O观察到的实际值(如上图表1中的small项类别1中的1)E为0假设下的值。
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
+from sklearn.datasets import load_iris
+iris = load_iris()
+调用卡方分布公式，k=2表示选择最佳的两个特征
+model1 = SelectKBest(chi2,k=2)
+q = model1.fit_transform(iris.data,iris.target)
+print(q)#得到的两项特征数据。
+print(model1.scores_)#每个特征项的得分
+print(model1.pvalues_)#每个特征项的卡方分布值。
+
+c、分类和连续:评估两组变量平均值的差异性(z检验,使用样本数大于30时使用)
+Z检验(u检验):平均值差异性检验的方法,当已知标准差时,验证一组数的均值是否与某一期望值相等时,用Z检验(样本数大于30时使用)。
+检验同一样本中子样本与总样本平均值差异性时:z = (x-u)/s/sqrt(n);x时检验的样本平均值,u时总体样本平均值,s为总样本标准差,n为检验的样本容量。
+两组不同样本检测差异性时使用：z = (x1-x2)/sqrt(sa^2/n1+sb^2/n2);x1,x2时两组样本的均值,sa,sb时它们的标准差值小则说嘛两组差异显著。观察的样本数小于30时使用T检验。
+https://blog.csdn.net/robert_chen1988/article/details/103378351
+from statsmodels.stats import weightstats
+#单样本检验时x2写为None，value写为与arr检验的值。m[1]是p值，与t检验一样处理
+m = weightstats.ztest(arr, x2=akk, value=0,#双样本检验时x2,arr为列表,value=0
+                     alternative='two-sided',
+                      usevar='pooled', ddof=1.)
+
+T检验(student检验):用t分布理论来推论差异发生的概率，从而比较两个平均数的差异是否显著。t检验可分为单总体检验和双总体检验，以及配对样本检验。它与f检验、卡方检验并列。与Z检验非常相似主要用于样本数小于30时使用;
+单总体t检验：单总体t检验是检验一个样本平均数与一个已知的总体平均数的差异是否显著。当总体分布是正态分布，如总体标准差未知且样本容量小于30，那么样本平均数与总体平均数的离差统计量呈t分布。公式:t = (x-u)/s/sqrt(n-1); 
+双总体检验：双总体t检验是检验两个样本平均数与其各自所代表的总体的差异是否显著。双总体t检验又分为两种情况，一是独立样本t检验（各实验处理组之间毫无相关存在，即为独立样本），该检验用于检验两组非相关样本被试所获得的数据的差异性；一是配对样本t检验，用于检验匹配而成的两组被试获得的数据或同组被试在不同条件下所获得的数据的差异性，这两种情况组成的样本即为相关样本。公式:t = (x1-x2)/sqrt({[(n1-1)sa^2+(n2-1)sb^2)]/(n1+n2-2)}*(1/n1 + 1/n2));
+自由度的选择：检验两个样本的差异时，自由度可选样本数-1，然后任选一个p查表。大于指定值则认为两者无明显差异。即值越小相关性越大。
+from scipy.stats import ttest_1samp,levene,ttest_ind
+ages = [18,23,10,5,8,30,32,58,40,67,72]
+x = [13,22,70,50,42,36]
+q=levene(ages,x).pvalue # 检测方差对齐性
+bl = True if q > 0.05 else False
+#第二个参数可以是列表得到的pval也会是列表，对应每个值的p值。
+tset,pval = ttest_1samp(ages,12)#单总体检验，第二个参数是已知的总体样本均值
+t1,p1 = ttest_ind(ages,x,equal_var=bl)
+
+其它检验：f检验，leven检验，ANOVA检验。
+##### 二、异常数据处理：
+1、删除异常值。
+2、使用前后两个数据的平均值代替。
+3、视为缺失值处理（多数情况）。
+三、缺失值处理方法：(连续型数据常考虑回归方法插值，离散型考虑knn，删除等)
+1、最近岭插补或中值代替：使用缺失值前后平均值代替。
+2、回归方法：最小二乘法,bp神经网络等预测值(若该缺失数据与其它数据关系不大则不准确)
+3、插值法：一维插值，拉格朗日插值法，配合for循环使用对数组中缺失的值插值。
+4、使用KNN：用当前缺失项其它类数据与其它组的对应数据用k近邻算法匹配最相似的。
+5、直接删除缺失值所处的那行数据(数据特别多时可以考虑)。
+6，去除重复数据，每项特征值都一样则去除。
+##### 四、数据变换：
+获取到的有些数据不符合我们的要求(非异常值),需要转化其形式拿来训练模型才会效果更佳，例如：获取到的数据中有学生的成绩而我们只关心该学生的成绩是处于哪一个阶段优、良、差或是只关心是否及格可将成绩转化为对应的类别用0,1..表示;或是获取到的时间数据是2018_10_3而将其拆分为2018,10_3来分析更好。
+非线性的数据转化为线性的:一些简单的转化可以用反函数(y=1/x)对数函数(y=log2x)等转换,复杂的可以使用泰勒展开(留坑),转化后的线性数据用于模型训练能提高准确度(线性数据对于模型来说更容易拟合)。倾斜分布数据处理:(留坑!!!)
+##### 五、数据规范化：
+尽量将用于训练的数据规范化，因为有些分类器强烈需求规范化的数据(多层感知器)。
+1、缩放：preprocessing.scale(x)
+a、数组去重：将重复的数据去除(分类型数据不用)。
+b、最大~最小规范化,公式:(x-x.min())/(x.max()-x.min()),将数据压缩到-1~1或0~1之间。(容易受离群值的影响，稀疏矩阵会变为稠密矩阵)
+c、零一均值化，公式：（x-x.mean()）/x.std(),(数据是高斯分布时适合使用)
+d、小数规范化,公式：x/10^np.ceil(np.log10(x.max()))
+e、scikit-learn中的preprocessing.scale();
+f,maxAbsScalar：除以最大值的绝对值，不会破坏稀疏矩阵。
+2、稀疏矩阵的数据处理:使用上面的f规范。
+矩阵中若值为0的元素远远多于非0的元素且非0元素分布没有规律时则称该矩阵为稀疏矩阵如果中心化稀疏矩阵会破坏数据的稀疏结构。
+3、核矩阵的中心化。
+https://www.analyticsvidhya.com/blog/2016/01/guide-data-exploration/
+https://www.jianshu.com/p/4f23fb63c7a3
+https://blog.csdn.net/qq_40587575/article/details/80215776
+参考：https://www.jianshu.com/p/73b35d4d144c
+#### 48、拉格朗日插值法：
+对于平面上一系列点(x1,y1),(x2,y2),(x3,y3)...(xn,yn)可以找到一个n-1此的多项式:
+y1 = a0 + a1x1 + a2x1^2 +...+a(n-1)x1^(n-1)
+y2 = a0 + a1x2 + a2x2^2 +...+a(n-1)x2^(n-1)
+.
+.
+yn = a0 + a1xn +a2xn^2 +...+a(n-1)xn^(n-1)
+能够求出a0,a1,a2...an-1然后构成一个x与y的方程式，这样来插值。
+地址:https://blog.csdn.net/a1368783069/article/details/51491749
+
+#### 49、模型评价相关知识：
+如下表，是一个二分类，A,C是分类器各分类结果中正确的部分，B,D是错误的部分。
+positive	A	B
+negative	C	D
+正确率即为A/(Z+B),而召回率是：A/(A+C)，准确度：(A+C)/(B+D)
+https://www.cnblogs.com/Zhi-Z/p/8728168.html
+回归模型的评测：https://blog.csdn.net/shy19890510/article/details/79375062
+#### 50、sentencepiece的使用：
+google开源的自然语言处理工具包，数据驱动、跨语言、高性能、轻量级、面向神经网络文本生成系统的无监督文本词条华工具。使用jieba分词常会把我们想合在一起的词分成两个，导致效果很差，sentencepiece经过训练可以将一些常见的组合词放在一起。
+安装：从github下载好项目，然后安装cmake，MinGW(安装跳到一个展示包的界面后标记要下载的包然后点关闭弹出一个对话框点左边的review change然后点apply下载刚才标记的包。安装好后进入bin文件将那个exe文件改名为make,然后bin文件路径加入环境变量)。
+MinGW下载：http://sourceforge.net/projects/mingw/files/latest/download?source=files
+gperftools：https://www.cnblogs.com/gnivor/p/11719958.html
+下载：https://pypi.org/project/sentencepiece/0.1.7/#files
+git项目地址：https://github.com/google/sentencepiece
+https://blog.csdn.net/sinat_33455447/article/details/90265938
+#### 51、k近岭算法（KNN）:
+优点：无需参数估计，无需训练；个别噪声数据集对结果影响不大、适合对稀有数据进行分类、适合多分类问题，knn比svm表现好。
+缺点：计算量大，内存开销大、可解释性差、样本容量大而内部个体容量又较小时很容易出现偏差、一种消极学习方法,懒惰算法。
+原理：计算要判断的数据与各特征数据之间的距离,然后选择最小距离的数据中的几个，看其中哪一个类所占的比例最大那么就认为该输入数据属于这一类。
+公式：s = math.sqrt((xi-xj)**2);
+或s = math.sqrt((xi-xj)**2+(yi-yj)**2);由此可以看出这些特征值可以是1个，2个，3个...即数组可以是一维，二维...
+(根据不同数据可以改变距离计算方法)，都计算完后按值排序。(一般只用于插值)
+#### 60、数组、字典、元组、集合常用方法：
+list = [];obj = {},arr = (),st = set()
+[集合的使用]若创建时有重复的元素则只会保留一个，可使用len(),in,pop(),clear()方法
+st = set()#创建空集合；set(('ac','vb))#传入一个tuple/list时每个值为集合值
+st.update({1,3},[2,4])#{1,2,3,4}向集合中添加值,集合中不会有非数值和字符的数据
+st.add('hello')#添加值
+st.remove(1)#将值1移除,若值不存在会报错
+st.discard(9)#移除值9，若值不存在不会报错
+b = {'a','b','c','v','m'}
+#集合间的运算
+st - b#减掉同时包含的元素，剩下st中的元素
+st | b#合集，两个个集合中的所有元素
+st & b#交集，两个集合同时包含的元素
+st ^ b#两个集合不同时包含的元素，交集的补集
+
+min(list),max(list),len(list);#求列表的最小最大值和元素个数。sum([1,2,3])求一维列表的总和
+list.append()#只能使用此方法在列表中添加新的值（末尾添加）
+list[::2]#2表示从第一个起每隔1个值就取一个值。
+append()方法是按引用添加的而不是按值添加的，例：x = [],obj = {"a":1,"b":2}
+obj.items()//将字典每对键值对封做一个
+x.append(obj),obj['a']=3,obj['b']=4,x.append(obj) ;结果：
+>> x[obj,obj] >> x[{'a':3,'b':4},{'a':3,'b':4}];是按obj这个引用添加进去的。
+list.extend(obj)//extend方法在列表后添加一个列表
+list.pop(2)#移除列表最后(默认)一个值，2选择位置，返回删除的值，直接在原值上操作。
+list.insert(index,obj)#向列表中插入值，位置，插入对象
+list.index(obj)#查找值obj所在索引位置,若值不在列表中会报错
+list.count(obj)#查看obj在列表中出现的次数,没有为0，有1个则为1
+元组中的数据可以是任意，包括列表和字典，但元组中的数据不可更改
+arr[0]#查询元组索引值为0处的值。
+list.sort(reverse=True)//将列表排序，作用与原数据，默认从小到大排序。
+list.reverse()#将列表中的元素反向排列。
+list.remove(x)#移除列表中第一个与x匹配的值。
+dict(a=1,b=2)//将其创建为一个字典。dict([(a,2),(b,3)])>>{'a':2,'b':3}
+zip([1,2,3],[4,5,6]) >> [(1,4),(2,5),(3,6)]，
+【使用zip将列表键值对反转】res=dict(zip(obj.keys(),obj.values()))
+for循环可迭代字典，不过迭代的是键值，for i in dict:
+enumerate(list)#可枚举列表，元组，字典，for index,value in enumerate(list),注意：在枚举字典时得到的是索引和键，并不是键和值。
+用in判断一个值是否在一个字典中是用该值与字典的键值名比较而不是依据value值
+obj.get('age',None)#get()方法返回字典中指定键的值，第一个参数为键值名第二个参数规定键不存在时返回的值。obj.keys(),obj.values()#返回字典的键值和value值。obj.clearn()#清空字典
+[sorted()排序字典]注意：第二个参数函数名必须用key。返回按原数据格式排好序的结果
+obj = {'a':10,'b':3,'c':16,'d':8}
+#sorted()方法参数：要排序的数据,一个函数(会将每条数据传入这个函数),处理返回一个
+#值，内部会根据该值大小排序，默认从小到大。
+v = [t[0] for t in sorted(obj.items(),key=lambda k:abs(k[0]),reverse=True)]
+#['c','a','d','b']
+lambda是一个简单构建函数的方法里面可以写一些简单的逻辑,后面跟一个k是函数参数。
+#第一个参数可以是任何可迭代的对象,第二个参数指定排序根据的属性,k就表示obj.items()//中每一个可迭代的对象。
+```
+Fruits = [‘banana’,  ‘apple’];
+for fruit in Fruits:
+    print(fruit);
+for c,d in [['a',1],['b',2]]:
+    obj[c] = d// {'a':1,'b':2}注意迭代的方向,不过zip()后迭代的方向不同    
+for (x,y) in zip(trainx,trainy):
+    print(x,y)//一起迭代两个对象    
+```
+// 若将fruit当做一个函数的参数传入函数中供pandas,numpy等库使用会报错
+字典键值对反转：dat = dict(zip(obj.values(),obj.keys()))
+对字典排序：sorted(obj)=>[3,8,10,16]
+list[::2]//表示隔行取样,比如list是一个5x3的二维数组,读取的将是0，2，4行的数据。
+数组中使用for循环：
+a = [i for i in dat]#相当于循环得到的i逐个加入到数组中，i*2,i[0],...可随意组合
+map(function,[1,2,3])//map方法是一个映射函数将第二个参数拿到第一个参数(函数)运行，第二个参数是一个字符串时传入函数的是每一个字符，得到的结果是一个迭代对象，可用list转为列表。
+x = ['1','2','3']
+s = list(mat(float,x))#将x中的每个值转为浮点型
+sorted(a)//若a是一个列表则将其值按从小到大的顺序排序，若为字符则将其按字节大小英文字母顺序来排列，为字典则按键值来排。
+obj.updata({'a':56})//如果原对象obj中存在键值a则更新其值，若不存在则将该键值对加入。
+#### 61、梯度下降详解：
+损失函数计算出损失值后用梯度下降帮助寻找最小损失值。将整个模型当做一个函数，这样就能求梯度值了。这里的寻找最小损失值并不是说计算多个损失值后取最小而是对损失函数求梯度(偏导)寻找极小值,因为损失函数中的预测值是由模型函数计算得到的,所以在计算损失函数梯度时是把预测值换做模型函数表达式放到损失函数中求梯度。由于训练是将数据分批次进行的所以求梯度的定义域范围只是整个定义域中的一部分因此求出的极小值只是局部最小值并不是全局最小值;我们求出这个当前区域内的极小值后就能找到这个极小值点的坐标,有了坐标之后就能求该点的梯度,也就是下列链接博文中所说的当前损失函数的梯度。
+因为这个坐标是求极小值得到的所以求得的梯度的模就是函数沿这一方向减少的变化率(偏导本就表示在某个方向的变化率)因此可理解为求极小值点处的梯度就是梯度下降、求极大值点处的梯度就是梯度上升。
+[反向传播]更新权重、偏置等参数。更新w1的权重就为w1=w1-rate*r1(根据第102条中的描述得知这里这里要用减号),更新其它权重时就计算其对应的偏导更新。因为我们使用的是批量计算数据更新参数的方法,所以只能通过每次更新损失函数更新梯度来更新参数使得这整个模型靠近真实分布。更新了参数之后整个模型当然也跟着改变(不过模型大体的曲线形状是相似的)。损失度就会改变而每次的梯度下降需要有一个度(就是每次下降多少来逼近真实值)就是调用优化器时传入的一个学习率,这里注意计算偏导求梯度是是对模型中的权重求偏导而不是对输入数据data求偏导。
+【梯度爆炸与梯度弥散】梯度的爆炸与弥散都是出在网络的反向传播中，更新权重是要对对应参数求偏导(这里以sigmoid激活函数为列)sigmoid函数求导后的函数的最大值是4而当求的是倒数第二层及之后的层的权重时因为整个模型是第一层求积和后结果sigmoid在求积和再经过sigmoid所以求后面几层的权重时都是使用链式求导法则所以对于含有使用sigmoid函数的网络求导后是e的指数中包含前一层的表达式再求前一次相关参数偏导时就会成指数式的增长，这种指数式的增长当偏导值大于1时增长下去就是梯度变得很大称之为梯度爆炸，值小于1时就会是梯度消失变弥散。
+#### 62、python发送邮件：
+准备工作：指定的发送邮箱需要开启SMTP服务，进入电脑版邮箱中点击设置>用户选项，滚到下方点击开启POP3/SMTP服务，点击后按提示发送短信开启并获得第三方登录授权码。（SMTP协议将邮件内容转码为机器码进行发送，接受端有pop3协议进行解码为人类可识别编码方式）。
+from email.mime.text import MIMEText    #导入邮件模块
+import smtplib  #导入smtp协议模块
+from email.header import Header
+message = MIMEText('content','plain','utf-8')  #MIMEText()方法配置邮件参数，第一
+个参数为邮件内容，第二个参数为邮件类型,plain:简单，第三个设置字符集.
+message['From'] = Header("吴呈师",'utf-8')#发件人项处显示
+message['To'] = Header('测试','utf-8')#收件人项显示
+message['subject'] = Header('nice','utf-8') #邮件标题
+以上的 message中的设置发件人，收件人，标题时，里面的对象名一定要用From,To,subject;并且调用Header()方法才行
+server = smtplib.SMTP(server_add,port,hostname) #SMTP()方法调用SMTP服务，第一个参数为服务地址:smtp.qq.com;第二个参数为服务端口号默认25，第三个为主机名(可不填)。
+server.login(from,password) #login()方法登录，第一个参数为发送者邮箱，第二个参数为授权码(使用python操作是属于第三方登录所以不能使用密码只能使用授权码(授权码无空格))。
+server.sendmail(from,to,message.as_string())#使用sendmail()方法开始发送邮件，to(收件者换位一个数组时可发送多个),参数为发送者邮箱、收件者邮箱、信息，as_string()方法将其转换为字符串。(可同时发送给多个人)。
+[我的邮箱登录授权码]mdmiylsovcthdjfd
+server.set_debuglevel(1)#set_debuglevel(1)打印相关信息
+server.quit()#退出服务;如下图：
+![](_v_images/20200228140233665_838760176.png)
+#### 63、分词：
+分词分为规则匹配分词和统计分词。基于规则分词时将目标句子中的词拿去与词典库中的词比较
+一、正向最大匹配法：我们有一个词典如：['吴呈师很帅'.'南京'.'昆明市'....]知道这个词典中最长的一个词的长度为5，就对目标字符串选择前5个字符到词典中匹配，若存在则成功返回，若词典中找不到则取前4个长度词再匹配，知道找到。
+二、逆向最大匹配法：与正向最大匹配法相反的操作。
+三、双向最大匹配法：比较正向最大匹配法与逆向最大匹配法的结果选择对应词中最短那个，如：正向匹配结果:吴呈师，逆向匹配结果:吴呈师帅，则会选择前一个。据统计双向最大匹配法的错误率小于0.1比上面两个都好，因此双向匹配使用较广。
+基于统计的分词：
+随着各种词语的增加基于规则的分词需要维护的词典很庞大，因此基于统计的分词逐渐成为主流，基本思想：把每个字看成词的最小组成单位，如果相连的字出现的次数越多就说明这些连在一起的字就是一个词，若更多的字组在一起超过一个频率它们就可能是一个成语。(对句子进行单词划分，然后对划分结果进行概率计算，获得最大的分词方式，这里用到统计学习方法：隐含马尔可夫(HMM)、条件随机场(CRF))
+用概率论的专业术语描述语言模型：用p(w1,w2,...wn)表示长度为n的字符串的概率分布，w1,w2,...表示各个词，用链式法则计算其概率值：p(w1,w2,..,wm)=p(w1)p(w2|w1)p(w3|w1,w2)...当文本很长时有边式子的计算就会很庞大所以提出了n元模型,即忽略与该词距离较远的词,计算简化如下：p(wi|w1,w1,...wi-1)~=p(wi|wi-(n-1),...,wi-1),当n=1时就称为一元模型p(w1,...,wm)=p(w1)p(w2)..p(w)
+如此w1,w2,...就变成了相互独立的模型这丧失了词之间的关系，所以一般取n>=2。一般使用频率计数的比例来计算n元概率：p(wi|wi-(n-1),...wi-1)=count(wi-(n-1),...wi)/count(wi-(n-1),...wi-1)式子中可以看出文本较长时会出现分母分子为0的情况，这需要使用拉普拉斯平滑算法等解决(暂留。)
+隐含马尔可夫(HMM)模型：是将分词作为字在字串中的序列标注任务来实现的。基本思路：每个字在构造一个词语时占据着一个确定的构词位置，规定每个字最多只有四个构词位置：B(词首)、M(词中)、E(词尾)、S(单独成词)。如：中文分词是文本处理不可或缺的一步！标记为：中/'B文/E分/B词/E是/S文本/B处/M理/E不/B可/M或/M缺/E的/S一/B步/E！/S。将此用数学的方法表示为：
+max=maxP(o1o2...on|r1r2...rn)r1,...rn表示各个字，o1...on表示四种标记。引入独立观测性假设进行计算(每个字的输出仅仅与当前字有关)：p(01...0n|r1...rn)=p(o1|r1)p(o2|r2)...p(0n|rrn)，这种独立性的计算简单很多但却是不合理的，字与字之间是有关系的。而HMM模型中解决了这个问题，通过贝叶斯公式得到：p(o|r)=p(r|o)p(o)/p(r),因为p(r)是固定的所以最大化p(r|0)p(o)结果就会是最好的：
+(1)、p(r|0)=p(r1|o1)p(r2|o2)...p(rn|on)		马尔可夫的独立性假设
+(2)、p(o)=p(o1)p(o2|o1)p(o3|o1,o2)...p(on|o1,o2,...on-1)	语言统计模型
+2式是上面的统计语言模型再根据马尔可夫的另一个假设(齐次马尔可夫假设)，每个输出仅仅与上一个输入出有关，则2式可变为：(3)p(o)=p(o1)p(o2|o1)p(o3|o2)...p(on|on-1)就是前面的二元模型，所以结合1,3两式计算得到(4)p(r|o)~p(r1|o1)p(o2|o1)p(r2|o2)p(o3|o2)...p(on|on-1)o(rn|on)。HMM中将p(rk|ok)称为发射率，p(ok|ok-1)称为转移概率。实现中对应求每个字的对应标记概率为：
+max([p(r1|o1)*p(o1|o1),p(r1|o1)*p(o1|o2),...])；max([p(r1|o2)*p(o2|o1),p(r1|o2)*p(o2|o2),...])
+这样求出每个字对应的最大概率的标记，然后再求下一个字的。在统计各标记后对应的各标记的频率时(转移概率)，将一些不肯的排序如BBB等设置为0，能约束这类错误的出现。因为当前字的标记还与前一个字的标记状态有关，所以不能纯粹的靠当前字的最大概率的标记来做选择，这是一种动态规划方案。HMM中常用的求解maxP(r|o)p(o)的方法是Veterbi。
+viterbi算法思想(每个时刻对应k个节点，每个时刻选择一个节点，彼此相连求最短的那条路径)：如果最大概率路径结果篱笆网络中的某个点，那么该最大路径在该节点前的路径是所有该节点前子路径中概率最大的；假定第i时刻有k个状态，从开始时刻到i时刻的k个状态有k条最短，那么最终的最短路径必然是其中的一条；因此在每个时刻处只需选择前一个决定的点到该时刻各点中路径最短的那条即可
+https://blog.csdn.net/liangjiubujiu/article/details/80046388
+jieba(中文分词工具)分词框架及其三种分词模式：import jieba
+精确模式：视图将句子最精确地切开，适合文本分析。
+res = jieba.cut(ci,cut_all=False)//若不填写cut_all参数则默认是精确模式。
+全模式：把句子中所有可以成词的词语都扫描出来，速度非常快，但是不能解决歧义。
+res = jieba.cut(ci,cut_all=True)
+搜索引擎模式：在精确模式的基础上对长词再次切分，提高召回率，适合用于搜索引擎分词。
+res = jieba.cut_for_search(ci)
+自定义词典：jieba可以支持开发者自己加载定义的词典：
+jieba.load_userdict(file_name)#导入自定义的词典后正常分词即可，自定义的词典文件可以是普通的txt文件或者二进制文件，若为二进制文件的话，要求使用的编码是utf-8类型。词典格式如下：
+阳光 15 n       #每一行格式：词，词频，词性(词频，词性可省略)，中间用空格隔开。
+其它中文分词工具还有：snownlp、thulac、nlpir等，百度、阿里等大公司有自己制作的分词工具效果比jieba好，但使用得付费。
+[snownlp的使用]安装：pip install snownlp
+```
+from snownlp import SnowNLP
+s = SnowNLP("这里是中文句子")
+s.words#分词结果，直接是一个列表
+s.pinyin#每个字对应的汉语拼音列表['zhe','li',...]
+s.han#若原句中有繁体字，会将其转化为简体，在这里查看
+s.summary(5)#给出文本摘要。
+s.sim(['词1','词2'])#调用bm2.5计算该句与每句的相似度，对应SowNLP()的输入格式为
+#[[w1,w2,w3],[w1,w2,...],...]
+```
+https://blog.csdn.net/gdh756462786/article/details/79102642
+英文文本的分析处理：(按照此顺序进行处理)
+[1]拼写检查，英文存在拼写错误的问题。一般做数据挖掘的会做这一步的处理，机器学习中做此步处理的较少，使用pyenchant处理(暂时找到的whl文件没有支持win64的)。
+[2]英文的分词一般按照空格、符号将词分开即可(也可在此步进行停用词过滤)。
+[3]词干提取(stemming)和词形还原(lemmatisation)：词干提取是去除单词前后缀得到词根的过程；词形还原是基于词典，将单词的复杂形态转变成最基础的形态。两者有相似之处也有不同之处。词干提取和词形还原的目的就是将长相不同，但是含义相同的词统一起来，这样方便后续的处理和分析。
+[4]转化为小写
+https://www.jianshu.com/p/56e62a6fe004
+英文分词工具：nltk(除了上面的拼写检查，其余步骤都能使用nltk)
+```
+import nltk
+import ssl
+#调用nltk.download()之前先使用下面的语句能顺利下载，不过不能传入具体下载项。
+#默认下载位置：C:\Users\xsww\AppData\Roaming\nltk_data；双击想下载的包下载。
+try:
+	_create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+	pass
+else:
+	ssl._create_default_https_context = _create_unverified_https_context
+nltk.download()#第一次使用时需要下载语料库，但这个下载很容易失败。
+#可以到该网站下载：http://www.nltk.org/nltk_data/；
+###***分词操作
+words=nltk.word_tokenize(sentence)#对英文句子分词，得到一个列表
+###***词干提取(做词干提取的方法有PorterStemmer，LancasterStemmer和
+#SnowballStemmer。个人推荐使用SnowballStemmer。这个类可以处理很多种语言)
+from nltk.stem import SnowballStemmer,WordNetLemmatizer
+stemmer=SnowballStemmer('english')#选择要处理的语言类型
+v = stemmer.stem('countries")#提取改词词干
+###***词型还原
+wnl = WordNetLemmatizer()
+w = wnl.lemmatize('countries')#效果似乎更好一些。
+```
+https://www.cnblogs.com/pinard/p/6756534.html
+#### 64、词性标注：
+词性是词汇基本的语法属性，通常也称为词类，词性标注是在给定句子中判定每个词的语法范畴。例如标注一个词是表示人、地点或是动词、名词等。在中文中一个词的词性很多时候都不是固定的，一般表现为同音同形的词在不同场景下其表示的语法属性截然不同。过程如下：
+（1）首先基于正则表达式进行汉字判断，正则如下：
+res=re.compile('([\urE00-\u9FD5a-zA-z0-9+#&\._]+)')
+（2）若符合上面正则判为汉字其后基于其前缀词典构建有向无环图，再基于有向无环图计算最大概率路径，同时在前缀词典中找出它所分出的词性，若找不到则赋予x(代表未知)
+（3）若不符合上面正则那么将继续通过正则进行判断分别赋予x,m(数词)和eng(英文)。
+使用jieba库做词性标注：(jieba中也是使用规则和统计两种方法结合，统计使用HMM模型，对词的标记使用复合标记的方法。)
+```
+import jieba.posseg as psg
+word = psg.cut('今年是二零一八年10月十二日')
+for i,j in word:
+    print(i,j)//结果如下
+```
+(今年,t),(是,v),(二零一,m)(八年,t),(10,m),(月,m)(十二日,m)。m为数词，t为时间，还是有一些词标记错误,且一些数词与年月日相连时会将年、月、日判为数词。
+#### 65、命名实体识别(Named Entities Recognition,NER)：
+对语料中的人名、地名、组织机构一般需要做特别的识别处理。NER研究的命名实体一般分为3大类(实体类、时间类和数字类)和7小类(人名、地名、组织机构名、时间、日期、货币和百分比)。数量、时间、日期、货币等实体识别通常可以采用模式匹配的方式获得较好的识别效果，而人名、地名、机构名较复杂。
+时间识别：在文本中时间算是比较有规律可寻的一种可以用一些规则将它们提取出来。分词中年、月,
+二一八、8年等词会被标记为m,t，将这些属性的词拼接在一起再用正则表达式匹配提取出时间。
+地名识别：使用条件随机场(CRF)来识别。CRF主要思想来源与HMM模型，是计算整个标记序列的联合概率，而HMM是在给定当前状态下定义下一个状态的分布。
+地理命名实体标记：
+B：当前词为地理命名实体的首部；M：当前词为地理命名实体的内部；E：当前词为地理命名实体的尾部；S：当前词单独构成地理命名实体；O：当前词不是地理命名实体或组成部分 。
+若Y为标签，X是标记字符，为字打上标记后就形成了一个随机场，加一些约束，如p(X|Y)就是条件随机场，HMM模型中是当前词与上一个词有关来计算概率，而条件随机场中是当前词与周围的词都有关，所以条件随机场是一个线性链条件随机场。
+使用深度学习来做NER：
+[bilstm-crf模型]可用于分词，词性标注，实体识别，短语识别等类似序列标注的问题。
+介绍：bilstm-crf模型可以用于分词、词性标记、实体识别任务。模型结构是一个多层的双向lstm加一个crf层，是双向lstm做NER的一个升级版。
+思想：将句子分词然后转化为词向量，整个句子通过bilstm后得到一个各字对应几种标记的得分(最后一维是mark_num)，然后通过crf层计算loss。
+使用的标记：B-Person(人名的开始部分)、I-Person(人名中间部分)、B-Organization(组织机构开始部分)、I-Organization(组织机构中间部分)、O(非实体信息)
+https://www.cnblogs.com/shona/p/11563112.html
+模型实现：一层双向lstm，两层dl，然后使用crf计算loss。使用的标记：人名(B-PER,I-PER)，机构
+(B-ORG,I-ORG)，地名(B-LOC,I-LOC)。其中B-表示开头，I-表示其它部分。
+使用：https://www.jianshu.com/p/495c23aa5560
+模型下载：https://github.com/zjy-ucas/ChineseNER
+[NCRF++模型]由于bilstm-crf是先将词转为词向量做输入，所以会出现oov问题。NCRF++模型采用CNN或者LSTM对这个词汇的字符向量进行编码，将其转化为一个字符向量，然后将字符向量与词向量进行拼接，再进去BILSTM层。
+[BERT+LSTM+CRF]如果计算资源足够的话尽量使用这个模型
+【使用CRF++做地名识别】CRF++中使用的是条件随机场算法，但对每句话中词的B,M,S,E,O标注需要我们自己提供再放到一个文件(要求格式：每一行可以有三列，最少两列，分别为:词、词性、标记；词和标记必须有(所以标记是对每个字做标记而不是词)。每句话之间用空格隔开)。
+CRF++中有两个特征函数：转移函数tk(yi-1,yi,i)和状态函数sl(yi,x,i),tk(yi-1,yi,i)表示从标注序列中位置i-1的标记到i的标记的概率。sl(yi,x,i)表示标记序列在位置i上为标记yi的概率。CRF参数化形式：
+p(y|x)=exp(sum(rktk(yi-1,yi,i))+sum(ulsl(yi,x,i)))/z(x)，其中z(x)如下：
+z(x)=sum(exp(sum(rktk(yi-1,yi,i)+sum(ulsl(yi,x,i)))) //规范化因子。
+这两个函数类似与HMM模型中的发射率和转移率。
+【特征模板】特征模板对应着CRF++中的特征函数，里面可以自定义规则来传入到特征函数进行计算；如我们考虑当前词周围与记个词的关系、我们猜测一句话中哪几个位置的字构成地名等。有两种模板类型：Unigram template:crf++会自动为其生成一个特征函数集合。和Bigram template：系统会自动产生当前输出与前一个输出token的组合。如下：
+#unigram
+u01:%x[-1,0]	//-1是行坐标，0是列坐标，[0,0]表示传入当前词时的坐标，所以[-1,0]表示当前字的前一个字。通过这样选择字传入到特征函数中。
+u06:%x[0,0]/%x[-1,0]
+【CRF++的使用】解压完后在目录下将crf_learn.exe和crf_test.exe复制到example/chunking文件夹下可立刻尝试使用，该文件夹下的template就是特征模板使用如下命令进行训练和测试。(训练文件、测试文件、特征模板可以使用txt文件)
+训练： crf_learn -f 4 -p 3 -c 3 template train.data model
+测试：crf_test -m model test.data > test.rst
+-f,-p等为参数：-f=》使用属性的出现次数不少于4次，-p=》线程数减少训练时间，-c=》设置一个浮点数为代价参数，过大会导致过拟合默认为0.1，还有很多其它参数...,上句中train.data是自己标记好的训练文件，训练完后会生成一个model文件在当前目录下。训练过程中有一些参数，表示如下：
+iter：迭代次数。terr：标记错误率。serr：句子错误率。obj：当前对象的值。diff：与上一个对象值之间的相对差。crf_test句运行生成一个test.rst文件。
+window系统下载文件解压后即可使用，地址：https://drive.google.com/drive/folders/0B4y35FiV1wh7fngteFhHQUN2Y1B5eUJBNHZUemJYQV9VWlBUb3JlX0xBdWVZTWtSbVBneU0
+使用方法：https://blog.csdn.net/u010626937/article/details/78414292
+python接口安装：https://blog.csdn.net/lytk1/article/details/68956953
+对一些地点词识别不了的改进：扩展语料、改进模型。加入词性特征、调整分词算法、整理地理位置词库。识别时先通过词库匹配，再采用模型进行发现。
+#### 66、关键词提取：
+对文本聚类、分类、自动摘要等起重要作用。
+关键词提取算法一般也可以分为有监督和无监督两类。有监督方法是通过构建一个较为完善的词表，然后通过判断每个文档与词表中每个词的匹配度达到效果(人工成本高)。无监督算法主要有：TF-IDF
+TextRank算法和主题模型算法(LSA,LSI,LDA)
+【TF-IDF算法】有TF算法和IDF算法结合而成，计算词a在所有文档中出现的次数/总词数：
+tfij=nij/sum(nkj)即TF算法计算词出现过的文档数比上总文档数；idfi=log(|D|/|DI|+1)。最后用tf*idf得出各词的结果，值越高越可能是关键词，也可以选取前几个词做为关键词。
+【TextRank算法】TextRank算法思想基本来源与Google的PageRank算法。
+【PageRank算法】(搜索引擎使用的网页排名算法)，有两条基本思想：
+（1）链接数量，一个网页被越多其它网页链接说明这个网页越重要。
+（2）链接质量，一个网页被一个越高权值的网页链接，也能表明这个网页越重要。
+ 以下ln(vi)表示vi的入链集合(一个网页被其它网页链接的网页集合)，out(vi)表示出链集合(该网页中链接了其它网页的网页集合)，|out(vi)|表示出链数量。每个页面要将自己的分数平均分给自己出链集合的网页，所以每个网页的分数初始化分数为1，最终分数等于其入链集合的各网页贡献分数的和：
+s(vi) = sum(S(VJ)/Out(vj))；为防止时孤立网页时出现分母为0情况加一个阻尼系数(1-d+d*(表达式))：s(vi)=(1-d)+d*sum(S(VJ)/Out(vj))。
+TextRank算法是一个文本摘要提取算法基于其上做了一些改造：因为句与句之间是有关系的不同网页那样，所以在为每个句贡献其分数时需要加一个权重w(默认每个句子都参与贡献)，这个权重采用句与句之间的相似度：ws(vi)=(1-d)+d*sum(wji*WS(vj)/sum(out(vj)*wjk))。[式中的WS(vj)是上一轮计算的得分，所以这是一个迭代的过程]
+而将textrank用于关键词提取时词与词之间的关联没有权重所以依然去除权重，并不是所有的词都参与贡献，所以提出了一个窗口概念即：一个窗口只包含5个词，每个词只与所属各窗口中的词有关。从头开始以窗口长度为5步长为1划取。因此最终公式与pagerank一致。
+使用Gensim库提取关键词：
+gensim库安装：pip install -i https://pypi.tuna.tsinghua.edu.cn/simple gensim
+用这个路径安装完之后以后直接使用conda install gensim或pip install gensim也能安装。在import gensim库时可能会报错ImportError:no moudel htmlentitydefs,可以将报错行的try except两个条件下的语句互换再尝试，接下来可能还会报错：No module named 'request'，可以在当前工作目录下找到html.pyc文件删除（可能被隐藏）。
+【LSA/LSI算法】LSA(Latent Semantic Analysis){潜在语义分析}和LSI(Latent Semantic Index){潜在语义索引}二者常被认为是同一种算法。LSA主要步骤如下：
+1、使用BOW模型将每个文档表示为词向量；2、将所有文档词向量拼接起来构成文档矩阵；
+3、对文档矩阵进行奇异值分解(SVD);4、根据分解结果将矩阵降低到一个更低的维度，然后计算每个词和文档的相似度(可使用余弦相似度或KL散度)取相似度最高的几个值做为关键词。
+LSA缺点：SVD计算复杂度高、特征空间维度大的计算效率很低、对词的频率分布不敏感。学者们对此改进使用EM算法拟合替代SVD的暴力破解成为PLSA算法，但仍有很多不足，又引入了贝叶斯模型
+形成了主题模型的主流算法LDA。
+【LDA算法】(Latent Dirichlet Allocation,隐含狄利克雷函数分布)，其思想、实现较为复杂，暂略。
+大体实现过程如下：
+1、随机初始化，对语料中每篇文档中每个词w随机赋予一个topic编号z。
+2、重新扫描语料库，对每个词w按吉布斯采样公式重新采样它的topic，在语料中进行更新。
+3、重复以上语料库的重新采样过程直到吉布斯采样收敛。
+4、统计语料库topic-word共现频率矩阵，该矩阵就是LDA的模型。
+接下来对新文档的topic进行预估，步骤如下(训练好后对目标进行取词)：
+1、随机初始化，对语料中每篇文档中每个词w随机赋予一个topic编号z。
+2、重新扫描当前文档，对每个词w按吉布斯采样公式重新采样它的topic。
+3、重复以上语料库的重新采样过程直到吉布斯采样收敛。
+4、统计文档中的topic分布即为预估结果。
+使用jieba库中的TextRank算法：
+
+```
+from jieba import analyse
+textrank = analyse.textrank
+keywords = textrank(text,keyword_num=10)#text是位处理过的文本。
+
+gensim库的使用：https://www.cnblogs.com/keye/p/9190304.html
+from gensim import models,corpora
+#corpora可以将一篇文档用向量形式表示,txts中是两个文档的词
+txts = [['jian','is','my','dog'],['jian','is','my','dog']]-
+dictionary=corpora.Dictionary(txts)
+cp=[dictionary.doc2bow(txt) for txt in txts]//[[(0,1),(1,1)...],[]]
+#存储词典和词向量
+dictionary.save('ci.dict')
+corpora.mMCorpous.serialize('ci.mm',cp)
+r=corpora.mMCorpous('ci.mm')#读取词典
+
+分批处理和分布式计算：文本规模很大时会造成内存不足的情况，需要分批处理后再汇总结果。
+ditct1,corp1,dict2,corp2是两组词典，词向量。
+dict1.merge_with(dtc2)//将dtc2合并到dict1中
+res=[x for x in corp1]+[x for x in corp2]//合并词向量
+models的使用：
+tfidf=models.TfidfModel(cp)
+//每个元组中第一个值是该词在所有文档中的标记，第二个值未知
+dats=tfidf[cp]//一个可迭代对象，[[(0,0.568),(5,0.689),...],[(),(),...]]
+```
+lsi与lda：参数为TfidfModel()处理生成的数据、向量词典、关键词数。
+lsi=models.LsiModel(dats,id2word=dictionary,num_topics=10)
+lsi_res=lsi[dats]//可迭代对象[[(0,0.786),(1,0.23596)],[]]
+#### 67、句法分析：
+句法分析：从单词串中得到句法结构的过程，即：获取主语、谓语、宾语等成分的词。
+两个难点：[歧义]自然语言区别于人工语言的一个重要特点就是它存在大量歧义现象。人类能用大量先验知识消除各种歧义，但机器的知识表示不足，很难消除歧义。[搜索空间]句法分析是一个很复杂的任务，候选树个数随句子增多呈指数级增长，因此需要合适的解码器。
+句法分析评测方法：主流句法分析评测方法(PARSEVAL),评价指标有：准确率、召回率、交叉括号，
+准确率：分析正确的短语个数在句法分析结果中所占比例。召回率：分析正确的短语个数占标准分析树全部短语个数的比例。交叉括号：分析得到的某一个短语的覆盖范围与标准句法分析结果的某个短语的覆盖范围存在重叠又不存在包含关系，则构成了一个交叉括号。
+基于PCFG的句法分析：PCFG(Probabilistic Context Free Grammar)是基于概率的短语结构分析方法。其短语结构文法可表示为一个五元组（X,V,S,R,P）： 
+X;是一个有限词汇集合（词典）。V：是一个有限标注的集合，称为非终结符集合。
+S：文法的开始符号，S属于V。R：产生的规则集。p:每个产生规则的统计概率。
+pcfg求解最优句法树过程中使用的规则集：以astronomers saw stars with ears.为列。
+|    s->NP |    VP  |    1.0 | vp-> vp pp    |  0.3   |   0.4  |   NP->saw  |  0.04   |
+|    pp-> p NP  | 1.0    |  p-> with   | 1.0    |   NP>astronomers  |  0.1   |   NP->stars  |  0.18   |
+|   vp-> v np  | 0.7    |  v-> saw   | 1.0    |  NP->ears   |  0.18   |   NP->telescope  | 0.1    |
+其中NP,VP等是对应汉语中的各种名词短语，不同的树库使用的标记体系也不同。
+给定上下文无关文法G以及句子s如何选择最佳句法树？即：arg maxP(T/s,G).
+如何为文法规则选择参数，使得训练句子的概率最大，即计算arg maxP(S/G)
+分别使用内向算法：https://www.cnblogs.com/weilen/p/9231351.html
+viterbi算法、EM算法解决。
+基于最大间隔马尔可夫网络的句法分析、基于CRF的句法分析、基于移进-归约的句法分析。
+使用Stanford Parser的PCFG算法进行句法分析：
+Stanford Parser为斯坦福大学开发的开源句法分析器，使用滨州树库。
+```
+from nltk.parse import stanford//需要使用nltk库
+parser=stanford.StanfordParser(path_to_jar,path_to_models_jar,model_path)
+sentence = parser.raw_parse('他 骑 自行车 去 了 菜市场 。')
+for line in sentence:
+    print(line)
+    print(line.leaves())
+    line.draw()
+```
+//将下载的压缩包解压，如果是3.8版本，第一个参数是文件夹下的stanford-parser.jar的所在路径，第二个参数是stanford-parser-3.8.0-models.jar路径，第三个参数是调用的算法路径：edu/stanford/nlp/
+models/lexparser/chinesePCFG.ser.gz,可以复制stanford-parser-3.8.0-models.jar后解压能得到一个edu文件夹，可查看里面其它算法的路径。raw_parser()方法中传的参数是分词后再用空格连接的句子。line是句法树每层的结构。line.leaves()得到节点上的词。draw()方法将句法树绘制出来。
+句法分析通常结合一定的规则来辅助解决一些任务，如模板解析类的任务可通过句法分析进行语义标注，提取其中一些主谓宾关系，然后通过规则模板标出重要角色信息和行为。
+下载地址：https://nlp.stanford.edu/software/lex-parser.shtml#Download
+#### 68、文本向量化：
+文本表示也是自然语言处理中的基础工作。(向量表示中分为按以词为基本单元的流派和按段落为基本单元的流派所以分为doc2vec和str2vec，word2vec是doc2vec中google使用的一种技术，word2vec包括CBOW和Skip-gramlian两种算法模型)
+词袋模型(Bag of Word)：最早的以词为基础单元的文本向量化算法。对给定的文本标记其中各个不同词于一个唯一的标记然后将一句话用对应的标记表示出来，不过可能词序不是按原文本的，所以在语料非常庞大时这非常损耗资源，且丢失了词与词之间的关系。
+Neural Network Language Model(NNLM)模型：大体过程是将一系列文本序列做输入到全连接网络中计算h=tanh(x*H+b),y = b+Uh,h是隐藏层的输出，y是输出层结果(|v|维向量每一个分量依次是对应下一个词为词表中某个词的概率)。解决了词袋模型的数据稀疏、语义鸿沟问题。
+C&W模型：NNLM模型是构建一个语言概率模型，而c&w是以生成词向量为目标的模型，c&w是对n元短语打分，如果短语在语料库中出现过就会给该短语打高分。目标函数如下：
+sum()sum(max(0,1-score(w,c)+score(w',c))),w是目标词，c是目标词上下文。
+c&w模型输入层中就包含了目标词，输出层是一个值，大小代表对n元短语打分的高低，最后一层运算次数为|h|而NNLM模型最后一层运算次数是|v|*|h|。
+CBOW模型：cbow模型输入层使用目标词的上下文做输入，去掉了隐藏层所以计算速度更快。得到的是预测当前词的概率。
+Skip-gram模型：skip-gram模型与cbow相反，输入当前词预测上下文的概率。
+向量化算法：doc2vec/str2vec(word2vec的基础上提出了文本向量化doc2vec，又称str2vec和para2vec)，其中包含DM模型和DBOW模型。
+Distribute Memory(DM)：DM模型增加了一个与词向量长度相等的段向量，即DM模型结合词向量和段落向量预测目标词的概率分布。
+Distribute Bag of Words(DBOW):DBOW模型的输入只有段落向量，通过段落向量预测段落中某个词的概率分布。
+zh_wiki.py文件下载：https://github.com/skydark/nstools/blob/master/zhtools/zh_wiki.py
+里面有一个zh2Hant字典，简体字为键，对应的繁体字为值，可用来做简繁字体互转。
+langconv.py文件下载：https://github.com/skydark/nstools/blob/master/zhtools/langconv.py
+使用gensim库进行向量化训练： (词向量训练和段落向量训练)
+#词向量的训练
+```
+from gensim.models import Word2Vec
+from gensim.models.word2vec import LineSentence
+#words.txt是分割好的词，每个词之间用空格隔开(LineSentence的需要)。
+wiki_news = open('data/words.txt','r')
+#传入的参数分别是文件对象、sg为0表示用CBOW模型训练词向量，1表示用Skip-gram。
+#size是指定词向量的维度、window表示当前词和预测词可能的最大距离、min_count表示
+#词最小的出现次数，小于该次数的词不会参与到训练中。若不使用LineSentence()
+#处理的话，可以直接传一个words的list：['智能','蝴蝶',...]
+model=Word2Vec(LineSentence(wiki_news),sg=0,
+size=192,window=5,min_count=5,workers=9)
+model.save('data/zh_model.word2vec')#保存模型，扩展名.word2vec
+#这里读取保存的模型
+model2 = Word2Vec.load('data/zh_model.word2vec')
+#使用加载的模型计算AI与人工智能这两个词的相似度,前提是这些词都在训练过的模型中
+#且是属于去除了限制出现次数的词内。
+print(model2.similarity('AI','人工智能'))#0.62
+word = '人工智能'
+print(model2['AI'])#直接获取词AI的词向量,不过得在词典中。可以一次训练一个
+#很大的词向量模型供以后使用，或为了精确单独训练。
+if word in model2.wv.index2word:#若词在词典中
+#找出模型词典中与word最相似的10个词
+    print(model2.most_s，imilary(word))#[('AI',0.6235),...]
+```
+
+段落向量的训练：
+```
+import gensim.models as g
+from gensim.corpora import WikiCorpus
+import jieba
+#使用维基百科预料数据
+wiki_path = 'data/zhwiki-latest-pages-articles.xml.bz2'
+wiki = WikiCorpus(wiki_path,lematize=False,dictionary={})
+#get_texts()获取xml中的文本
+def tagged(obj):
+    wiki = obj
+    for content,(page_id,title) in wiki.get_texts():
+    #转换xml为文本并生产一个迭代器。
+        yield g.doc2vec.TaggedDocument([Converter('zh-hans')
+        .convert(c)for c in content],[title])
+document1 = tagged(wiki)
+#使用普通文本数据
+texts = ['段落一...','段落二...']#读取普通文本后处理的,按每一段存放
+document2 = []
+for i,text in enumerate(texts):
+    doc = g.doc2vec.TaggedDocument(text,tags=[i])
+    #(['文本'],[0]),(['文本'],[1]),...
+    document2.append(doc)
+#调用Doc2Vec()开始训练，document1 or document2
+model = g.Doc2Vec(document1,dm=0,dbow_words=1,window=8,
+     main_count=15,iter=10,workers=8)
+model.save('corpus.doc2vec')#存储训练好的模型
+
+使用训练好的段落向量和doc2vec计算文档相似度：
+model = g.Doc2Vec.load('data/zhiwiki_news.doc2vec')#导入训练好的词
+#doc1和doc2是两个文档分词后的结果
+doc1 = ['词1','词2',...],doc2 = ['词1','词2',...]
+#infer_vector()函数返回一个值，内部计算未知。
+vec1 = model.infer_vector(doc1,alpha=1,steps=200)
+vec2 = model.infer_vector(doc2,alpha=1,steps=200)
+vec1Mod = np.sqrt(vec1.dot(vec1))
+vec2Mod = np.sqrt(vec2.dot(vec2))
+if vec1Mod!=0 and vec2Mod!=0:
+    simlarity = (vec1.dot(vec2))/(vec1Mod*vec2Mod)
+else:simlarity = 0#simlarity即为两个文档的相似度。
+```
+使用word2vec计算网页相似度：抽取网页新闻中的关键词、将关键词用训练好的词向量向量化、将各个词向量相加、用这个相加后的结果进行相似度计算。计算结果不如doc2vec准确，因为doc2vec加入了段落向量，更适合用于计算相似度。
+除gensim库之外，还有Glove，FastText也是专门用于训练词向量的。
+#### 69、指代消解：
+一些别名：共指消解、对象对齐、实体匹配和实体同义。指代类型：分为共指(多个指代词指向同一个实体)、回指(后一个实体指代前一个实体，但两者并非指代真实世界中同一个事物。)和下指(和回指是相反的关系，也就是词语的解释取决于这个词之后的某些词的解释)。
+加入知识图谱做消歧：通过统计方法消歧后可以再根据规则、知识图谱等做纠正(如某个名人与特定事件、别名有关)，能得到更好的结果，其它任务中也可以使用。[一个开放的知识图谱接口](https://www.ctolib.com/ownthink-KnowledgeGraph.html)
+https://www.cnblogs.com/peng8098/p/nlp_12.html
+综述篇：https://zhuanlan.zhihu.com/p/53550123
+句法与词义结合的指代消解处理：http://ir.hit.edu.cn/~wsong/pronounresolution.pdf
+基于强化学习的mention-ranking：https://www.jiqizhixin.com/articles/2018-05-21-6
+https://blog.csdn.net/weixin_42538265/article/details/98482679
+#### 70、纠错：
+纠错是提供上层应用中的关键一环，各种文字输入场景中都可以使用纠错技术。
+基于统计机器学习的共指消解方法通常受限于2个问题：训练数据的（特征）稀疏性和难以在不同的概念上下文中建立实体关联。
+https://zhuanlan.zhihu.com/p/82807092
+pycorrector库的使用：提供了一种规则式检错、纠错方案，该方法因逻辑清晰、不依赖大量标注样本从而较容易实现落地。实现思想：检错部分利用常用字典、混淆字典与传统语言模型共同判断当前位置是否有错。因为是通用型的所以在专项业务中不建议使用。
+[另一种基于规则的方法]https://www.cnblogs.com/sss-justdDoIt/p/9873990.html
+[安装方法]：https://cloud.tencent.com/developer/article/1387643
+[导入报错]使用的文件路径为非字符型，将config.py,detector.py用到USER_DIR和USER_DATA_DIR
+的地方用str()将其转为字符型即可。
+[自定义词典]安装好的包中data路径下有使用的一些列字典文件，包括人名文件、地名文件、相近词文件等，可以按照格式更换为自己的词典。
+
+import pycorrector
+//返回的第一个值是纠正后的结果。第二个值是一个列表：[['因该', '应该', 1, 3]]
+corrected_sent, detail = pycorrector.correct('你因该给老人让坐。')
+[深度学习方法]使用lstm+crf能取得不错的成果，不过因为这方面语料很少，所以使用的较少。
+[汉字转拼音pypinyin库]直接pip安装即可。
+```
+from pypinyin import pinyin,Style
+#得到的结果是一个二维列表，每个字对应一个小列表。heteronym为True时是多音字会显示
+#所有拼音。style是控制返回的声调风格，其它风格查看其源码即可。
+print(pinyin('中心',heteronym=True,style=Style.TONE3))
+```
+https://www.jianshu.com/p/f926353f3d01
+[拼音转汉字Pinyin2Hanzi库]到pypi官网下载库安装即可
+```
+from Pinyin2Hanzi import DefaultDagParams,dag
+#得到的结果是一个迭代对象，每个对象是一个类的形式，包括分值和path(汉字)
+result = dag(dagParams,['zhong','xin'],path_num=10,log=True)
+```
+#### 71、机器翻译研究：
+https://www.jianshu.com/p/4fc3fa8cdfe0
+https://blog.csdn.net/weixin_42137700/article/details/90746926
+http://baijiahao.baidu.com/s?id=1640659532802393767&wfr=spider&for=pc
+nmt模型：https://blog.csdn.net/lqfarmer/article/details/71057063
+#### 72、文本分类研究：
+[几个深度学习的文本分类模型](http://www.52nlp.cn/tag/文本分类模型)
+#### 73、解决oov和低频词问题
+<i class="label1">point-generator-networks(指针生成器网络)</i>基于seq2seq模型上建立的改进机制，seq2seq模型倾向于生成重复的词，指针网络中还有coverage chanism机制处理重复词问题。而且有些场景输出严重依赖与输入，比如从句子中抽取关键词、关键信息等，<em class="green">所以指针网络在decoder端的输入中是从encoder端中选择</em>。
+<i class="label2">公式讲解</i>式中e和a(注意力分布)具体公式：v，wh，ws，b均是随机生成的参数，训练中更新。注意力分布a<em class="gray">(该注意力属于线性型的注意力计算)</em>用于从encoder端隐藏状态选择信息，如式(3)。(4)中pvocab得到词汇表分布，v'，v，b均是可学习参数。(8)式中计算一个pgen概率指示当前词是从词表中生成还是从原文中选取，搭配公式(9)得到最终的词表概率分布，若是从原文中选取则依据计算的attention矩阵a中<unk>对应的最大概率位置选词。x是解码端的输入。文中将之前的attention矩阵相加来代替当前的attention矩阵。然后上面的(1)中的e改为(11)所示公式。使用covloss来对同一点生成重复问题。
+![](_v_images/20200219083800422_2000679607.png)
+![](_v_images/20200219083841597_1830327159.png)
+![](_v_images/20200219083929479_1449421588.png)
+式中e和a(注意力分布)具体公式：v，wh，ws，b均是随机生成的参数，训练中更新。注意力分布a用于产生编码器隐藏状态的加权和，如式(3)。(4)中pvocab得到词汇表分布，v'，v，b均是可学习参数。(8)式中计算一个pgen概率指示当前词是从词数。(8)式中计算一个pgen概率指示当前词是从词。表中生成还是从原文中选取，搭配公式(9)得到最终的词表概率分布，若是从原文中选取则依据计算的attention矩阵a中<unk>对应的最大概率位置选词。x是解码端的输入。
+![](_v_images/20200219084009171_881253647.png)
+![](_v_images/20200219084422266_1998227824.png)
+![](_v_images/20200219084456173_1270354860.png)
+![](_v_images/20200219084539652_2119401229.png)
+![](_v_images/20200219084646772_55369598.png)
+![](_v_images/20200219084723532_499404108.png)
+文中将之前的attention矩阵相加来代替当前的attention矩阵。然后上面的(1)中的e改为(11)所示公式。使用covloss来对同一点生成重复问题。施加惩罚机制。最终整个模型loss如13所示。
+<i class="label3">注意项</i><i class="green">源代码实现中attention函数就是attention机制的实现、glimpse和output_fn是多层h*的实现，相当于对encode_out的迭代选择。decoder端的输入都是从encode_out中选取的，inference则可以任意；decode_fn函数(decode时内部会循环调用)是inference阶段使用的，下一个时序的输入从encode_out中选择(因为指针网络本就是重视输入的，且训练时decode输入都是从encode中选择的)当中的arg_max得到的最大是decode_seq_len，而不是vocab_size。</i> <i class="gray">要求tensorflow版本在1.0-1.1之间。</i><i class="green">要求的数据格式：output左边是encode输入，每两个值表示一个id序列。右边是decode输入，表示在encode中序列的位置索引。</i>
+详细原理：https://blog.csdn.net/mr2zhang/article/details/90754134
+point work代码下载与使用：https://www.jianshu.com/p/2ad389e91467
+https://www.jiqizhixin.com/articles/2016-04-12
+copynet：https://zhuanlan.zhihu.com/p/102752918
+合集：https://zhuanlan.zhihu.com/p/73590690
+copynet模型：https://github.com/MultiPath/CopyNet?spm=a2c4e.10696291.0.0.727d19a4JoXMQm
+#### 74、信息抽取(IE)：
+<i class="label1">简述：</i>把文本里包含的信息进行结构化处理，变成表格一样的组织形式。抽取出关键信息并结构化显示，可供推荐算法、分类等使用。
+<i class="label1">信息抽取包括：</i>实体识别抽取、实体消歧、关系抽取、事件抽取。[一篇相关文章](https://baijiahao.baidu.com/s?id=1642933065001528188&wfr=spider&for=pc)
+<em class="label2">实体识别：</em>识别出所有的实体，人名、地名、时间、货币等。
+<em class="label2">实体消歧：</em>一个实体词可能代表很多意思，在后面还有多个实体的情况下就得为第一个实体做消歧，从后面的多个实体中选出一个与其作为关系对。
+<span class="label3">两个实体消歧办法：</span><span class="blue">基于链接的实体消歧</span>(根据规则、相似度等方法选择)，如<span class="green">knn，取第一个实体词的上下文词向量与后面每个实体词的上下文词向量或实体描述做距离计算，选择最小那个。</span><span class="blue">基于聚类的实体消歧</span>(<i class="gray">将所有候选实体进行聚类</i>)。
+<span class="label3">关系抽取：</span><em class="blue">传统关系抽取</em>(为每对实体做好关系标记，然后使用svm等算法进行分类训练)。<em class="blue">开放域关系抽取</em>(基于Query Log的抽取方法，基于Web Page的抽取方法，融合多个数据源的抽取方法)。(不限定关系类别、不限定目标文本)、<em class="blue">按需抽取</em>。
+<em class="blue">深度学习方法：</em> Bidirectional Recurrent Convolutional Neural Network for Relation Classification论文模型：文中使用语句实体的SDP作为输入(对语句进行简化,实体换为相关类代表词的语句)，网络结构是两个双向LSTM网络，这两个是并行的结构，然后各接一层cnn，再接全链接或全剧池化做分类，计算loss。然后将前面两个网络经过cnn的结果拼接起来再经过一个
+cnn或dl做第三个分类器，所有有3个分类器、3个loss，total_loss用3个相加即可。最后预测时的分类结果用公式：y_last=a*y + (1-a)*y' #论文中取a=0.65。[一个深度学习信息抽取模型。](https://www.ctolib.com/yuanxiaosc-Entity-Relation-Extraction.html)
+[关系抽取的多篇深度学习论文简述](https://www.cnblogs.com/sandwichnlp/p/12020066.html)
+<I class="label1">使用cocoNLP库进行信息抽取：</i>若一直安装不上可以直接将下载包里面的cocoNLP复制到对应的环境下，然后运行cocoNLP中的extractor.py文件，接下来会报很多的包名导入失败，一一安装这些依赖包即可(<span class="green">pyhanlp需要下载数据包，按提示的地址下载后放到指定位置即可，需要安装jdk并配好环境变量</span>)。[cocoNLP库github地址(有教程)](https://github.com/fighting41love/cocoNLP)
+<i class="red">pyhanlp库：</i>[pyhanlp库git地址，含教程(分词、依存句法分析、自动摘要等)](https://github.com/hankcs/pyhanlp)。
+<i class="label1">pynlpir的使用</i>[pynlpir报lincence error问题。](https://www.cnblogs.com/pythoner6833/p/10108964.html)
+#### 75、智能聊天研究：
+**三个层次**：问答、对话、聊天。http://www.sohu.com/a/302618857_99979179
+对话系统包含以下四个部分：NLU(自然语言理解)、DST(对话状态跟踪)、DPL(对话策略学习)、NLG(自然语言生成)。
+**<i class="label1">按有无目标驱动划分</i>**：目标驱动的聊天机器人指的是聊天机器人有明确的服务目标或者服务对象，这种目标驱动的聊天机器人也可以称作特定领域的聊天机器人。无目标驱动聊天机器人指的是聊天机器人，如纯粹聊天。这种无明确任务目标的聊天机器人也可以称作为开放领域的聊天机器人。
+**<i class="label1">按检索式与生成式划分</i>**：检索式聊天机器人指的是事先存在一个对话库，聊天系统接收到用户输入句子后，通过在对话库中以搜索匹配的方式进行应答内容提取。这种方式对对话库要求很高，需要对话库足够大，能够尽量多地匹配用户问句，但它的好处是回答质量高，因为对话库中的内容都是真实的对话数据，表达比较自然。生成式聊天机器人这个路线机器人的好处是可能覆盖任意话题的用户问句，但是缺点是生成应答句子质量很可能会存在问题，比如语句不通顺、句法错误等看上去比较低级的错误。“安全回答”的问题，“个性表达一致”难题。
+**单轮对话与多轮对话**:单轮对话就是普通的一问一答式的聊天，容易实现，但用途较窄。多轮对话则是要求与用户交流一个或多个话题，需要基于上下文的回答，较难实现。多轮对话中会出现当前句子出现指代词，指代上面说过的话中的某个实体或事件，出现这样信息缺失的问题。
+**自然语言理解(NLU)**：将用户输入的自然语言语句映射为机器可读的结构化语义表述，这种结构化语义一般由两部分构成，分别是用户意图(user intention)和槽值(slot-value)。意图识别主要用于识别大方向的意图，如：打车、购票等，而对话跟踪则具体跟踪意图下面的详细状态，如：时间、地点、车次选择等。(在输入使用的是语言数据时也叫spoken language understand SLU)
+**意图识别(suc)**:在与用户的聊天过程中需要检测出用户的需求从而提供相关的服务，分为显示意图(如话句中带有想、想要等明显需求的词)和隐式意图(如：我饿了)。意图识别也是一个分类模型，目前主流的意图识别常用方法：基于词典模板的规则分类、基于过往日志匹配（适用于搜索引擎）、基于分类模型进行意图识别(普通机器学习，深度学习[长文本一般用rnn，短文本一般用rnn])。
+https://blog.csdn.net/qq_16555103/article/details/100767984
+**填充槽**：在检测到用户的意图分到具体一项后还需要将意图转换为明确的指令补全信息，如：我要听歌(1)，检测到听歌可直接播放一首音乐，但若是复杂点的：(2)我想坐车去公园转一转。 
+**曹的属性**：句2中检测到用户要打车出去玩，这需要3个槽(曹由槽位构成，一个槽位就是一种填槽的方式； 槽位的属性：接口槽与词槽，词槽:通过用户对话的关键词获取信息的填槽方式.接口槽:通过其他方式获取信息的填槽方式.槽位优先级)：出发地点、目的地、出发时间，出发地点是当前点可通过定位获得，所以曹分为可默认和不可默认，不可默认则需要用户补充，聊天中可以接着问，这是曹的澄清话术,多个槽位需要澄清时是澄清顺序。平级槽或依赖槽，打车中的3个曹。槽的能力：多轮记忆状态。https://blog.csdn.net/everlasting_188/article/details/83016818
+https://zhuanlan.zhihu.com/p/29075764
+**<i class="label1">对话管理(Dialog Management)</i>**：对话管理包括对话状态跟踪(dst)和对话策略学习(dpl)。
+**<i class="label1">对话状态跟踪(DST dialog state tracking)</i>**：对话状态跟踪就是根据多轮的对话来确定用户当前的目标到底是什么的过程，确保对话系统健壮性的重要组件，对话状态St是一种将到t时刻为止的对话历史简化为可供系统选择下一时刻action信息的数据结构。对话的每一轮次对用户的目标进行预估，管理每个回合的输入和对话历史，输出当前对话状态(通常称为槽填充或语义框架)。常用的四种类型方法：基于规则的方法，生成式模型，判别式模型、web rank，目前判别式表现最好。深度学习模型：
+DNN for DSTC1：使用DNN(全连接网络)做分类，输入是时间窗口T内的对话轮次提取出的特征，输出是各个曹的概率分布。Word-based RNN：直接使用ASR的解码前的特征作为输入而不使用NLU中转换的特征，使用n-gram来提取特征后作为rnn网络的输入，训练一个分类器。Delexicalised R NN：仍然延续上述模型，只不过增加了无监督自适应学习过程，而且为了将模型泛化到一个新的domain(需要大量的语义词典、模板等人工构造的信息才能够学习出相似、相关词进行替换，整个模型的复杂度仍然很高)。Neural Belief Tracker：使用word2vec将用户输入编码成语义向量。然后使用context modeling + semantic decoding两个子模块对分别实现上下文建模和单轮NLU的功能。
+Fully NBT：其在NBT的基础上，将原始的规则式状态更新模型，融合到模型中进行联合训练。原理：
+![](_v_images/20200217160823692_2111389196.png)
+(1)用户输入表征(user utterance)：两种表征方法：NBT-DNN，NBT-CNN。NBT-DNN表示方法：
+(使用n-gram的方式取词，n为窗口大小，每取一个词向右滑动一步)ui表示句子中第i个词的词向量，Vni表示从第i个位置开始取的n个词的向量拼接的结果。这里取了1-gram，2-gram，3-gram的结果，最后相加得到用户输入的向量表示r。NBT-CNN方法：用卷积池化提取即可。
+(2)语义解码部分(右边的候选曹值对于用户输入互作用表示)：cs是槽s的词向量，cv是对应的值的词向量，r 和c之间是element-wise相乘的。
+(3)上下文建模(表征用户输入和系统状态直接的关系)：两种系统的动作：一是系统请求用户告知某个槽的值，用tq表示。二是系统向用户确认槽值对是否正确，槽用ts表示，值用tv表示。(cs.tq)是计算点积得到一个相似度可以作为门控机制用来控制对r的选择。槽值对每次只选一个，因此最后做一个二分类的决策：ϕdim=σ(Wx+b)， dim表示输出的维度。
+(4)信令状态更新机制(更新整个状态概率,取概率大于0.5的槽值对出来更新当前的状态值)：full NBT改进了NBT模型的信念状态更新机制。
+https://www.cnblogs.com/jiangxinyang/p/10794364.html
+Fully NBT模型源码：https://github.com/nmrksic/neural-belief-tracker
+DSTC数据集下载地址：http://camdial.org/~mh521/dstc/
+对话策略学习(Dialogue policy learning DPL):根据当前的对话状态，对话策略决定下一步执行什么系统动作。系统行动与用户意图类似，也由意图和槽位构成。它的输入是Sn，输出是An。
+S?? = {Gn,Un,Hn}，Gn是用户目标、Un是用户意图和曹值对集合、Hn是聊天的历史 ，An是系统状态
+使用到的技术：基于规则的方法(适合冷启动，能很好结合先验知识，但需要庞大的手工编写)
+k近邻+ 蒙特卡罗算法+ POMDP(部分可观察马尔可夫决策过程)：一个比较久远的方法。
+高斯过程 + POMDP(部分可观察马尔可夫决策过程)做DPL。
+LSPI-FFS(最小二乘策略迭代+快速特征选择)：具有很高的效率，并且可以从静态语料库或在线中学习。另外，这个方法能够更好地处理在对话模拟中评估的大量特征，设计者可以提出一大组潜在的有用特征，因此在当时达到了SOTA的效果。 
+POMDP(部分可观察马尔可夫决策过程)+离线学：提出了一个样本有效、在线和非策略强化学习算法来学习最优策略。该算法结合到一个紧凑的非线性值函数表示，能够处理大规模系统。
+很多DPL跟DST或NLG已经joint一起训练和学习，而且没有好的评估方法。
+https://cloud.tencent.com/developer/article/1422620
+检索式多轮聊天的五个模型：2016年的multi-view模型(基于表示的匹配模型，将多轮对话语句连接在一起作为输入，通过rnn类网络做语义表示，然后在word-level和utterance-level上匹配)、2017年推出的SMN模型(基于交互的匹配模型，给定一个candidate response，在生成word-level的每个utterance的向量表示的时候，首先计算出历史上每个utterance跟该response的对齐矩阵，然后对每个对齐矩阵，均使用cnn网络生成high-level表征文本对相似度的特征向量)，2018UDA模型()、2018DAM模型(AM首先就用transformer的encoder来得到了每个utterance和response的多粒度文本表示，之后作者对每个dutterance-response pair的每个粒度下的表示分别计算两个对齐矩阵)
+https://www.jiqizhixin.com/articles/2018-09-25-15
+DAM模型：引入了transformer模型的encoder阶段，输出之后又使用交叉注意，最后通过卷积池化得到各句子与回复的得分。所以DAM模型是一个完全基于注意力的神经网络。原理如下：
+![](_v_images/20200217161125063_251371184.png)
+如上图所示整个模型分为3个阶段，特征表示部分：多轮对话中的各语句u，和回复r，都通过同一个transformer的encoder部分得到自注意力后的特征表示。交叉注意匹配部分：得到的各句的特征经过 和回复句r进行一个交叉注意计算(与转置相乘)。聚合部分：然后将各句与回复的交叉注意结果concat
+然后通过卷积，池化得到一个长为sentence_num的一维矩阵。注意：在应用过程中可批量输入候选回复r进入模型，这样计算匹配比较快。https://ai.baidu.com/forum/topic/show/942946
+SIGIR模型：基于bert的历史答案检索式多轮聊天。大体思路如下：
+当前问题q，给定一段文本p，前k-1轮对话H。根据当前的问题q和前k-1轮的对话信息H在p中找到一句话来回复。模型包含3个部分：ConvQA model, history selection module, and history modeling module。将q拼接到p的前面，转化为embedding，然history selection部分选择前k轮的信息词向量加到上面，再加上位置向量、句向量做为输入，最后添加两层全连接层，输出的是文本p中每个token对应的是答案开始和结束的概率。https://zhuanlan.zhihu.com/p/68481797
+生成式多轮对话相关模型： A Hierarchical Latent Variable Encoder-Decoder Model for Generating Dialogues(把vae思想引入到dialogue中，结构：encoder RNN、context RNN、latent variable、decoder RNN，latent variable 根据当前对话的前n-1句话建立多元正态分布，与前n-1句话和第n句话的前m-1个已生成word一起共同影响第n句话第m个word的生成)。Diversity-Promoting Objective Function for Neural Conversation Models(使用MMI, 最大化输入与输出的互信息，能够有效避免与输入无关的relogsponses,使用下式作为目标函数：t=argmax(log(t|s) - log(s)))。A persona-based neural conversation model(将speaker-level vector representation 集成到decode 端,将每一个speaker表示为一个embedding vi, 该 embedding 蕴含了用户的具体信息，试图让训练数据中加上风格向量让机器的回复风格一致)。Deep Reinforcement Learning for Dialogue Generation(基于强化学习的模型)。Adversarial learning for neural dialogue generation(加入对抗网络GAN的seq2seq模型)。
+自然语言生成(NLG)：传统的nlg：基于模版的NLG、基于树的NLG。新的方法则是使用深度学习模型，seq2seq，transformer,基于GAN的生成等。不同类型对话系统中的NLG方法并不一样：
+[1]闲聊型对话中的NLG就是根据上下文进行意图识别、情感分析等，然后生成开放性回复；
+[2]任务型对话中的NLG就是在NLU（领域分类和意图识别、槽填充）、DST、DPL的基础上，根据学习到的策略来生成对话回复，一般回复包括，澄清需求、引导用户、询问、确认、对话结束语等。
+[3]知识问答型对话的NLG就是根据问句类型识别与分类、信息检索或文本匹配二生成用户需要的知识（知识、实体、片段等），这类回复相比单纯的信息检索一般用户体验会更好，因为一般信息检索还需要用户根据搜索结果自己找所需信息。
+[4]推荐型对话系统中的NLG就是根据用户的爱好来进行兴趣匹配以及候选推荐内容排序，然后生成给用户推荐的内容。
+https://blog.csdn.net/weixin_41089007/article/details/90375741
+**<i class="label1">rasa框架的使用</i>**：用于构建多轮任务型对话，任务型驱动的聊天机器人。目前是1.x版本，推荐使用yml格式做配置文件。[不分散的rasa的使用](https://zhuanlan.zhihu.com/p/95984921)
+主要有两个模块：rasa NLU(意图识别、实体识别)和Rasa Core(对话管理)。
+[安装]先安装一些前置库，vs2015、cmake、boost、mitie(cmake和boost用pip直接安装)。pip install nlu      pip install cmake		pip install boost		pip install rasa_nlu[tensorflow]
+<span class="label2">rasa_nlu部分</span>：这部分负责意图识别和实体识别部分，需要两个文件:nlu_config.yml和nlu_data.json#(格式如下)。
+```
+// rasa_config.yml格式
+language: "zh"
+
+pipeline:
+- name: "nlp_mitie"
+  model: "data/total_word_feature_extractor_zh.dat" #使用的词向量文件路径
+- name: "tokenizer_jieba"
+- name: "ner_mitie"
+- name: "ner_synonyms"
+- name: "intent_entity_featurizer_regex"
+- name: "intent_classifier_mitie"
+
+// rasa_data.json格式
+{
+  "rasa_nlu_data": {
+    "common_examples": [
+      {
+        "text": "你好",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "想知道广州的天气",
+        "intent": "weather_state",
+        "entities": [
+          {
+            "start": 3,
+            "end": 5,
+            "value": "广州",
+            "entity": "city"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+<span class="blue">训练命令</span>：`python -m rasa_nlu.train -c nlu_config.yml --data nlu_data.json --path models --project nlu`
+<span class="blue">训练配置文件</span>：-c,训练语料：--data,模型保存路径：--path,项目名称：--project。训练好的模型放在--path指定的文件夹下。<em class="violet">启动服务：</em>`python -m rasa_nlu.server -c nlu_config.yml --path models` #config.yml是上面的yml文件，启动服务会调用rasa_nlu下的server.py文件来运行，默认端口是5000。
+<span class="blue">测试：curl -XPOST localhost:5000/parse -d '{"q":"明天天气预报", "project":"nlu", "model":"model_20190821-160150"}'</span>。<em class="gray">报错bad value(s) in fds_to_keep是因为scikit-learn库版本问题，重新装一个低版本的即可。</em>
+**<span class="label2">rasa_core部分</span>**：有两个训练文件：domain.yml：包括对话系统所适用的领域，包含意图集合，实体集合和相应集合。story.md：训练数据集合，原始对话在domain中的映射(一个任务对话的场景流程)。[自定义action示例](https://blog.csdn.net/u012526436/article/details/88061902)
+**<span class="label3">流程理解</span>**：rasa_core接收到意图后与sory.md文件中定义好的意图比对，按照其定义好的动作到domain.yml文件下查找相应动作的回复，如果是自定义动作类型则进行接口调用。
+**<i class="label3">story.md文件格式</i>**：##后是一个story的标题，也用此符号分割多个story。*后是意图和填充的曹值(用户的动作)。-后是机器的动作。<span class="blue">> check_*：</span> 用于模块化和简化训练数据，即story复用。OR ：用于处理同一个story中可能出现2个以上意图，这有利于简化story，但是相应的训练时间等于训练了两个以上的故事，不建议密集使用。
+<em class="green">需要注意的是：定制一个场景需要按顺序列出来，在使用时如果实际流程与该sotry流程差别过大的话，rasa可能会调用utter_default中的回复。</em>
+<span class="blue">一个意图识别中想要收集多个信息片段：</span>使用forms(又称FormAction)，使用了form的话还需要在domain.yml文件中定义forms列表，policy.yml中也加入FormPolicy具体见下面domain介绍，stories.md中使用示例：[关于form使用的讲解](https://zhuanlan.zhihu.com/p/84441651)
+```
+##restaurant
+* request_restaurant
+    - restaurant_form
+    - form{"name": "restaurant_form"}    #要询问收集的信息。
+    - form{"name": null}    # 结束询问，不然会一直循环。
+##taking a taxi
+* taking_taxi{"addr":"val1"}:
+ - action_query_addr
+```
+**<i class="label3">domain.yml文件格式</i>**：actions下的定义的每种类型的回复前都加utter_表示机器操作。项目中所有用到的定义项都列在下面这些模块中：intents(意图)、entities(实体)、slots(曹)、actions(机器人做出的动作)、templates(回复的模板语句)。actions有以下四种：[1]utter_开头的动作(该类动作只用于回复用户一条与业务无直接关联的回复，在template定义中可找到回复)，[2]默认动作(rasa中自带的一些默认动作)，[3]response_开头的，[4]自定义动作(涉及到要调用后台接口时rasa会根据在endpoints.yml中定义的后台接口进行访问。访问时所传送的数据格式是一个json对象，内有四个键：next_action(一个string)，sender_id(用户id),tracker(dict),domain(dict)。返回也是json，两个键值events,responses)。utter_default:当决策低于一个阈值时会从这个项里随机抽取一项来回答。intents和entities和NLU部分定义的一样，slot部分与entities顺序对应，多余的slot用于特殊情况使用。actions是与NLU识别后的意图对应，经过DM决定选择哪一个action。
+```
+intents:
+ - greet
+entities:
+ - city
+slots:
+ city:
+  type: text
+  initial_value: "shanhai"
+// 对应上面story中的form
+forms:
+  - restaurant_form
+
+// policy.yml文件
+policies:
+  - name: "FormPolicy" #对应的加入form的policy
+```
+<i class="label3">自定义action</i>：rasa提供一个actions server，将action类写在actions.py文件中，使用python -m rasa_core_sdk.endpoint --actions actions来搭起服务，接口如下：
+http://localhost:5055/health(返回状态)，http://localhost:5055/actions(返回定义了的action类列表)。actions.py文件示例如下：
+```
+from rasa_sdk import Action
+from rasa_sdk.events import SlotSet
+# 类名对应自定义action=> action_ask_weather
+class ActionAskWeather(Action):
+    # 需要一个name函数来返回action名
+    def name(self):
+        return 'action_ask_weather'
+    # 会调用run方法执行。
+    def run(self,dispatcher,tracker,domain):
+        dispatcher.utter_message(f"你问哪的天气")# 向用户发送一条消息。
+        return [SlotSet('city','广州')] #返回下一个意图要用到的槽值。
+```
+**rasa_core模型训练**：使用命令python -m rasa_core.train -d domain.yml -s stories.md -o models/dialogue -c policy_config.yml#-s,-d分别指定用到的两个文件位置，-o指定生成的模型所在位置。训练过程中默认迭代100次，会列出每次得到的loss和accu值。训练rasa_core过程中会遇到一些库不存在的问题，一一安装即可，对于engineio可以去下载engineio-client安装。
+**模型测试**：使用命令python -m rasa_core.run -d models/dialogue #因为是rasa_core部分，<span class="green">这里输入的是意图</span>。
+**<i class="label3">联合测试</i>**：python -m rasa_core.run -d models/dialogue -u models/nlu/model_...    #尽量将两个模型的训练文件放同一个目录下训练，且两部分内容对应，这样能避免一些错误
+rasa部署：[rasa部署](http://rasachatbot.com/9_Running_Rasa_with_Docker/)
+mitie下载：https://github.com/mit-nlp/MITIE
+大体介绍：https://juejin.im/post/5d5d065fe51d453b730b0f4d
+Rasa_NLU_chi下载：https://github.com/crownpku/rasa_nlu_chi
+mitie使用：https://blog.csdn.net/qq_42142152/article/details/82962914
+语料标注工具：https://rasahq.github.io/rasa-nlu-trainer/
+官方文档：https://rasa.com/docs/rasa/core/about/#about-rasa-core
+爬坑笔记：https://www.jianshu.com/u/4b912e917c2e
+https://www.jianshu.com/u/6c643a7fc0e6
+智能聊天相关优质文章：https://zhuanlan.zhihu.com/p/82827048
+一个聊天机器人git项目：https://github.com/Conchylicultor/DeepQA
+kashgari中文教程：https://kashgari-zh.bmio.net/
+微软小冰设计与实现：https://zhuanlan.zhihu.com/p/53850846
+#### 76、检索、文本匹配：
+检索，文本匹配都属于搜索引擎的知识，不过这里记录的知识可应对一些产品的站内搜索功能。
+搜索情景：基于文字的搜索(根据输入的字词查找相关的文章、图片、视频音乐等(常用))、基于图片的搜索(输入一张图片，查找相似的商品，较少)、还有一些输入歌曲，文档查找相似等的搜索(如网易的听声识曲，这其实也是一种搜索)。
+在进行搜索之前需要先对数据做些处理，数据可分为结构化数据(如字典、列表、数据库等直接搜索时速度会很快)和非结构化数据(图片、文章、视频等)。对非结构化数据需要先对它们建立索引，如提取标题、描述、时间建立id等，然后为它们创建索引库，待查询时利用其中建立的索引查询速度才能快(这称为全文检索)。
+https://blog.csdn.net/qq_40136685/article/details/90632828
+<i class="red">文本匹配</i>：传统文本匹配技术有BOW,VSM.TF-IDF,BM25等算法，主要解决词汇层面的匹配问题，所以有：词义局限、结构局限、知识局限的问题。
+<i class="red">bm25算法</i>：类似于搜索中输入一句话匹配相似的文档，或文本摘要中计算各句之间的相识度作为权重时能使用该算法。公式：
+![](_v_images/20200219214609540_1768294711.png)
+Q是输入的句子，d是对应的文档，计算句子与文档的相似度。qi是Q中的各语素(分词后选择的重要词),R(qi,d)表示语素qi和文档d的得分；wi是语素qi对应的权重，使用图2公式进行计算。
+![](_v_images/20200219214809132_1788720817.png)
+![](_v_images/20200219214845449_572241286.png)
+![](_v_images/20200219214901148_968980589.png)
+是文档总数(Q要计算的文档总数)，摘要运用中也可以将每个句子看成一个文档；n(qi)表示含有语素qi的文档数(n(qi)越大时权重越小，说明含qi的文档数越多时越不能依赖其做相似度计算)。图3中fi表示qi在文档d中的频率，qfi是qi在Q中的频率、k1=2,k2=1,b=0.75为调节因子、dl为当前文档长度、avgdl为所有文档平均长度。[BM25学习地址](https://www.jiansh.com/p/1e498888f505)
+<i class="red">深度语义匹配模型</i>随着深度学习兴起而产生，分为表示型和交互型。
+<em class="orange">表示型</em>：将文本转换成唯一的一个整体表示向量，将两文本映射到统一空间(如一个二维矩阵)，然后使用RNN,CNN，transformer等进行编码(特征提取)，匹配层进行交互计算，用点积、mlp、余弦相似度等方法决定匹配。经典模型：DSSM, CDSSM, MV-LSTM等。(优点：可以对文本预处理，构建索引，大幅度降低在线计算耗时;缺点：失去语义焦点，易语义漂移，难以衡量词的上下文重要性。)
+<em class="orange">交互型</em>思路是捕捉直接的匹配信号（模式），将词间的匹配信号作为灰度图，再进行后续建模抽象
+交互层，由两文本词与词构成交互矩阵，交互运算类似于 attention，加性乘性都可以。
+表征层，负责对交互矩阵进行抽象表征，CNN、S-RNN均可。经典模型有：ARC-II、MatchPyramid、Match-SRNN.(优点：更好地把握了语义焦点，能对上下文重要性进行更好的建模.缺点：忽视了句法、句间对照等全局性信息，无法由局部匹配信息刻画全局匹配信息)
+<em class="violet">根据文本长度的不同，语义匹配可以细分为三类：</em>
+<span class="blue">短文本-短文本</span>：如按输入的句子与文本标题做匹配，分别进行分词转化为词向量然后累加，计算最后两个向量的余弦相识度或距离来匹配。(该模式中这种方法比较普遍)
+<span class="blue">短文本-长文本</span>：规避对短文本直接进行主题映射，而是根据长文本的 主题分布，计算该分布生成短文本的概率，作为他们之间的相似度。使用如下公式计算相识度：
+q表示Query，c表示content， w表示q中的词，zk 表示第k个主题。
+<span class="blue">长文本-长文本</span>通过使用主题模型，我们可以得到两个长文本的主题分布，再通过计算两个多项式分布的距离来衡量它们之间的相似度。衡量多项式的距离 可以利用Hellinger Distance
+https://blog.csdn.net/ling620/article/details/95468908
+<span class="blue">模式匹配：</span>又称字符串查找，分为精确匹配和模糊匹配，精确匹配常用算法有KMP,BM,BMH等。模糊匹配有N-Gram,模糊匹配关键在于衡量两个长的很像的词，这方面有基于编辑距离的概念，人们设计出了 Smith-Waterman 算法和Needleman-Wunsch 算法。模糊匹配还常用于拼写检查。
+<span class="blue">[N-Gram算法：</span>先将要计算的两个字符串按长度N(2或3)切分成多个子字符串，按以下公式计算：
+N*|G(s1)nG(s2)|+C-N*|G(s1)nG(s2)|	(两个字符串划分后的子字符串的交集个数乘N加上两个字符串不是交集的部分的平均字符长度，再减去前者)
+https://www.jianshu.com/p/4452cf120bd7
+[矩阵相似度计算]以词矩阵举例，矩阵的每一行是一个词向量，一个矩阵表示一句话。
+词-词比较的方式分为加性和乘性，加性就是将要比较的两个word embedding进行相加（相加前可以先过一个线性变换甚至MLP）然后激活后跟一个虚拟的向量做内积（其实这个虚拟向量就是个可训练的同维度向量，对每个维度的加法比较+激活后的结果进行scaling，毕竟维度不同方差也可能不同嘛），内积的结果就是对齐程度。乘性则容易理解一些，就是将两个word embedding直接进行相乘（准确说是内积）或中间夹一个可训练方阵，内积的结果就是对齐的程度。不过要记得当维度很高时，乘性方式最好对结果做个归一化以免进入softmax饱和区
+[Lucene]是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构,在Java开发环境里Lucene是一个成熟的免费开源工具。
+<i class="orange">solr的使用：</i>solr是开放源代码的，基于Lucene java的搜索服务器。solr依存于Lucene，底层核心技术用Lucene实现，Lucene本质上是个搜索库，不是独立的应用程序，而solr是。
+ubutun上solr的安装：https://blog.csdn.net/xiatiancc/article/details/78902211
+jdk安装及环境配置：https://www.cnblogs.com/yeluowuti/p/11458878.html
+注：要把solr和tomcat放在一个隐式文件夹内，/opt 而不是opt。
+启动执行tomcat，在/usr/local/tomcat/bin运行startup.sh输入命令：./startup.sh
+建立solrcore：在以上配置好后浏览器输入：http://localhost:8080/solr/index.html能看到solr界面，则说明安装成功。然后在solrhome文件夹下新建一个my_core文件夹，一个solrcore相当于MySQL中一个数据库，把/opt/bigdata/solr/server/solr/configsets/sample_techproducts_configs下的conf目录拷贝到solrhome/my_core中。然后在solr界面左侧菜单栏中点击core Admin，点击添加core，instanceDir是实例目录，对应刚才建立的文件夹my_core，会在该文件夹下生成dataDir(索引数据存放目录)项对应的文件夹，和一个core.properties。
+配置scheme：my_core/conf目录下有一个managed-scheme文件(旧版本是scheme.xml文件)，配置当前实例(my_core)数据建立索引的格式。文件中用标签形式进行配置，大体结构如下：
+```
+<schema name="example" version="1.6">
+    <field name="_version_" type="plong" indexed="false" stored="false"/>
+    <field name="inStock" type="boolean" indexed="true" stored="true" />
+    <dynamicField name="*_is" type="pint" indexed="true" stored="true" multiValued="true"/>
+    <copyField source="name" dest="text"/>
+    <copyField source="manu" dest="text"/>
+
+    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+</schema>
+```
+如上述代码所述，最外层是schema标签，内部有一些标签节点，先看fieldTpe部分：
+fieldTpe定义类型：属性class是solr提供的包，solr.TextField允许用户通过分析器来定制索引和查询，内部包括分词器(tokenizer)、多个过滤器(filter)。需要使用一个分析器(analyzer属性type分为index，query两种)套在tokenizer和filter外，solr.StandardTokenizerFactory是标准分词器包，过滤器包：
+solr.StopFilterFctory(停用词过滤器)、solr.LowerCaseFilterFactory(小写过滤器)。。。
+field标签定义具体的数据类型：属性type(对应fieldTpe标签中的name，表示该类型的fieldTpe下的数据定义)、indexed(是否被索引)、stored(是否被存储)、multiValued(是否存储多个值)。
+copyField(复制域)：当搜索要求同时使用作者名、书内容等多个类型数据来搜索时能用到，source定义数据的类别，dest统一这些类别。
+dynamicField：提供一个自定义的匹配搜索，不用指定具体的名称，符合该名称规则的就能匹配到，
+如name="*_t"，sc_t就符合该定义。
+uniqueKey：默认用id做唯一主键，solr在删除，更新索引时用id域判断。
+少量数据导入：solr界面选择一个索引库，点击Documents，选择操作类型、数据类型，documents文本框内输入对应数据，例json：{"id":"100","title":"python",...}，键值是自己managed-scheme文件中定义的数据，下方点击提交。然后左侧选择Query项测试，q项：id:100，wt指定数据类型，第一项选择数据类型。
+从mysql批量导入数据：solrconfig.xml文件位置：solrhome/core实例/conf。
+https://blog.csdn.net/sunbrightness/article/details/80221709
+使用接口操作solr：solr界面点击按钮实现导入、查询、修改等功能。
+查询操作
+```
+import requests,json
+#my_core是索引库，select是查询操作，后面参数与Query界面上对应的一致。
+select_url = "http://localhost:8080/solr/my_core/select?q=id:100&wt=json&indent=True"
+r = requests.get(select_url,verify=False)
+r = r.json()
+print(r)
+"""数据类型：
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":9,
+    "params":{
+      "q":"id:100",
+      "wt":"json",
+      "_":"1579479943445"}
+  },
+  "response":{#docs中时具体的匹配的项。空时是空的列表
+  "numFound":0,"start":0,"docs":[]
+  }
+}
+```
+插入一条数据
+```
+data = {"add":{ "doc":{"id":"100001","*字段名*":u"我是一个大好人"}}}
+params = {"boost":1.0,"overwrite":"true","commitWithin":1000}
+url = 'http://*IP*:8985/solr/*集合名*/update?wt=json'
+headers = {"Content-Type": "application/json"}
+r = requests.post(url, json=data, params=params, headers=headers)
+print(r.text)
+```
+solr使用：https://blog.csdn.net/u010510107/article/details/81051795
+用接口来配置managed-scheme：http://lucene.apache.org/solr/guide/7_4/schema-api.html
+windows安装solr教程：https://blog.csdn.net/appleyk/article/details/79267566
+#### 77、语音识别研究：ASR(Automatic Speech Recognition)
+<i class="red">声音的组成：</i>音调(频率)、响度(振幅)、音色(材料)
+<i class="red">音频数据</i>：声音数据是一种波(模拟信号，模拟信号是连续信号，而数字信号是非连续即断续的信号)，实际上就是以一定的频率对来自microphone 等设备的连续的模拟音频信号进行模数转换(ADC)得到音频数据的过程(各帧之间一般有交叠);数字化声音的播放就是将音频数据进行数模转换(DAC)变成模拟音频信号输出。首尾端一般有静音(vad)。
+<i class="red">声音频谱图</i>：频谱表示频率与能量的关系声音的频谱图分为线性振幅谱(纵坐标有明确的物理量纲，常用)、对数振幅谱(各谱线的振幅都对原振幅A作了对数计算（20logA），所以其纵坐标的单位是dB[分贝];这个变换的目的是使那些振幅较低的成分相对高振幅成分得以拉高，以便观察掩盖在低幅噪声中的周期信号)、自宫率谱(先对测量信号作自相关卷积，目的是去掉随机干扰噪声，保留并突出周期性信号，损失了相位特征，然后再作傅里叶变换。使得周期性信号更加突出)。
+高音频段：这个频段的声音幅度影响音色的表现力。如果这个频段的泛音幅度比较丰满，那么音色的个性表现良好，音色的解析能力强，音色的彩色比较鲜明。
+中高音频段：这个频段是人耳听觉比较灵敏的频段，它影响音色的明亮度、清晰度、透明度。如果这个频段的音色成分太少了，则音色会变和黯淡了，朦朦胧胧的好像声音被罩上一层面纱一样；如果这频段成分过高了，音色就变得尖利，显得呆板、发楞。
+中低音频段：这个频段是人声和主要乐器的主音区基音的频段。这个频段音色比较丰满，则音色将显得比较圆润、有力度。
+低音频段：如果低音频段比较丰满，则音色会变得混厚，有空间感，因为整房间都有共振频率，而且都是低频区域；如果这个频率成分多了，会使人自然联想到房间的空间声音传播状态。
+<i class="red">普通机器学习的语音识别</i>：系统主要包含特征提取、声学模型，语言模型以及字典与解码四大部分.特征提取工作将声音信号从时域转换到频域，为声学模型提供合适的特征向量；声学模型中再根据声学特性计算每一个特征向量在声学特征上的得分；而语言模型根据语言学相关的理论，计算该声音信号对应可能词组序列的概率；最后根据已有的字典，对词组序列进行解码，得到最后可能的文本表示。流程图如下：
+![](_v_images/20200219220145309_2133043483.png)
+<em class="orange">声音的特征提取，分析</em>：声音的时域波形只代表声压随时间变化的关系，不能很好的代表声音的特征，因此，必须将声音波形转换为声学特征向量。常用的特征提取算法：梅尔频率倒谱系数MFCC、线性预测倒谱系数LPCC、多媒体内容描述接口MPEG7等，其中MFCC是基于倒谱的，更符合人的听觉原理，因而是最普遍。使用以上算法提取之前得先对模拟信号转化为数字信号：采样(就是按一定的频率，即每个一小段时间，测得模拟信号的模拟量值，一般隔8KHz或16KHz采一个样)和量化(通过采样时测的的模拟电压值，要进行分级量化，按整个电压变化的最大幅度划分成几个区段，把落在某区段的采样到的样品值归成一类，并给出相应的量化值)。一般库中的MFCC已经做了该步处理。
+<em class="orange">MFCC算法</em>
+<span class="violet">预加重：</span>声音信号频谱中往往低频部分的能量高于高频部分，每经过10HZ，频谱能量就会衰减20
+db，为消除发声过程中声带和嘴唇的效应，来补偿语音信号受到发音系统所抑制的高频部分，让高频部分能量和底频部分能量有相似的幅度，能用同样的信噪比求频谱，用一个一阶高通滤波器实现：
+y(n)=x(n)-u*x(n-1),频域表示为：H(Z)=1-u*z^(-1)。u取0.97
+<span class="violet">分帧加窗</span>：将整个频谱分为很多帧，一般取N(256or512)个点做一帧(20-30ms).为避免相邻帧间变化多大，让相邻帧间有一段重叠的采样M(N/3)个点。在一段相当短的时间内，可以认为信号是平稳的，这就是加窗。窗由三个参数来描述：窗长(单位毫秒)、偏移和形状。每一个加窗的声音信号叫做一帧，每一帧的毫秒数叫做帧长，相邻两帧左边界的距离叫帧移。
+<span class="violet">离散傅里叶变换(FFT)：</span>在时域上很难看出信号的特征，需要对每一帧做傅里叶变换得到每帧在频谱上的能量分布。将得到的每一帧频谱图逆时针旋转90度，将幅度值映射到一个灰度表示，0表示黑色，255表示白色，幅度值越大相应区域越黑。[MFCC详解](https://blog.csdn.net/suan2014/article/details/82021324)
+MFCC：https://blog.csdn.net/bvngh3247/article/details/80778165
+![](_v_images/20200219220502880_616154338.png)
+![](_v_images/20200219220600882_1467506791.png)
+<span class="violet">Mel滤波器组：</span>FFT的结果包含此帧信号在每一频带的能量信息。但是，人耳听觉对不同频带的敏感度是不同的，人耳对高频不如低频敏感，这一分界线大约是1000Hz，在提取声音特征时模拟人耳听觉这一性质可以提高识别性能。
+<span class="violet">倒谱分析(离散余弦变换DCT)</span>：频谱的峰值称为共振峰，具有很好的声音辨识属性，所以需要对它单独提取出来(在频谱上提取包络，而不是基于fft的结果)。倒谱的定义可以看做是频谱对数的频谱，即将标准幅度谱的幅度值先取对数，然后形象化对数谱使其看起来像声音波形。倒谱则是将频域信号又变换回时域信号；在波形上，倒谱与频谱有相似的波形，即如果频谱在低频处有个峰值，则倒谱在低倒谱系数上也有峰值。取DCT后的第2个到第13个系数作为MFCC系数，输出后的数据的列数就是这个ml(梅尔)倒谱系数个数。
+(提取特征后的数据是一个矩阵，因为每个时序的特征数不一样需要对齐，而每一条数据的序列数也不一样，也需要对齐。)
+<i class="red">深度学习实现语言识别</i>：一种方法是经过mfcc提取特征后输入到3个全连接层，1个双向lstm层，两个全连接层的模型中得到输出，然后使用CTC算法计算损失完成整个识别的过程。
+<i class="orange">CTC算法：</i>ctc算法是用来计算loss值得，常用于计算时序类数据的损失。要计算输出序列和label序列的相似程度，所以不能使用交叉熵和均方误差来计算损失。以前的做法是让人工标注每一帧对应的语素，而ctc中不需要；输出序列会比label序列长得多，所以将label序列中的每个字id等比的翻倍扩张，让整体序列和输出序列对齐，这种方式无法解决重复字问题和空白字问题，所以ctc中使用一个占位符r来辅助label的扩张(重复的字中间用r隔开，无对应语素的帧处用r占位)，这个也就是所说的空白标签。然后来计算每帧对应的损失求和(该模型中计算每帧对应的整个字表的概率矩阵)。因为各语素还和其上一个语素有关，所以对各帧对应的字概率还需要选出一条最大路径，这是一个动态规划问题，使用一些动态规划算法来解决，如viterbi。
+<i class="label1">一个专做语音识别的代码库</i>[github地址](https://github.com/audier/DeepSpeechRecognition)
+dfmsn模型：http://www.sohu.com/a/234590313_629652
+tensorflow中使用tf.nn.ctc_loss或tf.python.ops.ctc_loss计算。
+https://www.cnblogs.com/qcloud1001/p/9041218.html
+https://www.jianshu.com/p/0cca89f64987
+#### 78、NLP(Natural Language Processing)简述：
+自然语言研究表示语言能力、语言应用的模型，让人能用自然语言与机器交流。NLP基本可以分为两个部分：自然语言理解和自然语言生成。自然语言理解包括：音系学(指代语言中发音的系统化组织)、词态学(研究单词构成以及相互之间的关系)、句法学(给定文本的哪部分是语法正确的)、语义学(给定文本的含义是什么)、语用学(文本的目的是什么)。
+通用应用：机器翻译、情感分析、智能问答、文摘生成、文本分类、舆论分析(判断目前舆论的导向)、知识图谱(知识点相互连接而成的语义网络)。
+知识结构：语义分析(分词，词性标注、实体识别、多义词消歧等)、文本挖掘(主要包含了文本的聚类、分类、摘要、情感分析以及对挖掘信息的可视化和交互式呈现界面)、机器翻译、信息检索(对大规模文档进行索引，对输入进行分析后查找出匹配的文档)、问答系统、对话系统。
+探讨NLP的几个层面：词法分析(包括分词、词性标注两部分，将输入的文本分为单独的词，然后在此技术上进行其它更高级的分析)、句法分析(以输入的句子为单位，对句法进行分析为更高级的自然语言处理任务提供支持。三种主流方法：依存句法分析[属于浅层句法分析，识别句子中词语词之间的相互依赖关系，适合多语言环境下应用，但提供的信息也相对较少]、深层文法句法分析[使用词汇化树邻接文法等对句子进行深层句法及语义分析，复杂度高，不太适合处理大规模数据]、短语句法[识别出句子中的短语结构及短语之间的层次句法关系，位于依存于深层之间])、语义分析(理解句子表达的真实语义，语义应该采样什么表示形式一直未有统一答案 )
+#### 79、transformer模型原理：
+ transformer模型是google提出的一个只有attention layer层和全连接层组合，舍弃了RNN结构，在阅读理解、机器翻译方面取得了比其它模型更好的效果。对一个句子使用注意力机制，可以捕获句子内部词级别的依赖关系。
+模型结构、实现步骤如下：
+![](_v_images/20200306104308020_1778613743.png)
+分为encode层和decode层，decode层比encode层多了一个encode-decode attention层，图中左右各层结构各6个，即：6个encode层，6个decode层。
+1、encode层输入：Artificial intelligence leads the future。decode层输入:人工智能引领未来。分别分词
+，转换为词向量表示，放在一起形成矩阵[word_num,dim],分别乘以3个不同的权重矩阵，做线性映射，生成Q,K,V3个矩阵。
+2、经过一个self attention层，公式：
+V*softmax(Q*K.T/sqrt(K.shape[0]))。矩阵
+Q点乘矩阵K的转置(q中每一个词向量得以和Q中各词向量相乘)再做一个归一化比上dk，然后使用
+softmax()转换为概率分布之后乘以矩阵V。
+3、multi Head attention,使用多个2中的self attention层将多个attention得到的结果在列上连接起来。
+4、将multi Head attention结果和最初始数据在列上连接起来，然后经过全连接层，生成想要的维度
+5、decode层比encode层多了一个encode-decode attention层，其它结果的处理方式与encode层一致，这个层的Q使用decode层生成的数据，而K,V使用encode层最终生成的结果(K=V)。encode层的输入数据的seq_num与decode层的seq_num不一致则需要填充一致，批量训练时每条数据的序列数页要填充一致。
+模型源码：https://github.com/Kyubyong/transformer
+模型源码讲解：https://blog.csdn.net/mijiaoxiaosan/article/details/74909076
+https://zhuanlan.zhihu.com/p/48508221
+https://www.jianshu.com/p/ef41302edeef?utm_source=oschina-app
+https://www.jianshu.com/p/e40dad747651
+#### 80、BERT模型：2018.10.11日google发表
+bert的内部结构其实就是多个transformer 的encoder，bert其实并没有过多的结构方面的创新点。官方给出了两个参数配置版本：L表示的是transformer的层数，H表示输出的维度，A表示mutil-head attention的个数。(有论点认为低层偏向于语法特征学习，高层偏向于语义特征学习。)
+BERTBASE​:L=12,H=768,A=12,TotalParameters=110M
+BERTLARGE​:L=24,H=1024,A=16,TotalParameters=340M
+BERT使用transformer的encode结构(双向结构？)，这样可以学习语句的正反序列。模型分为两个过程，如图：
+![](_v_images/20200306104505809_1655576458.png)
+左边的预训练过程和右边的微调过程，而预训练模型又可以分为Masked语言模型和预测下一个句子
+，图中左半部分输出时根据自己的任务接上不同的层来达到不同的目标，所以这个训练的过程称为预训练过程，在以后的项目中可以做扩展到使用中。
+预训练过程的数据输入：输入表示即可以是一个句子也可以是一对句子（比如问答和答案组成的问答对,用来做预测下一个句子输入时将两句话合并在一起中间用分割符，这样作为一条数据输入，其对应的标签就是一个二分类的one_hot标签；用于mask时每条数据随机mask掉1个词，然后对应的标签是词表大小的one_hot数据）。将句子分词后转为词向量，然后加上一个这句话的语句向量(每个句子有个句子整体的embedding项对应给每个单词，源码中使用随机生成一个尺寸一样大的向量然后在对应位置乘上词id作为每个词对应的语句向量)，再加上一个这句话的位置向量，每个词在语句中所在的位置，然后形成输入。
+Mask LM：每个batch的数据中随机遮掩掉15%的词(每个语句中最多遮掩掉1个词)，这些遮掩词的位置中80%使用masked token(词向量)代替，10%用随机的一个词来代替，10%仍然保持不变。
+微调过程：去掉预训练中的最后层，直接将作为输入，输出的句子(假设前提对，问题回答中的问题通道对等)放到模型中进行对参数的微调即可，这个过程相对简单。
+一个改进思想：随机mask词改为随机mask短语或语句片段应该会有更好的效果。
+BERT 可以用于问答系统，情感分析，垃圾邮件过滤，命名实体识别，文档聚类等任务中
+bert源码地址：https://github.com/google-research/bert
+bert模型源码解析：https://www.jianshu.com/p/2a3872148766
+[下载好的bert模型文件中的README.md文件中有各种训练好的参数下载地址]
+https://zhuanlan.zhihu.com/p/46997268
+https://www.jianshu.com/p/d110d0c13063
+m,http://fancyerii.github.io/2019/03/09/bert-theory/
+https://juejin.im/post/5d954b5de51d4577f00668ae
+#### 81、XLNET模型原理：
+[讲解地址](https://www.cnblogs.com/mantch/archive/2019/09/30/11611554.html)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
