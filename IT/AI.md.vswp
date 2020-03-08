@@ -76,8 +76,98 @@ bf = BeautifulSoup(html)//html是上面获取到的网页内容
 //find_all()方法按条件查找：标签名、类名、id名,返回一个列表
 content = bf.find_all('div',class_='a',id='k')
 print(content[0].text)//返回的是带着标签的列表，用text获取标签内文本内容。
-
 爬取js动态加载数据的网页的方法：https://www.znian.cn/932.html
+#### 12、python文件IO：
+假设当前路径为E:\mypython\test\文件IO.py。文件分为文本型和二进制型，所以读取的模式也只分为两种。(写入文件时需要保证写入的类型是字符串类型或byte型，不然非字符型会出现output Decode utf-8错误，不易查找)。部分特别的符号需要使用特别的编码才能实现，所以文件中有不同编码格式的字符时需要使用rb模式来读后再解码，不过解码后每个字符后还会有\r符。
+读取二进制型文件时需要对读取的结果解码，用如下方法查看文件的编码方式：
+```
+import chardet
+tf = open('dat.bin','rb').read()
+print(chardet.detect(tf))#{'encoding':'utf-8','confidence':0.1,'language':}
+
+open()函数所有参数：https://www.cnblogs.com/IMWU/p/10947262.html
+fil = open('tt.txt','w')#w为只写模式一般文件是文本文档的格式,(原有内容被删)
+fil = open('tt.txt','wb+')#wb+以一个二进制方式打开文件,写入的也必须是二进制
+fil = open('tt.txt','r')# 只读模式,rb+为以一个二进制格式打开文件读写(图片)
+fil=open('tt.txt','a','gb2312')#打开文本写入是追加模式，第三个参数为解码
+fil=open('tt.txt','ab+',encoding='utf-8')#以二进制格式打开文件用于追加
+fil.readline()#读取第一行，类似一个迭代器，一直运行会逐行读取
+fil.readlines()#按行读取，返回每一行的文本,读取的每一行会
+#带上\n符号，需要去除。(行是以\n结尾的为行)
+fil.write(data)#写入文件，关闭文件前一直写入的话是追加的形式。
+fil.writelines(list)#将一个列表写入，但不会自动加换行符。
+```
+OS模块提供的文件IO：
+```
+import os
+print(os.path.isfile('adr.txt'))#判断路径是否为一个文件，True或False
+os.path.join('/mypython','test\wds.txt')#将路径与文件名结合,第一项后面，第二项前面都不要加/
+os.rename('data/p1','data/av1')#对指定路径文件进行重命名
+os.path.splitext('file_name')#一个二元组(文件名，文件后缀名)
+fad=os.open('w.txt',os.O_RDONLY|os.O_CREAT)//os.O_RDONLY表示只读,无则创建
+#os.O_WRONLY(只写),os.O_RDWR(读写),os.O_CREAT(创建并打开)
+os.read(fad,10)#10为读取的最大长度,要全部读取只能使用open()方法。
+
+with open('a.txt','rb') as f:
+    for i in f:#读取文件的每一行内容
+        print(i.decode('gb2312'))
+avt=os.getcwd()#获取当前目录一般类似 /mypython
+os.chdir('/pscs6')#改变当前工作目录pscs6是与mython同一级的文件夹
+ak = os.listdir('/mypython')#/获取目录下的所有目录及文件
+for r,dirs,files in ak:
+    print(r,dirs,files)#分别是当前目录下的所有一级目录，当前目录下的一级目录下
+    #/的所有目录，当前路径下所有非目录的子文件
+```
+[获取文件属性]os.stat(file)#属性如下：
+st_model:保护模式;st_ino:节点号;st_dev:驻留的设备;st_nlink:连接数;st_uid:所有者的用户id;
+st_gid:所有者的组id;st_size:以字节为单位的文字大小;st_atime:上次访问的时间;st_mtime:最后一次修改的时间;
+st_ctime:由操作系统报告的"ctime"。在某些系统上（如Unix）是最新的元数据更改的时间，在其它系统上（如Windows）是创建时间。
+[复制文件]from shutil import copy	==>copy(a,b)#a文件位置复制到b文件位置或b文件夹下
+注：无论是使用open()方法还是使用OS模块最初的目录状态是你进入编辑器时打开的那个目录（E:\mypython）...
+进入当前目录下的一个子目录：os.chdir('/mypython/test')//os模块open()都适用选择目录下的一个文件：fc=os.open('test\wds.txt')//需要直接写mypython下的目录然后反斜杠选择其下的文件(坑爹的用法!),且如果test目录下还有其它python文件则会报错。
+保险的方法读取当前工作目录下一个子目录中的文件：
+有时os.open('test\wds.txt',os.O_RDONLY)这样写会报找不到文件的错误。可以：
+```
+import os
+#改变工作区最好也用这种全路径拼接的方法
+herePath = os.getcwd()#获取当前工作路径
+dirs = os.listdir()#获取当前路径下所有一级子目录及文件
+
+for i in dirs:
+    if i=='test_batch':
+        path = os.path.join(herePath,i)
+        read_ = os.open(path,os.O_RDONLY) 
+       print(os.read(read_,100))#成功
+os.walk('E:/obj',topdown=True)#遍历指定路径下文件目录反回一个三元组
+#:(所有一级文件夹路径、所有一级文件、一级文件夹下所有文件名称)
+os.stat('E:/obj')#获取目标路径下所有信息包括:保护模式、驻留设备...[有一个
+#st_size属性为文件中数据的长度。]
+os.path.basename(path)#返回文件名
+```
+
+[os.system()]system()函数可以将传入的字符串转为在电脑上执行cmd命令，执行时会创建一个子进程，示例如下：
+os.system('shutdown -s -t 60') #1分钟后关机
+os.system("net start mysql") #开启mysql服务
+获取、设置系统环境变量：
+os.environ//获取系统的环境变量，返回一个字典，所以可以用get()，[]等方法。
+图片的存储与读取:(点击图片属性>尺寸显示的是宽x高，但程序获取的是[高,宽,通道数])
+```
+from PIL import Image #python自带的一个读取图片的包
+import tensorflow as tf
+im = Image.open('av10.jpg')#PIL读入的图片数据需要先转为numpy型再转为张量才能
+#被tensorflow使用
+x = np.array(img)#使用numpy额array()可以将图片对象转为像素数据。
+im.convert('LA')#将图片转为灰色(只右两个通道)
+w,h = im.size()#获取图片的宽高
+ig = im.resize((100,100))#将图片压缩到指定尺寸(最近邻插值)。
+saveim = open('av10.bin','rb+')
+img = im.tobytes()#将图片数据转换为原生byte型
+saveim.write(img)#之后再用tensorflow中的读取器读取bin文件即可
+#可用scipy下的ndimage模块读取到的图片直接是像素数据
+dats = ndimage.imread('av.jpg')
+```
+https://blog.csdn.net/qq_38255689/article/details/78461398
+https://blog.csdn.net/u014061630/article/details/80712635
 #### 5、python后台框架Django:
 <i class="label1">安装</i>下载地址https://www.djangoproject.com/download/，使用git下载到本地后使用python来安装(也可以使用pip或conda安装，下载的和地址下载中的django文件夹一样)，进入到下载好的django目录下使用命令：python setup.py install //如果想安装到anaconda环境中使用其python对应系统变量即可。安装后在python环境中的script文件夹下会有dnango-admin.exe文件可以直接在cmd中使用,cmd中输入django-admin能运行则成功。(若无法全局使用django-admin的话直接进入scripts文件夹下去运行即可。)
 [开始一个项目]django-admin startproject HelloWorld //创建一个HelloWorld目录,
@@ -226,8 +316,12 @@ with open('data/train.txt','w') as data_a,\
     open('data/test.txt','a') as data_b,open('c.txt','r') as c:
     print(data_a.read())
 ```
-<i class="label2">sys模块</i>：import sys
+<i class="label2">sys模块</i>：[一个详解教程](https://www.cnblogs.com/fmgao-technology/p/9074282.html)
+```
+import sys
 print(sys.maxunicode)#查看python内部使用的编码，1114111就是UCS-4编码，65535就是UCS-2
+sys.path.append("/home/wcs/ITEM") #改变但前文件的运行位置，但是os.getcwd()不会改变。
+```
 codecs模块：python的内部是使用unicode来处理的，但是unicode的使用需要考虑的是它的编码格式有两种，一是UCS-2，它一共有65536个码 位，另一种是UCS-4，它有2147483648g个码位。对于这两种格式，python都是支持的。import codecs
 ```
 look1 = codecs.lookup('gb2312')#创建编码器，传入类型。
@@ -353,12 +447,14 @@ f = random.shuffle([1,2,3])#打乱指定序列顺序，作用于原始序列，�
 g = random.sample(lst,3)#向lst中随机选取3个数
 ```
 **<i class="label1">python正则</i>**：在匹配函数后加.span()获得索引值，加group()获得匹配结果
+```
 r = re.compile(r'*c$',re.l)#compile()创建一个正则模式,参数为正则规则,第二个参数为匹配模式，re.l表示忽略大小写,re.M(多行模式),re.X(忽略空格和#后面的注释)
 import re
 s = re.search(reg,'qq68786476号哈哈')#查找符合规则的第一个位置及返回结果。
 s.group()#qq68786476,查找结果为None的话则会报错。
 s1=re.sub(reg,'替换值','qq26号string')#替换符合规则的字符串
 s2=re.match(reg,'string')#只匹配字符串的开头，没有则失败。
+```
 <i class="label1">python程序调试方法</i>
 1、断点打印：怀疑会出错的地方用print()输出，太low！
 2、assert断言：assert a==0,'a不等于0' //不满足a==0的话就会在控制台打印逗号后的字符串，且中断后面的代码。(与print一样，程序太大时也不建议使用)。
@@ -377,8 +473,21 @@ DEBUG：调试
 5，raise:显示的触发异常，直接抛出指定异常，停止运行后面的代码
 if a==None:
     raise ValueError('this value is None')#错误类型和详细提示。
-
 https://blog.csdn.net/qq_38542085/article/details/78562458
+<i class="label1">数据类型判断</i>
+使用type(data)来获取数据的类型，使用isinstance(data,cla)判断是哪一类型：
+```
+v = (1,2,3,4,5)
+if isinstance(v,tuple):print('is tuple')
+if isinstance(v,list):print('is list')
+if isinstance(v,dict):print('is dict')
+if isinstance(v,int):print('is int')
+if isinstance(v,np.ndarray):
+#也可以使用type()
+if(type(v)==tuple):
+    print('this is a tuple')
+```
+Python中使用del进行垃圾回收，将不用的对象销毁
 #### 31、自然语言处理细小问题集：
 一篇比较全的seq2seq模型涉及的问题：https://jianwenjun.xyz/2018/07/18/Seq2Seq%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/
 <i class="violet">(1)部分文字编码问题：</i>一些特殊字符和汉字放到一起，特殊字符使用的编码和汉字的会不一样，所以在写入文件时会报错，读取出来连成字符时部分显示decode error(在列表中时正常的)。
@@ -1247,8 +1356,8 @@ flags.DEFINE_integer('name2',22,'a integer')
 flags.DEFINE_boolean('name3',True,'a bool type')
 FLAGS = flags.FLAGS
 print(FLAGS.name1)# 直接调用name
-def main():pass
-tf.app.run(main)# 执行min函数
+def main(_):pass #min函数要接受一个个参数。
+tf.app.run(main)# 执行min函数,这样可以在终端用：python app.py --name1 val #来传递参数运行。
 ```
 ##### 零碎操作：
 x = tf.Variable(initialVal=[[1,2],[3,4],[5,6]],dtype=tf.int16,name='x')
@@ -2322,7 +2431,8 @@ copynet模型：https://github.com/MultiPath/CopyNet?spm=a2c4e.10696291.0.0.727d
 <span class="label3">两个实体消歧办法：</span><span class="blue">基于链接的实体消歧</span>(根据规则、相似度等方法选择)，如<span class="green">knn，取第一个实体词的上下文词向量与后面每个实体词的上下文词向量或实体描述做距离计算，选择最小那个。</span><span class="blue">基于聚类的实体消歧</span>(<i class="gray">将所有候选实体进行聚类</i>)。
 <span class="label3">关系抽取：</span><em class="blue">传统关系抽取</em>(为每对实体做好关系标记，然后使用svm等算法进行分类训练)。<em class="blue">开放域关系抽取</em>(基于Query Log的抽取方法，基于Web Page的抽取方法，融合多个数据源的抽取方法)。(不限定关系类别、不限定目标文本)、<em class="blue">按需抽取</em>。
 <em class="blue">深度学习方法：</em> Bidirectional Recurrent Convolutional Neural Network for Relation Classification论文模型：文中使用语句实体的SDP作为输入(对语句进行简化,实体换为相关类代表词的语句)，网络结构是两个双向LSTM网络，这两个是并行的结构，然后各接一层cnn，再接全链接或全剧池化做分类，计算loss。然后将前面两个网络经过cnn的结果拼接起来再经过一个
-cnn或dl做第三个分类器，所有有3个分类器、3个loss，total_loss用3个相加即可。最后预测时的分类结果用公式：y_last=a*y + (1-a)*y' #论文中取a=0.65。[一个深度学习信息抽取模型](https://www.ctolib.com/yuanxiaosc-Entity-Relation-Extraction.html)。[一个使用依存句法分析的三元信息抽取库](https://github.com/lemonhu/open-entity-relation-extraction)。[一个基于pytorch的关系抽取模型](https://www.ctolib.com/zjunlp-deepke.html)
+cnn或dl做第三个分类器，所有有3个分类器、3个loss，total_loss用3个相加即可。最后预测时的分类结果用公式：y_last=a*y + (1-a)*y' #论文中取a=0.65。[一个深度学习信息抽取模型](https://www.ctolib.com/yuanxiaosc-Entity-Relation-Extraction.html)。
+[一个使用依存句法分析的三元信息抽取库](https://github.com/lemonhu/open-entity-relation-extraction)：(其中需要使用pyltp库，直接pip安装即可，[使用到的模型数据文件下载地址](http://ltp.ai/download.html)，下载最左侧的zip包)。[一个基于pytorch的关系抽取模型](https://www.ctolib.com/zjunlp-deepke.html)
 [关系抽取的多篇深度学习论文简述](https://www.cnblogs.com/sandwichnlp/p/12020066.html)
 <I class="label1">使用cocoNLP库进行信息抽取：</i>若一直安装不上可以直接将下载包里面的cocoNLP复制到对应的环境下，然后运行cocoNLP中的extractor.py文件，接下来会报很多的包名导入失败，一一安装这些依赖包即可(<span class="green">pyhanlp需要下载数据包，按提示的地址下载后放到指定位置即可，需要安装jdk并配好环境变量</span>)。[cocoNLP库github地址(有教程)](https://github.com/fighting41love/cocoNLP)
 <i class="red">pyhanlp库：</i>[pyhanlp库git地址，含教程(分词、依存句法分析、自动摘要等)](https://github.com/hankcs/pyhanlp)。
