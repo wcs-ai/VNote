@@ -141,6 +141,7 @@ vi a.txt  #使用vim编辑器打开文件，不过内容是显示在终端。
 [安装工具]sudo apt-get install tool #安装tool工具，安装工具时都使用该命令。部分工具可能无法安装，可能是已被废弃，可以使用upgrade更新apt-get后再。
 [查看和更改文件编码]file dm.yml #显示文件编码。转换：  iconv -f  文件编码格式  -t 想要转换的编码格式  要编码的文件名 -o 编码之后的文件名。-l #列出已知编码字符集。 -c :忽略输出的非法字符 
  -s :禁止警告信息，但不是错误信息。 --verbose :显示进度信息。
+ [截图]prtsc(右上角)：截取整个屏幕，shift+prtsc #松开后用鼠标划好区域截图。
  <i class="label1">查看系统状态</i>系统自带top命令可查看，或安装htop。sudo apt-get install htop。然后htop即可查看漂亮的显示界面,Mem是运行内存,swp是交换分区。[htop所有参数的使用](https://blog.csdn.net/Dly_978812854/article/details/102223731)
  <i class="label1">软件卸载</i>dpkg --list #查看安装的所有包名。sudo apt-get --purge remove pckname  #--purge是可选参数，表示卸载相关配置，pckname是指定包名。
  <i class="label1>经常卡死问题</i>软件更新项切换驱动试试。

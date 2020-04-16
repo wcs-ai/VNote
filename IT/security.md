@@ -1,4 +1,5 @@
-#### 1、windows cmd命令：
+#### 1、windows知识：
+##### a、cmd命令：
 SndVol // 打开音量调节
 control // 打开控制面板
 calc // 打开计算器。mstsc//打开远程连接
@@ -20,6 +21,14 @@ netsh winsock reset //重置网络，重启后生效
 net user //查看本机所有用户名   echo %username% //查看当前使用的用户
 nvcc -V //查看cuda版本
 https://www.cnblogs.com/accumulater/p/7110811.html
+##### b、windows常见问题：
+[0]有时常用的正常的网络会出现网速慢、无法连接等的问题这可以尝试打开设备管理器>网络适配器这下面是连接的网络点属性>高级,修改一下里面的值可能网速就会变得正常。连接不上网的话可以试试卸载该网的驱动再点检测硬件安装试试。
+[1]网络连接处显示红叉，但是重新插入便携式路由器后也无反应，不一定是路由器出问题、试试重启
+[2]右下角电脑图标显示正常但是连不上网，可以尝试cmd:netsh winsock reset  //重置网络然后重启。
+[3]复制文件导u盘提示文件过大问题：u盘文件系统有NTFS，exfat等，NTFS文件限制大小为2T，其它限制在4G以下，手动格式化里选NTFS点确定，但会格式化优盘。【不格式化情况下修改文件系统】cmd命令： convert h:fs/ntfs   //将u盘位置h转换为ntfs文件系统。
+[桌面图标整齐排列]桌面空白右键》查看》
+[安装cuda图像驱动程序时提示：此图形驱动程序无法找到兼容的图像硬件]
+https://www.iteye.com/blog/yuanlanxiaup-1330287
 #### 2、快捷键提升操作速度：
 切换已经打开的软件：window+table,ctrl+o打开文件夹，win+D直接切换到桌面
 浏览器中：
@@ -57,17 +66,10 @@ apache下载安装：https://www.jianshu.com/p/cd916b8b31a8
 解决外网访问问题：https://blog.csdn.net/xin_118/article/details/79956559
 jdk下载地址：
 https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
-#### 4、网络结构：
+#### 4、网络知识：
 每台连入网络的电脑都会被分配到一个ip做为计算机的唯一标识，ip又分为公网ip和私有ip，在同一局域网网的两台计算机可以互相访问(互相ping对方ip能成功)，而不在同一局域网(如一个学校,一个公司,因为它们的网络一般是拉一根主光纤进去使用的,这样它们的计算机ip地址一般会处于同一个网段)的电脑如果不是公网ip的话是ping不通的,所以公网ip是非常少的；一个私有ip能直接ping通一个公网ip,一个公网ip也对应一台计算机,不过这台计算机的ip可能就是这个公网ip也可能还有着另一个私有ip(多数情况),计算机公网ip与本机ip不一致的情况就称该计算机在内网,否则称为外网。这样也保证了一定的安全性。
-#### 5、windows常见问题：
-[0]有时常用的正常的网络会出现网速慢、无法连接等的问题这可以尝试打开设备管理器>网络适配器这下面是连接的网络点属性>高级,修改一下里面的值可能网速就会变得正常。连接不上网的话可以试试卸载该网的驱动再点检测硬件安装试试。
-[1]网络连接处显示红叉，但是重新插入便携式路由器后也无反应，不一定是路由器出问题、试试重启
-[2]右下角电脑图标显示正常但是连不上网，可以尝试cmd:netsh winsock reset  //重置网络然后重启。
-[3]复制文件导u盘提示文件过大问题：u盘文件系统有NTFS，exfat等，NTFS文件限制大小为2T，其它限制在4G以下，手动格式化里选NTFS点确定，但会格式化优盘。【不格式化情况下修改文件系统】cmd命令： convert h:fs/ntfs   //将u盘位置h转换为ntfs文件系统。
-[桌面图标整齐排列]桌面空白右键》查看》
-[安装cuda图像驱动程序时提示：此图形驱动程序无法找到兼容的图像硬件]
-https://www.iteye.com/blog/yuanlanxiaup-1330287
-#### 6、虚拟机：
+
+#### 5、虚拟机：
 VMware Workstation虚拟机下载地址：https://www.cr173.com/soft/68480.html
 永久激活密钥：https://blog.csdn.net/bingyu9875/article/details/79128672
 安装好并激活后点击新建虚拟机。新建完成后可能会报intel VT-X被禁用的问题： 若是win7的话重启电脑开机时一直按Del键，进入到bios(basic input output system基本输入输出系统标准固件接口)界面，点击高级项或security项(主板不同可能不一样)点击intel 虚拟化技术点击开启。
@@ -80,7 +82,8 @@ VMware Workstation虚拟机下载地址：https://www.cr173.com/soft/68480.html
 xp，windows系统在电脑下即可看见，若为ubuntu则使用cd /mnt/hgfs 进入。
 [不能连接网络问题]https://www.cnblogs.com/ustca/p/11729312.html
 ubuntu 64位系统安装：https://ubuntu.com/download/desktop
-#### 7、计算机结构：
+#### 6、计算机知识：
+##### a、结构：
 输入设备、存储器、运算器、控制器、输出设备。
 位、字节：换算关系：1byte=8bit=1B,1KB=1024B 。 <i class="green">byte即为字节、bit为位，一个字母或单个数值占1个字节，一个汉字一般占两个字节。</i>
 cpu:中央处理器，电脑运算核心及控制中心，释放电脑指令、处理电脑软件中的数据。推荐使用i5的
@@ -88,26 +91,33 @@ cpu为intel酷睿I5 4570
 内存条：属于内部存储器，存储速度快，关机时数据消失。
 硬盘：属于外部存储器，断电后数据不会消失。
 主板：用于连接各个模块，来实现功能。
-显卡：主要用于图形渲染，将数据计算转为可显示的数字或信号，传输到显示屏上，计算速度比cpu快很多。最适合做计算的GPU计算的是GeForce GTX TITAN 和 Tesla K20，参数如下：
-显卡类型：有入门级兼容级显卡、低端娱乐显卡、主流性能级显卡、高端多用途显卡和发烧级游戏卡等。主流性能级独显的意思是玩主流游戏大多没有压力，可以流畅应对目前的网络游戏和大部分3D游戏，性价比通常较高。
-显存容量：(暂时存储的图像数据容量)2G，4G,...越大则说明能显示的最大分辨率越高。
 右键文件属性中即可设置文件为共享。然后选择共享的用户或搜索。
 查看共享：win+r弹出的框中输入 \\本机IP地址  回车即可看到共享的文件。
 存储器讲解：https://blog.csdn.net/shuaigexiaobo/article/details/80060612
 [虚拟内存]虚拟内存是文件数据交叉链接的活动文件。CPU的L1和L2缓存速度最快，内存次之，硬盘再次之，当内存占用过大时可以将指定的硬盘空间当做内存使用。设置：
 系统》高级设置》性能》高级》更改：不要勾选第一个选项，然后选自定义，初始化大小是默认的虚拟内存大小。
 一款破解版office下载：https://www.anxz.com/down/20474.html
+<i class="label1">gpu、显卡、显存</i>显存占用和GPU利用率是两个不一样的东西，显卡是由GPU计算单元和显存等组成的。
+显卡：主要用于图形渲染，将数据计算转为可显示的数字或信号，传输到显示屏上，计算速度比cpu快很多。最适合做计算的GPU计算的是GeForce GTX TITAN 和 Tesla K20，参数如下：
+显卡类型：有入门级兼容级显卡、低端娱乐显卡、主流性能级显卡、高端多用途显卡和发烧级游戏卡等。主流性能级独显的意思是玩主流游戏大多没有压力，可以流畅应对目前的网络游戏和大部分3D游戏，性价比通常较高。
+显存(显存容量)：(暂时存储的图像数据容量)2G，4G,...越大则说明能显示的最大分辨率越高。显存和GPU的关系有点类似于内存和CPU的关系。
+<i class="label1">TPU</i>深度学习专用的ASIC芯片，负责处理深度学习计算量最大的推断部分。目标是在保障响应时间的情况下，能够尽可能地提高能效比这个指标，也就是进行同样多数量的推断工作，花费的整体能源要显著低于 CPU 和 GPU。
+TPU 并没有设计成一个独立的“CPU“，而是设计成一块像显卡一样，插在主板 PCI-E 接口上的板卡。更进一步地，TPU 甚至没有像我们之前说的现代 GPU 一样，设计成自己有对应的取指令的电路，而是通过 CPU，向 TPU 发送需要执行的指令。不过，这样一个 TPU，其实是第 26 讲里我们提过的 387 浮点数计算芯片，是一个像 FPU（浮点数处理器）的协处理器（Coprocessor）而存在，仅仅用来进行需要的各种运算。
+[一个计算机组成原理博客。](https://www.jianshu.com/p/23a926f0409b)
 <i class="orange">网络数据传输过程：</i>https://wenku.baidu.com/view/cd306cd276eeaeaad1f330cb.html
-#### 8、字符集编码：
+##### b、字符集编码：
 使用一些计算机可存储的二进制位来表示人类可读的文本等信息，比如用0001代表数字0，这样的编码方式有很多，如ascii，gbk。unicode码：是为了解决传统的字符编码方案的局限而产生的，它为每种语言中的每个字符设定了统一并且唯一的二进制编码，以满足跨语言、跨平台进行文本转换、处理的要求。有utf-8,utf-16,utf-32三种，其中utf-8占用一到四个字节，utf-16占用二或四个字节，utf-32占用四个字节。
-#### 9、x86与x64的区别：
+##### c、x86与x64的区别：
 (X86就是我们一般用的32位的系统，X64就是64位的系统):
 第一，设计初衷不同。64位操作系统的设计初衷是：满足机械设计和分析、三维动画、创作，以及科学计算和高性能计算应用程序等领域中需要大量内存和浮点性能的客户需求。换句简明的话说就是：它们是高科技人员使用本行业特殊软件的运行平台。而32位操作系统是为普通用户设计的。
 第二，要求配置不同。64位操作系统只能安装在64位电脑上(CPU必须是64位的)。同时需要安装64位常用软件以发挥64位（x64）的最佳性能。32位操作系统则可以安装在32位(32位CPU)或64位(64位CPU)电脑上。当然，32位操作系统安装在64位电脑上，其硬件恰似“大马拉小车”：64位效能就会大打折扣。
 第三，运算速度不同。64位CPU GPRs(General-Purpose Registers，通用寄存器)的数据宽度为64位，64位指令集可以运行64位数据指令，也就是说处理器一次可提取64位数据(只要两个指令，一次提取8个字节的数据)，比32位(需要四个指令,一次提取4个字节的数据)提高了一倍，理论上性能会相应提升1倍。
 第四，寻址能力不同。64位处理器的优势还体现在系统对内存的控制上。由于地址使用的是特殊的整数，因此一个ALU（算术逻辑运算器）和寄存器可以处理更大的整数，也就是更大的地址。比如，Windows Vista x64 Edition支持多达128 GB的内存和多达16 TB的虚拟内存，而32位CPU和操作系统最大只可支持4G内存。(64位系统可以装到32位上，当32位的不能装到64位上)。
-#### 10、linux系统的使用：
-安装(非虚拟机上的安装)：安装前需要先在准备一个u盘做启动盘(会格式化该u盘)，下载好想安装的ubuntu版本iso文件(不要放到u盘)，然后使用大白菜，rush等工具制作启动盘；接下来进入bios界面使用u盘来启动电脑。win10的u盘启动选项可以在：设置>系统更新>疑难问题部分下面选择。
+#### 7、linux系统的使用：
+<i class="red">unix，linux，windows系统综述：</i>UNIX系统大多是与硬件配套的，也就是说，大多数UNIX系统如AIX、HP-UX等是无法安装在 x86 服务器和个人计算机上的。Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。以上是专业的解释，简单说Linux是一个免费的操作系统，其也是非常的好的支持服务器环境，且其不太适合图形化操作更适合命令行操作。windows系统除了win7,8,10外还有windows server系列，这些服务器版本的windows和普通windows版本的不同在于其是根据服务器需求进行开发的，如支持更大的内存、支持一些服务器的策略设置、支持服务器集群等，这些功能都是针对服务器的功能，总之windows server版本就是一个适合服务器的操作系统版本，其功能大多都是针对服务器的。
+<i class="orange">服务器系统的选择：</i>一般服务器系统只会是linux系统和windows server系统中选择，对于不同的服务，如web网站、数据库等会选择不同的系统。
+<i class="label1">linux的安装(非虚拟机上的安装)</i>安装前需要先在准备一个u盘做启动盘(会格式化该u盘)，下载好想安装的ubuntu或其它版本iso文件(不要放到u盘)，然后使用usbWrite，rush等工具制作启动盘<span class="gray">(这种是直接将映像文件写入u盘的方式，工具比较小，另一种是先制作启动盘然后将映像文件拷贝进去的方法，如果是ghost文件则只需要直接拷贝，若只是普通iso文件则还要下载其它引导安装的文件比较复杂，这适合windows系列的安装)</span>；接下来进入bios界面使用u盘来启动电脑<span class="gray">boot项选择add boot option然后第一个输入框写名，第二项选择u盘中的efi文件夹下的合适的efi文件，然后点击下方的create，保存重启后选择刚才的那个boot option进入安装</span>。win10的u盘启动选项可以在：设置>系统更新>疑难问题部分下面选择。
+<i class="label1">linux命令</i>因为版本众多可能部分命令在不同版本中会不可用，特别是ubuntu，其自改的部分较多。
 linux命令包下载网(搜索包名，对应的description中有下载地址)：https://pkgs.org
 Ubuntu不再持rpm命令，因为它是debian的变种, 其软件以deb包或者源文件的形式出现。
 命令行窗口：ctrl+alt+t
@@ -136,38 +146,64 @@ vi a.txt  #使用vim编辑器打开文件，不过内容是显示在终端。
 [下载命令]wget http://xxx.com/download #用wget命令从指定下载链接下载。下载后一般在/etc/apt/preferences.d/路径下。
 [安装命令工具]sudo apt install libreoffice-common
 [安装vim编辑器]sudo apt install vim #安装后可在终端用vim file编辑文件。i：插入操作。:w #保存。:wq #保存并退出。[详细使用](https://blog.csdn.net/weixin_38208741/article/details/78862368)
-[安装deb格式软件包]sudo dpkg -i software.deb  #解包，设置，安装software.deb。报依赖错误使用：sudo apt-get -f --fix-missing install，然后再试
 [安装工具]sudo apt-get install tool #安装tool工具，安装工具时都使用该命令。部分工具可能无法安装，可能是已被废弃，可以使用upgrade更新apt-get后再。
-[查看和更改文件编码]file dm.yml #显示文件编码。转换：  iconv -f  文件编码格式  -t 想要转换的编码格式  要编码的文件名 -o 编码之后的文件名。-l #列出已知编码字符集。 -c :忽略输出的非法字符 
- -s :禁止警告信息，但不是错误信息。 --verbose :显示进度信息。
- <i class="label1">查看系统状态</i>系统自带top命令可查看，或安装htop。sudo apt-get install htop。然后htop即可查看漂亮的显示界面,Mem是运行内存,swp是交换分区。[htop所有参数的使用](https://blog.csdn.net/Dly_978812854/article/details/102223731)
- <i class="label1">软件卸载</i>dpkg --list #查看安装的所有包名。sudo apt-get --purge remove pckname  #--purge是可选参数，表示卸载相关配置，pckname是指定包名。
- <i class="label1>经常卡死问题</i>软件更新项切换驱动试试。
-  <i class="orange">加速下载工具uget：</i>[uget下载安装地址](https://jingyan.baidu.com/article/215817f740f01a1eda1423f3.html)。
- <i class="label1">进入TUI界面、grub节目、开机终端</i>登陆界面按ctrl+alt+f1可进入文本用户节目TUi。开机出现电脑图标时同时按esc和e键，然后选择第一个ubuntu...按enter进入然后按一下esc键就能进入有ubuntu、ubuntu高级选项、system setup。选择第二个进入后输入安全密码(之前没设在则不会有)，进入到tui界面选择boot按两次回车会在下方出现终端。
- <i class="orange">环境变量查看与设置：</i><span class="violet">查看</span>：使用env或export或$PATH。<em class="violet">修改：</em>分为两种设置：
+[查看和更改文件编码]file dm.yml #显示文件编码。转换：  iconv -f  文件编码格式  -t 想要转换的编码格式  要编码的文件名 -o 编码之后的文件名。-l #列出已知编码字符集。 -c :忽略输出的非法字符 -s :禁止警告信息，但不是错误信息。 --verbose :显示进度信息。
+[截图]prtsc(右上角)：截取整个屏幕，shift+prtsc #松开后用鼠标划好区域截图。
+[修改文件命令]chmod -R 777 software #将software文件夹权限全开。chown -R jay:fefjay /my # 加-R，修改文件所属用户为jay，所属用户组为fefjay
+[更新yum安装源]https://www.jb51.net/os/RedHat/499587.html
+<i class="label1">软件包、库安装</i>对于deb格式的包比较适合debian,ubuntu系统，而rpm后缀名的包适合centos。<em class="violet">ubuntu上安装deb格式的包：</em>sudo dpkg software.deb  #解包，设置，安装software.deb。报依赖错误使用：sudo apt-get -f --fix-missing install，然后再试。<em class="violet">centos上安装deb的包：</em>先要将其转为rpm格式的包，[deb包转为rpm包教程。](https://blog.csdn.net/cpongo3/article/details/96425227)<em class="green">rpm包安装：</em>rpm -i soft.rpm #-i制定安装的包。需要验证的包可以：rpm -ivh google.rpm安装。<span class="green">rpm安装包时解决依赖问题：</span>在安装命令后加--nodeps --force。[rpm命令参数详解。](https://blog.csdn.net/ywl470812087/article/details/90140026)
+<i class="label1">清理缓存的包</i>debian和ubuntu：sudo apt autoremove    centos中：dnf clean packages
+<i class="label1">系统问题集</i>
+<i class="label2">查看系统状态</i>系统自带top命令可查看，或安装htop。sudo apt-get install htop。然后htop即可查看漂亮的显示界面,Mem是运行内存,swp是交换分区。[htop所有参数使用](https://blog.csdn.net/Dly_978812854/article/details/102223731)
+<i class="label2">软件卸载</i>bian和ubuntu：dpkg --list #查看安装的所有包名。sudo apt-get --purge remove pckname  #--purge是可选参数，表示卸载相关配置，pckname是指定包名。centos：rpm -q -a #查看安装的所有软件及工具，`rpm -qa|grep anaconda*` #|grep是筛选操作，anaconda*表示卸载所有anaconda相关的软件包。
+<i class="label2">进入TUI界面、grub节目、开机终端</i>登陆界面按ctrl+alt+f1可进入文本用户节目TUi。开机出现电脑图标时同时按esc和e键，然后选择第一个ubuntu...按enter进入然后按一下esc键就能进入有ubuntu、ubuntu高级选项、system setup。选择第二个进入后输入安全密码(之前没设在则不会有)，进入到tui界面选择boot按两次回车会在下方出现终端。
+<i class="orange">环境变量查看与设置：</i><span class="violet">查看</span>：使用env或export或$PATH。<em class="violet">修改：</em>分为两种设置：
 <span class="blue">终端中修改，当前终端中管用，之后会失效 </span>。<span class="blue">在当前用户下修改.bashrc文件，/etc/profile中修改能用于所有用户</span>，PATH中加入变量路径即可(Anaconda配置的python环境变量修改后，还需要在pip文件中第一行的路径修改)。[地址](https://blog.csdn.net/weixin_42185136/article/details/90768178)
->python  #进入python2版本。>python3 #使用python3版本。ctrl+z退出python程序。
-<i class="label1">无线网卡驱动下载</i>[从启动盘中安装。](https://www.jianshu.com/p/83322b4ed22b)    [从官网下载。](https://www.cnblogs.com/RichardYao/p/9900207.html)
+\>python  #进入python2版本。>python3 #使用python3版本。ctrl+z退出python程序。
+<i class="label2">网络连接问题</i>刚安装好系统由于没有驱动或部分包缺失导致无法上网，但要上网又必须先下载一些包安装，可以用这两种方式先联网》<em class="violet">usb网络共享：</em>将数据线连接手机和电脑，然后手机网络共享设置中开启usb共享，电脑上点右上角的连接。<em class="violet">蓝牙网络共享：</em>手机、电脑都开启蓝牙，然后配对连接，手机上网络共享设置中开启蓝牙网络共享，然后电脑右上角点击连接。如果这两种方法都失败可能是缺少蓝牙驱动之类的，剩下只能下载好驱动再u盘传到电脑进行安装了。
+<i class="label3">无线网卡驱动下载</i>使用命令ifconfig -a #若列表中出现wlan0(类是的无线网卡)、enp2s0(有线网卡)、wlp5s0f4u2(类似的是便携路由的网卡)、benps0(类是的是蓝牙、usb开启的网卡)。如果出现对应项则说明相应的驱动已经安装，不然可能只会出现lo一项。linux上的驱动安装比较麻烦，很难找到下载地址。
+[从启动盘中安装。](https://www.jianshu.com/p/83322b4ed22b)    [从官网下载。](https://www.cnblogs.com/RichardYao/p/9900207.html)
 https://www.runoob.com/linux/linux-system-boot.html
-<i class="label1">ubuntu为到登陆界面就黑屏问题</i>刚安装好系统时没有显卡驱动，开机进入系统时容易黑屏，在3个选项那个界面，第一个按e进入编辑，将ro改为rw，在quit splish后加上nomodeset(因为没有安装显卡驱动只能调用集显)然后按F10保存并重启，进入系统后打开/etc/default/grub修改相应位置。如果是已经安装了驱动造成黑屏可以将nomodeset改为acpi_osi=linux试试<em class="green">显卡驱动未清理干净又安装先的显卡驱动造成的依赖错误也会导致开机黑屏</em>，此时卸载和安装驱动都会报依赖错误，使用以下命令解除指定显卡的所有依赖：
+<i class="label3">有线网连接</i>sudo vim /etc/sysconfig/network-scripts #然后添加以下几行(存在则修改)
+```
+IPADDR=192.168.0.253 # IPV4地址
+NETMASK=255.255.255.0
+GATEWAY=192.168.0.1 # 网关
+#sudo vim /etc/resolv.conf #这里是打开另一个文件
+nameserver 8.8.8.8
+nameserver 114.114.114.114
+#然后service network restart，如果还是不能连接就在设置》网络中点添加，不填写地址，mac地址选一个试试。
+```
+<i class="label2">无法识别ntfs类型u盘问题</i>从：https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2017.3.23.tgz 下载然后解压，进入目录执行：#./configure #make #make install 然后用命令`mount -t ntfs-3g /dev/sdb1 /home/wcs/usb`挂载u盘，只是每次开机都要这么做。
+<i class="label2">没有中文输入问题</i>设置》language》添加汉语。若还是不行则：`sudo yum install ibus-libpinyin` 然后 `ibus restart` 然后再打开语言设置点添加应该会出现》
+汉语(智能拼音)选项。
+<i class="label2">ubuntu为到登陆界面就黑屏问题</i>刚安装好系统时没有显卡驱动，开机进入系统时容易黑屏，在3个选项那个界面，第一个按e进入编辑，将ro改为rw，在quit splish后加上nomodeset(因为没有安装显卡驱动只能调用集显)然后按F10保存并重启，进入系统后打开/etc/default/grub修改相应位置。如果是已经安装了驱动造成黑屏可以将nomodeset改为acpi_osi=linux试试<em class="green">显卡驱动未清理干净又安装先的显卡驱动造成的依赖错误也会导致开机黑屏</em>，此时卸载和安装驱动都会报依赖错误，使用以下命令解除指定显卡的所有依赖：
 <i class="orange">LC_MESSAGES=C dpkg-divert --list '*nvidia-440*' | sed -nre 's/^diversion of (.*) to .*/\1/p' | xargs -rd'\n' -n1 -- sudo dpkg-divert --remove</i> #报(错误可用 \(\)
 解除依赖后再`sudo apt --fix-broken install`然后按造提示sudo apt autoremove卸调不用的软件包。<span class="green">所有驱动软件包放在/var/cache/apt/archives/</span>。
 <i class="label2">安装驱动时出现libglx-... 解包到 ...上 ... 处理归档 /var/cache/apt/arch...64.deb 时出错： 正试图覆盖 /usr/lib...direct.so.0，它同时被包含于软件包 nvi...</i>使用如下命令：
 `sudo dpkg -i --force-overwrite 报错那个驱动包位置路径`，#这条命令是忽略上面出现的错误。然后sudo dkpg -i /var/...(驱动包路径) #安装，然后`sudo apt-get install -f` #排查软件包之间是否有问题。没有则重启(每次安装驱动后重启才能生效)。[linux系统驱动的安装，及相关命令。](https://blog.csdn.net/wf19930209/article/details/81877822)
-<i class="label1">用命令来连接wifi</i>tui界面进入的终端也能用，的先确保已经安装了wifi驱动，`sudo service network-manager start`#先打开网络管理。`nmcli dev status`#显示所有本地网卡(红色那个是可用的，记住它的名字)。`nmcli dev wifi`#查看所有可用wifi。`nmcli d wifi connect "xsww" password "7578129qq" wlx30...(刚才看到的红色网卡名) `#连接wifi
-<i class="label1">循环登陆问题</i>卸载调安装的nvidia显卡驱动：sudo apt remove nvidia-* 然后 sudo apt autoremove。<em class="green">调用集显进入出现likdm: error...问题，按照上面提示的路径，将文件报错的那一行alias ...删掉。</em>(可能是安装显卡驱动的时候使用了命令来忽略一些错误)。
-<i class="label1">登陆进入图形界面后键盘鼠标失灵问题</i>`sudo apt install xserver-xorg-input-all`#相关的包在升级过程中被删了，需要重新安装。
-<i class="label1">linux 自带命令制作启动盘</i>下载映像文件iso，插入u盘，使用命令df查看可用的u盘，插入的u盘被挂载到/dev/路径下，根据u盘名字和存储大小判断自己的u盘，然后使用命令：
+<i class="label2">用命令来连接wifi</i>tui界面进入的终端也能用，的先确保已经安装了wifi驱动，`sudo service network-manager start`#先打开网络管理。`nmcli dev status`#显示所有本地网卡(红色那个是可用的，记住它的名字)。`nmcli dev wifi`#查看所有可用wifi。`nmcli d wifi connect "xsww" password "7578129qq" wlx30...(刚才看到的红色网卡名) `#连接wifi
+<i class="label2">循环登陆问题</i>卸载调安装的nvidia显卡驱动：sudo apt remove nvidia-* 然后 sudo apt autoremove。<em class="green">调用集显进入出现likdm: error...问题，按照上面提示的路径，将文件报错的那一行alias ...删掉。</em>(可能是安装显卡驱动的时候使用了命令来忽略一些错误)。
+<i class="label2">登陆进入图形界面后键盘鼠标失灵问题</i>`sudo apt install xserver-xorg-input-all`#相关的包在升级过程中被删了，需要重新安装。
+<i class="label2">linux 自带命令制作启动盘</i>下载映像文件iso，插入u盘，使用命令df查看可用的u盘，插入的u盘被挂载到/dev/路径下，根据u盘名字和存储大小判断自己的u盘，然后使用命令：
  `sudo dd if=/home/.../debian...iso of=/dev/sda1` #if后面是映像文件所在位置，of后是u盘位置。<em class="orange">用命令移动东西到u盘</em>：`mount /dev/sda1 /home/wcs/usb` #先用命令将u盘挂载到一个空目录下，然后正常操作即可，umount /home/wcs/usb #卸载。
- <i class="label1">linux nvidia显卡驱动的正确安装</i>[nvidia驱动下载地址及各选项选择介绍。](https://jingyan.baidu.com/article/19020a0a6f8f44529d2842af.html)
+ <i class="label1">linux nvidia显卡驱动的正确安装</i>linux自带的是nouveau驱动比起nvidia驱动会差很多，而且使用cuda来调用gpu计算也需要指明的使用nvidia驱动，但是在linux上安装nvidia显卡驱动很坑，而且ubuntu和centos的稍有不同，安装步骤如下：
+1、先查看自己电脑的显卡信息：lspci | grep VGA #第一行中的[nm1:nm2]冒号前的序号是商家代号，后半部分是pcid。(至今不知道怎么看，以后学习！)
+2、去nvidia官网下载相应驱动：本台电脑选择Geforce系列、型号选Gforce GTX 16 series，如果是笔记本电脑选后面带(Notebook)的<span class="green">ubuntu中有软件更新项和命令直接安装，但不推荐，这很可能造成开机循环登陆情况</span>。[下载地址。](https://www.nvidia.cn/Download/index.aspx?lang=cn)
+3、安装依赖：yum -y install gcc gcc-c++ wget#分别用yum安装gcc,gcc-c++,wget。不过多数情况是已经装好的。
+4、安装nvidia检测工具：`rpm --importhttps://www.elrepo.org/RPM-GPG-KEY-elrepo.org`#导入key。`rpm -Uvhhttp://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm`
+#安装elrepo源。`yuminstall nvidia-detect`。nvidia-detect-v #会显示推荐的版本，不过不安装这个版本也是可以的。
+5、禁用nouveau驱动：如果不禁用nouveau驱动在安装时会报错，而且也容易造成开机循环登陆情况， /etc/modprobe.d/blacklist.conf中禁用nouveau驱动，添加blacklist nouveau 和options nouveau modeset=0。若没有该文件可使用命令：`echo -e "blacklist nouveau\noptions nouveau modeset=0" > /etc/modprobe.d/blacklist.conf`生成，生成的是已经禁止了nouveau的。然后如果是ubuntu的话用sudo update-initramfs -u#更新一下，如果是centos的话使用命令：` mv/boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.bak`#当前文件夹下备份一下镜象。` dracut/boot/initramfs-$(uname -r).img $(uname -r)`#生成一个新的境像文件(若要恢复的话，删除该镜像然后将备份的名字还原即可，然后blacklist.conf中注释调禁用的命令再重启即可)。然后用命令退出图形界面，使用纯文本模式(或开机时不登陆，ctrl+alt+f2进入纯文本界面)，重启。
+6、安装驱动及过程中遇到的问题：lsmod | grep nouveau #查看是否已经禁用了nouveau驱动，禁用的话不会输出任何信息。chmod +x NVIDIA-...run #为文件赋予运行权限。./NVIDIA-L...run -no-opengl-files #最后一个命令是不安装opengl文件，安装了会造成开机循环登陆问题(<span class="green">安装前先关闭bios界面的securate boot选项</span>)。
+<em class="violet">开头提示cant build kernel则可能是要求的一些包没有安装，可以看其结束时提示的日志文件位置查看解决办法。</em>提示安装完成后nvidia-smi查看显卡信息。<em class="red">nvidia-settings运行提示cant to init server情况且开机无法进入登陆界面(尝试这些办法)：</em>重启bios节目开启securate boot选项，选择内核启动界面e进编辑模式将ro改为rw然后F10进入。进入/etc/X11修改nvidia-xconfig.conf文件，环境变量中加入该文件位置。
+7、成功进入图形界面，nvidia-settings仍然报错，但报错情况与之前不同，cuda运行示例显示成功。
+ [centos的nvidia显卡驱动安装。](https://blog.csdn.net/qq_44906416/article/details/89281325)
+ [nvidia驱动下载地址及各选项选择介绍。](https://jingyan.baidu.com/article/19020a0a6f8f44529d2842af.html)
+ <i class="label1">centos纯文本模式和图形模型切换</i>`systemctl set-default multi-user.target`#纯文本模式。`systemctl set-default graphical.target `#图形模式。两种模式均在重启后生效。
+ <i class="label1">linux远程桌面</i>yum install rdesktop #安装远程桌面工具。`rdesktop -g 1440x900 -r disk:wcs=/home/wcs -u Administrator 182.61.151.139`#-g控制远程桌面的窗口大小，全屏可使用-f然后去掉后面的分辨率大小。-r可以控制携带本地资源链接，wcs是为资源命名，后面接着想携带的本地资源路径，-u后面接目标电脑用户名，最后接着电脑ip。可以连接window系统。
 VNote(Appimage结尾文件)：下载下来是以AppImage结尾的后缀名，赋予其权限后运行它直接使用，这并不是安装到系统上的。
-ctrl+T切换编辑模式。似乎没有登陆。[自定义css样式]包括字体大小，颜色，间距。点击markdown>点击添加样式，会提示添加的方法(文件>打开配置文件夹，然后找到styles文件夹，可将自己写的css文件放到里面，不过后缀名为.mhdl，也可以打开resource文件夹写在common.css文件中)。使用：在笔记中使用HTML标签，然后写上配置的类名或id名，<span class="a"></span>
+ctrl+T切换编辑模式。似乎没有登陆。[自定义css样式]包括字体大小，颜色，间距。点击markdown>点击添加样式，会提示添加的方法(文件>打开配置文件夹，然后找到styles文件夹，可将自己写的css文件放到里面，不过后缀名为.mhdl，也可以打开resource文件夹写在common.css文件中)。使用：在笔记中使用HTML标签，然后写上配置的类名或id名。
 下载地址：https://github.com/tamlok/vnote/releases
 linux熄屏无法唤醒问题：https://www.cnblogs.com/wly716/p/10957710.html
 ubuntu目录结构及作用：https://blog.csdn.net/liajie/article/details/78616200
 boostnet下载：https://github.com/BoostIO/boost-releases/releases/tag/v0.14.0
-#### 11、unix，linux，windows系统综述：
-UNIX系统大多是与硬件配套的，也就是说，大多数UNIX系统如AIX、HP-UX等是无法安装在 x86 服务器和个人计算机上的。Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。以上是专业的解释，简单说Linux是一个免费的操作系统，其也是非常的好的支持服务器环境，且其不太适合图形化操作更适合命令行操作。windows系统除了win7,8,10外还有
-windows server系列，这些服务器版本的windows和普通windows版本的不同在于其是根据服务器需求进行开发的，如支持更大的内存、支持一些服务器的策略设置、支持服务器集群等，这些功能都是针对服务器的功能，总之windows server版本就是一个适合服务器的操作系统版本，其功能大多都是针对服务器的。
-服务器系统的选择：一般服务器系统只会是linux系统和windows server系统中选择，对于不同的服务，如web网站、数据库等会选择不同的系统。
