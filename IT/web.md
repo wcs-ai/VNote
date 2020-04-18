@@ -981,7 +981,7 @@ for(var i=0;i<d.imgs.length;i++){//先循环把没张图片放到上传队列中
     });
 }
 ```
-[第三方UI组件库的使用]这里以iview组件库为例，npm install iview --save。安装的组件库、框架等都会出现在node_models文件夹下，也可以将其拿出放到其它文件夹下使用。两个端兼容使用还是象普通组件使用一样，各页面使用import .. from 导入再绑定到组件上，使用的css在App.vue和AppH5.vue
+<i class="label1">第三方UI组件库的使用</i>这里以iview组件库为例，npm install iview --save。安装的组件库、框架等都会出现在node_models文件夹下，也可以将其拿出放到其它文件夹下使用。两个端兼容使用还是象普通组件使用一样，各页面使用import .. from 导入再绑定到组件上，使用的css在App.vue和AppH5.vue
 页面内的css中导入：@import '../../nodemodels/iview/dist/iview.css'
 <i class="label1">小程序登录</i>先调用wx.login()获取用户code，然后让用户点击button授权按钮:
 ```
@@ -1026,7 +1026,8 @@ https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_auth
 https://segmentfault.com/q/1010000010881298/a-1020000010884089
 https://www.jianshu.com/p/7302e2c7f4b7
 #### 3、nodejs：
-linux上nodejs的安装：官网上下载nodejs的linux压缩包，解压进入，将node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后node -v 安装成功。
+**linux上nodejs的安装：**官网上下载nodejs的linux压缩包，解压进入，将node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后node -v 安装成功。
+**配置淘宝安装源：**npm本身指定的安装源是外国的，下载时多数会比较慢，`npm config set registry https://registry.npm.taobao.org`
 #### 4、postman的使用：
 (百度搜索下载postman安装)输入框左边选择请求方式，输入框中输入请求接口，下方Params项中输入要传的键值和value值，键值和value值的输入不需用单引号或双引号不然会出错,若报错可以在body项中选择form-data然后输入Params项中的键值和value值再点Send.
 #### 5、vuejs框架常用：
@@ -1036,13 +1037,13 @@ linux上nodejs的安装：官网上下载nodejs的linux压缩包，解压进入�
 用到的函数统一放在方法集method中，即使是事件涉及的函数也映射到这个方法集中
 。为了配合前端框架bootstrap等的使用vue框架中对元素通过id、类名等的选种操作
 支持比较弱，因为前端框架中一个元素往往要加多个类名，这不便于选中元素。
-数据、事件、属性绑定：
+**数据、事件、属性绑定：**
 ```
 <p v-html="info">//info可以是html代码
 <input v-model="dat"/>//input专用绑定数据语法
 <a v-bind:href="url v-on:click="get()"></a>//绑定属性，事件
 ```
-循环：
+**循环：**
 ```
 <li v-for="i in is">
 <h5>{{ i }}</h5>
@@ -1059,7 +1060,7 @@ function(){alert('失败')}));
 
 ```
 $http方法是已经被封装在method对象中的所以可以用this直接调用，第一个参数传入接口地址，第二个参数传入要传送的数据，取到的值被当做参数传入then()中then()中第二个函数参数是请求失败时调用的函数。但使用vue封装的ajax感觉很不容易将获取到的值赋值出去，所以推荐使用jquery的ajax和原生ajax。vue中的ajax返回的数据中封装了很多东西，有数据、头部、catch-control等的加密信息，使用res.body代表获取到的数据。可使用JSON.stringify(res)查看结构。
-方法集中改变数据集中变量：
+**方法集中改变数据集中变量：**
 ```
 var v = new Vue({
     el:"#view",
@@ -1074,7 +1075,7 @@ v.alter()//直接运行函数
 调用方法集中的函数：
 v.alter()直接调用，或原始中<p v-on:click="alter()"></p>，v-on绑定的事件是动态
 绑定的所以使用v-for循环出来也能使用。
-样式绑定：
+**样式绑定：**
 ```
 <div v-bind:class="{a:isa,b:isb}"></div><!--isa为true时将类名a绑定-->
 <p v-bind:class="[a,b]"></p>// 绑定多个类名
@@ -1082,7 +1083,7 @@ v.alter()直接调用，或原始中<p v-on:click="alter()"></p>，v-on绑定的
 <b v-bind:style="{ width: w + 'px',color: col }">
 
 ```
-自定义组件：
+**自定义组件：**
 ```
 Vue.component("wcs",{
     template:'<h1>{{ info }}</h1>',
@@ -1101,12 +1102,16 @@ function get(e){
 }
 
 ```
-$refs的使用
+**$refs的使用**
 一个vue内置的一个元素选择器，<p ref="aa"></p> ref标记元素，this.$refs.aa选中元素，如果绑定的是一个组件还可以继续this.$refs.aa.get()调起组件内的方法。
 [阻止事件冒泡]v-on:click.stop='get()'
 注：数据集data中的属性值之间在初始赋值时不能相互依赖，可用全局变量达到初始
 依赖赋值。vuejs中并没有像jquery中那种文档加载完成后再加载js代码的处理，所以
 外联js文件写到页面底部才行。el.getAttribute("v-bind:src")类型的属性。
+**使用vue-cli来初始化一个vue项目：**
+`npm install vue-cli -g`#全局安装vue-cli工具，安装后可以使用vue命令初始化项目。
+<i class="label1">安装vue-cli后找不到vue命令问题</i>安装vue-cli后会在所的nodejs/bin下看到vue。(npm config list#可以查看这个文件的位置)。为这个vue建立一个软链接将其放到/usr/local/bin下，`sudo ln -s /home/wcs/software/nodejs/bin/vue /usr/local/bin/vue`
+<i class="label1">初始化</i>`vue init webpack test `#初始化一个名为test的项目，之后会询问一些设置上的问题，具体查看这个地址：[vue-cli初始化项目学习地址。](https://www.cnblogs.com/saint258/p/9621161.html)
 #### 6、资源收集：
 webpack学习：https://blog.csdn.net/eeeecw/article/details/80453899
 前端技术文档大全：https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange

@@ -3458,8 +3458,9 @@ for r in mt:
 ```
 [使用教程1。](https://blog.csdn.net/sinat_26917383/article/details/79901207)[使用教程2。](https://cloud.tencent.com/developer/news/156578)
 <i class="label3">Nebula的使用</i>nebula是一个完全分布式的关系数据存储库。下载：[下载地址](https://github.com/vesoft-inc/nebula/actions)。<span class="green">进去点击左侧packages，然后右侧出现的package随便点一个，此时登录，右上角会出现一个action，点击选择相应的系统下载(如果多次下载失败或下载的包解压失败，可以尝试其它package项)。</span>解压后里面有rpm包，rpm -ivh nebula-...rpm #安装，若出现依赖，yum安装对应依赖即可，找不到包则使用yum update更新后再试。
-<i class="label">知识图谱的构建</i>信息抽取、知识融合(实体链接、知识合并)、知识加工(本体构建、知识推理、质量评估)。
+<i class="label1">知识图谱的构建</i>信息抽取、知识融合(实体链接、知识合并)、知识加工(本体构建、知识推理、质量评估)。
 [1.4亿中文知识图谱下载](https://www.ctolib.com/ownthink-KnowledgeGraphData.html)
+<i class="label1">KBQA(knowledge base question answering)基于知识图谱的问答</i>
 #### 80、数据挖掘：
 从海量知识中发现有用的数据并为企业提供帮助和指导。
 挖掘流程：理解商业问题、数据准备、数据理解、模型建立、模型评估、模型应用。

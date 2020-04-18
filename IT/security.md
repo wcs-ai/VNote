@@ -130,11 +130,12 @@ cd #进入文件夹。pwd：显示目前的目录。rmdir：删除一个空的�
 sudo su  #切换到root身份运行命令
 ufw disable  #关闭防火墙，需要以root身份运行。ufw enable #开启防火墙
 cp: 复制文件或目录。cp a.txt ~/file   #将a.txt文件复制到根目录的file文件夹下。若拷贝文件夹则要加上-r参数：cp -r a /opt/b
-cp software/* ~/abs  #*表示将software下所有的文件复制到abs中。
+cp software/* ~/abs  #*表示将software下所有的文件复制到abs中*。
 mv 移动文件与目录，或修改文件与目录的名称
 sudo mv a.txt /java  #使用sudo开头能将文件移到到隐藏的根目录文件下。
 tar -zxvf qq.tar.gz  #解压gz压缩包
 vi a.txt  #使用vim编辑器打开文件，不过内容是显示在终端。
+[查找文件]sudo find / -name npm #find命令查找指定目录和名的命令，/表示在根目录查找，/usr则表示在/usr这个目录下查找。
 [删除和新建]rmdir pckname #删除文件夹。rm file #删除文件 mkdir pckname #新建文件夹。touch filename #新建文件
 [重启]sudo reboot
 [更形内核]sudo apt-get install --install-recommends linux-generic-hwe-18.04 #在遇到一些问题时可以试试这个。
