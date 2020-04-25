@@ -68,6 +68,16 @@ jdk下载地址：
 https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 #### 4、网络知识：
 每台连入网络的电脑都会被分配到一个ip做为计算机的唯一标识，ip又分为公网ip和私有ip，在同一局域网网的两台计算机可以互相访问(互相ping对方ip能成功)，而不在同一局域网(如一个学校,一个公司,因为它们的网络一般是拉一根主光纤进去使用的,这样它们的计算机ip地址一般会处于同一个网段)的电脑如果不是公网ip的话是ping不通的,所以公网ip是非常少的；一个私有ip能直接ping通一个公网ip,一个公网ip也对应一台计算机,不过这台计算机的ip可能就是这个公网ip也可能还有着另一个私有ip(多数情况),计算机公网ip与本机ip不一致的情况就称该计算机在内网,否则称为外网。这样也保证了一定的安全性。
+<i class="label1">http3次握手协议</i>
+第一次握手：主机A发送位码为syn＝1,随机产生seq number=1234567的数据包到服务器，主机B由SYN=1知道，A要求建立联机；
+第二次握手：主机B收到请求后要确认联机信息，向A发送ack number=(主机A的seq+1),syn=1,ack=1,随机产生seq=7654321的包；
+第三次握手：主机A收到后检查ack number是否正确，即第一次发送的seq number+1,以及位码ack是否为1，若正确，主机A会再发送ack number=(主机B的seq+1),ack=1，主机B收到后确认seq值与ack=1则连接建立成功。
+完成三次握手，主机A与主机B开始传送数据。若客户端传送的头部与服务器规定的不符合则此时会报跨域错误(一般出现在浏览器)。
+<i class="label1">http状态码</i>
+200 OK 正常返回信息。201 Created 请求成功并且服务器创建了新的资源。202 Accepted 服务器已接受请求，但尚未处理。301 Moved Permanently 请求的网页已永久移动到新位置。
+302 Found 临时性重定向。303 See Other 临时性重定向，且总是使用 GET 请求新的 URI。304 Not Modified 自从上次请求后，请求的网页未修改过。
+400 Bad Request 服务器无法理解请求的格式，客户端不应当尝试再次使用相同的内容发起请求。401 Unauthorized 请求未授权。403 Forbidden 禁止访问。404 Not Found 找不到如何与 URI 相匹配的资源。
+500 Internal Server Error 最常见的服务器端错误。503 Service Unavailable 服务器端暂时无法处理请求（可能是过载或维护）。
 
 #### 5、虚拟机：
 VMware Workstation虚拟机下载地址：https://www.cr173.com/soft/68480.html
@@ -153,6 +163,7 @@ vi a.txt  #使用vim编辑器打开文件，不过内容是显示在终端。
 [修改文件命令]chmod -R 777 software #将software文件夹权限全开。chown -R jay:fefjay /my # 加-R，修改文件所属用户为jay，所属用户组为fefjay
 [更新yum安装源]https://www.jb51.net/os/RedHat/499587.html
 <i class="label1">软件包、库安装</i>对于deb格式的包比较适合debian,ubuntu系统，而rpm后缀名的包适合centos。<em class="violet">ubuntu上安装deb格式的包：</em>sudo dpkg software.deb  #解包，设置，安装software.deb。报依赖错误使用：sudo apt-get -f --fix-missing install，然后再试。<em class="violet">centos上安装deb的包：</em>先要将其转为rpm格式的包，[deb包转为rpm包教程。](https://blog.csdn.net/cpongo3/article/details/96425227)<em class="green">rpm包安装：</em>rpm -i soft.rpm #-i制定安装的包。需要验证的包可以：rpm -ivh google.rpm安装。<span class="green">rpm安装包时解决依赖问题：</span>在安装命令后加--nodeps --force。[rpm命令参数详解。](https://blog.csdn.net/ywl470812087/article/details/90140026)
+<i class="label2">yum install时提示下载元数据失败问题</i>可能是网络问题，可以多运行几次试试，若一直提示失败可以看看这个方法。[repo 'base' 下载元数据失败解决地址。](http://www.linuxidc.net/thread-9716-1-1.html)
 <i class="label1">清理缓存的包</i>debian和ubuntu：sudo apt autoremove    centos中：dnf clean packages
 <i class="label1">系统问题集</i>
 <i class="label2">查看系统状态</i>系统自带top命令可查看，或安装htop。sudo apt-get install htop。然后htop即可查看漂亮的显示界面,Mem是运行内存,swp是交换分区。[htop所有参数使用](https://blog.csdn.net/Dly_978812854/article/details/102223731)
