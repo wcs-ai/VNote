@@ -178,6 +178,17 @@ bom针对的是浏览器，BOM是浏览器对象模型，DOM是文档对象模�
 #### 12、位图与矢量图：
 位图又叫做点阵图，是一个个很小的颜色小方块组合在一起的图片。一个小方块代表1px（像素）。矢量图是由一个个点链接在一起组成的，是根据几何特性来绘制的图像，和位图的分辨率是没有关系的。因此图片放大后也不会失真，不会出现位图的马赛克的样子，也就是说可以无限放大图片。
 #### 13、web中的安全措施：
+<i class="label1">a、sql注入</i>：通过输入框中输入一些sql的插入、删除等语句，在传到后台时被运行，然后操作数据库。防御：做一些正则匹配，替换输入中的特殊字符等，后台做一些站位等措施。
+<i class="label1">b、XSS (Cross-Site Scripting)，跨站脚本攻击</i>因为缩写和 CSS重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的Web网站注册用户的浏览器内运行非法的HTML标签或JavaScript进行的一种攻击。
+跨站脚本攻击有可能造成以下影响：利用虚假输入表单骗取用户个人信息。利用脚本窃取用户的Cookie值，被害者在不知情的情况下，帮助攻击者发送恶意请求。显示伪造的文章或图片。
+<i class="label2">非持久型 XSS（反射型 XSS ）</i>：攻击者可以直接通过 URL (类似：https://xxx.com/xxx?default=<script>alert(document.cookie)</script>) 注入可执行的脚本代码。不过一些浏览器如Chrome其内置了一些XSS过滤器，可以防止大部分反射型XSS攻击。防御：Web 页面渲染的所有内容或者渲染的数据都必须来自于服务端。尽量不要从 URL，document.referrer，document.forms 等这种 DOM API 中获取数据直接渲染。尽量不要使用 eval, new Function()，document.write()，document.writeln()，window.setInterval()，window.setTimeout()，innerHTML，document.createElement() 等可执行字符串的方法。如果做不到以上几点，也必须对涉及 DOM 渲染的方法传入的字符串参数做 escape 转义。前端渲染的时候对任何的字段都需要做 escape 转义编码。
+<i class="label2">持久型 XSS（存储型 XSS）</i>：持久型 XSS 漏洞，一般存在于 Form 表单提交等交互功能，如文章留言，提交文本信息等，黑客利用的 XSS 漏洞，将内容经正常功能提交进入数据库持久保存，当前端页面获得后端从数据库中读出的注入代码时，恰好将其渲染执行。防御：只允许加载本站资源Content-Security-Policy: default-src 'self'。只允许加载 HTTPS 协议图片：Content-Security-Policy: img-src https://*。允许加载任何来源框架：Content-Security-Policy: child-src 'none'
+<i class="label1">c、CSRF</i>：CSRF(Cross Site Request Forgery)，即跨站请求伪造，是一种常见的Web攻击，它利用用户已登录的身份，在用户毫不知情的情况下，以用户的名义完成非法操作。
+完成 CSRF 攻击必须要有三个条件：用户已经登录了站点 A，并在本地记录了 cookie。在用户没有登出站点 A 的情况下（也就是 cookie 生效的情况下），访问了恶意攻击者提供的引诱危险站点 B (B 站点要求访问站点A)。站点 A 没有做任何 CSRF 防御。
+防御：防范 CSRF 攻击可以遵循以下几种规则：Get 请求不对数据进行修改。不让第三方网站访问到用户 Cookie。阻止第三方网站请求接口。请求时附带验证信息，比如验证码或者 Token
+<i class="label1">d、点击劫持</i>：是一种视觉欺骗的攻击手段。攻击者将需要攻击的网站通过 iframe 嵌套的方式嵌入自己的网页中，并将 iframe 设置为透明，在页面中透出一个按钮诱导用户点击。
+X-FRAME-OPTIONS是一个 HTTP 响应头，在现代浏览器有一个很好的支持。这个 HTTP 响应头 就是为了防御用 iframe 嵌套的点击劫持攻击。
+该响应头有三个值可选，分别是：DENY，表示页面不允许通过 iframe 的方式展示。SAMEORIGIN，表示页面可以在相同域名下通过 iframe 的方式展示。ALLOW-FROM，表示页面可以在指定来源的 iframe 中展示。
 [web端安全问题及应对方法。](https://www.cnblogs.com/pretty-sunshine/p/11442326.html)
 #### 14、HTML5规范：
 html5中加了一些新的规范，如下示例：
@@ -191,6 +202,20 @@ html5中加了一些新的规范，如下示例：
 </body>
 </html>
 ```
+#### 15、十大经典排序算法：
+分为两类排序：非线性时间比较类排序(通过比较来决定元素间的排序)，线性时间非比较类排序(不通过比较来决定元素间的排序)。(以下均是以从小到大的排序为从下到大)
+冒泡排序：for(var i=0;i<arr.length-1;i++){for(var j=0;j<arr.length-i-1;j++){}}对比相邻两个元素的大小排序，执行数组长度-1次即可排完。(i<len(dat)-1)
+选择排序：从中选择最大或最小的值放到开头，再从剩余之中重复次操作。
+插入排序：从数组位置1开始然后比较0，1位置排序，再选择2位置在0，1，2中比较排序，...
+希尔排序：简单插入排序的改进版，分为3次进行排序(以长度为10的数组举例)，第一次将整个数组分为2份第6个与第1个对比若不符合顺序则交换位置，第7个与第2个比较若不符合则交换顺序...，第次排序则奇数位与奇数位比较，下标偶数的比较，第2个与第0个比较若不符合顺序则交换位置，第4个与第2个比较不符合则交换位置...偶数位拍完后排奇数位的，第3个与第1个比较不符合则交换位置...，第三次排序从第二个开始与第一个比较若不符合则交换顺序，第3个与第2个比较若不符合则再与第一个比较，若符合则插入到第二个前，若不符合则插入到第1个前...
+快速排序：快速排序是冒泡排序的改进，假设有一个n长度的数组从中任选一个做为基数(一般选择第一个,这里选下标0)从n-1下标开始与第0个比较找到第一个小于该基数的数(若没找到则该基数为最小再以下标1的为基数执行以上步骤)设其下标为j则将下标j与0的数互换位置再从前向后找用下标1,2..的数与基数也就是位置j的数比较找到第一个大于它的数与其交换位置(若没找到则下标为j的数已将该数组分为两部分再将这两个子数组分别用以上步骤排序)，再从j-1从后向前开始与比较与下标j的数据比较找到第一个比下标j大的数和其互换...直到该分区不可分组为止，对下标j左右的两个子数组再此使用此法排序。
+堆排序：堆排序就是利用堆这种数据结构建立的一种排序(堆结构就是一颗完全二叉树，节点的值按从上到下从做到有的大小顺序排列)，步骤：先根据数组建立一颗完全二叉树然后根据大顶堆(根节点大于两个子节点)的结构从树的最低部向上调整左子树和右子树，调整好后比较根节点与左右子节点比较选择最大的一个做为根节点，然后将该根节点与右子树最底层最右边的节点与根节点值互换(因为安照堆结构最大的值放最右下脚,其余依次放置)然后再从根节点向下按大顶堆的结构调整树结构(先调整右子树因为得保证右子树最底部的节点值是整个数据中最大的几个)右子树最底部节点值都调为最大值后再用此方法调整左子树，整颗树最底部都调为最大值后并不再考虑最低层的值，再重复上面的方法将倒数第二层的节点...。
+计数排序：例：有待排序的数组a和一个空数组b，求出a的最大最小值确定b的长度，扫描a根据其值依次将其放到b中对应下标位置处(如a[0]=12，a中为12的值的有3个那b[12]=3)全部放置完成后清空a将b中有值的位置根据其下标做为值放到a中。
+桶排序：桶排序是计数排序的升级版，求出带排数组的最大最小值确定好桶数(空数组数)，分段的将其分到这些空数组中(例：<50的放到第1个空数组,>=50&&<110的放到第二个空数组...)各子数组使用其它排序算法或继续使用桶排序方法排好序，再按顺序将这些排好序的子数组拼接起来。
+基数排序：步骤：求出待排数组的最大值确定其最大位数是个位,十位还是百位...；取出带排数组a中的每个数据根据其个位值放到对应的下标的一个空二维数组中去(因为个位相同的可能有多个值将其归为一组)，结束后再将该二维数组中的值依次取出按取出顺序放回原数组中，再按十位为对应下标从原数组中取出值放到二维数组中结束后再依次取出...
+归并排序：将待排数组a划分为若干个子数组，比较1，2个子数组的值将其排好序，对比3，4个子数组的值将其排好序，对比1，2，3，4子数组的值排序(1,2,3,4已分别合并)，前一半的数组排好序后再排后一半子数组，最后合并排序。
+https://www.cnblogs.com/onepixel/articles/7674659.html
+
 ### 二、CSS
 #### 1、布局注意：
 css中id的等级强于class强于标签名，只要带有id名的选择器（id选择器或是带有id名的兄弟选择器）语句块中定义的样式就是浏览器会显示的，他会覆盖类选择的器、标签选择器（前提：两个不同的选择器作用在一个元素上时；如果是两个相同类型选择器作用在同一个元素上以后一个选择器为主(为主指的是在相同的属性定义上)。
@@ -475,7 +500,7 @@ el.offsetTop;//距父元素左边距含margin值
 el.scrollTop//元素当前内部滚动的距离
 el.scrollHeight//元素内部可滚动的距离
 在使用ele.offsetLeft获取元素在发生变换过程中的对应值时需要用
-ele.style.left="";来重新写入该元素的位置，否则返回的永远都只是				
+ele.style.left="";来重新写入该元素的位置，否则返回的永远都只是
 该元素的初始位置，使用ele.getBoundingRect().left可实时获取元素位置。
 <i class="label1">js元素节点</i>
 p = document.createElement("p");//创建一个节点
@@ -487,8 +512,8 @@ el.parentNode;//父节点,选中el的父节点。
 el.previousSibling;//选取上一个节点
 el.nextSibling;//选取下一个节点
 a.contains(b)/a.compareDocumentPosition(b)//判断一个元素是否包含另一个元素
-  el.removeChild(ak);删除元素节点//只能用父元素删除子元素的方式
-  el.cloneNode();复制元素//复制的元素会复制其所有属性,但并不会复制其文本内
+el.removeChild(ak);删除元素节点//只能用父元素删除子元素的方式
+el.cloneNode();复制元素//复制的元素会复制其所有属性,但并不会复制其文本内
 容和html结构。
 el.childNodes;//返回元素的所有子元素(两种不同情况返回的长度)
 ```
@@ -737,13 +762,12 @@ javascript数据类型包括：数值、字符串、布尔、null、undefined、
 charAt(index)//查找字符串的对应下标的值,“justice”.charAt(1)=”u”。
 toUpperCase("a")方法将小写字母转换为大写,toLowerCase("A")将大写字母转为小写。
 substring(start,end)//提取字符串中介于两个下标间的字符串,start最小从0开始,end可以不填,start下标位置的那个字符也会被返 回，end对应那个下标的字符不会被返回，返回的是开始到end之前的那个下标间的字符串。
-<i class="label1">列表</i>list.indexOf(1)//找到第一个1在列表中的位置，不在则返回-1。list.incloud(1)//是否包含1，返回布尔值。list.join("-")//将各元素用字符链接。list.push(1)//在列表最后添加值。list.pop()//删除最后一个元素。unshift();//在数组最前端添加一个新的值。reverse();//将数组倒置，[1,2,3].reverse();//[3,2,1]。
+<i class="label1">列表</i>list.indexOf(1)//找到第一个1在列表中的位置，不在则返回-1。list.incloud(1)//是否包含1，返回布尔值。list.join("-")//将各元素用字符链接。list.push(1)//在列表最后添加值。list.pop()//删除最后一个元素。unshift();//在数组最前端添加一个新的值。reverse();//将数组倒置，[1,2,3].reverse();//[3,2,1]。list.shift()//移除第一个元素。
 instanceof//检查一个对象是否为了一个对象中的实例，Console.log(p1 instanceof p2);//p1是否为p2中的实例；
 <i class="label2">splice(位置,操作,值)</i>//splice()方法可以操作数组
 ```
 var arr = [1,2,3,4,5,6];
 arr.splice(2)//删除2及之后的值。
-arr.splice(2,1)//第二个值表示从2起要删除的值个数
 arr.splice(0,2);表示删除0,1位置的值，两个索引值相同时删除1个。
 //插入、1表示删除并替换。[1,3,4,5,6]
 arr.splice(1,0,7)//[1,7,2,3,4,5,6] 
@@ -829,17 +853,17 @@ https://www.cnblogs.com/caizhenbo/p/6679478.html
 https://developer.mozilla.org/zh-CN/docs/Web/Events/DOMContentLoaded
 #### 23、js es6语法大全
 ```
-let a = 10;//块级作用域let定义变量,只在定义的块或附近的块有用，如for循环中
+let a = 10;//#######块级作用域let定义变量,只在定义的块或附近的块有用，如for循环中
 let a = () => 1;
 alert(a);// 报错 a已被清除。
 const a = 20;//const定义常量，第一次赋值后不能被改变。但如果是用来定义一个对象的话是可以改变其值的。
-/*箭头函数，this*/
+/*#######箭头函数，this*/
 let foo = () => 1;//建立一个名为foo的函数返回值1，传参数时就等号后就写括号，
 // var f = (1,2) =>{};多个参数时的写法，单个参数可不写括号，箭头指向执行语句
 ()=>{};// 将无名函数作为一个参数时的写法
 v => {this.a = 20};// 将一个有名函数作为参数传入时的写法。箭头函数中的this
 //不是指向他的上一级而是指向它本身
-/*面向对象*/
+/*#######面向对象*/
 class animal{// 父类
     construct(dat){this.x=20;}
     run(){alert('here run');}
@@ -855,7 +879,7 @@ dog.say();// here say
 /*construct为构造函数为该类私有方法被继承时无需调用直接运行，extends继承的
 /*子类中需要先调用super()方法才能用this添加实例对象因为子类中没有this对象只能
 /*继承父类中的*/
-// 解构
+//####### 解构
 var [a,b,c] = [1,2,3]//a=1,b=2,c=3;
 var {a,b} = {a:1,b:2}//a=1,b=2;
 for(var i of obj){console.log(i);}//for of方法与for in方法不同，for of是
@@ -863,12 +887,45 @@ for(var i of obj){console.log(i);}//for of方法与for in方法不同，for of�
 // 模板字符串
 var name = 'your name is' + f_name + l_name;
 var name = 'your name is ${f_name} ${l_name}';// 变量写在${}中
-//模块的使用
+//#######模块的使用
 import {a,b} from 'pages/home'
 import a from 'pages/home/index'
 export default{
     a
 }
+//####### 对象属性简写：{name,age,pos}
+//####### 延展操作符：
+var a = [1,2,3,4,5];
+    function c(v){
+        console.log(arguments);
+    }
+c(...a);// 将a中的每个元素拿出来放到c中。
+//#######    promise
+var waitSecond = new Promise(function(resolve, reject)
+{
+    setTimeout(resolve, 1000);
+});
+// 异步编程串行化。
+waitSecond.then(function()
+    {
+      console.log("Hello"); // 1秒后输出"Hello"
+      return waitSecond;
+    })
+    .then(function()
+    {
+        console.log("Hi"); // 2秒后输出"Hi"
+    });
+//####### 代理proxgy。与就的object方法集一样的作用，都用于监听对象的变化。
+  let test = {
+    name: "小红"
+  };
+  test = new Proxy(test, {
+    get(target, key) {
+      console.log('获取了getter属性');
+      return target[key];
+    }
+  });
+  console.log(test.name);
 ```
 es6的兼容性问题：https://www.cnblogs.com/chris-oil/p/5931180.html。[ES6，7，8，9，10学习地址。](https://juejin.im/post/5ca2e1935188254416288eb2)
 
@@ -916,7 +973,35 @@ catch(err){console.log(err.message);}
 ```
 try,catch用于预测一些自己觉得可能会因为语法错误、取值不存在或方法不存在等情况下使用(写在try后的{}中)，catch后可传一个参数值，err.message输出
 错误提示(catch后的{}中写发生错误后运行的语句)。try模块中只要有一句语句被判有误就会立刻跳到catch模块中去执行。
-#### 26、获取鼠标事件目标的属性：
+#### 26、：事件
+<i class="label1">事件流</i>事件流描述的是从页面中接收事件的顺序。事件发生时会在元素节点与根节点之间按照特定的顺序传播，路径所经过的所有节点都会收到该事件，这个传播过程即DOM事件流。事件传播的顺序对应浏览器的两种事件流模型：捕获型事件流和冒泡型事件流。
+冒泡型事件流：事件的传播是从最特定的事件目标到最不特定的事件目标。即从DOM树的叶子到根。【推荐】
+捕获型事件流：事件的传播是从最不特定的事件目标到最特定的事件目标。即从DOM树的根到叶子。（事件冒泡先发生）
+<i class="label1">事件绑定</i>
+```
+<p onclick="start()"></p>// 原生的事件绑定。
+function start(){};
+// js动态绑定事件
+document.getElementById("myBtn").addEventListener("click", function(e){
+    // 第一个参数是事件类型，第二个参数是一个函数，会为其传入一个参数为事件对象，可以用e.target
+    document.getElementById("demo").innerHTML = "Hello World";
+});
+```
+<i class="label1">js事件冒泡与事件捕获</i>
+![paopao](_v_images/20200424091838620_274839134.png =270x)
+如上图所示，先发生事件捕获再发生事件冒泡，子元素绑定的事件会被层层传递，所以在点击其父元素时也会触发子元素绑定的事件。
+在不同浏览器中，冒泡的程度不同：IE 6.0:div -> body -> html -> document。其他浏览器:div -> body -> html -> document -> window。
+并不是所有的事件都能冒泡，以下事件不冒泡：blur、focus、load、unload。
+解决办法：
+```
+if(event && event.stopPropagation){ // w3c标准
+event.stopPropagation();
+}else{ // IE系列 IE 678
+event.cancelBubble = true;
+}
+```
+<i class="label1">事件委托/代理</i>与事件冒泡相反，我们想让用户点击一个块的每个子元素都触发一个事件，可以将该事件绑定再这些子元素的父元素上就可以不用每个子元素都去绑定了。
+<i class="label1">获取鼠标事件目标的属性</i>
 ```
   event.target.nodeName//获取事件触发的标签名
   event.target.className//获取事件触发的元素的类名
@@ -973,19 +1058,6 @@ v();// 1
 ```
 #### 29、执行上下文、链式作用域：
 执行上下文有且只有三类，全局执行上下文，函数上下文，与eval上下文。在执行代码前，浏览器会先扫描代码生成执行的上下文，按照上下情况决定先执行的代码，如声明变量、数据类型计算，遇到函数的时候，因为函数内部是一个块的代码，这时候就是构建一个函数的执行上下文。<i class="green">函数在调用时，会被全局执行上下文决定其执行的顺序。而一系列函数相互调用的情况下就形成了一个链式作用域。这些上下文的执行是放到一个栈(后进先出)空间中进行的。</i>
-#### 30、js事件冒泡与事件捕获：
-![paopao](_v_images/20200424091838620_274839134.png =270x)
-如上图所示，先发生事件捕获再发生事件冒泡，子元素绑定的事件会被层层传递，所以在点击其父元素时也会触发子元素绑定的事件。
-在不同浏览器中，冒泡的程度不同：IE 6.0:div -> body -> html -> document。其他浏览器:div -> body -> html -> document -> window。
-并不是所有的事件都能冒泡，以下事件不冒泡：blur、focus、load、unload。
-解决办法：
-```
-if(event && event.stopPropagation){ // w3c标准
-event.stopPropagation();
-}else{ // IE系列 IE 678
-event.cancelBubble = true;
-}
-```
 #### 31、call()和apply()的使用：
 apply和call都能继承另外一个对象的方法和属性；Function.apply(obj,args)方法能接收两个参数obj：这个对象将代替Function类里this对象。args：这个是数组，它将作为参数传给Function（args-->arguments。call:和apply的意思一样,只不过是参数列表不一样。
 ```
@@ -1011,6 +1083,10 @@ function Person(name,age) {
 new关键字就意味着一次内存分配，例如 new Foo()。最好的处理方法是：在初始化的时候新建对象，然后在后续过程中尽量多的重用这些创建好的对象。
 为了最大限度的实现对象的重用，应该像避使用new语句一样避免使用{}来新建对象。
 使用delete x;手动删除一个变量。
+#### 33、节流和防抖动：
+所谓的节流就是指用户频繁操作同一个事件，但都是相同的请求，如重复提交表单中的数据，重复下拉刷新请求数据，这会频繁的消耗用户的流量但是无意义的，遇到这种情况做法：写一个定时器，规定时间内只允许操作一次。
+而防抖动是指类似搜索框中要监听用户的输入实时获取将值传给后台获取相应的匹配项，但返回的候选项个数不一样会导致下拉展示条频繁变化抖动。解决：监听到用户输入后设定一个定义器，时间过后执行操作，如果期间接收到监听变化就取消前一个定是器，再重新创建一个，相当与只取最后一次操作，因为此时是最有效的操作。
+这两种思想都类似，不过一个取第一次操作，一个取最后一次操作。[参考地址。](https://www.jianshu.com/p/11b206794dca)
 ### 四、库、框架、工具
 #### 1、gitHub的使用：
  进入gitHub官网先注册一个账号,进入菜鸟教程点击git本地命令工具下载链接下载
@@ -1669,7 +1745,56 @@ vnode：Vue 编译生成的虚拟节点。移步 VNode API 来了解更多详情
 oldVnode：上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用。
 ##### b3、渲染函数&jsx：
 Vue 推荐在绝大多数情况下使用模板来创建你的 HTML。然而在一些场景中，你真的需要 JavaScript 的完全编程的能力。这时你可以用渲染函数，它比模板更接近编译器。
-暂未学习。
+```
+Vue.component('anchored-heading', {
+  render: function (createElement) {// render渲染函数，在生命周期函数中也是使用该函数来解析组建的。
+    return createElement(
+      'h1',   // 标签名称
+      {//这个对象内部定义一些模板的事件、指令、插槽类的东西。
+      // 与 `v-bind:class` 的 API 相同，// 接受一个字符串、对象或字符串和对象组成的数组
+      'class': {foo: true,bar: false},
+      // 与 `v-bind:style` 的 API 相同，// 接受一个字符串、对象，或对象组成的数组
+      style: {color: 'red',fontSize: '14px'},
+      // 普通的 HTML attribute
+      attrs: {id: 'foo'},
+      // 组件 prop
+      props: {myProp: 'bar'},
+      // DOM 属性
+      domProps: {innerHTML: 'baz'},
+      // 事件监听器在 `on` 属性内，// 但不再支持如 `v-on:keyup.enter` 这样的修饰器。// 需要在处理函数中手动检查 keyCode。
+      on: { click: this.clickHandler},
+      // 仅用于组件，用于监听原生事件，而不是组件内部使用/ `vm.$emit` 触发的事件。
+      nativeOn: {click: this.nativeClickHandler},
+      // 自定义指令。注意，你无法对 `binding` 中的 `oldValue`// 赋值，因为 Vue 已经自动为你进行了同步。
+      directives: [{
+      name: 'my-custom-directive',
+      value: '2',
+      expression: '1 + 1',
+      arg: 'foo',
+      modifiers: {bar: true}
+        }],
+      // 作用域插槽的格式为// { name: props => VNode | Array<VNode> }
+      scopedSlots: {default: props => createElement('span', props.text)},
+      // 如果组件是其它组件的子组件，需为插槽指定名称
+      slot: 'name-of-slot',
+      // 其它特殊顶层属性
+      key: 'myKey',
+      ref: 'myRef',
+      // 如果你在渲染函数中给多个元素都应用了相同的 ref 名，// 那么 `$refs.myRef` 会变成一个数组。
+      refInFor: true
+      },
+      [
+        '先写一些文字',// 这是h1标签的一个文本节点。
+        createElement('h1', '一则头条'),
+        createElement(MyComponent, {// 相当于创建一个组件的子组件。
+            props: {
+                someProp: 'foobar'
+            }
+        })
+      ])
+  }
+})
+```
 ##### b4、插件：
 vuejs的插件是与vue实例分开的，使用时与vue原型绑定在一起。
 ```
@@ -1750,6 +1875,8 @@ v-enter-to：2.1.8 版及以上定义进入过渡的结束状态。在元素被�
 v-leave：定义离开过渡的开始状态。在离开过渡被触发时立刻生效，下一帧被移除。
 v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
 v-leave-to：2.1.8 版及以上定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。
+##### b7、vue项目多页面应用：
+[多页面应用配置及实现。](https://www.jianshu.com/p/eceb2ac9df90)
 #### 6、资源收集：
 webpack学习：https://blog.csdn.net/eeeecw/article/details/80453899
 前端技术文档大全：https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange

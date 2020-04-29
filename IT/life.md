@@ -27,3 +27,6 @@ R逆、U逆*2、R正。
 右图：L正、U正、L逆、U正、L正、U正*2、L逆
 
 https://jingyan.baidu.com/article/2d5afd698580e585a2e28ebd.html
+### 三、生活杂项：
+#### 1、怎么写简历：
+[高质量简历技巧学习地址。](https://zhuanlan.zhihu.com/p/83331370)

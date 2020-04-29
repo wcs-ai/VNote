@@ -80,8 +80,8 @@ https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.
 500 Internal Server Error 最常见的服务器端错误。503 Service Unavailable 服务器端暂时无法处理请求（可能是过载或维护）。
 
 #### 5、虚拟机：
-VMware Workstation虚拟机下载地址：https://www.cr173.com/soft/68480.html
-永久激活密钥：https://blog.csdn.net/bingyu9875/article/details/79128672
+[vmware下载地址{选择user &项下面的Pro结尾的下载，里面有windows和linux版本}](https://my.vmware.com/cn/web/vmware/downloads)。[vmware各版本集或密钥。](https://m.zdfans.com/html/23250.html)[win7镜像下载地址。](http://www.win7zhijia.cn/xitong/fqhy_xiazai_4632.html)
+linux上安装虚拟机：sudo  chmod  +x VMware-...x86_64.bundle。然后：sudo  ./VMware...x86_64.bundle
 安装好并激活后点击新建虚拟机。新建完成后可能会报intel VT-X被禁用的问题： 若是win7的话重启电脑开机时一直按Del键，进入到bios(basic input output system基本输入输出系统标准固件接口)界面，点击高级项或security项(主板不同可能不一样)点击intel 虚拟化技术点击开启。
 新建虚拟机时设置的用户名密码即是系统安装好后的默认用户名，密码。
 创建好后点击编辑为虚拟机安装系统，使用下载好的ios文件，并且点击开启时连接选项。这样进入后会有系统安装界面，再安装即可。 安装过程可能会一直处在命令行界面，过程较慢，一直等待即可，
@@ -186,6 +186,7 @@ nameserver 8.8.8.8
 nameserver 114.114.114.114
 #然后service network restart，如果还是不能连接就在设置》网络中点添加，不填写地址，mac地址选一个试试。
 ```
+<i class="label2">使用sudo报错sudo:/etc/sudoers 可被任何人写 解决方案</i>sudoers的权限被改了，改回来就好了。pkexec chmod 0440 /etc/sudoers
 <i class="label2">无法识别ntfs类型u盘问题</i>从：https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2017.3.23.tgz 下载然后解压，进入目录执行：#./configure #make #make install 然后用命令`mount -t ntfs-3g /dev/sdb1 /home/wcs/usb`挂载u盘，只是每次开机都要这么做。
 <i class="label2">没有中文输入问题</i>设置》language》添加汉语。若还是不行则：`sudo yum install ibus-libpinyin` 然后 `ibus restart` 然后再打开语言设置点添加应该会出现》
 汉语(智能拼音)选项。
