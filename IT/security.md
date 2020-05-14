@@ -80,16 +80,15 @@ https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.
 500 Internal Server Error 最常见的服务器端错误。503 Service Unavailable 服务器端暂时无法处理请求（可能是过载或维护）。
 
 #### 5、虚拟机：
-[vmware下载地址{选择user &项下面的Pro结尾的下载，里面有windows和linux版本}](https://my.vmware.com/cn/web/vmware/downloads)。[vmware各版本集或密钥。](https://m.zdfans.com/html/23250.html)[win7镜像下载地址。](http://www.win7zhijia.cn/xitong/fqhy_xiazai_4632.html)
-linux上安装虚拟机：sudo  chmod  +x VMware-...x86_64.bundle。然后：sudo  ./VMware...x86_64.bundle
+[vmware下载地址{选择user &项下面的Pro结尾的下载，里面有windows和linux版本}](https://my.vmware.com/cn/web/vmware/downloads)。[vmware各版本集或密钥。](https://m.zdfans.com/html/23250.html)
+创建系统时选择镜像文件时会检查该镜像文件，不可用则会有提示。
+**linux上安装虚拟机**：sudo  chmod  +x VMware-...x86_64.bundle。然后：sudo  ./VMware...x86_64.bundle
 安装好并激活后点击新建虚拟机。新建完成后可能会报intel VT-X被禁用的问题： 若是win7的话重启电脑开机时一直按Del键，进入到bios(basic input output system基本输入输出系统标准固件接口)界面，点击高级项或security项(主板不同可能不一样)点击intel 虚拟化技术点击开启。
 新建虚拟机时设置的用户名密码即是系统安装好后的默认用户名，密码。
-创建好后点击编辑为虚拟机安装系统，使用下载好的ios文件，并且点击开启时连接选项。这样进入后会有系统安装界面，再安装即可。 安装过程可能会一直处在命令行界面，过程较慢，一直等待即可，
-安装好后输入密码登录进入即可。若忘记密码则重启，在读条时一直按住e即可进入修改。
-[本机与虚拟机的共享]先安装vm-tools(若宿主中的文件可以复制到虚拟机中说明已安装)
-安装vmware-tools灰色问题：https://www.cnblogs.com/TM0831/p/11788018.html
-在虚拟机系统处于关闭状态：右键虚拟机系统>设置>选项>启用共享功能>添加主机中的指定路径。
-xp，windows系统在电脑下即可看见，若为ubuntu则使用cd /mnt/hgfs 进入。
+创建好后点击编辑为虚拟机安装系统，使用下载好的ios文件，并且点击开启时连接选项。这样进入后会有系统安装界面，再安装即可。 安装过程可能会一直处在命令行界面，过程较慢，一直等待即可，安装好后输入密码登录进入即可。若忘记密码则重启，在读条时一直按住e即可进入修改。
+**vm-tools安装**：在开启虚拟机内部安装的系统时，点击虚拟机上方第四个功能》点击install vmware tools。开机后如果虚拟机内安装的系统是windows则打开电脑，在磁盘旁会显示一个tools的驱动器，点击安装。如果是linux系统，该tools驱动会出现在桌面上，点击安装即可。
+本机与虚拟机的共享：先安装vm-tools。安装完成后宿主机和虚拟机系统间可以直接复制粘贴操作。在虚拟机系统处于关闭状态：右键虚拟机系统>设置>选项>启用共享功能>添加主机中的指定路径。安装vmware-tools灰色问题：https://www.cnblogs.com/TM0831/p/11788018.html
+
 [不能连接网络问题]https://www.cnblogs.com/ustca/p/11729312.html
 ubuntu 64位系统安装：https://ubuntu.com/download/desktop
 #### 6、计算机知识：

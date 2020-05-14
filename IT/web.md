@@ -170,7 +170,7 @@ ele.checked = false;//false表示没选中，true改为选中。
 ele.checked获取复选框状态返回true/false(布尔值，非字符串)。
 ```
 #### 11、JavaScript由3部分组成：
-ECMAScript：解释器、翻译兼容性：完全兼容
+ECMAScript：解释器。翻译兼容性：完全兼容
 DOM：Document Object Model （文本对象）兼容性：部分不兼容。
 BOM：Browser Object Model （浏览器对象）兼容性：不兼容（例如IE，谷歌，火狐，不可能兼容），核心是window，全局对象。
 dom针对的是标准的客户端控件，html标记的这些浏览器展现的内容
@@ -191,7 +191,7 @@ X-FRAME-OPTIONS是一个 HTTP 响应头，在现代浏览器有一个很好的�
 该响应头有三个值可选，分别是：DENY，表示页面不允许通过 iframe 的方式展示。SAMEORIGIN，表示页面可以在相同域名下通过 iframe 的方式展示。ALLOW-FROM，表示页面可以在指定来源的 iframe 中展示。
 [web端安全问题及应对方法。](https://www.cnblogs.com/pretty-sunshine/p/11442326.html)
 #### 14、HTML5规范：
-html5中加了一些新的规范，如下示例：
+html5中加了一些新的规范，如下示例：[H5的一些新标签的使用学习地址。](https://www.cnblogs.com/nuanai/p/8856814.html)
 ```
 <! DOCTYPE html> //声明使用H5规范来解析文档。
 <html>// html5中标签名可以用大写，但推荐使用小写。不要省略html,head,body标签。
@@ -215,7 +215,26 @@ html5中加了一些新的规范，如下示例：
 基数排序：步骤：求出待排数组的最大值确定其最大位数是个位,十位还是百位...；取出带排数组a中的每个数据根据其个位值放到对应的下标的一个空二维数组中去(因为个位相同的可能有多个值将其归为一组)，结束后再将该二维数组中的值依次取出按取出顺序放回原数组中，再按十位为对应下标从原数组中取出值放到二维数组中结束后再依次取出...
 归并排序：将待排数组a划分为若干个子数组，比较1，2个子数组的值将其排好序，对比3，4个子数组的值将其排好序，对比1，2，3，4子数组的值排序(1,2,3,4已分别合并)，前一半的数组排好序后再排后一半子数组，最后合并排序。
 https://www.cnblogs.com/onepixel/articles/7674659.html
-
+#### 16、文档流和BFC：
+文档流其实分为定位流、浮动流、普通流三种。而普通流其实就是指BFC中的FC。FC(Formatting Context)，直译过来是格式化上下文，它是页面中的一块渲染区域，有一套渲染规则，决定了其子元素如何布局，以及和其他元素之间的关系和作用。常见的FC有BFC、IFC，还有GFC和FFC。
+BFC全称是Block Formatting Context，即块格式化上下文。它是CSS2.1规范定义的，关于CSS渲染定位的一个概念。视觉格式化模型定义了盒（Box）的生成，盒主要包括了块盒、行内盒、匿名盒（没有名字不能被选择器选中的盒）以及一些实验性的盒（未来可能添加到规范中）。盒的类型由display属性决定。
+BFC的创建方法：根元素或其它包含它的元素；浮动 (元素的float不为none)；绝对定位元素 (元素的position为absolute或fixed)；行内块inline-blocks(元素的 display: inline-block)；
+表格单元格(元素的display: table-cell，HTML表格单元格默认属性)；overflow的值不为visible的元素；弹性盒 flex boxes (元素的display: flex或inline-flex)；但其中，最常见的就是overflow:hidden、float:left/right、position:absolute。也就是说，每次看到这些属性的时候，就代表了该元已经创建了一个BFC了(是一个独立的布局环境，我们可以理解为一个箱子（实际上是看不见摸不着的），箱子里面物品的摆放是不受外界的影响的)。[参考学习地址1。](https://blog.csdn.net/qf2019/article/details/99828150)[参考学学习地址2。](https://www.cnblogs.com/magicg/p/12650563.html)
+#### 17、盒子模型、定位、浮动：
+盒子模型：html的一个元素就是一个盒子，w3c盒子内容包括：marging、border、padding、content。ie的盒子模型中content部分包括border和padding部分。
+#### 18、web端性能优化：
+先列出一些方法：懒加载、字体图标、图片适当压缩、需要时才加载、vue中用keep-alive缓存加载过的组件、组件项用动态导入组件：Load:import('../component/test')。
+图片处理专项：(png转为jpg后一般能缩小一半，但png色彩更丰富，且透明背景属性，所以项目中一般使用的是png)
+jpg：全名是JPEG，是数码相机的常用格式，特点呢就是色彩还原性好，天生适合风景照，可以在照片不明显失真的情况，大幅度降低体积。
+png：png是最适合网络的图片，色彩丰富，png 不适用于颜色很少，或亮度差异十分明显的较简单的图片。
+<i class="label1">mask-image优化png图片加载</i>如果是不需要透明属性的png图片我们可以直接转为jpg，但如果有透明要求转为jpg后就会透明部分变成白色。
+所以使用css的mask-image属性有一张纯色png图(轮廓与原png一样，纯色填充后是以前的1/100大小)遮在jpg图上(png转化后的)，这样使用jpg图片就能代替png了。
+```
+img {// 不用担心兼容性问题。
+    -webkit-mask-image: url(card-mask.png);
+    mask-image: url(card-mask.png);
+}
+```
 ### 二、CSS
 #### 1、布局注意：
 css中id的等级强于class强于标签名，只要带有id名的选择器（id选择器或是带有id名的兄弟选择器）语句块中定义的样式就是浏览器会显示的，他会覆盖类选择的器、标签选择器（前提：两个不同的选择器作用在一个元素上时；如果是两个相同类型选择器作用在同一个元素上以后一个选择器为主(为主指的是在相同的属性定义上)。
@@ -407,7 +426,10 @@ perspective-orign:50% 50%;//改变视角位置坐标
 }
 ```
 [一排固定几个元素]使用justify-content:space-between且给子元素宽度时，这时宽度不起用，需要加上：flex-direction: row;flex-wrap: wrap;这样每行就能像想象的个数显示。
-
+#### 10、css的重排和重绘：
+网页的渲染是对程序进行顺序扫描后，生成dom树和cssrom，先对元素进行位置放置，然后进行元素样式的渲染。[参考学习地址。](https://www.cnblogs.com/qing-5/p/11341196.html)
+重绘:当元素的一部分属性发生改变，如外观、背景、颜色等不会引起布局变化，只需要浏览器根据元素的新属性重新绘制，使元素呈现新的外观叫做重绘。
+重排（回流）:当render树中的一部分或者全部因为大小边距等问题发生改变而需要DOM树重新计算的过程
 ### 三、javascript
 #### 1、拦截浏览器回退操作：
 ```
@@ -756,7 +778,7 @@ https://blog.csdn.net/xr510002594/article/details/81409426
 https://blog.csdn.net/mooncom/article/details/52402836
 https://blog.csdn.net/codingnoob/article/details/80879208
 #### 17、js数据类型操作：
-javascript数据类型包括：数值、字符串、布尔、null、undefined、对象(对象又包括列表、函数、字典)，6种。
+javascript数据类型包括：数值、字符串、布尔、null(表示尚未存在的对象)、undefined(当声明的变量还未被初始化时，变量的默认值为undefined。)、对象(对象又包括列表、函数、字典)，6种。#alert(null == undefined); //output "true"  。ert(null === undefined); //output "false" 
 <i class="label1">数值</i>parseInt("fjdk889") //转为整型889,剔除字符串。parseFloat()//转为float型。toFixed(2);//保留小数位数。
 <i class="label1">字符串操作</i>x.toString()//转为字符串。x.replace(/target/g,'')//替换,g表示所有满足的都替换。x.concat(“a”,”b”)//可与x连接多个字符串。
 charAt(index)//查找字符串的对应下标的值,“justice”.charAt(1)=”u”。
@@ -764,6 +786,11 @@ toUpperCase("a")方法将小写字母转换为大写,toLowerCase("A")将大写�
 substring(start,end)//提取字符串中介于两个下标间的字符串,start最小从0开始,end可以不填,start下标位置的那个字符也会被返 回，end对应那个下标的字符不会被返回，返回的是开始到end之前的那个下标间的字符串。
 <i class="label1">列表</i>list.indexOf(1)//找到第一个1在列表中的位置，不在则返回-1。list.incloud(1)//是否包含1，返回布尔值。list.join("-")//将各元素用字符链接。list.push(1)//在列表最后添加值。list.pop()//删除最后一个元素。unshift();//在数组最前端添加一个新的值。reverse();//将数组倒置，[1,2,3].reverse();//[3,2,1]。list.shift()//移除第一个元素。
 instanceof//检查一个对象是否为了一个对象中的实例，Console.log(p1 instanceof p2);//p1是否为p2中的实例；
+数组去重：
+function unique (arr) {
+  return Array.from(new Set(arr));//使用集和。
+}
+unique([1,1,'true','true',true,true])
 <i class="label2">splice(位置,操作,值)</i>//splice()方法可以操作数组
 ```
 var arr = [1,2,3,4,5,6];
@@ -778,7 +805,7 @@ alert(arr.splice(0,2))//获取下标0，1的值。
 <i class="label2">映射操作</i>
 map();//将数组中的每个元素调出来都执行一遍回调函数;`[10,20,5,8,99,4].map(ne);`//ne为函数，列表的每个值会被当作ne的参数一一传入。
 forEach()//forEach()方法调用数组的每一个数传递给回调函数。
-例：`arr.forEach(function(i){});`//对数组做循环遍历获取数组各项值当做参数传入到函数中便于函数用其做操作。对象不能使用。ie 1.9以 下不支持;
+例：`arr.forEach(function(value,index,data){});`//对数组做循环遍历获取数组各项值当做参数传入到函数中便于函数用其做操作。对象不能使用。ie 1.9以 下不支持;
 
 #### 18、js对象与json格式互转：
 ```
@@ -826,8 +853,7 @@ cancelAnimationFrame()//方法取消动画。
 touchstart:手指触摸屏幕;addEventListener('touchstart',function(){})
 touchmove:手指在屏幕上移动
 touchend:手指离开屏幕
-event.preventDefault():阻止默认行为；
-event.stopPropagation():阻止冒泡；
+
 event.touches[0].pageX,event.touches[0].pageY//手指坐标，touchend事件中不能用
 event.changedTouches[0].pageX,event.changedTouches[0].pageY;//都可用
 支持多指触摸事件？？？
@@ -837,20 +863,22 @@ event.changedTouches[0].pageX,event.changedTouches[0].pageY;//都可用
 添加手指事件的元素最好都添加颜色（即便是透明）遇到过这种情况。
 参考地址：https://blog.csdn.net/qq_40238154/article/details/78724917
     https://www.cnblogs.com/yangmengsheng/p/5973487.html
-#### 22、jquery中的ready()方法：
-下载好资源后浏览器先对html文件从上往下进行解析,当遇到css样式表时先解析形成CSSOM,然后DOM和cssom形成一颗渲染树进行渲染(先摆放元素位置大小再加样式)
+#### 22、jquery的使用：
+ready()方法：下载好资源后浏览器先对html文件从上往下进行解析,当遇到css样式表时先解析形成CSSOM,然后DOM和cssom形成一颗渲染树进行渲染(先摆放元素位置大小再加样式)
 如果遇到同步js文件(为设置async的script标签)会先解析js文件即:阻断对html的解析.所以推荐奖css样式文件放在头部,js文件放在html尾部。
 将引入js文件的位置放在头部时若js文件中获取html中DOM元素就会失败,解决方法：
-在<script>标签中加上异步属性<script src='' async="async"></script>；
+在`<script>标签中加上异步属性<script src='' async="async"></script>`；
 js文件中使用DOMContentLoaded事件：
 ```
 document.addEventListener('DOMContentLoaded',function(){
 document.getElementById("ele").style.color="red";
 });// ie6,7中使用onreadystatechange事件
 ```
-但window.onload事件会在DOMContentLoaded事件之后加载。而jquery中的ready()方法等三种起手式中都封装了上面的事件，所以引用了jquery之后再在头部中引入其他包含操作DOM元素的js文件也不会报错。将js文件引入位置放在文档尾部</html>内，推荐这么使用。
-https://www.cnblogs.com/caizhenbo/p/6679478.html
+但window.onload事件会在DOMContentLoaded事件之后加载。而jquery中的ready()方法等三种起手式中都封装了上面的事件，所以引用了jquery之后再在头部中引入其他包含操作DOM元素的js文件也不会报错。将js文件引入位置放在文档尾部</html>内，推荐这么使用。https://www.cnblogs.com/caizhenbo/p/6679478.html
 https://developer.mozilla.org/zh-CN/docs/Web/Events/DOMContentLoaded
+隐藏和显示：$("p").hide();$("p").show();
+淡入淡出：$("#p").fadeIn(1000,callback);$("#p").fadeOut(1000,callback) //第一个参数是变化的时间，第二个参数是运行完成后的回调函数。
+动画： $("div").animate({left:'250px'},2000,callback);//变换的属性、时间、运行完后的回调。
 #### 23、js es6语法大全
 ```
 let a = 10;//#######块级作用域let定义变量,只在定义的块或附近的块有用，如for循环中
@@ -973,7 +1001,7 @@ catch(err){console.log(err.message);}
 ```
 try,catch用于预测一些自己觉得可能会因为语法错误、取值不存在或方法不存在等情况下使用(写在try后的{}中)，catch后可传一个参数值，err.message输出
 错误提示(catch后的{}中写发生错误后运行的语句)。try模块中只要有一句语句被判有误就会立刻跳到catch模块中去执行。
-#### 26、：事件
+#### 26、事件：
 <i class="label1">事件流</i>事件流描述的是从页面中接收事件的顺序。事件发生时会在元素节点与根节点之间按照特定的顺序传播，路径所经过的所有节点都会收到该事件，这个传播过程即DOM事件流。事件传播的顺序对应浏览器的两种事件流模型：捕获型事件流和冒泡型事件流。
 冒泡型事件流：事件的传播是从最特定的事件目标到最不特定的事件目标。即从DOM树的叶子到根。【推荐】
 捕获型事件流：事件的传播是从最不特定的事件目标到最特定的事件目标。即从DOM树的根到叶子。（事件冒泡先发生）
@@ -987,6 +1015,8 @@ document.getElementById("myBtn").addEventListener("click", function(e){
     document.getElementById("demo").innerHTML = "Hello World";
 });
 ```
+event.preventDefault():阻止默认行为；
+event.stopPropagation():阻止冒泡；
 <i class="label1">js事件冒泡与事件捕获</i>
 ![paopao](_v_images/20200424091838620_274839134.png =270x)
 如上图所示，先发生事件捕获再发生事件冒泡，子元素绑定的事件会被层层传递，所以在点击其父元素时也会触发子元素绑定的事件。
@@ -1679,6 +1709,34 @@ router.beforeEach((to,from,next)=>{
 })
 ```
 跳转路由时缓存页面，避免被再次渲染。[跳转时页面缓存的方法。](https://www.cnblogs.com/smart-girl/p/10496769.html)
+<i class="label1">router的两种模式：</i>hash模式背后的原理是onhashchange。因为hash发生变化的url都会被浏览器记录下来，从而你会发现浏览器的前进后退都可以用了，同时点击后退时，页面字体颜色也会发生变化。这样一来，尽管浏览器没有请求服务器，但是页面状态和url一一关联起来，后来人们给它起了一个霸气的名字叫前端路由，成为了单页应用标配。[学习地址。](https://www.cnblogs.com/imgss/p/7492333.html)
+```
+ // history=>history.pushState 浏览器历史纪录添加记录。history.replaceState 修改浏览器历史纪录中当前纪录。history.popState 当history 发生变化时触发
+ // 使用时将state去掉，如：this.$router.push(url)
+```
+// hash模式：hash模式url中会带有#号，破坏url整体的美观性, history 需要服务端支持rewrite, 否则刷新会出现404现象
+```
+window.onhashchange = function(event){
+    console.log(event.oldURL, event.newURL);
+    let hash = location.hash.slice(1);
+    document.body.style.color = hash;
+
+}
+```
+// 模式切换
+```
+export default new Router({
+  mode:'history', // 默认是hash
+  routes: [
+    {
+      path: '/',
+      name: 'HelloWorld',
+      component: HelloWorld
+    }
+  ]
+})
+```
+
 ##### b1、混入：
 混入 (mixin) 提供了一种非常灵活的方式，来分发 Vue 组件中的可复用功能。
 ```
@@ -1875,8 +1933,30 @@ v-enter-to：2.1.8 版及以上定义进入过渡的结束状态。在元素被�
 v-leave：定义离开过渡的开始状态。在离开过渡被触发时立刻生效，下一帧被移除。
 v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
 v-leave-to：2.1.8 版及以上定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。
-##### b7、vue项目多页面应用：
-[多页面应用配置及实现。](https://www.jianshu.com/p/eceb2ac9df90)
+
+##### b7、vuejs中处理跨域：
+vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
+```
+module.exports = {
+  dev: {
+      proxyTabel:{
+          "/api": {//    一条是一个跨域设置，
+				target: "http://loacalhost:3000",//跨域地址。
+				changeOrigin: true,// 是否跨域
+				ws:true,// 是否使用https
+				pathRewrite: {// 设置此项。使用时可以用这个键名来代替下面的域名。
+					'^/api': '', //如请求http://localhost:3000/main时写成=》/api/main即可。
+				}
+			}
+      },
+  },
+  build:{}
+}
+```
+[vuejs设置跨域方法学习地址。](https://www.cnblogs.com/wangqiao170/p/9288160.html)
+##### b8、vue多页面应用配置：
+[vue多页面应用配置教程。](https://blog.csdn.net/weixin_44135121/article/details/94445734)
+
 #### 6、资源收集：
 webpack学习：https://blog.csdn.net/eeeecw/article/details/80453899
 前端技术文档大全：https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange
@@ -1905,3 +1985,74 @@ pc端和手机端都下载google浏览器，手机上打开开发者选项并允
 ![google_phone](_v_images/20200419110535134_1308380564.jpg)
 若下面没有显示手机型号可以多等待一会试试，输入框中输入要打开的网页,如果是打开自己做的项目地址要写成pc地址加文件名(例:浏览器中带服务打开网页为
 127.0.0.1:5500/self.html,需要输入192.168.1.12:5500/self.html)这里的192.168.1.12是你pc的ipv4地址。(注:虽然在手机浏览器上能看到效果但其实在pc端浏览器上运行的效果,并不是在手机端浏览器环境下运行出来的)。[参考地址1。](https://www.cnblogs.com/meakchen/p/5665887.html)[参考地址2。](https://www.cnblogs.com/imwtr/archive/2016/09/18/5881039.html)
+#### 10、webpcak：
+安装：npm install webpack -g#全局安装。在文件目录下使用：npm init#会在当前路径下生成一个mypackage文件夹，里面有package.json文件、webpack.config.js文件和src文件夹。
+配置：[webpack详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)
+//package.json文件=>记录一些项目信息、各工具版本信息、命令信息等。
+```
+//webpack.config.js文件内容，在vue-cli初始化的项目中对应build文件夹下的webpack.base.config.js文件。
+const path = require('path')
+const utils = require('./utils')
+const config = require('../config')//默认导入的是config文件夹下的Index.js文件。
+
+module.exports = { //到出这个配置对象。
+  context: path.resolve(__dirname, '../'),
+  entry: {//指定入口文件，要求是js文件。
+    app: './src/main.js'
+  },
+  output: {// 指定打包后的输出文件位置。
+    path: config.build.assetsRoot,// 输出文件路径
+    filename: '[name].js',//输出文件名
+    publicPath: process.env.NODE_ENV === 'production'
+      ? config.build.assetsPublicPath
+      : config.dev.assetsPublicPath
+  },
+  module: {// module中写一些要使用的加载器，来解析对应的sess，less，css之类的东西。
+    rules: [{
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: vueLoaderConfig
+      }]
+   },
+   plugins: [ //配置第三方插件，会按顺序加载。
+    new webpack.DefinePlugin({'process.env': env}),
+    new UglifyJsPlugin({
+      uglifyOptions: {compress: {warnings: false}},
+      sourceMap: config.build.productionSourceMap,
+      parallel: true
+    }),
+   ]
+}
+```
+原理：[原理学习地址。](https://www.jianshu.com/p/44e6741e3b7e)
+Webpack 的构建流程可以分为以下三大阶段：在每个大阶段中又会发生很多事件，Webpack 会把这些事件广播出来供给 Plugin 使用。
+1.初始化：启动构建，读取与合并配置参数，加载 Plugin，实例化 Compiler。
+2.编译：从 Entry 发出，针对每个 Module 串行调用对应的 Loader 去翻译文件内容，再找到该 Module 依赖的 Module，递归地进行编译处理。
+3.输出：对编译后的 Module 组合成 Chunk，把 Chunk 转换成文件，输出到文件系统。如果只执行一次构建，以上阶段将会按照顺序各执行一次。
+#### 11、uni-app的使用：
+**介绍**：uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉/淘宝）、快应用等多个平台。结合Hbuilder x使用，文件新建一个项目选择uni-app项目(网站、app、小程序都选这个)。[uni-app官网。](https://uniapp.dcloud.io/)[插件市场](https://ext.dcloud.net.cn/search?q=uni-ui)。
+**项目目录结构**：pages文件夹存放业务页面，pages/index/index.vue页面是app打开时的引导页面。创建其它页面时新建一个文件夹然后在文件夹内建页面，可以多个页面放一个文件夹。
+static文件夹存放静态资源文件。main.js文件是vue实例化入口。APP.vue页面写全局样式，生命周期函数。manifest.json文件配置应用名、appid、图标等。package.json配置路由，选项卡、插件、导航条等。
+**插件、组件的使用**：在插件市场中可以搜索想要的插件，点击hbuildx导入能直接调用hbuilderx安装插件，安装好后会放在目录下的components中，当作组件调用即可，示例：
+```
+<pop type="text"></pop> //不用:来表示绑定。
+import pop from "@/components/load.vue"    //导入。
+export default{
+    data(){
+        return {text:'hh'}
+    }
+}
+```
+一些常用插件地址：[弹出框(顶、中、底弹出)。](https://ext.dcloud.net.cn/plugin?id=329)[头部导航插件。](https://ext.dcloud.net.cn/plugin?id=52)[时间、日期、城市联动选择器。](https://ext.dcloud.net.cn/plugin?id=273)
+**页面生命周期函数**：
+onLoad	监听页面加载，其参数为上个页面传递的数据，参数类型为Object（用于页面传参
+onShow	监听页面显示
+onReady	监听页面初次渲染完成
+onHide	监听页面隐藏
+onUnload	监听页面卸载
+onPullDownRefresh	监听用户下拉动作 ，一般用于下拉刷新
+onReachBottom	页面上拉触底事件的处理函数
+onPageScroll	监听页面滚动 ，参数为 Object
+onTabItemTap	当前是 tab 页时，点击 tab 时触发。
+onShareAppMessage	用户点击右上角分享
+**尺寸单位**：uni-app中使用upx为自适应单位，与小程序一样，750upx占满屏宽，设计稿不是750大小的需要与750算一个比例，然后在量一个元素大小时乘以该比例转化为upx大小即可。动态的写入upx单位不会生效，需要转为px再写入。如果要转换upx，只要在manifest.json里配置下面"transformPx" : true。
