@@ -342,12 +342,12 @@ ICPSR:http://www.icpsr.umich.edu/icpsrweb/ICPSR/
 APublicDatasets:https://github.com/caesar0301/awesome-public-datasets
 YahooWebscopeProgram:http://webscope.sandbox.yahoo.com/
 数据堂:http://www.datatang.com/
+[几个数据集网站地址分享。](https://blog.csdn.net/luochao5862426/article/details/79564311)
 一个比较全的nlp各类型数据集汇总：https://www.ctolib.com/CLUEbenchmark-CLUEDatasetSearch.html
 实体数据、情感分析、问答、推荐数据：https://blog.csdn.net/mrjkzhangma/article/details/91988492
 图像识别(文章)：https://blog.csdn.net/Song_Esther/article/details/82808281
 http://www.atyun.com/resources/?act=download_list&id=1
 各种类型数据集下载地址：https://blog.csdn.net/m0_37167788/article/details/79093827
-IDM情感分析数据集下载：http://ai.stanford.edu/~amaas/data/sentiment/
 自然语言处理数据集：https://blog.csdn.net/tmb8z9vdm66wh68vx1/article/details/93426915
 对话系统语料数据：https://github.com/candlewill/Dialog_Corpus    (点击README.md,里面有很多对话语料数下载链接)
 目标跟踪视频数据：https://blog.csdn.net/weixin_30679823/article/details/94832966
@@ -1232,6 +1232,7 @@ data = np.genfromtxt('aa.csv',delimiter="",skip_header=1,dtype='U75')
 np.save('name.npy',x);np.load('name.npy')#保存数组到文件，导出数据。
 np.savetext('name.text',x);np.load('name.text')#文本形式
 【数据操作、计算】
+x = np.power(2,3)#计算指数值，第二个参数为指数。
 x = np.transpose(data,[1,0,2])#与tensorflow的transpose作用一样
 data.astype(np.int32)//数据类型
 b=np.argsort(a)//返回数组a培训后的值对应在排序前的索引位置。
@@ -1296,9 +1297,9 @@ Pd.Series([[1,2],[2,1]],index=pd.date_range(“20181025”,periods=2),columns=[]
 x.isnull()#isnull()方法将数组中的所有值变为True和False，nan的值为True，其余为False；x.isnull().any()则判断哪些列存在缺失值。
 notnull()方法与isnull()方法相反
 <i class="label1">切片、索引</i>
+**选择多列值**：`y=x[['a','b','d']]`#选择a,b,d三列组成一个新的dataFrame，选择多列时类似。
 a.loc[0]或 a.loc[0,'a']查找行,Df.iloc[1,2]#按索引查值;
-x['a'][0]能精确的访问到一个具体的值，如果要
-很明确的访问那几个值得使用x['a'][[0,6,3,4]]的格式.如果x是一个二维数组就直接用x[[1,2,3]]会报错的。)若选取的位置超出范围会被算做None填充查找。使用x['a'][0:5]能访问紧挨着的值。
+x['a'][0]能精确的访问到一个具体的值，如果要很明确的访问那几个值得使用x['a'][[0,6,3,4]]的格式.如果x是一个二维数组就直接用x[[1,2,3]]会报错的。)若选取的位置超出范围会被算做None填充查找。使用x['a'][0:5]能访问紧挨着的值。
 x[x.notnull()]返回的是去除nan的值后的数组使用list(x)的效果和x.values()的效果一样都是去除了标记后的数组。
 <i class="label2">数据离散化分箱</i>pd.qcut(lst,q=3)#等深分箱，lst时一个一位列表，q=3表示分为3份。pd.cut(lst,bins=3)#等宽分箱。
 <i class="label1">多条件查找操作</i>
@@ -1312,7 +1313,7 @@ df['a'][df['a']>10] = None与df[df["a"]>10]=None查找出的结果不同,前一�
 Df[df[‘b’].isin[1,2]] #isin查找在b列有1和2的所对应的行；
 <i class="label1">去除None值</i>
 res = X.dropna(axis=0,how="any")#axis为0表示去掉None值所在的那一行,1为去掉列返回结果，how为all时表示该行/列全为None时才剔除。
-x = x.drop(index=[0,1],0)#drop()方法去掉数组的行和列,第二个参axis值指定列或行index,columns中写删除的具体位置。
+x = x.drop(index=[0,1],axis=0,columns=['a','b'],inplace=False, errors='raise')#drop()方法去掉数组的行和列,axis值指定列或行,index,columns中写删除的那几行和列。
 X.fillna(value=2,method,axis) #将缺失值替代为2
 X.fillna({1:x[1].mean(),3:x[3].mean()})#传入字典表示，第1列缺失值用均值代替,第3列缺失值用均值代替
 
@@ -1323,9 +1324,8 @@ ascending为True则升序(默认)，inplace表示排序后的数据是否替换�
 kind表示排序使用的方法('quicksort','mergesort','headsort')。
 df.count()#统计非NaN值的数量，不是python自带的count()方法。
 <i class="label1">计算</i>
-data.describe()#describe()方法返回数组的一些信息，如下：
-count：描述每列的数值个数，max,min:描述每列的最大最小值；
-mean,std:描述每列的平均值，方差；25%,50%,75%...??
+v=data.describe()#describe()方法返回数组的一些信息，如下：(data是多列的情况下会列出各列的column名，用`v['列名']['mean']`的方式来获取相应值)
+count：描述每列的数值个数，max,min:描述每列的最大最小值；mean,std:描述每列的平均值，方差；25%,50%,75%...。`dict(v['列名'])`#将该列统计变为字典
 x.mean()#求平均值; x.std(ddof=1)#标准方差，要使用pandas中的std求标准差
 时需要加ddof=1属性。
 pd.concat([a,b])#连接两个数组(添加新的列的方式做连接)
@@ -1360,14 +1360,12 @@ df.to_csv("a.csv",index=False)#将数组df保存为csv文件中，index=False表
 #### 43、Scipy库常用函数：
 from scipy.interpolate import UnivariateSpline,interp1d,lagrange
 from scipy import misc,ndimage
-
-[插值]
+**[插值]**
 f = interp1d(x,y,kind='line')#x,y是已知的一组数据的输入，输出
 g = UnicariateSpline(x,y)
 lagrange(x,y)(10)
 print(f(2),g(missi))#f成为一个回归函数，来预测新值。kind还有cubic...
-
-[图片处理模块]
+**[图片处理模块]**
 face = misc.face()#misc模块中存放着图片,face()方法表示选中了里面的一张
 face.png图片，应该说是获得了该图片的像素数据以一个矩阵的形式
 x,y=face.shape#获得像素矩阵face的行数和列数。
@@ -1387,9 +1385,24 @@ misc.imsave('ac.jpg',img)//也是一个图片保存的方法
 from scipy.linalg import svd
 u,s,v = svd(X)#调用奇异值分解方法得到mxm的矩阵u，奇异值数为n的s，nxr的矩阵v
 卷积：ndimage.convolve(img,kernel)#卷积操作，img是图片数据,kernel是卷积核
-[读取音频文件]
+**[读取音频文件]**
 from scipy.io import wavfile as wav
 rate,sig = wav.read('av.wav')#rate是采样率，sig是采样得的数据
+**正态分布检验**：尽量数据是连续型变量时使用。
+[参考学习地址1。](https://www.cnblogs.com/shona/p/12364216.html)[参考学习地址2。](http://blog.sina.com.cn/s/blog_8f03874a0102vxxq.html)
+```
+from scipy import stats
+a = np.random.normal(0,1,1500)
+# shapiro-wilk的W统计量检验。得到的第一个值是统计量，第二个值是p值。适合小样本，一般<=2000时使用。
+b = ss.shapiro(a)#统计量值越接近1则越近似正态分布，p值大于设置的显著性水平则接受原假设(是正态分布)，[一般设置为0.05]
+
+# k-s检验，第二个参数norm表示做正态分布假设检验，还能做其它分布检验。
+c = ss.kstest(rvs=a,cdf='norm',alternative='two_sided', mode='approx')#得到统计量、p两个值，这个统计量越接近0越近似正态分布，p值与上面一样使用。
+
+# 一个基于偏态和峰态方法的检验。同样返回统计量和p值。
+nan_policy为有空值时的处理方法：propagate=>返回空值，rais=>有空值时抛出异常。omit=>省略空值。
+d = stats.normaltest(a,axis=0, nan_policy='propagate')#axis指定在哪个轴上做检验。
+```
 #### 44、Scikit-learn库常用函数：
 ##### a：数据处理、插值、规范化。
 ```
@@ -1621,7 +1634,7 @@ plotly：plotly也是一个非常强大的数据可视化工具，支持js、pyt
  import plotly.plotly as py
  from plotly.graph_objs import *
  plotly.tools.set_credentials_file(username="你的账号",api_key="你的API密钥")
- 
+
  trace0 = Scatter(
      x=[1,2,3,4,],
      y=[10,15,13,17]
@@ -1635,7 +1648,7 @@ plotly：plotly也是一个非常强大的数据可视化工具，支持js、pyt
 ```
 #    离线绘图示例，运行后可能会提示Unable to open X display的错误信息，但运行路径下会生成temp-plot.html文件。
 #    也可尝试用Jupyter运行。
-from plotly.graph_objs import go
+from plotly.graph_objs as go
 import plotly.offline
 ####    绘制散点图、折线图。
 trace0 = go.Scatter(
@@ -3782,8 +3795,7 @@ a、各点被分在四个像限内，不在同一像限内的话题说明差别�
 
 <i class="label1">用户画像</i>标签化的用户行为特征，由交互设计之父Alan Cooper提出。可以由以下3类数据中整合得出：用户数据(用户注册时停写的信息、搜索的商品、发表的评论等)、商品数据(商品的类型、风格来侧面推导)、渠道数据(用户在其它平台的信息、购买的记录等)。
 <i class="label2">建模产出标签和对应权重</i>除了一些用户出身日期、性别等固定标签外，用户每次行为可以描述为：用户<i class="green">(识别用户的标记，如id手机号)</i>，地点<i class="green">(如购买平台)</i>，时间<i class="green">(行为时间，计算其衰退)</i>，发生的事<i class="green">(行为类型，如搜索、评论)</i>。标签权重=时间衰减（何时）×网址权重（何地）×行为权重（做什么）。然后用一个简称来加权重来表示一个标签。
-<i class="label1">偏态与峰态</i>当一个分布的中位数或众数与其平均值相差较大时就说这个数据是偏态的，也就是有偏斜的数据，偏态系数是用于描述数据偏移程度的，计算如下图左式：
-偏态系数为负时称为负偏态或左偏态。
+<i class="label1">偏态与峰态</i>当一个分布的中位数或众数与其平均值相差较大时就说这个数据是偏态的，也就是有偏斜的数据，偏态系数是用于描述数据偏移程度的(说明随机系列分配不对称程度的统计参数)，计算如下图左式：偏态系数为负时称为负偏态或左偏态。负偏态情况下多数大的值在中心索引轴的右侧，相反正偏态则多数大的值在左侧。
 ![pf](_v_images/20200429152321569_111207531.png)
 而峰态表征概率密度分布曲线在平均值处峰值高低的特征数。直观看来，峰度反映了尾部的厚度。峰态系数为上图右式，随机变量的四阶中心矩与方差平方的比值。一般峰态系数与正太分布的峰态系数(3)超过2就认为该分布不符合正太分布。
 [引导。](https://blog.csdn.net/r6auo52bk/article/details/79308190)
