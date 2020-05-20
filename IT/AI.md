@@ -1403,6 +1403,26 @@ c = ss.kstest(rvs=a,cdf='norm',alternative='two_sided', mode='approx')#得到统
 nan_policy为有空值时的处理方法：propagate=>返回空值，rais=>有空值时抛出异常。omit=>省略空值。
 d = stats.normaltest(a,axis=0, nan_policy='propagate')#axis指定在哪个轴上做检验。
 ```
+使用z检验：评估两组变量平均值的差异性(z检验,使用样本数大于30时使用)
+```
+from statsmodels.stats import weightstats
+#单样本检验时x2写为None，value写为与arr检验的值。m[1]是p值，与t检验一样处理
+m = weightstats.ztest(arr, x2=akk, value=0,#双样本检验时x2,arr为列表,value=0
+                     alternative='two-sided',
+                      usevar='pooled', ddof=1.)
+```
+使用t检验：
+```
+from scipy.stats import ttest_1samp,levene,ttest_ind
+ages = [18,23,10,5,8,30,32,58,40,67,72]
+x = [13,22,70,50,42,36]
+q=levene(ages,x).pvalue # 检测方差对齐性
+bl = True if q > 0.05 else False
+#第二个参数可以是列表得到的pval也会是列表，对应每个值的p值。
+tset,pval = ttest_1samp(ages,12)#单总体检验，第二个参数是已知的总体样本均值
+t1,p1 = ttest_ind(ages,x,equal_var=bl)
+```
+其它检验：f检验，leven检验，ANOVA检验。
 #### 44、Scikit-learn库常用函数：
 ##### a：数据处理、插值、规范化。
 ```
@@ -2586,26 +2606,7 @@ print(model1.pvalues_)#每个特征项的卡方分布值。
 ![spearman](_v_images/20200430224915116_134781214.png)
 <i class="label2">c、分类和连续</i>
 
-使用z检验：评估两组变量平均值的差异性(z检验,使用样本数大于30时使用)
-```
-from statsmodels.stats import weightstats
-#单样本检验时x2写为None，value写为与arr检验的值。m[1]是p值，与t检验一样处理
-m = weightstats.ztest(arr, x2=akk, value=0,#双样本检验时x2,arr为列表,value=0
-                     alternative='two-sided',
-                      usevar='pooled', ddof=1.)
-```
-使用t检验：
-```
-from scipy.stats import ttest_1samp,levene,ttest_ind
-ages = [18,23,10,5,8,30,32,58,40,67,72]
-x = [13,22,70,50,42,36]
-q=levene(ages,x).pvalue # 检测方差对齐性
-bl = True if q > 0.05 else False
-#第二个参数可以是列表得到的pval也会是列表，对应每个值的p值。
-tset,pval = ttest_1samp(ages,12)#单总体检验，第二个参数是已知的总体样本均值
-t1,p1 = ttest_ind(ages,x,equal_var=bl)
-```
-其它检验：f检验，leven检验，ANOVA检验。
+
 ##### 二、异常数据处理：
 1、删除异常值。
 2、使用前后两个数据的平均值代替。
