@@ -29,6 +29,7 @@ https://www.cnblogs.com/accumulater/p/7110811.html
 [桌面图标整齐排列]桌面空白右键》查看》
 [安装cuda图像驱动程序时提示：此图形驱动程序无法找到兼容的图像硬件]
 https://www.iteye.com/blog/yuanlanxiaup-1330287
+#### c、windows系统安装：
 #### 2、快捷键提升操作速度：
 切换已经打开的软件：window+table,ctrl+o打开文件夹，win+D直接切换到桌面
 浏览器中：

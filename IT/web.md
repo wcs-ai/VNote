@@ -235,6 +235,14 @@ img {// 不用担心兼容性问题。
     mask-image: url(card-mask.png);
 }
 ```
+#### 19、文字继承单选框和复选框：
+```
+<input type="radio" id="a"/> <label for="a">点我触发前面id为a的单选框</label>
+<input type="checkbox" id="b"/> <label for="b">点我触发前面id为b的复选框</label>
+{
+    appearence:button;//设置单选框或复选框为正常状态。为none时无法使用
+}
+```
 ### 二、CSS
 #### 1、布局注意：
 css中id的等级强于class强于标签名，只要带有id名的选择器（id选择器或是带有id名的兄弟选择器）语句块中定义的样式就是浏览器会显示的，他会覆盖类选择的器、标签选择器（前提：两个不同的选择器作用在一个元素上时；如果是两个相同类型选择器作用在同一个元素上以后一个选择器为主(为主指的是在相同的属性定义上)。
@@ -433,11 +441,16 @@ perspective-orign:50% 50%;//改变视角位置坐标
 ### 三、javascript
 #### 1、拦截浏览器回退操作：
 ```
+// 拦截history模式的回退。
 pushState()和popstate是H5的新属性。
 history.pushState(null,null,document.URL);
+// 添加popstate事件监听变化。
 window.addEventListener('popstate',function(){
 history.pushState(null,null,document.URL);
 });
+// 拦截hash模式的回退
+function c(){var url = window.location.href;}//获取到的是变化后的地址。用正则表达式来监听是否是回退到了上一个页面。
+window.onhashchange = c; //onhashchange可以今天hash模式的变化，触发函数c。
 ```
 #### 2、转码：
 ```
@@ -1126,6 +1139,7 @@ git Barsh安装成功后打开(是一个命令行工具),操作如下：
 在github上创建一个仓库(点击加号选择第一个New repository),复制第一项中的url地址,然后打开Git Bush进入一个想放项目的文件目录中使用cd进入(cd G:/web),使用语句：git clone https://github.com/master,之后会在该目录下生产一个与你的仓库名同名的一个文件夹,将代码文件复制到该文件夹中,然后命令进入该文件夹(cd GanMa)再输入git add .(把文件添加进来)再输入git commit -m"xiaoswuwei"读
 入完文件后输入git push -u origin master（传入到仓库中）.使用git clone +地址，也能下载别人仓库中的文件。http://www.runoob.com/w3cnote/git-guide.html
 团队协作：https://blog.csdn.net/carfge/article/details/79691360
+合并冲突解决：协商解决冲突的页面，然后git add /src/...将冲突的页面加入，git commit -m 'merge'提交即可。
 各种场景的撤销命令：
 git merge --abort //合并过程中的撤销合并
 git reset --hard HEAD^ //回退到前一个版本 ^^回退两个  ~100回退多个
@@ -1325,10 +1339,11 @@ https://segmentfault.com/q/1010000010881298/a-1020000010884089
 https://www.jianshu.com/p/7302e2c7f4b7
 #### 3、nodejs：
 简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于Chrome JavaScript 运行时建立的一个平台。Node.js是一个事件驱动I/O服务端JavaScript环境，基于Google的V8引擎，V8引擎执行Javascript的速度非常快，性能非常好。
-一般认为javascript是浏览器端的脚本语言，但是google将其再开发，用来作为服务器端脚本环境，其性能自称比Python、Perl、PHP还要快。node.js的最大优点是处理并行访问，如果一个web应用程序同时会有很多访问连接，就能体现使用node.js的优势。
-另一个好处是，使用javascript作为服务器端脚本语言，可以消除答一些与浏览器端js脚本的冲突。甚至发挥javascript动态编程的特性，在服务器与浏览器之间建立直接的动态程序。
-**linux上nodejs的安装：**官网上下载nodejs的linux压缩包，解压进入，将node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后node -v 安装成功。
-**配置淘宝安装源：**npm本身指定的安装源是外国的，下载时多数会比较慢，`npm config set registry https://registry.npm.taobao.org`
+一般认为javascript是浏览器端的脚本语言，但是google将其再开发，用来作为服务器端脚本环境，其性能自称比Python、Perl、PHP还要快。node.js的最大优点是处理并行访问，如果一个web应用程序同时会有很多访问连接，就能体现使用node.js的优势。另一个好处是，使用javascript作为服务器端脚本语言，可以消除答一些与浏览器端js脚本的冲突。甚至发挥javascript动态编程的特性，在服务器与浏览器之间建立直接的动态程序。
+**windows上安装**：官网下载node的zip包，解压后将路径添加到path路径即可。
+**linux上nodejs的安装**：官网上下载nodejs的linux压缩包，解压进入，将node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后node -v 安装成功。
+**配置淘宝安装源**：npm本身指定的安装源是外国的，`npm install -g cnpm --registry=https://registry.npm.taobao.org`#安装淘宝镜像,使用时直接cnpm install即可.
+[参考学习地址.](https://www.cnblogs.com/onew/p/11330439.html)
 #### 4、postman的使用：
 (百度搜索下载postman安装)输入框左边选择请求方式，输入框中输入请求接口，下方Params项中输入要传的键值和value值，键值和value值的输入不需用单引号或双引号不然会出错,若报错可以在body项中选择form-data然后输入Params项中的键值和value值再点Send.
 #### 5、vuejs：
