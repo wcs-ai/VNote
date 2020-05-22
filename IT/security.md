@@ -126,8 +126,10 @@ TPU 并没有设计成一个独立的“CPU“，而是设计成一块像显卡�
 #### 7、linux系统的使用：
 <i class="red">unix，linux，windows系统综述：</i>UNIX系统大多是与硬件配套的，也就是说，大多数UNIX系统如AIX、HP-UX等是无法安装在 x86 服务器和个人计算机上的。Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。以上是专业的解释，简单说Linux是一个免费的操作系统，其也是非常的好的支持服务器环境，且其不太适合图形化操作更适合命令行操作。windows系统除了win7,8,10外还有windows server系列，这些服务器版本的windows和普通windows版本的不同在于其是根据服务器需求进行开发的，如支持更大的内存、支持一些服务器的策略设置、支持服务器集群等，这些功能都是针对服务器的功能，总之windows server版本就是一个适合服务器的操作系统版本，其功能大多都是针对服务器的。
 <i class="orange">服务器系统的选择：</i>一般服务器系统只会是linux系统和windows server系统中选择，对于不同的服务，如web网站、数据库等会选择不同的系统。
-<i class="label1">linux的安装(非虚拟机上的安装)</i>安装前需要先在准备一个u盘做启动盘(会格式化该u盘)，下载好想安装的ubuntu或其它版本iso文件(不要放到u盘)，然后使用usbWrite，rush等工具制作启动盘<span class="gray">(这种是直接将映像文件写入u盘的方式，工具比较小，另一种是先制作启动盘然后将映像文件拷贝进去的方法，如果是ghost文件则只需要直接拷贝，若只是普通iso文件则还要下载其它引导安装的文件比较复杂，这适合windows系列的安装)</span>；接下来进入bios界面使用u盘来启动电脑<span class="gray">boot项选择add boot option然后第一个输入框写名，第二项选择u盘中的efi文件夹下的合适的efi文件，然后点击下方的create，保存重启后选择刚才的那个boot option进入安装</span>。win10的u盘启动选项可以在：设置>系统更新>疑难问题部分下面选择。
-<i class="label1">linux命令</i>因为版本众多可能部分命令在不同版本中会不可用，特别是ubuntu，其自改的部分较多。
+##### a、linux的安装(非虚拟机上的安装)：
+安装前需要先在准备一个u盘做启动盘(会格式化该u盘)，下载好想安装的ubuntu或其它版本iso文件(不要放到u盘)，然后使用usbWrite，rush等工具制作启动盘<span class="gray">(这种是直接将映像文件写入u盘的方式，工具比较小，另一种是先制作启动盘然后将映像文件拷贝进去的方法，如果是ghost文件则只需要直接拷贝，若只是普通iso文件则还要下载其它引导安装的文件比较复杂，这适合windows系列的安装)</span>；接下来进入bios界面使用u盘来启动电脑<span class="gray">boot项选择add boot option然后第一个输入框写名，第二项选择u盘中的efi文件夹下的合适的efi文件，然后点击下方的create，保存重启后选择刚才的那个boot option进入安装</span>。win10的u盘启动选项可以在：设置>系统更新>疑难问题部分下面选择。
+##### b、linux命令：
+因为版本众多可能部分命令在不同版本中会不可用，特别是ubuntu，其自改的部分较多。
 linux命令包下载网(搜索包名，对应的description中有下载地址)：https://pkgs.org
 Ubuntu不再持rpm命令，因为它是debian的变种, 其软件以deb包或者源文件的形式出现。
 命令行窗口：ctrl+alt+t
@@ -165,7 +167,7 @@ vi a.txt  #使用vim编辑器打开文件，不过内容是显示在终端。
 <i class="label1">软件包、库安装</i>对于deb格式的包比较适合debian,ubuntu系统，而rpm后缀名的包适合centos。<em class="violet">ubuntu上安装deb格式的包：</em>sudo dpkg software.deb  #解包，设置，安装software.deb。报依赖错误使用：sudo apt-get -f --fix-missing install，然后再试。<em class="violet">centos上安装deb的包：</em>先要将其转为rpm格式的包，[deb包转为rpm包教程。](https://blog.csdn.net/cpongo3/article/details/96425227)<em class="green">rpm包安装：</em>rpm -i soft.rpm #-i制定安装的包。需要验证的包可以：rpm -ivh google.rpm安装。<span class="green">rpm安装包时解决依赖问题：</span>在安装命令后加--nodeps --force。[rpm命令参数详解。](https://blog.csdn.net/ywl470812087/article/details/90140026)
 <i class="label2">yum install时提示下载元数据失败问题</i>可能是网络问题，可以多运行几次试试，若一直提示失败可以看看这个方法。[repo 'base' 下载元数据失败解决地址。](http://www.linuxidc.net/thread-9716-1-1.html)
 <i class="label1">清理缓存的包</i>debian和ubuntu：sudo apt autoremove    centos中：dnf clean packages
-<i class="label1">系统问题集</i>
+##### c、系统问题集：
 <i class="label2">查看系统状态</i>系统自带top命令可查看，或安装htop。sudo apt-get install htop。然后htop即可查看漂亮的显示界面,Mem是运行内存,swp是交换分区。[htop所有参数使用](https://blog.csdn.net/Dly_978812854/article/details/102223731)
 <i class="label2">软件卸载</i>bian和ubuntu：dpkg --list #查看安装的所有包名。sudo apt-get --purge remove pckname  #--purge是可选参数，表示卸载相关配置，pckname是指定包名。centos：rpm -q -a #查看安装的所有软件及工具，`rpm -qa|grep anaconda*` #|grep是筛选操作，anaconda*表示卸载所有anaconda相关的软件包。
 <i class="label2">进入TUI界面、grub节目、开机终端</i>登陆界面按ctrl+alt+f1可进入文本用户节目TUi。开机出现电脑图标时同时按esc和e键，然后选择第一个ubuntu...按enter进入然后按一下esc键就能进入有ubuntu、ubuntu高级选项、system setup。选择第二个进入后输入安全密码(之前没设在则不会有)，进入到tui界面选择boot按两次回车会在下方出现终端。
@@ -208,7 +210,8 @@ sudo yum install gparted
 //安装完成后直接输入gparted启动。
 ```
 启动后会打开图形界面，右上角选择u盘，然后右键格式化为想要的u盘类型(ntfs是windows常用类型)。然后菜单栏点击勾(应用)。
- <i class="label1">linux nvidia显卡驱动的正确安装</i>linux自带的是nouveau驱动比起nvidia驱动会差很多，而且使用cuda来调用gpu计算也需要指明的使用nvidia驱动，但是在linux上安装nvidia显卡驱动很坑，而且ubuntu和centos的稍有不同，安装步骤如下：
+##### d、linux nvidia显卡驱动的正确安装：
+linux自带的是nouveau驱动比起nvidia驱动会差很多，而且使用cuda来调用gpu计算也需要指明的使用nvidia驱动，但是在linux上安装nvidia显卡驱动很坑，而且ubuntu和centos的稍有不同，安装步骤如下：
 1、先查看自己电脑的显卡信息：lspci | grep VGA #第一行中的[nm1:nm2]冒号前的序号是商家代号，后半部分是pcid。(至今不知道怎么看，以后学习！)
 2、去nvidia官网下载相应驱动：本台电脑选择Geforce系列、型号选Gforce GTX 16 series，如果是笔记本电脑选后面带(Notebook)的<span class="green">ubuntu中有软件更新项和命令直接安装，但不推荐，这很可能造成开机循环登陆情况</span>。[下载地址。](https://www.nvidia.cn/Download/index.aspx?lang=cn)
 3、安装依赖：yum -y install gcc gcc-c++ wget#分别用yum安装gcc,gcc-c++,wget。不过多数情况是已经装好的。
@@ -221,7 +224,8 @@ sudo yum install gparted
  [centos的nvidia显卡驱动安装。](https://blog.csdn.net/qq_44906416/article/details/89281325)
  [nvidia驱动下载地址及各选项选择介绍。](https://jingyan.baidu.com/article/19020a0a6f8f44529d2842af.html)
  <i class="label1">centos纯文本模式和图形模型切换</i>`systemctl set-default multi-user.target`#纯文本模式。`systemctl set-default graphical.target `#图形模式。两种模式均在重启后生效。
- <i class="label1">linux远程桌面</i>yum install rdesktop #安装远程桌面工具。`rdesktop -g 1440x900 -r disk:wcs=/home/wcs -u Administrator 182.61.151.139`#-g控制远程桌面的窗口大小，全屏可使用-f然后去掉后面的分辨率大小。-r可以控制携带本地资源链接，wcs是为资源命名，后面接着想携带的本地资源路径，-u后面接目标电脑用户名，最后接着电脑ip。可以连接window系统。
+##### e、linux远程桌面：
+yum install rdesktop #安装远程桌面工具。`rdesktop -g 1440x900 -r disk:wcs=/home/wcs -u Administrator 182.61.151.139`#-g控制远程桌面的窗口大小，全屏可使用-f然后去掉后面的分辨率大小。-r可以控制携带本地资源链接，wcs是为资源命名，后面接着想携带的本地资源路径，-u后面接目标电脑用户名，最后接着电脑ip。可以连接window系统。
 VNote(Appimage结尾文件)：下载下来是以AppImage结尾的后缀名，赋予其权限后运行它直接使用，这并不是安装到系统上的。
 ctrl+T切换编辑模式。似乎没有登陆。[自定义css样式]包括字体大小，颜色，间距。点击markdown>点击添加样式，会提示添加的方法(文件>打开配置文件夹，然后找到styles文件夹，可将自己写的css文件放到里面，不过后缀名为.mhdl，也可以打开resource文件夹写在common.css文件中)。使用：在笔记中使用HTML标签，然后写上配置的类名或id名。
 下载地址：https://github.com/tamlok/vnote/releases

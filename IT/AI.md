@@ -724,7 +724,7 @@ print(r1.text,r1.json,r1.content)#text是网页结构内容，json是解析后�
 [requests模块的使用。](https://blog.csdn.net/lmz_lmz/article/details/83864863)
 #### 28、交叉熵与相对熵(kl散度)：[熵的本质是香农信息量log1/p] 
 信息熵：生活中描述信息的多少是很难用一个数字来衡量的，之后香农用信息熵概念来度量信息的量，信息熵代表整个系统的不确定性，熵越大不确定性就越大；需要引入交叉熵消除这个不确定性。交叉熵是信息论中的一个重要理论，主要用于度量两个概率分布间的差异性信息。
-定义：一个概率分布中，值pi对应它的概率1/pi(前后连个pi值不一定相等)，而pi*log(1/pi)就称为pi的信息熵。假设这个pi是真实分布(这个pi是个概率值，不是不是样本出现的次数)，而预测中我们得到的是qi那么-qi*log(1/pi)就称为交叉熵；真实分布的信息熵与非真实分布的信息熵之差就称为相对熵([Kullback–Leibler divergence])：
+定义：一个概率分布中`pi*log(2,pi)就称为pi的信息熵`#pi是第i项对应的概率值。假设这个pi是真实分布(这个pi是个概率值，不是不是样本出现的次数)，而预测中我们得到的是qi那么-qi*log(1/pi)就称为交叉熵；真实分布的信息熵与非真实分布的信息熵之差就称为相对熵([Kullback–Leibler divergence])：
 ![](_v_images/20200413220536646_916683325.png)
 D(p||q)=H(p,q)-H(p)    https://www.zhihu.com/question/41252833
 #### 29、PCA主成分分析法：(Principal Component Analysis)
@@ -1403,7 +1403,7 @@ c = ss.kstest(rvs=a,cdf='norm',alternative='two_sided', mode='approx')#得到统
 nan_policy为有空值时的处理方法：propagate=>返回空值，rais=>有空值时抛出异常。omit=>省略空值。
 d = stats.normaltest(a,axis=0, nan_policy='propagate')#axis指定在哪个轴上做检验。
 ```
-使用z检验：评估两组变量平均值的差异性(z检验,使用样本数大于30时使用)
+**使用z检验**：评估两组变量平均值的差异性(z检验,使用样本数大于30时使用)
 ```
 from statsmodels.stats import weightstats
 #单样本检验时x2写为None，value写为与arr检验的值。m[1]是p值，与t检验一样处理
@@ -1411,7 +1411,7 @@ m = weightstats.ztest(arr, x2=akk, value=0,#双样本检验时x2,arr为列表,va
                      alternative='two-sided',
                       usevar='pooled', ddof=1.)
 ```
-使用t检验：
+**使用t检验**：
 ```
 from scipy.stats import ttest_1samp,levene,ttest_ind
 ages = [18,23,10,5,8,30,32,58,40,67,72]
@@ -1423,6 +1423,19 @@ tset,pval = ttest_1samp(ages,12)#单总体检验，第二个参数是已知的�
 t1,p1 = ttest_ind(ages,x,equal_var=bl)
 ```
 其它检验：f检验，leven检验，ANOVA检验。
+**使用卡法检验**，具体原理查看subject笔记。
+```
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
+from sklearn.datasets import load_iris
+iris = load_iris()
+调用卡方分布公式，k=2表示选择最佳的两个特征
+model1 = SelectKBest(chi2,k=2)
+q = model1.fit_transform(iris.data,iris.target)
+print(q)#得到的两项特征数据。
+print(model1.scores_)#每个特征项的得分
+print(model1.pvalues_)#每个特征项的卡方分布值。
+```
 #### 44、Scikit-learn库常用函数：
 ##### a：数据处理、插值、规范化。
 ```
@@ -2588,24 +2601,14 @@ pearson(皮尔森系数) = COV(x,y)/sqrt(var(x)*var(y))(为0则无相关性,>0�
 ```
 **协方差度量相关性**：假如两个特征项是描述一个事物，我们想知道这个事物像计算单个分布方差那样的方法来表示数据的稳定性，而协方差的公式是各变量减自己的均值相乘后求期望，所以统计学里它表示两个变量的总体误差。因为如果一个变量大于它的均值，另一个变量此时小与它的均值，那么它们的乘积就会为负，所以如果协方差为正的话就表示多数时候它们在均值线附近的变化趋势相同，因此有一定的度量相关性的作用。
 
-<i class="label2">b、分类型与分类型</i>:使用双向表即统计出两个或多个分类项数据中涉及到的类别(一般都会用0,1..表示,)作为x轴坐标,统计各个类别中(0,1..项)各属性所占的多少;堆积柱图：用sklearn实现：https://blog.csdn.net/snowdroptulip/article/details/78867053
-使用卡法检验，具体原理查看subject笔记。
-```
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import chi2
-from sklearn.datasets import load_iris
-iris = load_iris()
-调用卡方分布公式，k=2表示选择最佳的两个特征
-model1 = SelectKBest(chi2,k=2)
-q = model1.fit_transform(iris.data,iris.target)
-print(q)#得到的两项特征数据。
-print(model1.scores_)#每个特征项的得分
-print(model1.pvalues_)#每个特征项的卡方分布值。
-```
+<i class="label2">b、分类型与分类型</i>
 **斯皮尔曼相关系数**： 它是衡量两个变量的依赖性的非参数指标。 它利用单调方程评价两个统计变量的相关性。式子中的d是分别对两列变量中的值排名后，用相同索引的排名相减后的结果。n是样本数量。所以这个系数适合那种相关性比较的情况。
 ![spearman](_v_images/20200430224915116_134781214.png)
+互信息：信息论里一种有用的信息度量，可以看成是一个随机变量中包含的关于另一个随机变量的信息量，或者说是一个随机变量由于已知另一个随机变量而减少的不肯定性。公式：
+![huXinXi](_v_images/20200522232146412_1398349524.png)
+p(x,y)是两个随机变量x和y的联合分布，p(x),p(y)是边际分布，这是类似信息熵的计算，所以很适合用来计算定类与定类数据或定序与定类、定序与定序的相关性，值在0～1之间，越大相关性越高。
 <i class="label2">c、分类和连续</i>
-
+可以看得出分类型和连续型的相关性计算用以上方法都不大合适，定距，定比与定序型数据还能勉强用皮尔逊相关系数计算，但与定类型数据更适合用回归分析来计算，拟合后会得到一个拟合程度系数，用这个系数可以作为相关性指标，但是正相关还是负相关的计算y值的走向才能判定。[参考学习地址。](https://blog.csdn.net/longxibendi/article/details/82558801)
 
 ##### 二、异常数据处理：
 1、删除异常值。
