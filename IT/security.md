@@ -242,5 +242,5 @@ boostnet下载：https://github.com/BoostIO/boost-releases/releases/tag/v0.14.0
 ##### f、linux重装为windows：
 linux要重装系统只能用启动盘或光驱，不像windows那样能从本地启动安装程序，linux自带的制作启动盘的命令不会写入mbr引导，所以多数bios界面检测不到启动盘，不过linux上也有制作windows启动盘的软件：weousb。 [woeusb下载地址，下方有各linux版本下载地址(centos选第一个)](https://github.com/slacka/WoeUSB)。点进页面之后直接点下方任一个版本即可下载，下载下来的是rpm包，用：`rpm -ivh WoeUSB-3.33.0-1.fc29.x86_64.rpm`#安装woeusb。
 `sudo fdisk -l `#列出所有的可用分区，u盘一般是sda1,sdb1等，但使用的是其上方显示的Disk后对应的sda和sdb等。
-先要先卸载u盘后再使用woeusb，不然界面检测不到u盘，命令也会报错busy。命令制作：`woeusb --device 'win10.iso' /dev/sda --target et-filesystem NTFS`
+先要先卸载u盘后再使用woeusb，不然界面检测不到u盘，命令也会报错busy。命令制作：`woeusb --device 'win10.iso' /dev/sda --tgt-fs NTFS`#--tgt-fs后是转换为指定的文件系统，注意：FAT和NTFS都是windows可识别的模式，但在bios界面似乎知识别FAT的，所以建议转换为FAT格式。垃圾华硕。
 [安装windows参考学习地址。](https://blog.csdn.net/qq_45440355/article/details/103179459)

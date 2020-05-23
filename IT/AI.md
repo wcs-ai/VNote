@@ -1468,6 +1468,14 @@ imp.fit([[1, 2], [3, 6], [4, 8], [np.nan, 3], [7, np.nan]])
 X_test = [[np.nan, 2], [6, np.nan], [np.nan, 6]]
 print(np.round(imp.transform(X_test)))
 ```
+简单回归分析：
+```
+reg = linear_model.Lasso(alpha = 0.1)
+reg.fit([[0, 0], [1, 1]], [0, 1])
+reg.predict([[1, 1]])
+coef = reg.coef_ #回归拟合后得到的各项权重值
+y = reg.intercept_  #截距，即所有x项为0是y的值，即b值。
+```
 ##### b：KNN算法的使用。
 ```
 from sklearn.neighbors import KNeighborsClassifier
