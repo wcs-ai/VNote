@@ -127,7 +127,7 @@ TPU 并没有设计成一个独立的“CPU“，而是设计成一块像显卡�
 <i class="red">unix，linux，windows系统综述：</i>UNIX系统大多是与硬件配套的，也就是说，大多数UNIX系统如AIX、HP-UX等是无法安装在 x86 服务器和个人计算机上的。Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。以上是专业的解释，简单说Linux是一个免费的操作系统，其也是非常的好的支持服务器环境，且其不太适合图形化操作更适合命令行操作。windows系统除了win7,8,10外还有windows server系列，这些服务器版本的windows和普通windows版本的不同在于其是根据服务器需求进行开发的，如支持更大的内存、支持一些服务器的策略设置、支持服务器集群等，这些功能都是针对服务器的功能，总之windows server版本就是一个适合服务器的操作系统版本，其功能大多都是针对服务器的。
 <i class="orange">服务器系统的选择：</i>一般服务器系统只会是linux系统和windows server系统中选择，对于不同的服务，如web网站、数据库等会选择不同的系统。
 ##### a、linux的安装(非虚拟机上的安装)：
-安装前需要先在准备一个u盘做启动盘(会格式化该u盘)，下载好想安装的ubuntu或其它版本iso文件(不要放到u盘)，然后使用usbWrite，rush等工具制作启动盘<span class="gray">(这种是直接将映像文件写入u盘的方式，工具比较小，另一种是先制作启动盘然后将映像文件拷贝进去的方法，如果是ghost文件则只需要直接拷贝，若只是普通iso文件则还要下载其它引导安装的文件比较复杂，这适合windows系列的安装)</span>；接下来进入bios界面使用u盘来启动电脑<span class="gray">boot项选择add boot option然后第一个输入框写名，第二项选择u盘中的efi文件夹下的合适的efi文件，然后点击下方的create，保存重启后选择刚才的那个boot option进入安装</span>。win10的u盘启动选项可以在：设置>系统更新>疑难问题部分下面选择。
+安装前需要先在准备一个u盘做启动盘(会格式化该u盘)，下载好想安装的ubuntu或其它版本iso文件(不要放到u盘)，然后使用usbWrite，rufus等工具制作启动盘<span class="gray">(这种是直接将映像文件写入u盘的方式，工具比较小，另一种是先制作启动盘然后将映像文件拷贝进去的方法，如果是ghost文件则只需要直接拷贝，若只是普通iso文件则还要下载其它引导安装的文件比较复杂，这适合windows系列的安装)</span>；接下来进入bios界面使用u盘来启动电脑<span class="gray">boot项选择add boot option然后第一个输入框写名，第二项选择u盘中的efi文件夹下的合适的efi文件，然后点击下方的create，保存重启后选择刚才的那个boot option进入安装</span>。win10的u盘启动选项可以在：设置>系统更新>疑难问题部分下面选择。
 ##### b、linux命令：
 因为版本众多可能部分命令在不同版本中会不可用，特别是ubuntu，其自改的部分较多。
 linux命令包下载网(搜索包名，对应的description中有下载地址)：https://pkgs.org
@@ -147,26 +147,33 @@ mv 移动文件与目录，或修改文件与目录的名称
 sudo mv a.txt /java  #使用sudo开头能将文件移到到隐藏的根目录文件下。
 tar -zxvf qq.tar.gz  #解压gz压缩包
 vi a.txt  #使用vim编辑器打开文件，不过内容是显示在终端。
-[查找文件]sudo find / -name npm #find命令查找指定目录和名的命令，/表示在根目录查找，/usr则表示在/usr这个目录下查找。
-[删除和新建]rmdir pckname #删除文件夹。rm file #删除文件 mkdir pckname #新建文件夹。touch filename #新建文件
+**[查找文件]**`sudo find / -name npm `#find命令查找指定目录和名的命令，/表示在根目录查找，/usr则表示在/usr这个目录下查找。
+**[删除和新建]**`rmdir pckname` #删除文件夹。rm file #删除文件 mkdir pckname #新建文件夹。touch filename #新建文件
 [重启]sudo reboot
 [更形内核]sudo apt-get install --install-recommends linux-generic-hwe-18.04 #在遇到一些问题时可以试试这个。
-[修改主机名]终端里@后的名字是主机名。使用命令：sudo gedit /etc/hostname 后会打开该文件，里面只有一个主机名，修改它，保存，重启后生效。
-[调整分辨率]xrandr(显示所有可用分辨率)，xrandr -s 1920x1080 #更改分辨率，一般是第一个。
-[图形显示文件夹]nautilus conf  #nautilus命令打开conf文件夹所在位置，用另一个窗口显示出来。sudo nautilus  file#以root身份打开。
-[程序方式运行文件]chmod +x file.sh  #赋予file.sh文件可作为程序执行的权限。之后可以用 ./file.sh直接运行文件。<i class="blue">如果权限不够就在前面加上sudo(chmod前和运行./前)</i>
+**[修改主机名]**终端里@后的名字是主机名。使用命令：sudo gedit /etc/hostname 后会打开该文件，里面只有一个主机名，修改它，保存，重启后生效。
+**[调整分辨率]**xrandr(显示所有可用分辨率)，xrandr -s 1920x1080 #更改分辨率，一般是第一个。
+**[图形显示文件夹]**`nautilus conf  `#nautilus命令打开conf文件夹所在位置，用另一个窗口显示出来。sudo nautilus  file#以root身份打开。
+**[程序方式运行文件]**chmod +x file.sh  #赋予file.sh文件可作为程序执行的权限。之后用 ./file.sh直接运行文件。<i class="blue">如果权限不够就在前面加上sudo(chmod前和运行./前)</i>
 [编程相关]linux系统是为编程而生的，发行版本会自带几乎所有编程语言，多数会有多个编程版本。
-[下载命令]wget http://xxx.com/download #用wget命令从指定下载链接下载。下载后一般在/etc/apt/preferences.d/路径下。
-[安装命令工具]sudo apt install libreoffice-common
+**[下载命令]**wget http://xxx.com/download #用wget命令从指定下载链接下载。下载后一般在/etc/apt/preferences.d/路径下。
 [安装vim编辑器]sudo apt install vim #安装后可在终端用vim file编辑文件。i：插入操作。:w #保存。:wq #保存并退出。[详细使用](https://blog.csdn.net/weixin_38208741/article/details/78862368)
-[安装工具]sudo apt-get install tool #安装tool工具，安装工具时都使用该命令。部分工具可能无法安装，可能是已被废弃，可以使用upgrade更新apt-get后再。
 [查看和更改文件编码]file dm.yml #显示文件编码。转换：  iconv -f  文件编码格式  -t 想要转换的编码格式  要编码的文件名 -o 编码之后的文件名。-l #列出已知编码字符集。 -c :忽略输出的非法字符 -s :禁止警告信息，但不是错误信息。 --verbose :显示进度信息。
-[截图]prtsc(右上角)：截取整个屏幕，shift+prtsc #松开后用鼠标划好区域截图。
-[修改文件命令]chmod -R 777 software #将software文件夹权限全开。chown -R jay:fefjay /my # 加-R，修改文件所属用户为jay，所属用户组为fefjay
-[更新yum安装源]https://www.jb51.net/os/RedHat/499587.html
-<i class="label1">软件包、库安装</i>对于deb格式的包比较适合debian,ubuntu系统，而rpm后缀名的包适合centos。<em class="violet">ubuntu上安装deb格式的包：</em>sudo dpkg software.deb  #解包，设置，安装software.deb。报依赖错误使用：sudo apt-get -f --fix-missing install，然后再试。<em class="violet">centos上安装deb的包：</em>先要将其转为rpm格式的包，[deb包转为rpm包教程。](https://blog.csdn.net/cpongo3/article/details/96425227)<em class="green">rpm包安装：</em>rpm -i soft.rpm #-i制定安装的包。需要验证的包可以：rpm -ivh google.rpm安装。<span class="green">rpm安装包时解决依赖问题：</span>在安装命令后加--nodeps --force。[rpm命令参数详解。](https://blog.csdn.net/ywl470812087/article/details/90140026)
+**[截图]**prtsc(右上角)：截取整个屏幕，shift+prtsc #松开后用鼠标划好区域截图。
+**[修改文件命令]**`chmod -R 777 software` #将software文件夹权限全开。`chown -R jay:fefjay /my` # 加-R，修改文件所属用户为jay，所属用户组为fefjay
+
+###### b1、yum包管理与centos类型系统：
+**清理缓存数据**：`yum clean`。**移除包**：yum remove npm
+**清理缓存**：`dnf clean packages`
 <i class="label2">yum install时提示下载元数据失败问题</i>可能是网络问题，可以多运行几次试试，若一直提示失败可以看看这个方法。[repo 'base' 下载元数据失败解决地址。](http://www.linuxidc.net/thread-9716-1-1.html)
-<i class="label1">清理缓存的包</i>debian和ubuntu：sudo apt autoremove    centos中：dnf clean packages
+[更新yum安装源]https://www.jb51.net/os/RedHat/499587.html
+###### b2、apt包管理与ubuntu类型系统：
+**清理缓存**：`sudo apt autoremove`
+**ubuntu上安装deb格式的包**：先要将其转为rpm格式的包，[deb包转为rpm包教程。](https://blog.csdn.net/cpongo3/article/details/96425227)`sudo dpkg software.deb ` #解包，设置，安装software.deb。
+**安装工具**：`sudo apt-get install tool `#安装tool工具，安装工具时都使用该命令。部分工具可能无法安装，可能是已被废弃，可以使用upgrade更新apt-get后再。
+**报依赖错误使用**：`sudo apt-get -f --fix-missing install`，然后再试。
+**rpm包安装**：`rpm -i soft.rpm `#-i制定安装的包。需要验证的包可以：`rpm -ivh google.rpm`安装。
+**rpm安装包时解决依赖问题**：在安装命令后加`--nodeps --force`。[rpm命令参数详解。](https://blog.csdn.net/ywl470812087/article/details/90140026)
 ##### c、系统问题集：
 <i class="label2">查看系统状态</i>系统自带top命令可查看，或安装htop。sudo apt-get install htop。然后htop即可查看漂亮的显示界面,Mem是运行内存,swp是交换分区。[htop所有参数使用](https://blog.csdn.net/Dly_978812854/article/details/102223731)
 <i class="label2">软件卸载</i>bian和ubuntu：dpkg --list #查看安装的所有包名。sudo apt-get --purge remove pckname  #--purge是可选参数，表示卸载相关配置，pckname是指定包名。centos：rpm -q -a #查看安装的所有软件及工具，`rpm -qa|grep anaconda*` #|grep是筛选操作，anaconda*表示卸载所有anaconda相关的软件包。
@@ -232,3 +239,8 @@ ctrl+T切换编辑模式。似乎没有登陆。[自定义css样式]包括字体
 linux熄屏无法唤醒问题：https://www.cnblogs.com/wly716/p/10957710.html
 ubuntu目录结构及作用：https://blog.csdn.net/liajie/article/details/78616200
 boostnet下载：https://github.com/BoostIO/boost-releases/releases/tag/v0.14.0
+##### f、linux重装为windows：
+linux要重装系统只能用启动盘或光驱，不像windows那样能从本地启动安装程序，linux自带的制作启动盘的命令不会写入mbr引导，所以多数bios界面检测不到启动盘，不过linux上也有制作windows启动盘的软件：weousb。 [woeusb下载地址，下方有各linux版本下载地址(centos选第一个)](https://github.com/slacka/WoeUSB)。点进页面之后直接点下方任一个版本即可下载，下载下来的是rpm包，用：`rpm -ivh WoeUSB-3.33.0-1.fc29.x86_64.rpm`#安装woeusb。
+`sudo fdisk -l `#列出所有的可用分区，u盘一般是sda1,sdb1等，但使用的是其上方显示的Disk后对应的sda和sdb等。
+先要先卸载u盘后再使用woeusb，不然界面检测不到u盘，命令也会报错busy。命令制作：`woeusb --device 'win10.iso' /dev/sda --target et-filesystem NTFS`
+[安装windows参考学习地址。](https://blog.csdn.net/qq_45440355/article/details/103179459)
