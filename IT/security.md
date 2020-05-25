@@ -151,17 +151,18 @@ vi a.txt  #使用vim编辑器打开文件，不过内容是显示在终端。
 **[删除和新建]**`rmdir pckname` #删除文件夹。rm file #删除文件 mkdir pckname #新建文件夹。touch filename #新建文件
 [重启]sudo reboot
 [更形内核]sudo apt-get install --install-recommends linux-generic-hwe-18.04 #在遇到一些问题时可以试试这个。
-**[修改主机名]**终端里@后的名字是主机名。使用命令：sudo gedit /etc/hostname 后会打开该文件，里面只有一个主机名，修改它，保存，重启后生效。
-**[调整分辨率]**xrandr(显示所有可用分辨率)，xrandr -s 1920x1080 #更改分辨率，一般是第一个。
-**[图形显示文件夹]**`nautilus conf  `#nautilus命令打开conf文件夹所在位置，用另一个窗口显示出来。sudo nautilus  file#以root身份打开。
-**[程序方式运行文件]**chmod +x file.sh  #赋予file.sh文件可作为程序执行的权限。之后用 ./file.sh直接运行文件。<i class="blue">如果权限不够就在前面加上sudo(chmod前和运行./前)</i>
+**修改主机名**：终端里@后的名字是主机名。使用命令：sudo gedit /etc/hostname 后会打开该文件，里面只有一个主机名，修改它，保存，重启后生效。
+**调整分辨率**：xrandr(显示所有可用分辨率)，xrandr -s 1920x1080 #更改分辨率，一般是第一个。
+**图形显示文件夹**：`nautilus conf  `#nautilus命令打开conf文件夹所在位置，用另一个窗口显示出来。sudo nautilus  file#以root身份打开。
+
 [编程相关]linux系统是为编程而生的，发行版本会自带几乎所有编程语言，多数会有多个编程版本。
-**[下载命令]**wget http://xxx.com/download #用wget命令从指定下载链接下载。下载后一般在/etc/apt/preferences.d/路径下。
+**下载命令**：wget http://xxx.com/download #用wget命令从指定下载链接下载。下载后一般在/etc/apt/preferences.d/路径下。
 [安装vim编辑器]sudo apt install vim #安装后可在终端用vim file编辑文件。i：插入操作。:w #保存。:wq #保存并退出。[详细使用](https://blog.csdn.net/weixin_38208741/article/details/78862368)
 [查看和更改文件编码]file dm.yml #显示文件编码。转换：  iconv -f  文件编码格式  -t 想要转换的编码格式  要编码的文件名 -o 编码之后的文件名。-l #列出已知编码字符集。 -c :忽略输出的非法字符 -s :禁止警告信息，但不是错误信息。 --verbose :显示进度信息。
 **[截图]**prtsc(右上角)：截取整个屏幕，shift+prtsc #松开后用鼠标划好区域截图。
-**[修改文件命令]**`chmod -R 777 software` #将software文件夹权限全开。`chown -R jay:fefjay /my` # 加-R，修改文件所属用户为jay，所属用户组为fefjay
-
+**修改文件权限命令**：
+`chmod -R 777 software` #将software文件夹权限全开。`chmod -R jay:fefjay /my` # 加-R，修改文件所属用户为jay，所属用户组为fefjay
+`chmod +x file.sh`  #赋予file.sh文件可作为程序执行的权限。之后用 ./file.sh直接运行文件。<i class="blue">如果权限不够就在前面加上sudo(chmod前和运行./前)</i>
 ###### b1、yum包管理与centos类型系统：
 **清理缓存数据**：`yum clean`。**移除包**：yum remove npm
 **清理缓存**：`dnf clean packages`
