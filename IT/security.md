@@ -29,6 +29,7 @@ https://www.cnblogs.com/accumulater/p/7110811.html
 [桌面图标整齐排列]桌面空白右键》查看》
 [安装cuda图像驱动程序时提示：此图形驱动程序无法找到兼容的图像硬件]
 https://www.iteye.com/blog/yuanlanxiaup-1330287
+**磁盘分区**：一个盘分为多个盘=》win+r/输入diskmgmt.msc/选择c盘/右键/压缩卷
 #### c、windows系统安装：
 #### 2、快捷键提升操作速度：
 切换已经打开的软件：window+table,ctrl+o打开文件夹，win+D直接切换到桌面
@@ -234,9 +235,8 @@ linux自带的是nouveau驱动比起nvidia驱动会差很多，而且使用cuda�
  <i class="label1">centos纯文本模式和图形模型切换</i>`systemctl set-default multi-user.target`#纯文本模式。`systemctl set-default graphical.target `#图形模式。两种模式均在重启后生效。
 ##### e、linux远程桌面：
 yum install rdesktop #安装远程桌面工具。`rdesktop -g 1440x900 -r disk:wcs=/home/wcs -u Administrator 182.61.151.139`#-g控制远程桌面的窗口大小，全屏可使用-f然后去掉后面的分辨率大小。-r可以控制携带本地资源链接，wcs是为资源命名，后面接着想携带的本地资源路径，-u后面接目标电脑用户名，最后接着电脑ip。可以连接window系统。
-VNote(Appimage结尾文件)：下载下来是以AppImage结尾的后缀名，赋予其权限后运行它直接使用，这并不是安装到系统上的。
-ctrl+T切换编辑模式。似乎没有登陆。[自定义css样式]包括字体大小，颜色，间距。点击markdown>点击添加样式，会提示添加的方法(文件>打开配置文件夹，然后找到styles文件夹，可将自己写的css文件放到里面，不过后缀名为.mhdl，也可以打开resource文件夹写在common.css文件中)。使用：在笔记中使用HTML标签，然后写上配置的类名或id名。
-下载地址：https://github.com/tamlok/vnote/releases
+
+
 linux熄屏无法唤醒问题：https://www.cnblogs.com/wly716/p/10957710.html
 ubuntu目录结构及作用：https://blog.csdn.net/liajie/article/details/78616200
 boostnet下载：https://github.com/BoostIO/boost-releases/releases/tag/v0.14.0
@@ -245,3 +245,12 @@ linux要重装系统只能用启动盘或光驱，不像windows那样能从本�
 `sudo fdisk -l `#列出所有的可用分区，u盘一般是sda1,sdb1等，但使用的是其上方显示的Disk后对应的sda和sdb等。
 先要先卸载u盘后再使用woeusb，不然界面检测不到u盘，命令也会报错busy。命令制作：`woeusb --device 'win10.iso' /dev/sda --tgt-fs NTFS`#--tgt-fs后是转换为指定的文件系统，注意：FAT和NTFS都是windows可识别的模式，但在bios界面似乎知识别FAT的，所以建议转换为FAT格式。垃圾华硕。
 [安装windows参考学习地址。](https://blog.csdn.net/qq_45440355/article/details/103179459)
+<div class="container">
+<img class="image" src="E:\data\image/mv1.jpg"/>
+<div class="content-out">
+<div class="text-content">
+    
+</div>
+</div>
+</div>
+<script type="js">altert("hello")</script>

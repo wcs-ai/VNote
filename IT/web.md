@@ -254,6 +254,7 @@ font-style:normal;去除<em></em>标签的斜体样式。
 textarea禁止改变文本域大小：resize:none
 自动换行：word-break：break-all或white—space：normal来实现自动换行。
 引入外部文件中的资源地址不能用斜杠开头(一些浏览器不能识别)固定定位只相对于window窗口，无论该元素放到上面元素里。
+[css中自带的字体。](https://www.cnblogs.com/fozero/p/6087513.html)
 #### 2、鼠标样式：
 el{
     cursor:pointer;//手指,提示可点击
@@ -1170,6 +1171,13 @@ index.html //忽略文件
 /dist/   //忽略整个dist文件夹
 front/dist/  //忽略front文件夹下的整个dist文件夹
 front/index.html  //忽略front文件夹下的Index.html文件
+**非克隆项目关联到git仓库**：本地没有修改、连接等设置，步骤如下：
+`giy init` #先将本地项目变为一个git仓库。
+`git remote add origin https://xxxx.com`#关联远程仓库，
+`git add .`>`git commit -m 'new'`>`git pull`#合并到本地。
+此时会提示输入账号、密码，若输入错误，第二次可能不会再提示错误，而是直接报错(使用了第一次的缓存)。解决如下：
+win10/控制面板/用户账户/凭据管理器/windows凭据。最下方找到git的缓存，删除。
+[merge时提示：refusing to merge unrelated histories解决](https://blog.csdn.net/lindexi_gd/article/details/52554159)
 #### 2、mpvue:
 支持 微信小程序、百度智能小程序，头条小程序 和 支付宝小程序。
 教程地址：http://mpvue.com/mpvue/#_2
@@ -1350,6 +1358,18 @@ https://www.jianshu.com/p/7302e2c7f4b7
 **linux上nodejs的安装**：官网上下载nodejs的linux压缩包，解压进入，将node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后node -v 安装成功。
 **配置淘宝安装源**：npm本身指定的安装源是外国的，`npm install -g cnpm --registry=https://registry.npm.taobao.org`#安装淘宝镜像,使用时直接cnpm install即可.
 [参考学习地址.](https://www.cnblogs.com/onew/p/11330439.html)
+<i class="label1">打包vue项目报错：javascript heap out of memory</i>node 打包vue项目提示该javascript运行导致内存溢出，这是node封装的v8引擎运行的javascript其限制了js能使用的内存，当打包的项目稍大一些的时候就会出现该错误，解决如下：
+//在package.json文件加入：
+```
+{
+    ...
+    "scripts":{
+        ...
+        "fix-memory-limit":"cross-env LIMIT-4096 increate-memory-limit"
+    }
+}
+```
+//然后安装：`npm install -g increase-memory-limit`#接着进入项目目录执行：`increase-memory-limit`#结束后再试试运行项目。[参考学习地址(先尝试3，4)](https://www.jianshu.com/p/410e826506be)
 #### 4、postman的使用：
 (百度搜索下载postman安装)输入框左边选择请求方式，输入框中输入请求接口，下方Params项中输入要传的键值和value值，键值和value值的输入不需用单引号或双引号不然会出错,若报错可以在body项中选择form-data然后输入Params项中的键值和value值再点Send.
 #### 5、vuejs：
@@ -1991,6 +2011,7 @@ webpack学习：https://blog.csdn.net/eeeecw/article/details/80453899
 支付宝H5开放文档：https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B
 javascript所有事件集：http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp
 HTML标签大全：http://www.w3school.com.cn/tags/index.asp ；(还有很多不错的标签没用过)。[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)
+[plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)
 #### 7、微信公众号开发注意项：
 先用超级管理员账号登录微信公众号平台，开发>开发者工具>微信开发者工具>绑定开发者(将自己的微信号绑定为开发者账号)。
 开发>接口权限>网页服务>网页授权>修改下把目标网站域名添加为公众号授权网页(先上传那个txt文件到服务器项目根目录)。
@@ -2119,3 +2140,61 @@ onTabItemTap	当前是 tab 页时，点击 tab 时触发。
 onShareAppMessage	用户点击右上角分享
 **尺寸单位**：uni-app中使用upx为自适应单位，与小程序一样，750upx占满屏宽，设计稿不是750大小的需要与750算一个比例，然后在量一个元素大小时乘以该比例转化为upx大小即可。动态的写入upx单位不会生效，需要转为px再写入。如果要转换upx，只要在manifest.json里配置下面"transformPx" : true。
 [uni-app中的跨域解决。](https://blog.csdn.net/paopao79085/article/details/91948809)
+#### 12、页面中引入富文本编辑器：
+web中使用的富文本编辑器比较多，这里是两个自己尝试过的：
+wangeditor：比较轻便，所以功能没有其它几样多，因为简便所以比较容易引入，几乎不会报异常错误。[wangeditor使用参考地址。](https://www.jianshu.com/p/52852d39f869)
+vue项目中安装：`npm i wangeditor -S`#使用配置如下：
+```
+<template>
+  <div id="wangeditor">
+    <div ref="editorElem" style="text-align:left;"></div>
+  </div>
+</template>
+<script>
+import E from "wangeditor";
+export default {
+  name: "Editor",
+  data() {
+    return {
+      editor: null,
+      editorContent: ''
+    };
+  },
+  mounted() {
+    this.editor = new E(this.$refs.editorElem);
+    // 编辑器的事件，每次改变会获取其html内容
+    this.editor.customConfig.onchange = html => {
+      this.editorContent = html;
+      this.catchData(this.editorContent); // 把这个html通过catchData的方法传入父组件
+    };
+    this.editor.customConfig.menus = [
+      // 菜单配置
+      'head', // 标题
+      'bold', // 粗体
+      'fontSize', // 字号
+      'fontName', // 字体
+      'italic', // 斜体
+      'underline', // 下划线
+      'strikeThrough', // 删除线
+      'foreColor', // 文字颜色
+      'backColor', // 背景颜色
+      'link', // 插入链接
+      'list', // 列表
+      'justify', // 对齐方式
+      'quote', // 引用
+      'emoticon', // 表情
+      'image', // 插入图片
+      'table', // 表格
+      'code', // 插入代码
+      'undo', // 撤销
+      'redo' // 重复
+    ];
+    this.editor.create(); // 创建富文本实例
+  }
+}
+</script>
+```
+**tinymce**：国外的，默认是英文，中文版的需要下载语言包。[参考学习地址。](https://www.cnblogs.com/wisewrong/p/8985471.html)[语言包下载地址。](https://www.tiny.cloud/get-tiny/language-packages/)
+引入后报..dont support (text/html) ..css的错误：在`<style></style>`中用@import url("");引入css样式。
+出现找不到中文语言包的问题：！暂未解决。
+[百度umeditor下载地址(选择jsp)。](http://ueditor.baidu.com/website/download.html)[使用参考学习地址。](https://blog.csdn.net/fanhu6816/article/details/81223909)
