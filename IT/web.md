@@ -1152,6 +1152,7 @@ git Barsh安装成功后打开(是一个命令行工具),操作如下：
 git config --global user.name "wcs-ai"
 git config --global user.password "34342"
 ```
+**手动添加.gitignore并使其生效**：git rm -r --cached . // 删除本地缓存，然后add,commit。
 **各种场景的令**：
 git merge --abort //合并过程中的撤销合并
 git reset --hard HEAD^ //回退到前一个版本 ^^回退两个  ~100回退多个
