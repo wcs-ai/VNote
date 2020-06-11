@@ -1153,6 +1153,15 @@ git config --global user.name "wcs-ai"
 git config --global user.password "34342"
 ```
 **手动添加.gitignore并使其生效**：git rm -r --cached . // 删除本地缓存，然后add,commit。
+**.ignore文件格式**：
+```
+# 此为注释 – 将被 Git 忽略
+*.a # 忽略所有 .a 结尾的文件
+!lib.a # 但 lib.a 除外
+/TODO # 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO
+build/ # 忽略 build/ 目录下的所有文件
+doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
+```
 **各种场景的令**：
 git merge --abort //合并过程中的撤销合并
 git reset --hard HEAD^ //回退到前一个版本 ^^回退两个  ~100回退多个
