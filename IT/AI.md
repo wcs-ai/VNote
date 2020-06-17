@@ -1806,7 +1806,8 @@ print(ns.predict(x[0:1]))#导入后直接是一个svm对象，拿来预测。
 常用于大规模稀疏机器学习问题上
 ```
 from sklearn.linear_model import SGDClassifier,LogisticRegression
-sgd = SGDClassifier(loss='hinge',penalty='l2')# hinge是使用线性核函数的svm，modified_huber时是带平滑的hinge loss，log则是logistic回归。penalty是惩罚项。
+# hinge是使用线性核函数的svm，modified_huber时是带平滑的hinge loss，log则是logistic回归。penalty是惩罚项。
+sgd = SGDClassifier(loss='hinge',penalty='l2')
 ```
 <i class="label1">pipline的使用</i>
 模块化 Feature Transform，只需写很少的代码就能将新的 Feature 更新到训练集中。
@@ -2402,21 +2403,19 @@ def main(_):pass #min函数要接受一个个参数。
 tf.app.run(main)# 执行min函数,这样可以在终端用：python app.py --name1 val #来传递参数运行。
 ```
 ##### 零碎操作：
-**[列表转为张量]**tf.convert_to_tensor(cs)
+**数据生成，索引**：
+列表转为张量：`tf.convert_to_tensor(cs)`
 x = tf.Variable(initialVal=[[1,2],[3,4],[5,6]],dtype=tf.int16,name='x')
 张量允许索引取值：x[0,:],但打印出来的依然是tensor，不支持索引赋值操作。
 //2x3的矩阵乘3x2的矩阵得到2x2的矩阵，y的每一行与x的每一列相乘再加...
-tf.mulpy(a,b)// 计算两个张量的乘积。tf.add(a,b)// 求和,也可求矩阵的和
-tf.sqrt(x)//求x的开方，如果x是一个数组则求得的是数组的标准差,但数据类型只能使用float32
-tf.one_hot(x,5)//将张量x转换成onehot编码,5是对应的o_hot长度，对高维数据也能用。
 da = tf.reverse(da,[0,1])//两个维度上翻转矩阵
 tf.scatter_nd([[1],[2]],b,shape)//根据a中所列的位置将b中的值放到一个全新的0矩阵中(shape决定的形状),b的形状要和shape写的形状一致.
-tf.subtract(a,b),tf.square(x)// 减法,平方
-tf.log(a,b)#有两个值时以第二个输入为底，一个输入时以e为底(参数值必须是tf所创)
+tf.cast(dat,tf.int32)//转化数据类型;[True,False,True]>(float)>[1.,0.,1.],若data只是数值类型则其作用与int(),float()等的方法一样。
 tf.gather(i,j)#j是一维，从i中按照j的每个值取对应的行索引对应的值。
 tf.gather_nd(i,[[0,1],[1,2])#按照具体的索引位置从i中取单个值。
-**[生成随机数:应该根据数据的特性决定使用哪种函数生成随机数及决定其范围]**
+**生成随机数**：应该根据数据的特性决定使用哪种函数生成随机数及决定其范围
 #这些随机生成函数中若形状传空()则生成的是一个标量
+```
 tf.random_normal([4,2],stddev=1,mean=0.5)//从正太分布中生成随机值指定形状、标准差、均值。
 tf.random_uniform(shape,minval,maxval,dtype)//从均匀分布中返回随机值，最小最大值范围、类型
 tf.truncated_normal(shape,mean,stddev)//截断的正太分布,生成值不会大于平均值两个标准差
@@ -2424,7 +2423,9 @@ tf.random_shuffle(x)//将目标张量沿着第一个维度打乱其顺序。
 tf.one_hot(5,depth=10)//[0,0,0,0,0,1,0,0,0,0]
 tf.fill(dims,value,name)#生成一个维度为dim，每个值都为value的矩阵
 tf.zeros(shape),tf.zero_like(a)
-[image模块部分]//以下加上tf.image
+```
+**image模块部分**：//以下加上tf.image
+```
 decode_jpeg()//将读取的图片解码
 resize_image_with_pad(img,height,width)//截取图中一块指定大小区域(图中心)
 resize_image_with_crop_or_pad(img.height,width)//与上差不多...
@@ -2433,23 +2434,33 @@ resize_area(img,[h,w])//使用区域插值调整图像大小(调整图像大小�
 resize_bic(img,[h,w])//使用双三次插值调整图像大小(与区域插值调整出的图像会呈比较混乱的结果)
 resize_nearest_neighbor(img,[h,w])//最近邻插值调整图像大小(调整出的图像显示得比较好)。
 tf.slice(inputs,begin,size)#从inputs数据中提取出一块和size一样大小的数据，从begin位置开始。
-**[操作矩阵变换、求矩阵属性]**
+```
+**操作矩阵变换、求矩阵属性**：
+```
 x=tf.concat(list,concat_dim)//list是一个列表，concat_dim指定在哪个维度上连接
-dat = tf.reshape(dat,[10,20])//改变形状，例如要将一个数组转为80条，每条数据10个值的格式只需要tf.reshape(dat,[-1,10]),而不用tf.reshape(dat,[-1,1,10])；//reshape(data,[-1])//转为一维数组形式
-tf.reduce_sum(x,0)//[9,12],0表示行相加,tf.reduce_sum(x)>>21
-tf.reduce_mean(x,1)//求平均值
+tf.one_hot(x,5)//将张量x转换成onehot编码,5是对应的o_hot长度，对高维数据也能用。
+dat = tf.reshape(dat,[10,20])//改变形状；//reshape(data,[-1])//转为一维数组形式
 tensor.get_shape().as_list()#获取一个张量的形状，然后将其转换为列表。
 tf.maximum(x,y),tf.minimum(x,y)//返回两数中的最大值、最小值。 
 tf.argmax(dat,0),tf.argmin(dat,1)//返回dat的最大最小值，0表示求每一列最大的值。
 tf.equal(a,b)//比较张量a,b是否相同返回bool值，都是数组则是数组的形式，第二个值可以是标量，与
 tf.not_equal(a,b)相反，不同的为True。
-[向量与矩阵相加]res = tf.nn.bias_add(x,y)
-tf.train.batch(tensors,batch_size,num_threads)//批量读取样本数据tensors是数据可以是一个数组同时读取多批值，batch_size为每次读取的数量，num_tfreads来控制入队tensors线程的数量.
-tf.cast(dat,tf.int32)//转化数据类型;[True,False,True]>(float)>[1.,0.,1.],若data只是数值类型则其作用与int(),float()等的方法一样。
-tf.eval()//eval()方法作用与sess.run()方法类似,不过eval()方法只执行有op的式子
 tf.stack([a,b],0)//合并两个矩阵,0是在行方向;与tf.concat()的使用一样.
 tf.unstack(x,10,axis=1)//按第二个参数将数组分为10份，注意的是axis为1时是划分列。
 tf.transpose(x,[0,2,1])//转置矩阵x,0,1,2分别对应矩阵中的每个维度
+```
+**计算**：
+```
+#向量与矩阵相加：res = tf.nn.bias_add(x,y)
+tf.reduce_sum(x,0)//[9,12],0表示行相加,tf.reduce_sum(x)>>21
+tf.reduce_mean(x,1)//求平均值
+tf.mulpy(a,b)// 计算两个张量的乘积。tf.add(a,b)// 求和,也可求矩阵的和
+tf.sqrt(x)//求x的开方，如果x是一个数组则求得的是数组的标准差,但数据类型只能使用float32
+tf.subtract(a,b),tf.square(x)// 减法,平方
+tf.log(a,b)#有两个值时以第二个输入为底，一个输入时以e为底(参数值必须是tf所创)
+
+```
+tf.eval()//eval()方法作用与sess.run()方法类似,不过eval()方法只执行有op的式子
 tf.squeeze(x,[])//降掉所有维度为1的维度。
 tf.nn.moments(x,list(range(len(x.get_shape())-1))//获取x指定轴上的均值和方差，反回一个元组：（均值组，方差组）.
 tf.assert_less_equal(x,y)#如果x>y就抛出异常
@@ -2466,7 +2477,7 @@ tf.einsum(‘ij,jk->ik’, ts1,ts2) #矩阵乘法；tf.einsum(‘ij->ji’,ts1) 
 tf.less(a,b) #对比两个张量，返回a<b的布尔值。
 [tf.linalg模块]用于线性计算的类，下面包括了好多线性操作的类。一些借口移到了contrib.linalg下。
 tf.linalg.LinearOperatorLowerTriangular(a)#将一个矩阵转化为三角矩阵，tensorflow1.4版本之后用：tf.contrib.LinearOperatorTriL(a)
-[全连接层使用]tf.contrib.layers.fully_connected(x,2,activation_fn=tf.relu)//根据输入数据x和第二个参数生成一个全连接层内部自己生成对应维度的权重和偏置值然后与输入数据相乘在经过激活函数。
+全连接层使用：tf.contrib.layers.fully_connected(x,2,activation_fn=tf.relu)//根据输入数据x和第二个参数生成一个全连接层内部自己生成对应维度的权重和偏置值然后与输入数据相乘在经过激活函数。
 tf.layer.dense(inputs,units,activation,use_bias=True,kernel_initializer=None,trainable=True)#也是实现一个全连接层,参数分别为：数据，输出维度(最后一维)，激活函数、是否使用偏置、卷积核初始化值、改层内的参数是否参与训练。
 tf.image.resize_image_with_crop_or_pat(img,height,width)//将图片数据剪切或填充至指定大小。
 [密集矩阵与稀疏矩阵]密集矩阵就是常见的矩阵，当密集矩阵中大部分值都为0时即鞥为稀疏矩阵，为了节省存储空间将稀疏矩阵转为另一种方式存储(记录矩阵中不为0位置的值和矩阵形状即可)，在使用时再转为矩阵使用：tf.Sparse(indices,values,shape)#存储不为0的值得索引、对应indeces的一维值矩阵、原矩阵的形状。
@@ -2746,7 +2757,7 @@ x=iterator.get_next()#获取数据
 ```
 https://zhuanlan.zhihu.com/p/30751039
 https://blog.csdn.net/briblue/article/details/80789608
-<i class="label1">循环神经网络相关</i>
+##### 循环神经网络相关：
 下面的细胞类中的num_units参数是每层隐藏层输出的数据的列数，因为每个细胞中需要经过几个门的计算而这些门的计算是仿全连接网络的计算这就设计到设置权重的位数来调整输出数据的维数(他们称这个num_units是每层的神经元个数)每层隐藏层的细胞个数是有输入数据的时间序列数决定的，因为每个细胞都需要一个时间序列的输入来进行计算。
 https://blog.csdn.net/notHeadache/article/details/81164264
 [基本cell类]um_units是输出结果最后一个维度的维数，并不是cell个数。
@@ -2855,6 +2866,7 @@ mcell=tf.contrib.rnn.MultiRNNCell(cells)
 output,state=tf.nn.dynamic_rnn(mcell,input_data,dtype=tf.float32,sequence_length)
 
 普通decoder层：建立一个decoder层对输入和encoder层state进行解码
+```
 #helper类用于辅助处理数据，例如旧版接口中需要在decode数据中加go字符
 if inference:#是预测阶段,embedding可以是一个回调函数(tf.nn.embedding_lookup)
 #或是一个二维张量,start_token是每条数据的起始序列([batch])，end_token是序列结束索引,
@@ -2864,7 +2876,9 @@ if inference:#是预测阶段,embedding可以是一个回调函数(tf.nn.embeddi
     helper=GreedyEmbeddingHelper(embedding,start_token,end_token)
 else：#训练阶段使用,传入每条数据对应的序列数,
     helper=TrainingHelper(decode_data,decode_seq,time_major=False)
+```
 #创建一个全连接层，每个序列计算后将最后一维num_units数转为vocab_size维数。
+```
 from tesorflow.python.layers.core import Dense#需要这样用
 project_layer=Dense(200)
 #decode_cell是一个多层rnn结构mcell,state是encode层的state
@@ -2877,6 +2891,7 @@ logits,final_state,final_sequence=dynamic_decode(train_deocde,
         #使最终状态和输出具有正确的值，在反向传播时忽略最后一个完成步。但是会降低程序运行速度。
         maximum_iterations#最大解码步数，一般训练设置为decoder_inputs_length，预测时设置一个想要的最大序列长度即可。程序会在产生<eos>或者到达最大步数处停止。)
 
+```
 在预测阶段如果不指定maximum_iterations值计算会非常耗时，因为一般全部解码由9万多。
 基于注意的decoder层：在普通decoder层前多加了两步操作：
 #num_units与encode层使用的num_units一样大小，output是encode层的输出，
@@ -2920,8 +2935,10 @@ GreedyHelper：https://blog.csdn.net/tudaodiaozhale/article/details/99335220
 注意：inference阶段的embedding是二维(shape[0]为1)，会与state合并做输入，attention_decode模型的zero_state(batch)的batch就写1.
 https://yiyibooks.cn/yiyi/tensorflow_13/index.html 
 https://www.w3cschool.cn/tensorflow_python/tensorflow_python-bm7y28si.html
-tensorflow中添加新的op操作：
-http://wiki.jikexueyuan.com/project/tensorflow-zh/how_tos/adding_an_op.html
+tensorflow中添加新的op操作：http://wiki.jikexueyuan.com/project/tensorflow-zh/how_tos/adding_an_op.html
+##### 机器学习模块：
+tensorflow的contrib内有一个learn模块，里面内置了一些svm，dnn预测，分类、线性回归等实现，特别是dnn，使用起来方便，不用自己手动搭建。
+
 #### 47、数据预处理：
 多数机器学习算法都需要先使用大量的数据做训练算法,如果数据中存在异常值则训练出来的算法准确度会低很多,输入的质量决定了输出的质量,数据处理阶段一般会占据整个项目70%左右的时间。(项目中先处理缺失值再检测异常值)
 ##### 一、数据预处理步骤：
@@ -3084,7 +3101,7 @@ ai是平滑参数，第一个wci是对求得的类c中i的概率求对数，第�
 LDA(未了解)
 https://www.cnblogs.com/rongyux/p/5388752.html
 https://blog.csdn.net/lyl771857509/article/details/78993493
-#### 54、suport vector machine(SVM支持向量机)：
+#### 54、SVM支持向量机(suport vector machine)：
 <div class="introduce">支持向量机是一种分类算法(深度学习出来之前被认为是最好的分类算法)，可用于监督学习算法的分类和异常检测。优势：高维空间中非常高效(列入一个物体有很多特征值的情况)；数据维比样本数量大的情况下任然有效；决策函数中使用能高效利用内存。缺点：不直接提供概率估计；如果特征数量比样本数量大得多,在选择核函数 时要避免过拟合。
 原理：基本思想是二维上找到一条线或高维空间中找到一个超平面将两种数据分割开，所以基础的svm是一个二分类算法。使所有点到平面的距离最大则能找到一个最优平面做分割</div>
 
@@ -3092,16 +3109,22 @@ https://blog.csdn.net/lyl771857509/article/details/78993493
 `d=|w0*x0+w1*x1+w2*x2+b|/sqrt(w0^2+w1^2+w2^2) `分母用||w||表示，分子用|w'x+b|表示。
 但是只凭这个公式我们无法知道它怎么将数据分为了两类，所以我们对每个点做个标记：di=1表示在平面的正面为一类，di=-1表示在平面的负面为另一类，用式子可以表示为：
 `(w'x+b)/||w||>0 (di=1)`		`(w'x+b)/||w||<0 (di=-1)`
-因为||w||>=0所以看(w'x+b)正负即可分辨，若这个分割平面再好一些可以写成:
+因为||w||>=0，且模型训练号后||w||不再变化。所以看(w'x+b)正负即可分辨，若这个分割平面再好一些可以写成:
 `(w'x+b)/||w||>=d (di=1)`	`(w'x+b)/||w||<=-d (di=-1)`		两边同时除d得：
 `(w'dx+bd)/||w||>=1 (di=1)`		`(w'dx+bd)/||w||<=-1 	(di=-1)`	可统一表示为:`|d(w'd*xbd)|>=1`
-满足以上两个式子的点可以称为支持向量。【要使(w'dx+bd)/||w||达到最大值需要(w'dx+bd)很大且分母||w||很小，但是分子分母都共有w0,w1,...等n个变元,现假设我们取得w0,w1,...的值对所有支持向量来说是一个最优的选择那么对于坐标原点也一样成立，所以将原点带入得bd/||w||。这是个蛮不错的思想】，则变为b/||w||=d，要求这个式子的最大值即变成了求||w||的最小值，若是无条件极值可直对其求导，但这是在s.t.d(w'x+b)>=1条件下的求极值(s.t.表示服从...的条件),所以需要使用条件极值的求法：拉格朗日乘子法。
+满足以上两个式子的点可以称为支持向量。要使`(w'dx+bd)/||w||`达到最大值需要(w'dx+bd)很大且分母||w||很小，但是分子分母都共有w0,w1,...等n个变元,现假设我们取得w0,w1,...的值对所有支持向量来说是一个最优的选择那么`对于坐标原点也一样成立`，所以将原点带入得bd/||w||。这是个蛮不错的思想，则变为b/||w||=d，要求这个式子的最大值即变成了求`||w||^2`的最小值(因为||w||是`sqrt(w0^2+w1^2+...)`一系列的表示，这里取平方是消除开方，便于求值)，若是无条件极值可直对其求导，<i class="blue">但这是在s.t.d(w'x+b)>=1条件下的求极值(s.t.表示服从...的条件),所以需要使用条件极值的求法：拉格朗日乘子法，如下：</i>
+`L(w,b,α) = (||w||^2) / 2 + ∑αi * (1-yi(w'xi+b))`#分别对w，b，α求偏导，令为0，求出它们的值。||w||项多了1/2是为了求导后让式子更简洁。
+对w求偏导：`w=∑αi * yi * xi`,#这里的w表示(`w0+w1+...`)。对b求偏导：`∑αi * yi = 0`。
+<i class="label2">线性可分与线性不可分</i>线性可分-linearly separable, 在二维空间可以理解为可以用一条直线（一个函数）把两类型的样本隔开，被隔离开来的两类样本即为线性可分样本。同理在高维空间，可以理解为可以被一个曲面(高维函数)隔开的两类样本。线性不可分，则可以理解为自变量和因变量之间的关系不是线性的，这种情况更多。svm通过高斯核函数将其映射到高维空间，在高维空间非线性的问题转化为线性可分的问题。
+
 svm有很多核函数版本，不同情况下选择不同的核函数使用：
 样本数量远小于特征数量：这种情况，利用情况利用linear核效果会高于RBF核。
 样本数量和特征数量一样大：线性核合适，且速度也更快。liblinear更适合
 样本数量远大于特征数量： 非线性核RBF等合适。
 https://blog.csdn.net/jcjx0315/article/details/61929439
 https://blog.csdn.net/hx14301009/article/details/79762666
+<div class="important">式中的yi是怎么来的额！去除它似乎也不影响，||w||作为w0+w1+...一个整体来求也能得到整体值，但怎么求得各w0,...的值呢！</div>
+
 #### 56、DecisionTrees(DTs)决策树:
 也叫tree-base。决策树算法有多种,这里析解的是ID3(Iterrative Dichotomiser 3)算法：ID3算法是决策树的一种,ID3算法是一种贪心算法(是指在对问题求解时总是做出在当前来看	是最好的选择,不从整体上加以考虑,是某种意义上的局部最优解)
 **核心思想**：选择最大信息增益的属性来划分,因为信息增益越大,区分样本的能力就越强，越具有代表性,很显然这是一种自顶向下的贪心策略.(优:准确性高：挖掘出来的分类规则准确性高，便于理解、速度快。缺:容易过拟合、忽略了属性之间的相关性、对于各类别样本数量不一致的数据，信息增益偏向于那些更多数值的特征）
@@ -4145,6 +4168,8 @@ a、各点被分在四个像限内，不在同一像限内的话题说明差别�
 <i class="label1">流失用户</i>不同产品对流失用户的定义不同，例如社交类产品一般将1个月未使用的用户定义为流失用户，而淘宝，京东类电商产品将6个月未使用过的用户定义为流失用户，在产品生命周期内可以绘制一个用户流失曲线来帮助查看用户使用量，正常情况该流失曲线是一个类似正态分布的曲线。如果流失曲线在某部分下降趋于稳定，那么这部分称为流失用户周期，若公司对该类用户进行补救，可能会出现一个回访周期(回访率 = 回访用户数 / 流失用户数)。
 <i class="label2">用户生命周期</i>用户从注册到流失即是他的一次生命周期，用户最后一次与第一次的交易时间差值即是生命周期天数。只有过1次交易的用户不算在内。
 <i class="label1">用户价值挖掘、精准营销</i>挖掘客户的价值多数时候会使用到RFM模型<i class="violet">(分别为：最近消费时间间隔(Recently)、消费频率(Frequency)、消费金额(Money)。获取这三项特征对用户做分析，根据具体业务可以在此方面扩展其它特征)。</i>一般是基于CRM<i class="green">(客户关系管理系统，一个专门针对用户管理、分析的系统，中小公司对这块要求简单。有专门的CRM软件)。</i>或数据库来获取客户相关信息。决定好使用哪些特征后，进行数据清洗等工作，对用户进行聚类分析，将他们划分为不同等级的用户，描述各等级客户的特征，来有针对性的营销。[一个分析示例。](https://blog.csdn.net/wanglingli95/article/details/79444432)[CRM软件组成介绍。](https://www.cnblogs.com/OOAbooke/archive/2013/02/28/2936804.html)[CRM系统的三种模型。](https://www.zkcrm.com/article442.html)
+b1、周期分析和分布分析：
+分布分析：比如
 #### 81、NLP(Natural Language Processing)简述：
 自然语言研究表示语言能力、语言应用的模型，让人能用自然语言与机器交流。NLP基本可以分为两个部分：自然语言理解和自然语言生成。自然语言理解包括：音系学(指代语言中发音的系统化组织)、词态学(研究单词构成以及相互之间的关系)、句法学(给定文本的哪部分是语法正确的)、语义学(给定文本的含义是什么)、语用学(文本的目的是什么)。
 通用应用：机器翻译、情感分析、智能问答、文摘生成、文本分类、舆论分析(判断目前舆论的导向)、知识图谱(知识点相互连接而成的语义网络)。
