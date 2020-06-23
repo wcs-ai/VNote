@@ -1389,7 +1389,8 @@ https://www.jianshu.com/p/7302e2c7f4b7
 }
 ```
 //然后安装：`npm install -g increase-memory-limit`#接着进入项目目录执行：`increase-memory-limit`#结束后再试试运行项目。[参考学习地址(先尝试3，4)](https://www.jianshu.com/p/410e826506be)。[npm安装包失败的问题(设置一下安装源，npm安装即可)。](https://blog.csdn.net/moxiong3212/article/details/79756553)
-
+**nvm**：[windows版nvm下载地址，下载nvm-setup.zip包](https://github.com/coreybutler/nvm-windows/releases)。安装后cmd使用nvm命令
+`nvm install 8.16.0`#安装其它node版本。`nvm use 8.16.0`#切换node版本。`nvm uninstall 8.16.0`#卸载指定版本
 #### 4、postman的使用：
 (百度搜索下载postman安装)输入框左边选择请求方式，输入框中输入请求接口，下方Params项中输入要传的键值和value值，键值和value值的输入不需用单引号或双引号不然会出错,若报错可以在body项中选择form-data然后输入Params项中的键值和value值再点Send.
 #### 5、vuejs：

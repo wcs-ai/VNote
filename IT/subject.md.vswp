@@ -156,55 +156,104 @@ H0：F(x)∈ {对数正太分布簇}。H1：F(X)∈ {正太分布簇}。如果�
 傅里叶变换：https://www.cnblogs.com/h2zZhou/p/8405717.html
 ## 2、英语
 ### 1、编程常用相关词汇：
-regression//n,回归、复原、退化			sequence//序列、顺序	
-exceed,surpass//超过					coordinate//n,坐标；adj,同等的并列的
-previously//adj,以前的					cause,reason// n,原因
-logistics//n,后勤学，物流					interpolate//vi,插入、篡改
-weather//n,天气						average,mean//n,平均
-graphics//n,图表算法，制图法				favorable//adj,有利的良好的，优惠的
-capital//n,首都、省会、资本家	capital gain//资本得利，capital loss//资本损失
-convert//vt,使转变						fitment//n,家具，设备，装修
-invalid//adj,无效的，有病的				corps,object//n,物体
-legend//n,图例，说明，传奇				subplot//n,次要情节
-summary//n,adj,摘要，简易的				scalar//n,标量的
-histogram//n,直方图					merge//vt,合并，吞没
-config//n,配置，布局					proto//n,原型，样机
-chief//n,首领,adj,主要的,adv,主要的		visor//n,遮阳板
-example//n,例子,榜样					tutorial//adj,辅助的,个别指导的
-operand//n,操作数，运算对象				binary//adj,二进制的
-decay//vi,衰退,衰减						exponential//adj,指数的
-assign//vt,赋值,指派					parameter//n,参数，参量
-batch//n,一批,vt,分批处理						shuffle//v,洗牌、搅乱
-transpose//v,调换、颠倒顺序					crop//v,收割,剪短,n,产量
-iterable//adj,能推论的，迭代					convolution//卷积	
-seniority//n,排行榜							statistics//v,统计
-couplet//n,对联								integer//n,整数
-slices//n,切片								shown//v,解释、表露、给予
-machine learn//机器学习						artificial intelligence//人工智能
-serial//adj,连续的serialize//连载				allocating//n,分配、vt,配置
-resource//n,资源							exhaust//vt,耗尽,exhausted//adj,用尽的
-latent//adj,潜在的							semantic//adj,语义的，语义学的
-wiki//n,维基百科							corpus//n,语料库
-binomial//adj,二项的binomial distribution//二项分布	assist//v,参加，有助于、协助
-convole//vt,使卷，使缠绕						execute//v,执行、处死
-increment//n,数量、增加						primary//adj,主要的、初级的
+```
+###>>>>>        A        <<<<<###                            ###>>>>>        N        <<<<<###
+abnormal//adj,异常的；变态的                                   ###>>>>>        O        <<<<<###                              
+artificial intelligence//人工智能                            ###>>>>>        P        <<<<<###
+architecture//n,建筑学，建筑风格                                ###>>>>>        Q        <<<<<###
+assume//vt,承担，假定	                                        ###>>>>>        R        <<<<<###
+allocating//n,分配、vt,配置                                    ###>>>>>        S        <<<<<###
+algorithm//n,算法，运算法则
+average,mean//n,平均
+abstrict//n,摘要
+assist//v,参加，有助于、协助
+assign//vt,赋值,指派					            
+###>>>>>        B        <<<<<###
+batch//n,一批,vt,分批处理	
+binomial//adj,二项的
+binomial distribution//二项分布
+beam//n,光线，电波;vt,发送，照射
+binary//adj,二进制的
+###>>>>>        C        <<<<<###
+coordinate//n,坐标；adj,同等的并列的
+cause,reason// n,原因
+corpus//n,语料库
+convolution//卷积
+corps,object//n,物体
+capital gain//资本得利
+capital loss//资本损失
+convert//vt,使转变
+capital//n,首都、省会、资本家
+crop//v,收割,剪短,n,产量
+context//n,上下文，环境
+config//n,配置，布局
+convole//vt,使卷，使缠绕
+chief//n,首领,adj,主要的,adv,主要的
+couplet//n,对联	
+competitive//adj,竞争的，比赛的
+candidate//n,候选人，候补者
+###>>>>>        D        <<<<<###
+decay//vi,衰退,衰减
+dependencies//n,依赖性，相关性
+###>>>>>        E        <<<<<###
+exceed,surpass//超过
+example//n,例子,榜样
+###>>>>>        F        <<<<<###
+favorable//adj,有利的良好的，优惠的
+###>>>>>        G        <<<<<###
+###>>>>>        H        <<<<<###
+###>>>>>        I        <<<<<###
+###>>>>>        J        <<<<<###
+###>>>>>        K        <<<<<###
+###>>>>>        L        <<<<<###
+###>>>>>        M        <<<<<###
+sequence//序列、顺序	                                            
+					            
+previously//adj,以前的					        
+logistics//n,后勤学，物流					        interpolate//vi,插入、篡改
+weather//n,天气						            
+graphics//n,图表算法，制图法				        
+	                    
+						        fitment//n,家具，设备，装修
+invalid//adj,无效的，有病的				        
+legend//n,图例，说明，传奇				        subplot//n,次要情节
+summary//n,adj,摘要，简易的				        scalar//n,标量的
+histogram//n,直方图					            merge//vt,合并，吞没
+				            proto//n,原型，样机
+		        visor//n,遮阳板
+regression//n,回归、复原、退化				            tutorial//adj,辅助的,个别指导的
+operand//n,操作数，运算对象				        
+					        exponential//adj,指数的
+					    shuffle//v,洗牌、搅乱
+transpose//v,调换、颠倒顺序					    
+iterable//adj,能推论的，迭代					    	
+seniority//n,排行榜							    statistics//v,统计
+							    integer//n,整数
+slices//n,切片								    shown//v,解释、表露、给予
+machine learn//机器学习						    
+serial//adj,连续的serialize//连载				    
+resource//n,资源							        exhaust//vt,耗尽,exhausted//adj,用尽的
+latent//adj,潜在的							    semantic//adj,语义的，语义学的
+wiki//n,维基百科							        
+						    execute//v,执行、处死
+increment//n,数量、增加						    primary//adj,主要的、初级的
 parity//n,平价、相等；disparity//n,不平等的		trace//vt,跟踪，探索
-slash//vt,猛砍，严厉批评						scheme//n,计划，组合，体制
-forbidden//adj,被禁止的,严禁的				implement//vt,实施，执行
-algorithm//n,算法，运算法则					excluded//adj,排除的
-patented//adj,专利的						duplicate//adj,复制的，重复的
-assume//vt,承担，假定						collapse//v,倒塌，瓦解
+slash//vt,猛砍，严厉批评						    scheme//n,计划，组合，体制
+forbidden//adj,被禁止的,严禁的				    implement//vt,实施，执行
+					    excluded//adj,排除的
+patented//adj,专利的						        duplicate//adj,复制的，重复的
+					    collapse//v,倒塌，瓦解
 unfolds//vt,打开，vi:展现						params//n,参数
-beam//n,光线，电波;vt,发送，照射				quantity//n,量、数量、数目
-utterances//n,表达，说话					architecture//n,建筑学，建筑风格
-competitive//adj,竞争的，比赛的				abstrict//n,摘要
-dependencies//n,依赖性，相关性				context//n,上下文，环境
+			quantity//n,量、数量、数目
+utterances//n,表达，说话					    
+				
 solely//adv,单独地、唯一地					stack//n,堆，堆叠   capture//n,捕获
-perceptron//n,感知器						postprocessor//n,后处理机
-candidate//n,候选人，候补者					utterance//n,表达，说话
+perceptron//n,感知器						    postprocessor//n,后处理机
+					utterance//n,表达，说话
 draft//n,草稿，汇票；//vt,起草，制定			denote//n,指示，表示
 process//n,过程；//v,审核，处理				propose//n,建议，打算
 sparse//adj,稀疏的，dense//adj,密集的			entities//n,实体
+```
 ### 2、语法知识：
 【名词所有格】名词有三个格：主格、宾格、所有格，主格与宾格形式相同所以统称为通格，名词做主语，宾语，表语时用通格。所有格形式有：'s和of所有格，举例如下：
 today's paper(今天的报纸)   the title of the book.
@@ -247,6 +296,7 @@ for(var i=0;i<n;i++){
 这也是两种数据结构，数组和广义表可以看成是线性表的一个定义扩展——表中的数据元素也是一个数据结构。两者的定义都是一大段伪代码表示的。
 **数组**：如果有一维中的一个元素是一个数据结构的话，那么其它元素也是相同的数据结构，且长度相同。数组一旦被定义，它的维数和维界就不再改变，除了初始化和销毁之外，数组只有存取元素和修改元素值的操作。所以一般采用顺序存储的方式。
 **广义表**：线性表的推广，也有人称其为列表，与数组不同的是，广义表中的数据元素可以具有不同的结构(如一个是a，一个是一个子表)，因此难以用顺序存储结构表示，通常采用链式存储结构。所以广义表比线性表更灵活。程序语言设计中的列表可以说是一个广义表的设计。
+**广义表的存储**：由于广义表的特殊结构需要两个存储结构，一个存储所有广义表数据，另一个存储各元素对应的数据类型，指针。数据存储：无论是原子数据还是列表数据，其中每个元素都被分开一个个存到物理地址中，一个列表中的数据连续的存储到地址中。指针域存储：一个tag指针表示该元素数据类型，一个头指针，一个尾指针(分别指向该列表的表头和表尾)，原点数据只需一个。
 ### 五、树：
 <div class="introduce">堆、栈、队列等数据结构在查找时非常费时间，而用树数据结构可以提高查询效率，且现实中很多关系符合树的结构，树的第一层只有一个节点即根节点(没有父节点的节点)，其余为子节点，每个节点可有多个子节点和一个直接父节点。一种非线性的数据结构，树和二叉树最为常用。第一个节点为根节点，子节点数不为0的节点称为分支节点后非终端节点，字节点数为0的节点称为叶子节点或终端节点，节点的分支数称为度，字节点称为孩子节点，该节点称为其双亲。 </div>
 
@@ -279,7 +329,12 @@ b、将这个新构建好的二叉树放到F中，删除F中之前用于构建�
 <div class="important">最优二叉树编码文本实操。红黑树为什么引入红黑性质！</div>
 
 ### 六、图：
-图是一种较线性表和树更为复杂的数据结构，图中任意两个数据元素之间都可能由关系，图是一种数据结构，加上一组基本操作就构成了抽象数据类型。图的使用非常广。
-图中数据元素通常称作顶点，v,w是两个顶点，若<v,w>∈VR(两顶点之间的关系集和)，v为弧尾巴，w为弧头，此时的图称为有向图。若<v,w>∈VR必有<w,v>∈VR则此时的图为无向图。
-邻接表：图的一种链式存储结构，邻接表中对图的每个顶点建立一个单链表，第1个单链表中的节点表示依附于顶点vi的边。每个节点由3个域组成：邻接点域(指示与当前节点vi邻接的点在途中的位置)、链域(指示下一条边或弧的节点)、数据域(存储和边弧相关的信息)。
-其它存储方式还有：邻接矩阵、十字链表、邻接多重表。
+图是一种较线性表和树更为复杂的数据结构，图中任意两个数据元素之间都可能有关系，也可能图中的某个点和其它点都没有关系，图是一种数据结构，加上一组基本操作就构成了抽象数据类型。图的使用非常广。
+<i class="label1">相关术语</i>：图中数据元素通常称作顶点，v,w是两个顶点，若<v,w>∈VR(两顶点之间的关系集和)，v为弧尾巴，w为弧头，此时的图称为有向图。若<v,w>∈VR必有<w,v>∈VR则此时的图为无向图。以节点v为弧头的弧的数目称为节点v的**入度**，以v为弧尾的弧的数目称为v的**出度**。用n表示图中节点，e表示图中边或弧的数目，对于无向图，`e∈(0,n*(n-1) / 2)`,有`n*(n-1) / 2`条边的称为**无向完全图**。对于有向图，其`e∈(0,n*(n-1))`,而有`n*(n-1)`条边的是**有向完全图**。有很少的边的称为**稀疏图**，反之称为**稠密图**。与图的边或弧相关的数叫**权**，带权的图称为**网**。
+<i class="label1">环</i>从点v到v'经过一系列点`E={v,v0,...,v'}`则称该序列点为**路径**，序列中点不重复出现的路径称为**简单路径**，第一个节点和最后一个节点相同则称为回路或**环**，而其它顶点不重复出现的回路为**简单回路**。
+<i class="label1">连通图</i>：无向图的一条路径中称第一个顶点和最后一个顶点v与v'是连通的，如果该无向图中任意两个点都是连通的则称该图为**连通图**，无向图的极大连通子图称为该图的**连通分量**。对于有向图则相应的称为**强连通图**和**强连通分量**。
+<i class="label1">图的存储</i>因为图的复杂性，会自然想到使用多重链表来存储图，但由于最小边或弧数与最大数可能相差较大，这回浪费很多存储单元，而如果为不同边或弧数的分组存储又会为后面图的操作带来难度，因此很少使用该存储方式。
+<i class="label2">数组表示法</i>用一个一维数组存储所有节点，再用一个二维数组存储各节点的关系。如果是一个无向图其得到的数组是对称的<i class="green">(一般0表示无连接，1表示有连接，如果是带权的边可将1换成对应的权值)</i>，可以只存储一个上三角或下三角矩阵。得到的关系矩阵称为邻接矩阵。
+<i class="label2">邻接表</i>：图的一种链式存储结构，邻接表中对图的每个顶点建立一个单链表，第i个单链表中的节点表示依附于顶点vi的边。单链表的每一行都是存储于该节点相连的节点的相关信息 。每个节点由3个域组成：邻接点域(指示与当前节点vi邻接的点在途中的位置)、链域(指示下一条边或弧的节点)、数据域(存储和边弧相关的信息)。适合边稀疏，边的信息较多的情况。！插入和删除边时麻烦。
+<i class="label2">十字链表</i>是有向图的一种链式存储结构，是有向图的邻接表和逆邻接表结合的。对应有向图中的每一条弧有一个链表存储，对应每个顶点也有一个链表存储。**弧链表**：5各域组成，尾域(tailvex指示弧尾顶点所在位置)，头域(headvex指示弧头所在位置)、链域hlink和tlink指向弧头相同的下一条弧，弧尾相同的下一条弧。info域存储该弧相关信息，弧头相同的在同一链表上，弧尾相同的也在同一链表上。**顶点域**：data域为存储该顶点信息，firstin和firstout分别指向以该顶点为弧头和弧尾的第一个弧节点(对应弧链表的索引)。
+<i class="label2">链接多重表</i>与十字链表相似，不过是一个更适合无向图的存储结构，在一些边的相关操作时邻接表很不方便，这时可以使用链接多重表，有边链表和顶点链表存储，边链表：6个域组成，mark(标志域，表示该边是否被搜素过)、ivex和jvex为该边依附的两个顶点在图中的位置(对应顶点链表中的索引)、ilink和jlink分别指向下一条和两个顶点相连的边，info为边的信息。顶点链表：data域存储顶点相关信息，firstedge为指向第一条依附于该顶点的边(对应边链表中的索引)。
