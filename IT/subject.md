@@ -156,102 +156,77 @@ H0：F(x)∈ {对数正太分布簇}。H1：F(X)∈ {正太分布簇}。如果�
 ## 2、英语
 ### 1、编程常用相关词汇：
 ```
-###>>>>>        A        <<<<<###                            ###>>>>>        N        <<<<<###
-abnormal//adj,异常的；变态的                                   ###>>>>>        O        <<<<<###                              
-artificial intelligence//人工智能                            ###>>>>>        P        <<<<<###
-architecture//n,建筑学，建筑风格                                ###>>>>>        Q        <<<<<###
-assume//vt,承担，假定	                                        ###>>>>>        R        <<<<<###
-allocating//n,分配、vt,配置                                    ###>>>>>        S        <<<<<###
-algorithm//n,算法，运算法则
-average,mean//n,平均
-abstrict//n,摘要
-assist//v,参加，有助于、协助
-assign//vt,赋值,指派					            
+###>>>>>        A        <<<<<###
+abnormal//adj,异常的；变态的                              artificial intelligence//人工智能                       architecture//n,建筑学，建筑风格                         
+assume//vt,承担，假定	                                    allocating//n,分配、vt,配置                              algorithm//n,算法，运算法则
+average,mean//n,平均                                     abstrict//n,摘要                                        assist//v,参加，有助于、协助
+assign//vt,赋值,指派
 ###>>>>>        B        <<<<<###
-batch//n,一批,vt,分批处理	
-binomial//adj,二项的
-binomial distribution//二项分布
-beam//n,光线，电波;vt,发送，照射
-binary//adj,二进制的
+batch//n,一批,vt,分批处理	                                binomial//adj,二项的                                    binomial distribution//二项分布
+beam//n,光线，电波;vt,发送，照射                           binary//adj,二进制的
 ###>>>>>        C        <<<<<###
-coordinate//n,坐标；adj,同等的并列的
-cause,reason// n,原因
-corpus//n,语料库
-convolution//卷积
-corps,object//n,物体
-capital gain//资本得利
-capital loss//资本损失
-convert//vt,使转变
-capital//n,首都、省会、资本家
-crop//v,收割,剪短,n,产量
-context//n,上下文，环境
-config//n,配置，布局
-convole//vt,使卷，使缠绕
-chief//n,首领,adj,主要的,adv,主要的
-couplet//n,对联	
-competitive//adj,竞争的，比赛的
-candidate//n,候选人，候补者
+coordinate//n,坐标；adj,同等的并列的                       cause,reason// n,原因                                    corpus//n,语料库
+convolution//卷积                                        corps,object//n,物体                                    capital gain//资本得利
+capital loss//资本损失                                    convert//vt,使转变                                        capital//n,首都、省会、资本家
+crop//v,收割,剪短,n,产量                                    context//n,上下文，环境                                config//n,配置，布局
+convole//vt,使卷，使缠绕                                   chief//n,首领,adj,主要的,adv,主要的                    couplet//n,对联
+competitive//adj,竞争的，比赛的                            candidate//n,候选人，候补者                            collapse//v,倒塌，瓦解
+coefficient//n,系数
+capture//n,捕获
 ###>>>>>        D        <<<<<###
-decay//vi,衰退,衰减
-dependencies//n,依赖性，相关性
+decay//vi,衰退,衰减                                        dependencies//n,依赖性，相关性                         duplicate//adj,复制的，重复的
+denote//n,指示，表示                                    draft//n,草稿，汇票；//vt,起草，制定                    dense//adj,密集的		
 ###>>>>>        E        <<<<<###
-exceed,surpass//超过
-example//n,例子,榜样
+exceed,surpass//超过                                    example//n,例子,榜样                                     exponential//adj,指数的
+exhaust//vt,耗尽,exhausted//adj,用尽的                    execute//v,执行、处死                                excluded//adj,排除的
+entities//n,实体
 ###>>>>>        F        <<<<<###
-favorable//adj,有利的良好的，优惠的
+favorable//adj,有利的良好的，优惠的                        fitment//n,家具，设备，装修                            forbidden//adj,被禁止的,严禁的
 ###>>>>>        G        <<<<<###
+graphics//n,图表算法，制图法
 ###>>>>>        H        <<<<<###
+histogram//n,直方图
 ###>>>>>        I        <<<<<###
+interpolate//vi,插入、篡改                                invalid//adj,无效的，有病的                            integer//n,整数
+iterable//adj,能推论的，迭代                               increment//n,数量、增加                                implement//vt,实施，执行
 ###>>>>>        J        <<<<<###
 ###>>>>>        K        <<<<<###
 ###>>>>>        L        <<<<<###
+logistics//n,后勤学，物流	                                legend//n,图例，说明，传奇                                latent//adj,潜在的
 ###>>>>>        M        <<<<<###
-sequence//序列、顺序	                                            
-					            
-previously//adj,以前的					        
-logistics//n,后勤学，物流					        interpolate//vi,插入、篡改
-weather//n,天气						            
-graphics//n,图表算法，制图法				        
-	                    
-						        fitment//n,家具，设备，装修
-invalid//adj,无效的，有病的				        
-legend//n,图例，说明，传奇				        subplot//n,次要情节
-summary//n,adj,摘要，简易的				        scalar//n,标量的
-histogram//n,直方图					            merge//vt,合并，吞没
-				            proto//n,原型，样机
-		        visor//n,遮阳板
-regression//n,回归、复原、退化				            tutorial//adj,辅助的,个别指导的
-operand//n,操作数，运算对象				        
-					        exponential//adj,指数的
-					    shuffle//v,洗牌、搅乱
-transpose//v,调换、颠倒顺序					    
-iterable//adj,能推论的，迭代					    	
-seniority//n,排行榜							    statistics//v,统计
-							    integer//n,整数
-slices//n,切片								    shown//v,解释、表露、给予
-machine learn//机器学习						    
-serial//adj,连续的serialize//连载				    
-resource//n,资源							        exhaust//vt,耗尽,exhausted//adj,用尽的
-latent//adj,潜在的							    semantic//adj,语义的，语义学的
-wiki//n,维基百科							        
-						    execute//v,执行、处死
-increment//n,数量、增加						    primary//adj,主要的、初级的
-parity//n,平价、相等；disparity//n,不平等的		trace//vt,跟踪，探索
-slash//vt,猛砍，严厉批评						    scheme//n,计划，组合，体制
-forbidden//adj,被禁止的,严禁的				    implement//vt,实施，执行
-					    excluded//adj,排除的
-patented//adj,专利的						        duplicate//adj,复制的，重复的
-					    collapse//v,倒塌，瓦解
-unfolds//vt,打开，vi:展现						params//n,参数
-			quantity//n,量、数量、数目
-utterances//n,表达，说话					    
-				
-solely//adv,单独地、唯一地					stack//n,堆，堆叠   capture//n,捕获
-perceptron//n,感知器						    postprocessor//n,后处理机
-					utterance//n,表达，说话
-draft//n,草稿，汇票；//vt,起草，制定			denote//n,指示，表示
-process//n,过程；//v,审核，处理				propose//n,建议，打算
-sparse//adj,稀疏的，dense//adj,密集的			entities//n,实体
+merge//vt,合并，吞没                                       machine learn//机器学习
+###>>>>>        N        <<<<<###
+###>>>>>        O        <<<<<###
+operand//n,操作数，运算对象
+###>>>>>        P        <<<<<###
+previously//adj,以前的                                 proto//n,原型，样机                                        primary//adj,主要的、初级的
+parity//n,平价、相等；disparity//n,不平等的                patented//adj,专利的                                    params//n,参数
+postprocessor//n,后处理机                                perceptron//n,感知器	                                    propose//n,建议，打算
+process//n,过程；//v,审核，处理
+###>>>>>        Q        <<<<<###
+quantity//n,量、数量、数目
+###>>>>>        R        <<<<<###
+regression//n,回归、复原、退化                            resource//n,资源	
+###>>>>>        S        <<<<<###
+sequence//序列、顺序                                    subplot//n,次要情节                                        scalar//n,标量的
+summary//n,adj,摘要，简易的                                shuffle//v,洗牌、搅乱                                   statistics//v,统计
+shown//v,解释、表露、给予                                seniority//n,排行榜                                        slices//n,切片
+serial//adj,连续的serialize//连载	                        semantic//adj,语义的，语义学的                                scheme//n,计划，组合，体制
+stack//n,堆，堆叠                                        solely//adv,单独地、唯一地                                sparse//adj,稀疏的
+slash//vt,猛砍，严厉批评                                slote//n,斜率                                        syntax//n,句法，语构。
+###>>>>>        T        <<<<<###
+tutorial//adj,辅助的,个别指导的                            transpose//v,调换、颠倒顺序                               trace//vt,跟踪，探索
+trend//n,趋势
+###>>>>>        U        <<<<<###
+unfolds//vt,打开，vi:展现	                                utterances//n,表达，说话
+###>>>>>        V        <<<<<###
+visor//n,遮阳板
+###>>>>>        W        <<<<<###
+weather//n,天气                                            wiki//n,维基百科
+###>>>>>        X        <<<<<###
+###>>>>>        Y        <<<<<###
+###>>>>>        Z        <<<<<###
+
 ```
 ### 2、语法知识：
 【名词所有格】名词有三个格：主格、宾格、所有格，主格与宾格形式相同所以统称为通格，名词做主语，宾语，表语时用通格。所有格形式有：'s和of所有格，举例如下：
@@ -337,3 +312,6 @@ b、将这个新构建好的二叉树放到F中，删除F中之前用于构建�
 <i class="label2">邻接表</i>：图的一种链式存储结构，邻接表中对图的每个顶点建立一个单链表，第i个单链表中的节点表示依附于顶点vi的边。单链表的每一行都是存储于该节点相连的节点的相关信息 。每个节点由3个域组成：邻接点域(指示与当前节点vi邻接的点在途中的位置)、链域(指示下一条边或弧的节点)、数据域(存储和边弧相关的信息)。适合边稀疏，边的信息较多的情况。！插入和删除边时麻烦。
 <i class="label2">十字链表</i>是有向图的一种链式存储结构，是有向图的邻接表和逆邻接表结合的。对应有向图中的每一条弧有一个链表存储，对应每个顶点也有一个链表存储。**弧链表**：5各域组成，尾域(tailvex指示弧尾顶点所在位置)，头域(headvex指示弧头所在位置)、链域hlink和tlink指向弧头相同的下一条弧，弧尾相同的下一条弧。info域存储该弧相关信息，弧头相同的在同一链表上，弧尾相同的也在同一链表上。**顶点域**：data域为存储该顶点信息，firstin和firstout分别指向以该顶点为弧头和弧尾的第一个弧节点(对应弧链表的索引)。
 <i class="label2">链接多重表</i>与十字链表相似，不过是一个更适合无向图的存储结构，在一些边的相关操作时邻接表很不方便，这时可以使用链接多重表，有边链表和顶点链表存储，边链表：6个域组成，mark(标志域，表示该边是否被搜素过)、ivex和jvex为该边依附的两个顶点在图中的位置(对应顶点链表中的索引)、ilink和jlink分别指向下一条和两个顶点相连的边，info为边的信息。顶点链表：data域存储顶点相关信息，firstedge为指向第一条依附于该顶点的边(对应边链表中的索引)。
+
+## 4、物理：
+功率：是指物体在单位时间内所做的功的多少，即功率是描述做功快慢的物理量。功的数量一定，时间越短，功率值就越大。求功率的公式为功率=功/时间。

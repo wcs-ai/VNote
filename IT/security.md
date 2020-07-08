@@ -20,6 +20,7 @@ systeminfo //查看电脑一些信息
 netsh winsock reset //重置网络，重启后生效
 net user //查看本机所有用户名   echo %username% //查看当前使用的用户
 nvcc -V //查看cuda版本
+services.mc //打开服务列表，windows update...项为系统更新。
 https://www.cnblogs.com/accumulater/p/7110811.html
 ##### b、windows常见问题：
 [0]有时常用的正常的网络会出现网速慢、无法连接等的问题这可以尝试打开设备管理器>网络适配器这下面是连接的网络点属性>高级,修改一下里面的值可能网速就会变得正常。连接不上网的话可以试试卸载该网的驱动再点检测硬件安装试试。
@@ -30,6 +31,7 @@ https://www.cnblogs.com/accumulater/p/7110811.html
 [安装cuda图像驱动程序时提示：此图形驱动程序无法找到兼容的图像硬件]
 https://www.iteye.com/blog/yuanlanxiaup-1330287
 **磁盘分区**：一个盘分为多个盘=》win+r/输入diskmgmt.msc/选择c盘/右键/压缩卷
+笔记本电脑触摸板失灵问题：设备管理器》鼠标和其它设备，正常情况下有一个mouse touch...类的设备，右键检测，看看是否有提示，若没有可以用驱动精灵检测驱动试试，若提示主板驱动异常，或触摸板驱动异常，安装后重启应该就能解决该问题。
 #### c、windows系统安装：
 #### 2、快捷键提升操作速度：
 切换已经打开的软件：window+table,ctrl+o打开文件夹，win+D直接切换到桌面

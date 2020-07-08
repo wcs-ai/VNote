@@ -34,6 +34,7 @@ http://www.mamicode.com/info-detail-1988813.html
 HTMLCanvasElement//表示页面内所有canvas元素，其余元素也有此类似对象。
 HTMLCanvasElement.toDataURL()方法将画布转化为base64图片格式。
 HTMLCanvasElement.toBlob()方法将画布转化为Blob对象。
+
 var ctx = canvas.getContext("2d")//获取2d对象
 ctx.fillStyle = "blue"//填充颜色需要放在绘制形状前
 ctx.fillRect(x,y,width,height)//矩形填充颜色...
@@ -60,7 +61,7 @@ ctx.strokeStyle="orange"//设置边框颜色
 坐标若超出canva画布大小则全部都不能绘制出来
 ctx.quadraticCurveTo(10,10,20,20)//二次贝塞尔曲线，中转点，结束点
 ctx.bezierCurveTo()//三次贝塞尔曲线
-ctx.arc(x,y,r,stAngle,Math.PI*2)//绘制圆,控制第5个参数大小控制弧长。
+`ctx.arc(x,y,r,stAngle,Math.PI*2)`//绘制圆,控制第5个参数大小控制弧长。
 ctx.ellipse(x,y,rx,ry,Math.PI/4)//绘制椭圆
 画圆，椭圆前定义lineWidth值填充strokeStyle值可画出圆环效果。
 ctx.clip()//裁剪，使用之前先绘制一个路径区域再调用,裁剪掉区域外的东西
@@ -127,7 +128,7 @@ ttx.fill();
 var can = document.getElementById('can');
 var ctx1 = can.getContext('2d');
 var ctx2 = can.getContext('2d');
-// 一个画布上有两个画笔		
+// 一个画布上有两个画笔
 ctx1.fillStyle = 'blue';
 ctx1.fillRect(0,0,50,100);
 ctx1.fill();
@@ -1489,6 +1490,14 @@ computed:{
 watch:{// watch中的函数名对应data中想要监听的数据名。
     vb:function(newVal,oldVal){// 会传入两个参数。在vb这个数据变化时触发。
         this.b = 29;
+    },
+    a(){//a发生了变化},
+    obj:{
+        // 监听一个对象的变化，需要加deep属性。
+        heandler(nw,old){
+            //发生变化时触发
+        },
+        deep:true
     }
 }
 ```

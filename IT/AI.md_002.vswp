@@ -20,42 +20,112 @@ vnote_backup_file_826537664 E:/package/VNote/IT/AI.md
 第二层原理学习：自己动手实现一些主要的算法。包括：HMM、决策树、GRUCell的实现。
 文本型数学符号集：∑ † ← ↑ → ↓ ↔ €  Œ œ Š š Ÿ ƒ ⊗  σ η ω ρ ∈ ⊙▽⊙ λ μ ξ α β θ
 #### 2、python操作mysql：
-windows上安装：安装包解压后进入文件夹复制一个my-small.ini文件然后在文件最低部添加：basedir=该文件夹绝对路径	/n  datadir=文件夹绝对路径/data
-进入bin目录cmd>>mysql --initialize --console //初始化数据库
->>mysqld install //安装mysql
->>net start mysql //启动mysql服务 >>mysql -h root -p //登录(初始密码为空)
+**SQL**：是用于访问和处理数据库的标准的计算机语言。而可以使用sql处理数据库的数据库有MySQL、SQL Server、Access、Oracle、Sybase、DB2 等等。在进入到各数据库模式下后可以直接使用sql语句对数据库进行操作。
+**分布式存储系统**：就是将用户需要存储的数据根据某种规则存储到不同的机器上，当用户想要获取指定数据时，再按照规则到存储数据的机器里获取。
+当用户（即应用程序）想要访问数据 D，分布式操作引擎通过一些映射方式，比如 Hash、一致性 Hash、数据范围分类等，将用户引导至数据 D 所属的存储节点获取数据。
+
+<i class="label1">windows上安装</i>低版本：安装包解压后进入文件夹创建一个`my-small.ini`文件然后在文件最低部添加：basedir=该文件夹绝对路径	/n  datadir=文件夹绝对路径/data。高版本的话不要设置datadir参数，不然启动服务时报错，按照菜鸟教程走即可。
+进入bin目录cmd>>`mysql --initialize --console `//初始化数据库。会输出初始账户，密码，请记住！！！
+提示找不到VCRUNTIME140_1.dll：安装微软常用库。
+`mysqld install MySQL`//安装名为MySQL的服务。注意在管理员身份下运行命令。`c:>d:`#切换到d盘
+`mysqld --remove MySQL `//移除指定服务。
+`net start mysql` //启动mysql服务 >>mysql -h root -p //登录(初始密码为空)
 mysql可视化管理工具navicat for MySQL破解：https://blog.csdn.net/wypersist/article/details/79834490
-from mysql import connector #pip install mysql-connector
+**使用前**：注意使用前必须修改用户密码，方法如下：
+```
+D:\mysql\bin>mysql -u root -p    #目录下登入mysql
+Enter password:****            #输入原密码进入
+#进入到mysql模式，此时可使用sql等语句。每条语句后都要打分号再enter运行。
+mysql>alter user root@localhost identified by 'xsww';将密码更改为xsww
+```
+**使用**：
+```
+from mysql import connector #pip install mysql-connector    和pymysql库一样的使用方法。
 #连接mysql,主机名(ip),..database指定连接到的数据库，没有的话则只是连接mysql
-wcs=connector.connector(host='localhost',user='root',passwd='',database='')
+wcs=connector.connect(host='localhost',user='root',passwd='',database='mysql')
 ac=wcs.cursor()#创建一个光标用于操作mysql
 #execute()执行sql语句来操作mysql，SHOW DATABASES展示数据库
 ac.execute("SHOW DATABASES")#SHOW TABLES 显示当期库下的所有表格
 for x in ac:print(x)#查看所有数据库或当期数据库下的所有表格；配合上面的语句
+
+# 若上面没有指定连到哪个数据库的话，需要先ac.execute("use mysql")
+
+# 在查询时
+val = ac.execute("SELECT * FROM user")    #选取所有列
+print(val)#列的数量，直接使用sql语句时还会显示各行的键类型、等其它属性。
+```
 #一些execute()中使用的sql语句
 CREATE TABLE sites (name VARCHAR(255),url VARCHAR(255))#当前库下创建一名为sites的表
 ...(id INT AUTO_INCREMENT PRIMARY KEY,...) #括号内的是字段，这个表示设置一个为主键
 ALTER TABLE sites ADD COLUMN id INT AUTO_INCREMNT PRIMARY KEY#动态添加主键
-增、删、查、改：
+**增、删、查、改**：
 #插入数据,（增）。单条插入,使用占位符%时execute()内需要填两个值
+```
 sql = "INSERT INFO sites (name,url) VALUES (%s,%s)"
-ac.execute(sql,('wcs','http:'))#批量插入操作，第二值传入一个数组,改成executemany()即可
+ac.execute(sql,('wcs','http:'))#批量插入操作，第二值传入一元组,改成executemany()即可
 ac.executemany(sql,[('google','url'),('github','url'),...])
 wcs.commit()#涉及到更改数据库的操作需要使用commit()提交。
+```
 #查找数据,(查)。查找表sites中的所有数据
-ac.execute("SELECT * FROM sites")#"SELECT name FROM sites"只查找name字段数据
+```
+ac.execute("SELECT * FROM sites")#"SELECT name FROM sites"只查找name字段数据，选多个列时用逗号隔开。
 #"SELECT * From sites ORDER BY name DESC"按name字段排序，默认升序，DESC为降
 #"SELECT * FROM sites WHERE name = 'google'" 按条件查询
 #定义占位符，避免sql注入攻击
 sql1 = "SELECT * FROM sites WHERE name = %s"
 ac.execute(sql1,("wcs",))#第二个参数必须是一个元组或列表
 res=ac.fetchall()#获取到结果的一个迭代对象，需要使用for循环来获取
+```
 #删除表数据"DELETE FROM sites WHERE name = %s"不用WHERE的话会删除说所有数据
 #更新数据，修改数据,更新name为wcs的数据为xsww
+```
 sql2 = "UPDATA sites SET name = 'xsww' WHERE name = %s"
 ac.execute(sql2,('wcs',))
 wcs.commit()
+```
 #删除数据表 "DROP TABLE IF EXISTS sites"   IF EXISTS为判断
+<i class="label1">SQL</i>注意，虽然是sql语句，但在不同的数据库中可能用法略有不同。这里是mysql中可用的语句形式。
+进入到mysql模式以后如下：    以下语句大小写均支持。
+可设置的数据类型：[mysql中可设置的数据类型。](https://www.cnblogs.com/cqlb/p/9856841.html)
+```
+#建库建表
+create database wcs character set utf8;    #创建一个名为wcs的库。
+#在当前库下建一个名为blogs的表。括号中的是表的字段，列名、数据类型。
+create table blogs(id char(20),user_id char(20),name char(20),)character set utf8;
+
+mysql>show databases;    //显示所有已有的数据库
+mysql>use mysql;    //选择其中一个数据库
+mysql>SHOW TABLES;    //显示该库下的所有表
+//查看表db的所有列，或用DESCRIB from db;效果一样。显示的Field项就是它的所有列，后面还有type等各列的属性描述。
+mysql>SHOW COLUMNS from db;
+//    其它SHOW命令。
+SHOW STATUS：显示广泛的服务器状态信息
+SHOW CREATE DATABASE 和 SHOW CREATE TABLE：显示创建特定数据库或表
+SHOW GRANTS：显示授权用户（所有用户或特定用户）的安全权限
+SHOW ERRORS 和 SHOW WARNINGS：显示服务器错误或警告消息
+HELP SHOW：显示允许的SHOW语句
+
+# 查询语句SELECT,WHERE是接一个字句。
+SELECT shop_id,item_id FROM test LIMIT 2;    #LIMIT限制返回的条数。对应sql的TOP作用。    有子句时写在子句后。
+SELECT DISTINCT country FROM Websites;    #DISTINCT选取country列中所有的项(去除了重复部分)。
+#like可指定用后面的匹配项去匹配指定列中满足条件的数据。第一个item_id是要显示的列，第二个item_id是要用于匹配的。
+SELECT item_id from test WHERE item_id LIKE '24%';    #LIKE可用来匹配符合规则的数据。24%表示以24开头的。
+SELECT * FROM Websites WHERE name REGEXP '^[GFs]';    #REGEXP后面使用正则表达式。
+SELECT * FROM test WHERE name IN ('wcs','xsww');    #精确的查找，IN指定name字段中，在指定值内的数据。
+SELECT * FROM test WHERE item_id BETWEEN 1 AND 20;    #BETWEEN指定一个范围。包括字符串范围。'a' AND 'z'
+SELECT * FROM test WHERE item_id NOT BETWEEN 1 AND 20;    #NOT取反向，还能加在IN前面。
+#    多条件查询时的写法。用and链接，条件太多时，可能要拼接。
+SELECT shop_id,item_id FROM test WHERE shop_id IN (59,24) and mount NOT BETWEEN 2 AND 5 LIMIT 10;
+#    用AS来为前一个表名或列名重新命名。
+SELECT w.name, w.url, a.count, a.date FROM Websites AS w, access_log AS a WHERE a.site_id=w.id and w.name="菜鸟教程";
+
+# 通配符，通常与LIKE和REGEXP 一起使用。
+%    #代替0个或多个字符，aa%表示以aa开头，%aa%则可匹配字符中任意位置的aa字符。
+-    #代替1个字符。
+[charlist]    #匹配到中阔号中任一字符。
+[^abc]    #非括号中的字符。
+
+```
 #### 3、python的面向对象：
 类中__init__(self)方法是一个内部规定的方法若在类中写了该函数则在执行该类中的任意一个方时都会执行一次类中的__init__函数,若要调用类中的方法得先将该类赋值给另一个变量，然后由该变量调用类中的函数。列：
 ```
@@ -271,14 +341,27 @@ with pdfplumber.open("/home/wcs/data/vv.pdf") as pdf:
 **使用模型**：全部转换完成后选择291个窃电类的数据作为专家样本，这些样本是描述窃电类用户的一个比较全面的特征库。使用上面3各指标的数据，使用决策树和dnn都得到不错的效果。
 ##### a2、用户价值挖掘、精准营销：
 挖掘客户的价值多数时候会使用到RFM模型<i class="violet">(分别为：最近消费时间间隔(Recently)、消费频率(Frequency)、消费金额(Money)。获取这三项特征对用户做分析，根据具体业务可以在此方面扩展其它特征)。不过对于一些特殊的业务场景需要适当的改变，例如航班客户价值分析中，因为飞行距离近但购买金额更高(购买的头等舱位情况)，比一个飞行距离远，购买普通舱位的客户价值高。</i>一般是基于CRM<i class="green">(客户关系管理系统，一个专门针对用户管理、分析的系统，中小公司对这块要求简单。有专门的CRM软件)。</i>或数据库来获取客户相关信息。决定好使用哪些特征后，进行数据清洗等工作，对用户进行聚类分析，将他们划分为不同等级的用户，描述各等级客户的特征，来有针对性的营销。
-过程：根据RFM模型和业务，决定抽取哪些特征作为分辨客户价值的特征，对数据进行预处理，标准化(如果各特征项量纲差异大的情况)后进行聚类分析<i class="violet">(一般分为5类)</i>。对得到的各类群体进行特征分析，列出它们的优势特征和弱势特征<i class="orange">(这个类别中对应特征项值较符合优质客户标准的，弱势特征则是值较差的)。</i>常见客户类型如下：
+**过程**：根据RFM模型和业务，决定抽取哪些特征作为分辨客户价值的特征，`选取一个观测窗口(开始时间到结束时间)`，对数据进行预处理，标准化(如果各特征项量纲差异大的情况)后进行聚类分析<i class="violet">(一般分为5类)</i>。对得到的各类群体进行特征分析，列出它们的优势特征和弱势特征<i class="orange">(这个类别中对应特征项值较符合优质客户标准的，弱势特征则是值较差的)。</i>常见客户类型如下：
 **重要保持客户**：理想的客户类型，对公司的贡献最大，但占比较小。公司应该将资源优先放到他们身上，进行差异化管理和一对一营销，尽量延长他们的高水平消费。
 **重要发展客户**：不像重要保持客户类型那样有较高的消费，但这类客户有很大的发展潜力，需要增加这类客户的满意度，使他们逐渐增加公司的忠诚度。
 **重要挽留客户**：这类客户一般是进入公司较旧的一些客户，且累计消费次数较多，但已较旧没有出现过消费记录，这些客户衰退的原因各不相同，所以需要掌握他们的最新信息，维持与客户的互动显得尤为重要。
 一般客户和低价值客户：这两类客户可能是在公司有优惠促销活动的时候才消费。<i class="red">前3类客户纳入生命周期计算中。</i>
 <div class="tip">对于新的客户信息利用训练好的模型将他们聚到对应的类，如果聚类结果与实际结果相差较大需要考虑是否重新训练模型，保证模型的稳健性，一般过半年时间需要再训练一次模型，且是增加更多数据量的情况下。一些优惠力度较大的活动可能因为客户没具体了解到其结束时间和完成要求，因此可以在活动要结束前一段时间对那些快要达到要求的客户进行提醒，促使他们消费，避免他们的不满和流失。或在一些特别的节点进行提醒。交叉销售：通过与其它公司合作，让客户在别的公司消费时也能积攒消费积分，以此找到用户的一些其它相关信息(比如查看他们在合伙公司喜欢购买什么产品)。客户的流失需要引起重视，这影响仅次与公司规模，而且找一个新客户比保持一个老客户花费的价值更高。</div>
 
+<i class="label1">客户流失预测模型</i>不同业务对应的客户流失定义不同，甚至会针对不同功能定义客户流失。且流失的定义前提是实行对应的方案还能挽回的客户。一般是根据业务的特点对客户的消费时间做分期，比如航空公司，飞行频率本就不高，所以一般一年算做一期，然后依据该期客户的数据和依据建立好的模型来预测客户是否下一期会成为流失客户(即每过一期就运行一次模型)。<i class="violet">对预测为可能流失的客户给予手段补救，然后添加补救次数的标记，如果连续两三次之后，该客户依然成为了流失客户或更糟，那么可能就放弃该用户。</i>客户流失预测模型的目的应该是为了提高挽留关怀工作的有效性，最大限度地让客户保持活跃状态，而不是所谓的大幅度降低客户流失率。
+<i class="label2">分析</i>根据现有的数据决定一个观测窗口(因为各用户注册的时间不一样)，窗口期内才注册的用户不算在内。根据当前业务定义好流失用户的指标(业务上的流失定义与数据上的流失定义可能不一样)， 然后根据指标(如第二期与第一期消费次数比值、或前几期的趋势等)将满足观测窗口的客户划分为未流失、准流失、已流失3类。然后选择用户的一些消费次数、频率、积分等属性<i class="blue">(因为模型没期都要运行一次，而用户可能已经是一个有过几期记录的老客户，根据上面的指标能划分用户类型，所以客户类型也加入到训练特征中，而且最好使用客户最后几期的一个平均消费趋势)</i>。 在训练阶段，3个类型的用户数据都用于训练，但预测阶段，如果检测到客户已经是一个流失客户，那么其下一期不可能是一个未流失客户，所以这类客户可以不纳入预测，在检测客户类型步骤时可能将一个回访客户分为未流失客户，对此类可以额外加一个回访客户类型，用特别营销活动对待。除了这四类用户外还可以添加一个新用户标志，新用户一般不纳入这个预测模型，但在营销上会对新用户有特别的服务。 
 [一个分析示例。](https://blog.csdn.net/wanglingli95/article/details/79444432)[CRM软件组成介绍。](https://www.cnblogs.com/OOAbooke/archive/2013/02/28/2936804.html)[CRM系统的三种模型。](https://www.zkcrm.com/article442.html)
+##### a3、关联分析挖掘三阴乳腺癌的症状与结果的关联规则：
+医学方面的病情统计多数写在纸上，所以数据较缺乏，可以用电子问卷的方式来向症者获取数据，然后取出不可分析出结果的，不完整的问卷，将其它整合为数据使用。
+**重要分析**：将患者各症状描述转为该症状得分，将症状得分转为症状系数(症状分数/症状总分)，因为关联分析需要使用离散型数据，用聚类将各症状系数数据聚为4类(因为对应癌症的四个诊断结果，尽量保持类数一致)。将各症状离散化后的数据与该患者诊断结果作为一条数据。然后使用aproiar挖掘它们的规则，得到的结果中有一些组是不包含诊断结果数据在内的，这类组可以视为无效，其它挖掘到的包含结果数据且置信度高的组作为重要结果，`每组置信度就表示该组症状对应其诊断结果的概率`。可让相关专业医生鉴定结果是否合理，来决定是否要调整置信度。
+##### a4、用户行为分析：
+一个用户使用热水器的行为分析示例。各地各季节人们使用热水器的行为不同，如果能这些用户用水的差异，那么公司将能深入理解用户，对不同用户做产品优化，提升产品智能。
+使用热水器行为分析主要是根据用户使用水流间隔，识别用户哪几次用水是一个用水事件(同一次用水事件中用户可能多次中断水流)，识别该次用水事件可能是什么事件(如洗脸、洗菜、洗浴等)。
+**分析**：热水器在开始流失时记录开始时间、是否加热、水温、流水结束时间等属性，每隔两秒记录一次。由于数据量很庞大，对数据进行抽样(抽取一年的用水记录)。第一次流水结束与第二次流水开始的时间间隔为这两次流水事件的用水间隔。根据用水试验统计，用水事件间的间隔一般为6分钟以上，所以将用水事件间隔阈值定位5分钟。但由于不同的季节，不同的地区用水事件间隔也会不同，所以做一个**阈值择优模型**：查看选择不同的阈值时得到的划分用水事件数，在一段阈值内划分出的事件数趋于平缓的话则说明这是个不错的阈值，具体的选择方法是计算出前一个阈值到该阈值的斜率，然后将该点之后的四段斜率的均值作为该阈值点的斜率k，如果k<1则将该点作为最优阈值。若全局找不到有小于1的，则选择最小的k的那个阈值点(还要求最大限制)。
+**特征选择**：我们需要延展更多的属性来描述一次用水事件。所以衍生的属性是结合一次用水事件中多次流水事件特征结合描述的，选取一些特别的特征：水流量波动、停顿时长波动(方差表示)、平均水流量、总用水量...这样就形成了没条用水事件。
+洗浴识别：基于这些变换后的用水事件数据来识别哪些是洗浴事件，先剔除掉一些值较小的用水事件。让一些用户提供了几周的用水日志(这相当于是专门出钱来获取该方面的数据，更长事件的用水日志用户操作有些困难)，使用神经网络模型来训练。连续洗浴事件的判别！
+a5、杂项：
+数据表格优化、决策支持、业绩、店铺、销售情况分析、产品出库情况、店铺排名情况、季度分析、库存流转情况、销售指标的提报，业绩预警，各重大节日数据分析、岗位个人能效，KPI数据情况分析。
 #### 12、python文件IO：
 假设当前路径为E:\mypython\test\文件IO.py。文件分为文本型和二进制型，所以读取的模式也只分为两种。(写入文件时需要保证写入的类型是字符串类型或byte型，不然非字符型会出现output Decode utf-8错误，不易查找)。部分特别的符号需要使用特别的编码才能实现，所以文件中有不同编码格式的字符时需要使用rb模式来读后再解码，不过解码后每个字符后还会有\r符。
 读取二进制型文件时需要对读取的结果解码，用如下方法查看文件的编码方式：
@@ -478,6 +561,7 @@ list.sort(reverse=True)//将列表排序，作用与原数据，默认从小到�
 list.reverse()#将列表中的元素反向排列。
 list.remove(x)#移除列表中第一个与x匹配的值。
 zip([1,2,3],[4,5,6]) >> [(1,4),(2,5),(3,6)]，
+求和：sum(listData)#求出列表各值的总和。
 **字典使用**：
 `res=dict(zip(obj.keys(),obj.values()))`，`dict(a=1,b=2)`//将其创建为一个字典。dict([(a,2),(b,3)])>>{'a':2,'b':3}
 obj.items()//将字典每对键值对封做一个
@@ -487,6 +571,7 @@ enumerate(list)#可枚举列表，元组，字典，for index,value in enumerate
 obj.get('age',None)#get()方法返回字典中指定键的值，第一个参数为键值名第二个参数规定键不存在时返回的值。obj.keys(),obj.values()#返回字典的键值和value值。obj.clearn()#清空字典
 [sorted()排序字典]注意：第二个参数函数名必须用key。返回按原数据格式排好序的结果
 obj = {'a':10,'b':3,'c':16,'d':8}
+移除元素：obj.pop('a','45')#移除键值为a的元素，第二个参数是若没有该键值返回的值，可赋给一个变量。
 #sorted()方法参数：要排序的数据,一个函数(会将每条数据传入这个函数),处理返回一个
 #值，内部会根据该值大小**排序**，默认从小到大。
 `v = [t[0] for t in sorted(obj.items(),key=lambda k:abs(k[0]),reverse=True)]`#['c','a','d','b']
@@ -565,6 +650,7 @@ S = (3.2-(1.5k+b))^2+...+(3.3-(1.9k+b))^2 #这里我们两边同时除以5。S/5
 [lass回归和岭回归学习参考地址。](https://blog.csdn.net/Joker_sir5/article/details/82756089)
 #### 24、聚类:
 聚类属于非监督学习方法，从某种程度上来说机器学习的终极目标就是无监督学习(不过k-means是一个较简单的算法)。这里列举遇到的聚类算法：
+聚类坚持使用少而精的数据量，数据过多也可能造成效果不好，聚类慢的问题，高共线性的变量也要注意好进行筛选。
 <i class="label1">**k-means算法**</i>：
 **基本思想**：给出一组数据，将这组数据分成规定的几类(按照各个类的特征),转化为纯数学问题求解时要将分类的标准转化为距离来划分特别是在面对海量数据时，所以在分类时是按照距离来划分为几个簇，然后求出各个簇的平均值再以这几个平均值为质心在所有数据中重新进行分类，依次直到这几个质心不在变化后结束。**选择聚类点**的方法有如下：
 随机选择法：随机选择k个点做为初始聚类点。
@@ -624,6 +710,7 @@ https://www.cnblogs.com/jeshy/p/10629556.html
 **精准匹配**：`^abc$`
 **匹配中文**：`[\u4e00-\u9fa5]+`表示匹配所有中文。(只要有中文就能匹配成功)
 **全部为中文**：`^[\u4e00-\u9fa5]+$`必须全部为中文。
+**全部为同一类型的写法**：先表示好一个匹配的规则，然后开头加`^`，最后加`+$`。
 所有转义字符：\a:响铃(BEL) 		\b:退格(BS) 	\f:换页(FF)		\n:换行		\r:回车
 `\t`:水平制表(HT)table符		\v：垂直制表(VT)		\o:空字符   		\s：空格
 #### 27、python知识积累：
@@ -667,7 +754,7 @@ __import__('a')//动态导入a.py模块，如果导入的类，函数是经常�
 ##### a3、字符串
 b'xx08eu'(字符串前加b表示是一个byte类型)，r'e:\b\d'(字符串前加r表示去掉反斜杆的影响)。
 u'字符'(字符串前加u表示使用unicode[utf-8]进行编码，中文使用)。f"zzr{name}ko"，字符串前加f后该字符串中可以用{}号然后里面写变量名。
-[格式化字符串]print('a is s% and %d c'%('b',20))>'a is b and 20 c' //%s和%d相当与占位符把%后的元组依次写入站位符中。s%,d%,c%,o%,x%...分别表示占位字符串、整数、字符及ASCII码、八进制数、十六进制数。字符串前使用r或R可以输出原始字符串：r'\n,%s,uio',里面的特殊字符不会被转译。'%(name)s--%(age)d'%{'name':'wcs','age':21}
+**格式化字符串**：print('a is s% and %d c'%('b',20))>'a is b and 20 c' //%s和%d相当与占位符把%后的元组依次写入站位符中。s%,d%,c%,o%,x%...分别表示占位字符串、整数、字符及ASCII码、八进制数、十六进制数。字符串前使用r或R可以输出原始字符串：r'\n,%s,uio',里面的特殊字符不会被转译。'%(name)s--%(age)d'%{'name':'wcs','age':21}
 [保留两位小数]使用round()不生效的时候可以："%.2f"%number
 cv = x.replace('二',1)#替换x中为二的字符串为1，返回一个结果，不在原结果上修改
 'str'.find('t')//匹配字符串中所包含的指定子字符的第一次出现位置有则返回位置无则返回-1
@@ -797,13 +884,6 @@ print(h(1,2))#3，不能直接将lamnda函数体做参数写到其它函数括�
 callable()函数：判断一个对象是否是可调用()函数
 if callable(fun):#若fun是一个函数的话则返回True
 
-[对象的深拷贝]分普通深拷贝和绝对深拷贝
-```
-import copy
-x = [1,23,5,6,7]
-y = x.copy()#普通深拷贝，改变x的值y不会改变，但在维数过多情况还是会
-z = copy.deepcopy(x)#绝对的深拷贝
-```
 [argparse模块]https://www.cnblogs.com/dengtou/p/8413609.html
 [tqdm]tqdm模块可以在循环体中显示进度。(非python自带模块，需要pip install tqdm)
 ```
@@ -826,9 +906,13 @@ g = random.sample(lst,3)#向lst中随机选取3个数
 ##### b3、python正则
 在匹配函数后加.span()获得索引值，加group()获得匹配结果
 ```
-r = re.compile(r'*c$',re.l)#compile()创建一个正则模式,参数为正则规则,第二个参数为匹配模式，re.l表示忽略大小写,re.M(多行模式),re.X(忽略空格和#后面的注释)
 import re
+#compile()创建一个正则模式,参数为正则规则,第二个参数为匹配模式，
+#re.l表示忽略大小写,re.M(多行模式),re.X(忽略空格和#后面的注释)
+r = re.compile(r'*c$',re.l)
+
 s = re.search(reg,'qq68786476号哈哈')#查找符合规则的第一个位置及返回结果。
+v = r.search('fdjsklfd')
 s.group()#qq68786476,查找结果为None的话则会报错。
 s1=re.sub(reg,'替换值','qq26号string')#替换符合规则的字符串
 s2=re.match(reg,'string')#只匹配字符串的开头，没有则失败。
@@ -865,7 +949,8 @@ if isinstance(v,np.ndarray):
 if(type(v)==tuple):
     print('this is a tuple')
 ```
-Python中使用del进行垃圾回收，将不用的对象销毁
+Python中使用del进行垃圾回收，将不用的对象销毁。
+数据类型转换：`int("6",32)`#字符串转整型。`float(3);float('5.5')`#转浮点型。`str(4)`#转串。
 ##### b6、requests模块的使用：
 ```
 import requests
@@ -885,6 +970,7 @@ b = a#改变b的值也会改变a的值，字典也是如此
 ```
 浅拷贝：数据半共享
 ```
+# 其它的python数据结构都有copy()功能。
 a = [[2,3,4],[5,6,7],7,8,9]
 b = a.copy()#内部多层子数组是共享的，第一层的7,8,9是不共享的。
 ```
@@ -893,6 +979,37 @@ b = a.copy()#内部多层子数组是共享的，第一层的7,8,9是不共享�
 import copy
 a = [1,[2,3,4]]
 b = copy.deepcopy(a)
+```
+##### b8、实现排列组合：
+```
+import itertools
+print(list(itertools.combinations([1,2,3,4],2)))#组合，无顺序限制
+list(itertools.permutations([1,2,3,4],2))#排列
+```
+嵌套函数修改其主函数的变量：
+```
+def a():
+    mm = 1
+    def b():
+        nonlocal mm    #导入主函数的mm变量，否则下面报错
+        mm += 1
+        print(mm)
+    b()
+```
+##### b9、异常检测：
+```
+try:
+    prt('vv')
+except IndexError as e:
+    print('---->', e)
+    # except后面写上异常类型时可以列举多个。不写异常类型时只能用一个。
+except KeyError as e:
+    print(e)
+else:    # 可以和else一起用。
+    print('else')
+finally:    #无论上面是进入了try还是进入了except,最后都会再执行finally下的语句。
+    print('不管被检测的代码块有没有发生异常都会执行')
+
 ```
 #### 28、交叉熵与相对熵(kl散度)：[熵的本质是香农信息量log1/p] 
 信息熵：生活中描述信息的多少是很难用一个数字来衡量的，之后香农用信息熵概念来度量信息的量，信息熵代表整个系统的不确定性，熵越大不确定性就越大；需要引入交叉熵消除这个不确定性。交叉熵是信息论中的一个重要理论，主要用于度量两个概率分布间的差异性信息。
@@ -920,30 +1037,29 @@ https://blog.csdn.net/xiaocong1990/article/details/54909126/
 
 #### 31、自然语言处理细小问题集：
 一篇比较全的seq2seq模型涉及的问题：https://jianwenjun.xyz/2018/07/18/Seq2Seq%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/
-<i class="violet">(1)部分文字编码问题：</i>一些特殊字符和汉字放到一起，特殊字符使用的编码和汉字的会不一样，所以在写入文件时会报错，读取出来连成字符时部分显示decode error(在列表中时正常的)。
-<i class="violet">(2)文字中空格：</i>部分分词结果中会有空格，且这些空格用replace()方法无法去除，需要用正则表达中的sub()方法,re.sub(r'\s','',string),模式一定用r'\s'，或strip('\s')
-<i class="violet">(3)一行字符太长显示Decode error问题：</i>该问题引起上面两条错误，将太多的汉字链接做一行会发现打印出来的有Decode error问题。逐条打印时没有但写入文件时会报错。
-(4)解决以上3条的办法：在打开文件(open(file,'w'))时加上encoding='utf-8',即可，只要时报错
-'gbk' codec can't encode character '\xa0'...都可以这样。(但即使这样写入文件成功，在同样的方式读取文件时还是会显示部分字符无法解码)
-<i class="violet">(5)Word2Vec()中用Linesentence()训练词向量时报错：</i>https://www.cnblogs.com/jiangxinyang/p/10411595.html
-(6)使用word2vec训练词向量时应该去除所有符号即可拿来训练，而'是'之类的停用词不该去除。
-<i class="violet">(7)词向量维度选择：</i>维度至少为50，多为256，512维，很大的语料库使用1024维。迭代次数大约
+<i class="label">文字编码、空格问题：</i>一些特殊字符和汉字放到一起，特殊字符使用的编码和汉字的会不一样，所以在写入文件时会报错，读取出来连成字符时部分显示decode error(在列表中时正常的)。部分分词结果中会有空格，且这些空格用replace()方法无法去除，需要用正则表达中的sub()方法,re.sub(r'\s','',string),模式一定用r'\s'，或strip('\s')
+一行字符太长显示Decode error问题：该问题引起上面两条错误，将太多的汉字链接做一行会发现打印出来的有Decode error问题。逐条打印时没有但写入文件时会报错。
+**解决以上的办法**：在打开文件(open(file,'w'))时加上encoding='utf-8',即可，只要时报错`'gbk' codec can't encode character '\xa0'...`都可以这样。(但即使这样写入文件成功，在同样的方式读取文件时还是会显示部分字符无法解码)
+<i class="label1">词向量问题</i>
+Word2Vec()中用Linesentence()训练词向量时报错：https://www.cnblogs.com/jiangxinyang/p/10411595.html
+使用word2vec训练词向量时应该去除所有符号即可拿来训练，而'是'之类的停用词不该去除。
+<i class="label2">词向量维度选择</i>维度至少为50，多为256，512维，很大的语料库使用1024维。迭代次数大约
 30-50次，语料大于500M时选CBOW模型，小的时候可以选skip-gram(1)。
-<i class="violet">(8)部分词无词向量问题：</i>一些普通的通用词向量数据会缺少很多专项的词向量，比如人名、小地名、
+<i class="label2">部分词无词向量问题</i>一些普通的通用词向量数据会缺少很多专项的词向量，比如人名、小地名、
 电影电视剧名、游戏名、新词、缩写词等(因为jieba库在分词时默认使用HMM模型发现新词，所以这些词会被分出来，这些词过多时会影响准确度，只能通过专门训练来提升准确率)。
 (9)如果所使用的编辑器编码有问题(控制台打印中文乱码)会影响分词等操作。
-<i class="violet">(10)训练模型中的词向量选用：</i>我之前使用的是已经训练好的词向，在训练模型前找到对应词的词向量后用到训练当中，这样导致在用于生成模型时只能与目标词向量求一个均方差计算loss，然后测试阶段只能用匹配最相似的词。推荐使用：训练模型中将词转化为id的形式，然后使用tensorflow的embedding_lookup()来生成词向量，训练中不断优化改词向量，然后在计算loss时把每条数据的词id转换为one_hot这样又可以用交叉熵的形式来计算loss。这是别人的做法。
-<i class="violet">(11)词频统计注意：</i>在上一条中我们决定使用统计词频生成词-id的文件到使用中，除了生成所有词的id数据之外我还需要加入几个标记符：\<pad>符号(填充符,在使用中因为每批数据的序列长度需要填充一致，使用词符号对应的id来填充)、\<s>符号(开始符，在seq2seq或transformer这类的模型中需要对decode输入的数据加1个开始符)、\<s/>(结尾符，encode和decode的输入数据都要加上该符号)、\<unk>符号(未知词符号，应用阶段可能会出现未在词典中的词，用这个符号的id代替)、\<total>符号(词数总量，在词频统计文件中可以加入此符号，但转换为词-id文件后该符号无用，可以去除)。
+<i class="label2">训练模型中的词向量选用</i>我之前使用的是已经训练好的词向，在训练模型前找到对应词的词向量后用到训练当中，这样导致在用于生成模型时只能与目标词向量求一个均方差计算loss，然后测试阶段只能用匹配最相似的词。推荐使用：训练模型中将词转化为id的形式，然后使用tensorflow的embedding_lookup()来生成词向量，训练中不断优化改词向量，然后在计算loss时把每条数据的词id转换为one_hot这样又可以用交叉熵的形式来计算loss。这是别人的做法。
+<i class="label1">词频统计注意</i>在上一条中我们决定使用统计词频生成词-id的文件到使用中，除了生成所有词的id数据之外我还需要加入几个标记符：`<pad>`符号(填充符,在使用中因为每批数据的序列长度需要填充一致，使用词符号对应的id来填充)、`<s>`符号(开始符，在seq2seq或transformer这类的模型中需要对decode输入的数据加1个开始符)、`<s/>`(结尾符，encode和decode的输入数据都要加上该符号)、`<unk>`符号(未知词符号，应用阶段可能会出现未在词典中的词，用这个符号的id代替)、`<total>`符号(词数总量，在词频统计文件中可以加入此符号，但转换为词-id文件后该符号无用，可以去除)。
 词频统计的目的：统计完词频后往往会发现词典中有几十万的词汇量，而我们选用的又是一个分类型的loss计算，如果使用这么大的词典这意味着我们最后的数据维度是[batch,seq_len,10000+],这可能直接导致Resource Exhoust，即使够用也会严重拖拽模型的训练，所以一般选用词频较高的词放到词表(15000词是我的电脑极限,这些词能覆盖多数情况)。但这会导致另一个问题——未登录词过多
-<i class="violet">(12)生成模型决定生成序列长度问题：</i>由上面两条得到的启发，因为训练是如果一句话的长度小于最大要求长度，其余的长度用\<pad>符号的id来填充，taget序列也是如此，所以inference阶段可以检测生成的词id(使用tf.argmax()获取到的)，哪个位置出现\<pad>符号的id就从这个位置截断。
-<i class="violet">(13)生成模型使用数据注意：</i>类似seq2seq这样的模型 需要对输入数据做一点特殊处理；decode层在inference阶段是没有decode_input的只能随机一个开始值通过一个cell预测下一个字，然后用预测到的下一个字再往下预测，所以inference阶段都会为decode_input数据前加一个一样的开始符(11中的\<s>符对应的id)。因为最后一个词预测出的下一个词是无效的，所以我们会为encode层和decode层的
+<i class="violet">生成模型决定生成序列长度问题：</i>由上面两条得到的启发，因为训练是如果一句话的长度小于最大要求长度，其余的长度用\<pad>符号的id来填充，taget序列也是如此，所以inference阶段可以检测生成的词id(使用tf.argmax()获取到的)，哪个位置出现\<pad>符号的id就从这个位置截断。
+<i class="violet">生成模型使用数据注意：</i>类似seq2seq这样的模型 需要对输入数据做一点特殊处理；decode层在inference阶段是没有decode_input的只能随机一个开始值通过一个cell预测下一个字，然后用预测到的下一个字再往下预测，所以inference阶段都会为decode_input数据前加一个一样的开始符(11中的\<s>符对应的id)。因为最后一个词预测出的下一个词是无效的，所以我们会为encode层和decode层的
 数据最后都加一个\<s/>结尾符，让每句话的最后一个词预测出的都是这个符号，这样在inference时可以检测\<s/>符的id决定生成的序列；不过在取数据时取得不一样：
 decode_input = data[:-1]#decode的输入数据不包含结束符target = data[1:]#用于计算loss的标签数据不需要开始符。
 虽然transformer模型不同于seq2seq，但都是依靠上一个词来预测下一个词，所以在预处理数据时都要加上上面的符号。
-<i class="violet">(14)未登录词和词表大小的处理：</i>具体处理见66。BPE处理英文中的oov问题：https://blog.csdn.net/weixin_38937984/article/details/101723700
-<i class="violet">(15)loss添加mask技巧：</i>生成式模型中为了让得到的结果更准确可以在计算出loss值后将loss与target_mask相乘，然后除以mask的和来当作最终loss，batch_loss。公式：
+<i class="label1">loss添加mask技巧</i>生成式模型中为了让得到的结果更准确可以在计算出loss值后将loss与target_mask相乘，然后除以mask的和来当作最终loss，batch_loss。公式：
 `batch_loss = tf.div(tf.multiply(loss,target_mask),tf.reduce_sum(target_mask))`
-<i class="violet">(16)预测阶段的分词：</i>在预测阶段也需要对输入的句子分词，因为输入语句与训练中的语句很可能没有相同的，即使是使用同一个分词工具分词的结果可能也有差异，所以，将训练阶段分词的结果做成一个自定义词典，在预测阶段临时导入使用(多数工具都支持自定义词典)。这样能然分词结果尽量统一，提供应用阶段的效率。
+<i class="label1">文本去重和机械压缩</i>每条文本相似性较高就会被视为重复文本，根据模糊匹配、编辑距离计算其相似度，然后根据实际情况选定一个阈值。而机械压缩是要去除同一句内一个词连续出现的情况，如：`真的很好很好很好！`与`真的很好`两句意思一样，但前句有很多冗余，我们要去除它，有单字的连续，多词的连续，一般出现在文头和文尾，可以写一些规则去除
+<i class="label1">预测阶段的分词</i>在预测阶段也需要对输入的句子分词，因为输入语句与训练中的语句很可能没有相同的，即使是使用同一个分词工具分词的结果可能也有差异，所以，将训练阶段分词的结果做成一个自定义词典，在预测阶段临时导入使用(多数工具都支持自定义词典)。这样能然分词结果尽量统一，提供应用阶段的效率。
 计算机视觉细小问题集：
 [1]使用tensorflow中的损失函数(soft_max_crop_...)求出来的是一个矩阵，因为部分值会非常小时就会显示none，一般又会对结果求均值结果得到的值就会是一个none，对损失函数求得的值可以使用 tf.clip_by_value(cost,1e-10,1.0)>>低于1.0时就返回1.0。
 [2]图片数据一般会比较大，建议先将图片压缩、裁剪到150x150以下进行计算，不然很容易导致内存不足报错：ResourceExhaustError.
@@ -1044,7 +1160,7 @@ class c_thread(threading.Thread):#继承threading中的Thread类
 td1 = c_thread(1,'td1',1)
 td2 = c_thread(2,'td2',2)
 td1.start()#开启线程
-td1.join()#结束线程
+td1.join()#等待开启的所有线程结束，一些需要等到所有线程结束的操作写在这步后面即可。
 ```
 虽然是多线程不过在计算的数据量不大时还是几乎会看到一个线程运行的结束了另一个才开始这种效果，因为计算机的运行速度很快的原因。如果多个线程都操作一个共同的变量可能产生的结果并不是我们想要的(例如:我们运行一段代码看结果是否要继续之后的操)。<i class="blue">所以引入了锁的概念(这也叫线程同步)，锁有两个状态：锁定和未锁定</i>，当第一个线程访问到共享变量时获得锁定，操作完共享变量后结束锁定，如果该操作期间有其它线程也运行到访问该变量则让该线程挂起，即同步阻塞,实现如下：
 ```
@@ -1386,7 +1502,7 @@ ctrl+r或ctrl+f调出全局搜索字符。
 使用：进入web页面后会将当前用户下所有的目录显示出来，右侧的view选项中选择python3进入一个编辑页面。
 运行不显示结果问题：pip install -i https://pypi.mirrors.ustc.edu.cn/simple/ prompt-toolkit==1.0.15    # prompt-toolkit 的版本过高致使与Jupyter-notebook的版本不兼容
 #### 41、numpy库常用函数:
-**【数据的生成】**
+**数据的生成**：
 av=np.arange(10,20,3,dtype='int32');#3是每两个值之间的差值
 a = np.array([[],[],[]]);//a.tolist()//将numpy数组转为python列表
 np.random.shuffle(av)//打乱指定数组的顺序,再a[av]获取打乱后的数据
@@ -1399,15 +1515,16 @@ np.zeros(5),np.one(3)。np.zeros([2,3])#多维度
 np.zeros_like([1,2,3,4,5])//生成一个维度与目标数组维度相同的0矩阵。(如果目标矩阵不规			则的话只能生成行数相同的0矩阵)
 x = np.array([[1,2,3],[2,3,4],[3,np.nan,5]])
 [矩阵的转置]x.T 不改变原矩阵
-**[对比两个矩阵]**
+**对比两个矩阵**：
 z = x==y =>[True,False,True] //numpy数据写等于时返回对应位置是否相等的布尔矩阵
 (x==y).all() //如果所有位置全等反回True
 (x==y).any() //存在相等的位置就返回True
-**[读存文件]**
+数组是否包含：`np.any(np.in1d(a1, a2))`#a2是否包含a1，数组值是字符时有问题
+**读存文件**：
 data = np.genfromtxt('aa.csv',delimiter="",skip_header=1,dtype='U75')
 np.save('name.npy',x);np.load('name.npy')#保存数组到文件，导出数据。
 np.savetext('name.text',x);np.load('name.text')#文本形式
-**【数据操作、计算】**
+**数据操作、计算**：
 x = np.power(2,3)#计算指数值，第二个参数为指数。
 x = np.transpose(data,[1,0,2])#与tensorflow的transpose作用一样
 data.astype(np.int32)//数据类型
@@ -1418,10 +1535,12 @@ x.shape=(2,-1)#改变行列比//shape是改变该数组的形状,reshape是复�
 x.min();x.max();x.var()#求最大最小值,方差
 x.std()或np.std(x,axis=0)#计算矩阵的标准差
 x.mean()或np.mean(x,axis=1)#计算矩阵的平均值
+非负整数统计：`np.bincount(x, weights=None, minlength=0)`#统计结果是按从小到大排序后，对应各值的出现次数。
 Print(:,1)#[[2],[3],[np.nan]]
 Y = np.splice([2,0])   print(x[y])#3
 X[~np.isnan(x)]#去除缺失值返回一维x[np.iscomplex()]  
 x*2(整个数组乘2)  x.T(求转置矩阵)
+**排序**：`a.sort()`或`a = np.sort(b)`#前者直接改变原值。
 np.concatenate((a,b),axis=0) #连接两个矩阵 行/列
 np.broadcast(x,y)#将数组x广播到y
 np.add(a,b)//矩阵与值，矩阵与矩阵的相加
@@ -1433,7 +1552,7 @@ X.flat[2]#左到右，上到下的索引位置处的值
 X.flatten(order=”F”)#转为一维数组输出 C为按行的顺序，F为按列的 顺序;
 np.split(a,3)#将一维数组分为3份  np.split(a,[2,4])#指定位置处分
 np.roll(x,3)//将数组x按第二个参数位移(0位移到3,最后一位移到2位...)
-np.hsplit(b,1)#划分二维数组，1表示按列化分。
+np.hsplit(b,1)#划分二维数组，1表示在行维度上划分，2表示在第二个维度即列上划分。
 x=np.append(a,[1,2,3])#目标、位置、值、轴;不填写axis值时返回一维数组，填写
 axis值时添加的数组的维数需要与目标数组维数一致。如：
 x=np.array([[1,2,3],[4,5,6]])
@@ -1475,7 +1594,13 @@ DF.info()#查看各特征项数据的三个属性：数量、有无缺失值，�
 **重置列名**：`dataframe.rename(columns = {"old1": "new1", "old2":"new2"},  inplace=True)`
 
 <i class="label1">切片、索引</i>
-**选择多列值**：`y=x[['a','b','d']]`#选择a,b,d三列组成一个新的dataFrame，选择多列时类似。但**不能同时选择多列多行**(如x[['a','b']][[0,1]])，会报错。可以使用下面的loc
+<i class="label2">注意</i>使用索引来改变值时，最好是先改变对应列的数据类型，与改变后的值的数据类型一致。之前遇到过的：
+```
+a = pd.concat([b,pd.DataFrame({"a":b.index})])
+a['a'][2240567] = 0.53   //之前的index是int64类型，之后的赋值是float64类型，这样更改后可能只会变成0,尤其是在循环中。
+a = pd.concat([b,pd.DataFrame({"a":np.zero(len(b.index),dtype=np.float64)})])    //这样来处理可以。
+```
+**选择多列值**：`y=x[['a','b','d']]`#选择a,b,d三列组成一个新的dataFrame，选择多列时类似。但**不能同时选择多列多行**(如x[['a','b']][[0,1]])，会报错。可以使用下面的
 `a.loc[0]`#先查找行 `a.loc[0,'a']`#第二个参数查找列。`a.loc[[0,1]][['a','b']]`#支持同时多列多行索引。`Df.iloc[1,2]`#iloc可全按索引查值，iloc也不支持同时多行多列。
 <i class="red">注：为多列赋值时请使用`a['key'][[0,1,2]]`的形式，loc和iloc只用于读取时使用，虽然用于赋值操作不会报错，但不能赋值成功。</i>
 `x['a'][0]`能精确的访问到一个具体的值，如果要很明确的访问那几个值得使用x['a'][[0,6,3,4]]的格式。
@@ -1490,9 +1615,10 @@ x[x.notnull()]返回的是去除nan的值后的数组使用list(x)的效果和x.
 `x[(x.values[:,1]>1)&(x.values[:,1]<10)] `//and操作
 `x[(x.values[:,1]>1)|(x.values[:,1]==10)]` //一个竖杆表示 or操作
 `Df[df[‘a’]>1],df[df>0] `#按条件查值,若是使用索引的话当然的加上values
-`df['a'][df['a']>10] = None与df[df["a"]>10]=Non`e查找出的结果不同,前一个只
-会将列a中的符合条件的数据置为NaN,而后一个会将满足条件的那一列置为NaN。
+`df['a'][df['a']>10] = None与df[df["a"]>10]=Non`e查找出的结果不同,前一个只会将列a中的符合条件的数据置为NaN,而后一个会将满足条件的那一列置为NaN。
 `Df[df[‘b’].isin([1,2])]` #**isin查找**在b列有1和2的所对应的行；
+**数组是否包含**：`q = pd.Series(a1).isin(a2)`#a1是否在a2中，a1,a2是numpy类型。
+查找条件前加列的情况得到的是没有column值的dataFrame，使用：`a[a['b']>2]`类似的查找的到的包含column值。
 <i class="label1">去除None值</i>
 `df.count()`#**统计非NaN值的数量**，不是python自带的count()方法。
 `res = X.dropna(axis=0,how="any")`#axis为0表示去掉None值所在的那一行,1为去掉列返回结果，**how为all时表示该行/列全为None时才剔除**。
@@ -1513,7 +1639,7 @@ kind表示排序使用的方法('quicksort','mergesort','headsort')。
 x.mean()#求平均值; x.std(ddof=1)#标准方差，要使用pandas中的std求标准差时需要加ddof=1属性。
 `pd.concat([a,b],axis=1)`#连接两个数组(添加新的列的方式做连接)，默认是在行上连接(无论列名是否相同)。<i class="red">注意：在合并时pandas会根据其index值来合并，比如a是删除了一些None值之后，一些index是没有的，而b的index则是顺序完好的(但是两个的总行数一样)，那么合并时a和b中没有的index会以None值来填充。</i>解决如下：
 ```
-a1.reset_index()#重置index
+a1.reset_index(inplace=True)#重置index,
 b1.reset_index()
 c = pd.concat([a1,b1],axis=1)#用直接改变index的方法会报错。
 ```
@@ -1523,8 +1649,8 @@ df.idxmax(axis=0)#与idxmin()相反
 df.var()#var()方法计算数组方差
 `x['a'] = x['a'].apply(lambda k:np.log(k))`#映射函数，不改变原数据。
 <i class="label1">读存csv文件和xlsx文件</i>
-pd.read_csv('a.csv',names={"a":np.str[],skiprows =1,dtype=,na_filter=True,
-skip_blank_lines=True,encoding="gb231")
+//若读取时出现`codec can't decode byte...`错误的话尝试`encoding='gb18030'`。
+`pd.read_csv('a.csv',names={"a":np.str[],skiprows =1,dtype=,na_filter=True,skip_blank_lines=True,encoding="gb231")`
 #read_csv()方法将csv中的数据读入(自动成为一个数组，names设置列标记,skipprows指定跳过多少行，na_filter为True表示不读取缺失值skip_blank_lines为True表示跳过空格行,否则记为None);#读取的数据有限，一个csv文档中最多读取30000多条数据。读取含有中文的csv文件时可能报错，可尝试encoding改为gb231
 pd.read_excel("data/cat.xlsx")#读取xlsx类型的文件。
 (在网站中下载好数据(点进去是数据的页面按ctrl+s直接进行下载)后将文件扩展改为csv(早前的一种存数据的格式,读取到的数据格式比较神奇难于与其它数据类型做匹配调缺失值，例：一些数据文件会使用一些特定的值表示缺失值如"?",但用dat["col"][dat["col"]=="?"]==None))并不能更改其值，因为读取的"?"与"?"不一样(未知原因),解决方法：可以用读取的文件中的值与缺失值匹配，例：dat["col"][2]="?",dat["row"][dat["row"]==dat["col"][2]]=None;这样就能将dat中表示缺失值的"?"改成None进一步解决缺失值问题。但这种改变值的方法配合for循环使用会报invalid type comparison,如下：)
@@ -1540,8 +1666,13 @@ for i in dat.columns:
         else:
             continue
 #to_csv()保存数据到csv文件,sep设置数据分隔符(为,时各数据占一格),heaer和index要写名时传入列表。
+#index不设为False的话保存时会多出一列索引列。或index=True,index_label="id"#为索引列设一个id属性。
 dat.to_csv("file.csv",sep=",", encoding="utf-8-sig", mode="a", header=False, index=False)
-pd.read_excel("dat.xlsx")#read_excel()方法读取xlsx(wps的excel文件)格式中的数据,但使用前需要确保环境中安装了xlrd用于支持读取xlsx文件，Anaconda中直接使用conda安装xlrd即可(将xlsx改为csv扩展名用read_csv()方法并不能读取)。
+"""
+方法读取xlsx(wps的excel文件)格式中的数据,但使用前需要确保环境中安装了xlrd用于支持读取xlsx文件，
+Anaconda中直接使用conda安装xlrd即可(将xlsx改为csv扩展名用read_csv()方法并不能读取)。
+"""
+pd.read_excel("dat.xlsx")#read_excel()
 ```
 data.diff(1)#diff()方法用于做时间序列的差分，1表示做1次差分(numpy创建的数组不能使用)，差分就是数组后一个数减去前一个数。x.set_index('lag')#set_index()方法是按参数查找列标记，但输出的结果是整个数组，但显示的数组没有行标记(???)。
 dat.predict([[1,2,3]])#predict()方法用于根据先前fit()方法拟合的结果做一个预测，若拟合用的数据是结果preprocession中的方法归一化的则在预测时也会对数据有此操作
@@ -1713,9 +1844,11 @@ lin_clf=svm.LinearSVC()#实现one-vs-rest多类别策略，训练n类别模型�
 ```
 form sklearn import linear_model
 # 线性回归
-regr = linear_model.LinearRegression(normalize=False)#用于最小二乘法拟合曲线，当输入的数据是多个自变量一个因变量时就是做多元线性回归。
+#用于最小二乘法拟合曲线，当输入的数据是多个自变量一个因变量时就是做多元线性回归。
+regr = linear_model.LinearRegression(normalize=False)
 #逻辑思帝回归
-logr = linear_model.LogisticRegressionCV(solver='liblinear',max_iter=100,penalty='l2')#solver为liblinear时适合小数据集，sag适合大数据集。
+#solver为liblinear时适合小数据集，sag适合大数据集。
+logr = linear_model.LogisticRegressionCV(solver='liblinear',max_iter=100,penalty='l2')
 linear_model.Ridge(alpha = 0.5)#Ridge()为岭回归(带有l2正则化)，alpha值是第39条中λ值
 linear_model.RidgeCV(alpha[1.0,0.1,10])#内置有交叉验证。
 regr.fit(x,y)#根据数据拟合曲线，注意x和与的数据格式都为[[1],[2],...]
@@ -1763,7 +1896,9 @@ bdt.score(x,y)#score()方法对需要拟合的数据集做出精度计算，反�
 ```
 from sklearn.datasets.samples_generator import make_blobs
 from sklearn.decomposition import PCA
-x,y=make_blobs(n_samples=100,n_features:3,centers=5,cluster_std=[1,2,3,4],)#其中x是数据，y是标签。make_blobs()方法用于生产数据集,n_samples是总的样本	数,n_features每个样本的特征数(空间维数)，centers是每个维的样本中心,cluster_std是每个类别的方差.
+x,y=make_blobs(n_samples=100,n_features:3,centers=5,cluster_std=[1,2,3,4],)
+#其中x是数据，y是标签。make_blobs()方法用于生产数据集,n_samples是总的样本	数,n_features每个样本的特征数(空间维数)，
+#centers是每个维的样本中心,cluster_std是每个类别的方差.
 pca = PCA(n_components=None,copy=True,whiten=False,svd_solver='auto',tol=0.0,iterated
 _power='auto',random_state=None)#调用PCA()方法(主成分分析法)做数据降维。参数介绍：
 ```
@@ -1809,6 +1944,7 @@ m = metrics.calinski_harabaz_score(x,y,normalize=True)#metrics.calinski_harabaz
 dn = DBSCAN(eps=0.5, min_samples=5，algorithm='auto',leaf_size=30).fit(X)
 print(dn.labels_)#查看被聚到的类
 ```
+[DBSCAN函数参数详解。](https://www.cnblogs.com/pinard/p/6217852.html)
 _score()方法评估聚类结果的好坏(分数),x为数据集，y为fit_predict()得的结果。
 metrics.precision_score(y_true,y_pred);metrics.recall_score(y_true,y_pred);
 metrics.f1_score(y_true,y_pred);#三个方法均用于计算准确率，y_true为正确分类的结果集，y_pred为使用predict()预测得到的结果集。(未清楚三者区别)
@@ -1825,7 +1961,7 @@ print(clf.predict(dat));clf.predict_proba(dat)#predict_proba()方法显示两类
 mnb=MultinomialNB()#调用多项分布朴素贝叶斯,用法与上面一样(输入的x数据中不能有负)
 BNB=BernoulliNB()#调用伯努利朴素贝叶斯算法
 cnb=ComplementNB()#调用补充朴素贝叶斯算法
-##### L：模型的保存于读取。
+##### L：模型的保存与读取。
 可以使用两种方法实现，第一种是使用python的pickle模块直接保存模型，第
 二种是使用scikit-learn库的joblib模块：
 from sklearn.externals import joblib
@@ -1951,11 +2087,16 @@ plt.subplot(1,2,2)
 plt.scatter(tx,ty,color='blue')
 plt.show()
 
-sm.graphics.tsa.plot_acf(dta,lags=40,ax=ax1)#sm.pgraphics.tsa是statsmodels库中的模块与plot_acf()方法配合画自相关图;lags为滞后阶数一般设为40,ax指定使用的布局如add_subplot(111);plot_acf()中传入的数据必须是一维
+#sm.pgraphics.tsa是statsmodels库中的模块与plot_acf()方法配合画自相关图;
+#lags为滞后阶数一般设为40,ax指定使用的布局如add_subplot(111);plot_acf()中传入的数据必须是一维
+sm.graphics.tsa.plot_acf(dta,lags=40,ax=ax1)
 sm.graphics.tsa.plot_pacf()#plot_pacf()画偏自相关图
 plt.imread("mv.png")#导入图片数据(三维数组，分别为R,G,B值)，只能导png图片
 plt.imshow(dat)#用于将像素数据绘制出来，注意使用的图片数据的尺寸为[高，宽，通道数]		或[宽，高]
-plt.contour(x,y,z,cmap=cmap)#contour()方法绘制等高线(在数据集x,y,z间做分割线二维图时不显示z轴的分割)，x,y,z是设置的坐标位置(一般用numpy库中的meshgrid()方法创建坐标)；contourf()方法与contour()方法一样不过contourf()方法为每个分割出的区域填充了颜色。
+#contour()方法绘制等高线(在数据集x,y,z间做分割线二维图时不显示z轴的分割)，
+#x,y,z是设置的坐标位置(一般用numpy库中的meshgrid()方法创建坐标)
+#contourf()方法与contour()方法一样不过contourf()方法为每个分割出的区域填充了颜色。
+plt.contour(x,y,z,cmap=cmap)
 plt.show()#显示所画图形
 ```
 <i class="label1">plotly</i>：plotly也是一个非常强大的数据可视化工具，支持js、python、java等使用，其绘制的图形被保存为html文件(内部用svg绘制)，可以用浏览器打开，其界面、交互效果都非常好。因为是生成的html文件所以不会像上面matplotlib中出现无法显示的情况。[引导学习地址。](https://www.bbsmax.com/A/MAzAOyDo59/)[plotly官方文档地址。](https://plotly.com/python-api-reference/plotly.express.html)
@@ -1979,7 +2120,7 @@ plt.show()#显示所画图形
 ```
 #    离线绘图示例，运行后可能会提示Unable to open X display的错误信息，但运行路径下会生成temp-plot.html文件。
 #    也可尝试用Jupyter运行。
-from plotly.graph_objs as go
+import plotly.graph_objs as go
 import plotly.offline
 ####    绘制散点图、折线图。
 trace0 = go.Scatter(
@@ -1992,14 +2133,15 @@ trace0 = go.Scatter(
             color = 'rgb(0, 255, 0)' #设置线条的颜色
         )
 )
+_color = 'rgb('+ str(random.randint(1,255))+ ',' + str(random.randint(1,255)) + ',' + str(random.randint(1,255)) +')'
 trace1 = go.Scatter(
     x= [1,2,3,4],
     y= [16,5,11,9],
     mode="markers" #默认是markers，此时是散点图，marker设置一些具体细节。
     marker = dict(
-        size = 16,
+        size = 12,
         color = np.random.randn(500),
-        colorscale = 'Viridis',
+        colorscale = 'Viridis',#右侧显示颜色渐变条。
         showscale = True
     )
 )
@@ -2100,7 +2242,7 @@ fig = go.Figure(data = trace, layout = layout)# 需要传入Figure使用
 plt.plot(fig,filename="bing.html")# 绘制生成文件。
 ```
 <i class="label2">多图标、多坐标轴、多子图绘制</i>[学习地址。](https://www.pythonheidong.com/blog/article/327723/)
-多图标：在上面data项传入一个绘图列表即可实现多个图形在一个坐标系的效果，但注意图的类型，如柱状图和饼图是不能绘在一起的。
+多图标：在上面data项传入一个绘图列表即可实现多个图形在一个坐标系的效果，但注意图的类型，如柱状图和饼图是不能绘在一起的。多图标时右侧点击各项标记能切换显示！！
 多坐标轴：比如两个折线图想绘制在一个坐标系(便于比较趋势)，但两者单位不一样，这时候可以绘制多坐标轴。
 ```
 trace3 = go.Scatter(x=random_x, y=random_y0, mode='lines', name='小数值展示')
@@ -3229,18 +3371,20 @@ https://blog.csdn.net/zhihua_oba/article/details/70632622
 https://blog.csdn.net/Albert201605/article/details/81865261
 #### 57、Apriori算法：
 Apriori算法是一种关联分析,关联分析是一种无监督机器学习方法，用于发现大规模数据集中事件的关联性和依赖性。
-原理：找出所有数据中出现次数最多的几个数据、物(项)再从这几个项中随意组合(两个一组或3个...)找出满足出现次数最多的组合(计算支持度)，再计算他们的置信度确定前件后件，确定强关联规则。
-步骤：(以购物为例)1、在所有交易事务中找出被购买次数最多的几个商品(计算其支持度:含有该商品的事务项数/所有交易事务数;规定大于多少算频繁项,将不是频繁项的项删除(便于加快接下来的计算));
+原理：找出所有数据中出现次数最多的几个数据、物(项)再从这几个项中随意组合(两个一组或3个...)找出满足出现次数最多的组合(计算支持度)，再计算他们的置信度确定前件后件，确定强关联规则。置信度高的组说明该组间关系强，可信度高。
+**步骤**：(以购物为例)
+1、在所有交易事务中找出被购买次数最多的几个商品(计算其支持度:含有该商品的事务项数/所有交易事务数;规定大于多少算频繁项,将不是频繁项的项删除(便于加快接下来的计算));
 2、将第一次筛选得到的频繁项集两两组合(随意,不重复)；
-3、再计算每一个组合的支持度(用1中减去非频繁项后的数据集但项集总数得用最先的那个数据集,因为可能有一个交易项中只有一两个项且这些项都是非频繁项,那么它们可能在第一步中就被删除了),筛选出大于规定支持度的组合；
+3、再计算每一个组合的支持度，该组合在原数据中出现的次数。(用1中减去非频繁项后的数据集但项集总数得用最先的那个数据集,因为可能有一个交易项中只有一两个项且这些项都是非频繁项,那么它们可能在第一步中就被删除了),筛选出大于规定支持度的组合；
 4、若要筛选3项及以上项数的关联度可重复2和3步骤(一般计算3个项的关联性)否则直接进入步骤5
 5、确定前件、后件(一组中支持度大的算做该组的前件,其余为后件);
 6、计算每组的置信度(该组的支持度/前件的支持度)筛选掉小于规定值的组，这样就确定了整个数据集中的关联规则。
+其中置信度的设置以分析结果为准，参考结果来调整置信度得到一个较好的结果为止。
 https://www.cnblogs.com/doctorzeng/p/4673952.html
 https://blog.csdn.net/baimafujinji/article/details/53456931
 <i class="label1">FP-Growth算法</i>
 FP-Growth算法是一种在Apriori算法基础上使用FP(Frequent Pattern)模式对原始数据进行压缩能及快的找出一堆数据中的频繁项，尤其是在数据集非常大的时候。
-步骤:扫描一遍数据计算数据集中各类项的支持度筛选支持度大于规定值的项放到头指针表中(按支持度从高到低排序)。
+**步骤**：扫描一遍数据计算数据集中各类项的支持度筛选支持度大于规定值的项(单项，而不是单项所在的组合)。放到头指针表中(按支持度从高到低排序)。
 再扫描一遍数据集求出每一个事务(交易)中各项的支持度过滤掉支持度不符合指定值的项并按大到小排序。
 构建FP树：将过滤后的每一个事务中的项拿到以null为根节点的树中若该事务的第一个项(支持度大那个)在树中则该项频繁度加1，若没有则算做一颗新的节点。
 找到除了最大频繁项外以其余各项为结尾的模式基：包括直接与结尾项相连的和间接与结尾项相连的(每个模式基频繁度不能超过结尾项的频繁度)。
@@ -4114,9 +4258,12 @@ for r in mt:
 <i class="label1">KBQA(knowledge base question answering)基于知识图谱的问答</i>
 #### 80、数据挖掘：
 从海量知识中发现有用的数据并为企业提供帮助和指导。
-<i class="label1">挖掘流程</i>理解商业问题、数据准备(数据收集：好的数据满足时效性[数据是新的]、准确性、客观性[数据不是人为捏造的]、全面性[数据的数量多]、结构性[数据有好的变量结构具有可分析性]等多个条件)、数据理解、模型建立、模型评估、模型应用。
+**容易犯的道的错误**：轻视业务论(不注重业务逻辑、背景)、技术万能论(认为技术就可以解决所有难题)、技术尖端论(着重于选择最先进的模型，而不是选合适的)、建模与应用两段论(不关注模型应用阶段的效果来改进模型)、机器万能论(把多数任务都丢给自动化的挖掘软件或自带的默认方法)。
+<i class="label1">挖掘流程</i><i class="red">深入理解业务、</i><i class="orange">数据抽取，抽样(在数据量较大的情况下都会抽样，抽样的数据要满足：一些稀有的事件占比较小，抽样得到的也会很好，这样去挖掘很难得到有意义的预测，所以可以多抽取一些这类事件到子样中，但其对应的目标样本占比就会增加，因此需要加权，在得出预测概率时进行相应恢复。抽取的离散型变量种类要有全体样本的总类，连续型数据的值域要与总样本的高度近似。缺失值的分布也要近似)、</i><i class="violet">数据摸底，包括连接数据缺失情况、总量、相关性情况、可衍生的变量等</i>、<i class="blue">数据处理、建模。分析缺失值和异常值时还需要清楚它们异常或缺失的原因，这些值是否有其它商业价值，或可根据原因用具体处理情况。根据业务，相关性进一步筛选特征。线性相关情况：高度相关(>0.6)的自变量保留一个就行，或将它们合并，变换等。相关性低的可不管。相关性稍高的易引起模型不稳定，因为它们互相影响。</i>
+数据准备(数据收集：好的数据满足时效性[数据是新的]、准确性、客观性[数据不是人为捏造的]、全面性[数据的数量多]、结构性[数据有好的变量结构具有可分析性]等多个条件。
 使用到的技术：关联规则分析、分类和预测、聚类、推荐技术、链接分析(如pagerank)。
 <i class="label1">探索性数据分析</i>主要包括数据预处理和数据的探索性分析(包括查看数据分布、相关性分析、方差分析等)。数据的探索性分析让我们了解各特征项数据的特点，便于我们做一些其它处理，如要不要舍弃该特征项，要不要进行离散化，或用哪个模型来拟合这种类型的数据。数据的收集便不属于探索性数据分析。
+<i class="label1">常见使用情境</i>客户分类，价值挖掘、流失用户预测、各季度产品活跃度，销售情况对比、用户行为分析、路径分析、漏斗分析、下期销售预测、决策支持、风控、推荐。
 ##### a1、特征工程：
 特征使用、特征处理、特征获取、特征监控(建立起模型可用的特征后，随着时间的流逝需要对这些现有特征判断是否还适用，又没有新的特征可以加入使用)。
 <i class="label2">特征选择</i>有过滤方法(使用下面的相关性分析等来使用相关性大的特征)、包裹思想(随机一些特征子集，用这些子集拿去模型中训练查看各特征子集对应的评价指标，选择高的再随机其特征子集重复，知道评价下降明显或低于阙值时停止)、嵌入思想(建立一个简单的线性回归模型[具体自选]，来拟合模型(各特征数据分别输入模型)，得到的权重系数进行正则化，依据大小来选择剔除对应的特征项)。
@@ -4151,7 +4298,10 @@ for r in mt:
 <i class="label2">二次指数平滑法</i>从下图公式中可以看出，在一次指数平滑法的基础上加了项ti，这个ti可以看做是上一期于该期的差值平滑，即趋势。
 ![](_v_images/20200503152536753_159914889.png)
 预测使用：Xi+1 = Si + ti#下一期的预测值等于该期得出的Si加上上一期到该期的趋势。
-<i class="label2">时间序列分析模型</i>有AR模型、Holt-Winters模型(三次指数平滑)、ARIMA模型等其它数十种模型，部分模型原理查看32。[学习地址。](https://blog.csdn.net/anshuai_aw1/article/details/82499095)
+<i class="label3">三次指数平滑法</i>也叫Holt-Winters模型，基于二次平滑的方法上加了一个季节性特征，如果时间序列上在一个季节内呈现出较强的季节性特征则可以使用该法。
+![hotWinter](_v_images/20200703093319129_14633.png)
+
+<i class="label2">时间序列分析模型</i>有AR模型、ARIMA模型等其它数十种模型，部分模型原理查看32。[学习地址。](https://blog.csdn.net/anshuai_aw1/article/details/82499095)
 ##### a5、降维数据分析：
 提取数据中的重要特征，摒弃掉无用特征，以加快计算速度或为后面的数据分析做准备。主要分为以下两种：
 **线性降维**：PCA(主成分分析方法)、LDA(判别分析方法)、SVD(奇异值分解方法)。#pca，svd的实现和使用情况在29，30。
@@ -4225,9 +4375,32 @@ a、各点被分在四个像限内，不在同一像限内的话题说明差别�
 ![pf](_v_images/20200429152321569_111207531.png)
 而峰态表征概率密度分布曲线在平均值处峰值高低的特征数。直观看来，峰度反映了尾部的厚度。峰态系数为上图右式，随机变量的四阶中心矩与方差平方的比值。一般峰态系数与正太分布的峰态系数(3)超过2就认为该分布不符合正太分布。
 [引导。](https://blog.csdn.net/r6auo52bk/article/details/79308190)
-##### a9、周期分析和分布分析：
-分布分析：比如比较不同地区其二手车价格分布情况，发现各分布差不多，说明二手车价格与地区相关性不大。比较不同用户窃电情况，发现政府机关类无窃电记录，将该类用户数据不做参考。
-周期分析：比较两个类别的用户用电情况，来查看他们的特性好做区分，适合带有时间属性的情况。
+##### a9、杂项：
+<i class="label1">周期分析和分布分析</i>
+**分布分析**：比如比较不同地区其二手车价格分布情况，发现各分布差不多，说明二手车价格与地区相关性不大。比较不同用户窃电情况，发现政府机关类无窃电记录，将该类用户数据不做参考。
+**周期分析**：比较两个类别的用户用电情况，来查看他们的特性好做区分，适合带有时间属性的情况。
+<i class="label1">漏斗模型和路径分析</i>漏斗模型是在记录一系列关键节点，分析各节点情况。例如一个购物流程，用户点击商品》添加到购物车》下单》付款。这其中各个步骤节点的人数肯定是逐渐减少，正常情况会大致呈一个漏斗形，如果那个节点异常，可能会出现人数骤降的情况，我们可以用漏斗模型发现这种异常，找到异常的问题，对各业务环节做改进，提升相应节点的转化率。而路径分析是包含漏斗模型的，其它的应用：比如发现用户点击某应用的次数比较高，但发现该应用所处路径较深，我们可以考虑改版后将其拿到首页上或其它较近的位置。
+<i class="label2">日志布点</i>对应上面的路径分析需要再页面进行布点，来监听用户的行为发送到服务器形成用户操作日志。有以下几种布点形式：
+页面级布点：一般覆盖网站所有页面，记录用户名、ip、浏览器、cookie信息等。点击级布点：监听用户点击了那个按钮，点击的区域，点击的链接等。追踪日志布点：一些页面有多个入口，如果我们需要对此进行区别时需要在其入口页面出做记录。
+注意事项：
+如果出现多个高度线性相关的属性(>0.6)则只选择其中一个使用即可，太多高度线性相关的可能会导致模型不稳定(稍出现几个偏离严重的值就会改变很多权重)。
+共线性问题：自变量之间存在很强的线性关系时会致使对应的自变量对因变量的可辨性降低，影响模型的预测能力。样本量较小时轻微的共线性也会有较大的影响。处理：丢弃一个、两个合并、进行一些形式的转变。
+抽样可以降低数据噪声带来的影响(错误数据、异常数据)。
+模型运用到实际中后需要做效果评估，可以控制变量对比，然后使用假设检验的方法。
+b1、几种数据挖掘方法论：
+SEMMA：SAS公司所提出的数据挖掘方法论，过程如下：以下5各步骤中哪一个步骤不合业务或效果不好都可以再运行上一步来寻优。
+![semma](_v_images/20200701071400479_2618.png)                                                                                                ![CRISP-DM](_v_images/20200701072002904_31941.png =460x)
+CRISP-DM方法论：Cross-Industry Standar Process for Data Mining,即跨行业的数据挖掘流程。6各挖掘步骤，但不都是按固定顺序运行，如上图右侧。
+Tom khabaza挖掘九律：Tom kabaza是20世纪90年代著名的数据挖掘平台clementine的早期核心开发作者之一。内容如下：
+第1律：业务目标律，所有的挖掘都应该服务于特定的商业目的，这也是我们挖掘的初衷。
+第2律：业务知识律，了解目标后我们应该去深入了解业务知识，包括业务的运行流程，每个环节的细节，从数据中发现有价值的东西。
+第3律：数据准备律，占据项目60%以上的时间，包括数据集成、清洗、规约、变换。让数据变得更干净，更能体现业务，更容易被模型发现其隐含的价值。
+第4律：天下没有免费的午餐，训练好的模型需要经过验证。
+第5律：沃尔金斯定律，总会有模式存在，只要有数据，就一定能从其中发现有用的价值。
+第6律：将业务感知放大，发现更多的隐藏价值。
+第7律：预测定律，将信息从局部扩展到整体，从已知中发现未来。
+第8律：价值定律，挖掘的结果不取决于模型的精度，稳定性，而要看是否解决了商业问题，当然这可能不完全是模型的问题，也有可能是业务本身的问题。
+第9律：变化定律，随着世界的快速发展，业务的改革等，刚完成的一次成功挖掘也可能很快失效，实时关注应用的效果，做好反馈。
 #### 81、NLP(Natural Language Processing)简述：
 自然语言研究表示语言能力、语言应用的模型，让人能用自然语言与机器交流。NLP基本可以分为两个部分：自然语言理解和自然语言生成。自然语言理解包括：音系学(指代语言中发音的系统化组织)、词态学(研究单词构成以及相互之间的关系)、句法学(给定文本的哪部分是语法正确的)、语义学(给定文本的含义是什么)、语用学(文本的目的是什么)。
 通用应用：机器翻译、情感分析、智能问答、文摘生成、文本分类、舆论分析(判断目前舆论的导向)、知识图谱(知识点相互连接而成的语义网络)。
