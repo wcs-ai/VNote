@@ -1137,6 +1137,20 @@ new关键字就意味着一次内存分配，例如 new Foo()。最好的处理�
 所谓的节流就是指用户频繁操作同一个事件，但都是相同的请求，如重复提交表单中的数据，重复下拉刷新请求数据，这会频繁的消耗用户的流量但是无意义的，遇到这种情况做法：写一个定时器，规定时间内只允许操作一次。
 而防抖动是指类似搜索框中要监听用户的输入实时获取将值传给后台获取相应的匹配项，但返回的候选项个数不一样会导致下拉展示条频繁变化抖动。解决：监听到用户输入后设定一个定义器，时间过后执行操作，如果期间接收到监听变化就取消前一个定是器，再重新创建一个，相当与只取最后一次操作，因为此时是最有效的操作。
 这两种思想都类似，不过一个取第一次操作，一个取最后一次操作。[参考地址。](https://www.jianshu.com/p/11b206794dca)
+#### 34、async validator的使用：
+vue中也可作为插件使用，博客文章中的旧版本与新版本使用差异较大。
+[validator官网git地址，里面有使用示例。](https://github.com/yiminghe/async-validator#start-of-content)
+[表单验证async validator的使用。](https://www.cnblogs.com/zyxh630/archive/2013/02/21/2920489.html)
+#### 35、formData的使用：
+```
+const el = document.getElementById("form");
+let fd = new FormData(el);    # 不传入元素时是一个空的表单。
+formData.append("k1", "v2");
+formData.delete("k1");
+formData.has("k1"); // true
+formData.set("k1", "1"); // 修改
+formData.get("name"); // 获取key为name的第一个值
+```
 ### 四、库、框架、工具
 #### 1、gitHub的使用：
  进入gitHub官网先注册一个账号,进入菜鸟教程点击git本地命令工具下载链接下载
@@ -1385,10 +1399,16 @@ https://www.jianshu.com/p/7302e2c7f4b7
     "scripts":{
         ...
         "fix-memory-limit":"cross-env LIMIT-4096 increate-memory-limit"
+    },
+    "devDependencies":{
+        ...
+        "increase-memory-limit": "^1.0.6"
     }
 }
 ```
-//然后安装：`npm install -g increase-memory-limit`#接着进入项目目录执行：`increase-memory-limit`#结束后再试试运行项目。[参考学习地址(先尝试3，4)](https://www.jianshu.com/p/410e826506be)。[npm安装包失败的问题(设置一下安装源，npm安装即可)。](https://blog.csdn.net/moxiong3212/article/details/79756553)
+删除node_module文件夹，重新npm install安装依赖，然后项目下：npm  run fix-memory-limit
+//然后安装：`npm install -g increase-memory-limit`#接着进入项目目录执行：`increase-memory-limit`#结束后再试试运行项目。[参考学习地址(先尝试3，4)](https://www.jianshu.com/p/410e826506be)。
+临时设置安装源：`npm config set registry https://registry.npm.taobao.org `。[npm安装包失败的问题(设置一下安装源，npm安装即可)。](https://blog.csdn.net/moxiong3212/article/details/79756553)
 **nvm**：[windows版nvm下载地址，下载nvm-setup.zip包](https://github.com/coreybutler/nvm-windows/releases)。安装后cmd使用nvm命令
 `nvm install 8.16.0`#安装其它node版本。`nvm use 8.16.0`#切换node版本。`nvm uninstall 8.16.0`#卸载指定版本
 #### 4、postman的使用：
@@ -1433,6 +1453,8 @@ mounted Parent
 <div v-else-if="i == 1" v-html="b">这是else</div>
 <div v-else v-html="c"></div>
 </li>
+// 常用情况
+<p v-for="(val,idx) in phones" :key="idx">{{ val.text }}</p>
 ```
 加了v-for属性的元素会根据目标对象循环当前元素,包括其内部的结构，若目标对象长度为0或不是数组，字典那么当前元素也会被清除(可在for循环中加if,else语句条件循环是否要插入的元素)使用vue封装的ajax：
 要下载vue-resource.min.js，方法集中使用：
@@ -2041,6 +2063,7 @@ webpack学习：https://blog.csdn.net/eeeecw/article/details/80453899
 javascript所有事件集：http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp
 HTML标签大全：http://www.w3school.com.cn/tags/index.asp ；(还有很多不错的标签没用过)。[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)
 [plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)
+
 #### 7、微信公众号开发注意项：
 先用超级管理员账号登录微信公众号平台，开发>开发者工具>微信开发者工具>绑定开发者(将自己的微信号绑定为开发者账号)。
 开发>接口权限>网页服务>网页授权>修改下把目标网站域名添加为公众号授权网页(先上传那个txt文件到服务器项目根目录)。
@@ -2054,10 +2077,14 @@ HTML标签大全：http://www.w3school.com.cn/tags/index.asp ；(还有很多不
 https://www.jianshu.com/p/2a601fe11bf0
 https://www.jianshu.com/p/d56de7ea9736
 #### 9、真机调试：(使用谷歌浏览器)
+**方法一**：同一局域网内，用手机直接访问node开启的web服务地址(ip地址使用电脑ipv4地址，而不是localhost)。
+**方法二**：使用google浏览器。
 pc端和手机端都下载google浏览器，手机上打开开发者选项并允许使用usb调试(可按链接中教程一样使用安装驱动也可以pc端下载手机助手),手机和pc用数据线连接,然后打开手机端chrome浏览器(确认连接,连接成功后手机助手会显示手机页面),在pc端google浏览器地址栏中输入chrome://inspect进入如下
 ![google_phone](_v_images/20200419110535134_1308380564.jpg)
 若下面没有显示手机型号可以多等待一会试试，输入框中输入要打开的网页,如果是打开自己做的项目地址要写成pc地址加文件名(例:浏览器中带服务打开网页为
 127.0.0.1:5500/self.html,需要输入192.168.1.12:5500/self.html)这里的192.168.1.12是你pc的ipv4地址。(注:虽然在手机浏览器上能看到效果但其实在pc端浏览器上运行的效果,并不是在手机端浏览器环境下运行出来的)。[参考地址1。](https://www.cnblogs.com/meakchen/p/5665887.html)[参考地址2。](https://www.cnblogs.com/imwtr/archive/2016/09/18/5881039.html)
+**问题**：如果方法一无法打开页面，那么可以尝试设置防火墙，设置里有控制各服务允许通过防火墙的设置，找到node,javascript相关字样的，勾选允许即可。
+[解决该问题参考地址。](https://www.cnblogs.com/AwenJS/p/12840924.html)
 #### 10、webpcak：
 安装：npm install webpack -g#全局安装。在文件目录下使用：npm init#会在当前路径下生成一个mypackage文件夹，里面有package.json文件、webpack.config.js文件和src文件夹。
 配置：[webpack详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)

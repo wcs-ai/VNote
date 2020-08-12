@@ -14,22 +14,23 @@
 (20)、根据题目写一篇简短文章。(21)、对对联。
 </div>
 
-#### 1、备忘、疑问项：
-
-第二层原理学习：自己动手实现一些主要的算法。包括：HMM、决策树、GRUCell的实现。
-文本型数学符号集：∑ † ← ↑ → ↓ ↔ €  Œ œ Š š Ÿ ƒ ⊗  σ η ω ρ ∈ ⊙▽⊙ λ μ ξ α β θ
+#### 1、全局声明：
+文本型数学符号集：† ← ↑ → ↓ ↔ €  Œ œ Š š Ÿ ƒ ⊗  σ η ω ρ ∈ ⊙▽⊙ ∑  λ μ ξ α β θ ≠
 #### 2、python操作mysql：
 **SQL**：是用于访问和处理数据库的标准的计算机语言。而可以使用sql处理数据库的数据库有MySQL、SQL Server、Access、Oracle、Sybase、DB2 等等。在进入到各数据库模式下后可以直接使用sql语句对数据库进行操作。
 **分布式存储系统**：就是将用户需要存储的数据根据某种规则存储到不同的机器上，当用户想要获取指定数据时，再按照规则到存储数据的机器里获取。
 当用户（即应用程序）想要访问数据 D，分布式操作引擎通过一些映射方式，比如 Hash、一致性 Hash、数据范围分类等，将用户引导至数据 D 所属的存储节点获取数据。
-
 <i class="label1">windows上安装</i>低版本：安装包解压后进入文件夹创建一个`my-small.ini`文件然后在文件最低部添加：basedir=该文件夹绝对路径	/n  datadir=文件夹绝对路径/data。高版本的话不要设置datadir参数，不然启动服务时报错，按照菜鸟教程走即可。
 进入bin目录cmd>>`mysql --initialize --console `//初始化数据库。会输出初始账户，密码，请记住！！！
 提示找不到VCRUNTIME140_1.dll：安装微软常用库。
 `mysqld install MySQL`//安装名为MySQL的服务。注意在管理员身份下运行命令。`c:>d:`#切换到d盘
 `mysqld --remove MySQL `//移除指定服务。
 `net start mysql` //启动mysql服务 >>mysql -h root -p //登录(初始密码为空)
-mysql可视化管理工具navicat for MySQL破解：https://blog.csdn.net/wypersist/article/details/79834490
+**mysql可视化管理工具**：navicat for MySQL破解：https://blog.csdn.net/wypersist/article/details/79834490
+<i class="label1">mysql数据表与csv文件互导</i>简单的操作可使用navicate的导入直接将一个csv文件转为一个新表。
+使用命令导入则需要先建立一个新表(数据类型使用varchar)，然后将文件导入该表。导入的文件放到安装时my.ini配置文件中datadir或basedir指定的文件夹中去，不然会被认为不是安全的文件。
+[null值相关控制。](https://blog.csdn.net/duckyamd/article/details/53143639)[mysql数据表与csv文件互导。](https://www.cnblogs.com/luruiyuan/p/5713273.html)
+
 **使用前**：注意使用前必须修改用户密码，方法如下：
 ```
 D:\mysql\bin>mysql -u root -p    #目录下登入mysql
@@ -104,8 +105,11 @@ SHOW GRANTS：显示授权用户（所有用户或特定用户）的安全权限
 SHOW ERRORS 和 SHOW WARNINGS：显示服务器错误或警告消息
 HELP SHOW：显示允许的SHOW语句
 
-# 查询语句SELECT,WHERE是接一个字句。
-SELECT shop_id,item_id FROM test LIMIT 2;    #LIMIT限制返回的条数。对应sql的TOP作用。    有子句时写在子句后。
+#    改变已有表的字段数据类型。
+alter table 表名 modify column 字段名 类型；
+
+# 查询语句SELECT,WHERE是接一个字句。    可选择从多个表中查询
+SELECT shop_id,item_id FROM test1,test2 LIMIT 2;    #LIMIT限制返回的条数。对应sql的TOP作用。    有子句时写在子句后。
 SELECT DISTINCT country FROM Websites;    #DISTINCT选取country列中所有的项(去除了重复部分)。
 #like可指定用后面的匹配项去匹配指定列中满足条件的数据。第一个item_id是要显示的列，第二个item_id是要用于匹配的。
 SELECT item_id from test WHERE item_id LIKE '24%';    #LIKE可用来匹配符合规则的数据。24%表示以24开头的。
@@ -124,7 +128,35 @@ SELECT w.name, w.url, a.count, a.date FROM Websites AS w, access_log AS a WHERE 
 [charlist]    #匹配到中阔号中任一字符。
 [^abc]    #非括号中的字符。
 
+#    多张表一起查询。不过SELECT后要选择是哪个表的列名，不然报错。
+SELECT test.Coupon_id FROM test,offline WHERE test.Coupon_id=offline.Coupon_id LIMIT 10;
+
+#    聚合函数：
+count() 求值的个数、sum() 求值的和、avg() 平均数、max() 最大值、min() 最小值
+year()    getdate()#返回系统当前时间    month() day()#    year(GETDATE())#放到其它对应的函数中获取当前年份、月份等。
+
+#    GROUP BY的使用：表示通过某个字段进行分组，一般与聚合函数使用。当然可以和WHERE一起使用，并不冲突。
+SELECT sum(mount) as '销量' FROM test GROUP BY shop_id;    #表示通过shop_id进行分组，然后计算各店铺的总销量。
+SELECT sum(mount) FROM test WHERE area="云南" GROUP BY shop_id;    #表示选择云南的店。
+
+#    having子句的使用：与WHERE类似，都是用于条件划分的。不过having是放在group by语句后用于筛选组的。
+SELECT item_id,AVG(mount) FROM test GROUP BY shop_id having AVG(mount)>20;    #选出平均销量大于20的商店的信息。
+# 剔除空值
+SELECT User_id FROM test WHERE
+#    查询最大值，这项稍有点特殊：
+SELECT MAX(mount) FROM test WHERE shop_id=59;    MAX放在查询项而不是条件项。
+
+#    ORDER BY的使用
+SELECT shop_id FROM test ORDER BY mount asc;    #asc是升序，desc是降序。
+SELECT shop_id FROM test GROUP BY shop_id ORDER BY sum(mount);#    mount中不含有sum(mount)值。
+
+#    select嵌套使用：
+SELECT shop_id FROM test WHERE mount=(select max(mount) from test);    #第二个select查询的结果作为第一个select句的条件值使用。
+
+#    EXISTS的使用：只返回布尔值，前面可加not配合使用。后面语句返回为True时才会执行前面的语句，否则返回empty set.
+SELECT shop_id FROM test WHERE EXISTS(select shop_id from test where shop_id==60);
 ```
+[两个表联合。](https://www.jb51.net/article/154006.htm)
 #### 3、python的面向对象：
 类中__init__(self)方法是一个内部规定的方法若在类中写了该函数则在执行该类中的任意一个方时都会执行一次类中的__init__函数,若要调用类中的方法得先将该类赋值给另一个变量，然后由该变量调用类中的函数。列：
 ```
@@ -275,7 +307,66 @@ tim3 = time.asctime(tim2)#/最简单的获取可读时间的方法
 time4=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())#格式化时间按照
 #指定的格式输出时间2019-5-18 11:30:27,%Y,%H...是属于时间的格式化字符串。
 month = calendar.month(2018,10)#获取年份下某月份的日历表。
+#strptime()将一个字符串时间转为程序识别的时间。
+tt = datetime.datetime.strptime("2012-08-21", "%Y-%m-%d %H:%M:%S")# 不加时间的话会自动补为00:00:00
+tm = datetime.datetime.strptime("2010-08-21", "%Y-%m-%d %H:%M:%S")
+mq = (tt - tm).days    #时间转为int型。
+
+# 计算几天后的日期：
+s = time.sleep(5)
+end = datetime.datetime.now()    #获取到的是5天后的世界。
+
+def minNums(startTime, endTime):
+    '''计算两个时间点之间的分钟数'''
+    # 处理格式,加上秒位
+    startTime1 = startTime + ':00'
+    endTime1 = endTime + ':00'
+    # 计算分钟数
+    startTime2 = datetime.datetime.strptime(startTime1, "%Y-%m-%d %H:%M:%S")
+    endTime2 = datetime.datetime.strptime(endTime1, "%Y-%m-%d %H:%M:%S")
+    seconds = (endTime2 - startTime2).seconds
+    # 来获取时间差中的秒数。注意，seconds获得的秒只是时间差中的小时、分钟和秒部分的和，并没有包含时间差的天数（既是两个时间点不是同一天，失效）
+    total_seconds = (endTime2 - startTime2).total_seconds()
+    # 来获取准确的时间差，并将时间差转换为秒
+    print(total_seconds)
+    mins = total_seconds / 60
+    return int(mins)
+
+if __name__ == "__main__":
+    startTime_1 = '2019-07-28 00:00'
+    endTime_1 = '2019-07-29 00:00'
+    fenNum = minNums(startTime_1, endTime_1)
+    print(fenNum)
 ```
+**定时器**：
+```
+from datetime import datetime
+import time
+def timer(n):
+    while True:
+        print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        time.sleep(n)# sleep()是阻塞式的，期间不能做其它操作。
+timer(5)# 每5秒执行一次
+
+import sched
+
+# 初始化sched模块的 scheduler 类
+# 第一个参数是一个可以返回时间戳的函数，第二个参数可以在定时未到达之前阻塞。
+schedule = sched.scheduler(time.time, time.sleep)
+# 被周期性调度触发的函数
+def printTime(inc):
+    print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    schedule.enter(inc, 0, printTime, (inc,))
+# 默认参数60s
+def main(inc=60):
+    # enter四个参数分别为：间隔事件、优先级（用于同时间到达的两个事件同时执行时定序）、被调用触发的函数，
+    # 给该触发函数的参数（tuple形式）
+    schedule.enter(0, 0, printTime, (inc,))
+    schedule.run()
+# 10s 输出一次
+main(10)
+```
+
 #https://www.runoob.com/python3/python3-date-time.html
 i = datetime.datetime.now()
 print(i.year,i.month,i.day,i.hour...)
@@ -359,8 +450,34 @@ with pdfplumber.open("/home/wcs/data/vv.pdf") as pdf:
 **分析**：热水器在开始流失时记录开始时间、是否加热、水温、流水结束时间等属性，每隔两秒记录一次。由于数据量很庞大，对数据进行抽样(抽取一年的用水记录)。第一次流水结束与第二次流水开始的时间间隔为这两次流水事件的用水间隔。根据用水试验统计，用水事件间的间隔一般为6分钟以上，所以将用水事件间隔阈值定位5分钟。但由于不同的季节，不同的地区用水事件间隔也会不同，所以做一个**阈值择优模型**：查看选择不同的阈值时得到的划分用水事件数，在一段阈值内划分出的事件数趋于平缓的话则说明这是个不错的阈值，具体的选择方法是计算出前一个阈值到该阈值的斜率，然后将该点之后的四段斜率的均值作为该阈值点的斜率k，如果k<1则将该点作为最优阈值。若全局找不到有小于1的，则选择最小的k的那个阈值点(还要求最大限制)。
 **特征选择**：我们需要延展更多的属性来描述一次用水事件。所以衍生的属性是结合一次用水事件中多次流水事件特征结合描述的，选取一些特别的特征：水流量波动、停顿时长波动(方差表示)、平均水流量、总用水量...这样就形成了没条用水事件。
 洗浴识别：基于这些变换后的用水事件数据来识别哪些是洗浴事件，先剔除掉一些值较小的用水事件。让一些用户提供了几周的用水日志(这相当于是专门出钱来获取该方面的数据，更长事件的用水日志用户操作有些困难)，使用神经网络模型来训练。连续洗浴事件的判别！
-a5、杂项：
-数据表格优化、决策支持、业绩、店铺、销售情况分析、产品出库情况、店铺排名情况、季度分析、库存流转情况、销售指标的提报，业绩预警，各重大节日数据分析、岗位个人能效，KPI数据情况分析。
+**1、行为事件分析**：主要用于研究某行为事件的发生对产品的影响以及影响程度。确认导致该行为的原因;或针对某一结果现象。比如最近搞了一个活动，分析没点击该用户的行为和点击了的用户的行为。或者像上面一样，根据行为，对各用户分群，然后专门针对各类用户设计功能<i class="green">(比如，一些用户是通过状态栏的推送点进来的，一些是通过点app进来的，分析可能是一些用户不喜欢状态栏有推送，那么我们可以在设置中添加是否推送或在重要活动时才推送功能)</i>。<i class="blue">又比如推送资讯类功能，发现一些用户只浏览固定的几类资讯。因为开发一个资讯关注功能。</i>
+**2、页面点击分析**：直观的对比和分析用户在页面的聚焦度、页面浏览次数和人数以及页面内各个可点击元素的百分比。通常用于首页、活动页、产品详情页等存在复杂交互逻辑的页面分析。例如：<i class="violet">发现页面某个功能会点击的用户很少，或者多数是从其他入口进入的，那么可以考虑减小该功能在此页面上的比例，或该页面去除该功能。</i>常涉及的指标：浏览次数（PV）、浏览人数（UV）、页面内点击次数、页面内点击人数、点击人数占比。
+**3、用户画像分析**：常涉及数据：人口属性：性别、年龄等人的基本信息、兴趣特征：浏览内容、收藏内容、阅读咨询、购买物品偏好等。位置特征：所处城市、所处居住区域、用户移动轨迹等
+设备属性：使用的终端特征等、行为数据：访问时间、浏览路径等用户在网站的行为日志数据、社交数据：用户社交相关数据。
+[行为分析参考地址。](http://www.hbapsw.cn/wen/7778.html)
+##### a5、杂项：
+
+<i class="label1">数据表格优化</i>：就是指excel表格，当列数达到6列之多时，若设计不美观，各列间关系复杂，看上去就会比较难懂。设计是表格的关键：如果设计得当，浏览比较复杂的数据会很容易，如果设计不妥，信息就完全无法理解。
+**一些原则**：数字要右对齐(容易比较大小)、文字要左对齐、 表头与数据对齐(各列对齐方式包括其表头在内)、不要使用居中对齐(水平上不居中，但垂直上居中)。浮点数据型以小数点对齐更为直观。
+**单位**：最常见的标签是数据的度量单位；一般每一行/列数据都使用同一单位，因此，与其在每一个格数据后面都写单位，不如在**每一列的标题上标出单位**。
+**标题**：不能太长，当要表达出重要信息，尽量让不是本业务的人也能懂。
+**分割线**：水平分隔线的用处是最大的，因为它可显著减轻长表格占用的垂直方向的视觉重心，加快大量数据的对比工作，以及随着时间看清趋势。少用斑马线，少用装饰。如果对表格中的数据使用了合适的对齐方式，分隔线就会很多余。即便要使用分隔线，也应该把颜色尽量减淡，不能妨碍快速浏览。
+**背景色**：当指示不同领域的数据时，背景是最有用的：例如在单个数据与总和或平均数之间转换。当我们要突出显示数据。[表格优化学习地址。](http://www.woshipm.com/pd/718196.html)
+<i class="label1">员工效能</i>员工效能是指员工单位时间付出的劳动成果量，一般认为，是员工个人在组织的工作与行为表现。
+测量有两种方法：客观法、主观法。客观法主要是以能够达成组织目标的客观数据，做为员工个人效能的指标，如：个人的实际生产量、不良品数、缺勤率、人为错误等。
+<i class="label1">库存控制</i>精准控制库存，减少库存太多(导致部分物品过期)、库存太少(销量降低)、各地库存分配不均匀导致的损失。将企业的全部存货分为A、B、C三类，管理时，对金额高的A类物资，作为重点加强管理与控制;B类物质按照通常的方法进行管理和控制;C类物资品种数量繁多，但价值不大，可以采用最简便的方法加以管理和控制。可通过预测各店铺各商品下月销量，来辅助调配库存。对A类产品可再增添一些规则控制。找一个合适的阈值做库存预警指标。
+决策支持、业绩、店铺、销售情况分析、产品出库情况、店铺排名情况、季度分析、销售指标的提报，业绩预警，各重大节日数据分析，KPI数据情况分析。
+##### a6、一些概念：
+**数据集市**：(Data Mart) ，也叫数据市场，数据集市就是满足特定的部门或者用户的需求，按照多维的方式进行存储，包括定义维度、需要计算的指标、维度的层次等，生成面向决策分析需求的数据立方体。数据中心的重点就在于它迎合了专业用户群体的特殊需求，在分析、内容、表现，以及易用方面。数据中心的用户希望数据是由他们熟悉的术语表现的。
+**笛卡尔乘积**：是指在数学中，两个集合X和Y的笛卡尔积（Cartesian product），又称直积，表示为X × Y，第一个对象是X的成员而第二个对象是Y的所有可能有序对的其中一个成员，所得的结果数是两个集合长度的乘积。 `A×B ≠ B×A`#不满足交换律。假设集合A={a, b}，集合B={0, 1, 2}，则两个集合的笛卡尔积为{(a, 0), (a, 1), (a, 2), (b, 0), (b, 1), (b, 2)}。
+[一些陌生的概念。](https://blog.csdn.net/iteye_11539/article/details/82411042)
+##### a7、用户标签：
+用户标签需要划分类型。尽可能按照MECE原则，相互独立，完全穷尽。每一个子集的组合都能覆盖到父集所有数据。标签深度控制在四级比较合适，方便管理，到了第四级就是具体的标签实例。前几类大致如下：
+人口属性(生日，性别、星座等)、行为属性(设备信息、活跃情况[消费频率、消费金额等])、商业属性（消费习惯[喜好的支付方式、品牌偏好]、积分、优惠券使用情况等）。具体根据需要支持的业务来划分。
+
+**按时效性划分**：静态(一般不会变化，甚至永远不变)、动态(会变化的，需要定期更新)。该种划分便于运营人员了解业务。
+**使用**：构建好标签体系后可用于精准推送(一个商品的标签与用户标签匹配度较高时推送给用户)。精准营销。其它业务模型的建模使用。 
+[用户标签综述和构建学习地址。](http://www.woshipm.com/user-research/1016865.html)
 #### 12、python文件IO：
 假设当前路径为E:\mypython\test\文件IO.py。文件分为文本型和二进制型，所以读取的模式也只分为两种。(写入文件时需要保证写入的类型是字符串类型或byte型，不然非字符型会出现output Decode utf-8错误，不易查找)。部分特别的符号需要使用特别的编码才能实现，所以文件中有不同编码格式的字符时需要使用rb模式来读后再解码，不过解码后每个字符后还会有\r符。
 读取二进制型文件时需要对读取的结果解码，用如下方法查看文件的编码方式：
@@ -543,6 +660,7 @@ st | b#合集，两个个集合中的所有元素
 st & b#交集，两个集合同时包含的元素
 st ^ b#两个集合不同时包含的元素，交集的补集
 **列表使用**：
+**反转列表**：`c = x[::-1]`
 min(list),max(list),len(list);#求列表的最小最大值和元素个数。sum([1,2,3])求一维列表的总和
 list.append()#只能使用此方法在列表中添加新的值（末尾添加）
 list[::2]#2表示从第一个起每隔1个值就取一个值。
@@ -627,7 +745,7 @@ d(x,y)=sqrt((x-y)'Σ(x-y))(如果协方差矩阵为单位矩阵，马氏距离�
 x=x1,x2,,,xny=y1,y2,,,yndistance(x,y)=∑I(xi,yi)；
 I(xi,yi)={1|ifxi≠yi，0|ifxi=yi}
 余弦相似度：余弦相似度是通过测量两个向量夹角的度数来度量他们之间的相似度。0度的相	似度是1，90度的相似度是0，180的相似度是-1。结果的测量只与向量的指向方向有关，与向量的长度无关。余弦相似度通常用于正空间，因此给出的值为0到1之间。对于A和B的距离是：
-cos(θ)=A⋅B||A||⋅||B||=∑n1(Ai×Bi)/∑ni(Ai)^2*√×∑ni(Bi)^2
+`cos(θ)=A⋅B||A||⋅||B||=∑n1(Ai×Bi)/∑ni(Ai)^2*√×∑ni(Bi)^2`
 杰卡德距离：杰卡德相似系数用于度量两个集合之间的相似性，定义为两个集合交集集合元素的个数比上并集集合元素的个数。
 皮尔森相关系数：皮尔森相关系数是一种线性相关系数。是两个变量线性相关程度的统计量，皮尔森相关系数的绝对值越大则相关性越强。
 r=∑ni((Xi−x)(Yi−y))/∑n1(xi−x)^2*√∑ni(yi−y)^2
@@ -641,13 +759,16 @@ https://www.cnblogs.com/WingPig/p/9760882.html
 现实中我们寻找多个变量与某个变量的关系，通过变量的些数据找到一个它们之间关系的式子，这类问题都可以叫回归问题。回归包括线性回归、逻辑回归(逻辑思帝回归Logistic)、非线性回归。
 <i class="label1">逻辑回归</i>与线性回归类似，都是wx+b这样的表达式，不同的是，逻辑回归将这些表达式通过一个映射函数再得到预测值，所以它实质上是一个非线性回归，适合分类。逻辑回归选用的变换函数是sigmoid，0~1范围，符合概率分布，抑制两头，对中间细微变化敏感。
 <i class="label1">线性和非线性回归</i>根据自变量的个数可以分为一元和多元回归，一般自变量较少，与因变量成较强的线性关系时就称为线性回归，而一般自变量较多时，因变量的变化往往是很怪异的曲线，这时就是非线性回归。对于非线性回归效果一般是不好的，需要想办法让非线性变得线性。
-一元回归以最小二乘法为例。假设有一组数据:xi>>1.5,1.6,1.7,1.8,1.9;yi>>3.2,3.3,3.4,3.5,3.6可以大致看出它们之间的关系大致是构成一个直线方程，先假设其方程为：Y = kx + b;而最小二乘法公式为:s = 每一项（观测值 - 理论值）^2的和;这里的观测值就是指xi每一个数据对应的yi的值3.2,3.3 ...理论值我们用公式表示就是kx + b;
-S = (3.2-(1.5k+b))^2+...+(3.3-(1.9k+b))^2 #这里我们两边同时除以5。S/5 = [(3.2-(1.5k+b))^2+...+(3.3-(1.9k+b))^2]/5而这就是方差的公式(将3.2,3.3 ..看成是一组值，（kx+b）看成是平均 值)，根据方差的定义方差越小越稳定所以求S的最小值就是求S/5的最小值,而用求导的方法可以求得最小值所以对x和y求偏导后结合可得k和b。
+**推导**：回归是企图求出一条直线能够让尽量多的点落到上面，而svm是企图找一条线尽量分开所有点，这是两者的区别。通过求各个点真实值与预测值(通过模型wx+b输出的)差的平方的和，列成一个式子，求该式的最小值，求偏导解出w和b。这里以多元线性回归为列：
+多元回归式子：f(x)=w1x1+...+wnxn + b，用向量的形式代替f(x)=w'x+ b。对于真实分布：{y1,y2,...,yn}有式子：
+`z = ∑[y-(w'x+b)]^2`要求该式的最小值，即：`argmin(y-xw)'(y-xw)`#因为这里是向量形式所以分开写是乘以它的转置得平方。用矩阵的微分公式对该式求w的偏导得：
+`f(w)=2X'(Xw-y)`。x'x为满秩矩阵或正定矩阵时(保证方程数>=未知数个数)，令该式为0得(注意是用向量的方法来变换)`w=(x'x)^- * x'y`#这里^-表示逆矩阵。
+因为是矩阵的运算，求得的结果也是矩阵，对应位置的值就是对应w的值。现实情况中几乎都不是满秩矩阵(不是方阵就不是满秩的)，这样在其系数矩阵中会出现多列或多行化为0的情况，此时这些位置对应的w就可以取多个可能的值。可用正则化缓解。
 <i class="label2">岭回归和lasso回归</i>模型是为了解决现实问题而抽象成数学的方法，所以再好的模型也会有误差，<i class="blue">把这个模型与现实的误差叫做模型误差，模型误差主要有模型偏差(模型的到的结果与实际值偏离的程度)、方差(模型结果在实际值出上下波动)、数据误差组成，</i>偏差主要是使用了不合适的模型，方差主要是因为模型太复杂的原因。岭回归和lass回归都是为了减少方差的方法(式子加上正则化项)：`lin=∑ w*x + b + (λ / 2) * ∑ w^2`#这是岭回归，最后加上了l2正则化项，因为多加了一项l2正则化，所以前面的wx项比不加之前需要更小的值，导致w减小，wx变化更为平稳，达到减小方差，避免过拟合的目的(因为实际值是线的两侧都有的)。`lin=∑ w*x + b + λ * ∑|w|`#这是lass回归，与岭回归相似，只是使用的l1正则化项。其它变体还有贝叶斯岭回归等等。
 <i class="label2">非线性转为线性</i>如果自变量与因变量有一些线性关系，但不是那么强烈，可以用Log函数<i class="green">(能缩小y值间的差距，然线变得平稳)</i>、指数函数<i class="green">(底数大于1时指数函数能放大y值间的差距，适合y值变化平稳情况)</i>等来对因变量进行转换后使用。
 <i class="label3">观察多自变量与因变量</i>自变量较多时不易观察与因变量的关系，自变量可逐个与因变量进行绘图观察，若多数自变量与因变量都有线性关系，那么它们合起来与因变量的关系多半也有较好的线性关系。
 [lass回归和岭回归学习参考地址。](https://blog.csdn.net/Joker_sir5/article/details/82756089)
-#### 24、聚类:
+#### 24、聚类: 
 聚类属于非监督学习方法，从某种程度上来说机器学习的终极目标就是无监督学习(不过k-means是一个较简单的算法)。这里列举遇到的聚类算法：
 聚类坚持使用少而精的数据量，数据过多也可能造成效果不好，聚类慢的问题，高共线性的变量也要注意好进行筛选。
 <i class="label1">**k-means算法**</i>：
@@ -713,6 +834,26 @@ https://www.cnblogs.com/jeshy/p/10629556.html
 所有转义字符：\a:响铃(BEL) 		\b:退格(BS) 	\f:换页(FF)		\n:换行		\r:回车
 `\t`:水平制表(HT)table符		\v：垂直制表(VT)		\o:空字符   		\s：空格
 #### 27、python知识积累：
+<div class="introduce">
+python并非完全是解释性语言，它是有编译的，先把源码py文件编译成pyc或者pyo，然后由python的虚拟机执行，相对于py文件来说，编译成pyc和pyo本质上和py没有太大区别，只是对于这个模块的加载速度提高了，并没有提高代码的执行速度，通常情况下不用主动去编译pyc文件。ython和Java/C#一样，也是一门基于虚拟机的语言，当我们在命令行中输入python hello.py时，其实是激活了Python的“解释器”。可是在“解释”之前，其实执行的第一项工作和Java一样，交由虚拟机执行：(1)完成模块的加载和链接、(2)编译，即将源码转换为PyCodeObject(字节码)。(3)从上述内存空间中读取指令并执行、(4)程序结束后，根据命令行调用情况（即运行程序的方式）决定是否将 PyCodeObject 写回硬盘当中（也就是直接复制到 .pyc 或 .pyo 文件中）。(5)之后若再次执行该脚本，则先检查本地是否有上述字节码文件。有则执行，否则重复上述步骤。
+</div>
+
+<div class="tip">
+计算机是不能够识别高级语言的，所以当我们运行一个高级语言程序的时候，就需要一个“翻译机”来从事把高级语言转变成计算机能读懂的机器语言的过程。这个过程分成两类，第一种是编译，第二种是解释。
+编译型语言在程序执行之前，先会通过编译器对程序执行一个编译的过程，把程序转变成机器语言。运行时就不需要翻译，而直接执行就可以了。最典型的例子就是C语言。
+解释型语言就没有这个编译的过程，而是在程序运行的时候，通过解释器对程序逐行作出解释，然后直接运行，最典型的例子是Ruby。
+</div>
+
+生成pyc或pyo文件：.pyo是更优化的编译，比.pyc略小。[参考学习地址。](https://blog.csdn.net/chinesehuazhou2/article/details/105236390)
+```
+python -m py_compile /path/to/需要生成.pyc的脚本.py
+# 或
+import py_compile
+py_compile.compile(r'/path/to/需要生成.pyc的脚本.py')
+# 生成pyo
+python -O -m py_compile /path/to/需要生成.pyo的脚本.py
+```
+
 在编写python程序时开头使用# -*-coding:utf-8-*-用于规定使用的字符集编码,这	样程序注释中可以使用中文，#!/usr/bin/python规定使用python解析器解析程序。
 frozenset(range(10))//创建一个不可变集，frozenset('thisisaman')//返回：
 frozenset({'s', 'h', 'm', 'a', 'n', 't', 'i'})；set(range(5))//创建一个可变集。
@@ -753,11 +894,14 @@ __import__('a')//动态导入a.py模块，如果导入的类，函数是经常�
 ##### a3、字符串
 b'xx08eu'(字符串前加b表示是一个byte类型)，r'e:\b\d'(字符串前加r表示去掉反斜杆的影响)。
 u'字符'(字符串前加u表示使用unicode[utf-8]进行编码，中文使用)。f"zzr{name}ko"，字符串前加f后该字符串中可以用{}号然后里面写变量名。
-**格式化字符串**：print('a is s% and %d c'%('b',20))>'a is b and 20 c' //%s和%d相当与占位符把%后的元组依次写入站位符中。s%,d%,c%,o%,x%...分别表示占位字符串、整数、字符及ASCII码、八进制数、十六进制数。字符串前使用r或R可以输出原始字符串：r'\n,%s,uio',里面的特殊字符不会被转译。'%(name)s--%(age)d'%{'name':'wcs','age':21}
-[保留两位小数]使用round()不生效的时候可以："%.2f"%number
+**格式化字符串**：print('a is s% and %d c'%('b',20))>'a is b and 20 c' //%s和%d相当与占位符把%后的元组依次写入站位符中。
+s%,d%,c%,o%,x%...分别表示占位字符串、整数、字符及ASCII码、八进制数、十六进制数。
+字符串前使用r或R可以输出原始字符串：r'\n,%s,uio',里面的特殊字符不会被转译。'%(name)s--%(age)d'%{'name':'wcs','age':21}
+保留两位小数：使用round()不生效的时候可以："%.2f"%number
 cv = x.replace('二',1)#替换x中为二的字符串为1，返回一个结果，不在原结果上修改
 'str'.find('t')//匹配字符串中所包含的指定子字符的第一次出现位置有则返回位置无则返回-1
-str()方法将数据转换为字符串类型，可以直接转换一个数组的所有值：str(list)
+str()方法将数据转换为字符串类型，可以直接转换一个数组的所有值：str(list)。[学习地址。](https://www.runoob.com/python/python-strings.html)
+空字符串判断：`string.isalnum()`#如果 string 至少有一个字符并且所有字符都是字母或数字则返回 True,否则返回 False。还有很多其他字符串操作函数。
 #join()的使用：
 ```
 c = '-'.join(('a','b'))#将列表或元组用指定字符连接，如果列表值为数值型要转str
@@ -806,7 +950,7 @@ for n in self_range(5):
     print(n)#0,1,2,3,4 
 ```
 #注意：如果将该迭代赋值给一个变量则智能执行一个完整迭代(迭代完后失效)
-##### a7、@修饰符的使用：常用于插入日志、性能测试等
+##### a7、装饰器@
 ```
 def log(func):#会先运行log函数再运行test函数
     print('enter log')
@@ -851,12 +995,6 @@ class DecimalEncoder(json.JSONEncoder):#似乎无效，以后研究
 			return list(o)
 		super(DecimalEncoder,self).default(o)
 ```
-[Decode error - output not utf-8]错误解决：python默认使用的编码方式一般是cp936而文件一般使用的编码是utf-8，在运行中解析非英文型字符时就会报这种错误，一些编辑器对此问题做了处理所以不会报错，而一些编辑器未做处理时就有这样的错误，解决如下：
-import sys,io
-sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
-
-【编解码器模块】https://yiyibooks.cn/xx/python_352/library/codecs.html#module-codecs
-https://www.cnblogs.com/misswangxing/p/8603529.html
 ##### a9、piclke模块的使用
 pickle类似于json的使用，pickle也是用于序列化的模块，不过pickle用于python特有的类型和python数据类型间进行转换。
 ```
@@ -869,20 +1007,16 @@ with open('k.txt','wb') as file:
 #以二进制打开文件后用load导入，file一样是文件对象
     ag = pickle.load(file,encoding='ascii',errors='strict')
 ```
-PIL模块：https://www.cnblogs.com/moying-wq/p/10982135.html
-##### b1、math模块
+
+##### b1、杂项：
+**math模块**：
 ```
 import math
 x = math.floor(2.3)#2 下舍
 x = math.ceil(2.3)#3 上舍
 ```
-lambda的使用：lambda用于构成一个简单的函数：
-h = lambda x,y:x+y#x,y为参数，返回引号后的结果。
-print(h(1,2))#3，不能直接将lamnda函数体做参数写到其它函数括号内。
-
-callable()函数：判断一个对象是否是可调用()函数
-if callable(fun):#若fun是一个函数的话则返回True
-
+**lambda的使用**：lambda用于构成一个简单的函数：h = lambda x,y:x+y#x,y为参数，返回引号后的结果。
+**callable()函数**：判断一个对象是否是可调用()函数。if callable(fun):#若fun是一个函数的话则返回True
 [argparse模块]https://www.cnblogs.com/dengtou/p/8413609.html
 [tqdm]tqdm模块可以在循环体中显示进度。(非python自带模块，需要pip install tqdm)
 ```
@@ -890,7 +1024,15 @@ from tqdm import tqdm
 for i in tqdm(range(1314520)):#套在一个迭代器外使用即可
     print('zz')
 ```
-[__future__模块]把下一个版本的功能导入到这个版本测试使用。
+[Decode error - output not utf-8]**错误解决**：python默认使用的编码方式一般是cp936而文件一般使用的编码是utf-8，在运行中解析非英文型字符时就会报这种错误，一些编辑器对此问题做了处理所以不会报错，而一些编辑器未做处理时就有这样的错误，解决如下：
+```
+import sys,io
+sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
+```
+**编解码器模块**：https://yiyibooks.cn/xx/python_352/library/codecs.html#module-codecs    https://www.cnblogs.com/misswangxing/p/8603529.html
+**__future__模块**：把下一个版本的功能导入到这个版本测试使用。
+**PIL模块**：https://www.cnblogs.com/moying-wq/p/10982135.html
+**any() 函数**：用于判断给定的可迭代参数 iterable 是否全部为 False，则返回 False，如果有一个为 True，则返回 True。元素除了是 0、空、FALSE 外都算 TRUE。
 ##### b2、random模块
 ```
 import random
@@ -1010,6 +1152,16 @@ finally:    #无论上面是进入了try还是进入了except,最后都会再执
     print('不管被检测的代码块有没有发生异常都会执行')
 
 ```
+##### c1、PEP:
+PEP的全称是Python Enhancement Proposals，其中Enhancement是增强改进的意思，Proposals则可译为提案或建议书，比较常见的翻译是Python增强提案或Python改进建议书。
+[pep提案地址](https://www.python.org/dev/peps/pep-0020/%20)   。[pep简介地址，需看。](https://www.cnblogs.com/abella/p/10056875.html)
+##### c2、help()和dir():
+dir()用来查询一个类或者对象所有属性，比如：
+help()帮助查看类型详细信息，包含类的创建方式、属性、方法
+```
+help(pandas)
+dir(list)
+```
 #### 28、交叉熵与相对熵(kl散度)：[熵的本质是香农信息量log1/p] 
 信息熵：生活中描述信息的多少是很难用一个数字来衡量的，之后香农用信息熵概念来度量信息的量，信息熵代表整个系统的不确定性，熵越大不确定性就越大；需要引入交叉熵消除这个不确定性。交叉熵是信息论中的一个重要理论，主要用于度量两个概率分布间的差异性信息。
 定义：一个概率分布中`pi*log(2,pi)就称为pi的信息熵`#pi是第i项对应的概率值。假设这个pi是真实分布(这个pi是个概率值，不是不是样本出现的次数)，而预测中我们得到的是qi那么-qi*log(1/pi)就称为交叉熵；真实分布的信息熵与非真实分布的信息熵之差就称为相对熵([Kullback–Leibler divergence])：
@@ -1082,14 +1234,18 @@ BIC(贝叶斯信息量:BIC=-2ln(L)+ln(n)*k),HQIC(HQIC=-2ln(L)+ln(ln(n))*k)值.�
 选定好数学模型(确定了ARIMA(p,d,q)的参数)需要对模型进行检验：对所选模型的残差做自相关图和偏自相关图。
 res = data.resid # data是根据sm.tsa.ARMA(dta,(7,1)).fit()方法求的数据。再依据前面的方法画自相关图、偏自相关图(观察残差平均值是否为0(即：各点的值的平均值)且方差为常数的正态分布)。
 再做D-W(德宾-沃森)检验:(目前检验自相关性最常用的方法)
-sm.stats.durbin_watson(data.resid)#使用durbin_watson()对数据的残差检验若结果值接近0或4则存在自相关性，若接近2则不存在。
-使用QQ图观察是否符合正太分布：
+
+```
+#使用durbin_watson()对数据的残差检验若结果值接近0或4则存在自相关性，
+#若接近2则不存在。使用QQ图观察是否符合正太分布：
+sm.stats.durbin_watson(data.resid)
 fig = sm.qqplot(resid,line='q',ax=ax_,fit=True)#sm模块下的qqplot()方法
 resid是求的的数据的残差。再用Ljung-Box检验其残差是否为高斯白噪声序列，若不是则说明这个ARIMA模型不是适合的模型。
 r,q,p = sm.tsa.acf(resid.squeeze(),qstat=True)
 data = np.c_[range(1,41),r[1:],q,p]
 table = pd.DataFrame(data,columns=['lag',"AC",'Q',"Prob(>Q)"])
 print(table.set_index('lag'))
+```
 然后查看数组最后一列前十二行(一般都查看前十二行),这十二个数表示的是概率，看它们是否满足高斯白噪声分布(正太分布>均值为0，方差不变)。若它们的均值接近0则为白噪声序列。
 决定好数学模型后预测未来的长期趋势T和季节变动S及不规则变动L用以下模式计算未来时间点Y。加法模式：T+S+L = Y;乘法模式：T*S*L = Y；
 res = arma.predict(91,100) #这里res的长度会是100
@@ -1489,12 +1645,19 @@ https://www.jianshu.com/p/0ad5625e9717
  "selector": "source.python"
 }
 ##### (3)、jetBring公司产品：
-[获取注册码]http://idea.lanyus.com/
-【永久破解】https://www.jianshu.com/p/4c81cf31b94d
-[主题样式下载]http://www.riaway.com/theme.php，更换主题后字体会变小，在setting>Editor>Color Scheme>console Font中设置字体大小。
-pycharm破解：https://blog.csdn.net/fantasic_van/article/details/89282100
-ctrl+r或ctrl+f调出全局搜索字符。
-[使用Anaconda环境]setting>project:name>Project interpreter下拉框中选择运行的环境，添加新的运行环境：下拉框点show all后点击+号>选第二个单选文件夹中选择Anaconda安装目录>envs>wcs>python.exe(envs是自己在anaconda创建的所有环境,wcs是自己创建的一个环境,每个环境下都有一个python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括sublim中切换环境也是切换python.exe的位置。
+获取注册码：http://idea.lanyus.com/
+永久破解：https://www.jianshu.com/p/4c81cf31b94d
+**主题样式下载**：http://www.riaway.com/theme.php。更换主题后字体会变小，在setting>Editor>Color Scheme>color scheme Font中设置字体大小。注意不是consol Font
+**主题的使用**：setting/color scheme/右侧齿轮按钮点击选：Import setting导入自己下载的jar包，应用即可。
+pycharm破解：https://blog.csdn.net/fantasic_van/article/details/89282100。
+一些强大的插件：[Pycharm中一些强大的插件。](https://www.cnblogs.com/jfdwd/p/11137798.html)
+常用功能：[常用快捷键。](https://www.cnblogs.com/sui776265233/p/10200809.html)
+Ctrl + F(当前文件查找 )。Ctrl + R(当前文件替换)。Ctrl + Shift + F(全局查找)。
+Ctrl + Shift + R(全局替换)。
+Shift + F10#运行。Shift + F9#调试。Alt + Shift + F10  运行模式配置。Alt + Shift + F9   调试模式配置
+Alt+j#同时选择相同字符串的下一个。Ctrl+Alt+shift+j#选中当前文件所有相同字符串。
+
+使用Anaconda环境：setting>project:name>Project interpreter下拉框中选择运行的环境，添加新的运行环境：下拉框点show all后点击+号>选第二个单选文件夹中选择Anaconda安装目录>envs>wcs>python.exe(envs是自己在anaconda创建的所有环境,wcs是自己创建的一个环境,每个环境下都有一个python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括sublim中切换环境也是切换python.exe的位置。
 ##### (4)、jupyter:
 一个web式的ide工具，通过电脑上安装jupyter notebook工具，运行后会开通一个本地服务，按照其给出的链接进入web页面，在上面进行编辑代码。支持50多种语言。
 安装：pip install jupyter#安装后，命令行jupyter notebook直接运行会出现一个链接，在web中打开。#windows端应该是一个虚拟机形似的运行工具。
@@ -1534,8 +1697,8 @@ x.shape=(2,-1)#改变行列比//shape是改变该数组的形状,reshape是复�
 x.min();x.max();x.var()#求最大最小值,方差
 x.std()或np.std(x,axis=0)#计算矩阵的标准差
 x.mean()或np.mean(x,axis=1)#计算矩阵的平均值
-非负整数统计：`np.bincount(x, weights=None, minlength=0)`#统计结果是按从小到大排序后，对应各值的出现次数。
-Print(:,1)#[[2],[3],[np.nan]]
+求中位数：`np.meadian(xs)`
+非负整数统计(可用其求众数)：`np.bincount(x, weights=None, minlength=0)`#统计结果是按从小到大排序后，对应各值的出现次数。
 Y = np.splice([2,0])   print(x[y])#3
 X[~np.isnan(x)]#去除缺失值返回一维x[np.iscomplex()]  
 x*2(整个数组乘2)  x.T(求转置矩阵)
@@ -1543,21 +1706,21 @@ x*2(整个数组乘2)  x.T(求转置矩阵)
 np.concatenate((a,b),axis=0) #连接两个矩阵 行/列
 np.broadcast(x,y)#将数组x广播到y
 np.add(a,b)//矩阵与值，矩阵与矩阵的相加
-np.multiply(x,y)//矩阵与值相乘，若都是矩阵则是对应位置乘。
-np.matmul(a,b)//矩阵与矩阵的内积实现，与np.dot()一样，一维矩阵相乘时结果是一个值，但在进行多维矩阵相乘时np.matmul()能保证预期的结果(将大于2维外的看成一个batch，然后与对应的b中的那个batch相乘)，而dot则是按照叉乘来的。
+np.multiply(x,y)//**矩阵与值相乘**，若都是矩阵则是对应位置乘。若是一列与一行的乘请用multiply()。
+np.matmul(a,b)//矩阵与矩阵的**内积实现**，与np.dot()一样，一维矩阵相乘时结果是一个值，但在进行多维矩阵相乘时np.matmul()能保证预期的结果(将大于2维外的看成一个batch，然后与对应的b中的那个batch相乘)，而dot则是按照叉乘来的。
 np.squeeze(x)#将目标数组降低一维(数组为最高维的第0个)，如果这个二维数组还
 存在行标记或列标记的话则squeeze()无效，得先用x.values去除标记再squeeze()(pandas中的Series和DataFrame创建的数组也能用)。
 X.flat[2]#左到右，上到下的索引位置处的值
 X.flatten(order=”F”)#转为一维数组输出 C为按行的顺序，F为按列的 顺序;
 np.split(a,3)#将一维数组分为3份  np.split(a,[2,4])#指定位置处分
-np.roll(x,3)//将数组x按第二个参数位移(0位移到3,最后一位移到2位...)
+np.roll(x,3)//将数组x按第二个参数位移(0位移到3,最后一位移到2位...)。负值时表示向左移位。
 np.hsplit(b,1)#划分二维数组，1表示在行维度上划分，2表示在第二个维度即列上划分。
 x=np.append(a,[1,2,3])#目标、位置、值、轴;不填写axis值时返回一维数组，填写
 axis值时添加的数组的维数需要与目标数组维数一致。如：
 x=np.array([[1,2,3],[4,5,6]])
 y = np.append(x,[[7,8,9]],axis=0)#[7,8,9]外多套了一维。
 
-np.insert(a,2,[2,5,8],axis=1);
+np.insert(a,2,[2,5,8],axis=1);    #插入的是一个矩阵的时候会将其中的值依次插入。
 np.unique(c)#去除重复的值，返回去重后的一维数组
 x.resize(3,4)#与reshape()方法一样
 np.vdot(a,b)#x1*y1+x2*y2+...+xn*yn  计算来个向量的点积
@@ -1590,11 +1753,18 @@ DF.info()#查看各特征项数据的三个属性：数量、有无缺失值，�
 #date_range()方法生成时间系列,periods:周期，时期；
 每一个DataFrame()创建的数组中都可以有index（行标记）,columns(列标记)，
 若Series创建的数据再放到DataFrame()中则所有的列会被当成1个列。
+**打乱数据**：`x = x.sample(frac=1.0)`
 **重置列名**：`dataframe.rename(columns = {"old1": "new1", "old2":"new2"},  inplace=True)`
-
+**数据类型转换**：`dt.x = dt.x.astype(int)`#x列数据转为Int型。
+**值转为list**：`dt.x.index.tolist()`
+**添加新的列**：`dt['newProp'] = 0`#若没有newProp属性会直接添加这列。
+**one_hot编码**：`_oh = pd.get_dummies(dt.x)`
 <i class="label1">切片、索引</i>
+查看series数据dt前5行：dt.head(5)
 <i class="label2">注意</i>使用索引来改变值时，最好是先改变对应列的数据类型，与改变后的值的数据类型一致。之前遇到过的：
 ```
+a1.reset_index(inplace=True)#重置index,
+x.columns = ['a','b','c']
 a = pd.concat([b,pd.DataFrame({"a":b.index})])
 a['a'][2240567] = 0.53   //之前的index是int64类型，之后的赋值是float64类型，这样更改后可能只会变成0,尤其是在循环中。
 a = pd.concat([b,pd.DataFrame({"a":np.zero(len(b.index),dtype=np.float64)})])    //这样来处理可以。
@@ -1604,7 +1774,34 @@ a = pd.concat([b,pd.DataFrame({"a":np.zero(len(b.index),dtype=np.float64)})])   
 <i class="red">注：为多列赋值时请使用`a['key'][[0,1,2]]`的形式，loc和iloc只用于读取时使用，虽然用于赋值操作不会报错，但不能赋值成功。</i>
 `x['a'][0]`能精确的访问到一个具体的值，如果要很明确的访问那几个值得使用x['a'][[0,6,3,4]]的格式。
 **指定的多行中选取得写法**：`x['a'][[0,1,2]][x['a'].notnull()]`
-<i>若选取的位置超出范围会被算做None填充查找</i>。使用x['a'][0:5]能访问紧挨着的值。
+**选择在指定范围内的值**：`a[a["a"].isin([1,2,3])]`#用isin来查找指定范围。
+**排序**：`b.sort_values(by="e",inplace=True,ascending=False,axis=0)`#sor_values()指定用列排序。ascending为True时是升序，axis=0是指定在列上排。
+**像调用类一样使用列属性**：print(x.a)#a是数据x的列属性，可直接这样调用。包括像其它形式一样使用方法。
+**直接添加列**：x['date'] = 0#若原columns中无该列的话会直接添加。
+<i class="label1">时间日期相关</i>便于时间计算、转为日、周、月等表示。
+**时间大小比较及查找**：`x[x['date']>'2018-01-10']`#pandas中可以直接进行时间的比较，不过要写成这种固定格式。
+**时间格式转换及其计算**：
+```
+qq = pd.DataFrame({'a':['2020-01-02','2020-01-09'，'2020-11-02'],'b':[1,2,3]})
+#format格式与原格式一致。先转化为可识别的时间
+qq['a'] = pd.to_datetime(qq['a'],format="%Y-%m-%d",errors="raise")#这里的Y最好大写，不然很可能失败。errors可选Ignore或其它。
+# 可单独定义一个时间
+fix = pd.to_datetime('2015-4-28')
+qq.b = qq.a.dt.weekday    # 转对应日期转为周几表示。
+# 计算时差
+qq.a = qq.a - fix    #得出的是天数。
+# 时间类型转化为其它类型数据，pandas中的时间处理使用python自带的datetime,time处理，
+# 所以可以考虑用这两个模块来尝试，做法未知！
+# 另一个方法，先转为str，再分割处理
+qq.a = qq.a.apply(lambda x:x.split(" day")[0]) #获取到天数。
+```
+<i class="label1">字符串部分</i>提供，匹配、长度等字符串操作查询：[字符串部分学习地址。](https://jingyan.baidu.com/article/a17d52853379828098c8f222.html)
+```
+dt[dt.date.str.len()<8]    #对属性date找其长度小于8的。
+dt[dt.date.str.match('\d')] #匹配满足条件的
+dt[dt.date.str.contains('aa')] #包含指定字符的。
+```
+<i class="blue">若选取的位置超出范围会被算做None填充查找</i>。使用x['a'][0:5]能访问紧挨着的值。
 x[x.notnull()]返回的是去除nan的值后的数组使用list(x)的效果和x.values()的效果一样都是去除了标记后的数组。
 <i class="label2">数据离散化分箱</i>pd.qcut(lst,q=3)#等深分箱，lst时一个一位列表，q=3表示分为3份。pd.cut(lst,bins=3)#等宽分箱。
 <i class="label1">复杂的查找操作</i>条件框[]左侧的是显示域(显示符合条件的那几行的哪几列)，内部是查找域(指定的列范围查找)。
@@ -1632,8 +1829,32 @@ Df.sort_values(axis=1,by=0,ascending=True,inplace=False,kind="quicksort")
 ascending为True则升序(默认)，inplace表示排序后的数据是否替换原先的数据(默认False)
 kind表示排序使用的方法('quicksort','mergesort','headsort')。
 **去除重复的行**：`dt.duplicated()`#显示数据dt，重复的行为True(从第二个起)，不重复的为False。`dt[dt.duplicated()].index`#用duplicated来做查找。`dt.drop_duplicates(['a'],keep="last",inplace=True)`#参数分别为去除指定列中重复数据所在的行、keep='last'表示保留最后一行。inplace为True表示在原数据上删除。三个不用可省略，默认会检测所有列重复的行。
+**分组**：
+```
+#指定用User_id来分组(相同的划分一组)，返回一个元组，0索引是该组User_id值，索引1是一个Serias类型，里面是该组全部的记录。
+gp = x.groupby("User_id")
+gp = gp.size()    #统计各组的数量，生成一个新列。
+gp = gp.reset_index(name='u2')    #为新列赋一个名字。
+# 结果类似：
+     d    u2
+0    2    3
+1    5    2
+...
+```
+**merge()的使用**：
+```
+left = pd.DataFrame({'key': ['K0', 'K1', 'K2', 'K5'],
+                       'A': ['A0', 'A1', 'A2', 'A3'],
+                       'B': ['B0', 'B1', 'B2', 'B3']})
+right = pd.DataFrame({'key': ['K0', 'K1', 'K2', 'K4'],
+                        'C': ['C0', 'C1', 'C2', 'C3'],
+                        'D': ['D0', 'D1', 'D2', 'D3']})
+# 将两个series数据在列上连接，on是两个数据中共有的列，表示该列相同的行值合并，
+# how指定按哪个series中的Key连接，默认为left，若right数据中没有对应的值(如k5)则右侧对应用None代替。outer表示以key做并集。
+result = pd.merge(left, right, on='key',how='outer')
+```
 <i class="label1">计算</i>
-求均值方差：`dt.mean(axis=0);dt.std(axis=0)`#求均值，方差，axis=0表示求各列的。
+**求均值方差**：`dt.mean(axis=0);dt.std(axis=0)`#求均值，方差，axis=0表示求各列的。
 `v=data.describe()`#describe()方法返回数组的一些信息，如下：(data是多列的情况下会列出各列的column名，用`v['列名']['mean']`的方式来获取相应值)。<i class="blue">如果有哪列的值是字符串类型的那么它的describe()方法不会统计该列的信息。</i>count：描述每列的数值个数，max,min:描述每列的最大最小值；mean,std:描述每列的平均值，方差；25%,50%,75%...。`dict(v['列名'])`#将该列变为字典
 x.mean()#求平均值; x.std(ddof=1)#标准方差，要使用pandas中的std求标准差时需要加ddof=1属性。
 `pd.concat([a,b],axis=1)`#连接两个数组(添加新的列的方式做连接)，默认是在行上连接(无论列名是否相同)。<i class="red">注意：在合并时pandas会根据其index值来合并，比如a是删除了一些None值之后，一些index是没有的，而b的index则是顺序完好的(但是两个的总行数一样)，那么合并时a和b中没有的index会以None值来填充。</i>解决如下：
@@ -1645,8 +1866,19 @@ c = pd.concat([a1,b1],axis=1)#用直接改变index的方法会报错。
 df.sum(axis=1)#求数组每列的和，axis=1时求每行的和
 df.idxmin(axis=0)#求每列的最小值所在的行,axis=1时相反
 df.idxmax(axis=0)#与idxmin()相反
-df.var()#var()方法计算数组方差
-`x['a'] = x['a'].apply(lambda k:np.log(k))`#映射函数，不改变原数据。
+df.var()#var()方法计算数组方
+**求各特征间的相关系数**：`dt.corr()`#计算各特征的相关系数矩阵。
+`print(data['power'].corr(data['price'],method='spearman'))`#计算power和price特征的相关系数，指定方法为spearman。
+#映射函数，不改变原数据。#选中多列时，每列都会被映射。
+`x['a'] = x['a'].apply(lambda k:np.log(k))`#传入的k是对应列的所有数据，简单计算可以用numpy计算性质一步解决，但复杂点的需要循环：
+```
+def ms(x):
+    ar = []
+    for i in x:
+        s = "s" + str(i)
+        ar.append(s)
+    return ar    #返回一整个数组，赋给整个列。
+```
 <i class="label1">读存csv文件和xlsx文件</i>
 //若读取时出现`codec can't decode byte...`错误的话尝试`encoding='gb18030'`。
 `pd.read_csv('a.csv',names={"a":np.str[],skiprows =1,dtype=,na_filter=True,skip_blank_lines=True,encoding="gb231")`
@@ -1673,9 +1905,17 @@ Anaconda中直接使用conda安装xlrd即可(将xlsx改为csv扩展名用read_cs
 """
 pd.read_excel("dat.xlsx")#read_excel()
 ```
-data.diff(1)#diff()方法用于做时间序列的差分，1表示做1次差分(numpy创建的数组不能使用)，差分就是数组后一个数减去前一个数。x.set_index('lag')#set_index()方法是按参数查找列标记，但输出的结果是整个数组，但显示的数组没有行标记(???)。
-dat.predict([[1,2,3]])#predict()方法用于根据先前fit()方法拟合的结果做一个预测，若拟合用的数据是结果preprocession中的方法归一化的则在预测时也会对数据有此操作
-df.to_csv("a.csv",index=False)#将数组df保存为csv文件中，index=False表示不加行序号
+data.diff(1)#diff()方法用于做时间序列的差分，1表示做1次差分(numpy创建的数组不能使用)，差分就是数组后一个数减去前一个数。x.set_index('lag')#set_index()方法是按参数查找列标记，但输出的结果是整个数组，但显示的数组没有行标记。
+df.to_csv("a.csv",index=False)#将数组df保存为csv文件中，index=False表示不加行序号。
+<i class="label1">plot简易绘图模块</i>内部是是否matplot模块来绘图，不过提供的可传参数简易化了。
+```
+import matplotlib.pyplot as plt
+# 散点图。指定x轴，y轴数据。
+dat.plot.scatter(x='a',y='b',color='DarkBlue',label='Class1')
+dat['a'].plot.hist()#绘制该属性的直方图
+
+plt.show()#开始绘图并显示。
+```
 #### 43、Scipy库常用函数：
 from scipy.interpolate import UnivariateSpline,interp1d,lagrange
 from scipy import misc,ndimage
@@ -1768,7 +2008,7 @@ kd = kendalltau(x,y)
 #### 44、Scikit-learn库常用函数：
 ##### a：数据处理、插值、规范化。
 ```
-from sklearn import preprocessing,datasets,linear_model,svm,tree,metrics
+from sklearn import preprocessing,datasets,linear_model,tree,metrics
 from sklearn.preprocessing import Imputer
 # 规范化，输入的数据必须为2维
 scaler = preprocessing.MinMaxScaler() #调用最大最小归一化
@@ -1820,6 +2060,8 @@ c_knn=KNeighborsClassifier(n_neighbors=3,#返回候选个数
                         algorithm='auto',
                         leaf_size=30,
                         weights='uniform')
+c_knn.predict_proba(test_x)    # 给出每条数据对应的各类的概率，适合二分类情况，多分类时感觉不准确。
+
 # 最近邻回归
 r_knn = KNeighborsRegressor(n_neighbors, weights=weights)
 r_knn.fit(x,y)#要求数据是二维。
@@ -1831,8 +2073,13 @@ kdt.query(X, k=2, return_distance=False)#k=2表示返回两个最近的点的索
 ```
 其它详细使用，还有KDTree，BallTree查看官网。
 所有参数：https://blog.csdn.net/weixin_41990278/article/details/93169529
-##### c：支持向量机。(支持向量机允许数据x有负值)
-res = svm.SVC(kernel='rbf',class_weight='balanced',c=0.05)#SVC()方法调用支持向量机,kernel是指定选择的核函数，默认是rbf，其它核函数如下：
+##### c：支持向量机。
+(支持向量机允许数据x有负值)
+```
+from sklearn import svm
+res = svm.SVC(kernel='rbf',class_weight='balanced',c=0.05)
+```
+#SVC()方法调用支持向量机,kernel是指定选择的核函数，默认是rbf，其它核函数如下：
 linear:线性核函数；poly:多项式核函数；rbf:高斯核函数；sigmoid;precomputed：核矩阵。c是正则化参数，可以理解允许划分错误的权重（越大，越不允许出错），当C较小时，允许少量样例划分错误，此时分界线为黄色，更加合理。
 所有参数：https://blog.csdn.net/sinat_23338865/article/details/80290162
 res.fit([[0.1,0.8],[1.2,1.9]],[0,1])#fit()方法拟合前后两组数据，第一组是各类的特征
@@ -1873,9 +2120,10 @@ max_feature指定要考虑的特征项数；citterion指定使用的风烈节点
 from sklearn.neural_network import MLPClassifier,MLPRegressor
 MLPClassifier(solver='lbfgs',alpha=1e-5,hidden_layer_sizes=(5,2),random_state=1,max_iter=2000).fit(x,y)
 ```
-#max_iter属性定义迭代次数，solver规定求解方式用于优化权重(lbfgs在面对较小的数据时比较好,Adam的鲁棒性好,sgd在参数调整到最优时使用较好),max_iter:最大迭代次数默认200,shuffle:默认True只有solver为sgd或adam时使用判断是在,learning_rate_int:初始学习率,默认0.001只有solver为sgd,adam时使用,verbose:True是否将过程打印到stdout默认False，hidden_layer_size:第i个隐藏层神经元个数。
+#**max_iter**属性定义迭代次数，**solver**规定求解方式用于优化权重(lbfgs在面对较小的数据时比较好,Adam的鲁棒性好,sgd在参数调整到最优时使用较好),max_iter:最大迭代次数默认200,shuffle:默认True只有solver为sgd或adam时使用判断是在,learning_rate_int:初始学习率,默认0.001只有solver为sgd,adam时使用,verbose:True是否将过程打印到stdout默认False，hidden_layer_size:第i个隐藏层神经元个数。
 MLPClassifier()用于调用多层感知机；alpha 作为正则化( L2 正则化)系数，正则化
-MLPRegressor(solver='sgd',hidden_layer_sizes=(1,3),max_iter=1500).fit(x,y)#MLPRegressor()方法调用BP神经网络模型，其中的参数与MLPClassifier()方法中的参数一样，迭代次数设置为几千也是常态，需要多次调整hidden_layer_sizes值。通过惩罚大数量级的权重值以避免过拟合问题，hidden_layer_sizes控制隐藏层层数及神经元个数 。
+MLPRegressor(solver='sgd',hidden_layer_sizes=(1,3),max_iter=1500).fit(x,y)
+#MLPRegressor()方法调用BP神经网络模型，其中的参数与MLPClassifier()方法中的参数一样，迭代次数设置为几千也是常态，需要多次调整hidden_layer_sizes值。通过惩罚大数量级的权重值以避免过拟合问题，hidden_layer_sizes控制隐藏层层数及神经元个数 。
 ##### g：bagging随机森林。
 ```
 from sklearn.ensemble import RandomForestClassifier,RandomForestRegressor
@@ -1961,8 +2209,20 @@ mnb=MultinomialNB()#调用多项分布朴素贝叶斯,用法与上面一样(输�
 BNB=BernoulliNB()#调用伯努利朴素贝叶斯算法
 cnb=ComplementNB()#调用补充朴素贝叶斯算法
 ##### L：模型的保存与读取。
-可以使用两种方法实现，第一种是使用python的pickle模块直接保存模型，第
-二种是使用scikit-learn库的joblib模块：
+可以使用两种方法实现，第一种是使用python的pickle模块直接保存模型：
+```
+svm = SVC()
+...
+fl = open("model.pkl","wb")    #先以二进制方式打开一个文件。
+mode = pickle.dumps(svm)#出入训练过的svm。
+fl.write(mode)    #写入保存。
+fl.close()
+# 以二进制，读的模式打开文件
+fl = open("model.pkl","rb")
+read = fl.read()
+regr = pickle.loads(read)#读取保存的模型。
+```
+第二种是使用scikit-learn库的joblib模块：
 from sklearn.externals import joblib
 svm = SVC()#svc()是sklearn中导入的支持向量机算法，这里省略
 svm.fit(x,y)
@@ -2012,11 +2272,20 @@ skb = SelectKBest(k=2)
 skb.fit(x,y)
 m = skb.transform(x)
 
-rfe = RFE(estimator=SVR(kernel="linear"),n_features_to_select=2,step=1)#step是每次迭代减少的特征数，n_features_to_select是选择的特征数
+#RFE是递归删除特征，通过指定的训练器用不同的特征输入来测试效果。
+#step是每次迭代减少的特征数，n_features_to_select是选择的特征数
+rfe = RFE(estimator=SVR(kernel="linear"),n_features_to_select=2,step=1)
 rfe.fit_transform(x,y)#fit_transform是fit和transform的合并和上面的先fit再transform使用是一样的
 
 sfm = SelectFromModel(estimator=DecisionTreeRegressor(),threshold=0.1)
 
+# 较定类型数据选择特征。
+from sklearn.ensemble import ExtraTreesClassifier
+
+model = ExtraTreesClassifier()
+model.fit(dataset.data, dataset.target)
+# 输出各特征的重要性。
+print(model.feature_importances_)
 ```
 ##### p、数据离散化、数值化：
 ```
@@ -2373,7 +2642,7 @@ sudo chmod a+r /usr/local/cuda/include/cudnn.h
 sudo chmod a+r /usr/local/cuda/lib64/libcudnn*
 ```
 然后输入cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2 #没有报错则说明安装成功。
-##### 会话：(启动对话后关于计算会使用c语言运行)
+##### a1、会话：(启动对话后关于计算会使用c语言运行)
 ```
 a = tf.Session()#创建一个对话，使用a.close()后才会结束会话
 #/运行完后自动关闭会话，然后再次用这个session运行时会正常运行但结果会报错。
@@ -2406,7 +2675,7 @@ GPU需要将计算时用到的数据从内存复制到GPU设备上，这也需�
 出现Resource Exhausted情况。
 https://dataxujing.github.io/TensorFlow-GPU-%E5%B9%B6%E8%A1%8C/
 
-<i class="label2">TPUEstimator</i>
+##### a2、TPUEstimator的使用：
 <i class="green">另一种运行模型的方法,estimator。使用estimator只需要定义好设置、input_fn、model_fn即可开始训练，可以不再理会烦人的session(不过其内部还是封装了session来运行的，但是运行速度比用session快几倍，而且耗用的显存也比较少，如果计算机有TPU的话还能支持调用。在2.0版本后可以不再使用session)。</i>
 <i class="label3">导出可部署模型部分</i>
 ```
@@ -2440,7 +2709,7 @@ def main(v):
 ```
 [TPUEstimator的使用。](https://blog.csdn.net/wwangfabei1989/article/details/90516318)[estimator的导出可部署模型部分。](https://blog.csdn.net/ansinjay/article/details/83242699)
 [tensorflow的feature_column模块的使用。](https://blog.csdn.net/u014061630/article/details/82937333)[另一种保存模型方法，暂未实现(可做参考用)。](https://zhuanlan.zhihu.com/p/73150190?from_voters_page=true)
-##### 模型的保存与恢复示例：
+##### a3、模型的保存与恢复示例：
 保存路径为file/a.cpkt]全部训练完后可直接放到项目中(直接从文件中恢复模型跳过了训练这样就直接用于预测了)
 ```
 save_path = 'file'
@@ -2500,7 +2769,7 @@ conda install tensorboard# 安装好后安装以下步骤即可
 tensorboard --logdir G:\web\pythonKU\data/mnist_with_summaries
 回车，此时可能会弹出是否允许跨过防火墙，点击允许
 然后在浏览器中输入>>http:127.0.0.1:6006访问即可,(怎么看暂留)
-##### 指定部分参数参与训练：
+##### a4、指定部分参数参与训练：
 在使用一些预训练模型或做迁移学习的时候可能要从ckpt文件中恢复部分变量，且训练时只想让部分变量训练，其余保持不变，做法如下：
 ```
 #指定部分变量域下的参数，scope对应variable_scope中的变量域，多个的时候用|隔开。
@@ -2541,7 +2810,7 @@ v= g.get_operation_by_name('test')# 图中获取操作名
 g.get_operation()#获取操作列表
 #若g = tf.Graph()则需要在g建立一个图并关闭后再获取张量
 nam=tf.trainable_variables()#获取所有可训练的变量
-##### tensorflow分布式训练：
+##### a5、tensorflow分布式训练：
 (要训练的数据量非常庞大时使用一台计算机可能需要花费若干天时间，tensorflow可以将一些训练量分配给其它计算机辅助计算)
 一机多卡：https://zhuanlan.zhihu.com/p/55051665
 多机多卡：https://blog.csdn.net/BmwGaara/article/details/94021563
@@ -2601,7 +2870,7 @@ print(FLAGS.name1)# 直接调用name
 def main(_):pass #min函数要接受一个个参数。
 tf.app.run(main)# 执行min函数,这样可以在终端用：python app.py --name1 val #来传递参数运行。
 ```
-##### 零碎操作：
+##### a6、零碎操作：
 **数据生成，索引**：
 列表转为张量：`tf.convert_to_tensor(cs)`
 x = tf.Variable(initialVal=[[1,2],[3,4],[5,6]],dtype=tf.int16,name='x')
@@ -2680,12 +2949,10 @@ tf.linalg.LinearOperatorLowerTriangular(a)#将一个矩阵转化为三角矩阵�
 tf.layer.dense(inputs,units,activation,use_bias=True,kernel_initializer=None,trainable=True)#也是实现一个全连接层,参数分别为：数据，输出维度(最后一维)，激活函数、是否使用偏置、卷积核初始化值、改层内的参数是否参与训练。
 tf.image.resize_image_with_crop_or_pat(img,height,width)//将图片数据剪切或填充至指定大小。
 [密集矩阵与稀疏矩阵]密集矩阵就是常见的矩阵，当密集矩阵中大部分值都为0时即鞥为稀疏矩阵，为了节省存储空间将稀疏矩阵转为另一种方式存储(记录矩阵中不为0位置的值和矩阵形状即可)，在使用时再转为矩阵使用：tf.Sparse(indices,values,shape)#存储不为0的值得索引、对应indeces的一维值矩阵、原矩阵的形状。
-##### 激活函数：
+##### a7、激活函数：
 激活函数的主要作用就是用来加入非线性因素，解决线性模型表达不足
-tf.nn.sigmoid(x)//f(x)=1/(1+e^-x),sigmoid函数(将值映射到0到1之间)，结合sigmoid
-//的图像观察x取值在-6~6之间是合理的范围,最好的取值范围是-3~3之间看数据情况决定使用
-tf.nn.tanh(x)//tanh(x)=2sigmoid(2x)-1,值域变为(-1,1)但对于某些需要y值为正的情
-况还是得使用sigmoid()函数,合理的x取值范围为(-4,4)
+tf.nn.sigmoid(x)//f(x)=1/(1+e^-x),sigmoid函数(将值映射到0到1之间)，结合sigmoid//的图像观察x取值在-6~6之间是合理的范围,最好的取值范围是-3~3之间看数据情况决定使用
+tf.nn.tanh(x)//tanh(x)=2sigmoid(2x)-1,值域变为(-1,1)但对于某些需要y值为正的情况还是得使用sigmoid()函数,合理的x取值范围为(-4,4)
 tf.nn.relu()//f(x)=max(0,x)计算快但对负值不友好，经过原点的y=x方程且不取负值
 <i class="label2">ReLU激活函数：</i>大于0的留下,小于0的一律为0
 tf.nn.softplus()//f(x)=ln(1+e^x)约-3时y值为0的增函数
@@ -2695,7 +2962,7 @@ tf.nn.relu6()//f(x)=min(max(x,0),6)
 <i class="label2">Swish函数：</i>谷歌公司发现的一个效果更优与Relu的函数：f(x)=x*sigmoid(bx)用b值对x进行缩放调整
 低版本tensorflow中没有swish函数自己封装为：x*tf.nn.sigmoid(x*b)。
 【我的领悟:数据很多当然是如果对不同的值给出相应的变换才是最好的，swish函数就有这个特征】
-##### 损失函数：
+##### a8、损失函数：
 按照下列中列出的例子就是每个函数适合使用的场景。
 res1 = tf.nn.softmax_cross_entropy_with_logits(labels=a,logits=b)
 loss1 = tf.reduce_mean(res1)
@@ -2710,7 +2977,7 @@ a=[1,2]转为对应的one_hot标签[[0,0,1],[0,1,0]]。[注意：2表示有3各�
 tf.nn.sigmoid_cross_entropy_with_logits(x,y)//要求y为浮点型
 
 [****实现原理****]例:logits=[1,2,0],labels=[0,2,1]先对logits做sigmoid变换>>logits=[1/(1+exp(-1)),...]
-再根据交叉熵公式：res1=labels[0]*log(logits[0])+(1-labels[0]*log(1-logits[0])),...需要加 负号。
+再根据交叉熵公式：`res1=labels[0]*log(logits[0])+(1-labels[0]*log(1-logits[0])),...`需要加 负号。
 tf.nn.weighted_cross_entropy_with_logits(logits,targets,pos_weight)
 
 https://www.w3cschool.cn/tensorflow_python/tf_nn_weighted_cross_entropy_with_logits.html
@@ -2737,12 +3004,12 @@ log_likelihood,trans = tf.contrib.crf_log_likelihood(
 cost=tf.resuce_mean(-log_likelihood)
 ```
 https://www.jianshu.com/p/3b084ec9ed80	https://blog.csdn.net/heyc861221/article/details/80127148
-##### 退化学习率：
+##### a9、退化学习率：
 学习率用于在梯度下降寻找最优值的速度,一般在学习开始时梯度下降得到的都不是合适值,所以会先使用大的学习率再在训练到一定量后使用小的学习率;
-<i class="orange">[指数式衰退学习率]公式：</i>rate*decay_rate^(global_step/decay_step)
+<i class="orange">[指数式衰退学习率]公式：</i>`rate*decay_rate^(global_step/decay_step)`
 rate=tf.train.exponential_decay(rate,global_step,decay_step,decay_rate,staircase=False)
 参数为：初始学习率，当前迭代步数，衰退到decay_step时速度变为初始学习率的decay_rate倍。
-global_step逐渐增加才能一直衰退,staircase为False表示连续型衰减，True时为阶梯型衰减。由公式可以看出，global_step大于decay_rate太多时rate反而会变成一个大于1的值，所以使用时，decay_step一般设置为data_num*iter_num*2/3
+global_step逐渐增加才能一直衰退,staircase为False表示连续型衰减，True时为阶梯型衰减。由公式可以看出，global_step大于decay_rate太多时rate反而会变成一个大于1的值，所以使用时，decay_step一般设置为`data_num*iter_num*2/3`
 ```
 x = tf.Variable(0,trainable=False)#初始迭代步数为0
 rate = tf.train.exponential_decay(0.1,x,100000,0.1)
@@ -2751,15 +3018,28 @@ add_global = x.assign_add(1)#让迭代步数加1操作
 for i in range(20):#循环迭代的时候add_global也要放到run里面，否则指挥衰减1步
     sess.run([rate,add_global])
 ```
-<i class="orange">多项式衰减]公式:</i>(slr-end_learning)*(1-global_step/decay_step)^poser +end_learning_rate
+<i class="orange">多项式衰减]公式:</i>`(slr-end_learning)*(1-global_step/decay_step)^poser +end_learning_rate`
 rate=tf.train.polynomial_decay(slr,global_step,decay_step,end_learning_rate,power=0.5)
 <i class="orange">自然指数衰减</i>
 rate=tf.train.natural_exp_decay(rate,global_step,decay_step,decay_rate,staircase=False)
-<i class="red">使用正则化避免过拟合：</i>（在损失函数后添加正则化值,w是参数,a是可调节参数）
-L1 = less + a*sum(|w|)；L2 = less + sum(w^2)*a/2
+##### b1、避免过拟合：
+**正则项避免过拟合**：（在损失函数后添加正则化值,w是参数,a是可调节参数）
+`L1 = less + a*sum(|w|)；L2 = less + sum(w^2)*a/2`
 L2的正则化函数:tf.nn.12_loss(t,name=None)//t为权重
-dropout避免过拟合：输入的数据是不可能绝对纯净的,dropout技术在给定的训练数据中丢弃其中的几条数据,用其余数据进行训练。tf.nn.dropout(x,keep_prob,noise_shape=None)//x为输入数据,keep_prob为保持率,为1则表示全部进行学习,noise_shape指定x中哪些维度可以用dropout例:x的shape为[n,len,w,h],noise_shape=[n,1,1,h]表示二、三维度进行dropout。
-##### 优化器(梯度下降)：详细原理解释见61
+**dropout避免过拟合**：输入的数据是不可能绝对纯净的,dropout技术在给定的训练数据中丢弃其中的几条数据,用其余数据进行训练。
+tf.nn.dropout(x,keep_prob,noise_shape=None)//x为输入数据,keep_prob为保持率,为1则表示全部进行学习,noise_shape指定x中哪些维度可以用dropout例:x的shape为[n,len,w,h],noise_shape=[n,1,1,h]表示二、三维度进行dropout。
+批量归一化：
+```
+from tensorflow.contrib.layers.python.layers import batch_norm
+x = batch_norm(inputs,    #输入
+               decay=0.999,    #衰退率，加权指数衰减的方法更新均值和方差。预测时设为1.
+               center=True,
+               scale=False,    #缩放。
+               epsilon=0.001,
+               activation_fn=None,    #归一化后使用的激活函数。
+               is_training=True)    #是否训练状态。
+```
+##### b2、优化器(梯度下降)：详细原理解释见61
 https://zhuanlan.zhihu.com/p/38005390（非常详细的全连接网络讲解）
 https://blog.csdn.net/fireflychh/article/details/73691373
 https://www.cnblogs.com/pinard/p/5970503.html
@@ -2786,7 +3066,7 @@ train_op=apply_gradients(clip_gad, global_step)#反向更新值
 #分类模型一般是使用one_hot标签对比，先求出每条标签中最大的值的位置，然后对比求均值
 correct_prediction = np.equal(tf.argmax(input_y, 1), tf.argmax(logits, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32), name='acc')
-##### 卷积神经网络：
+##### b3、卷积神经网络：
 tf.nn.conv2d(input,filter,strides,padding,use_cudnn_on_gpu=None,name=None)
 //input是输入的图像要求是张量形状为[一批中图像数量,图宽,图高,通道数]，filter为卷积核数据	形状为[卷积核宽,卷积核高,图像通道数,滤波器个数],strides为卷积核滑动,步长(长度为4,中间两个值是列行上的每次滑动步数),padding有'VALID'和'SAME',VALID表示不填充padding,SAME则填充。填充数计算如下：
 // VALID情况:输出图宽 = (输入图宽 - 卷积核宽 + 1)/行上滑动步长；(对应求出输出高)
@@ -2811,7 +3091,8 @@ re2 = tf.conv2d(re1,[2,2,30,10],[1,2,2,1],'SAME') + b2
 均值池化：tf.nn.avg_pool(),池化后的图像大小与卷积中的计算一样,SAME情况下步长为1得到的池化结果与原图一样大[均值池化可以使用SAME方式但最大池化只能使用VALID]
 tf.contrib.layers.avg_pool2d(),tf.contrib.layers.max_pool2d(conv,[2,2],stride=2,'SAME')
 反卷积反池化见21.
-##### tensorflow读取文件：(当读取大量的文件时使用python会比较慢,tensorflow提供的api非常快速)
+##### b4、tensorflow读取文件：
+(当读取大量的文件时使用python会比较慢,tensorflow提供的api非常快速)
 ```
 files = ['a.bin','b.bin',...]
 #用train.string_input_producer()方法生成一个文件队列供tensorflow读取
@@ -2906,7 +3187,8 @@ coord=tf.train.Coordinator()#创建多线程读取
 threads = tf.train.start_quue_runners(sess,coord=coord)
 ...#云行session.run(image)
 ```
-##### tf.data新的读入数据的API1.3版本位于tf.contrib.data,1.4版本位于tf.data
+##### b5、tf.data新的读入数据的API
+1.3版本位于tf.contrib.data,1.4版本位于tf.data
 之前使用feed_dict填充数据效率低，使用quee读入文件不灵活所以先出了data的API解决数据读入问题。tf.data.Dataset的使用分为两种模式：Eage模式和非Eage模式
 #若传入的数据每条维度不一致会报错：expected binary or unicode string
 ```
@@ -2956,7 +3238,7 @@ x=iterator.get_next()#获取数据
 ```
 https://zhuanlan.zhihu.com/p/30751039
 https://blog.csdn.net/briblue/article/details/80789608
-##### 循环神经网络相关：
+##### b6、循环神经网络相关：
 下面的细胞类中的num_units参数是每层隐藏层输出的数据的列数，因为每个细胞中需要经过几个门的计算而这些门的计算是仿全连接网络的计算这就设计到设置权重的位数来调整输出数据的维数(他们称这个num_units是每层的神经元个数)每层隐藏层的细胞个数是有输入数据的时间序列数决定的，因为每个细胞都需要一个时间序列的输入来进行计算。
 https://blog.csdn.net/notHeadache/article/details/81164264
 [基本cell类]um_units是输出结果最后一个维度的维数，并不是cell个数。
@@ -3135,8 +3417,32 @@ GreedyHelper：https://blog.csdn.net/tudaodiaozhale/article/details/99335220
 https://yiyibooks.cn/yiyi/tensorflow_13/index.html 
 https://www.w3cschool.cn/tensorflow_python/tensorflow_python-bm7y28si.html
 tensorflow中添加新的op操作：http://wiki.jikexueyuan.com/project/tensorflow-zh/how_tos/adding_an_op.html
-##### 机器学习模块：
+##### b7、机器学习模块：
 tensorflow的contrib内有一个learn模块，里面内置了一些svm，dnn预测，分类、线性回归等实现，特别是dnn，使用起来方便，不用自己手动搭建。
+DNN预测：
+```
+feature_cols = [tf.contrib.layers.real_valued_column(k) for k in _useColumn]
+def train_input_fn():
+    xs = {j:tf.Variable(_trainX[:,i],dtype=tf.float32) for i,j in enumerate(_useColumn)}
+    ys = tf.constant(_trainY,dtype=tf.float32)
+    return xs,ys
+    
+def test_input_fn():
+    xs = {j:tf.Variable(_testX[:,i],dtype=tf.float32) for i,j in enumerate(_useColumn)}
+    ys = tf.constant(_testY,dtype=tf.float32)
+    return xs,ys
+    
+dnn = tf.contrib.learn.DNNRegressor(feature_columns=feature_cols,
+                                        hidden_units=[10,50,70,40,20,1],
+                                        model_dir='ckpts',
+                                        activation_fn=tf.nn.tanh)
+# 训练、评估、预测
+# 直接传入x，y值的话可以使用batch_size，使用x,y时其值是字典形式，column的每个键值，对应其数据，但不要求是tensor类型。
+dnn.fit(input_fn=train_input_fn,max_steps=1000)#max_steps是隔多少步保存一次模型
+# 预测和评估与fit一致，使用x,y时evaluate,predict中也要改为使用x，或x，y
+ev = dnn.evaluate(input_fn=train_input_fn,steps=500)
+prt = dnn.predict(input_fn=test_input_fn, as_iterable=False)
+```
 
 #### 47、数据预处理：
 多数机器学习算法都需要先使用大量的数据做训练算法,如果数据中存在异常值则训练出来的算法准确度会低很多,输入的质量决定了输出的质量,数据处理阶段一般会占据整个项目70%左右的时间。(项目中先处理缺失值再检测异常值)
@@ -3231,12 +3537,14 @@ yn = a0 + a1xn +a2xn^2 +...+a(n-1)xn^(n-1)
 | --- | --- | --- |
 |  positive   |   A  |  B   |
 |  negative   |  C   |  D   |
-该类的评测指标：正确率(P,Precision)：A/(A+B)。召回率(R,Recall)：A/(A+C)。F1测度(F-measure)：2*P*R/(P+R)。错误率(error)：(B + C)/(A+B+C+D)。虚报率(fallout)：B/(B+D)
+该类的评测指标：正确率(P,Precision)：A/(A+B)。召回率(R,Recall)：A/(A+C)。F1测度(F-measure)：2*P*R/(P+R)。错误率(error)：(B + C)/(A+B+C+D)。虚报率(fallout)：B/(B+D)。
+绘制曲线：与roc曲线一样，各样本分类时会对应一个概率值，设置不同的阈值来确定各阈值情况下的p和r，然后将(p,r)当做坐标绘制在坐标系中。大致是一个弧度趋于右上角的曲线。
 **ks指标**：`KS=max(TPR-FPR)`#[ks洛伦兹曲线详解。](https://blog.csdn.net/sinat_30316741/article/details/80018932)
-真正类率(true positive rate ,TPR)：`TPR=TP/ (TP+ FN)`#TP想当与上面的A，FN相当于上面的C，所以TRP相当于上面的召回率
+真正类率(true positive rate ,TPR)：`TPR=TP/ (TP+ FN)`#TP想当与上面的A，FN相当于上面的C，所以TPR相当于上面的召回率
 假正类率(false positive rate, FPR)：`FPR= FP / (FP + TN)`#FP是上面的B，TN是D，所以FPR相当于上面的虚报率。
 `ks<0.2` #一般认为模型没有区分能力。`ks∈[0.2,0.3]`#模型有一定区分能力。`ks∈[0.3,0.5]`#模型有较强的区分能力。`ks>0.75`#模型有异常。
 **混淆矩阵**：也称误差矩阵，是表示精度评价的一种标准格式，用n行n列的矩阵形式来表示。具体评价指标有总体精度、制图精度、用户精度等。混淆矩阵（confusion matrix）是可视化工具，特别用于监督学习，在无监督学习一般叫做匹配矩阵。如下图所示：
+
 <div class="row container">
 <div class="el-3"><img src="E:\data\image/hunx.PNG"/></div>
 <div class="el-7">
@@ -3250,7 +3558,10 @@ yn = a0 + a1xn +a2xn^2 +...+a(n-1)xn^(n-1)
 
 **AUC值**：（Area Under Curve）被定义为ROC曲线下的面积。我们往往使用AUC值作为模型的评价标准是因为很多时候ROC曲线并不能清晰的说明哪个分类器的效果更好，而作为一个数值，对应AUC更大的分类器效果更好。由于FPR,TPR的值都是在0~1之间，所以这个面积也是小于1的，又因为多数情况roc曲线在y=x直线上方，所以auc值一般在0.5和1之间，值越高说明模型检测真实性效果越好，<=0.5时，模型没有应用价值。一般和roc结合使用。</br>
 <i class="label1">回归模型</i>
+MAE(Mean Absolute Error)：使用平均误差作为评价值，比较直观。
+均方误差：MAE的基础上求平方，最后求和的均值。
 https://blog.csdn.net/shy19890510/article/details/79375062
+[各种类型的评价指标学习地址。](https://blog.csdn.net/PacosonSWJTU/article/details/59112907)
 [数据挖掘面试经历。](https://blog.csdn.net/sinat_30316741/article/details/79930604)</br>
 
 #### 50、sentencepiece的使用：
@@ -3269,7 +3580,7 @@ knn更像是一种查找、搜索算法，对已存储好的数据，输入新�
 缺点：计算量大，内存开销大、可解释性差、样本容量大而内部个体容量又较小时很容易出现偏差、一种消极学习方法,懒惰算法。
 原理：计算要判断的数据与各特征数据之间的距离,然后选择最小距离的数据中的几个，看其中哪一个类所占的比例最大那么就认为该输入数据属于这一类。
 公式：`s = math.sqrt((xi-xj)**2);`或`s = math.sqrt((xi-xj)**2+(yi-yj)**2)`;由此可以看出这些特征值可以是1个，2个，3个...即数组可以是一维，二维...(根据不同数据可以改变距离计算方法)，都计算完后按值排序。(一般只用于插值)
-**KDTree算法**：因为knn本质上是一个搜索算法，所以自然就想到了常用于搜索的二叉查找树，将k维数据用二叉查找树存储，然后输入新值时在树种查找最近似的即可。不过不像普通数值型数据那样直接比对大小。要存储的数据是一个二维的：`[[x1,x2,...],[y1,y2,...],...]`，大体构建过程如下：
+**KDTree算法**：是一种高维索引树形数据结构，例如有一堆图像的特征矩阵，依照某一维度的值将这些图像特征矩阵分到不同的分支上。因为knn本质上是一个搜索算法，所以自然就想到了常用于搜索的二叉查找树，将k维数据用二叉查找树存储，然后输入新值时在树种查找最近似的即可。不过不像普通数值型数据那样直接比对大小。要存储的数据是一个二维的：`[[x1,x2,...],[y1,y2,...],...]`，大体构建过程如下：
 a、因为需要对每个节点[x1,x2,...]等进行大小比较(小的放左侧，大的放右侧)，但不是以向量大小的计算方式。对每个节点的k维数据中选取一个维度的数据值来划分(如从[x1,x2,..,xn]中选择x2来划分)，计算每一列数据的方差，以方差大的列的值做划分(方差大说明数据分散，易于划分，区别度高)。
 b、选好用那一列数据做区分后，还需要从该列数据中选取一个值来划分，一般选择中位数和均值(因为二叉查找树要求两侧数据量尽量相同)。
 c、第一次划分后，需要重新选择列(因为数据被划分成了两份，此时之前用于划分的列的方差可能变得很小，因此需要重新计算)。然后再计算中位数或均值划分，如此迭代，知道结束。
@@ -3309,26 +3620,30 @@ https://blog.csdn.net/lyl771857509/article/details/78993493
 原理：基本思想是二维上找到一条线或高维空间中找到一个超平面将两种数据分割开，所以基础的svm是一个二分类算法。使所有点到平面的距离最大则能找到一个最优平面做分割</div>
 
 <i class="label2">推导</i>
+svm试图用一条直线或一个超平面`y = w1x1 + w2x2 + ...+b`#与回归方程一样。来划分开不同类型的样本点。
 `d=|w0*x0+w1*x1+w2*x2+b|/sqrt(w0^2+w1^2+w2^2) `分母用||w||表示，分子用|w'x+b|表示。
 但是只凭这个公式我们无法知道它怎么将数据分为了两类，所以我们对每个点做个标记：di=1表示在平面的正面为一类，di=-1表示在平面的负面为另一类，用式子可以表示为：
 `(w'x+b)/||w||>0 (di=1)`		`(w'x+b)/||w||<0 (di=-1)`
 因为||w||>=0，且模型训练号后||w||不再变化。所以看(w'x+b)正负即可分辨，若这个分割平面再好一些可以写成:
 `(w'x+b)/||w||>=d (di=1)`	`(w'x+b)/||w||<=-d (di=-1)`		两边同时除d得：
 `(w'dx+bd)/||w||>=1 (di=1)`		`(w'dx+bd)/||w||<=-1 	(di=-1)`	可统一表示为:`|d(w'd*xbd)|>=1`
-满足以上两个式子的点可以称为支持向量。要使`(w'dx+bd)/||w||`达到最大值需要(w'dx+bd)很大且分母||w||很小，但是分子分母都共有w0,w1,...等n个变元,现假设我们取得w0,w1,...的值对所有支持向量来说是一个最优的选择那么`对于坐标原点也一样成立`，所以将原点带入得bd/||w||。这是个蛮不错的思想，则变为b/||w||=d，要求这个式子的最大值即变成了求`||w||^2`的最小值(因为||w||是`sqrt(w0^2+w1^2+...)`一系列的表示，这里取平方是消除开方，便于求值)，若是无条件极值可直对其求导，<i class="blue">但这是在s.t.d(w'x+b)>=1条件下的求极值(s.t.表示服从...的条件),所以需要使用条件极值的求法：拉格朗日乘子法，如下：</i>
-`L(w,b,α) = (||w||^2) / 2 + ∑αi * (1-yi(w'xi+b))`#分别对w，b，α求偏导，令为0，求出它们的值。||w||项多了1/2是为了求导后让式子更简洁。
+满足以上两个式子的点可以称为支持向量。要使`(w'dx+bd)/||w||`达到最大值需要(w'dx+bd)很大且分母||w||很小，但是分子分母都共有w0,w1,...等n个变元,现假设我们取得w0,w1,...的值对所有支持向量来说是一个最优的选择那么`对于坐标原点也一样成立`，所以将原点带入得bd/||w||。这是个蛮不错的思想，则变为b/||w||=d，要求这个式子的最大值即变成了求`||w||^2`的最小值(因为||w||是`sqrt(w0^2+w1^2+...)`一系列的表示，这里取平方是消除开方，便于求值)，若是无条件极值可直对其求导，<i class="blue">但这是在s.t.d(w'x+b)>=1条件下的求极值(s.t.表示服从...的条件),所以需要使用条件极值的求法：拉格朗日乘子法，如下：</i>    这里的**yi就是训练数据中的标签**。不过以乘的形式出现。
+(1)`L(w,b,α) = (||w||^2) / 2 + ∑αi * (1-yi(w'xi+b))`#分别对w，b，α求偏导，令为0，求出它们的值。||w||项多了1/2是为了求导后让式子更简洁。
 对w求偏导：`w=∑αi * yi * xi`,#这里的w表示(`w0+w1+...`)。对b求偏导：`∑αi * yi = 0`。
+将两个偏导结果带入原式(1)得到：(2)`max(∑αi - ∑∑αiajyiyjxi'xj / 2)`#只有x当做矩阵，其余做参数看待。
+将训练数据集xi,yi带入式子解出ai，然后解出w和b即解出方程。
 <i class="label2">线性可分与线性不可分</i>线性可分-linearly separable, 在二维空间可以理解为可以用一条直线（一个函数）把两类型的样本隔开，被隔离开来的两类样本即为线性可分样本。同理在高维空间，可以理解为可以被一个曲面(高维函数)隔开的两类样本。线性不可分，则可以理解为自变量和因变量之间的关系不是线性的，这种情况更多。svm通过高斯核函数将其映射到高维空间，在高维空间非线性的问题转化为线性可分的问题。
-
+**核函数**：核函数用于将维度从低维映射到高维度空间，形如：`y = wf(x) + b`#f就是对x做映射的函数。
 svm有很多核函数版本，不同情况下选择不同的核函数使用：
 样本数量远小于特征数量：这种情况，利用情况利用linear核效果会高于RBF核。
 样本数量和特征数量一样大：线性核合适，且速度也更快。liblinear更适合
 样本数量远大于特征数量： 非线性核RBF等合适。
 https://blog.csdn.net/jcjx0315/article/details/61929439
 https://blog.csdn.net/hx14301009/article/details/79762666
-<div class="important">式中的yi是怎么来的额！去除它似乎也不影响，||w||作为w0+w1+...一个整体来求也能得到整体值，但怎么求得各w0,...的值呢！</div>
 
-#### 56、DecisionTrees(DTs)决策树:
+<div class="important">怎样求解式2(二次规划问题)，注意求解时要满足的3各kkt条件。去感受ai的变化对式子的影响。</div>
+
+#### 56、DecisionTrees(DTs)决策树: 
 也叫tree-base。决策树算法有多种,这里析解的是ID3(Iterrative Dichotomiser 3)算法：ID3算法是决策树的一种,ID3算法是一种贪心算法(是指在对问题求解时总是做出在当前来看	是最好的选择,不从整体上加以考虑,是某种意义上的局部最优解)
 **核心思想**：选择最大信息增益的属性来划分,因为信息增益越大,区分样本的能力就越强，越具有代表性,很显然这是一种自顶向下的贪心策略.(优:准确性高：挖掘出来的分类规则准确性高，便于理解、速度快。缺:容易过拟合、忽略了属性之间的相关性、对于各类别样本数量不一致的数据，信息增益偏向于那些更多数值的特征）
 在机器学习中(无参监督学习),决策树一般用于分类(classification)和回归(regression)即：分类决策树和回归决策树。通过对各属性中特征值组的计算创建好一颗决策树(类似于数据结构中的二叉树)，将目标从顶部根据我们规定对每个属性筛选的度来做一个类似布尔逻辑的筛选(是和不是)，最终得到结果(两个状态是或不是)。
@@ -3353,21 +3668,20 @@ A的信息增益:InformationGain(IG) = 目标熵 - A的熵 = 1-0.937745 = 0.0622
 **基尼指数**：(基尼系数是经济学中产生的概念，起初用于衡量地区的贫富差距，值位于0-1之间，值越小说明差距越小，警戒点为0.4)。现在决策树算法中用于表示随机变量不确定性的程度，随机选择元素被错误识别的频率的度量标准，所以优先选择gini指数较低的。使用上述数据为例：
 var A的基尼指数：依然以>=5作为分割点
 A>=5 && result==positive:5/12		A>=5&&result==negative:7/12
->>`gini(5,7)=1-((5/12)*2+(7/12)*2)=0.4860`#注：原**公式**为`∑pk(1-pk)=1-∑pk^2`,因为这里只有positive和negative两个结果，即两类，所以直接乘以2。
+>>`gini(5,7)=1-((5/12)^2+(7/12)^2)=0.4860`#注：原**公式**为`∑pk(1-pk)=1-∑pk^2`#pk表示属于第k个类的概率。
 A<5&&result==positive:3/4			A<5&&result==negative:1/4
->>gini(3,1) = 1-((3/4)*2+(1/4)*2)=0.375>>gini(Target,A)=(12/16)*(0.48)+(4/16)*0.375=0.45825
+>>gini(3,1) = `1-((3/4)^2+(1/4)^2)`=0.375>>gini(Target,A)=`(12/16)*(0.48)+(4/16)*0.375`=0.45825
 ...依次计算出其它特征的基尼系数。再以低到高放置节点构建决策树。
 过拟合：构建决策树模型时，过拟合是一个实际问题。当算法越来越深入以减少训练集误差	时，测试集误差却会增加，我们的模型的预测精度会下降。它通常发生于由于异常值和数据不规则而	构建多个分支的时候。使用预修剪和后修剪避免过拟合。
-预先修剪：预先剪枝，提前结束树的构建。如果分裂节点的良好度低于阈值，则倾向于不分裂节点。但是要选择一个合适的阀值是不容易的。
-后修剪：后剪枝中，先逐步构建一棵完整的树。如果树显示了过拟合的问题，那么剪枝是作为一个后剪枝步骤完成的。我们使用交叉验证数据来检查修剪的效果。通过使用交叉验证数据，测试扩展节点是否会带来改进。如果显示会带来改进，那么我们可以继续扩展该节点。但是，如果精度降低，则不应该扩展，节点应该转换为叶节点。
-学习地址：http://www.aboutyun.com/thread-22370-1-1.html
 <i class="label1">c4.5算法</i>：是用于生成决策树的一种经典算法，是ID3算法的一种延伸和优化，如下：通过信息增益率选择分裂属性，克服了ID3算法中通过信息增益选择的不足；<i class="blue">属性信息增益率=属性信息增益/属性的信息熵</i>。<i class="green">能处理离散型和连续型的属性类型，连续型数据会被离散化处理；构造决策树后会进行剪枝操作避免过拟合；能处理有缺失属性值的训练数据。</i>
 缺点：计算效率低，有连续属性值时尤为突出。算法在选择分裂属性时没有考虑属性间的相关性，只计算数据集中每一个条件属性与决策属性之间的期望信息，有可能影响到属性选择的正确性。
 https://blog.csdn.net/zhihua_oba/article/details/70632622
 <i class="label1">CART算法</i>：ID3算法与C4.5算法虽在可以尽可能多的挖掘，但其生成的决策树分支较大，为提高生成决策树的速度出现了根据GINI系数来选择测试属性的决策树算法，所以，CART是决策树算法中的一种。CART算法采用的是一种二分递归分割的技术，将当前样本分为两个样本子集，使得在跟节点处就有两个分支，这就是与ID3，C4.5的一点不同
 多分类情况：因为决策树中每个节点的分支最多只有两支，所以多分类问题只能先将多个类先分为两个组，再在后面将这个组分为两份...，确定好所有的分类组合(例:0,1,2有(0,1),2;(0,2),1;(1,2),0三种)再从特征项中挑选一项计算出各类对应的那个特征项的方差，选择方差最小的那一组做为当前节点的二分类。(具体情况待定)
-回归情况：决策树的回归与多分类很相似，逐渐向下分类使用方法与多分类方法一样，然后在按ID3或C4.5，CART算法选择最优分裂点，最后得出的回归结果是该节点在划分类组时对应的结果集的平均值。https://blog.csdn.net/gzj_1101/article/details/78355234
-https://blog.csdn.net/Albert201605/article/details/81865261
+回归情况：决策树的回归与多分类很相似，逐渐向下分类使用方法与多分类方法一样，然后在按ID3或C4.5，CART算法选择最优分裂点，最后得出的回归结果是该节点在划分类组时对应的结果集的平均值。[cart树详解参考地址。](https://www.cnblogs.com/xingshansi/p/6847334.html)
+剪枝：分为预剪枝和后剪枝，都是防止过拟合的手段，且以上3个算法都能使用。
+**预剪枝**：生成决策树时对当前节点进行评估，若划分该节点不能带来性能的提示那么就对该节点不再划分。使用验证集验证通过树的正确率，若比通过上一个节点的正确率低则不划分该点。
+**后剪枝**：生成一颗决策树之后自底向上的剪枝，一样是利用验证集的精度做对比决定是否剪枝。
 #### 57、Apriori算法：
 Apriori算法是一种关联分析,关联分析是一种无监督机器学习方法，用于发现大规模数据集中事件的关联性和依赖性。
 原理：找出所有数据中出现次数最多的几个数据、物(项)再从这几个项中随意组合(两个一组或3个...)找出满足出现次数最多的组合(计算支持度)，再计算他们的置信度确定前件后件，确定强关联规则。置信度高的组说明该组间关系强，可信度高。
@@ -3393,7 +3707,21 @@ https://www.cnblogs.com/ybjourney/p/4851540.html
 #### 58、Boost与bagging：
 <i class="violet">AdaBoost是boost中的一种，它们和bagging(随机森林是bagging中的一种)都属于集成学习，其它普通的机器学习对于数据集太多时只能学习到一部分，而集成学习策略性的将数据划分为多个小数据集分别训练然后再策略性的组合。bagging方法能降低模型的方差，改善模型过拟合的问题，boosting方法则能降低模型的偏差，改善模型qin拟合问题，不过两个模型都能解决分类问题中的非均衡分类问题(各类别样本数量相差较大)。</i>
 <i class="label1">AdaBoost元算法</i>：在分类运用中我们会选择使用哪一个分类器，或者同一种分类器使用多个，如果我们使用多个同类的分类器或不同分类器来共同决策分类结果这样会更可靠。
-<i class="label2">AdaBoost原理</i>：准备好多组样本和决定好使用几个弱分类器(一般使用一层决策树)初始时为n个样本赋予权重1/n,然后训练第一个弱分类器(**使用所有样本**)，根据训练的结果可以判断出刚用于训练的这些样本哪些是没被正确分类的，依次计算这个分类器的错误率E，E = 未正确分类样本数/所有样本数；根据该分类器错误率计算该分类器权重：a=1/2((1-E)/E);然后<i class="green">更新所有样本权重D(所有样本权重构成的向量)，</i>某个样本被错误分类的更新:`Di=Di*e^a / sum(D)`;(i是对应的那个样本，sum()是求和)某个样本被正确分类:Di=Di*e^-a / sum(D);分类错误的样本权重被增加，正确的权重被减少，在训练下一个分类器时重点训练权重大的样本，如此重复直到某个分类器错误率为0为止或达到指定分类器数目为止。使用加权后选取的训练数据代替随机选取的训练样本，这样将训练的焦点集中在比较难分的训练数据样本上；<i class="green">将弱分类器联合起来，使用加权的投票机制代替平均投票机制.让分类效果好的弱分类器具有较大的权重,而分类效果差的分类器具有较小的权重权重高的分类器所占最终结果评判大</i>，得到最终训练结果。
+<i class="label2">AdaBoost原理</i>：准备好多组样本和决定好使用几个弱分类器(一般使用一层决策树)初始时为n个样本赋予权重1/n,然后训练第一个弱分类器(**使用所有样本**)，根据训练的结果可以判断出刚用于训练的这些样本哪些是没被正确分类的，依次计算这个分类器的错误率E，E = 未正确分类样本数/所有样本数；根据该分类器错误率计算该分类器权重：`a=1/2((1-E)/E)`;然后<i class="green">更新所有样本权重D(所有样本权重构成的向量)，</i>某个样本被**错误分类的更新**:`Di=Di*e^a / sum(D)`。(i是对应的那个样本，sum()是求和)某个样本被**正确分类**：`Di=Di*e^-a / sum(D)`。分类错误的样本权重被增加，正确的权重被减少，在训练下一个分类器时重点训练权重大的样本，如此重复直到某个分类器错误率为0为止或达到指定分类器数目为止。使用加权后选取的训练数据代替随机选取的训练样本，这样将训练的焦点集中在比较难分的训练数据样本上；<i class="green">将弱分类器联合起来，使用加权的投票机制代替平均投票机制.让分类效果好的弱分类器具有较大的权重,而分类效果差的分类器具有较小的权重权重高的分类器所占最终结果评判大</i>，得到最终训练结果。
+**boostIng相关公式**：有多种推导方法，这里用加线性模型，即基学习器的线性组合。
+用`H(x) = ∑ αt*ht(x)`#h(x)表示使用的基学习器，αt是其对应的权重：`α = 1/2 * ln( (1-E) /  E)`#E是上面描述的正确率。
+来最小化**指数损失函数**：`epd = E|e^-f(x)*H(x)|`#f(x)是真实函数，只取1或-1，表示分类正确的样本，错误的样本。若损失函数最小化，则分类器错误率也将最小化。
+经过上面描述的那样进行循环迭代结束，得到最后的H(x)，如果H(x)能使得指数损失函数最小化，则对epd函数**求H(x)的偏导**：
+`σepd / σH(x) = -e^(-H(x)) * p(f=1|x) + e^(H(x)) * p(f=-1|x)`    #因为f是分段函数，所以求偏导时多种情况列出来写。
+然后令式子为0解得H(x)：    这里将上面的第一个p写为p1,第二个为p2。
+`e^H(x) * p2 - e^-H(x) * p1 = 0`=>`ln(e^H(x) * p2 / p1 / e^H(x)) = 0`=>`2H(x) + ln(p2 / p1) = 0`=>`H(x) = ln(p1 / p2) / 2`#这里交换了p1,p2位置。所以正号
+**Adaboost相关公式**：adaboost中的指数损失函数稍有不同，`epd = E|e^-f(x) * αt * ht(x)|`，#t表示第t个学习器，相当于是每一轮都求一次。`H(x)=αt * ht(x)`
+每一轮学习完，得到Ht-1，之后将原本重新分布，当前基学习器要纠正上一轮的错误，理想的基学习器能纠正上一轮的所有错误，如下表示：
+`epd = E|e^-f(x) * (Ht-1 + ht(x))|`#理想的情况下其αt为1。
+<i class="label1">Gradient Boosting</i>同样属于boost中的一种，与adaboost一样采用加法模型，不过稍有不同。`fm(x) = fm-1(x) + ph(x)`#h(x)是基学习器。在第m步时才计算最小化损失函数：`L(f) = ∑L(yi,fm(x))`#f(x)看成参数，对齐求导，发现hm(x)能表示称为损失化函数的负梯度，即用基学习器 h(x)拟合前一轮模型损失函数的负梯度，就是通过梯度下降法最小化损失函数。具体流程如下：
+![GBD](_v_images/20200712083751809_19957.png =503x)
+式中的yi是训练集中的标签数据，L则表示yi与预测值f(x)的损失关系函数。其中的基学习器常用决策树种的cart，简称GBDT。[GBD学习地址。](https://zhuanlan.zhihu.com/p/38329631)
+<i class="label1">XGBoost</i>
 <i class="label1">随机森林算法</i>
 步骤：在准备好的训练集中使用Bagging(装袋的意思，这里是一种抽样算法)算法的思想<i class="green">从这些训练集中随机抽取(有放回抽样和不放回抽样等几种具体查看scikit-learn中文文档>分类>集成)几组样本再在每一组样本中随机选取一些特征值(一组样本中的所有特征值里选择),用这些选中的特征值及对应的结果使用决策树的思想构建一颗决策树</i>(一般构建几颗决策树组成一个随机森林，并非是一组数据对应一颗决策树)；在使用决策树算法构建决策树时每个节点的阙值也可随机，这样能得到更合理的结果(减小方差增大偏差)；
 训练结束后得到的随机森林拿来预测数据得到的结果就是在多颗决策树中选择结果偏多的一个做为最终结果。
@@ -3410,7 +3738,7 @@ https://blog.csdn.net/w952470866/article/details/78987265
 <i class="label1">深度学习</i>
 深度学习中的模型对应任务相对较明显，一般分类模型有：FastCnn、TextCnn、RCnn、Transformer。序列标注类：BiRnn、BiLSTM+CRF。生成类：seq2seq、基于注意力的seq2seq、新出的Transformer。这些模型上再加上各种Trick、预训练模型的变体、强化学习等。
 <i class="label2">调参经验</i>如果从开始训练，模型的loss没出现过较大变动或几乎不下降，那么这个模型或者数据集几乎就是有问题的。先使用少量数据(1w条左右)进行训练来快速试错，先尝试不同的模型层数/神经元节点数(若是已知的不错模型可以跳过这步，或微调)。模型训练期间loss出现较大的变动，那么这个模型最后多半能得到各不错的效果。如果loss长期在上下跳动，且幅度较大(如0.6-1.3-0.5-1.2)，那么此时可以稍微调小学习率和增大batch数<i class="gray">(0.001多数时候会是各不错的学习率，可在训练到一半时固定在此值)</i>。如果模型loss长期几个小时变化很小(如0.67-0.68-0.66-0.65这样上下微小变化)，那么可以停止训练，这可能还要对模型进行改进。<i class="green">并不是每个模型都要把loss值降到接近指定小值才会是一个不错的模型，每个模型的loss范围不一样，这得参考准确率。</i>
-#### 60、EM算法，牛顿法：
+#### 60、EM算法，牛顿法： 
 <i class="label1">Jensen不等式</i>如果f是凸函数，x是随机变量，那么：`E[f(x)]>=f(E[x])`#当且仅当x是常量时，该式取等号。[jensen不等式详细推导地址(利用凹凸函数特性)。](https://blog.csdn.net/jiandanjinxin/article/details/41204541)
 
 <i class="label1">em算法</i>
@@ -4266,9 +4594,22 @@ for r in mt:
 ##### a1、特征工程：
 特征使用、特征处理、特征获取、特征监控(建立起模型可用的特征后，随着时间的流逝需要对这些现有特征判断是否还适用，又没有新的特征可以加入使用)。
 <i class="label2">特征选择</i>有过滤方法(使用下面的相关性分析等来使用相关性大的特征)、包裹思想(随机一些特征子集，用这些子集拿去模型中训练查看各特征子集对应的评价指标，选择高的再随机其特征子集重复，知道评价下降明显或低于阙值时停止)、嵌入思想(建立一个简单的线性回归模型[具体自选]，来拟合模型(各特征数据分别输入模型)，得到的权重系数进行正则化，依据大小来选择剔除对应的特征项)。
-<i class="label1">数据仓库</i>数据仓库是决策支持系统（dss）和联机分析应用数据源的结构化数据环境。数据仓库研究和解决从数据库中获取信息的问题。数据仓库的特征在于面向主题(对一个数据进行全面的描述)、集成性、稳定性和时变性。仓库可能冗余(因为不一定所有数据都会用到)、相对变化大、数据量大。数据库是面向应用的且组织规范。[数据仓库的构建。](https://bigdata.163yun.com/mammut?channel=B_baidu_sjck_00338&sdclkid=ALf_152Rb6DixLopALf_)
+<i class="label1">数据仓库</i>数据仓库是企业管理和决策中面向主题的、集成的、与时间相关的不可修改的数据集合。数据仓库是决策支持系统（dss）和联机分析应用数据源的结构化数据环境。数据仓库研究和解决从数据库中获取信息的问题。数据仓库的特征在于面向主题(对一个数据进行全面的描述)、集成性、稳定性和时变性。仓库可能冗余(因为不一定所有数据都会用到)、相对变化大、数据量大。数据库是面向应用的且组织规范。[数据仓库的构建。](https://bigdata.163yun.com/mammut?channel=B_baidu_sjck_00338&sdclkid=ALf_152Rb6DixLopALf_)
 <i class="label1">数据分类</i>把数据分为离散型和连续型是一个比较粗糙的分法，详细的分：定类数据(无差别属性进行的分类，如性别、名族)、定序(数据间有大小关系，但无法计算两个数据间具体的差值)、定距(可测定差值，但无绝对零点即数据间的乘除表示无意义，如温度)、定比(可测差值，有绝对零点，较常见，如身高，体重等)。
 <i class="label2">数值转化</i>定类和定序列数据不能直接用于模型中，需要转换为数据表示，定序数据可以使用0,1,2这样的标识数据来表示，因为已知它们是有大小区别的。但定类型数据是无大小之分的(如颜色)，所以用0，1去标记用到模型中会多少有问题，一般用one_hot编码表示。
+<i class="label1">部分经验</i>现实中可以用的特征往往只有几个，而且多数是不能直接拿来使用的，经过扩展后达到上100维的特征也是很正常的。衍生，抽取特征尽量遵循以下几点：
+(1)、确定业务目标后，从业务角度出发找到有用的特征，这种特征往往是最有效的特征。以下几点也要求是在业务的限制下。
+(2)、确定用哪项特征作为达到业务目标的参考指标：已有的数据中不一定有一项特征能直接拿来衡量效果的好坏，比如预测用户领卷后15天内使用的概率，这应该用领券且15天内使用、未领且消费、领取但15天后消费一起做分类呢，还是将未领且消费的天数置为45来一起做一个回归型的预测呢？另外这个天数也是需要从其它两个特征中计算的。
+(3)、缺失值与异常值：一些情况下缺失值和异常值有特殊意义，并不是自然错误，比如缺失值表示用户未使用过。异常值是用户不端行为所致，而不是统计的错误等其它的肯能。那么在处理它们时我们要考虑是用-1代替，还是改为该项中**更大或更小的值**？**一般用后者**。
+(4)、将所有能想到的认为可能对结果有影响的特征都列出来<i class="green">(比如就用户使用的消费券一项=》使用过的各种券占比、领券数量占比、使用数量占比、普通消费占比、15天内用券率、用券平均时间间隔...等**衍生出60多个特征**)</i>。最后再来做合并或筛选。
+(5)、画一个业务逻辑图(包括业务流程，及其中涉及的业务知识)、一个数据分析逻辑图(能衍生出的特征、猜测等)。便于中途参考、补充、收藏等。
+(6)、一般型与时间型：一般型的数据往往可以直接拿来用或做一些简单变换后可以使用。时间型数据是那种随时间推移，不断有新增数据的(如用户消费记录，使用记录等)、这种带有时间属性的数据往往需要计算其以往消费次数、消费趋势、平均消费间隔等。如果是时间比较密集的可以划段<i class="violet">(比如从最后的时间开始按一个周、15天或一个月为一段，计算各段时间内相关属性的平均值、趋势等，但数据量不变)</i>。带时间的属性数据往往还**需要考虑特殊时间**：如周末多数人消费较多、月初、月中、月末这是可能发工资的时间段、节假日(如中秋、国庆、双十一、春节等这些节日可能活动多)等。
+(7)、特征扩展：离散型数据用One_hot编码表示<i class="green">(比如一个特征总有5类，改为One_hot表示后就再添加5个列，类对应列下的值为1)</i>。这能把线性函数转换成分段阶跃函数，减少过拟合。不过这一般对于已经是定类或定序型数据，对应离散化后的离散型特征不建议这样。
+(8)、特征组合：一些两者相关性很高的两个特征需要去除一个，或者合并。或两个特征单独无意义，但合在一起后有很大作用，如经度和纬度、其它还有一些不能线性划分的可用特征交叉、笛卡尔积、求**交并补**等。交并容易理解，将两个特征项的交集Or并集(交并的个数)当做一个新的特征。但这里的补集比如是：使用了优惠券的次数，没使用优惠券的次数，如果两者和为定值，那么则没有必要做补或并了。
+(9)、特征交叉：就是做笛卡尔积，如特征a：`[x>0 & x<10,x>12 & x<15]`，特征b：`[x>5 & x<8,x>9 & x<12,x>13 & x<15]`#做笛卡尔积后是两个条件的两两组合，同时满足两个条件的用1表示，否则用0表示，更经典的还有经纬度分段后做笛卡尔积表示区域等。
+(10)、最后筛选特征时可以各特征拿去与目标项做分布分析或计算相关性来决定是否使用。或尝试加到模型中查看效果是否有提示来决定是否保留。
+(11)、是否离散化：如果特征项的具体数值变化对结果影响并不大，而只是大体的在数据分布上能聚为几类的话，建议离散化表示。否则可以不离散化。
+(12)、是否要扩展到多维特征：如果已有的一些特征和衍生出来的特征项并不能对结果有很好的区分度的话，说明这个问题是比较非线性的问题。可以尝试上面的特征扩展，组合，靠能想到的统计各种情况的值，特征项越多越能拟合出那些非线性的问题。
 ##### a2、相关分析：
 相关分析和回归分析都是针对小样本数据提出的，数据量多于百万条时，可能计算机受不住。且这两个分析假设所分析的变量存在的关系是线性关系，且所有变量均服从正太分布且方差相同。缺点：对数值型数据分析效果较好，但对其它数据可能出现偏差，系数计算受样本量影响，因此数据量因尽量大于50。
 <i class="label2">相关系数</i>有皮尔逊相关系数、肯德尔相关系数、偏相关系数、及斯皮尔曼相关系数(等级相关系数)。或计算协方差矩阵、互信息等来衡量变量间，变量与结果的影响程度。更据相关性还能决定选择合适的降维方法，减少它们之间的共线性。
@@ -4381,12 +4722,12 @@ a、各点被分在四个像限内，不在同一像限内的话题说明差别�
 <i class="label1">漏斗模型和路径分析</i>漏斗模型是在记录一系列关键节点，分析各节点情况。例如一个购物流程，用户点击商品》添加到购物车》下单》付款。这其中各个步骤节点的人数肯定是逐渐减少，正常情况会大致呈一个漏斗形，如果那个节点异常，可能会出现人数骤降的情况，我们可以用漏斗模型发现这种异常，找到异常的问题，对各业务环节做改进，提升相应节点的转化率。而路径分析是包含漏斗模型的，其它的应用：比如发现用户点击某应用的次数比较高，但发现该应用所处路径较深，我们可以考虑改版后将其拿到首页上或其它较近的位置。
 <i class="label2">日志布点</i>对应上面的路径分析需要再页面进行布点，来监听用户的行为发送到服务器形成用户操作日志。有以下几种布点形式：
 页面级布点：一般覆盖网站所有页面，记录用户名、ip、浏览器、cookie信息等。点击级布点：监听用户点击了那个按钮，点击的区域，点击的链接等。追踪日志布点：一些页面有多个入口，如果我们需要对此进行区别时需要在其入口页面出做记录。
-注意事项：
-如果出现多个高度线性相关的属性(>0.6)则只选择其中一个使用即可，太多高度线性相关的可能会导致模型不稳定(稍出现几个偏离严重的值就会改变很多权重)。
-共线性问题：自变量之间存在很强的线性关系时会致使对应的自变量对因变量的可辨性降低，影响模型的预测能力。样本量较小时轻微的共线性也会有较大的影响。处理：丢弃一个、两个合并、进行一些形式的转变。
-抽样可以降低数据噪声带来的影响(错误数据、异常数据)。
-模型运用到实际中后需要做效果评估，可以控制变量对比，然后使用假设检验的方法。
-b1、几种数据挖掘方法论：
+**注意事项**：如果出现多个高度线性相关的属性(>0.6)则只选择其中一个使用即可，太多高度线性相关的可能会导致模型不稳定(稍出现几个偏离严重的值就会改变很多权重)。
+**共线性问题**：自变量之间存在很强的线性关系时会致使对应的自变量对因变量的可辨性降低，影响模型的预测能力。样本量较小时轻微的共线性也会有较大的影响。处理：丢弃一个、两个合并、进行一些形式的转变。
+<i class="label1">样本不平衡问题</i>在分类模型中，目标类别对应的数量差异很大会导致结果数量多的类别，可使用以下方法：
+抽样：分为上采样(欠采样，数量多的类别较少其一部分数据)和下采样(过采样，复制或近似一些数据少的类别数据)。使用交叉验证。转化为一分类问题(用一些其它指标代替分类，分类转化为回归)。上下采样同时使用也是可以的。
+抽样可以降低数据噪声带来的影响(错误数据、异常数据)。模型运用到实际中后需要做效果评估，可以控制变量对比，然后使用假设检验的方法。
+##### b1、几种数据挖掘方法论：
 SEMMA：SAS公司所提出的数据挖掘方法论，过程如下：以下5各步骤中哪一个步骤不合业务或效果不好都可以再运行上一步来寻优。
 ![semma](_v_images/20200701071400479_2618.png)                                                                                                ![CRISP-DM](_v_images/20200701072002904_31941.png =460x)
 CRISP-DM方法论：Cross-Industry Standar Process for Data Mining,即跨行业的数据挖掘流程。6各挖掘步骤，但不都是按固定顺序运行，如上图右侧。
@@ -4609,3 +4950,9 @@ seq2seq(sequ to sequence)：是一种给出输入序列输出另一个序列可�
 ![](_v_images/20200611165009181_16605.png)
 ABC是encode层输入序列，`<go>`wxyz是decode层的输入序列，对decode层的输入数据先要在前面加一个go起始符(和一条序列一样的形状)，因为在预测或直接放到应用中时只能知道用户输入的encode序列，不同于训练的时候可以知道target序列，所以为了配合预测情况(预测时没有已知target序列的情况只能将前面预测出的序列参与后面的计算)，初始序列用一个填充的序列。预测的结果的最后一个序列`<eos>`是无效的，最后得去掉，不过框架封装的已经处理过了。
 https://www.jianshu.com/p/004869fce12c
+
+#### 100、AI目前面临的一些问题：
+算力问题：
+AI芯片：专门用于处理人工智能应用中的大量计算任务的模块（其他非计算任务仍由CPU负责）。当前，AI芯片主要分为 GPU 、FPGA 、ASIC。AI的许多数据处理涉及矩阵乘法和加法。大量并行工作的GPU提供了一种廉价的方法，但缺点是更高的功率。具有内置DSP模块和本地存储器的FPGA更节能，但它们通常更昂贵。
+AI芯片该使用什么方法原理去实现，仍然众说纷纭，这是新技术的特 点，探索阶段百花齐放，这也与深度学习等算法模型的研发并未成熟有关，即AI的基础理论方面仍然存在很大空白。
+[缺少可被证明的理论作为基础。](https://blog.csdn.net/xiangz_csdn/article/details/78442865)
