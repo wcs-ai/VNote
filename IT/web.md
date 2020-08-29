@@ -1389,6 +1389,7 @@ https://www.jianshu.com/p/7302e2c7f4b7
 一般认为javascript是浏览器端的脚本语言，但是google将其再开发，用来作为服务器端脚本环境，其性能自称比Python、Perl、PHP还要快。node.js的最大优点是处理并行访问，如果一个web应用程序同时会有很多访问连接，就能体现使用node.js的优势。另一个好处是，使用javascript作为服务器端脚本语言，可以消除答一些与浏览器端js脚本的冲突。甚至发挥javascript动态编程的特性，在服务器与浏览器之间建立直接的动态程序。而npm是其自带的一个包管理工具。
 **windows上安装**：官网下载node的zip包，解压后将路径添加到path路径即可。
 **linux上nodejs的安装**：官网上下载nodejs的linux压缩包，解压进入，将node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后node -v 安装成功。
+<i class="blue">如果是windows系统的话，尽量使用管理员身份来运行cmd，然后进行npm操作。</i>
 **配置淘宝安装源**：npm本身指定的安装源是外国的，`npm install -g cnpm --registry=https://registry.npm.taobao.org`#安装淘宝镜像,使用时直接cnpm install即可.
 [参考学习地址.](https://www.cnblogs.com/onew/p/11330439.html)
 <i class="label1">打包vue项目报错：javascript heap out of memory</i>node 打包vue项目提示该javascript运行导致内存溢出，这是node封装的v8引擎运行的javascript其限制了js能使用的内存，当打包的项目稍大一些的时候就会出现该错误，解决如下：

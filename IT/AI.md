@@ -155,6 +155,10 @@ SELECT shop_id FROM test WHERE mount=(select max(mount) from test);    #第二�
 
 #    EXISTS的使用：只返回布尔值，前面可加not配合使用。后面语句返回为True时才会执行前面的语句，否则返回empty set.
 SELECT shop_id FROM test WHERE EXISTS(select shop_id from test where shop_id==60);
+
+# JOIN,联表查询，INNER JOIN 指定联合哪个表，ON指定用哪个列来联合，一般用同列名。
+# INNER JOIN返回的查询结果是两表最大相同公共长度结果集。而LEFT JOIN 和 RIGHT JOIN 则分别是返回以左或右表的最大结果集。
+SELECT a FROM test INNER JOIN train ON test.b=train.b
 ```
 [两个表联合。](https://www.jb51.net/article/154006.htm)
 #### 3、python的面向对象：
@@ -415,6 +419,92 @@ with pdfplumber.open("/home/wcs/data/vv.pdf") as pdf:
     for c in pdf.pages:
         print(c.extract_text())#读取每行的文本，还有其它函数：extract_words(),extract_tables(),extract_image()
 ```
+xlsxwrite模块，可用于自动化生成报表使用：
+```
+import xlsxwriter
+
+# 新建一个xlsx文件
+book = xlsxwriter.Workbook(filename=u'员工统计表.xlsx',
+   options={  # 全局设置
+        'strings_to_numbers': True,  # str 类型数字转换为 int 数字
+        'strings_to_urls': False,  # 自动识别超链接
+        'constant_memory': False,  # 连续内存模式 (True 适用于大数据量输出)
+        'default_format_properties': {
+            'font_name': '微软雅黑',  # 字体. 默认值 "Arial"
+            'font_size': 14,  # 字号. 默认值 11
+            # 'bold': False,  # 字体加粗
+            # 'border': 1,  # 单元格边框宽度. 默认值 0
+            # 'align': 'left',  # 对齐方式
+            # 'valign': 'vcenter',  # 垂直对齐方式
+            # 'text_wrap': False,  # 单元格内是否自动换行
+            # ...
+        },
+    })
+
+# 单元格合并后居中
+fmt = book.add_format({'align': 'center', 'valign': 'vcenter'})
+# sheet.merge_range(x1, y1, x2, y2, value, cell_format=None)
+sheet.merge_range(0, 0, 1, 10, 'hello', cell_format=fmt)# 合并(0,0)到(1,10)
+
+# 文件中创建一个工作表
+sheet = book.add_worksheet(u'基本信息')
+sheet.set_column('A:A',20)# 设置第一列宽度。
+sheet.write('A1','Hello')　　#在A1单元格写入hello
+sheet.insert_image('C3','/root/test/2.png')# 插入图片
+
+head = [u'姓名',u'出生日期',u'学历',u'身高']
+names = [u'张三',u'李四',u'赵五',u'钱六',u'泰七']
+learn = [u'博士',u'研究生',u'本科',u'专科',u'高中']
+lens = [1.75,1.8,1.7,1.69,1.68,1.65]
+
+
+sheet.write_column('A2',names) # 写入列
+sheet.write_column('C2',learn)
+# 也可以指定行，列索引来指定位置，1对应行号2.
+sheet.write_column(1,1,['1991/6/23','1995/2/28','1997/9/21','1996/5/24','1992/7/30'])
+sheet.write_column('D2',lens)
+
+# 创建一个设置样式，格式的对象。在写入时使用
+workfomat = sheet.add_format()
+workfomat.set_bold(1)                #设置边框宽度
+workfomat.set_num_format('0.00')     #格式化数据格式为小数点后两位
+workfomat.set_align('center')        #设置对齐方式
+workfomat.set_fg_color('blue')       #设置单元格背景颜色
+workfomat.set_bg_color('red')         # 也是设置背景色
+
+# 写入时，指定使用上面的format样式。
+sheet.write_row('A1',data=head,cell_format=workfomat)# 写入一行，从指定位置开始，依次每格写入数组值
+
+
+# 插入图表，
+chart = book.add_chart({'type': 'column'})    #创建一个图表对象
+#设置图表数据
+chart.add_series({
+    'categories':'=基本信息!$A$2:$A$6',
+    'values':'=基本信息!$D$2:$D$6',
+    'line':dict(color='blue',width=1),
+    'name':'图1'
+})
+# 设置图表样式
+chart.set_size({'width': 577, 'height': 287})            #设置图表大小
+chart.set_title ({'name': u'员工身高'})          #设置图表(上方)大标题
+chart.set_y_axis({'name': 'm'})         #设置y轴(左侧)小标题
+chart.set_table() #设置x轴为数据表格式，对应的值展示在下方表格中。
+sheet.insert_chart('G1', chart)
+
+# 其它图表类型：id分别为1,2,...。可用chart.set_type(1)#这样来设置类型。
+area：创建一个面积样式的图表；
+bar：创建一个条形样式的图表；
+column：创建一个柱形样式的图表；
+line：创建一个线条样式的图表；
+pie：创建一个饼图样式的图表；
+scatter：创建一个散点样式的图表；
+stock：创建一个股票样式的图表；
+radar：创建一个雷达样式的图表
+
+book.close()# 关闭文件。
+```
+[xlsxwrite模块其它方法学习地址。](https://www.jianshu.com/p/9952293a4bb8)
 #### 10、业务分析：
 <div class="introduce">无论是开发岗还是算法岗，最终都是要解决业务上的问题，而且人生与社会，不能只着重于技术本身，这是改变自己的一个转折点。这里收集一些看过的，自己做过的项目分析，记录一些很实用且重要的分析方法。具体的业务知识查看life笔记中的业务知识。</div>
 
@@ -440,6 +530,7 @@ with pdfplumber.open("/home/wcs/data/vv.pdf") as pdf:
 
 <i class="label1">客户流失预测模型</i>不同业务对应的客户流失定义不同，甚至会针对不同功能定义客户流失。且流失的定义前提是实行对应的方案还能挽回的客户。一般是根据业务的特点对客户的消费时间做分期，比如航空公司，飞行频率本就不高，所以一般一年算做一期，然后依据该期客户的数据和依据建立好的模型来预测客户是否下一期会成为流失客户(即每过一期就运行一次模型)。<i class="violet">对预测为可能流失的客户给予手段补救，然后添加补救次数的标记，如果连续两三次之后，该客户依然成为了流失客户或更糟，那么可能就放弃该用户。</i>客户流失预测模型的目的应该是为了提高挽留关怀工作的有效性，最大限度地让客户保持活跃状态，而不是所谓的大幅度降低客户流失率。
 <i class="label2">分析</i>根据现有的数据决定一个观测窗口(因为各用户注册的时间不一样)，窗口期内才注册的用户不算在内。根据当前业务定义好流失用户的指标(业务上的流失定义与数据上的流失定义可能不一样)， 然后根据指标(如第二期与第一期消费次数比值、或前几期的趋势等)将满足观测窗口的客户划分为未流失、准流失、已流失3类。然后选择用户的一些消费次数、频率、积分等属性<i class="blue">(因为模型没期都要运行一次，而用户可能已经是一个有过几期记录的老客户，根据上面的指标能划分用户类型，所以客户类型也加入到训练特征中，而且最好使用客户最后几期的一个平均消费趋势)</i>。 在训练阶段，3个类型的用户数据都用于训练，但预测阶段，如果检测到客户已经是一个流失客户，那么其下一期不可能是一个未流失客户，所以这类客户可以不纳入预测，在检测客户类型步骤时可能将一个回访客户分为未流失客户，对此类可以额外加一个回访客户类型，用特别营销活动对待。除了这四类用户外还可以添加一个新用户标志，新用户一般不纳入这个预测模型，但在营销上会对新用户有特别的服务。 
+
 [一个分析示例。](https://blog.csdn.net/wanglingli95/article/details/79444432)[CRM软件组成介绍。](https://www.cnblogs.com/OOAbooke/archive/2013/02/28/2936804.html)[CRM系统的三种模型。](https://www.zkcrm.com/article442.html)
 ##### a3、关联分析挖掘三阴乳腺癌的症状与结果的关联规则：
 医学方面的病情统计多数写在纸上，所以数据较缺乏，可以用电子问卷的方式来向症者获取数据，然后取出不可分析出结果的，不完整的问卷，将其它整合为数据使用。
@@ -478,6 +569,11 @@ with pdfplumber.open("/home/wcs/data/vv.pdf") as pdf:
 **按时效性划分**：静态(一般不会变化，甚至永远不变)、动态(会变化的，需要定期更新)。该种划分便于运营人员了解业务。
 **使用**：构建好标签体系后可用于精准推送(一个商品的标签与用户标签匹配度较高时推送给用户)。精准营销。其它业务模型的建模使用。 
 [用户标签综述和构建学习地址。](http://www.woshipm.com/user-research/1016865.html)
+##### a8、传统的网站衡量指标PULSE
+PULSE是基于商业和技术的产品评估系统，被很多组织和公司广泛应用于监测产品的状况，这里的PULSE 是指：
+Page View（页面访问次数）。Uptime（持续运行时间）。Latency（延迟）。Seven Days Active User(7 天活跃用户数）。Earning（收入）
+补充的度量体系：HEART框架，这里的HEART分别是指：
+Happiness（愉悦感）。Engagement（参与度）。Adoption（接受度）。Retention（留存率）。Task Success（任务完成率）
 #### 12、python文件IO：
 假设当前路径为E:\mypython\test\文件IO.py。文件分为文本型和二进制型，所以读取的模式也只分为两种。(写入文件时需要保证写入的类型是字符串类型或byte型，不然非字符型会出现output Decode utf-8错误，不易查找)。部分特别的符号需要使用特别的编码才能实现，所以文件中有不同编码格式的字符时需要使用rb模式来读后再解码，不过解码后每个字符后还会有\r符。
 读取二进制型文件时需要对读取的结果解码，用如下方法查看文件的编码方式：
@@ -546,12 +642,15 @@ os.stat('E:/obj')#获取目标路径下所有信息包括:保护模式、驻留�
 #st_size属性为文件中数据的长度。]
 os.path.basename(path)#返回文件名
 ```
-
-[os.system()]system()函数可以将传入的字符串转为在电脑上执行cmd命令，执行时会创建一个子进程，示例如下：
+获取、设置系统环境变量：
+```
+os.system()：system()函数可以将传入的字符串转为在电脑上执行cmd命令，执行时会创建一个子进程，示例如下：
 os.system('shutdown -s -t 60') #1分钟后关机
 os.system("net start mysql") #开启mysql服务
-获取、设置系统环境变量：
 os.environ//获取系统的环境变量，返回一个字典，所以可以用get()，[]等方法。
+# 获取cpu核数,一般将线程数设置为核数-1。
+os.cpu_count()
+```
 图片的存储与读取:(点击图片属性>尺寸显示的是宽x高，但程序获取的是[高,宽,通道数])
 ```
 from PIL import Image #python自带的一个读取图片的包
@@ -638,7 +737,7 @@ https://www.e-learn.cn/content/qita/1236403
 matplotlib:https://wizardforcel.gitbooks.io/matplotlib-intro-tut/content/
 scipy:https://www.yiibai.com/scipy/scipy_integrate.html
 statsmodels:http://www.statsmodels.org/stable/
-scikit-learn：[sklearn的中文文档，exapmle中有分好类的算法使用示例，API中可以查找没列出来的。](https://sklearn.apachecn.org/)
+scikit-learn：[sklearn的中文文档，exapmle中有分好类的算法使用示例，API中可以查找没列出来的。](https://www.cntofu.com/book/170/readme.html)
 pyqt5:https://maicss.gitbooks.io/pyqt5/content/hello_world.html
 python中文文档:https://yiyibooks.cn/xx/python_352/tutorial/index.html
 Tensorflow官网：https://www.tensorflow.org/versions
@@ -1162,6 +1261,8 @@ help()帮助查看类型详细信息，包含类的创建方式、属性、方�
 help(pandas)
 dir(list)
 ```
+##### c3、operator模块：
+operator模块是一些实现和python自带的计算方法，如加、减、异或运算、包含等操作，不过该模块使用c语言实现的，运算速度比python快。[参考学习地址。](https://www.cnblogs.com/who-care/p/9839058.html)
 #### 28、交叉熵与相对熵(kl散度)：[熵的本质是香农信息量log1/p] 
 信息熵：生活中描述信息的多少是很难用一个数字来衡量的，之后香农用信息熵概念来度量信息的量，信息熵代表整个系统的不确定性，熵越大不确定性就越大；需要引入交叉熵消除这个不确定性。交叉熵是信息论中的一个重要理论，主要用于度量两个概率分布间的差异性信息。
 定义：一个概率分布中`pi*log(2,pi)就称为pi的信息熵`#pi是第i项对应的概率值。假设这个pi是真实分布(这个pi是个概率值，不是不是样本出现的次数)，而预测中我们得到的是qi那么-qi*log(1/pi)就称为交叉熵；真实分布的信息熵与非真实分布的信息熵之差就称为相对熵([Kullback–Leibler divergence])：
@@ -1654,6 +1755,7 @@ pycharm破解：https://blog.csdn.net/fantasic_van/article/details/89282100。
 常用功能：[常用快捷键。](https://www.cnblogs.com/sui776265233/p/10200809.html)
 Ctrl + F(当前文件查找 )。Ctrl + R(当前文件替换)。Ctrl + Shift + F(全局查找)。
 Ctrl + Shift + R(全局替换)。
+隐藏左边的文件栏：shift+esc        打开左侧项目目录：ALT+1
 Shift + F10#运行。Shift + F9#调试。Alt + Shift + F10  运行模式配置。Alt + Shift + F9   调试模式配置
 Alt+j#同时选择相同字符串的下一个。Ctrl+Alt+shift+j#选中当前文件所有相同字符串。
 
@@ -1758,7 +1860,8 @@ DF.info()#查看各特征项数据的三个属性：数量、有无缺失值，�
 **数据类型转换**：`dt.x = dt.x.astype(int)`#x列数据转为Int型。
 **值转为list**：`dt.x.index.tolist()`
 **添加新的列**：`dt['newProp'] = 0`#若没有newProp属性会直接添加这列。
-**one_hot编码**：`_oh = pd.get_dummies(dt.x)`
+**one_hot编码**：`_oh = pd.get_dummies(dt.x)`#统计x列所有类，生成一个One_hot矩阵，`dt['x'][0] = _oh[1]`#使用示例。
+**分箱**：`_cut = pd.cut(dt.y,[-1,10,20,30,33],labels=[0,1,2,3])`#两个值至今的被分为一个对应label。
 <i class="label1">切片、索引</i>
 查看series数据dt前5行：dt.head(5)
 <i class="label2">注意</i>使用索引来改变值时，最好是先改变对应列的数据类型，与改变后的值的数据类型一致。之前遇到过的：
@@ -1883,7 +1986,8 @@ def ms(x):
 //若读取时出现`codec can't decode byte...`错误的话尝试`encoding='gb18030'`。
 `pd.read_csv('a.csv',names={"a":np.str[],skiprows =1,dtype=,na_filter=True,skip_blank_lines=True,encoding="gb231")`
 #read_csv()方法将csv中的数据读入(自动成为一个数组，names设置列标记,skipprows指定跳过多少行，na_filter为True表示不读取缺失值skip_blank_lines为True表示跳过空格行,否则记为None);#读取的数据有限，一个csv文档中最多读取30000多条数据。读取含有中文的csv文件时可能报错，可尝试encoding改为gb231
-pd.read_excel("data/cat.xlsx")#读取xlsx类型的文件。
+`pd.read_excel("data/cat.xlsx")`#读取xlsx类型的文件。文件中的图表似乎不能读入。
+`dt.to_excel('qq.xlsx',index=False)`#保存为excel文件。
 (在网站中下载好数据(点进去是数据的页面按ctrl+s直接进行下载)后将文件扩展改为csv(早前的一种存数据的格式,读取到的数据格式比较神奇难于与其它数据类型做匹配调缺失值，例：一些数据文件会使用一些特定的值表示缺失值如"?",但用dat["col"][dat["col"]=="?"]==None))并不能更改其值，因为读取的"?"与"?"不一样(未知原因),解决方法：可以用读取的文件中的值与缺失值匹配，例：dat["col"][2]="?",dat["row"][dat["row"]==dat["col"][2]]=None;这样就能将dat中表示缺失值的"?"改成None进一步解决缺失值问题。但这种改变值的方法配合for循环使用会报invalid type comparison,如下：)
 ```
 for i in dat.columns:
@@ -3590,20 +3694,20 @@ b、重复a的步骤继续寻找球节点，划分数据，知道最后剩余规
 [KDTree算法学习参考地址。](https://www.cnblogs.com/lysuns/articles/4710712.html)
 
 #### 53、朴素贝叶斯：
-![](_v_images/20200317161301318_814255580.png)
- 公式表名在x1,x2...xn条件下y
-
-发生的概率。所以要通过对数据的观察求出`p(y),p(x1...xn|y),p(x1...xn)`、`p(x1,...xn|y) = p(x1|y)*p(x2|y)*...*p(xn|y)`
+![](_v_images/20200317161301318_814255580.png)                                                                                ![bys](_v_images/20200814170310816_27700.png)
+贝叶斯分类器根据已有的数据量(即已知各类别出现的频率来当做概率)，想最小化各样本被误判的损失来训练模型，公式：`R(ci|x)=∑ a*p(cj|x)`#ci是真实分布，cj是对于预测分布，a是误判损失(即不是该类的概率)，用1-p表示，即：`R(ci|x)=∑ (1-p(cj|x))*p(cj|x)`#其中的p(cj|x)用贝叶斯公式表示成上图。 
+上左图公式表名在x1,x2...xn条件下y发生的概率。所以要通过对数据的观察求出`p(y),p(x1...xn|y),p(x1...xn)`、`p(x1,...xn|y) = p(x1|y)*p(x2|y)*...*p(xn|y)`
 `p(x1,...xn) = p(x1)*p(x2)*...*p(xn)`;#互相独立的情况下可以直接分解成这种。
+**注意**：由于p(x|c)#x是各项特征，c是类别，这是一个联合概率，各特征项之间并非是相互独立的，所以这是一个复杂的概率关系，难以从有限的数据中求得，所以朴素贝叶斯中假设其是独立的，这样就可表示为右图公式。
 计算p(x1|y)...p(xn|y)时要注意他们的总原本空间，这个总样本空间可能与这整个大的事件的样本总量不一样。
 注：p(x1|y)是指在y这个条件的总样本中x1的数量/总样本数；p(x1),p(x2)...是在最大样本空中来求。p(yx1...xn)是这些事件的交集，他们的值不一定是1而且多数情况下都小于1，需要求出p(y1|xn)和p(y2|xn)来比较,y1,y2是整个数据中的两个分类，`p(y1|..xn) = p(y1)*p(x1|y1)...p(xn|y1)/p(x1)*...p(xn)` ,
 `p(y2|..xn) = p(y2)*p(x1|y2)...p(xn|y2)/p(x1)*...p(xn)`两式分母相同，所以只要求出两个概率的分子比大小就能得出结果，较大的值为倾向的分类。在一些特征项中是用数字表示的且有多个数值，在处理时可以用划分区间的形式来处理(如年龄：>20,<=15),在上式中若有一个属性不存在整个概率就会为0，可以将不存在的特征项设为1个来处理。[例：我们先计算1000条数据中分类1的概率、分类2的概率，各个特征项在各个分类条件下的概率，在预测一条新数据所属类别时使用前面计算好的分类概率，然后确定该条数据中其特征项对应前面计算好的概率是多少然后进行计算。]
 情况：在很多实际情况下，朴素贝叶斯工作得很好，特别是文档分类和垃圾邮件过滤。相比于其他更复杂的方法，朴素贝叶斯学习器和分类器非常快。 分类条件分布的解耦意味着可以		独立单独地把每个特征视为一维分布来估计。这样反过来有助于缓解维度灾难带来的问题。尽管朴素贝叶斯被认为是一种相当不错的分类器，但却不是好的估计器。
-<i class="label1">高斯朴素贝叶斯</i>在数据是连续型且更需要对其进行详细区分时适合使用高斯朴素贝叶斯(将上式中的p(x|y)替换为这个公式)：
+<i class="label1">高斯朴素贝叶斯</i>在数据是连续型且更需要对其进行详细区分时适合使用高斯朴素贝叶斯(将上式中的p(x|y)替换为这个公式，y是类别：
 ![](_v_images/20200317161353692_336440164.png)
 这是正太概率密度，我们只需对连续型随机变量求其概率密度而不用求其分布(两者不同)，而且这里是一个具体的x的值的情况，并不是范围情况。把上面的p(xi|y)部分看成是正太分布情况，然后用正太分布公式来计算每个p(xi|y)的值。
 <i class="label1">多项分布朴素贝叶斯</i>结合多项分布的思想，设向量ry=(ry1,...ryn),式中y表示整个数据分成的类别，n是特征数量(如词汇量的大小)，ryi就表示类y中特征i的概率p(xi|y).频率计数如下：
-ryi=(Nyi+a) / (Nyi+a*n)；(N是频率。比普通的概率计算改为加a*n项)。a是先验平滑因子(因为这是我们预估计到的)，a=1称为拉普拉斯平滑，a<1称为Lidstone平滑。ry使用平滑过的最大似然估计法来估计(这很符合最大似然估计的情况)。因为多项分布的特点，所以它适合用来做文本分类(对于文字都会将其转换为词向量表示)。如垃圾邮件检测。
+`ryi=(Nyi+a) / (Nyi+a*n)`；(N是频率。比普通的概率计算改为加a*n项)。a是先验平滑因子(因为这是我们预估计到的)，a=1称为拉普拉斯平滑，a<1称为Lidstone平滑。ry使用平滑过的最大似然估计法来估计(这很符合最大似然估计的情况)。因为多项分布的特点，所以它适合用来做文本分类(对于文字都会将其转换为词向量表示)。如垃圾邮件检测。
 <i class="label1">伯努利朴素贝叶斯</i>实现了用于多重伯努利分布数据的朴素贝叶斯训练和分类算法，即有多个特征，但每个特征都假设是一个二元(Bernoulli,boolean)变量(两个结果？)，因此，这类算法要求样本以二元 值特征向量表示，如果样本含有其他类型的数据，一个BernoulliNB实例会将其二值化。计算： 
 ![](_v_images/20200317161439435_1133970377.png)
 从式子中可以看出与多项分布区别在于：对类y中没出现的特征因子做了明确的惩罚。在文本分类中如果使用词频向量(word occurrence vectors非词数向量(word count vectors))可能在一些数据上伯努利朴素贝叶斯会表现得更好，特别是那些更短的文档(每个文档的词数)。
@@ -3709,7 +3813,7 @@ https://www.cnblogs.com/ybjourney/p/4851540.html
 <i class="label1">AdaBoost元算法</i>：在分类运用中我们会选择使用哪一个分类器，或者同一种分类器使用多个，如果我们使用多个同类的分类器或不同分类器来共同决策分类结果这样会更可靠。
 <i class="label2">AdaBoost原理</i>：准备好多组样本和决定好使用几个弱分类器(一般使用一层决策树)初始时为n个样本赋予权重1/n,然后训练第一个弱分类器(**使用所有样本**)，根据训练的结果可以判断出刚用于训练的这些样本哪些是没被正确分类的，依次计算这个分类器的错误率E，E = 未正确分类样本数/所有样本数；根据该分类器错误率计算该分类器权重：`a=1/2((1-E)/E)`;然后<i class="green">更新所有样本权重D(所有样本权重构成的向量)，</i>某个样本被**错误分类的更新**:`Di=Di*e^a / sum(D)`。(i是对应的那个样本，sum()是求和)某个样本被**正确分类**：`Di=Di*e^-a / sum(D)`。分类错误的样本权重被增加，正确的权重被减少，在训练下一个分类器时重点训练权重大的样本，如此重复直到某个分类器错误率为0为止或达到指定分类器数目为止。使用加权后选取的训练数据代替随机选取的训练样本，这样将训练的焦点集中在比较难分的训练数据样本上；<i class="green">将弱分类器联合起来，使用加权的投票机制代替平均投票机制.让分类效果好的弱分类器具有较大的权重,而分类效果差的分类器具有较小的权重权重高的分类器所占最终结果评判大</i>，得到最终训练结果。
 **boostIng相关公式**：有多种推导方法，这里用加线性模型，即基学习器的线性组合。
-用`H(x) = ∑ αt*ht(x)`#h(x)表示使用的基学习器，αt是其对应的权重：`α = 1/2 * ln( (1-E) /  E)`#E是上面描述的正确率。
+用`H(x) = ∑ αt*ht(x)`#h(x)表示使用的基学习器，αt是其对应的权重：`α = 1/2 * ln( (1-E) /  E)`#E是上面描述的错误率。
 来最小化**指数损失函数**：`epd = E|e^-f(x)*H(x)|`#f(x)是真实函数，只取1或-1，表示分类正确的样本，错误的样本。若损失函数最小化，则分类器错误率也将最小化。
 经过上面描述的那样进行循环迭代结束，得到最后的H(x)，如果H(x)能使得指数损失函数最小化，则对epd函数**求H(x)的偏导**：
 `σepd / σH(x) = -e^(-H(x)) * p(f=1|x) + e^(H(x)) * p(f=-1|x)`    #因为f是分段函数，所以求偏导时多种情况列出来写。
@@ -3717,17 +3821,24 @@ https://www.cnblogs.com/ybjourney/p/4851540.html
 `e^H(x) * p2 - e^-H(x) * p1 = 0`=>`ln(e^H(x) * p2 / p1 / e^H(x)) = 0`=>`2H(x) + ln(p2 / p1) = 0`=>`H(x) = ln(p1 / p2) / 2`#这里交换了p1,p2位置。所以正号
 **Adaboost相关公式**：adaboost中的指数损失函数稍有不同，`epd = E|e^-f(x) * αt * ht(x)|`，#t表示第t个学习器，相当于是每一轮都求一次。`H(x)=αt * ht(x)`
 每一轮学习完，得到Ht-1，之后将原本重新分布，当前基学习器要纠正上一轮的错误，理想的基学习器能纠正上一轮的所有错误，如下表示：
-`epd = E|e^-f(x) * (Ht-1 + ht(x))|`#理想的情况下其αt为1。
+`epd = E|e^-f(x) * (Ht-1 + ht(x))|`#理想的情况下其αt为1。之后要求解使用哪部分数据训练！
 <i class="label1">Gradient Boosting</i>同样属于boost中的一种，与adaboost一样采用加法模型，不过稍有不同。`fm(x) = fm-1(x) + ph(x)`#h(x)是基学习器。在第m步时才计算最小化损失函数：`L(f) = ∑L(yi,fm(x))`#f(x)看成参数，对齐求导，发现hm(x)能表示称为损失化函数的负梯度，即用基学习器 h(x)拟合前一轮模型损失函数的负梯度，就是通过梯度下降法最小化损失函数。具体流程如下：
 ![GBD](_v_images/20200712083751809_19957.png =503x)
 式中的yi是训练集中的标签数据，L则表示yi与预测值f(x)的损失关系函数。其中的基学习器常用决策树种的cart，简称GBDT。[GBD学习地址。](https://zhuanlan.zhihu.com/p/38329631)
-<i class="label1">XGBoost</i>
+<i class="label1">XGBoost</i>在一棵树上不断的加树，每加一次树是学习一个函数来拟合上一棵树预测的残差。训练完成后对一个样本点预测，落到所有叶节点的分值相加就是该样本点的预测值。
+其目标函数如下，使其最小化来求拟合上一颗树残差的f(x)。
+![xgb1](_v_images/20200815095023316_12196.png)                                                                                            ![xgb2](_v_images/20200815100111258_3838.png)
+左侧的L函数为真实分布与预测分布的评分，右侧为正则化项。因为要拟合上一颗树的残差，所以`y^ = y^-1 + f(x)`#可带入到上图左1公式，由于每次迭代f(x)在改变，xgb中使用泰勒二阶展开来近似这个目标函数，如图右。其中gi为一阶导，hi为二阶导。由于前t-1棵树的预测分数与y的残差对目标函数优化不影响，**可以直接去掉，将右图公式中的L()函数去掉**。
+每个样本都最终会落到一个叶子结点中，所以我们可以将同一个叶子结点的所有样本重组起来。对优化了的目标函数求偏导求f(x)。
+[xgboost算法原理学习地址。](http://blog.itpub.net/31542119/viewspace-2199549/)
 <i class="label1">随机森林算法</i>
 步骤：在准备好的训练集中使用Bagging(装袋的意思，这里是一种抽样算法)算法的思想<i class="green">从这些训练集中随机抽取(有放回抽样和不放回抽样等几种具体查看scikit-learn中文文档>分类>集成)几组样本再在每一组样本中随机选取一些特征值(一组样本中的所有特征值里选择),用这些选中的特征值及对应的结果使用决策树的思想构建一颗决策树</i>(一般构建几颗决策树组成一个随机森林，并非是一组数据对应一颗决策树)；在使用决策树算法构建决策树时每个节点的阙值也可随机，这样能得到更合理的结果(减小方差增大偏差)；
 训练结束后得到的随机森林拿来预测数据得到的结果就是在多颗决策树中选择结果偏多的一个做为最终结果。
 特点：随机森林算法将多颗决策树组合起来，这种方法在运算量没有显著提高的前提下提高了预测精度，对多元非线性不敏感、结果对缺失数据和非平衡的数据比较稳健(主要表现在数据随机选取和特征随机选取)；Bagging与随机森林的组合是集成学习中的一种。(可使用scikit-learn库中的ensemble类下的RandomForestClassifier)
 http://www.elecfans.com/d/647463.html。[boosting与bagging的区别](https://blog.csdn.net/qq_24753293/article/details/81067692)
 https://blog.csdn.net/w952470866/article/details/78987265
+<div class="important">Adaboost后续求解使用哪部分数据集来训练，还需要学习推导。GB和xgb都还需要学习推导。</div>
+
 #### 59、各机器学习算法场景选择和调参经验：
  首先从数据量上来看，如果数据量非常大会优先考虑深度学习模型<i class="green">(一般10w条左右都还可以使用普通机器学习尝试)</i>；中等数据量会优先考虑Adaboost，随即森林这类的集成学习；而数据量小，又较线性的考虑svm,贝叶斯这些模型。其次从任务上看，普通机器学习更适合分类任务，而且是而分类任务。对于预测值的任务可能不会使用svm和贝叶斯。一些特殊的任务如生成式文本摘要则只有用深度学习模型。
  <i class="label1">普通机器学习</i>
@@ -4606,10 +4717,11 @@ for r in mt:
 (6)、一般型与时间型：一般型的数据往往可以直接拿来用或做一些简单变换后可以使用。时间型数据是那种随时间推移，不断有新增数据的(如用户消费记录，使用记录等)、这种带有时间属性的数据往往需要计算其以往消费次数、消费趋势、平均消费间隔等。如果是时间比较密集的可以划段<i class="violet">(比如从最后的时间开始按一个周、15天或一个月为一段，计算各段时间内相关属性的平均值、趋势等，但数据量不变)</i>。带时间的属性数据往往还**需要考虑特殊时间**：如周末多数人消费较多、月初、月中、月末这是可能发工资的时间段、节假日(如中秋、国庆、双十一、春节等这些节日可能活动多)等。
 (7)、特征扩展：离散型数据用One_hot编码表示<i class="green">(比如一个特征总有5类，改为One_hot表示后就再添加5个列，类对应列下的值为1)</i>。这能把线性函数转换成分段阶跃函数，减少过拟合。不过这一般对于已经是定类或定序型数据，对应离散化后的离散型特征不建议这样。
 (8)、特征组合：一些两者相关性很高的两个特征需要去除一个，或者合并。或两个特征单独无意义，但合在一起后有很大作用，如经度和纬度、其它还有一些不能线性划分的可用特征交叉、笛卡尔积、求**交并补**等。交并容易理解，将两个特征项的交集Or并集(交并的个数)当做一个新的特征。但这里的补集比如是：使用了优惠券的次数，没使用优惠券的次数，如果两者和为定值，那么则没有必要做补或并了。
-(9)、特征交叉：就是做笛卡尔积，如特征a：`[x>0 & x<10,x>12 & x<15]`，特征b：`[x>5 & x<8,x>9 & x<12,x>13 & x<15]`#做笛卡尔积后是两个条件的两两组合，同时满足两个条件的用1表示，否则用0表示，更经典的还有经纬度分段后做笛卡尔积表示区域等。
+(9)、特征交叉：就是做笛卡尔积，如特征a：`[x>0 & x<10,x>12 & x<15]`，特征b：`[x>5 & x<8,x>9 & x<12,x>13 & x<15]`#做笛卡尔积后是两个条件的两两组合，同时满足两个条件的用1表示，否则用0表示，更经典的还有经纬度分段后做笛卡尔积表示区域等。特征交叉一般是各项特征与目标特征的交叉情况，或者某特征与目标有很高相关性情况，或者两个特征交叉后有特殊意义的情况。统计各类别平均目标值，或数量，这也属于特征交叉。
 (10)、最后筛选特征时可以各特征拿去与目标项做分布分析或计算相关性来决定是否使用。或尝试加到模型中查看效果是否有提示来决定是否保留。
 (11)、是否离散化：如果特征项的具体数值变化对结果影响并不大，而只是大体的在数据分布上能聚为几类的话，建议离散化表示。否则可以不离散化。
-(12)、是否要扩展到多维特征：如果已有的一些特征和衍生出来的特征项并不能对结果有很好的区分度的话，说明这个问题是比较非线性的问题。可以尝试上面的特征扩展，组合，靠能想到的统计各种情况的值，特征项越多越能拟合出那些非线性的问题。
+(12)、是否要扩展到多维特征：如果已有的一些特征和衍生出来的特征项并不能对结果有很好的区分度的话，说明这个问题是比较非线性的问题。可以尝试上面的特征扩展，组合，靠能想到的统计各种情况的值，特征项越多越能拟合出那些非线性的问题。扩展的过程中可以尝试多种组合，如**只做特征交叉而不做one_hot编码**(使用one_hot情况下多数情况效果反而不好)。扩展好特征后**可以不经过特征选择直接拿去训练**<i class="green">(有时候选择之后模型反而变差，尤其是对于神经网络模型)。</i>
+(13)、对于目标是分类型的模型，做特征交叉一般是统计各分类特征对应的正类目标数量、及其补集反类特征数量。对于回归型可以做各类对应的均值、中位数、最小、平方差等作为衍生特征。
 ##### a2、相关分析：
 相关分析和回归分析都是针对小样本数据提出的，数据量多于百万条时，可能计算机受不住。且这两个分析假设所分析的变量存在的关系是线性关系，且所有变量均服从正太分布且方差相同。缺点：对数值型数据分析效果较好，但对其它数据可能出现偏差，系数计算受样本量影响，因此数据量因尽量大于50。
 <i class="label2">相关系数</i>有皮尔逊相关系数、肯德尔相关系数、偏相关系数、及斯皮尔曼相关系数(等级相关系数)。或计算协方差矩阵、互信息等来衡量变量间，变量与结果的影响程度。更据相关性还能决定选择合适的降维方法，减少它们之间的共线性。
@@ -4832,11 +4944,76 @@ https://wanjun0511.github.io/2017/11/05/DQN/
 <i class="label2">评测</i>[学习地址。](https://blog.csdn.net/m0_37917271/article/details/82656158)
 #### 88、Hadoop与Spark的使用：
 对于如今互联网的巨量数据集传统的批处理模式已经不能够满足需求，google最早实现了分布式并行程序将大量数据等分给各个计算机(分布式并行处理模式MapReduce)，让其返回计算结果，于2004年以论文的形式发表。Hadoop MapReduce是其开源实现(运行再FDS上)。
-<i class="label1">Hadoop</i>由Apache基金会所开发的分布式系统基础架构。用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。Hadoop实现了一个分布式文件系统（Hadoop Distributed File System），简称HDFS。HDFS有高容错性的特点，并且设计用来部署在低廉的（low-cost）硬件上；而且它提供高吞吐量（high throughput）来访问应用程序的数据，适合那些有着超大数据集（large data set）的应用程序。
-<i class="label2">MapReduce基本思想</i>包括三个层面：1、上面提到的将没有依赖关系的数据分开给各计算机处理。2、构建抽象模型：Map函数和Reduce函数。3、上升到架构：并行自动化并隐藏底层细节。
-Hadoop MapRedcue 的一些缺点：表达能力有限<i class="green">(所有计算都需要转换成 Map 和 Reduce 两个操作，不能适用于所有场景，对于复杂的数据处理过程难以描述)</i>、磁盘io开销大<i class="green">(要求每个步骤间的数据序列化到磁盘，所以 I/O 成本很高，导致交互分析和迭代算法开销很大，而几乎所有的最优化和机器学习都是迭代的)</i>、计算延迟高<i class="green">(如果想要完成比较复杂的工作，就必须将一系列的 MapReduce 作业串联起来然后顺序执行这些作业)</i>。
+<i class="label1">Hadoop</i>由Apache基金会所开发的分布式系统基础架构。用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。Hadoop实现了一个分布式文件系统（Hadoop Distributed File System），简称HDFS。HDFS有高容错性的特点，并且设计用来部署在低廉的（low-cost）硬件上；而且它提供高吞吐量（high throughput）来访问应用程序的数据，适合那些有着超大数据集（large data set）的应用程序。由以下几部分组成：HDFS,MapReduce，Hbase，Hive，Mahout，pig，zookeeper，Amban，sqoop，flume。
+<i class="label2">HDFS</i>
+**轮廓**：分布式文件系统，是一种允许文件通过网络在多台主机上进行分享的文件系统，可让多台机器上的多用户分享文件和存储空间。hdfs体系结构中有两类节点，**NameNode**(名称节点，存储文件的元数据{文件名、时间、数据大小等属性、存在哪台服务器，哪个磁盘等}，内部使用一个目录树来管理这些复杂的关系)、**DataNode**(数据节点，存储真实使用到的数据)。客户端通过联系 NameNode 来获取文件的元数据，而真正的文件 I/O 操作是直接和 DataNode 交互进行的。HDFS 主要针对“一次写入，多次读取”的应用场景，不适合实时交互性很强的应用场景，也不适合存储大量小文件。<i class="green">一个典型的配置是NameNode放在一台机器上，DataNode布置在不同的机器上，这样能保证数据的一致性。NameNode还负责创建、查找的一些命令传递给DataNode，其它一些操作命令也是NameNode来负责的，DataNode会定时发送一次状态报告，若指定时间内未收到信息，说明该DataNode处了异常，将移除该DataNode(一般网络、电源，主板问题，导致副本丢失)，然后重新启动一个线程去修复。</i>
+**设计理念**：如果只是简单的将文件分到其它计算机，那么会有以下几个严重问题：
+1、各个存储结点的负载不均衡，单机负载可能极高。例如，如果某个文件是热门文件，则会有很多用户经常读取这个文件，这就会造成该文件所在机器的访问压力极高。
+2、数据可靠性低。如果某个文件所在的机器出现故障，那么这个文件就不能访问了，甚至会造成数据的丢失。
+3、文件管理困难。如果想把一些文件的存储位置进行调整，就需要查看目标机器的空间是否够用，并且需要管理员维护文件位置，在机器非常多的情况下，这种操作就极为复杂。
+为了解决以上问题，hdfs系统将一个文件分成四份，将每份保存到不同的服务器上，但如果一个服务器上的文件损坏，那么返回的文件是不完全的，所以每台服务器上还保留文件的其它两个快，而且可以根据各服务器的繁忙程度决定从哪个服务器调取哪个块。
+**HDFS优点**：可构建在廉价机器上、高容错性(上面的文件分块保存)、适合批处理、适合存储大文件。
+**局限**：实时性差(HDFS 是为高数据吞吐量应用而优化的，这可能会以高时间延迟为代价)、小文件问题：小文件太多会占据大量的NameNode空间，NameNode存满了自然也就不再存储Data了。文件修改问题：HDFS 中的文件只有一个写入者，而且写操作总是将数据添加在文件的末尾。HDFS 不支持具有多个写入者的操作，也不支持在文件的任意位置进行修改。
+**读取流程**：客户端请求与NameNode进行连接，请求查找文件和指定的块，NameNode查找是否含有，返回结果。如果有则与DataNode进行连接，完整流程如下：
+1) 客户端调用 DistributedFileSystem 的 Open() 方法打开文件。
+2) DistributedFileSystem 用 RPC 连接到 NameNode，请求获取文件的数据块的信息；NameNode 返回文件的部分或者全部数据块列表；对于每个数据块，NameNode 都会返回该数据块副本的 DataNode 地址；DistributedFileSystem 返回 FSDataInputStream 给客户端，用来读取数据。
+3) 客户端调用 FSDataInputStream 的 Read() 方法开始读取数据。
+4) FSInputStream 连接保存此文件第一个数据块的最近的 DataNode，并以数据流的形式读取数据；客户端多次调用 Read()，直到到达数据块结束位置。
+5) FSInputStream连接保存此文件下一个数据块的最近的 DataNode，并读取数据。
+6) 当客户端读取完所有数据块的数据后，调用 FSDataInputStream 的 Close() 方法。
+**写入流程**：
+1) 客户端调用 DistribuedFileSystem 的 Create() 方法来创建文件。
+2) DistributedFileSystem 用 RPC 连接 NameNode，请求在文件系统的命名空间中创建一个新的文件；NameNode 首先确定文件原来不存在，并且客户端有创建文件的权限，然后创建新文件；DistributedFileSystem 返回 FSOutputStream 给客户端用于写数据。
+3) 客户端调用 FSOutputStream 的 Write() 函数，向对应的文件写入数据。
+4) 当客户端开始写入文件时，FSOutputStream 会将文件切分成多个分包（Packet），并写入其內部的数据队列。FSOutputStream 向 NameNode 申请用来保存文件和副本数据块的若干个 DataNode，这些 DataNode 形成一个数据流管道。队列中的分包被打包成数据包，发往数据流管道中的第一个 DataNode。第一个 DataNode 将数据包发送给第二个 DataNode，第二个 DataNode 将数据包发送到第三个 DataNode。这样，数据包会流经管道上的各个 DataNode。
+5) 为了保证所有 DataNode 的数据都是准确的，接收到数据的 DataNode 要向发送者发送确认包（ACK Packet）。确认包沿着数据流管道反向而上，从数据流管道依次经过各个 DataNode，并最终发往客户端。当客户端收到应答时，它将对应的分包从内部队列中移除。
+6) 不断执行第 (3)~(5)步，直到数据全部写完。
+7) 调用 FSOutputStream 的 Close() 方法，将所有的数据块写入数据流管道中的数据结点，并等待确认返回成功。最后通过 NameNode 完成写入。
+
+<i class="label2">NoSQL数据库</i>NoSQL（Not only SQL）泛指非关系型数据库。随着 Web 2.0 网站的兴起，传统的关系数据库已经无法适应 Web 2.0 网站，特别是超大规模和高并发的社交类型的 Web 2.0 纯动态网站，暴露了很多难以克服的问题，而非关系型的数据库则由于其本身的特点得到了非常迅速的发展。
+传统数据库的缺点：无法满足对海量数据的高效率存储和访问的需求(Web 2.0 网站要根据用户个性化信息来实时生成动态页面和提供动态信息，基本上无法使用动态页面静态化技术)、 无法满足对数据库的高可扩展性和高可用性的需求(要在一个表增加更多的字段时只能在该机器上添加，加大存储等，却不能分到多台设备上)。 关系数据库无法存储和处理半结构化/非结构化数据。
+<i class="label2">Hbase</i>是基于 Apache Hadoop 的面向列的 NoSQL 数据库，是 Google 的 BigTable 的开源实现。HBase 是一个针对半结构化数据的开源的、多版本的、可伸缩的、高可靠的、高性能的、分布式的和面向列的动态模式数据库。HBase 是可以提供实时计算的分布式数据库，数据被保存在 HDFS (分布式文件系统）上，由 HDFS 保证其高容错性。
+HBase 可以直接使用本地文件系统，也可以使用 Hadoop 的 HDFS。HBase 中保存的数据可以使用 MapReduce 来处理，它将数据存储和并行计算有机地结合在一起。
+HBase 是按列族进行数据存储的。每个列族会包括许多列，并且这些列是经常需要同时处理的属性。也就是说，HBase 把经常需要一起处理的列构成列族一起存放，从而避免了需要对这些列进行重构的操作。
+
+<i class="label2">MapReduce</i>分布式并行计算模式，其中有两个函数负责。**Map(映射)**：以键值对的形式输入，对集合中的每个元素进行同一个操作(涉及到一些固化的操作，比如每条数据都x10，都+100等)，然后处理后以另一种键值对的形式输出。<i class="violet">Map 函数的输入数据来自于 HDFS 的文件块，这些文件块的格式是任意类型的，可以是文档，可以是数字，也可以是二进制。文件块是一系列元素组成的集合，这些元素也可以是任意类型的。Map 函数首先将输入的数据块转换成 `<key,Value>`形式的键值对，键和值的类型也是任意的</i>。所有映射完成后才会进入Reduce、**Reduce(简化)**：将Map的输出作为输入，通过指定的程序对每一个键值对进行计算(涉及一些稍复杂的操作，如合并多行，统计所有行数据等)，返回想要的简化后的结果。MapReduce 架构主要功能：
+**任务调度**：任务调度功能主要负责为这些划分后的计算任务分配和调度计算结点（Map 结点或 Reduce 结点），同时负责监控这些结点的执行状态，以及 Map 结点执行的同步控制，也负责进行一些计算性能优化处理。例如，对最慢的计算任务采用多备份执行，选最快完成者作为结果。
+**出错处理**：在以低端商用服务器构成的大规模 MapReduce 计算集群中，结点硬件（主机、兹盘、内存等）出错和软件有缺陷是常态。因此，MapReduce 架构需要能检测并隔离出错结点，并调度分配新的结点接管出错结点的计算任务。
+**分布式数据存储与文件管理**：单机的分布式存储。海量数据处理需要一个良好的分布数据存储和文件管理系统作为支撑，该系统能够把海量数据分布存储在各个结点的本地磁盘上，但保持整个数据在逻辑上成为一个完整的数据文件。为了提供数据存储容错机制，该系统还要提供数据块的多备份存储管理能力。
+**Combiner 和 Partitioner**：为了减少数据通信开销，中间结果数据进入 Reduce 结点前需要进行合并（Combine）处理，即把具有同样主键的数据合并到一起避免重复传送。
+一个 Reduce 结点所处理的数据可能会来自多个 Map 结点，因此，Map 结点输出的中间结果需使用一定的策略进行适当的划分。**数据程序互定位**。
+
+**一些缺点**：表达能力有限<i class="green">(所有计算都需要转换成 Map 和 Reduce 两个操作，不能适用于所有场景，对于复杂的数据处理过程难以描述)</i>、磁盘io开销大<i class="green">(要求每个步骤间的数据序列化到磁盘，所以 I/O 成本很高，导致交互分析和迭代算法开销很大，而几乎所有的最优化和机器学习都是迭代的)</i>、计算延迟高<i class="green">(如果想要完成比较复杂的工作，就必须将一系列的 MapReduce 作业串联起来然后顺序执行这些作业)</i>。
+**具体结构**：目前是MapReduce2.0，这里先介绍1.0的结构。
+1）JobClient：用户编写的 MapReduce 程序通过 JobClient 提交给 JobTracker。
+2）JobTracker：JobTracker 主要负责资源监控和作业调度，并且监控所有 TaskTracker 与作业的健康情况，一旦有失败情况发生，就会将相应的任务分配到其他结点上去执行。
+3）TaskTracker：TaskTraker 会周期性地将本结点的资源使用情况和任务进度汇报给 JobTracker，与此同时会接收 JobTracker 发送过来的命令并执行操作。
+4）Task：Task 分为 Map Task 和 Reduce Task 两种，由 TaskTracker 启动，分别执行 Map 和 Reduce 任务。一般来讲，每个结点可以运行多个 Map 和 Reduce 任务。MapReduce 设计的一个核心理念就是“计算向数据靠拢”，而不是传统计算模式的“数据向计算靠拢”。因为移动大量数据需要的网络传输开销太大，同时降低了数据处理的效率。从而减少了结点间数据的移动。
+<i class="green">应用程序需要指定 I/O 的路径，并通过实现合适的接口或抽象类提供 Map 和 Reduce 函数，再加上其他作业参数，就构成了作业配置（Job Configuration)。Hadoop 的 Client 提交作业（如 Jar 包、可执行程序等）和配置信息给 JobTracker，后者负责分发这些软件和配置信息给 TaskTracker，调度任务并监控它们的执行，同时提供状态和诊断信息给JobClient。</i>
+<i class="label2">yarn</i>hadoop1.x版本JobTracker的作用是资源管理和任务的调度，当存在多个计算框架时，比如说spark，如果两个计算框架都有着自己的资源管理模块，就会存在资源竞争，不便于管理。此时就需要一个公共的资源管理模块，这就产生了YARN。hadoop2.x上的mapreduce是基于YARN 的，YARN支持多个计算框架，就比如说刚才说的SPARk。**Yarn上的每一个Node Manager 都与每一个dataNode与之对应**。
+<i class="label2">Hadoop的安装与使用</i>
+windows上的安装：单机安装的话不能使用HDFS，只能使用MapReduce。先安装好jdk(安装好后有Jre那种)。
+hadoop官网下载hadoop压缩包，解压。[hadoop的windows配置文件地址。](https://github.com/PengShuaixin/hadoop-2.7.3_windows.git)下载下来。解压得到的bin和etc目录替换掉前面hadoop包中的bin和etc目录。
+安装目录/etc/hadoop/hadoop-env.cmd#修改其中JAVA_HOME路径。/hdfs-site.xml#修改namenode和datanode存储的位置。core-site.xml#可修改本服务地址。
+环境变量path中添加：安装目录/bin;安装目录/sbin;#然后将》安装目录/bin下的hadoop.dll复制到：C:\Windows\system32中去。
+```
+#cmd运行：
+>hadoop    #若未出现error子样则说明安装成功。
+>hdfs namenode -format    #初始化HDFS。
+>start-all    #启动hadoop，成功会出现四个cmd框，如下图。分别是hadoop的几个重要部分。
+>stop-all    #关闭hadoop。
+```
+![hadoop](_v_images/20200817225014933_20655.png)
+**一些问题**：
+cmd运行hadoop时提示：JAVA_HOME is icnoco...#jdk不要安装在有空格的目录名下。
+安装成功，但初始化HDFS时失败：安装的jdk中没有jre，可换个jdk版本安装。
+安装cwgin时一些可选的下载包的地址：http://mirrors.163.com。http://mirrors.kernel.org。http://cygwin.mirrors.pair.com。
+打开：http://localhost:50070可看到管理hadoop的web界面。
 [hadoop与spark介绍及使用，还有其它很多多数据相关知识及其它工具的使用。](http://c.biancheng.net/view/3604.html)
-[官网下载地址。](https://hadoop.apache.org/releases.html)
+[官网下载地址。](https://hadoop.apache.org/releases.html)[Hadoop安装。](https://blog.csdn.net/u010993514/article/details/82914827)
+<i class="label3">python连接Hadoop进行读写</i>通过一些python库来操作HDFS进行读写操作。
+[hdfs3文档地址。](https://hdfs3.readthedocs.io/en/latest/api.html)[pyhdfs的git地址。](https://github.com/jingw/pyhdfs)[使用hadoop进行计算。](https://www.cnblogs.com/lzida9223/p/10536253.html)
+
 <i class="label1">Spark</i>Spark也是由apache基金会开发的，其是在hadoop的基础上做了一些改良而得到的。Hadoop其本身还存在一些缺陷。特别是 MapReduce 存在的延迟过高，无法胜任实时、快速计算需求的问题，使得需要进行多路计算和迭代算法的用例的作业过程并非十分高效。
 <i class="label2">Spark与hadoop相比的一些优势</i>Spark 提供了内存计算，把中间结果放到内存中，带来了更高的迭代运算效率。通过支持有向无环图（DAG）的分布式并行计算的编程框架，Spark 减少了迭代过程中数据需要写入磁盘的需求，提高了处理效率。
 Spark 为我们提供了一个全面、统一的框架，用于管理各种有着不同性质（文本数据、图表数据等）的数据集和数据源（批量数据或实时的流数据）的大数据处理的需求。
@@ -4847,6 +5024,7 @@ Spark 的计算模式也属于 MapReduce 类型，但提供的操作不仅包括
 <i class="label2">RDD</i>RDD 是 Spark 提供的最重要的抽象概念，它是一种有容错机制的特殊数据集合，可以分布在集群的结点上，以函数式操作集合的方式进行各种并行操作。通俗点来讲，可以将 RDD 理解为一个分布式对象集合，本质上是一个只读的分区记录集合。每个 RDD 可以分成多个分区，每个分区就是一个数据集片段。一个 RDD 的不同分区可以保存到集群中的不同结点上，从而可以在集群中的不同结点上进行并行计算。
 <i class="label2">spark结构及运行流程</i>包括集群资源管理器（Cluster Manager）、多个运行作业任务的工作结点（Worker Node）、每个应用的任务控制结点（Driver）和每个工作结点上负责具体任务的执行进程（Executor）。<i class="violet">如右图，大致概括其运行流程就是：SparkContext为主入口，向cluster Manger申请各节点运行excutor的数据，cluster manager向其分配资源并启动各excutor，然后sparkContext会将数据结合RDD构建DAG图，将 DAG 图分解成多个 Stage，并把每个 Stage 的 TaskSet（任务集）发送给 Task Scheduler (任务调度器）。Executor 向 SparkContext 申请 Task, Task Scheduler 将 Task 发放给 Executor,同时，SparkContext 将应用程序代码发放给 Executor。Task 在 Executor 上运行，把执行结果反馈给 Task Scheduler，然后再反馈给 DAG Scheduler。运行完毕后写入数据，SparkContext 向 ClusterManager 注销并释放所有资源。</i>
 ![spark_structure](_v_images/20200415145342133_129016389.gif =496x)                                ![spark_run](_v_images/20200415145407987_1403867592.gif =280x)
+
 <i class="label1">spark的使用</i>spark安装好后进入其目录下的bin路径下输入./spark-shell即可进入spark的scal模式(其内部是用scal语言实现的)，编写的scal程序或java程序需要打包才能拿来运行，scal程序用sbt打包、java程序用maven打包、python程序则直接提交即可。不过python程序要调用pyspark包(依赖与py4j库)来编写运行处理数据的代码，示例如下：
 ```
 from pyspark import SparkContext,SparkConf
@@ -4903,6 +5081,7 @@ findspark.init()
 [pyspark模块学习地址。](https://www.it1352.com/OnLineTutorial/pyspark/pyspark_sparkcontext.html)[另一个pyspark基础操作学习地址。](https://blog.csdn.net/cymy001/article/details/78483723/)
 [sparck官网下载地址(下载与hadoop对应版本的，若找不到与其版本对应的就下载没指明版本那个包)。](http://spark.apache.org/downloads.html)
 [Hadoop与spark的安装学习地址。](https://www.cnblogs.com/dion-90/articles/9058500.html)
+
 #### 89、MLP、BP、DNN:
 <div class="introduce">Multi-LayerPerceptron(mlp)，多层感知机是多层全连接前馈神经网络模型，没有反向传播这一步骤，是一种神经网络模型中的监督学习算法，早期的感知机只有两层，计算局限性比较大且不能处理非线性关系的数据，改进后的多层感知机包括输入层，隐藏层和输出层。而BP(back propagation)神经网络，是在mlp的基础上增加了误差的反向传播，属于浅层神经网络。而DNN是更深层的，所以叫深度神经网络。他们都属于ANN(Artificial Neural Network)，人工神经网络。</div>
 
@@ -4911,6 +5090,7 @@ findspark.init()
 <div class="el-7">如果所示，前向传播：前一层的网络的每个节点连接到下一层的任一各节点都是<code>w1*x1+b1+w2*x2+b2+...的形式</code>，如此逐层向下，到输出层，如果时分类型就将最后一个维度转为对应分类的维度输出，如果为预测型，就只剩一维。</br>后向传播：从后向前，先计算最后一层所有参数的偏导，得到该层梯度，更新权重：<code>wi=wi-rate*|Grad|</code>。</br><a href="https://www.cnblogs.com/charlotte77/p/5629865.html">一篇非常详细的dnn计算过程讲解。</a></div>
 </div>
 
+注：深度学习的网络参数不同，有时候能达到10多倍的差距！！！。经过神经网络的数据最好都适用标准化，而不是归一化，即使有分类型特征。
 #### 90、(CNN)卷积神经网络：
 CNN主要用来识别位移、缩放及其他形式扭曲不变性的二维图形由于CNN的特征检测层通过训练		数据进行学习，所以在使用CNN时，避免了显示的特征抽取，而隐式地从训练数据中进行学习；再者由于同一特征映射面上的神经元权值相同，所以网络可以并行学习，这也是卷积网络相对于神经元彼此相连网络的一大优势。
 结构：包括输入层、卷积层、池化层、全局平均池化层、输出层。

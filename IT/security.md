@@ -22,17 +22,21 @@ net user //查看本机所有用户名   echo %username% //查看当前使用的
 nvcc -V //查看cuda版本
 services.mc //打开服务列表，windows update...项为系统更新。
 https://www.cnblogs.com/accumulater/p/7110811.html
+**查看mac/物理地址**：ipconfig/all    #显示物理地址的那行。
+**查看系统型号**：win+r弹框中输入directx看到的系统型号即是电脑型号，或者鲁大师、电脑管家中的硬件检测工具中也会显示。
 ##### b、windows常见问题：
-[0]有时常用的正常的网络会出现网速慢、无法连接等的问题这可以尝试打开设备管理器>网络适配器这下面是连接的网络点属性>高级,修改一下里面的值可能网速就会变得正常。连接不上网的话可以试试卸载该网的驱动再点检测硬件安装试试。
-[1]网络连接处显示红叉，但是重新插入便携式路由器后也无反应，不一定是路由器出问题、试试重启
-[2]右下角电脑图标显示正常但是连不上网，可以尝试cmd:netsh winsock reset  //重置网络然后重启。
-[3]复制文件导u盘提示文件过大问题：u盘文件系统有NTFS，exfat等，NTFS文件限制大小为2T，其它限制在4G以下，手动格式化里选NTFS点确定，但会格式化优盘。【不格式化情况下修改文件系统】cmd命令： convert h:fs/ntfs   //将u盘位置h转换为ntfs文件系统。
-[桌面图标整齐排列]桌面空白右键》查看》
-[安装cuda图像驱动程序时提示：此图形驱动程序无法找到兼容的图像硬件]
+a1、有时常用的正常的网络会出现网速慢、无法连接等的问题这可以尝试打开设备管理器>网络适配器这下面是连接的网络点属性>高级,修改一下里面的值可能网速就会变得正常。连接不上网的话可以试试卸载该网的驱动再点检测硬件安装试试。
+a2、网络连接处显示红叉，但是重新插入便携式路由器后也无反应，不一定是路由器出问题、试试重启
+a3、右下角电脑图标显示正常但是连不上网，可以尝试cmd:netsh winsock reset  //重置网络然后重启。
+a4、复制文件导u盘提示文件过大问题：u盘文件系统有NTFS，exfat等，NTFS文件限制大小为2T，其它限制在4G以下，手动格式化里选NTFS点确定，但会格式化优盘。【不格式化情况下修改文件系统cmd命令： convert h:fs/ntfs   //将u盘位置h转换为ntfs文件系统。
+桌面图标整齐排列]桌面空白右键》查看》
+安装cuda图像驱动程序时提示：此图形驱动程序无法找到兼容的图像硬件。
 https://www.iteye.com/blog/yuanlanxiaup-1330287
 **磁盘分区**：一个盘分为多个盘=》win+r/输入diskmgmt.msc/选择c盘/右键/压缩卷
-笔记本电脑触摸板失灵问题：设备管理器》鼠标和其它设备，正常情况下有一个mouse touch...类的设备，右键检测，看看是否有提示，若没有可以用驱动精灵检测驱动试试，若提示主板驱动异常，或触摸板驱动异常，安装后重启应该就能解决该问题。
-#### c、windows系统安装：
+**笔记本电脑触摸板失灵问题**：设备管理器》鼠标和其它设备，正常情况下有一个mouse touch...类的设备，右键检测，看看是否有提示，若没有可以用驱动精灵检测驱动试试，若提示主板驱动异常，或触摸板驱动异常，安装后重启应该就能解决该问题。
+**win10的wifi列表没有搜索到wifi列表**：更改适配器选项(网络连接)》右键禁用wlan，再右键启用。
+##### c、windows系统安装：
+可本地一键ghost安装，也可以制作启动盘安装。
 #### 2、快捷键提升操作速度：
 切换已经打开的软件：window+table,ctrl+o打开文件夹，win+D直接切换到桌面
 浏览器中：
@@ -68,8 +72,10 @@ apache常用命令：
 tomcat下载安装： https://jingyan.baidu.com/article/4b52d702a5eaa0fc5d774b72.html
 apache下载安装：https://www.jianshu.com/p/cd916b8b31a8
 解决外网访问问题：https://blog.csdn.net/xin_118/article/details/79956559
-jdk下载地址：
-https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+[jdk的安装。](https://www.jianshu.com/p/467c29949beb)
+jdk下载地址(选Java SE 8u261)：https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+jdk1.8，linux版本: https://pan.baidu.com/s/1AIH1KTwJFMC2KhypiCRDVg 密码: s31c
+
 #### 4、网络知识：
 每台连入网络的电脑都会被分配到一个ip做为计算机的唯一标识，ip又分为公网ip和私有ip，在同一局域网网的两台计算机可以互相访问(互相ping对方ip能成功)，而不在同一局域网(如一个学校,一个公司,因为它们的网络一般是拉一根主光纤进去使用的,这样它们的计算机ip地址一般会处于同一个网段)的电脑如果不是公网ip的话是ping不通的,所以公网ip是非常少的；一个私有ip能直接ping通一个公网ip,一个公网ip也对应一台计算机,不过这台计算机的ip可能就是这个公网ip也可能还有着另一个私有ip(多数情况),计算机公网ip与本机ip不一致的情况就称该计算机在内网,否则称为外网。这样也保证了一定的安全性。
 <i class="label1">http3次握手协议</i>
@@ -93,7 +99,7 @@ https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.
 **vm-tools安装**：在开启虚拟机内部安装的系统时，点击虚拟机上方第四个功能》点击install vmware tools。开机后如果虚拟机内安装的系统是windows则打开电脑，在磁盘旁会显示一个tools的驱动器，点击安装。如果是linux系统，该tools驱动会出现在桌面上，点击安装即可。
 本机与虚拟机的共享：先安装vm-tools。安装完成后宿主机和虚拟机系统间可以直接复制粘贴操作。在虚拟机系统处于关闭状态：右键虚拟机系统>设置>选项>启用共享功能>添加主机中的指定路径。安装vmware-tools灰色问题：https://www.cnblogs.com/TM0831/p/11788018.html
 
-[不能连接网络问题]https://www.cnblogs.com/ustca/p/11729312.html
+不能连接网络问题：https://www.cnblogs.com/ustca/p/11729312.html。[vmware激活许可证。](https://www.52pojie.cn/thread-804891-1-1.html)
 ubuntu 64位系统安装：https://ubuntu.com/download/desktop
 #### 6、计算机知识：
 ##### a、结构：
