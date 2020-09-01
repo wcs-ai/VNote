@@ -1758,7 +1758,7 @@ Ctrl + Shift + R(全局替换)。
 隐藏左边的文件栏：shift+esc        打开左侧项目目录：ALT+1
 Shift + F10#运行。Shift + F9#调试。Alt + Shift + F10  运行模式配置。Alt + Shift + F9   调试模式配置
 Alt+j#同时选择相同字符串的下一个。Ctrl+Alt+shift+j#选中当前文件所有相同字符串。
-
+[linux上安装pycharm。](https://blog.csdn.net/xiaoxiaofengsun/article/details/82257391)
 使用Anaconda环境：setting>project:name>Project interpreter下拉框中选择运行的环境，添加新的运行环境：下拉框点show all后点击+号>选第二个单选文件夹中选择Anaconda安装目录>envs>wcs>python.exe(envs是自己在anaconda创建的所有环境,wcs是自己创建的一个环境,每个环境下都有一个python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括sublim中切换环境也是切换python.exe的位置。
 ##### (4)、jupyter:
 一个web式的ide工具，通过电脑上安装jupyter notebook工具，运行后会开通一个本地服务，按照其给出的链接进入web页面，在上面进行编辑代码。支持50多种语言。
@@ -4991,7 +4991,7 @@ HBase 是按列族进行数据存储的。每个列族会包括许多列，并�
 4）Task：Task 分为 Map Task 和 Reduce Task 两种，由 TaskTracker 启动，分别执行 Map 和 Reduce 任务。一般来讲，每个结点可以运行多个 Map 和 Reduce 任务。MapReduce 设计的一个核心理念就是“计算向数据靠拢”，而不是传统计算模式的“数据向计算靠拢”。因为移动大量数据需要的网络传输开销太大，同时降低了数据处理的效率。从而减少了结点间数据的移动。
 <i class="green">应用程序需要指定 I/O 的路径，并通过实现合适的接口或抽象类提供 Map 和 Reduce 函数，再加上其他作业参数，就构成了作业配置（Job Configuration)。Hadoop 的 Client 提交作业（如 Jar 包、可执行程序等）和配置信息给 JobTracker，后者负责分发这些软件和配置信息给 TaskTracker，调度任务并监控它们的执行，同时提供状态和诊断信息给JobClient。</i>
 <i class="label2">yarn</i>hadoop1.x版本JobTracker的作用是资源管理和任务的调度，当存在多个计算框架时，比如说spark，如果两个计算框架都有着自己的资源管理模块，就会存在资源竞争，不便于管理。此时就需要一个公共的资源管理模块，这就产生了YARN。hadoop2.x上的mapreduce是基于YARN 的，YARN支持多个计算框架，就比如说刚才说的SPARk。**Yarn上的每一个Node Manager 都与每一个dataNode与之对应**。
-<i class="label2">Hadoop的安装与使用</i>
+<i class="label2">windows上Hadoop的单击版安装与使用</i>
 windows上的安装：单机安装的话不能使用HDFS，只能使用MapReduce。先安装好jdk(安装好后有Jre那种)。
 hadoop官网下载hadoop压缩包，解压。[hadoop的windows配置文件地址。](https://github.com/PengShuaixin/hadoop-2.7.3_windows.git)下载下来。解压得到的bin和etc目录替换掉前面hadoop包中的bin和etc目录。
 安装目录/etc/hadoop/hadoop-env.cmd#修改其中JAVA_HOME路径。/hdfs-site.xml#修改namenode和datanode存储的位置。core-site.xml#可修改本服务地址。
@@ -5013,6 +5013,15 @@ cmd运行hadoop时提示：JAVA_HOME is icnoco...#jdk不要安装在有空格的
 [官网下载地址。](https://hadoop.apache.org/releases.html)[Hadoop安装。](https://blog.csdn.net/u010993514/article/details/82914827)
 <i class="label3">python连接Hadoop进行读写</i>通过一些python库来操作HDFS进行读写操作。
 [hdfs3文档地址。](https://hdfs3.readthedocs.io/en/latest/api.html)[pyhdfs的git地址。](https://github.com/jingw/pyhdfs)[使用hadoop进行计算。](https://www.cnblogs.com/lzida9223/p/10536253.html)
+<i class="label2">linux上Hadoop的单击版安装与使用</i>与windows上的安装类似，不过环境变量是在/etc/profile中设置，注意：如果使用系统自带的java，则jdk路径处写/usr即可，因为hadoop使用是会去找该路径下的bin/java。
+使用以下三条命令做免密登陆。[linux上hadoop单击版安装。](https://blog.csdn.net/cafebar123/article/details/73500014)
+```
+ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
+cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+chmod 0600 ~/.ssh/authorized_keys
+```
+第一次启动前需要格式化：`./bin/hdfs namenode -format`。然后：`./sbin/start-dfs.sh`#启动。`./sbin/stop-dfs.sh`#停止。
+
 
 <i class="label1">Spark</i>Spark也是由apache基金会开发的，其是在hadoop的基础上做了一些改良而得到的。Hadoop其本身还存在一些缺陷。特别是 MapReduce 存在的延迟过高，无法胜任实时、快速计算需求的问题，使得需要进行多路计算和迭代算法的用例的作业过程并非十分高效。
 <i class="label2">Spark与hadoop相比的一些优势</i>Spark 提供了内存计算，把中间结果放到内存中，带来了更高的迭代运算效率。通过支持有向无环图（DAG）的分布式并行计算的编程框架，Spark 减少了迭代过程中数据需要写入磁盘的需求，提高了处理效率。
