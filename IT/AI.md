@@ -1708,9 +1708,10 @@ icon在弹出的列表中点击激活vscode icons即可使用该插件。
 [同时选中多个相同的字符]ctrl+shift+L选中该页中所有相同的字符。ctrl+D选择下一个相同的字符
 [代码格式化]先安装yapf库，pip install yapf 然后在cscode设置搜索框中搜python.formatting.provider
 右边下拉框中选择yapf。设置好后选中要整理的代码块，右键点format selection整理，但对缩进无效
-[空格只有半字符长问题]设置>搜索框输入font，FontFamily项输入'monospace'
+空格只有半字符长问题：设置>搜索框输入font，FontFamily项输入'monospace'
 <i class="label1">修改python环境：</i>设置中搜索python.python path将框内的路径修改为自己想要的(worker pace和user项都修改)，如果不成功则参考35中的注意事项。
 <i class="label1">控制台打印中文乱码问题</i>点击左侧工具栏第四个按钮，左上角点击生成launch.json文件，选择python环境，然后在生成的文件中以下位置填入：
+```
   "version": "0.2.0",
   "configurations": [
     {
@@ -1723,6 +1724,7 @@ icon在弹出的列表中点击激活vscode icons即可使用该插件。
         "PYTHONIOENCODING":"GBK"
       }
     }
+```
  [Anaconda环境设置]插件安装栏搜索anaconda安装运行即可。
  **好用的插件**：Dracula(颜色样式插件)、city Lights icon package(icon插件)、vue、Anaconda。
  **插件使用**：左侧栏最后一个功能搜索下载，下载好后右边界面上方有设置使用按钮。
@@ -5011,8 +5013,6 @@ cmd运行hadoop时提示：JAVA_HOME is icnoco...#jdk不要安装在有空格的
 打开：http://localhost:50070可看到管理hadoop的web界面。
 [hadoop与spark介绍及使用，还有其它很多多数据相关知识及其它工具的使用。](http://c.biancheng.net/view/3604.html)
 [官网下载地址。](https://hadoop.apache.org/releases.html)[Hadoop安装。](https://blog.csdn.net/u010993514/article/details/82914827)
-<i class="label3">python连接Hadoop进行读写</i>通过一些python库来操作HDFS进行读写操作。
-[hdfs3文档地址。](https://hdfs3.readthedocs.io/en/latest/api.html)[pyhdfs的git地址。](https://github.com/jingw/pyhdfs)[使用hadoop进行计算。](https://www.cnblogs.com/lzida9223/p/10536253.html)
 <i class="label2">linux上Hadoop的单击版安装与使用</i>与windows上的安装类似，不过环境变量是在/etc/profile中设置，注意：如果使用系统自带的java，则jdk路径处写/usr即可，因为hadoop使用是会去找该路径下的bin/java。
 使用以下三条命令做免密登陆。[linux上hadoop单击版安装。](https://blog.csdn.net/cafebar123/article/details/73500014)
 ```
@@ -5021,6 +5021,14 @@ cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
 chmod 0600 ~/.ssh/authorized_keys
 ```
 第一次启动前需要格式化：`./bin/hdfs namenode -format`。然后：`./sbin/start-dfs.sh`#启动。`./sbin/stop-dfs.sh`#停止。
+<i class="label1">python连接Hadoop进行读写</i>通过一些python库来操作HDFS进行读写操作。这里用pyhdfs库式例：
+```
+import pyhdfs
+
+
+```
+[python用pyhdfs连接hadoop，进行文件操作(测试使用通过)。](https://blog.csdn.net/weixin_38070561/article/details/81289601)
+[hdfs3文档地址。](https://hdfs3.readthedocs.io/en/latest/api.html)[pyhdfs的git地址。](https://github.com/jingw/pyhdfs)[使用hadoop进行计算。](https://www.cnblogs.com/lzida9223/p/10536253.html)
 
 
 <i class="label1">Spark</i>Spark也是由apache基金会开发的，其是在hadoop的基础上做了一些改良而得到的。Hadoop其本身还存在一些缺陷。特别是 MapReduce 存在的延迟过高，无法胜任实时、快速计算需求的问题，使得需要进行多路计算和迭代算法的用例的作业过程并非十分高效。
