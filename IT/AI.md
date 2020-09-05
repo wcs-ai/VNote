@@ -5025,11 +5025,46 @@ chmod 0600 ~/.ssh/authorized_keys
 ```
 import pyhdfs
 
+# 连接到hadoop，注意hosts中的ip和端口号之间使用,号分隔的。这里的ip和端口号是在安装时，在core-site.xml文件中配置的那个。
+#！官方文档里似乎可以连接多个地址节点。
+# user_name参数是你这台电脑上的用户，而不是什么hadoop用户。所以一般在linux上使用hadoop。
+# 如果使用非root用户登陆的话，可能在某些操作时会导致权限错误，所以一般会为hadoop创建一个用户，并设置其权限。
+client = pyhdfs.HdfsClient(hosts="127.0.0.1,9000",user_name="root")
+# get namenode nums.=>192.1...2:50070 #获取到的是web页的地址（name节点）。
+namenode = client.get_active_namenode(max_staleness=None)#获取所有name节点。
+state = client.list_status('/')# 获取当前目录下的文件状态。
 
+client.mkdirs("/data")#新建一个data目录。
+dirs = client.listdir("/")#获取指定路径下的一级文件目录。
+
+"""从本地上传到hdfs，都写具体的路径加文件名。
+args:local path,origin path and name.
+"""
+client.copy_from_local("/home/xsww/item/crawler/test.txt",'/data/test.txt')
+# 向该文件中添加新的内容。
+client.append('/data/test.txt','this is new add content.')
+# 远程读取集群上指定文件的内容。
+response = client.open("/data/test.txt")
+content = response.read()
+print(content)#b'this is a test file,about hadoop.\n'
+# 将集群上的文件复制到本地，具体到文件名。
+client.copy_to_local('/data/test.txt','/home/xsww/datas/aa.txt')
+# 查看是否存在该文件，放回布尔值。
+client.exists("/user/hadoop/test.csv")
+# 查看路径总览信息
+client.get_content_summary("/user/hadoop")
 ```
-[python用pyhdfs连接hadoop，进行文件操作(测试使用通过)。](https://blog.csdn.net/weixin_38070561/article/details/81289601)
-[hdfs3文档地址。](https://hdfs3.readthedocs.io/en/latest/api.html)[pyhdfs的git地址。](https://github.com/jingw/pyhdfs)[使用hadoop进行计算。](https://www.cnblogs.com/lzida9223/p/10536253.html)
-
+以上是用python连接hadoop的一些常用操作，其实际上是调用hadoop指令完成的，如下是hadoop可在shell中使用的命令：
+删除hdfs上指定文件：hadoop fs -rm -r -skipTrash /path_to_file/file_name
+删除hdfs上指定文件夹：hadoop fs -rm -r -skipTrash /folder_name
+[hadoop常用命令学习地址。](https://www.cnblogs.com/zhujiabin/p/5755379.html)。[python用pyhdfs连接hadoop，进行文件操作(测试使用通过)。](https://blog.csdn.net/weixin_38070561/article/details/81289601)
+[hdfs3文档地址。](https://hdfs3.readthedocs.io/en/latest/api.html)[pyhdfs的git地址。](https://github.com/jingw/pyhdfs)
+<i class="label2">编写mapReduce程序，使用streaming运行</i>：
+缺点：
+1. 只能通过命令行参数来控制 MapReduce 框架，不像 Java 的程序那样可以在代码里使用 API，控制力比较弱。
+2. 因为中间隔着一层处理，效率会比较慢。
+3. 所以 Hadoop Streaming 比较适合做一些简单的任务，比如用 Python 写只有一两百行的脚本。如果项目比较复杂，或者需要进行比较细致的优化，使用 Streaming 就容易出现一些束手束脚的地方。
+[使用hadoop进行计算。](https://www.cnblogs.com/lzida9223/p/10536253.html)
 
 <i class="label1">Spark</i>Spark也是由apache基金会开发的，其是在hadoop的基础上做了一些改良而得到的。Hadoop其本身还存在一些缺陷。特别是 MapReduce 存在的延迟过高，无法胜任实时、快速计算需求的问题，使得需要进行多路计算和迭代算法的用例的作业过程并非十分高效。
 <i class="label2">Spark与hadoop相比的一些优势</i>Spark 提供了内存计算，把中间结果放到内存中，带来了更高的迭代运算效率。通过支持有向无环图（DAG）的分布式并行计算的编程框架，Spark 减少了迭代过程中数据需要写入磁盘的需求，提高了处理效率。
@@ -5095,9 +5130,9 @@ findspark.init()
 <i class="label1">spark运行python程序</i>用pyspark模块写好处理数据的python程序后可以进入到spark安装路径下：
 `./bin/spark-submit --class "ai" /home/wcs/item/spark_test.py   ` #ai是应用名，后面的是要运行的python文件路径。
 <i class="label1">spark分布集群环境部署和运行</i>[一个参考学习地址。](https://blog.csdn.net/qq_15349687/article/details/82748074)
-[pyspark模块学习地址。](https://www.it1352.com/OnLineTutorial/pyspark/pyspark_sparkcontext.html)[另一个pyspark基础操作学习地址。](https://blog.csdn.net/cymy001/article/details/78483723/)
-[sparck官网下载地址(下载与hadoop对应版本的，若找不到与其版本对应的就下载没指明版本那个包)。](http://spark.apache.org/downloads.html)
-[Hadoop与spark的安装学习地址。](https://www.cnblogs.com/dion-90/articles/9058500.html)
+[pyspark模块学习地址。](https://www.it1352.com/OnLineTutorial/pyspark/pyspark_sparkcontext.html)。[另一个pyspark基础操作学习地址。](https://blog.csdn.net/cymy001/article/details/78483723/)
+[sparck官网下载地址(下载与hadoop对应版本的，若找不到与其版本对应的就下载没指明版本那个包)。](http://spark.apache.org/downloads.html)。
+[Hadoop与spark的安装学习地址。](https://www.cnblogs.com/dion-90/articles/9058500.html)。[python编写mapReduce程序](https://blog.csdn.net/donger__chen/article/details/90450992)
 
 #### 89、MLP、BP、DNN:
 <div class="introduce">Multi-LayerPerceptron(mlp)，多层感知机是多层全连接前馈神经网络模型，没有反向传播这一步骤，是一种神经网络模型中的监督学习算法，早期的感知机只有两层，计算局限性比较大且不能处理非线性关系的数据，改进后的多层感知机包括输入层，隐藏层和输出层。而BP(back propagation)神经网络，是在mlp的基础上增加了误差的反向传播，属于浅层神经网络。而DNN是更深层的，所以叫深度神经网络。他们都属于ANN(Artificial Neural Network)，人工神经网络。</div>
