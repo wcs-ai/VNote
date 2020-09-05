@@ -5057,11 +5057,14 @@ client.get_content_summary("/user/hadoop")
 以上是用python连接hadoop的一些常用操作，其实际上是调用hadoop指令完成的，如下是hadoop可在shell中使用的命令：
 删除hdfs上指定文件：hadoop fs -rm -r -skipTrash /path_to_file/file_name
 删除hdfs上指定文件夹：hadoop fs -rm -r -skipTrash /folder_name
-[hadoop常用命令学习地址。](https://www.cnblogs.com/zhujiabin/p/5755379.html)
-
-[python用pyhdfs连接hadoop，进行文件操作(测试使用通过)。](https://blog.csdn.net/weixin_38070561/article/details/81289601)
-[hdfs3文档地址。](https://hdfs3.readthedocs.io/en/latest/api.html)[pyhdfs的git地址。](https://github.com/jingw/pyhdfs)[使用hadoop进行计算。](https://www.cnblogs.com/lzida9223/p/10536253.html)
-
+[hadoop常用命令学习地址。](https://www.cnblogs.com/zhujiabin/p/5755379.html)。[python用pyhdfs连接hadoop，进行文件操作(测试使用通过)。](https://blog.csdn.net/weixin_38070561/article/details/81289601)
+[hdfs3文档地址。](https://hdfs3.readthedocs.io/en/latest/api.html)[pyhdfs的git地址。](https://github.com/jingw/pyhdfs)
+<i class="label2">编写mapReduce程序，使用streaming运行</i>：
+缺点：
+1. 只能通过命令行参数来控制 MapReduce 框架，不像 Java 的程序那样可以在代码里使用 API，控制力比较弱。
+2. 因为中间隔着一层处理，效率会比较慢。
+3. 所以 Hadoop Streaming 比较适合做一些简单的任务，比如用 Python 写只有一两百行的脚本。如果项目比较复杂，或者需要进行比较细致的优化，使用 Streaming 就容易出现一些束手束脚的地方。
+[使用hadoop进行计算。](https://www.cnblogs.com/lzida9223/p/10536253.html)
 
 <i class="label1">Spark</i>Spark也是由apache基金会开发的，其是在hadoop的基础上做了一些改良而得到的。Hadoop其本身还存在一些缺陷。特别是 MapReduce 存在的延迟过高，无法胜任实时、快速计算需求的问题，使得需要进行多路计算和迭代算法的用例的作业过程并非十分高效。
 <i class="label2">Spark与hadoop相比的一些优势</i>Spark 提供了内存计算，把中间结果放到内存中，带来了更高的迭代运算效率。通过支持有向无环图（DAG）的分布式并行计算的编程框架，Spark 减少了迭代过程中数据需要写入磁盘的需求，提高了处理效率。
