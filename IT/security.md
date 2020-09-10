@@ -37,9 +37,10 @@ https://www.iteye.com/blog/yuanlanxiaup-1330287
 **win10的wifi列表没有搜索到wifi列表**：更改适配器选项(网络连接)》右键禁用wlan，再右键启用。
 ##### c、windows系统安装：
 可本地一键ghost安装，也可以制作启动盘安装。
-d、windows安装centos双系统：
+##### d、windows安装centos双系统：****
 先制作一个centos的启动盘。在windows上用分区助手从windows中选择一些空间，然后删除这些空间的分区(删除分区后表示该硬盘空间不再属于windows)，然后重启进入bios界面选择u盘启动，开始安装centos，选择安装位置时选择最上面那个，总容量：546G，剩余空间：164G那个即可(不是固定大小哈)，其它正常安装即可。
 安装了双系统之后，两个系统的性能会受到部分影响。如果没有用系统切换工具的话，每次要进入bios来切换进入系统。
+双系统切换，win+r，输入msconfig，引导设置。
 #### 2、快捷键提升操作速度：
 切换已经打开的软件：window+table,ctrl+o打开文件夹，win+D直接切换到桌面
 浏览器中：
@@ -155,21 +156,23 @@ sudo su  #切换到root身份运行命令
 ufw disable  #关闭防火墙，需要以root身份运行。ufw enable #开启防火墙
 cp: 复制文件或目录。cp a.txt ~/file   #将a.txt文件复制到根目录的file文件夹下。若拷贝文件夹则要加上-r参数：cp -r a /opt/b
 cp software/* ~/abs  #*表示将software下所有的文件复制到abs中*。
-移动：sudo mv a.txt /java 
-解压gz压缩包：tar -zxvf qq.tar.gz 
-**查找文件**：`sudo find / -name npm `#find命令查找指定目录和名的命令，/表示在根目录查找，/usr则表示在/usr这个目录下查找。
-**删除和新建**：`rmdir pckname` #删除文件夹。rm file #删除文件 mkdir pckname #新建文件夹。touch filename #新建文件
-重启：sudo reboot
-更形内核：sudo apt-get install --install-recommends linux-generic-hwe-18.04 #在遇到一些问题时可以试试这个。
+mv 移动文件与目录，或修改文件与目录的名称
+sudo mv a.txt /java  #使用sudo开头能将文件移到到隐藏的根目录文件下。
+tar -zxvf qq.tar.gz  #解压gz压缩包
+vi a.txt  #使用vim编辑器打开文件，不过内容是显示在终端。
+**[查找文件]**`sudo find / -name npm `#find命令查找指定目录和名的命令，/表示在根目录查找，/usr则表示在/usr这个目录下查找。
+**[删除和新建]**`rmdir pckname` #删除文件夹。rm file #删除文件 mkdir pckname #新建文件夹。touch filename #新建文件
+[重启]sudo reboot
+[更形内核]sudo apt-get install --install-recommends linux-generic-hwe-18.04 #在遇到一些问题时可以试试这个。
 **修改主机名**：终端里@后的名字是主机名。使用命令：sudo gedit /etc/hostname 后会打开该文件，里面只有一个主机名，修改它，保存，重启后生效。
 **调整分辨率**：xrandr(显示所有可用分辨率)，xrandr -s 1920x1080 #更改分辨率，一般是第一个。
 **图形显示文件夹**：`nautilus conf  `#nautilus命令打开conf文件夹所在位置，用另一个窗口显示出来。sudo nautilus  file#以root身份打开。
 
-编程相关：linux系统是为编程而生的，发行版本会自带几乎所有编程语言，多数会有多个编程版本。
+[编程相关]linux系统是为编程而生的，发行版本会自带几乎所有编程语言，多数会有多个编程版本。
 **下载命令**：wget http://xxx.com/download #用wget命令从指定下载链接下载。下载后一般在/etc/apt/preferences.d/路径下。
-安装vim编辑器：sudo apt install vim #安装后可在终端用vim file编辑文件。i：插入操作。:w #保存。:wq #保存并退出。[详细使用](https://blog.csdn.net/weixin_38208741/article/details/78862368)
-查看和更改文件编码：file dm.yml #显示文件编码。转换：  iconv -f  文件编码格式  -t 想要转换的编码格式  要编码的文件名 -o 编码之后的文件名。-l #列出已知编码字符集。 -c :忽略输出的非法字符 -s :禁止警告信息，但不是错误信息。 --verbose :显示进度信息。
-**截图**prtsc(右上角)：截取整个屏幕，shift+prtsc #松开后用鼠标划好区域截图。
+[安装vim编辑器]sudo apt install vim #安装后可在终端用vim file编辑文件。i：插入操作。:w #保存。:wq #保存并退出。[详细使用](https://blog.csdn.net/weixin_38208741/article/details/78862368)
+[查看和更改文件编码]file dm.yml #显示文件编码。转换：  iconv -f  文件编码格式  -t 想要转换的编码格式  要编码的文件名 -o 编码之后的文件名。-l #列出已知编码字符集。 -c :忽略输出的非法字符 -s :禁止警告信息，但不是错误信息。 --verbose :显示进度信息。
+**[截图]**prtsc(右上角)：截取整个屏幕，shift+prtsc #松开后用鼠标划好区域截图。
 **修改文件权限命令**：
 `chmod -R 777 software` #将software文件夹权限全开。`chmod -R jay:fefjay /my` # 加-R，修改文件所属用户为jay，所属用户组为fefjay
 `chmod +x file.sh`  #赋予file.sh文件可作为程序执行的权限。之后用 ./file.sh直接运行文件。<i class="blue">如果权限不够就在前面加上sudo(chmod前和运行./前)</i>
