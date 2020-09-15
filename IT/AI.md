@@ -40,6 +40,7 @@ Enter password:****            #输入原密码进入
 mysql>alter user root@localhost identified by 'xsww';将密码更改为xsww
 ```
 **使用**：[连接mysql时提示：Authentication method 'caching_sha2_password' is not supported解决方法](https://blog.csdn.net/u011583336/article/details/80999043)。
+
 ```
 from mysql import connector #pip install mysql-connector    和pymysql库一样的使用方法。
 #连接mysql,主机名(ip),..database指定连接到的数据库，没有的话则只是连接mysql
@@ -54,18 +55,19 @@ for x in ac:print(x)#查看所有数据库或当期数据库下的所有表格�
 # 在查询时
 val = ac.execute("SELECT * FROM user")    #选取所有列
 print(val)#列的数量，直接使用sql语句时还会显示各行的键类型、等其它属性。
+
 ```
 
 **增、删、查、改**：
-#插入数据,（增）。单条插入,使用占位符%时execute()内需要填两个值
+//插入数据,（增）。单条插入,使用占位符%时execute()内需要填两个值
 ```
 sql = "INSERT INFO sites (name,url) VALUES (%s,%s)"
 ac.execute(sql,('wcs','http:'))#批量插入操作，第二值传入一元组,改成executemany()即可
 ac.executemany(sql,[('google','url'),('github','url'),...])
 wcs.commit()#涉及到更改数据库的操作需要使用commit()提交。
-```
+
 #查找数据,(查)。查找表sites中的所有数据
-```
+
 ac.execute("SELECT * FROM sites")#"SELECT name FROM sites"只查找name字段数据，选多个列时用逗号隔开。
 #"SELECT * From sites ORDER BY name DESC"按name字段排序，默认升序，DESC为降
 #"SELECT * FROM sites WHERE name = 'google'" 按条件查询
@@ -73,15 +75,15 @@ ac.execute("SELECT * FROM sites")#"SELECT name FROM sites"只查找name字段数
 sql1 = "SELECT * FROM sites WHERE name = %s"
 ac.execute(sql1,("wcs",))#第二个参数必须是一个元组或列表
 res=ac.fetchall()#获取到结果的一个迭代对象，需要使用for循环来获取
-```
+
 #删除表数据"DELETE FROM sites WHERE name = %s"不用WHERE的话会删除说所有数据
 #更新数据，修改数据,更新name为wcs的数据为xsww
-```
+
 sql2 = "UPDATA sites SET name = 'xsww' WHERE name = %s"
 ac.execute(sql2,('wcs',))
 wcs.commit()
-```
 
+```
 <i class="label1">SQL</i>注意，虽然是sql语句，但在不同的数据库中可能用法略有不同。这里是mysql中可用的语句形式。
 进入到mysql模式以后如下：    以下语句大小写均支持。
 可设置的数据类型：[mysql中可设置的数据类型。](https://www.cnblogs.com/cqlb/p/9856841.html)。[建表时设置字段属性。](https://www.jianshu.com/p/c6ca399b88ae)
@@ -103,19 +105,30 @@ SHOW CREATE DATABASE 和 SHOW CREATE TABLE：显示创建特定数据库或表
 SHOW GRANTS：显示授权用户（所有用户或特定用户）的安全权限
 SHOW ERRORS 和 SHOW WARNINGS：显示服务器错误或警告消息
 HELP SHOW：显示允许的SHOW语句
+SHOW create table games;    //查看表games的所以有列属性，及使用的字符集编码
+show create database wcs; //查看数据库详情。
 
-#    ***************字段操作
+#    ***************修改操作，字段操作
 alter table 表名 modify column 字段名 类型；
-#添加
-ALTER TABLE 表名 ADD COLUMN 字段名 numeric(18,0);
-#删除
-ALTER TABLE 表名 DROP COLUMN 字段名;
+ALTER TABLE 表名 ADD COLUMN 字段名 numeric(18,0);    #添加
+ALTER TABLE 表名 DROP COLUMN 字段名;    #删除
+ALTER TABLE games DROP COLUMN id;    //删除某一个列。
 
 
 #************插入操作
 INSERT INTO table VALUES (v1,v2,v3);    #直接插入值
 INSERT INTO table (id,name,url) VALUES (1,'wcs','http://');    #指定键值的插入。
 INSERT INTO table2 SELECT * FROM table1;    #从表1中选择一些字段插入到表2中。
+#    注意：插入就会新增行，即使你要插入的那列值之前的是为空，也会从表尾插入。
+
+#**********删除操作
+DELETE FROM games WHERE id=15;    //删除id为15的那行。
+DELETE FROM games WHERE year is null;    //剔除空值。
+DELETE FROM gamse;    //删除所有的行。
+
+#******更新操作,UPDATE操作一般比较费时间。
+UPDATE games SET ys=10,avg_al=22.45 WHERE id=10;    //查找指定行，更新指定列值。
+
 
 # 查询语句**************SELECT,WHERE是接一个字句。    可选择从多个表中查询
 SELECT shop_id,item_id FROM test1,test2 LIMIT 2;    #LIMIT限制返回的条数。对应sql的TOP作用。    有子句时写在子句后。
@@ -130,6 +143,9 @@ SELECT * FROM test WHERE item_id NOT BETWEEN 1 AND 20;    #NOT取反向，还能
 SELECT shop_id,item_id FROM test WHERE shop_id IN (59,24) and mount NOT BETWEEN 2 AND 5 LIMIT 10;
 #    用AS来为前一个表名或列名重新命名。
 SELECT w.name, w.url, a.count, a.date FROM Websites AS w, access_log AS a WHERE a.site_id=w.id and w.name="菜鸟教程";
+# *****检测空值，库中显示为None
+SELECT id,year FROM games WHERE year is null;    //使用year=null不能检测出来。
+
 
 # 通配符，通常与LIKE和REGEXP 一起使用。
 %    #代替0个或多个字符，aa%表示以aa开头，%aa%则可匹配字符中任意位置的aa字符。
@@ -168,10 +184,12 @@ SELECT shop_id FROM test WHERE EXISTS(select shop_id from test where shop_id==60
 # JOIN,联表查询，INNER JOIN 指定联合哪个表，ON指定用哪个列来联合，一般用同列名。
 # INNER JOIN返回的查询结果是两表最大相同公共长度结果集。而LEFT JOIN 和 RIGHT JOIN 则分别是返回以左或右表的最大结果集。
 SELECT a FROM test INNER JOIN train ON test.b=train.b
+
 ```
 [两个表联合。](https://www.jb51.net/article/154006.htm)
 #### 3、python的面向对象：
 类中__init__(self)方法是一个内部规定的方法若在类中写了该函数则在执行该类中的任意一个方时都会执行一次类中的__init__函数,若要调用类中的方法得先将该类赋值给另一个变量，然后由该变量调用类中的函数。列：
+
 ```
 class animal():#类中不一定要写这个初始化函数，但每个函数都要传入self
     def __init__(self):
@@ -180,6 +198,7 @@ class animal():#类中不一定要写这个初始化函数，但每个函数都�
         print(“hello”)
 b = animal()
 b.a()
+
 ```
 [继承，多继承]不推荐使用多继承，多数编程语言中也不支持多继承，这在逻辑上会比较复杂
 
@@ -210,6 +229,7 @@ v = dog2.drink(12)
 ```
 #### 4、爬虫：
 python2方法：
+
 ```
 url = “http://www.huaban.com”
 Req = urllib2.Request(url，data,header)#3个参数
@@ -230,29 +250,31 @@ bf = BeautifulSoup(html)//html是上面获取到的网页内容
 //find_all()方法按条件查找：标签名、类名、id名,返回一个列表
 content = bf.find_all('div',class_='a',id='k')
 print(content[0].text)//返回的是带着标签的列表，用text获取标签内文本内容。
+
 ```
 若未获得内容则有可能是网页设置了需要头部请求,打开要扒的网页打开f12下的
 Network项查看Response header中的内容,注意其中的 User-Agent,Content-Type,Referer项，将其内容写到头部字典中一并发送 出去.
 <i class="label1">SSL验证</i>ssl是http上加的一层协议，用上面的方法直接爬取可能会报SSLError，这是需要做ssl验证，如下方法解决：
-```
+
 s = request.get(url=url,verify=False) //verify设为false来绕过验证。
-```
+
 <i class="label1">抓包</i>在爬取一些由js动态加载(ajax)出来的数据的网页时，获取到的是未加载出数据的页面(一般是.html页面)，此时就需要探查这个网页做了哪些请求，请求的接口等信息，浏览器控制台network项中可以查看请求记录，不过使用专门的抓包工具会更简便好用。
 这里使用抓包工具：Fiddler。[Fiddler下载地址(所有系统都支持)。](http://www.telerik.com/fiddler)(进入Fiddler后，可以打开浏览器进入一个网站，然后Fiddler就能监听到这台计算机作出的网络请求，将信息列出来)
 <i class="label1">头部请求设置</i>js向后台发送请求时，可以设置头部信息来控制要传的数据类型，规定验证信息等东西来做一个反爬虫的东西(后台配合)。以下是几个重要的头部：
 User-Agent：这里面存放浏览器的信息。可以看到上图的参数值，它表示我是通过Windows的Chrome浏览器，访问的这个服务器。如果我们不设置这个参数，用Python程序直接发送GET请求，服务器接受到的User-Agent信息就会是一个包含python字样的User-Agent。如果后台设计者验证这个User-Agent参数是否合法，不让带Python字样的User-Agent访问，这样就起到了反爬虫的作用。这是一个最简单的，最常用的反爬虫手段。
 Referer：这个参数也可以用于反爬虫，它表示这个请求是从哪发出的。可以看到我们通过浏览器访问网站，这个请求是从https://unsplash.com/，这个地址发出的。如果后台设计者，验证这个参数，对于不是从这个地址跳转过来的请求一律禁止访问，这样就也起到了反爬虫的作用。
 authorization：这个参数是基于AAA模型中的身份验证信息允许访问一种资源的行为。在我们用浏览器访问的时候，服务器会为访问者分配这个用户ID。如果后台设计者，验证这个参数，对于没有用户ID的请求一律禁止访问，这样就又起到了反爬虫的作用。
-```
+
 headers = {'authorization':'your Client-ID'} # 这里的your client-ID是抓包中获得的，后面再补充。
 req = requests.get(url=target, headers=headers, verify=False)
-```
+
 爬取js动态加载数据的网页的方法：https://www.znian.cn/932.html
 [w3c的python3爬虫教程地址。](https://www.w3cschool.cn/python3/python3-enbl2pw9.html)
 #### 5、Django和flask的使用:
 <i class="label1">django安装</i>下载地址https://www.djangoproject.com/download/，使用git下载到本地后使用python来安装(也可以使用pip或conda安装，下载的和地址下载中的django文件夹一样)，进入到下载好的django目录下使用命令：python setup.py install //如果想安装到anaconda环境中使用其python对应系统变量即可。安装后在python环境中的script文件夹下会有dnango-admin.exe文件可以直接在cmd中使用,cmd中输入django-admin能运行则成功。(若无法全局使用django-admin的话直接进入scripts文件夹下去运行即可。)
 [开始一个项目]django-admin startproject HelloWorld //创建一个HelloWorld目录,
 里面有一些初始化文件，再使用命令：python manage.py runserver 0.0.0.0:8000,然后在浏览器输入127.0.0.1:8000即可看到初始化页面。在urls.py文件配置如下：
+```
 from django.conf.urls import url
 #2.0以后的版本的path在django.urls下,1.0所属版本在conf.urls下
 from django.urls import path
@@ -263,16 +285,18 @@ from . import view#这样写直接运行view文件可能会报错,不过cmd运�
 urlpatterns = [url(r'^$',view.hello),path('index/',view.ajax)]
 #前端访问接口或浏览器打开时为http://127.0.0.1:8000/index/最后一个斜杠
 #与urls文件同级的view.py文件中：
-```
+
 from django.http import HttpResponse,JsonResponse
 import json
 def hello(request):
     return JsonResponse('hello')
 #当浏览器输入127.0.0.1:8000/index时就会触发ajax()函数
 def ajax(request):#若有值传来则
+
 ```
 <i class="label1">使用docker部署django项目</i>可以使用apache来部署django项目，但是经常遇到很多问题，而docker部署可以为每个项目单独建一个环境，将多个项目分开，非常便于维护(docker的安装见36)，而且使用docker来部署项目也会方便很多(只不过windows上docker的安装很多坑)。[docker部署django教程。](https://blog.csdn.net/BlueBlueSkyZ/article/details/89083285)[Dockerfile文件编写规则。](https://www.cnblogs.com/549294286/p/11044901.html)
 <i class="label1">flask的使用</i>pip install flask#安装flask。pip install flask-cors
+
 ```
 from flask import Flask,request
 from flask_cors import *
@@ -402,10 +426,10 @@ with open('av.csv','w') as w:
     writer = csv.writer(w,delimiter=' ')#delimiter可以设置每列值之间使用的隔开符，默认是每个值占一格。
     writer.writerow(['id','name','val'])#写入一行。
     writer.writerows([[],[],[]]) #writerows()同时写入多行
-```
+
 [xml格式读取。](https://www.cnblogs.com/xiaobaixiaobai/p/10724829.html)
 pip install python_docx #需要安装python_docx，安装docx的话是2版本的3中用不了。
-```
+
 # docx文档读取
 from docx import Document
 from docx.shared import Inches
@@ -421,6 +445,7 @@ document.save('/data/av.docx')
 
 ```
 [pdf的读取学习地址。](https://www.cnblogs.com/xiao-apple36/p/10496707.html)   pip install pdfplumber #另一个读取pdf的库是pdfminer功能更强大，但没有这个易用。
+
 ```
 import pdfplumber
 with pdfplumber.open("/home/wcs/data/vv.pdf") as pdf:
@@ -512,7 +537,9 @@ stock：创建一个股票样式的图表；
 radar：创建一个雷达样式的图表
 
 book.close()# 关闭文件。
+
 ```
+
 [xlsxwrite模块其它方法学习地址。](https://www.jianshu.com/p/9952293a4bb8)
 #### 10、业务分析：
 <div class="introduce">无论是开发岗还是算法岗，最终都是要解决业务上的问题，而且人生与社会，不能只着重于技术本身，这是改变自己的一个转折点。这里收集一些看过的，自己做过的项目分析，记录一些很实用且重要的分析方法。具体的业务知识查看life笔记中的业务知识。</div>
@@ -1767,7 +1794,7 @@ pycharm破解：https://blog.csdn.net/fantasic_van/article/details/89282100。
 常用功能：[常用快捷键。](https://www.cnblogs.com/sui776265233/p/10200809.html)
 Ctrl + F(当前文件查找 )。Ctrl + R(当前文件替换)。Ctrl + Shift + F(全局查找)。
 Ctrl + Shift + R(全局替换)。
-隐藏左边的文件栏：shift+esc        打开左侧项目目录：ALT+1
+隐藏左边的文件栏：shift+esc       。 打开左侧项目目录：ALT+1
 Shift + F10#运行。Shift + F9#调试。Alt + Shift + F10  运行模式配置。Alt + Shift + F9   调试模式配置
 Alt+j#同时选择相同字符串的下一个。Ctrl+Alt+shift+j#选中当前文件所有相同字符串。
 [linux上安装pycharm。](https://blog.csdn.net/xiaoxiaofengsun/article/details/82257391)
@@ -2486,7 +2513,7 @@ plt.imshow(dat)#用于将像素数据绘制出来，注意使用的图片数据�
 plt.contour(x,y,z,cmap=cmap)
 plt.show()#显示所画图形
 ```
-<i class="label1">plotly</i>：plotly也是一个非常强大的数据可视化工具，支持js、python、java等使用，其绘制的图形被保存为html文件(内部用svg绘制)，可以用浏览器打开，其界面、交互效果都非常好。因为是生成的html文件所以不会像上面matplotlib中出现无法显示的情况。[引导学习地址。](https://www.bbsmax.com/A/MAzAOyDo59/)[plotly官方文档地址。](https://plotly.com/python-api-reference/plotly.express.html)
+<i class="label1">plotly</i>：plotly也是一个非常强大的数据可视化工具，支持js、python、java等使用，其绘制的图形被保存为html文件(内部用svg绘制)，可以用浏览器打开，其界面、交互效果都非常好。因为是生成的html文件所以不会像上面matplotlib中出现无法显示的情况。[引导学习地址。](https://www.bbsmax.com/A/MAzAOyDo59/)[plotly官方文档地址。](https://plotly.com/python-api-reference/plotly.express.html)。[官网示例](https://plotly.com/python/#fundamentals)。[pdf_api地址](https://images.plot.ly/plotly-documentation/images/python_cheat_sheet.pdf)。
 ```
 #    在线绘图示例
  import plotly
@@ -2505,11 +2532,12 @@ plt.show()#显示所画图形
  py.plot([trace0,trace1])
 ```
 ```
-#    离线绘图示例，运行后可能会提示Unable to open X display的错误信息，但运行路径下会生成temp-plot.html文件。
+#****************离线绘图示例，运行后可能会提示Unable to open X display的错误信息，但运行路径下会生成temp-plot.html文件。
 #    也可尝试用Jupyter运行。
 import plotly.graph_objs as go
 import plotly.offline
-####    绘制散点图、折线图。
+
+###****************绘制散点图、折线图。
 trace0 = go.Scatter(
     x=[1,2,3,4,],
     y=[10,15,13,None],#None值被视为缺失值，不会在图上显示出来。
@@ -2536,7 +2564,7 @@ trace1 = go.Scatter(
 #    一些教程里是iplot，改为plot即可。filename指定保存的路径和文件名。
 plotly.offline.plot([trace0,trace1],filename="temp-plot.html")
 
-###    绘制条形图。
+##********绘制条形图。
 trace2 = go.Bar(
     x = ['Jan','Feb','Mar','Apr', 'May','Jun',
          'Jul','Aug','Sep','Oct','Nov','Dec'],#每条名称，即x轴值，会显示在每条下面。
@@ -2547,7 +2575,20 @@ trace2 = go.Bar(
     )
 )
 #plotly.offline.plot([trace2])    #同样的作为一个list传入plot()中，如果是多个条形图会被绘制在一个坐标系中。
-###    绘制气泡图。
+
+#*************绘制横向条形图。
+t2 = go.Bar(x=y2,    #x，y轴的数据交换过来。
+            y=x2,
+            name="类型年销量",
+            orientation='h',    #设置为横向
+            marker=dict(color='blue'))
+layout = go.Layout(title="游戏销量比")
+figure = go.Figure(data=[t1,t2],layout=layout)
+
+plf.plot(figure,filename='data/games.html')
+
+
+#********* 绘制气泡图。
 trace3 = go.Scatter(
     x= [1,2,3,4],
     y= [16,5,11,9],# text为没个点设置悬浮窗信息。（鼠标hover时显示）
@@ -3745,7 +3786,8 @@ svm试图用一条直线或一个超平面`y = w1x1 + w2x2 + ...+b`#与回归方
 `(w'x+b)/||w||>0 (di=1)`		`(w'x+b)/||w||<0 (di=-1)`
 因为||w||>=0，且模型训练号后||w||不再变化。所以看(w'x+b)正负即可分辨，若这个分割平面再好一些可以写成:
 `(w'x+b)/||w||>=d (di=1)`	`(w'x+b)/||w||<=-d (di=-1)`		两边同时除d得：
-`(w'dx+bd)/||w||>=1 (di=1)`		`(w'dx+bd)/||w||<=-1 	(di=-1)`	可统一表示为:`|d(w'd*xbd)|>=1`
+`(w'x / d+b / d)/||w||>=1 (yi=1)`		`(w'x / d+b / d)/||w||<=-1 	(yi=-1)`//比上一个参数依然还可以写为：
+`(w'x+b)/||w||>=1 (yi=1)`		`(w'x+b)/||w||<=-1 	(yi=-1)`#相当于求比上d之后的b值和w值。
 满足以上两个式子的点可以称为支持向量。要使`(w'dx+bd)/||w||`达到最大值需要(w'dx+bd)很大且分母||w||很小，但是分子分母都共有w0,w1,...等n个变元,现假设我们取得w0,w1,...的值对所有支持向量来说是一个最优的选择那么`对于坐标原点也一样成立`，所以将原点带入得bd/||w||。这是个蛮不错的思想，则变为b/||w||=d，要求这个式子的最大值即变成了求`||w||^2`的最小值(因为||w||是`sqrt(w0^2+w1^2+...)`一系列的表示，这里取平方是消除开方，便于求值)，若是无条件极值可直对其求导，<i class="blue">但这是在s.t.d(w'x+b)>=1条件下的求极值(s.t.表示服从...的条件),所以需要使用条件极值的求法：拉格朗日乘子法，如下：</i>    这里的**yi就是训练数据中的标签**。不过以乘的形式出现。
 (1)`L(w,b,α) = (||w||^2) / 2 + ∑αi * (1-yi(w'xi+b))`#分别对w，b，α求偏导，令为0，求出它们的值。||w||项多了1/2是为了求导后让式子更简洁。
 对w求偏导：`w=∑αi * yi * xi`,#这里的w表示(`w0+w1+...`)。对b求偏导：`∑αi * yi = 0`。
