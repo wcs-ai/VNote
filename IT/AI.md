@@ -22,11 +22,14 @@
 当用户（即应用程序）想要访问数据 D，分布式操作引擎通过一些映射方式，比如 Hash、一致性 Hash、数据范围分类等，将用户引导至数据 D 所属的存储节点获取数据。
 <i class="label1">windows上安装</i>低版本：安装包解压后进入文件夹创建一个`my-small.ini`文件然后在文件最低部添加：basedir=该文件夹绝对路径	/n  datadir=文件夹绝对路径/data。高版本的话不要设置datadir参数，不然启动服务时报错，按照菜鸟教程走即可。
 进入bin目录cmd>>`mysql --initialize --console `//初始化数据库。会输出初始账户，密码，请记住！！！
-提示找不到VCRUNTIME140_1.dll：安装微软常用库。
-`mysqld install MySQL`//安装名为MySQL的服务。注意在管理员身份下运行命令。`c:>d:`#切换到d盘
-`mysqld --remove MySQL `//移除指定服务。
-`net start mysql` //启动mysql服务 ，启动失败的话直接到服务列表手动启动即可。
->>mysql -h root -p //登录(初始密码为空)，
+>提示找不到VCRUNTIME140_1.dll：安装微软常用库。
+>mysqld isntall 服务时提示：Install/Remove of the Service Denied!#可进入<i class="red">管理员身份运行</i>
+```
+mysqld install MySQL//安装名为MySQL的服务。注意在管理员身份下运行命令。`c:>d:`#切换到d盘
+mysqld --remove MySQL `//移除指定服务。
+net start mysql //启动mysql服务 ，启动失败的话直接到服务列表手动启动即可。
+mysql -h root -p //登录(初始密码为空)，
+```
 **mysql可视化管理工具**：navicat for MySQL破解：https://blog.csdn.net/wypersist/article/details/79834490
 <i class="label1">mysql数据表与csv文件互导</i>简单的操作可使用navicate的导入直接将一个csv文件转为一个新表。
 使用命令导入则需要先建立一个新表(数据类型使用varchar)，然后将文件导入该表。导入的文件放到安装时my.ini配置文件中datadir或basedir指定的文件夹中去，不然会被认为不是安全的文件。
