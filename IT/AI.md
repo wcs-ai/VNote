@@ -39,7 +39,16 @@ Enter password:****            #输入原密码进入
 #进入到mysql模式，此时可使用sql等语句。每条语句后都要打分号再enter运行。
 mysql>alter user root@localhost identified by 'xsww';将密码更改为xsww
 ```
-
+<i class="label1">linux上安装</i>[linux上安装mysql学习地址。](https://blog.csdn.net/qq_40223688/article/details/90733495)
+- mysql的用密码设置是有规则要求的。[mysql用户密码设置规则。](https://www.cnblogs.com/pythonywy/p/11815028.html)
+- mysql服务管理(linux)：
+```
+service mysqld status    //查看服务状态
+service mysqld stop //关闭
+service mysqld start //开启
+service mysqld restart    //重启
+```
+[mysql驱动包下载地址。](https://mvnrepository.com/artifact/mysql/mysql-connector-java)
 [连接mysql时提示：Authentication method 'caching_sha2_password' is not supported解决方法](https://blog.csdn.net/u011583336/article/details/80999043)。
 ##### b、可视化：
 **mysql可视化管理工具**：navicat for MySQL破解：https://blog.csdn.net/wypersist/article/details/79834490
@@ -5174,14 +5183,14 @@ cmd运行hadoop时提示：JAVA_HOME is icnoco...#jdk不要安装在有空格的
 [官网下载地址。](https://hadoop.apache.org/releases.html)[Hadoop安装。](https://blog.csdn.net/u010993514/article/details/82914827)
 <i class="label2">linux上Hadoop的单击版安装与使用</i>与windows上的安装类似，不过环境变量是在/etc/profile中设置，注意：如果使用系统自带的java，则jdk路径处写/usr即可，因为hadoop使用是会去找该路径下的bin/java。
 使用以下三条命令做免密登陆。[linux上hadoop单击版安装。](https://blog.csdn.net/cafebar123/article/details/73500014)
-```
+```shell
 ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
 cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
 chmod 0600 ~/.ssh/authorized_keys
 ```
 第一次启动前需要格式化：`./bin/hdfs namenode -format`。然后：`./sbin/start-dfs.sh`#启动。`./sbin/stop-dfs.sh`#停止。
 <i class="label1">python连接Hadoop进行读写</i>通过一些python库来操作HDFS进行读写操作。这里用pyhdfs库式例：
-```
+```python
 import pyhdfs
 
 # 连接到hadoop，注意hosts中的ip和端口号之间使用,号分隔的。这里的ip和端口号是在安装时，在core-site.xml文件中配置的那个。
@@ -5347,3 +5356,41 @@ https://www.jianshu.com/p/004869fce12c
 AI芯片：专门用于处理人工智能应用中的大量计算任务的模块（其他非计算任务仍由CPU负责）。当前，AI芯片主要分为 GPU 、FPGA 、ASIC。AI的许多数据处理涉及矩阵乘法和加法。大量并行工作的GPU提供了一种廉价的方法，但缺点是更高的功率。具有内置DSP模块和本地存储器的FPGA更节能，但它们通常更昂贵。
 AI芯片该使用什么方法原理去实现，仍然众说纷纭，这是新技术的特 点，探索阶段百花齐放，这也与深度学习等算法模型的研发并未成熟有关，即AI的基础理论方面仍然存在很大空白。
 [缺少可被证明的理论作为基础。](https://blog.csdn.net/xiangz_csdn/article/details/78442865)
+
+#### 101、HIVE
+<p class="introduce">
+hive是基于Hadoop的一个数据仓库工具，用来进行数据提取、转化、加载，这是一种可以存储、查询和分析存储在Hadoop中的大规模数据的机制。hive数据仓库工具能将结构化的数据文件映射为一张数据库表，并提供SQL查询功能，能将SQL语句转变成MapReduce任务来执行。hive不适合用于联机(online)事务处理，也不提供实时查询功能。(一般运行几百M的数据时都需要几分钟的时间)。
+</i>
+
+<i class="label1">linux上的安装</i>从[hive官网下载地址](https://mirrors.tuna.tsinghua.edu.cn/apache/hive/)下载..-bin.tar.gz包，解压到usr/local下，进入hive/conf目录，如下操作：
+- `mv hive-env.sh.template hive-env.sh`#然后编辑HADOOP_HOME和HIVE_CONF_DIR的路径。[hive安装学习地址。](https://blog.csdn.net/lz6363/article/details/92269137)
+- `mv hive-log4j2.properties.template hive-log4j2.properties`#文件中修改日志目录和文件名。
+- `cp hive-default.xml.template hive-site.xml`#注意部分的配置如下：
+```xml
+<property>
+	<name>javax.jdo.option.ConnectionURL</name>
+	<!--记得这里指定的连接url使用自己的ip地址，或域名-->
+	<value>jdbc:mysql://bigdata.fuyun:3306/hive_3__metastore?createDatabaseIfNotExist=true&amp;characterEncoding=UTF-8</value>
+	<description>JDBC connect string for a JDBC metastore</description>
+  </property>
+  <property>
+  	<name>javax.jdo.option.ConnectionUserName</name>
+  	<value>root</value>    <!--这里的连接名指的是连接mysql时，mysql用户表中已有的用户名。而不是登录本机的用户名-->
+  </property>
+  <property>
+  	<name>javax.jdo.option.ConnectionPassword</name>
+  	<value>Mysql@123</value>    <!--mysql用户对对应的密码。-->
+  </property>
+```
+- 在/etc/profile中添加如下配置，根据自己的安装路径修改，完后记得source：
+```bash
+export HIVE_HOME=/usr/local/hive
+export PATH=$PATH:$HIVE_HOME/bin
+export CLASSPATH=$CLASSPATH:/usr/local/hadoop/lib/*:.
+export CLASSPATH=$CLASSPATH:/usr/local/hive/lib/*:.
+```
+- 进入`/usr/local/hive/bin`，输入`./schematool -dbType mysql -initSchema`#进行初始化hive。
+- 初始化成功的话可输入hive，然后用类sql语句进行操作，不过部分sql语句功能是不支持的。
+<i class="label1">遇到的问题</i>[部分问题的总结学习地址。](https://blog.csdn.net/cs_mycsdn/article/details/82460238)
+- 初始化hive时提示：`class com.mysql.jdbc.Driver is deprected`#将hive-site.xml文件中的对应项改为：`com.mysql.cj.jdbc.Driver`，即可。
+- `Host is not allowed to connect to this MySQL server`或者`Access denied for user ...`#先检查hive-site.xml文件中的连接地址和连接用户名，密码有没有错。否则可以尝试修改mysql用户表中可允许连接的ip来源。`update mysql.user set host='%' where user='root'`#更新/mysql/user表下的root用户允许所有ip连接。

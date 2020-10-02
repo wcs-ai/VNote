@@ -1,1 +1,3 @@
-# new_note
+```alert-info
+jfljafkldjs
+```

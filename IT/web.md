@@ -1189,7 +1189,7 @@ git push origin second //将本地分支推送到远程，远程也创建这个�
 [创建远程分支。](https://www.jianshu.com/p/08c05a498b90)
 git branch -a //查看所有分支，-r查看远程分支。
 git checkout master  //切换分支
-git branch --set-upstream-to=origin/wcs //当前分支与远程分支wcs关联。
+git branch --set-upstream-to=origin/wcs //当前分支与远程分支wcs关联。（若提示远程分支不存在，可以先尝试pull）。
 git checkout -b main //创建并切换本地分支
 git checkout -b ben origin/wcs //创建本地分支并关联到远程指定分支。
 git merge WCS//合并WCS分支到当前分支，再git push origin master//更新，git status查看

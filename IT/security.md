@@ -147,7 +147,11 @@ TPU 并没有设计成一个独立的“CPU“，而是设计成一块像显卡�
 <i class="red">unix，linux，windows系统综述：</i>UNIX系统大多是与硬件配套的，也就是说，大多数UNIX系统如AIX、HP-UX等是无法安装在 x86 服务器和个人计算机上的。Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。以上是专业的解释，简单说Linux是一个免费的操作系统，其也是非常的好的支持服务器环境，且其不太适合图形化操作更适合命令行操作。windows系统除了win7,8,10外还有windows server系列，这些服务器版本的windows和普通windows版本的不同在于其是根据服务器需求进行开发的，如支持更大的内存、支持一些服务器的策略设置、支持服务器集群等，这些功能都是针对服务器的功能，总之windows server版本就是一个适合服务器的操作系统版本，其功能大多都是针对服务器的。
 <i class="orange">服务器系统的选择：</i>一般服务器系统只会是linux系统和windows server系统中选择，对于不同的服务，如web网站、数据库等会选择不同的系统。
 ##### a、linux的安装(非虚拟机上的安装)：
-安装前需要先在准备一个u盘做启动盘(会格式化该u盘)，下载好想安装的ubuntu或其它版本iso文件(不要放到u盘)，然后使用usbWrite，rufus等工具制作启动盘<span class="gray">(这种是直接将映像文件写入u盘的方式，工具比较小，另一种是先制作启动盘然后将映像文件拷贝进去的方法，如果是ghost文件则只需要直接拷贝，若只是普通iso文件则还要下载其它引导安装的文件比较复杂，这适合windows系列的安装)</span>；接下来进入bios界面使用u盘来启动电脑<span class="gray">boot项选择add boot option然后第一个输入框写名，第二项选择u盘中的efi文件夹下的合适的efi文件，然后点击下方的create，保存重启后选择刚才的那个boot option进入安装</span>。win10的u盘启动选项可以在：设置>系统更新>疑难问题部分下面选择。
+安装前需要先在准备一个u盘做启动盘(会格式化该u盘)，下载好想安装的ubuntu或其它版本iso文件(不要放到u盘)，然后使用usbWrite，rufus等工具制作启动盘<span class="gray">(这种是直接将映像文件写入u盘的方式，工具比较小，另一种是先制作启动盘然后将映像文件拷贝进去的方法，如果是ghost文件则只需要直接拷贝，若只是普通iso文件则还要下载其它引导安装的文件比较复杂，这适合windows系列的安装)</span>；
+接下来进入bios界面使用u盘来启动电脑<span class="gray">boot项选择add boot option然后第一个输入框写名，第二项选择u盘中的efi文件夹下的合适的efi文件，然后点击下方的create，保存重启后选择刚才的那个boot option进入安装</span>。win10的u盘启动选项可以在：设置>系统更新>疑难问题部分下面选择。
+- 如果安装界面分辨率不对的话，说明该iso没有带显卡驱动，建议下载那种附带很多工具、库的iso文件。
+- centos7中的gnome，kde两种是对用户较为友好的。初始体验会较差，可以在设置中设置主题、外观、字体等优化体验。
+
 ##### b、linux命令：
 因为版本众多可能部分命令在不同版本中会不可用，特别是ubuntu，其自改的部分较多。
 linux命令包下载网(搜索包名，对应的description中有下载地址)：https://pkgs.org
@@ -187,7 +191,7 @@ vi a.txt  #使用vim编辑器打开文件，不过内容是显示在终端。
 **清理缓存数据**：`yum clean`。**移除包**：yum remove npm
 **清理缓存**：`dnf clean packages`
 <i class="label2">yum install时提示下载元数据失败问题</i>可能是网络问题，可以多运行几次试试，若一直提示失败可以看看这个方法。[repo 'base' 下载元数据失败解决地址。](http://www.linuxidc.net/thread-9716-1-1.html)
-[更新yum安装源]https://www.jb51.net/os/RedHat/499587.html
+**更新yum安装源**：https://www.jb51.net/os/RedHat/499587.html
 ###### b2、apt包管理与ubuntu类型系统：
 **清理缓存**：`sudo apt autoremove`
 **ubuntu上安装deb格式的包**：先要将其转为rpm格式的包，[deb包转为rpm包教程。](https://blog.csdn.net/cpongo3/article/details/96425227)`sudo dpkg software.deb ` #解包，设置，安装software.deb。
@@ -239,6 +243,7 @@ sudo yum install gparted
 //安装完成后直接输入gparted启动。
 ```
 启动后会打开图形界面，右上角选择u盘，然后右键格式化为想要的u盘类型(ntfs是windows常用类型)。然后菜单栏点击勾(应用)。
+ <i class="label1">gnome，kde桌面不能使用中文输入法的为问题</i>左下角搜索：im-chooser，选择出现的输入法选择，然后关闭，右下角会出现，再点击详细设置。
 ##### d、linux nvidia显卡驱动的正确安装：
 linux自带的是nouveau驱动比起nvidia驱动会差很多，而且使用cuda来调用gpu计算也需要指明的使用nvidia驱动，但是在linux上安装nvidia显卡驱动很坑，而且ubuntu和centos的稍有不同，安装步骤如下：
 1、先查看自己电脑的显卡信息：lspci | grep VGA #第一行中的[nm1:nm2]冒号前的序号是商家代号，后半部分是pcid。(至今不知道怎么看，以后学习！)
