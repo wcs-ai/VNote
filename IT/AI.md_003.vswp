@@ -5131,7 +5131,7 @@ https://wanjun0511.github.io/2017/11/05/DQN/
 #### 88、Hadoop与Spark的使用：
 对于如今互联网的巨量数据集传统的批处理模式已经不能够满足需求，google最早实现了分布式并行程序将大量数据等分给各个计算机(分布式并行处理模式MapReduce)，让其返回计算结果，于2004年以论文的形式发表。Hadoop MapReduce是其开源实现(运行再FDS上)。
 <i class="label1">Hadoop</i>由Apache基金会所开发的分布式系统基础架构。用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。Hadoop实现了一个分布式文件系统（Hadoop Distributed File System），简称HDFS。HDFS有高容错性的特点，并且设计用来部署在低廉的（low-cost）硬件上；而且它提供高吞吐量（high throughput）来访问应用程序的数据，适合那些有着超大数据集（large data set）的应用程序。由以下几部分组成：HDFS,MapReduce，Hbase，Hive，Mahout，pig，zookeeper，Amban，sqoop，flume。
-<i class="label2">HDFS</i>
+##### a1、HDFS:
 **轮廓**：分布式文件系统，是一种允许文件通过网络在多台主机上进行分享的文件系统，可让多台机器上的多用户分享文件和存储空间。hdfs体系结构中有两类节点，**NameNode**(名称节点，存储文件的元数据{文件名、时间、数据大小等属性、存在哪台服务器，哪个磁盘等}，内部使用一个目录树来管理这些复杂的关系)、**DataNode**(数据节点，存储真实使用到的数据)。客户端通过联系 NameNode 来获取文件的元数据，而真正的文件 I/O 操作是直接和 DataNode 交互进行的。HDFS 主要针对“一次写入，多次读取”的应用场景，不适合实时交互性很强的应用场景，也不适合存储大量小文件。<i class="green">一个典型的配置是NameNode放在一台机器上，DataNode布置在不同的机器上，这样能保证数据的一致性。NameNode还负责创建、查找的一些命令传递给DataNode，其它一些操作命令也是NameNode来负责的，DataNode会定时发送一次状态报告，若指定时间内未收到信息，说明该DataNode处了异常，将移除该DataNode(一般网络、电源，主板问题，导致副本丢失)，然后重新启动一个线程去修复。</i>
 **设计理念**：如果只是简单的将文件分到其它计算机，那么会有以下几个严重问题：
 1、各个存储结点的负载不均衡，单机负载可能极高。例如，如果某个文件是热门文件，则会有很多用户经常读取这个文件，这就会造成该文件所在机器的访问压力极高。
@@ -5155,14 +5155,15 @@ https://wanjun0511.github.io/2017/11/05/DQN/
 5) 为了保证所有 DataNode 的数据都是准确的，接收到数据的 DataNode 要向发送者发送确认包（ACK Packet）。确认包沿着数据流管道反向而上，从数据流管道依次经过各个 DataNode，并最终发往客户端。当客户端收到应答时，它将对应的分包从内部队列中移除。
 6) 不断执行第 (3)~(5)步，直到数据全部写完。
 7) 调用 FSOutputStream 的 Close() 方法，将所有的数据块写入数据流管道中的数据结点，并等待确认返回成功。最后通过 NameNode 完成写入。
-
+##### a2、生态圈：
 <i class="label2">NoSQL数据库</i>NoSQL（Not only SQL）泛指非关系型数据库。随着 Web 2.0 网站的兴起，传统的关系数据库已经无法适应 Web 2.0 网站，特别是超大规模和高并发的社交类型的 Web 2.0 纯动态网站，暴露了很多难以克服的问题，而非关系型的数据库则由于其本身的特点得到了非常迅速的发展。
 传统数据库的缺点：无法满足对海量数据的高效率存储和访问的需求(Web 2.0 网站要根据用户个性化信息来实时生成动态页面和提供动态信息，基本上无法使用动态页面静态化技术)、 无法满足对数据库的高可扩展性和高可用性的需求(要在一个表增加更多的字段时只能在该机器上添加，加大存储等，却不能分到多台设备上)。 关系数据库无法存储和处理半结构化/非结构化数据。
 <i class="label2">Hbase</i>是基于 Apache Hadoop 的面向列的 NoSQL 数据库，是 Google 的 BigTable 的开源实现。HBase 是一个针对半结构化数据的开源的、多版本的、可伸缩的、高可靠的、高性能的、分布式的和面向列的动态模式数据库。HBase 是可以提供实时计算的分布式数据库，数据被保存在 HDFS (分布式文件系统）上，由 HDFS 保证其高容错性。
 HBase 可以直接使用本地文件系统，也可以使用 Hadoop 的 HDFS。HBase 中保存的数据可以使用 MapReduce 来处理，它将数据存储和并行计算有机地结合在一起。
 HBase 是按列族进行数据存储的。每个列族会包括许多列，并且这些列是经常需要同时处理的属性。也就是说，HBase 把经常需要一起处理的列构成列族一起存放，从而避免了需要对这些列进行重构的操作。
 
-<i class="label2">MapReduce</i>分布式并行计算模式，其中有两个函数负责。**Map(映射)**：以键值对的形式输入，对集合中的每个元素进行同一个操作(涉及到一些固化的操作，比如每条数据都x10，都+100等)，然后处理后以另一种键值对的形式输出。<i class="violet">Map 函数的输入数据来自于 HDFS 的文件块，这些文件块的格式是任意类型的，可以是文档，可以是数字，也可以是二进制。文件块是一系列元素组成的集合，这些元素也可以是任意类型的。Map 函数首先将输入的数据块转换成 `<key,Value>`形式的键值对，键和值的类型也是任意的</i>。所有映射完成后才会进入Reduce、**Reduce(简化)**：将Map的输出作为输入，通过指定的程序对每一个键值对进行计算(涉及一些稍复杂的操作，如合并多行，统计所有行数据等)，返回想要的简化后的结果。MapReduce 架构主要功能：
+##### a3、MapReduce：
+分布式并行计算模式，其中有两个函数负责。**Map(映射)**：以键值对的形式输入，对集合中的每个元素进行同一个操作(涉及到一些固化的操作，比如每条数据都x10，都+100等)，然后处理后以另一种键值对的形式输出。<i class="violet">Map 函数的输入数据来自于 HDFS 的文件块，这些文件块的格式是任意类型的，可以是文档，可以是数字，也可以是二进制。文件块是一系列元素组成的集合，这些元素也可以是任意类型的。Map 函数首先将输入的数据块转换成 `<key,Value>`形式的键值对，键和值的类型也是任意的</i>。所有映射完成后才会进入Reduce、**Reduce(简化)**：将Map的输出作为输入，通过指定的程序对每一个键值对进行计算(涉及一些稍复杂的操作，如合并多行，统计所有行数据等)，返回想要的简化后的结果。MapReduce 架构主要功能：
 **任务调度**：任务调度功能主要负责为这些划分后的计算任务分配和调度计算结点（Map 结点或 Reduce 结点），同时负责监控这些结点的执行状态，以及 Map 结点执行的同步控制，也负责进行一些计算性能优化处理。例如，对最慢的计算任务采用多备份执行，选最快完成者作为结果。
 **出错处理**：在以低端商用服务器构成的大规模 MapReduce 计算集群中，结点硬件（主机、兹盘、内存等）出错和软件有缺陷是常态。因此，MapReduce 架构需要能检测并隔离出错结点，并调度分配新的结点接管出错结点的计算任务。
 **分布式数据存储与文件管理**：单机的分布式存储。海量数据处理需要一个良好的分布数据存储和文件管理系统作为支撑，该系统能够把海量数据分布存储在各个结点的本地磁盘上，但保持整个数据在逻辑上成为一个完整的数据文件。为了提供数据存储容错机制，该系统还要提供数据块的多备份存储管理能力。
@@ -5177,7 +5178,7 @@ HBase 是按列族进行数据存储的。每个列族会包括许多列，并�
 4）Task：Task 分为 Map Task 和 Reduce Task 两种，由 TaskTracker 启动，分别执行 Map 和 Reduce 任务。一般来讲，每个结点可以运行多个 Map 和 Reduce 任务。MapReduce 设计的一个核心理念就是“计算向数据靠拢”，而不是传统计算模式的“数据向计算靠拢”。因为移动大量数据需要的网络传输开销太大，同时降低了数据处理的效率。从而减少了结点间数据的移动。
 <i class="green">应用程序需要指定 I/O 的路径，并通过实现合适的接口或抽象类提供 Map 和 Reduce 函数，再加上其他作业参数，就构成了作业配置（Job Configuration)。Hadoop 的 Client 提交作业（如 Jar 包、可执行程序等）和配置信息给 JobTracker，后者负责分发这些软件和配置信息给 TaskTracker，调度任务并监控它们的执行，同时提供状态和诊断信息给JobClient。</i>
 <i class="label2">yarn</i>hadoop1.x版本JobTracker的作用是资源管理和任务的调度，当存在多个计算框架时，比如说spark，如果两个计算框架都有着自己的资源管理模块，就会存在资源竞争，不便于管理。此时就需要一个公共的资源管理模块，这就产生了YARN。hadoop2.x上的mapreduce是基于YARN 的，YARN支持多个计算框架，就比如说刚才说的SPARk。**Yarn上的每一个Node Manager 都与每一个dataNode与之对应**。
-<i class="label2">windows上Hadoop的单击版安装与使用</i>
+##### a4、win上Hadoop的单击版安装：
 windows上的安装：单机安装的话不能使用HDFS，只能使用MapReduce。先安装好jdk(安装好后有Jre那种)。
 hadoop官网下载hadoop压缩包，解压。[hadoop的windows配置文件地址。](https://github.com/PengShuaixin/hadoop-2.7.3_windows.git)下载下来。解压得到的bin和etc目录替换掉前面hadoop包中的bin和etc目录。
 安装目录/etc/hadoop/hadoop-env.cmd#修改其中JAVA_HOME路径。/hdfs-site.xml#修改namenode和datanode存储的位置。core-site.xml#可修改本服务地址。
@@ -5197,7 +5198,8 @@ cmd运行hadoop时提示：JAVA_HOME is icnoco...#jdk不要安装在有空格的
 打开：http://localhost:50070可看到管理hadoop的web界面。
 [hadoop与spark介绍及使用，还有其它很多多数据相关知识及其它工具的使用。](http://c.biancheng.net/view/3604.html)
 [官网下载地址。](https://hadoop.apache.org/releases.html)[Hadoop安装。](https://blog.csdn.net/u010993514/article/details/82914827)
-<i class="label2">linux上Hadoop的单击版安装与使用</i>与windows上的安装类似，不过环境变量是在/etc/profile中设置，注意：如果使用系统自带的java，则jdk路径处写/usr即可，因为hadoop使用是会去找该路径下的bin/java。
+##### a5、linux上Hadoop的单击版安装：
+与windows上的安装类似，不过环境变量是在/etc/profile中设置，注意：如果使用系统自带的java，则jdk路径处写/usr即可，因为hadoop使用是会去找该路径下的bin/java。
 使用以下三条命令做免密登陆。[linux上hadoop单击版安装。](https://blog.csdn.net/cafebar123/article/details/73500014)
 ```shell
 ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
@@ -5205,6 +5207,7 @@ cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
 chmod 0600 ~/.ssh/authorized_keys
 ```
 第一次启动前需要格式化：`./bin/hdfs namenode -format`。sbin下面有多个服务项，dfs,yarn等。然后：`./sbin/start-all.sh`#启动全部。`./sbin/stop-all.sh`#停止。
+##### a6、python连接hadoop：
 <i class="label1">python连接Hadoop进行读写</i>通过一些python库来操作HDFS进行读写操作。这里用pyhdfs库式例：
 ```python
 import pyhdfs
@@ -5246,7 +5249,58 @@ client.get_content_summary("/user/hadoop")
 删除hdfs上指定文件夹：hadoop fs -rm -r -skipTrash /folder_name
 [hadoop常用命令学习地址。](https://www.cnblogs.com/zhujiabin/p/5755379.html)。[python用pyhdfs连接hadoop，进行文件操作(测试使用通过)。](https://blog.csdn.net/weixin_38070561/article/details/81289601)
 [hdfs3文档地址。](https://hdfs3.readthedocs.io/en/latest/api.html)[pyhdfs的git地址。](https://github.com/jingw/pyhdfs)
-<i class="label2">编写mapReduce程序，使用streaming运行</i>：
+##### a7、编写mapReduce程序：
+mapper部分编写为一个文件。将数据转为一个个键值队输出。使用hadoop2.9似乎还有问题。
+```python
+#!/usr/bin/env python
+import sys
+for line in sys.stdin:
+    line = line.strip()
+    words = line.split()
+    for word in words:
+        print("%s\t%s" % (word, 1))
+```
+reducer部分程序
+```python
+#!/usr/bin/env python
+from operator import itemgetter
+import sys
+
+current_word = None
+current_count = 0
+word = None
+
+for line in sys.stdin:
+    line = line.strip()
+    word, count = line.split('\t', 1)
+    try:
+        count = int(count)
+    except ValueError:  #count如果不是数字的话，直接忽略掉
+        continue
+    if current_word == word:
+        current_count += count
+    else:
+        if current_word:
+            print("%s\t%s" % (current_word, current_count))
+        current_count = count
+        current_word = word
+
+if word == current_word:  #不要忘记最后的输出
+    print("%s\t%s" % (current_word, current_count))
+```
+使用sheel语言来写一个运行，以后更换文件路径即可。
+```bash
+HADOOP_CMD="/usr/local/hadoop/bin/hadoop"  #安装的hadoop路径
+#用于将python程序转为可运行的程序的jar包
+STREAM_JAR_PATH="/usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.8.0.jar"
+#要处理的文件放到hadoop集群上。
+INPUT_FILE_PATH="/data/hello.txt"
+#输出的文件目录要求是不存在的，使用完成以后下次可以删去。
+OUTPUT_PATH="/data/output"
+#-file指定要运行的程序文件路径。
+$HADOOP_CMD jar $STREAM_JAR_PATH -input $INPUT_FILE_PATH -output $OUTPUT_PATH -mapper "python mapper.py" \
+ -reducer "python reducer.py" -file ./mapper.py -file ./reducer.py
+```
 缺点：
 1. 只能通过命令行参数来控制 MapReduce 框架，不像 Java 的程序那样可以在代码里使用 API，控制力比较弱。
 2. 因为中间隔着一层处理，效率会比较慢。
