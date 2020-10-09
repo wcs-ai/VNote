@@ -53,6 +53,7 @@ ctrl+T切换编辑模式。似乎没有登陆。[自定义css样式]包括字体
 [解决地址。](https://blog.csdn.net/zhuiqiuzhuoyue583/article/details/80150207)
 **解压软件**：bandizip可解压多种格式的压缩文件。52zip功能不如bandizip强大，但也还可以。主要是都没有广告携带。
 **u盘分区和数据恢复工具**：DiskGenus，[DiskGenus下载地址。](https://www.diskgenius.cn/download.php)
+[几款报表分析软件。](https://www.zhihu.com/question/20205873)
 #### 3、excel操作：这里使用的是wps。
 单列查找、替换、定位：鼠标选中指定列，然后ctrl+F。操作即可。
 **点击单元格跳转其它表**：一个excel可有多个表。右键单元格》超链接》左侧选择本表中的位置》选择表。相应的总表中对应单元格右键定义名称，分表中指定一个单元格超链接，选择定义的名称可返回
