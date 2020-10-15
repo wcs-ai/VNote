@@ -23,15 +23,16 @@
 ##### a、安装及问题：
 <i class="label1">windows上安装</i>低版本：安装包解压后进入文件夹创建一个`my-small.ini`文件然后在文件最低部添加：basedir=该文件夹绝对路径	/n  datadir=文件夹绝对路径/data。高版本的话不要设置datadir参数，不然启动服务时报错，按照菜鸟教程走即可。
 进入bin目录cmd>>`mysql --initialize --console `//初始化数据库。会输出初始账户，密码，请记住！！！
->提示找不到VCRUNTIME140_1.dll：安装微软常用库。
->mysqld isntall 服务时提示：Install/Remove of the Service Denied!#可进入<i class="red">管理员身份运行</i>
+- 提示找不到VCRUNTIME140_1.dll：安装微软常用库。
+- mysqld isntall 服务时提示：Install/Remove of the Service Denied!#可进入<i class="red">管理员身份运行</i>。
+- 其它软件连接mysql需要使用mysql驱动包，[mysql驱动包下载地址。](https://mvnrepository.com/artifact/mysql/mysql-connector-java)。
+- mysql的jdbc驱动6.0版本以上需要设置time zone，可以在连接url中设置：`jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8`。
 ```
 mysqld install MySQL//安装名为MySQL的服务。注意在管理员身份下运行命令。`c:>d:`#切换到d盘
 mysqld --remove MySQL `//移除指定服务。
 net start mysql //启动mysql服务 ，启动失败的话直接到服务列表手动启动即可。
 mysql -h root -p //登录(初始密码为空)，
 ```
-数据库表字段属性：空\不为空值、主键、为一键、自增长、默认值、字段描述、补充、复合键。
 **使用前**：注意使用前必须修改用户密码，方法如下：  :bulb:
 ```
 D:\mysql\bin>mysql -u root -p    #目录下登入mysql
@@ -48,7 +49,7 @@ service mysqld stop //关闭
 service mysqld start //开启
 service mysqld restart    //重启
 ```
-[mysql驱动包下载地址。](https://mvnrepository.com/artifact/mysql/mysql-connector-java)
+
 [连接mysql时提示：Authentication method 'caching_sha2_password' is not supported解决方法](https://blog.csdn.net/u011583336/article/details/80999043)。
 ##### b、可视化：
 **mysql可视化管理工具**：navicat for MySQL破解：https://blog.csdn.net/wypersist/article/details/79834490
@@ -127,7 +128,7 @@ create database wcs character set utf8;    #创建一个名为wcs的库。
 create table blogs(id char(20) primary key,user_id char(20),name char(20) COMMENT '姓名',)character set utf8;
 /*删除数据表 "DROP TABLE IF EXISTS sites"   IF EXISTS为判断*/
 
-/    ***************修改操作，字段操作*/
+/***************修改操作，字段操作*/
 alter table 表名 modify column 字段名 类型；
 ALTER TABLE 表名 ADD COLUMN 字段名 numeric(18,0);    #添加
 ALTER TABLE games DROP COLUMN id;    //删除某一个列。
@@ -138,16 +139,16 @@ DELETE FROM games WHERE year is null;    //剔除空值。
 DELETE FROM gamse;    //删除所有的行。
 DROP TABLE games;    //删除整个表。
 
-#************插入操作
+/*************插入操作*/
 INSERT INTO table VALUES (v1,v2,v3);    #直接插入值
 INSERT INTO table (id,name,url) VALUES (1,'wcs','http://');    #指定键值的插入。
 INSERT INTO table2 SELECT * FROM table1;    #从表1中选择一些字段插入到表2中。
-#    注意：插入就会新增行，即使你要插入的那列值之前的是为空，也会从表尾插入。
-#    DELAYED插入数据会做延迟操作，如果在插入期间有查询操作的话，会暂缓这些插入。
+/*    注意：插入就会新增行，即使你要插入的那列值之前的是为空，也会从表尾插入。*/
+/*    DELAYED插入数据会做延迟操作，如果在插入期间有查询操作的话，会暂缓这些插入。*/
 INSERT DELAYED INTO games (name) VALUES ('qq');
 
 
-#******更新操作,UPDATE操作一般比较费时间。
+/*******更新操作,UPDATE操作一般比较费时间。*/
 UPDATE games SET ys=10,avg_al=22.45 WHERE id=10;    //查找指定行，更新指定列值。
 
 
@@ -178,6 +179,7 @@ SELECT id,year FROM games WHERE year is null;    //使用year=null不能检测�
 SELECT test.Coupon_id FROM test,offline WHERE test.Coupon_id=offline.Coupon_id LIMIT 10;
 
 /*    聚合函数：*/
+SELECT round(avg(sales),3) as rd FROM games;
 count() 求值的个数、sum() 求值的和、avg() 平均数、max() 最大值、min() 最小值
 year()    getdate()#返回系统当前时间    month() day()#    year(GETDATE())#放到其它对应的函数中获取当前年份、月份等。
 
@@ -222,6 +224,8 @@ SELECT name FROM tab1 UNION ALL SELECT name FROM tab2;   /*UNION ALL则不会合
 /*partion by type表示按照type字段来分组。order by sales表示按sales字段来排序*/
 /*row_number()会对select结果的每条数据进行编号(每一组都从1开始编号)，结果类似:分好组，拍好序，编好号，但是返回一个一维的*/
 SELECT id,type ROW_NUMBER() OVER(partition by type order by sales) as ord FROM games;
+/*类似运用为查找各部分薪水前3的人*/
+with tba as (SELECT Name,ROW_NUMBER() over(partition by did order by Salary) as rnk,Salary,did FROM Employee) SELECT tba.Name,Salary,dpt.Name as Department,Salary FROM tba LEFT JOIN dpt ON tba.did=dpt.id  WHERE tba.rnk<3;
 
 /******with as的使用。定义一个sql片段，可被引用，类似于sql子句功能*/
 /*用ntb代表括号内的查询结果，后一个select语句的FROM需要指定ntb才能使用ntb中的值*/
@@ -252,6 +256,11 @@ with a as (SELECT name,REPLACE(obj,'数学',0) as zr FROM students) SELECT name,
 SELECT name,REPLACE(REPLACE(obj,'数学',0),'语文',1) as sci FROM students;
 /*更新操作时进行替换*/
 update test_tb set address=replace(address,'东','西') where id=2：
+
+/*排序函数：rank(若有相同值，排名一样，但接下来排名序号不连续)。
+dense_rank(出现相同值情况也会有连续的排名序号)的使用*/
+SELECT rank() over(order by score) as sf FROM students;
+SELECT dense_rank() over(order by score) as sf FROM students;
 ```
 
 ##### e、字段属性及建表原则：
@@ -317,10 +326,13 @@ mysqldump -u username -p --all-databases > BackupName.sql
 - sccess，foxbass：负载量100人以内，对安全性要求不高时可选择。
 - mysql、sql server、informix：日访问量5000～15000，如商务网站。
 - sybass、oracle、db2：负载量大，安全性高，成本也较贵。
+
 **数据迁移**：常会遇到把外面的离线数据倒入到当前使用的库中、把当前使用中的库迁移到一个新的库或服务器上、数据太多时分库分表、更新数据库版本，更换数据库引擎等，这些操作在停机情况下进行操作还算简便，但一般要求固定时间内完成，压力较大。**在线数据迁移**：可以不停机的情况下进行迁移，迁移完成后切换成新的库使用即可，对新库和旧库进行一个双写操作，即涉及到插入、更新、删除的操作在两个库同时进行，然后按顺序从旧库中将数据复制到新库中(迁移完后再做一遍数据校验，以旧库数据为准)。
 [一篇较详细的数据迁移文章。](https://www.cnblogs.com/skying555/p/8479471.html)
 #### 3、python的面向对象：
-类中__init__(self)方法是一个内部规定的方法若在类中写了该函数则在执行该类中的任意一个方时都会执行一次类中的__init__函数,若要调用类中的方法得先将该类赋值给另一个变量，然后由该变量调用类中的函数。列：
+**类的内置函数**：双下划线开头，双下划线结尾，一部分是构建类时就会运行，这些内置函数用于管理类，是设计模式常用的手段。介绍如下：[类中各内置函数作用。](https://www.cnblogs.com/jinqi520/p/9814718.html)
+- `__new__()`#在__init__()之前运行。若要接受参数，那么两者的参数量必须保持一致。
+- `__init__(self)`#任意一个方时都会执行一次类中的__init__函数,若要调用类中的方法得先将该类赋值给另一个变量，然后由该变量调用类中的函数。可设置类接收的参数：
 
 ```python
 class animal():#类中不一定要写这个初始化函数，但每个函数都要传入self
@@ -342,22 +354,31 @@ class animal(object):
 class plant(object):
     def drink(self,data):
         return data*3
+        
 //如果3个类中有重复的方法则会报错        
 class dog(animal,plant):#继承两个父类，若第一个父类没构造函数会从左
-//向右查找，把第一个有构造函数的类设为self域。
+    #向右查找，把第一个有构造函数的类设为self域。
     def __init__(self,name):
         animal.__init__(self)#先运行父类的初始化，这样父类中的实例
- //才能在子类中直接使用self调用       
+        
+    #才能在子类中直接使用self调用       
         self.name = name#推荐先初始化父类的初始化函数。
         self.info = animal.eat(self,5)#这样调用父类中的函数
    @classmethod#它对应的函数不需要实例化，不需要self参数，但是第一个参数
-//需要是表示自身类的cls参数，可以用来调用类的方法，类的属性，     
+    #需要是表示自身类的cls参数，可以用来调用类的方法，类的属性，     
    def ability(cls):
        print(cls.num)
        return data
+     
 dog2 = dog('dog2')
 v = dog2.drink(12)
 
+#super()的使用
+class pig(animal):
+    def __new__(cls):
+    #super()函数用于调用第一个参数的父级的一个函数,然后调用父类的方法。python3可直接写为：super().eat()
+    #如果没有父类的话则调用本类。单继承时可不用。
+        super(pig,cls).eat(cls)
 ```
 #### 4、爬虫：
 python2方法：
@@ -884,7 +905,7 @@ ICPSR:http://www.icpsr.umich.edu/icpsrweb/ICPSR/
 APublicDatasets:https://github.com/caesar0301/awesome-public-datasets
 YahooWebscopeProgram:http://webscope.sandbox.yahoo.com/
 数据堂:http://www.datatang.com/
-[几个数据集网站地址分享。](https://blog.csdn.net/luochao5862426/article/details/79564311)
+[几个数据集网站地址分享。](https://blog.csdn.net/luochao5862426/article/details/79564311)、[很多的电商数据集](https://my.oschina.net/u/3267804/blog/4375485)。
 一个比较全的nlp各类型数据集汇总：https://www.ctolib.com/CLUEbenchmark-CLUEDatasetSearch.html
 实体数据、情感分析、问答、推荐数据：https://blog.csdn.net/mrjkzhangma/article/details/91988492
 图像识别(文章)：https://blog.csdn.net/Song_Esther/article/details/82808281
@@ -1001,6 +1022,19 @@ unset age #unset可以删除变量，但不能删只读变量。
 2) 环境变量 所有的程序，包括shell启动的程序，都能访问环境变量，有些程序需要环境变量来保证其正常运行。必要的时候shell脚本也可以定义环境变量。
 3) shell变量 shell变量是由shell程序设置的特殊变量。shell变量中有一部分是环境变量，有一部分是局部变量，这些变量保证了shell的正常运行
 保存为test.sh文件`chmod +x ./test.sh`#赋予执行权限，如果不加./那系统会到PATH变量中找该文件。./告诉系统是在当前路径下。
+#### 21、python设计模式：
+a1、前提基础：
+```
+hasattr(obj,'name') //对象obj中是否有name这个属性，如类Obj中是否有name这个变量值。
+```
+单例设计模式：
+```python
+class Single(object):
+    def __new__(self):
+        if not hasattr(self,'instance'):
+            self.instance = super(Single,self).__new__(self)
+        return self.instance
+```
 #### 22、常见距离公式：
 曼哈顿距离：点p1(x1,y1),p2(x2,y2)的距离：d = |x2-x1| + |y2-y1|
 欧几里得距离：(欧式距离,平时常用的计算)sqrt((x2-x1)^2+(y2-y1)^2)

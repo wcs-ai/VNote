@@ -1490,7 +1490,7 @@ v.alter()直接调用，或原始中<p v-on:click="alter()"></p>，v-on绑定的
 ```
 ##### a6、计算属性与监听属性：
 与methods类是是一个函数集对象，不过computed中的函数可以直接放到模板中：
-```
+```javascript
 <p>{{ name }}</p>// name对应cmputed中对应的函数名，会将函数返回值作为name值。也可以写成{{ name() }}
 ...
 data:{
@@ -1525,7 +1525,7 @@ watch:{// watch中的函数名对应data中想要监听的数据名。
 }
 ```
 事件绑定中传入event参数：
-```
+```javascript
 <p v-on:click="get($event)"></p>
 function get(e){
     // 使用此法来获取当前元素
@@ -1534,7 +1534,7 @@ function get(e){
 }
 ```
 ##### a7、自定义组件：
-```
+```javascript
 // 全局注册，写在main.js文件中
 Vue.component("wcs",{
     template:'<h1>{{ info }}</h1>',
@@ -1545,14 +1545,17 @@ Vue.component("wcs",{
 });// 页面中直接<wcs></wcs>即
 ```
 局部注册
-```
-<test v-bind:av="nm" v-bind="post"></test>//av是子组件test中的props中定义的值，当是一个对象时可以直接v-bind。:av="nm"(mpvue中的简写)。
+```HTML
+<!--av是子组件test中的props中定义的值，当是一个对象时可以直接v-bind。:av="nm"(mpvue中的简写)。
+.async表示组件内修改值也改变组件外的值，两者同步。
+-->
+<test v-bind:av="nm" v-bind="post" :varray.async="datas"></test>
 import test from '../component/test'
 ...
 components:{test}
 ```
 <i class="label2">prop验证</i>在父组件向子组件中的props传递值时，props的值可以预先写定一个类型数据来做验证，若传来的值不满足验证则会有warn提示。
-```
+```javascript
 // 子组件中的props内容。
 props:{
     age:Number,
@@ -1584,7 +1587,7 @@ props:{
 data:{age:'fdsf'}//与子组件要求的数据类型不一致时会在控制台有warn提示。
 ```
 <i class="label2">组件中使用插槽</i>有时候我们定义一个组件不能完全应付所有场景，比如一个底部弹出框，有的有选择项，有的是展示商品内容，如果靠传值来控制显示，会导致子组件内东西非常多。而分为多个组件来写，它们之间又有一些共用的东西，所以产生了插槽。
-```
+```vue
 // 第一个子组件的内容
 <template v-slot:head>// v-slot的值对应第三个子组件中slot的name属性。具名插槽可以缩写为#head
     <div>第一个子组件内容{{ name }}</div>
@@ -1611,7 +1614,7 @@ data:{age:'fdsf'}//与子组件要求的数据类型不一致时会在控制台�
 ```
 <i class="label2">插槽作用域</i>暂未实现！[学习地址。](https://blog.csdn.net/lzl980111/article/details/104783252/)
 <i class="label2">动态组件和异步组件</i>使用component标签和v-bind:is属性来切换组件。
-```
+```VUE
 <keep-alive>// 外面套上keep-alive标签后，加载过的组件会被缓存下来，再切回去的时候不会重新渲染。
   <component v-bind:is="name"></component> //component是vue内部自带的已注册的标签名，修改name值(对应组件名称)来在这个位置切换组件。
 </keep-alive>
