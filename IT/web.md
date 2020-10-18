@@ -226,8 +226,13 @@ https://www.cnblogs.com/onepixel/articles/7674659.html
 BFC全称是Block Formatting Context，即块格式化上下文。它是CSS2.1规范定义的，关于CSS渲染定位的一个概念。视觉格式化模型定义了盒（Box）的生成，盒主要包括了块盒、行内盒、匿名盒（没有名字不能被选择器选中的盒）以及一些实验性的盒（未来可能添加到规范中）。盒的类型由display属性决定。
 BFC的创建方法：根元素或其它包含它的元素；浮动 (元素的float不为none)；绝对定位元素 (元素的position为absolute或fixed)；行内块inline-blocks(元素的 display: inline-block)；
 表格单元格(元素的display: table-cell，HTML表格单元格默认属性)；overflow的值不为visible的元素；弹性盒 flex boxes (元素的display: flex或inline-flex)；但其中，最常见的就是overflow:hidden、float:left/right、position:absolute。也就是说，每次看到这些属性的时候，就代表了该元已经创建了一个BFC了(是一个独立的布局环境，我们可以理解为一个箱子（实际上是看不见摸不着的），箱子里面物品的摆放是不受外界的影响的)。[参考学习地址1。](https://blog.csdn.net/qf2019/article/details/99828150)[参考学学习地址2。](https://www.cnblogs.com/magicg/p/12650563.html)
-#### 17、盒子模型、定位、浮动：
+
 盒子模型：html的一个元素就是一个盒子，w3c盒子内容包括：marging、border、padding、content。ie的盒子模型中content部分包括border和padding部分。
+#### 17、项目构建相关：
+一、ui框架一览：
+- 后台开发类框架可选择element-ui，MuseUI。
+- 金融移动端类ui框架可选择Mand-mobile。
+
 #### 18、web端性能优化：
 先列出一些方法：懒加载、字体图标、图片适当压缩、需要时才加载、vue中用keep-alive缓存加载过的组件、组件项用动态导入组件：Load:import('../component/test')。
 图片处理专项：(png转为jpg后一般能缩小一半，但png色彩更丰富，且透明背景属性，所以项目中一般使用的是png)
@@ -800,19 +805,45 @@ https://blog.csdn.net/codingnoob/article/details/80879208
 #### 17、js数据类型操作：
 javascript数据类型包括：数值、字符串、布尔、null(表示尚未存在的对象)、undefined(当声明的变量还未被初始化时，变量的默认值为undefined。)、对象(对象又包括列表、函数、字典)，6种。#alert(null == undefined); //output "true"  。ert(null === undefined); //output "false" 
 <i class="label1">数值</i>parseInt("fjdk889") //转为整型889,剔除字符串。parseFloat()//转为float型。toFixed(2);//保留小数位数。
-<i class="label1">字符串操作</i>x.toString()//转为字符串。x.replace(/target/g,'')//替换,g表示所有满足的都替换。x.concat(“a”,”b”)//可与x连接多个字符串。
-charAt(index)//查找字符串的对应下标的值,“justice”.charAt(1)=”u”。
-toUpperCase("a")方法将小写字母转换为大写,toLowerCase("A")将大写字母转为小写。
-substring(start,end)//提取字符串中介于两个下标间的字符串,start最小从0开始,end可以不填,start下标位置的那个字符也会被返 回，end对应那个下标的字符不会被返回，返回的是开始到end之前的那个下标间的字符串。
-<i class="label1">列表</i>list.indexOf(1)//找到第一个1在列表中的位置，不在则返回-1。list.incloud(1)//是否包含1，返回布尔值。list.join("-")//将各元素用字符链接。list.push(1)//在列表最后添加值。list.pop()//删除最后一个元素。unshift();//在数组最前端添加一个新的值。reverse();//将数组倒置，[1,2,3].reverse();//[3,2,1]。list.shift()//移除第一个元素。
-instanceof//检查一个对象是否为了一个对象中的实例，Console.log(p1 instanceof p2);//p1是否为p2中的实例；
-数组去重：
+<i class="label1">字符串操作</i>
+`x.toString()`//转为字符串。`x.replace(/target/g,'')`//替换,g表示所有满足的都替换。`x.concat(“a”,”b”)`//可与x连接多个字符串。
+`x.charAt(index)`//查找字符串的对应下标的值,`“justice”.charAt(1)=”u”`。
+`"a".toUpperCase()`方法将小写字母转换为大写,`"A".toLowerCase()`#将大写字母转为小写。
+`str.substring(start,end)`//提取字符串中介于两个下标间的字符串，一个参数时为start，截取后面所有。在源数据上操作。
+`str.substr(start,length)`#第二个参数为选择从start起截取多少个长度字符。
+`str.indexOf('aa')`#查找字符串位置。
+`str.search('abc')`#找到子串开始位置。
+```js
+var str = '大米:2.57斤/元,白菜:3.65元/斤';
+var arr = str.match(/\d+(.\d+)?/g); //match()方法找到所有匹配的项，返回一个数组。
+```
+<i class="label2">js的正则表达式</i>
+```js
+//i表示不区分大小写，g表示匹配全局，m表示可匹配多行。
+var a = /e/i;
+var b = new RegExp('e');
+console.log(a.test('aaebc'));// 返回布尔值
+console.log(a.exec('kke,mme'));//只能找到第一个匹配项，放回一个列表形式的记录（有匹配到的值）。
+```
+<i class="label1">列表</i>
+- `list.indexOf(1)`//找到第一个1在列表中的位置，不在则返回-1。
+- `list.incloud(1)`//是否包含1，返回布尔值。
+- `list.join("-"`)//将各元素用字符链接。
+- `list.push(1)`//在列表最后添加值。
+- `list.pop()`//删除最后一个元素。
+- `unshift()`//在数组最前端添加一个新的值。
+- `list.reverse()`//将数组倒置，[1,2,3].reverse();//[3,2,1]。
+- `list.shift()`//移除第一个元素。
+- instanceof//检查一个对象是否为了一个对象中的实例，Console.log(p1 instanceof p2);//p1是否为p2中的实例；
+**数组去重**：
+```js
 function unique (arr) {
   return Array.from(new Set(arr));//使用集和。
 }
 unique([1,1,'true','true',true,true])
-<i class="label2">splice(位置,操作,值)</i>//splice()方法可以操作数组
 ```
+<i class="label2">splice(位置,操作,值)</i>//splice()方法可以操作数组
+```js
 var arr = [1,2,3,4,5,6];
 arr.splice(2)//删除2及之后的值。
 arr.splice(0,2);表示删除0,1位置的值，两个索引值相同时删除1个。
@@ -828,7 +859,7 @@ forEach()//forEach()方法调用数组的每一个数传递给回调函数。
 例：`arr.forEach(function(value,index,data){});`//对数组做循环遍历获取数组各项值当做参数传入到函数中便于函数用其做操作。对象不能使用。ie 1.9以 下不支持;
 
 #### 18、js对象与json格式互转：
-```
+```js
 var obj = {name:"wcs",id:21}
 obj = JSON.stringify(obj);// {"name":"wcs","id":21}
 var json = {"name":"mx","id":23}
@@ -838,7 +869,7 @@ json2 = JSON.parse(json);
 ```
 若是使用动态的方法将js对象转为json格式的话对象中的数值型会变成字符串，需要先用parseint()方法处理后再转换。
 强大的eval()方法：
-```
+```js
 eval()方法可以将字符串转换为可执行的js语句，例：
 eval('30>20?alert("ok"):alert("error")');//ok
 eval("obj.a."+b+"["+ "'"+v+"'" +"]")//这种情况v两边加单引号。
@@ -850,7 +881,7 @@ eval("obj.a.c")//1,eval("obj.a"+['c']])//1
 2、cookie缓存。(格式建议与url传参写成一样的)
 3、Storage缓存。(页面间调用storage中的值,将一个数组存入后会变为逗号分割)
 4、window.open()+window.opener
-```
+```js
 // 页面a：
 var a = 55; // 页面a的对象
 el.onclick=function(){window.open("b.html");}//打开一个新窗口
@@ -860,7 +891,7 @@ console.log(window.opener.a);//window.opener会将前一个页面的所有对象
 
 ```
 #### 20、requestAnimationFrame()//动画制作专用
-```
+```js
 function play(){
 console.log(a);
 window.requestAnimationFrame(play);
