@@ -329,6 +329,35 @@ mysqldump -u username -p --all-databases > BackupName.sql
 
 **数据迁移**：常会遇到把外面的离线数据倒入到当前使用的库中、把当前使用中的库迁移到一个新的库或服务器上、数据太多时分库分表、更新数据库版本，更换数据库引擎等，这些操作在停机情况下进行操作还算简便，但一般要求固定时间内完成，压力较大。**在线数据迁移**：可以不停机的情况下进行迁移，迁移完成后切换成新的库使用即可，对新库和旧库进行一个双写操作，即涉及到插入、更新、删除的操作在两个库同时进行，然后按顺序从旧库中将数据复制到新库中(迁移完后再做一遍数据校验，以旧库数据为准)。
 [一篇较详细的数据迁移文章。](https://www.cnblogs.com/skying555/p/8479471.html)
+##### h、回滚与日志：
+**回滚**：用于操作失误后便于撤回。一种方法是使用备份的数据，结合查询日志来恢复数据，非常麻烦。另一种这是安装binlog2sql，回滚起来极为简便。
+centos上安装binlog2sql：`git clone https://github.com/danfengcao/binlog2sql.git && cd binlog2sql`#然后进入到binlog2sql文件目录中，`pip install -r requirements.txt`#安装文件中列出来的包。再进入binlog2sql，将里面的binlog2sql_util.py文件移到python环境中，`Anaconda/bin`和scikit-packages中。
+mysql配置文件中添加配置：
+- linux上的mysql配置文件一般在/etc/my.cnf，win则在my.ini中。
+- 若是linux则添加：`log-bin=mysql-bin`和`server-id=1`两项。
+- 重启服务：service mysqld restar
+- 进入mysql模式：然后`show variables like ‘log_%’;`#查看bin_log状态。`show master logs;`#查看日志记录，一般非查询操作都会生成一条记录，似乎退出重启服务后才能看到最新的。
+- 预览生成的回滚sql：
+```bash
+#在刚才下载的binlog2sql中执行，binlog2sql.py是对应的文件。-u后的是用户名，-p后的是密码，注意修改。
+python binlog2sql.py -h127.0.0.1 -P3306 -uroot -p'xsww' -dtest -t f --start-file='mysql-bin.000002' --start-pos=4 --end-pos=314 -B
+# 回滚。
+#mysql-bin.0000002是要恢复的日志记录。
+python binlog2sql.py -h127.0.0.1 -P3306 -uadmin -p'admin' -dtest -t f --start-file='mysql-bin.000002' --start-pos=4 --end-pos=314 -B | mysql -h127.0.0.1 -P3306 -uadmin -p'admin'
+```
+**日志查看**：[日志查询学习参考地址。](https://www.cnblogs.com/mungerz/p/10442791.html)
+日志类型：进入mysql模式可查询日志。
+- 错误日志：错误日志功能是默认开启的，而且无法被关闭。`show global variables like 'log_error%';`#还有log_warning。返回具体文件位置，可vim查看内容。
+- 查询日志：默认情况，查询日志是关闭的。因为查询日志会记录用户所有的操作，导致不必要的磁盘IO。
+- 慢日志：慢查询日志是用来记录执行时间超过指定时间的查询语句。通过慢查询日志，可以查找出哪些查询语句的执行效率很低。`show global variables like 'long%';`
+- 事物日志：事务日志（InnoDB特有的日志）可以帮助提高事务的效率。
+- 二进制日志：二进制日志也叫作变更日志，主要用于记录修改数据或有可能引起数据改变的mysql语句，并且记录了语句发生时间、执行时长、操作的数据等等。
+```sql
+show global variables like "%log_bin%";
+#查看二进制日志内容。
+show binlog events in 'mysql-bin.000002';
+```
+
 #### 3、python的面向对象：
 **类的内置函数**：双下划线开头，双下划线结尾，一部分是构建类时就会运行，这些内置函数用于管理类，是设计模式常用的手段。介绍如下：[类中各内置函数作用。](https://www.cnblogs.com/jinqi520/p/9814718.html)
 - `__new__()`#在__init__()之前运行。若要接受参数，那么两者的参数量必须保持一致。
