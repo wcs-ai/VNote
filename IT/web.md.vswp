@@ -231,9 +231,21 @@ BFC的创建方法：根元素或其它包含它的元素；浮动 (元素的flo
 盒子模型：html的一个元素就是一个盒子，w3c盒子内容包括：marging、border、padding、content。ie的盒子模型中content部分包括border和padding部分。
 #### 17、项目构建相关：
 一、ui框架一览：
-- 后台开发类框架可选择element-ui，MuseUI。
+- 后台开发类框架可选择element-ui，MuseUI。飞冰(阿里-直接复制使用的ui组件库)。
 - 金融移动端类ui框架可选择Mand-mobile。
-
+- 较通用的移动端ui库：vux
+- pc端较通用：[Ant Design一个服务于企业级产品的设计体系](https://pro.ant.design/index-cn)。
+- 可视化的：echars、plotly。
+- [we-vue：适合微信公众号，小程序。](https://wevue.org/)
+- [nutUI：适合电商网站的移动端ui库。](https://nutui.jd.com/#/index)
+- 特效的：
+- 动画的：
+二、脚手架：
+三、js功能库：
+- 处理时间的：moment。
+- 加解码的：Nodash。
+- 富文本编辑：wangeditor
+四、请求处理：axios
 #### 18、web端性能优化：
 先列出一些方法：懒加载、字体图标、图片适当压缩、需要时才加载、vue中用keep-alive缓存加载过的组件、组件项用动态导入组件：Load:import('../component/test')。
 图片处理专项：(png转为jpg后一般能缩小一半，但png色彩更丰富，且透明背景属性，所以项目中一般使用的是png)
