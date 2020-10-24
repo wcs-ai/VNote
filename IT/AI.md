@@ -5523,7 +5523,7 @@ hive是基于Hadoop的一个数据仓库工具，用来进行数据提取、转�
   	<value>Mysql@123</value>    <!--mysql用户对对应的密码。-->
   </property>
 ```
-- 在/etc/profile中添加如下配置，根据自己的安装路径修改，完后记得source：
+- 在/etc/profile中添加如下配置，根据自己的安装路径修改，完后记得source：然后将mysql的连接驱动包放到hive/lib下。
 ```bash
 export HIVE_HOME=/usr/local/hive
 export PATH=$PATH:$HIVE_HOME/bin
@@ -5535,6 +5535,7 @@ export CLASSPATH=$CLASSPATH:/usr/local/hive/lib/*:.
 - 启动hive：`nohup hive --service metastore` #启动metastore。`hive `#启动hive。
 <i class="label1">遇到的问题</i>[部分问题的总结学习地址。](https://blog.csdn.net/cs_mycsdn/article/details/82460238)
 - 初始化hive时提示：`class com.mysql.jdbc.Driver is deprected`#将hive-site.xml文件中的对应项改为：`com.mysql.cj.jdbc.Driver`，即可。
+- 初始化时提示：`Duplicate key name 'PCS...'`#是由于mysql数据库中已经有hive-site.xml文件中配置的数据库metastore,hive字眼，将去删去即可。
 - `Host is not allowed to connect to this MySQL server`或者`Access denied for user ...`#先检查hive-site.xml文件中的连接地址和连接用户名，密码有没有错。否则可以尝试修改mysql用户表中可允许连接的ip来源。`update mysql.user set host='%' where user='root'`#更新/mysql/user表下的root用户允许所有ip连接。
 - [提示拒绝连接问题。](https://blog.csdn.net/hongchenshijie/article/details/103138745)
 
