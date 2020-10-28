@@ -5,7 +5,7 @@
 
 ### 一、HTML
 #### 1、svg：
-```
+```html
 <svg width="300" height="300"></svg>
 <rect x="" y="" width="" height="" style="fill:red;stroke-width:2;stroke:blue;"/>
 //rect标签绘制矩形，x,y为位置,fill,stroke等属性可写在style外。
@@ -87,7 +87,7 @@ save()方法放绘制的开头，restore(）方法放绘制的结尾。
 ctx.globalCompositeOperation="source-over"//图形重叠处理，source-in:重叠部分绘制，source-out:重叠位置不绘制、source-atop:重叠处类似遮罩的绘制、lighter:颜色叠加效果、copy:只显示新内容、xor:互相重叠部分为透明、multiply:顶层像素与底层像素相乘，一般得到黑暗图形、screen:重叠处像素反转、overlay:multiply与screen叠加效果、darken:变暗
 lighten:叠加部分变量、color-dodge:底层像素值除顶层像素值、color-burn:颜色加深。底部图层的色值除以顶部图层色值，得到的结果再反相、hard-light:重叠处强光、soft-light:柔光......
 (利用globalCompositeOperation中的copy属性可以实现图形的位移、旋转)(如果要用一个2d对象绘制多个图形且让其能产生动画效果那么需要在每个绘制图形前都加一个globalCompositeOperation,属性值不为copy即可)
-```
+```js
 var cn = document.getElementById("canvas");
 function play(){
     var cv = cn.getContext("2d");
@@ -112,7 +112,7 @@ function play(){
 
 ```
 用for循环绘制多个图形：
-```
+```js
 var can = document.getElementById("can");
 var ttx = can.getContext("2d");
 for(var i=0;i<3;i++){
@@ -124,7 +124,7 @@ ttx.fill();
 
 ```
 只刷新一个画笔的图形：
-```
+```js
 var can = document.getElementById('can');
 var ctx1 = can.getContext('2d');
 var ctx2 = can.getContext('2d');
@@ -198,7 +198,7 @@ X-FRAME-OPTIONS是一个 HTTP 响应头，在现代浏览器有一个很好的�
 [web端安全问题及应对方法。](https://www.cnblogs.com/pretty-sunshine/p/11442326.html)
 #### 14、HTML5规范：
 html5中加了一些新的规范，如下示例：[H5的一些新标签的使用学习地址。](https://www.cnblogs.com/nuanai/p/8856814.html)
-```
+```html
 <! DOCTYPE html> //声明使用H5规范来解析文档。
 <html>// html5中标签名可以用大写，但推荐使用小写。不要省略html,head,body标签。
 <head></head>
@@ -252,14 +252,14 @@ jpg：全名是JPEG，是数码相机的常用格式，特点呢就是色彩还�
 png：png是最适合网络的图片，色彩丰富，png 不适用于颜色很少，或亮度差异十分明显的较简单的图片。
 <i class="label1">mask-image优化png图片加载</i>如果是不需要透明属性的png图片我们可以直接转为jpg，但如果有透明要求转为jpg后就会透明部分变成白色。
 所以使用css的mask-image属性有一张纯色png图(轮廓与原png一样，纯色填充后是以前的1/100大小)遮在jpg图上(png转化后的)，这样使用jpg图片就能代替png了。
-```
+```css
 img {// 不用担心兼容性问题。
     -webkit-mask-image: url(card-mask.png);
     mask-image: url(card-mask.png);
 }
 ```
 #### 19、文字继承单选框和复选框：
-```
+```html
 <input type="radio" id="a"/> <label for="a">点我触发前面id为a的单选框</label>
 <input type="checkbox" id="b"/> <label for="b">点我触发前面id为b的复选框</label>
 {
@@ -386,7 +386,7 @@ transform,box-shadow,background-position,background-img；
 于图左右边，z轴始终垂直于图片,（坐标轴随着图片做同样的变换）。
 css3中的变换操作作用于行内元素上无效。
 css3倒影：
-```
+```css
 el{
     box-reflect:below 1px linear-gradient();//box-reflect属性为元素添加倒影
     //效果，第一个值设置方向，第二个值为倒影与元素的距离，第三个值为线性渐变，将
@@ -396,7 +396,7 @@ el{
 
 ```
 css3剪切：
-```
+```css
 el{
     clip-path:polygon(50% 0,10px 100px,150px 100px);//多边形剪切，点位置
     clip-path:circle(50% at 50% 50%);//圆形剪切,半径，圆心坐标
@@ -413,7 +413,7 @@ el{
 }
 ```
 css3贝塞尔速度曲线：
-```
+```css
 el{
     /*默认的贝塞尔速度曲线是从(0,0)到(1,1)的一条匀速直线，括号中的四个数值是
     //贝塞尔曲线中的两个点的位置，通过这两个点拉扯曲线，速度安装曲线弯曲度改变。
@@ -424,7 +424,7 @@ el{
 user-select为css3属性，需要做兼容。
 perspective-orign:50% 50%;//改变视角位置坐标
 #### 8、一个让全局提示的写法：
-```
+```css
 #tip{
       position: absolute;
       z-index: 100;
@@ -447,14 +447,19 @@ perspective-orign:50% 50%;//改变视角位置坐标
     }
 ```
 #### 9、弹性布局：
-```
+```css
 .box{
     display:flex;
     display:-webkit-flex;
     flex-direction:row;//排列方向
     flex-wrap:wrap;//转行类型
     justify-content:space-between;//对其方式
-    align-item:center;//元素垂直居中
+    align-item:center;//元素垂直居中,控制的是另一个轴
+}
+.child{
+    // 其子元素对应align-item方向上的位置控制.
+    align-self:flex-end;
+    flex-bais:500px;    //控制单个元素所占宽度，代替width。
 }
 ```
 [一排固定几个元素]使用justify-content:space-between且给子元素宽度时，这时宽度不起用，需要加上：flex-direction: row;flex-wrap: wrap;这样每行就能像想象的个数显示。
@@ -943,7 +948,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/Events/DOMContentLoaded
 淡入淡出：$("#p").fadeIn(1000,callback);$("#p").fadeOut(1000,callback) //第一个参数是变化的时间，第二个参数是运行完成后的回调函数。
 动画： $("div").animate({left:'250px'},2000,callback);//变换的属性、时间、运行完后的回调。
 #### 23、js es6语法大全
-```
+```js
 let a = 10;//#######块级作用域let定义变量,只在定义的块或附近的块有用，如for循环中
 let a = () => 1;
 alert(a);// 报错 a已被清除。
@@ -954,7 +959,7 @@ let foo = () => 1;//建立一个名为foo的函数返回值1，传参数时就�
 ()=>{};// 将无名函数作为一个参数时的写法
 v => {this.a = 20};// 将一个有名函数作为参数传入时的写法。箭头函数中的this
 //不是指向他的上一级而是指向它本身
-/*#######面向对象*/
+/*---------------------面向对象---------------*/
 class animal{// 父类
     construct(dat){this.x=20;}
     run(){alert('here run');}
@@ -968,9 +973,9 @@ class dog extends animal{// 子类,extends继承父类
 var pig = new dog('av');dog.run();// here run
 dog.say();// here say
 /*construct为构造函数为该类私有方法被继承时无需调用直接运行，extends继承的
-/*子类中需要先调用super()方法才能用this添加实例对象因为子类中没有this对象只能
-/*继承父类中的*/
-//####### 解构
+/*子类中需要先调用super()方法才能用this添加实例对象因为子类中没有this对象只能/*继承父类中的*/
+
+//#------------------解构
 var [a,b,c] = [1,2,3]//a=1,b=2,c=3;
 var {a,b} = {a:1,b:2}//a=1,b=2;
 for(var i of obj){console.log(i);}//for of方法与for in方法不同，for of是
@@ -984,14 +989,14 @@ import a from 'pages/home/index'
 export default{
     a
 }
-//####### 对象属性简写：{name,age,pos}
-//####### 延展操作符：
+//---------------- 对象属性简写：{name,age,pos}
+//----------------------- 延展操作符：
 var a = [1,2,3,4,5];
     function c(v){
         console.log(arguments);
     }
 c(...a);// 将a中的每个元素拿出来放到c中。
-//#######    promise
+//##-----------------promise
 var waitSecond = new Promise(function(resolve, reject)
 {
     setTimeout(resolve, 1000);
@@ -1006,7 +1011,7 @@ waitSecond.then(function()
     {
         console.log("Hi"); // 2秒后输出"Hi"
     });
-//####### 代理proxgy。与就的object方法集一样的作用，都用于监听对象的变化。
+//-----------------代理proxgy。与就的object方法集一样的作用，都用于监听对象的变化。
   let test = {
     name: "小红"
   };
@@ -1021,7 +1026,7 @@ waitSecond.then(function()
 es6的兼容性问题：https://www.cnblogs.com/chris-oil/p/5931180.html。[ES6，7，8，9，10学习地址。](https://juejin.im/post/5ca2e1935188254416288eb2)
 
 #### 24、Object方法集：
-```
+```js
 Object.defineProperty与Object.defineProperties
 var obj = {name:'wcs',age:21,hob:[1,2],at:{a:5,b:9}}
 Object.defineProperty(obj,'name',{
@@ -1033,7 +1038,7 @@ Object.defineProperty(obj.at,'a',{})
 
 ```
 Object.defineProperty()方法可传有三个参数，第一个是要监听的对象，第二个是参数是该对象中已有的属性或未有的属性，第三个参数是对象的形式，里面可以写两个方法，set方法在改变目标对象中指定属性(第二个参数)时触发的函数，可传入一个参数表示被修改的值，get方法在目标对象指定属性值被获取时触发。set方法和get方法都是在对应的操作前就先触发的，比如：obj.name = 'jieke',是先触发set方法再运行obj.name='jieke'语句；第三个参数中也可以写访问器属性：
-```
+```js
 Object.defineProperty(obj,'name',{
     configurable:true,//表示能否通过delete删除此属性,默认为true
     writable:true,//表示能否修改此属性值，默认true
@@ -1042,7 +1047,7 @@ Object.defineProperty(obj,'name',{
 });
 ```
 在第三个参数中写以上属性都不能与get,set一起使用。
-```
+```js
  Object.defineProperties(obj,{//defineProperties()方法同时设置多个值
      name:{
          value:'张三',
@@ -1069,7 +1074,7 @@ try,catch用于预测一些自己觉得可能会因为语法错误、取值不�
 冒泡型事件流：事件的传播是从最特定的事件目标到最不特定的事件目标。即从DOM树的叶子到根。【推荐】
 捕获型事件流：事件的传播是从最不特定的事件目标到最特定的事件目标。即从DOM树的根到叶子。（事件冒泡先发生）
 <i class="label1">事件绑定</i>
-```
+```js
 <p onclick="start()"></p>// 原生的事件绑定。
 function start(){};
 // js动态绑定事件
@@ -1086,7 +1091,7 @@ event.stopPropagation():阻止冒泡；
 在不同浏览器中，冒泡的程度不同：IE 6.0:div -> body -> html -> document。其他浏览器:div -> body -> html -> document -> window。
 并不是所有的事件都能冒泡，以下事件不冒泡：blur、focus、load、unload。
 解决办法：
-```
+```js
 if(event && event.stopPropagation){ // w3c标准
 event.stopPropagation();
 }else{ // IE系列 IE 678
@@ -1095,7 +1100,7 @@ event.cancelBubble = true;
 ```
 <i class="label1">事件委托/代理</i>与事件冒泡相反，我们想让用户点击一个块的每个子元素都触发一个事件，可以将该事件绑定再这些子元素的父元素上就可以不用每个子元素都去绑定了。
 <i class="label1">获取鼠标事件目标的属性</i>
-```
+```js
   event.target.nodeName//获取事件触发的标签名
   event.target.className//获取事件触发的元素的类名
   event.target.id//获取事件所触发的元素的id名
@@ -1108,7 +1113,7 @@ e.currentTarget//指的是真正触发事件的那个元素;e.target：触发事
 多态：传入不同的参数或者配合不同的函数使用可以得到不同的结果。
 注:继承是一个类似复制的过程，原类中关于:类名.prototype.function()的含有原类名的语句都会被新的类所能使用，这似乎是一个指针指向该方法;将一个方法的变量名放到一个对象中当参数传到另一个函数中也可以使用这种方式调用：`info['func']();`
 若用于继承的变量与原类放在同一级情况下需要将运行类中的语句写在原类后，但若是继承的变量比原类级别低(继承语句及执行类中方法的语句写在一个函数内)可以运行
-```
+```js
 function a(){}
 a.prototype = {b:function(){console.log('errror');}}
 var c = new a();
@@ -1118,7 +1123,7 @@ c.b();//执行语句写在类a的后面
 原型的方法中使用：this.val = 10;的方法添加属性及值被子类继承后是子类中独有的与另一个子类中继承的a在堆存储中不是同一个源。
 但若是使用：a.prototype.val = 20;的方法项原型中添加属性那么这个属性将是父类私有的，这意味着在两个继承的子类中即使使用传参动态改变val值的方法前一个类赋予的val值会被后一个子类的val值所覆盖。在原型的方法中又涉及到事件添加或创建函数等操作则在这些新建函数中则无法用
 this方法调用原型中的属性；一个解决方法如下：
-```
+```js
 a.prototype = {
     sta:function(){
         this.el = document.getElementById("el");
@@ -1137,7 +1142,7 @@ a.prototype = {
 <i class="label1">原型链</i>由上面的分析可以看出任何一个对象(除null外)都会由原型这个属性，在使用时一般是一个函数，然后将其原型指向一个对象(类似一个字典)，此时这个对象就成了原型，函数成了构造函数，而在使用new func()时是将原型继承给一个新的对象，此时这个新的对象、构造函数、原型3者之间都有了关系。这就是一个原型链。
 #### 28、函数的闭包：
 在有些情况下我们需要一个函数外调用一个函数内的局部变量，我们要想办法实现它，方法如下：
-```
+```js
 function a(){
     var nm = 1;
     function b(){
@@ -1153,7 +1158,7 @@ v();// 1
 执行上下文有且只有三类，全局执行上下文，函数上下文，与eval上下文。在执行代码前，浏览器会先扫描代码生成执行的上下文，按照上下情况决定先执行的代码，如声明变量、数据类型计算，遇到函数的时候，因为函数内部是一个块的代码，这时候就是构建一个函数的执行上下文。<i class="green">函数在调用时，会被全局执行上下文决定其执行的顺序。而一系列函数相互调用的情况下就形成了一个链式作用域。这些上下文的执行是放到一个栈(后进先出)空间中进行的。</i>
 #### 31、call()和apply()的使用：
 apply和call都能继承另外一个对象的方法和属性；Function.apply(obj,args)方法能接收两个参数obj：这个对象将代替Function类里this对象。args：这个是数组，它将作为参数传给Function（args-->arguments。call:和apply的意思一样,只不过是参数列表不一样。
-```
+```js
 /*定义一个Person类*/ 
 function Person(name,age) { 
      this.name=name; 
@@ -1185,7 +1190,7 @@ vue中也可作为插件使用，博客文章中的旧版本与新版本使用�
 [validator官网git地址，里面有使用示例。](https://github.com/yiminghe/async-validator#start-of-content)
 [表单验证async validator的使用。](https://www.cnblogs.com/zyxh630/archive/2013/02/21/2920489.html)
 #### 35、formData的使用：
-```
+```js
 const el = document.getElementById("form");
 let fd = new FormData(el);    # 不传入元素时是一个空的表单。
 formData.append("k1", "v2");
@@ -1205,14 +1210,14 @@ git Barsh安装成功后打开(是一个命令行工具),操作如下：
 团队协作：https://blog.csdn.net/carfge/article/details/79691360
 **合并冲突解决**：协商解决冲突的页面，然后git add /src/...将冲突的页面加入，git commit -m 'merge'提交即可。
 **全局配置用户名和密码**：如果没使用sshKey或使用了但不生效，那么每次push时都要求输密码和用户名，使用全局配置，一次性搞定。
-```
+```js
 //注意这里的用户名和密码是对应所在的平台，如马云、github、gitee
 git config --global user.name "wcs-ai"
 git config --global user.password "34342"
 ```
 **手动添加.gitignore并使其生效**：git rm -r --cached . // 删除本地缓存，然后add,commit。
 **.ignore文件格式**：
-```
+```js
 # 此为注释 – 将被 Git 忽略
 *.a # 忽略所有 .a 结尾的文件
 !lib.a # 但 lib.a 除外
@@ -1282,7 +1287,7 @@ src文件中修改代码就能自动修改两个端代码？https://segmentfault
 mainH5.js文件中直接导入：import axios from 'axios'
 [axios使用简单教程。](https://www.cnblogs.com/zxk5211/p/web_21.html)
 <i class="label1">更改标题</i>跳到一个新的页面的时候往往需要改变其顶部标题,在跳到的页面对应的min.js文件中加上
-```
+```js
 export default{
     config:{
         backgroundTextStyle: 'light',
@@ -1297,7 +1302,7 @@ export default{
 [页面初始化函数mounted]希望在进入进入一个页面之后再调用的函数写在mounted函数中也可用onLoad()函数或onShow()函数等，函数与mounted函数为同一级。
 https://www.cnblogs.com/imgss/p/9164924.html
 <i class="label1">小程序页面返回不运行初始化函数问题</i>使用navigateBack()返回上一个页面后不会再运行前一个页面的初始化函数，可以在调用navigateBack()时运行前一个函数的初始化方法。
-```
+```js
 var pages = getCurrentPages();//获取页面栈
 var before_page = pages[pages.length-2];//获取倒数第二个页面
 wx.navigateBack({
@@ -1312,7 +1317,7 @@ wx.navigateBack({
 [scroll-view的使用]元素绑定了scroll事件后在小程序端会变成scroll-view标签这时其内部所有子元素的css样式会失效，需要使用内嵌样式。scroll-view标签相关的事件函数也都用v-on:scrolltolower类似绑定。
 【组件的使用】https://blog.csdn.net/qq_35661041/article/details/81476606    https://www.cnblogs.com/yun1108/p/9755785.html
 <i class="label1">子组件触发父组件事件</i>
-```
+```js
 //子组件事件
 operate(){
     this.$emit('chooes',value1,value2);
@@ -1327,21 +1332,21 @@ https://www.jianshu.com/p/9bd7e1ffc13a
 https://blog.csdn.net/qq_33408245/article/details/82430821
 <i class="label1">强制刷新循环</i>在一些嵌套得比较深的数据结构中动态改变里面的值时会出现不能渲染到页面的问题，可使用this.$forceUpdate()方法刷新for循环的数据渲染。https://blog.csdn.net/weixin_33910385/article/details/91710105
 [web页面配置title]在mainH5.js文件中添加如下代码:（router已在头部导入）
-```
+```js
 router.beforeEach((to,name,next)=>{
     window.document.title = to.meta.title;
     next();
 });
 ```
 <i class="label1">小程序端转json为js对象</i>
-```
+```js
 res_= res_.replace(/\ufeff/g,"");
 if(typeof res_=='string'){
   res_ = JSON.parse(res_);
 }
 ```
 <i class="label1">小程序图片选择</i>
-```
+```js
 wx.chooseImage({
   count:6,
   sizeType:['original','compressed'],
@@ -1358,7 +1363,7 @@ wx.chooseImage({
 });
 ```
 <i class="label1">小程序端图片上传</i>
-```
+```js
 for(var i=0;i<d.imgs.length;i++){//先循环把没张图片放到上传队列中
     wx.uploadFile({
         url:'',
@@ -1401,7 +1406,7 @@ https://www.jianshu.com/p/bccbffd582bd
 <i class="label1">微信浏览器内非公众号网页使用微信支付</i>https://liaolongdong.com/2017/09/09/wxpay.html
 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_3
 <i class="label1">最外层页面渲染问题</i>路由页面或minH5.js内改变vue中注册的值无法渲染到最外层页面，可以：
-```
+```js
 d = {show:'block'};//全局的d
 Vue.mixin({
     data(){
@@ -1428,8 +1433,10 @@ https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_auth
 https://segmentfault.com/q/1010000010881298/a-1020000010884089
 https://www.jianshu.com/p/7302e2c7f4b7
 #### 3、nodejs：
-简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于Chrome JavaScript 运行时建立的一个平台。Node.js是一个事件驱动I/O服务端JavaScript环境，基于Google的V8引擎，V8引擎执行Javascript的速度非常快，性能非常好。
+:::alert-info
+**简介**： Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于Chrome JavaScript 运行时建立的一个平台。Node.js是一个事件驱动I/O服务端JavaScript环境，基于Google的V8引擎，V8引擎执行Javascript的速度非常快，性能非常好。
 一般认为javascript是浏览器端的脚本语言，但是google将其再开发，用来作为服务器端脚本环境，其性能自称比Python、Perl、PHP还要快。node.js的最大优点是处理并行访问，如果一个web应用程序同时会有很多访问连接，就能体现使用node.js的优势。另一个好处是，使用javascript作为服务器端脚本语言，可以消除答一些与浏览器端js脚本的冲突。甚至发挥javascript动态编程的特性，在服务器与浏览器之间建立直接的动态程序。而npm是其自带的一个包管理工具。
+:::
 **windows上安装**：官网下载node的zip包，解压后将路径添加到path路径即可。
 **linux上nodejs的安装**：官网上下载nodejs的linux压缩包，解压进入，将node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后node -v 安装成功。
 <i class="blue">如果是windows系统的话，尽量使用管理员身份来运行cmd，然后进行npm操作。</i>
@@ -1437,7 +1444,7 @@ https://www.jianshu.com/p/7302e2c7f4b7
 [参考学习地址.](https://www.cnblogs.com/onew/p/11330439.html)
 <i class="label1">打包vue项目报错：javascript heap out of memory</i>node 打包vue项目提示该javascript运行导致内存溢出，这是node封装的v8引擎运行的javascript其限制了js能使用的内存，当打包的项目稍大一些的时候就会出现该错误，解决如下：
 //在package.json文件加入：
-```
+```js
 {
     ...
     "scripts":{
@@ -1453,6 +1460,12 @@ https://www.jianshu.com/p/7302e2c7f4b7
 删除node_module文件夹，重新npm install安装依赖，然后项目下：npm  run fix-memory-limit
 //然后安装：`npm install -g increase-memory-limit`#接着进入项目目录执行：`increase-memory-limit`#结束后再试试运行项目。[参考学习地址(先尝试3，4)](https://www.jianshu.com/p/410e826506be)。
 临时设置安装源：`npm config set registry https://registry.npm.taobao.org `。[npm安装包失败的问题(设置一下安装源，npm安装即可)。](https://blog.csdn.net/moxiong3212/article/details/79756553)
+<i class="label1">npm指令</i>管理包的指令：
+```cmd
+npm install --save lodash  #--save表示生产环境的依赖，--save-dev表示开发环境的依赖。
+npm cache clean -f    #清除缓存。
+npm remove eslint    //移除包内的某个依赖。
+```
 **nvm**：[windows版nvm下载地址，下载nvm-setup.zip包](https://github.com/coreybutler/nvm-windows/releases)。安装后cmd使用nvm命令
 `nvm install 8.16.0`#安装其它node版本。`nvm use 8.16.0`#切换node版本。`nvm uninstall 8.16.0`#卸载指定版本
 #### 4、postman的使用：
@@ -1464,21 +1477,13 @@ https://www.jianshu.com/p/7302e2c7f4b7
 分文这几个阶段：初始化阶段(这个阶段主要是把普通对象转化为响应式对象)、编译阶段(编译阶段会把options.template编译成render函数，解析template中的数据，事件绑定等)、挂载阶段(这个阶段会执行render函数以获取vnode。然后模板引擎根据vnode去生成真实DOM)、监听阶段(挂载阶段之后，模板引擎已经渲染好网页，这时就进入了监听阶段。patch函数还会对比新旧vnode，并计算出更新DOM需要的操作。最后由框架更新到网页上)、注销阶段(注销过程会先触发beforeDestroy，然后注销掉watchers、child components、event listeners等，之后是destroyed钩子函数)。[具体介绍学习地址。](https://blog.csdn.net/weixin_34023863/article/details/87945630)
 ##### a2、vue生命周期：
 生命周期函数运行顺序如下：[生命周期解释。](https://www.cnblogs.com/wzndkj/p/9612647.html)
-beforeCreate Parent
-created Parent
-beforeMount Parent
-beforeCreate child1
-created child1
-beforeMount child1
-beforeCreate child2
-created child2
-beforeMount child2
-mounted child1
-mounted child2
-mounted Parent
+beforeCreate->created->beforeMount->beforeCreate->created->beforeMount->beforeCreate->created->beforeMount->mounted->mounted->mounted
 <i class="label1">使用vue-cli来初始化一个vue项目</i>
 `npm install vue-cli -g`#全局安装vue-cli工具，安装后可以使用vue命令初始化项目。
-<i class="label2">安装vue-cli后找不到vue命令问题</i>安装vue-cli后会在所的nodejs/bin下看到vue。(npm config list#可以查看这个文件的位置)。为这个vue建立一个软链接将其放到/usr/local/bin下，`sudo ln -s /home/wcs/software/nodejs/bin/vue /usr/local/bin/vue`
+<i class="label2">安装vue-cli后找不到vue命令问题</i>
+- linux上：安装vue-cli后会在所的nodejs/bin下看到vue。(npm config list#可以查看这个文件的位置)。为这个vue建立一个软链接将其放到/usr/local/bin下，`sudo ln -s /home/wcs/software/nodejs/bin/vue /usr/local/bin/vue`
+- windows上：将`C:\Users\wcs\AppData\Roaming\npm`#vue被下载到该文件，添加到环境变量即可。
+
 <i class="label2">初始化</i>`vue init webpack test `#初始化一个名为test的项目，之后会询问一些设置上的问题，具体查看这个地址：[vue-cli初始化项目学习地址。](https://www.cnblogs.com/saint258/p/9621161.html)
 <i class="label2">使用</i>进入项目文件夹npm install#会自动寻找文件夹内package.json文件，安装其中配置的依赖包，scripts项的键值就是可以运行的命令，如npm run dev。大致的目录结构：src/components下的.vue页面是各项目页面；src/router/index.js文件配置路游；与src文件夹平级的build,config,node_modules,static分别放置打包配置文件、运行配置文件、安装的组件、图片，字体等静态文件。
 <i class="label3">页面跳转</i>this.$router.push("/home") //非关闭式的页面跳转。
@@ -1490,7 +1495,7 @@ mounted Parent
 <a v-bind:href="url v-on:click="get()"></a>//绑定属性，事件
 ```
 ##### a3、循环：
-```
+```vue
 <li v-for="i in is">
 <h5>{{ i }}</h5>
 <div v-if="i == 0" v-html="a">这是i</div>
@@ -1509,7 +1514,7 @@ function(){alert('失败')}));
 ```
 $http方法是已经被封装在method对象中的所以可以用this直接调用，第一个参数传入接口地址，第二个参数传入要传送的数据，取到的值被当做参数传入then()中then()中第二个函数参数是请求失败时调用的函数。但使用vue封装的ajax感觉很不容易将获取到的值赋值出去，所以推荐使用jquery的ajax和原生ajax。vue中的ajax返回的数据中封装了很多东西，有数据、头部、catch-control等的加密信息，使用res.body代表获取到的数据。可使用JSON.stringify(res)查看结构。
 ##### a4、方法集中改变数据集中变量：
-```
+```js
 var v = new Vue({
     el:"#view",
     data:{name:"error"},
@@ -1521,10 +1526,9 @@ v.alter()//直接运行函数
 
 ```
 调用方法集中的函数：
-v.alter()直接调用，或原始中<p v-on:click="alter()"></p>，v-on绑定的事件是动态
-绑定的所以使用v-for循环出来也能使用。
+v.alter()直接调用，或原始中`<p v-on:click="alter()"></p>`，v-on绑定的事件是动态绑定的所以使用v-for循环出来也能使用。
 ##### a5、样式绑定：
-```
+```html
 <div v-bind:class="{a:isa,b:isb}"></div><!--isa为true时将类名a绑定-->
 <p v-bind:class="[a,b]"></p>// 绑定多个类名
 <a v-bind:style="styObj"></a>//styObj是js中定义好的变量，内嵌样式
@@ -1533,7 +1537,7 @@ v.alter()直接调用，或原始中<p v-on:click="alter()"></p>，v-on绑定的
 ```
 ##### a6、计算属性与监听属性：
 与methods类是是一个函数集对象，不过computed中的函数可以直接放到模板中：
-```javascript
+```js
 <p>{{ name }}</p>// name对应cmputed中对应的函数名，会将函数返回值作为name值。也可以写成{{ name() }}
 ...
 data:{
@@ -1849,12 +1853,12 @@ router.beforeEach((to,from,next)=>{
 ```
 跳转路由时缓存页面，避免被再次渲染。[跳转时页面缓存的方法。](https://www.cnblogs.com/smart-girl/p/10496769.html)
 <i class="label1">router的两种模式：</i>hash模式背后的原理是onhashchange。因为hash发生变化的url都会被浏览器记录下来，从而你会发现浏览器的前进后退都可以用了，同时点击后退时，页面字体颜色也会发生变化。这样一来，尽管浏览器没有请求服务器，但是页面状态和url一一关联起来，后来人们给它起了一个霸气的名字叫前端路由，成为了单页应用标配。[学习地址。](https://www.cnblogs.com/imgss/p/7492333.html)
-```
+```js
  // history=>history.pushState 浏览器历史纪录添加记录。history.replaceState 修改浏览器历史纪录中当前纪录。history.popState 当history 发生变化时触发
  // 使用时将state去掉，如：this.$router.push(url)
 ```
-// hash模式：hash模式url中会带有#号，破坏url整体的美观性, history 需要服务端支持rewrite, 否则刷新会出现404现象
-```
+hash模式：hash模式url中会带有#号，破坏url整体的美观性, history 需要服务端支持rewrite, 否则刷新会出现404现象
+```js
 window.onhashchange = function(event){
     console.log(event.oldURL, event.newURL);
     let hash = location.hash.slice(1);
@@ -1862,8 +1866,8 @@ window.onhashchange = function(event){
 
 }
 ```
-// 模式切换
-```
+模式切换
+```js
 export default new Router({
   mode:'history', // 默认是hash
   routes: [
@@ -1878,7 +1882,7 @@ export default new Router({
 
 ##### b1、混入：
 混入 (mixin) 提供了一种非常灵活的方式，来分发 Vue 组件中的可复用功能。
-```
+```js
 // 局部混入。mixin中的像建立一个vue实例时那样创建created,mounted等属性，这些会被合并到vue实例中，发生冲突时与组件中定义的为准。
 var mixin = {
   created: function () {
@@ -1903,7 +1907,7 @@ Vue.mixin({
 自定义选项合并策略：暂未学习！
 ##### b2、自定义指令：
 有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用到自定义指令。
-```
+```js
 <input v-focus />
 // 注册一个全局自定义指令 `v-focus`
 Vue.directive('focus', {
@@ -1942,7 +1946,7 @@ vnode：Vue 编译生成的虚拟节点。移步 VNode API 来了解更多详情
 oldVnode：上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用。
 ##### b3、渲染函数&jsx：
 Vue 推荐在绝大多数情况下使用模板来创建你的 HTML。然而在一些场景中，你真的需要 JavaScript 的完全编程的能力。这时你可以用渲染函数，它比模板更接近编译器。
-```
+```js
 Vue.component('anchored-heading', {
   render: function (createElement) {// render渲染函数，在生命周期函数中也是使用该函数来解析组建的。
     return createElement(
@@ -1994,7 +1998,7 @@ Vue.component('anchored-heading', {
 ```
 ##### b4、插件：
 vuejs的插件是与vue实例分开的，使用时与vue原型绑定在一起。
-```
+```js
 vue.use(vuex)//使用use方法来导入插件。
 // 单独开发插件步骤。
 MyPlugin.install = function (Vue, options) {
@@ -2025,7 +2029,7 @@ MyPlugin.install = function (Vue, options) {
 ```
 ##### b5、过滤器：
 允许你自定义过滤器，可被用于一些常见的文本格式化。过滤器可以用在两个地方：双花括号插值和 v-bind 表达式
-```
+```js
 // 局部定义过滤器
 filters: {
   capitalize: function (value) {    //把传入值变为想要的。
@@ -2047,7 +2051,7 @@ Vue.filter('capitalize', function (value) {
 ```
 ##### b6、过渡，动画：
 vuejs有提供元素在插入，移除时做动画封装，使用起来还算方便。
-```
+```js
 //fade开头的类名控制动画。
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
@@ -2073,29 +2077,7 @@ v-leave：定义离开过渡的开始状态。在离开过渡被触发时立刻�
 v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
 v-leave-to：2.1.8 版及以上定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。
 
-##### b7、vuejs中处理跨域：
-vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
-```
-module.exports = {
-  dev: {
-      proxyTabel:{
-          "/api": {//    一条是一个跨域设置，
-				target: "http://loacalhost:3000",//跨域地址。
-				changeOrigin: true,// 是否跨域
-				ws:true,// 是否使用https
-				pathRewrite: {// 设置此项。使用时可以用这个键名来代替下面的域名。
-					'^/api': '', //如请求http://localhost:3000/main时写成=》/api/main即可。
-				}
-			}
-      },
-  },
-  build:{}
-}
-```
-[vuejs设置跨域方法学习地址。](https://www.cnblogs.com/wangqiao170/p/9288160.html)
-##### b8、vue多页面应用配置：
-[vue多页面应用配置教程。](https://blog.csdn.net/weixin_44135121/article/details/94445734)
-b9、报错问题集：
+##### b7、报错问题集：
 npm run dev时报`Cannot found module 'xxx'`的问题：一般直接npm install xxx --save即可解决，这些包都是package.json文件中配置要下载的包，会被下载到node_modules文件夹下，如果显示安装成功但依然报类似错误的话可以尝试清空node_modules文件夹，然后npm install 重新下载所有包。
 
 #### 6、资源收集：
@@ -2133,49 +2115,132 @@ pc端和手机端都下载google浏览器，手机上打开开发者选项并允
 **问题**：如果方法一无法打开页面，那么可以尝试设置防火墙，设置里有控制各服务允许通过防火墙的设置，找到node,javascript相关字样的，勾选允许即可。
 [解决该问题参考地址。](https://www.cnblogs.com/AwenJS/p/12840924.html)
 #### 10、webpcak：
-安装：npm install webpack -g#全局安装。在文件目录下使用：npm init#会在当前路径下生成一个mypackage文件夹，里面有package.json文件、webpack.config.js文件和src文件夹。
-配置：[webpack详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)
-//package.json文件=>记录一些项目信息、各工具版本信息、命令信息等。
-```
-//webpack.config.js文件内容，在vue-cli初始化的项目中对应build文件夹下的webpack.base.config.js文件。
-const path = require('path')
-const utils = require('./utils')
-const config = require('../config')//默认导入的是config文件夹下的Index.js文件。
+:::alert-info
+**简介**：当项目变得很大之后再按照之前的资源引入方法会很难管理项目，不容易理清其依赖、加载顺序。webpack能自动找到所有依赖，将它们按顺序都打到一个js包中，最后引入。用Loader转换文件、plugin注入钩子。
+**模块化规范**：commonJS：需要通过转换位es5才能在浏览器环境运行。AMD：异步方法加载依赖模块，用于解决浏览器环境模块化问题。现在使用es6也有模块化(但大部分浏览器还不支持)，也需要转换为es5。
+:::
+##### a、原理：
+Webpack 的构建流程可以分为以下三大阶段：在每个大阶段中又会发生很多事件，Webpack 会把这些事件广播出来供给 Plugin 使用。
+- 初始化：启动构建，读取与合并配置参数，加载 Plugin，实例化 Compiler。
+- 编译：从 Entry 发出，针对每个 Module 串行调用对应的 Loader 去翻译文件内容，再找到该 Module 依赖的 Module，递归地进行编译处理。
+- 输出：对编译后的 Module 组合成 Chunk，把 Chunk 转换成文件，输出到文件系统。如果只执行一次构建，以上阶段将会按照顺序各执行一次。
+- 注解：vue项目配置中看到的那些require(),module方法是node内置的，但程序是供webpack运行使用的。配置文件中都有`module.exports = {}`#里面写的配置都是最后导出使用的，内部使用的键值是webpack指定的有固定作用的。
+- [原理学习地址。](https://www.jianshu.com/p/44e6741e3b7e)[webpack中文文档地址。](https://webpack.docschina.org/concepts/)
+```js
+//commonJS的导入导出。
+const moduleA = require('./moduleA');
+moduleA.exports = moduleA.someFun;
 
-module.exports = { //到出这个配置对象。
-  context: path.resolve(__dirname, '../'),
-  entry: {//指定入口文件，要求是js文件。
-    app: './src/main.js'
+//AMD的模块定义，和导入使用。
+define('module',['dep'],function(dep){return exports;});
+require(['module'],function(module){});
+```
+**安装**：npm install webpack -g#全局安装。在文件目录下使用：npm init#会在当前路径下生成一个mypackage文件夹，里面有package.json文件、webpack.config.js文件和src文件夹。
+**项目中使用别名**：可以在build目录下的配置文件中使用
+```js
+//例如/build/webpack.dev.conf.js配置如下
+const merge = require('webpack-merge')
+const baseWebpackConfig = require('./webpack.base.conf')
+// merge将其它文件的配置合并过来。
+const devWebpackConfig = merge(baseWebpackConfig, {
+    resolve:{
+        alias:{"@c":"src/common/tools"}//别名对应路径。
+    }
+});
+```
+**配置**：[webpack详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)
+##### b、vuejs中处理跨域：
+vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
+```js
+module.exports = {
+  dev: {
+      proxyTabel:{
+          "/api": {//    一条是一个跨域设置，
+				target: "http://loacalhost:3000",//跨域地址。
+				changeOrigin: true,// 是否跨域
+				ws:true,// 是否使用https
+				pathRewrite: {// 设置此项。使用时可以用这个键名来代替下面的域名。
+					'^/api': '', //如请求http://localhost:3000/main时写成=》/api/main即可。
+				}
+			}
+      },
   },
-  output: {// 指定打包后的输出文件位置。
-    path: config.build.assetsRoot,// 输出文件路径
-    filename: '[name].js',//输出文件名
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
-  },
-  module: {// module中写一些要使用的加载器，来解析对应的sess，less，css之类的东西。
-    rules: [{
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: vueLoaderConfig
-      }]
-   },
-   plugins: [ //配置第三方插件，会按顺序加载。
-    new webpack.DefinePlugin({'process.env': env}),
-    new UglifyJsPlugin({
-      uglifyOptions: {compress: {warnings: false}},
-      sourceMap: config.build.productionSourceMap,
-      parallel: true
-    }),
-   ]
+  build:{}
 }
 ```
-原理：[原理学习地址。](https://www.jianshu.com/p/44e6741e3b7e)
-Webpack 的构建流程可以分为以下三大阶段：在每个大阶段中又会发生很多事件，Webpack 会把这些事件广播出来供给 Plugin 使用。
-1.初始化：启动构建，读取与合并配置参数，加载 Plugin，实例化 Compiler。
-2.编译：从 Entry 发出，针对每个 Module 串行调用对应的 Loader 去翻译文件内容，再找到该 Module 依赖的 Module，递归地进行编译处理。
-3.输出：对编译后的 Module 组合成 Chunk，把 Chunk 转换成文件，输出到文件系统。如果只执行一次构建，以上阶段将会按照顺序各执行一次。
+[vuejs设置跨域方法学习地址。](https://www.cnblogs.com/wangqiao170/p/9288160.html)
+##### c、vue多页面应用配置：
+`/build/webpack.base.config.js`文件添加多个主js文件入口，形如：
+```js
+module.exports = {
+    entry:{
+        app:'./src/min.js',
+        one:'./src/one.js'
+    }
+}
+```
+`/build/webpack.dev.conf.js`文件添加如下配置。
+```js
+const devWebpackConfig = merge(baseWebpackConfig, {
+    plugins:[
+        // 第一个页面的。
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'index.html',
+            inject: true,
+            chunks: ['app']
+        }),
+        // 其它页面的复制，更改相应名称即可。
+});
+```
+`/build/webpack.prod.conf.js`文件添加如下配置。
+```js
+const webpackConfig = merge(baseWebpackConfig, {
+    plugins:[
+        // 其它页面复制，相应的更换index，app即可。
+        new HtmlWebpackPlugin({
+            filename: config.build.index,
+            template: 'index.html',
+            inject: true,
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+            },
+            chunksSortMode: 'dependency',
+            //(在这里和你上面chunks里面的名称对应)
+            chunks: ['manifest', 'vendor', 'app']
+        }),
+    ]
+});
+```
+`/config/index.js`文件添加：
+```js
+module.exports = {
+    build:{
+    //build时导出的文件。
+        index: path.resolve(__dirname, '../dist/index.html'),
+        one: path.resolve(__dirname, '../dist/one.html'),
+        two: path.resolve(__dirname, '../dist/two.html'),
+    }
+}
+```
+根据上面相应的位置创建js、vue、html文件。one.vue和one.html文件种将id更改为one。
+```js
+//one.js文件。
+import Vue from 'vue'
+import one from './one.vue'
+import router from './router'
+
+Vue.config.productionTip = false
+/* eslint-disable no-new */
+new Vue({
+    el: '#one',
+    router,    //加上路由的话可以在路由页
+    render: h => h(one)
+})
+```
+[vue多页面应用配置教程。](https://blog.csdn.net/weixin_44135121/article/details/94445734)
 #### 11、uni-app的使用：
 **介绍**：uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉/淘宝）、快应用等多个平台。结合Hbuilder x使用，文件新建一个项目选择uni-app项目(网站、app、小程序都选这个)。[uni-app官网。](https://uniapp.dcloud.io/)[插件市场](https://ext.dcloud.net.cn/search?q=uni-ui)。
 **项目目录结构**：pages文件夹存放业务页面，pages/index/index.vue页面是app打开时的引导页面。创建其它页面时新建一个文件夹然后在文件夹内建页面，可以多个页面放一个文件夹。
