@@ -476,7 +476,17 @@ def hello(request):
 def ajax(request):#若有值传来则
 
 ```
+渲染web模板如下：
+```python
+from django.shortcuts import render
+
+def runoob(request):
+    context = {}
+    context['hello'] = 'Hello World!'
+    return render(request, 'template/index.html', context)
+```
 <i class="label1">使用docker部署django项目</i>可以使用apache来部署django项目，但是经常遇到很多问题，而docker部署可以为每个项目单独建一个环境，将多个项目分开，非常便于维护(docker的安装见36)，而且使用docker来部署项目也会方便很多(只不过windows上docker的安装很多坑)。[docker部署django教程。](https://blog.csdn.net/BlueBlueSkyZ/article/details/89083285)[Dockerfile文件编写规则。](https://www.cnblogs.com/549294286/p/11044901.html)
+<i class="label2">问题集</i>run server时提示：DLL load filed》[该网站下载sqlite.dll放到环境的DLLs目录下。](https://sqlite.org/download.html)
 <i class="label1">flask的使用</i>pip install flask#安装flask。pip install flask-cors
 
 ```python
@@ -1138,7 +1148,11 @@ https://www.cnblogs.com/jeshy/p/10629556.html
 `[a-z0-9-_]{5,9}`：表示字符串中可以有a-z间的字母,0-9间的数字及符号，长度在5-9
 匹配转义字符：\n(换行符),\r(回车符),\s(匹配任何空白符空格、回车...),\S(匹配任何非空白符)
 匹配特殊字符：匹配字符串中的特殊字符时需要对正则式中的特殊字符转义如`+,*...变\+,\*`
-限定符：`*,+,?,{n},{n,},{n,m}`
+限定符：`*,+,?,{n},{n,},{n,m}`。
+**匹配特殊字符**：
+```
+[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]
+```
 `*`：匹配前后的子表达式0次或多次，如`wc*s`可匹配到ws,wcs,cs,s，wcswcs...
 ()：可以将要匹配的字符用()包含，`ac*(abc)`匹配acabc
 `{n}`：匹配前一个字符多个(连在一起的情况),如：a{2}可匹配chaa,与()一起使用：(ab){2}匹配jabab，
@@ -1916,7 +1930,7 @@ out = ln(out)#再经过Linear()计算。
 打开vscode点击第四个图标(方形)，安装python在点右边的安装.
 (开始运行程序时编辑器会先代码进行从上到下的扫描存储好变量名,函数名,确定指针、执行上下文等操作,在这个期间debugger调是处于右三角形形态,如果这部分的操作没问题的话会变成双竖杆形状开始执行语句,如果一直是处于右三角形态的话可能是某些语句写法错误,但编译器不会提示,建议用其它编辑器运行以下可能会出提示;如果一直是双竖杆形态的话多半是其中需要的计算比较多或者设计到下载之类的。)
 快捷键: 参考地址:https://www.cnblogs.com/pleiades/p/8146658.html
-· 首先是F1/Ctrl+Shit+P万能键，谁用谁知道
+· 首先是F1/Ctrl+Shit+P万能键
 · Ctrl+P：文件切换
 · Ctrl+空格：自动提示
 · F12/Ctrl+左键：跳转到定义
@@ -1928,8 +1942,8 @@ out = ln(out)#再经过Linear()计算。
 · Ctrl+Backspace/Delete：整词/连续空白删除
 · Ctrl+→←：光标整词移动
 · Ctrl+F查找/Ctrl+Shift+F在文件中查找，这都属于通用的，类似的就不说了啊。
-F5：运行代码
-Ctrl+F5：运行当前文件代码
+. F5：运行代码。Ctrl+F5：运行当前文件代码
+**格式化代码插件**：一般前端项目使用。eslint和vture。eslint规定的缩进和vscode使用的缩进不一致时，在项目的.eslintrc.js中的rules下添加：`"indent":['error',2]`，vscode右下角space也改为2。[插件中格式化规则设置。](https://www.cnblogs.com/benbentu/p/9661998.html)
 <i class="label1">部分插件配置</i>vscode上一款不错的颜色主题：搜索Code Blue点击install右界面点击Reload使用
  vscode下载项输入框搜索Live Serve点击下载安装后右界面点击Reload to Active 后在html文件页面点击最下方(软件脚部)的Go Live(也可能是@go live)会在浏览器打开页面此时浏览器地址栏就变成了ip地址而不是本地路径地址，(使用默认浏览器时有效)。
 Powern Model插件：在选择颜色主题栏最下方选择安装其它主题，下载Power Model插件然后在左下角点击设置打开 user settings文件或按F1输入user settings，界面右半部分大括号中加上"powermode.enabled":true,就能使用该插件了,"powermode.enableShake":false//桌面是否震动

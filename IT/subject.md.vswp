@@ -302,6 +302,9 @@ weather//n,天气                                            wiki//n,维基百�
 today's paper(今天的报纸) #有生命的、时间、地点、距离也可加's。其它可以用of： the title of the book.
 - **as相关**：(1)、表示当某人身份时：As a gardener,hell take care of all flowers。(2)、`as/so long as:只要`#As long as we dont nose hert,we will find a way to over the difficult。（3）`as/so far as:据..就..`#As far as i know.（4）`so as to do>为了做...`#They started early so as to catch the first bus.（5）`so...as to...>如此..以至于`#You are so kind as to show me the way.（6）`as a matter of fact`#其实，实际上。（7）`may/might as well`#还是，还不如。
 - **to的用法**：(1)、表针对：Air is indispensable(不可或缺的) to life.（2）表比较：The quarrel(争吵) happened `prior(占先的) to` my arrival(到达)。与动词，带比较性质的词放一起常是一个固定搭配。
+- at、in、on的使用：后面一般都接时间或地点。`in hospital`#住院。（1）**at**：常用于小而具体的名词前，at the moment。at the door。（2）**in**：表时间时指在一个较长时间内，指地点时表在地点内部。in the evening。in May。in the school。（3）**on**：表地点时指其接触上方，表时间时指具体日期、节日。on Monday。on May 1st。on BeiJin。还有一些固定搭配：[参考学习地址。](https://baijiahao.baidu.com/s?id=1624869654059325367&wfr=spider&for=pc)
+- **be动词**：包括am，is，are。主语为本人时才使用am，第二人称使用are，第三人称使用is。较靠近自生的为第二人称。
+- **人称代词**：i、me**(我，做宾语时用)**、my、mine(我的)、we、us、our、ours(我们的)、you、your、yours(你们的)、he、him**(他，做宾语时用)**、his、she、her(宾格)、hers(她的)、it、its(它的)。they、them**(他们，宾格)**、their`(他们的，their county)`、theirs`(他们的，those dictionaries are theirs)`。
 ## 3、数据结构：
 要解决一个现实问题，需要将其抽象，建模成数学模型，然后设计一个解此数学模型的算法，再用编程来实现，这个过程当中，不完全是数学公式的表达。数据结构是一门研究非数值计算的程序设计问题中，计算机的操作对象以及它们之间的关系和操作等的科学。1968年国外开始设计。
 <i class="label1">算法复杂度</i>有时间复杂度和空间复杂度来衡量。 

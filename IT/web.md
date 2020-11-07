@@ -16,19 +16,25 @@
 <polyline points=""/>绘制折线
 <path d="M10 5L100 15C19 60,50 99"/>绘制任意路径、形状。d中属性如下：
 ```
-M：移动至起始点，必须。L：直线结束点。H：从当前点画水平线。V:垂直线。
-C:三阶贝塞尔曲线。Q：二阶贝塞尔曲线。
-(将元素使用appendChild()方法动态添加到svg中并不会被显示出来,可以使用svg.
-innerHTML方法将元素写入)。
-http://www.mamicode.com/info-detail-1988813.html
+M：移动至起始点，必须。L：直线结束点。H：从当前点画水平线。V:垂直线。C:三阶贝塞尔曲线。Q：二阶贝塞尔曲线。
+(将元素使用appendChild()方法动态添加到svg中并不会被显示出来,可以使用svg.innerHTML方法将元素写入)。[基础部分学习地址](http://www.mamicode.com/info-detail-1988813.html)
+**table的使用**：
+```html
+<table border="1" cellspacing="0">
+<thead><!--border为线宽，cellspacing为格间距-->
+<tr><th></th></tr>
+</thead>
+<tbody>
+<tr><td rowspan="2" colspan="3"></td></tr>
+</tbody>
+</table>
+```
 #### 2、外部资源引入标签：
 `<embed></embed>、<iframe></iframe>、<object></object>`
-`<embed type="image/svg+xml" codebase="http:"></embed>`标签是H5新标签所有主流浏览器都支持，codebase属性中写资源路径,可以引入脚本;类似iframe标签用于引	入外部资源(`<iframe>`标签只在大部分浏览器可用),但规范的xhtml和html中不支持			
-`<embed>`标签.`<object data="rect.svg" type="image/svg+xml" codebase="http">	`
-`</object>`1标签是H4的新标签，浏览器支持性差，但不能引入脚本.(引入的文件
-中的js对象和本页的js对象是不能共用的,且在引入的文件中获取的url也不是该页的)
+`<embed type="image/svg+xml" codebase="http:"></embed>`标签是H5新标签所有主流浏览器都支持，codebase属性中写资源路径,可以引入脚本;类似iframe标签用于引	入外资源(`<iframe>`标签只在大部分浏览器可用),但规范的xhtml和html中不支持`<embed>`标签.`<object data="rect.svg" type="image/svg+xml" codebase="http">	`
+`</object>`1标签是H4的新标签，浏览器支持性差，但不能引入脚本.(引入的文件中的js对象和本页的js对象是不能共用的,且在引入的文件中获取的url也不是该页的)
 #### 3、第三方资源的加载：
-前端中有很多加载资源的标签例：iframe,video,audio,img,script,link等是用src属性或是用href属性，一些标签不能跨域加载资源多数标签允许跨域加载资源。除了link和script外其它标签几乎都有onload事件和onerror事件可在元素上添加这两个事件做加载成功和加载失败后的处理。js代码中的函数块语句需要达到相应的条件才能触发（body，head中添加的onload和<script></script>中的window.onload=“”除外)就算是onmouseout指定的函数也不行，因为它运行的前提就是有onmouseover被触发。
+前端中有很多加载资源的标签例：iframe,video,audio,img,script,link等是用src属性或是用href属性，一些标签不能跨域加载资源多数标签允许跨域加载资源。除了link和script外其它标签几乎都有onload事件和onerror事件可在元素上添加这两个事件做加载成功和加载失败后的处理。js代码中的函数块语句需要达到相应的条件才能触发（body，head中添加的onload和`<script></script>`中的window.onload=“”除外)就算是onmouseout指定的函数也不行，因为它运行的前提就是有onmouseover被触发。
 #### 4、canvas:
 `<canvas width="500" height="500"></canvas>`
 HTMLCanvasElement//表示页面内所有canvas元素，其余元素也有此类似对象。
@@ -210,16 +216,16 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 ```
 #### 15、十大经典排序算法：
 分为两类排序：非线性时间比较类排序(通过比较来决定元素间的排序)，线性时间非比较类排序(不通过比较来决定元素间的排序)。(以下均是以从小到大的排序为从下到大)
-冒泡排序：for(var i=0;i<arr.length-1;i++){for(var j=0;j<arr.length-i-1;j++){}}对比相邻两个元素的大小排序，执行数组长度-1次即可排完。(i<len(dat)-1)
-选择排序：从中选择最大或最小的值放到开头，再从剩余之中重复次操作。
-插入排序：从数组位置1开始然后比较0，1位置排序，再选择2位置在0，1，2中比较排序，...
-希尔排序：简单插入排序的改进版，分为3次进行排序(以长度为10的数组举例)，第一次将整个数组分为2份第6个与第1个对比若不符合顺序则交换位置，第7个与第2个比较若不符合则交换顺序...，第次排序则奇数位与奇数位比较，下标偶数的比较，第2个与第0个比较若不符合顺序则交换位置，第4个与第2个比较不符合则交换位置...偶数位拍完后排奇数位的，第3个与第1个比较不符合则交换位置...，第三次排序从第二个开始与第一个比较若不符合则交换顺序，第3个与第2个比较若不符合则再与第一个比较，若符合则插入到第二个前，若不符合则插入到第1个前...
-快速排序：快速排序是冒泡排序的改进，假设有一个n长度的数组从中任选一个做为基数(一般选择第一个,这里选下标0)从n-1下标开始与第0个比较找到第一个小于该基数的数(若没找到则该基数为最小再以下标1的为基数执行以上步骤)设其下标为j则将下标j与0的数互换位置再从前向后找用下标1,2..的数与基数也就是位置j的数比较找到第一个大于它的数与其交换位置(若没找到则下标为j的数已将该数组分为两部分再将这两个子数组分别用以上步骤排序)，再从j-1从后向前开始与比较与下标j的数据比较找到第一个比下标j大的数和其互换...直到该分区不可分组为止，对下标j左右的两个子数组再此使用此法排序。
-堆排序：堆排序就是利用堆这种数据结构建立的一种排序(堆结构就是一颗完全二叉树，节点的值按从上到下从做到有的大小顺序排列)，步骤：先根据数组建立一颗完全二叉树然后根据大顶堆(根节点大于两个子节点)的结构从树的最低部向上调整左子树和右子树，调整好后比较根节点与左右子节点比较选择最大的一个做为根节点，然后将该根节点与右子树最底层最右边的节点与根节点值互换(因为安照堆结构最大的值放最右下脚,其余依次放置)然后再从根节点向下按大顶堆的结构调整树结构(先调整右子树因为得保证右子树最底部的节点值是整个数据中最大的几个)右子树最底部节点值都调为最大值后再用此方法调整左子树，整颗树最底部都调为最大值后并不再考虑最低层的值，再重复上面的方法将倒数第二层的节点...。
-计数排序：例：有待排序的数组a和一个空数组b，求出a的最大最小值确定b的长度，扫描a根据其值依次将其放到b中对应下标位置处(如a[0]=12，a中为12的值的有3个那b[12]=3)全部放置完成后清空a将b中有值的位置根据其下标做为值放到a中。
+**冒泡排序**：for(var i=0;i<arr.length-1;i++){for(var j=0;j<arr.length-i-1;j++){}}对比相邻两个元素的大小排序，执行数组长度-1次即可排完。(i<len(dat)-1)
+选择排序****：从中选择最大或最小的值放到开头，再从剩余之中重复次操作。
+**插入排序**：从数组位置1开始然后比较0，1位置排序，再选择2位置在0，1，2中比较排序，...
+**希尔排序**：简单插入排序的改进版，分为3次进行排序(以长度为10的数组举例)，第一次将整个数组分为2份第6个与第1个对比若不符合顺序则交换位置，第7个与第2个比较若不符合则交换顺序...，第次排序则奇数位与奇数位比较，下标偶数的比较，第2个与第0个比较若不符合顺序则交换位置，第4个与第2个比较不符合则交换位置...偶数位拍完后排奇数位的，第3个与第1个比较不符合则交换位置...，第三次排序从第二个开始与第一个比较若不符合则交换顺序，第3个与第2个比较若不符合则再与第一个比较，若符合则插入到第二个前，若不符合则插入到第1个前...
+**快速排序**：快速排序是冒泡排序的改进，假设有一个n长度的数组从中任选一个做为基数(一般选择第一个,这里选下标0)。从下标1开始与第0个比较找到第一个小于该基数的数(若没找到则该基数为最小。再以下标1的为基数执行以上步骤)设其下标为j则将下标j与0的数互换位置再从前向后找用下标1,2..的数与基数也就是位置j的数比较找到第一个大于它的数与其交换位置。(若没找到则下标为j的数已将该数组分为两部分再将这两个子数组分别用以上步骤排序)，再从j-1从后向前开始与比较与下标j的数据比较找到第一个比下标j大的数和其互换...直到该分区不可分组为止，对下标j左右的两个子数组再此使用此法排序。
+**堆排序**：堆排序就是利用堆这种数据结构建立的一种排序(堆结构就是一颗完全二叉树，节点的值按从上到下从做到有的大小顺序排列)，步骤：先根据数组建立一颗完全二叉树然后根据大顶堆(根节点大于两个子节点)的结构从树的最低部向上调整左子树和右子树，调整好后比较根节点与左右子节点比较选择最大的一个做为根节点，然后将该根节点与右子树最底层最右边的节点与根节点值互换(因为安照堆结构最大的值放最右下脚,其余依次放置)然后再从根节点向下按大顶堆的结构调整树结构(先调整右子树因为得保证右子树最底部的节点值是整个数据中最大的几个)右子树最底部节点值都调为最大值后再用此方法调整左子树，整颗树最底部都调为最大值后并不再考虑最低层的值，再重复上面的方法将倒数第二层的节点...。
+**计数排序**：例：有待排序的数组a和一个空数组b，求出a的最大最小值确定b的长度，扫描a根据其值依次将其放到b中对应下标位置处(如a[0]=12，a中为12的值的有3个那b[12]=3)全部放置完成后清空a将b中有值的位置根据其下标做为值放到a中。
 桶排序：桶排序是计数排序的升级版，求出带排数组的最大最小值确定好桶数(空数组数)，分段的将其分到这些空数组中(例：<50的放到第1个空数组,>=50&&<110的放到第二个空数组...)各子数组使用其它排序算法或继续使用桶排序方法排好序，再按顺序将这些排好序的子数组拼接起来。
-基数排序：步骤：求出待排数组的最大值确定其最大位数是个位,十位还是百位...；取出带排数组a中的每个数据根据其个位值放到对应的下标的一个空二维数组中去(因为个位相同的可能有多个值将其归为一组)，结束后再将该二维数组中的值依次取出按取出顺序放回原数组中，再按十位为对应下标从原数组中取出值放到二维数组中结束后再依次取出...
-归并排序：将待排数组a划分为若干个子数组，比较1，2个子数组的值将其排好序，对比3，4个子数组的值将其排好序，对比1，2，3，4子数组的值排序(1,2,3,4已分别合并)，前一半的数组排好序后再排后一半子数组，最后合并排序。
+**基数排序**：步骤：求出待排数组的最大值确定其最大位数是个位,十位还是百位...；取出带排数组a中的每个数据根据其个位值放到对应的下标的一个空二维数组中去(因为个位相同的可能有多个值将其归为一组)，结束后再将该二维数组中的值依次取出按取出顺序放回原数组中，再按十位为对应下标从原数组中取出值放到二维数组中结束后再依次取出...
+**归并排序**：将待排数组a划分为若干个子数组，比较1，2个子数组的值将其排好序，对比3，4个子数组的值将其排好序，对比1，2，3，4子数组的值排序(1,2,3,4已分别合并)，前一半的数组排好序后再排后一半子数组，最后合并排序。
 https://www.cnblogs.com/onepixel/articles/7674659.html
 #### 16、文档流和BFC：
 文档流其实分为定位流、浮动流、普通流三种。而普通流其实就是指BFC中的FC。FC(Formatting Context)，直译过来是格式化上下文，它是页面中的一块渲染区域，有一套渲染规则，决定了其子元素如何布局，以及和其他元素之间的关系和作用。常见的FC有BFC、IFC，还有GFC和FFC。
@@ -229,22 +235,26 @@ BFC的创建方法：根元素或其它包含它的元素；浮动 (元素的flo
 
 盒子模型：html的一个元素就是一个盒子，w3c盒子内容包括：marging、border、padding、content。ie的盒子模型中content部分包括border和padding部分。
 #### 17、项目构建相关：
+[别人收集的vue相关资源。](https://github.com/opendigg/awesome-github-vue#UI组件)
 一、ui框架一览：
-- 后台开发类框架可选择element-ui，MuseUI。飞冰(阿里-直接复制使用的ui组件库)。
+- 后台开发类框架可选择element-ui，MuseUI。飞冰(阿里-直接复制使用的ui组件库)。[Ant Design](https://pro.ant.design/index-cn)
 - 金融移动端类ui框架可选择Mand-mobile。
 - 较通用的移动端ui库：vux
-- pc端较通用：[Ant Design一个服务于企业级产品的设计体系](https://pro.ant.design/index-cn)。
 - 可视化的：echars、plotly。
 - [we-vue：适合微信公众号，小程序。](https://wevue.org/)
 - [nutUI：适合电商网站的移动端ui库。](https://nutui.jd.com/#/index)
-- 特效的：
-- 动画的：
-二、脚手架：
+- 特效动画的：[Animate.css](https://animate.style/)。
+- pc端（非管理）：[vue material，特效稍多](http://vuematerial.materializecss.cn/#/components/button)。[特效稍多](https://muse-ui.org/#/zh-CN/expansion-panel)
+二、脚手架：webpack、gulp。
 三、js功能库：
 - 处理时间的：moment。
 - 加解码的：Nodash。
 - 富文本编辑：wangeditor
+
 四、请求处理：axios
+五、包管理工具：npm、[yarn](https://blog.csdn.net/moshowgame/article/details/103358313)。
+六、检查代码规范的eslint（可编写规则，vscode使用设置eslint相应设置进行规范化）。
+七、服务端渲染框架：与react结合的next.js，与vue结合的Nuxt.js。
 #### 18、web端性能优化：
 先列出一些方法：懒加载、字体图标、图片适当压缩、需要时才加载、vue中用keep-alive缓存加载过的组件、组件项用动态导入组件：Load:import('../component/test')。
 图片处理专项：(png转为jpg后一般能缩小一半，但png色彩更丰富，且透明背景属性，所以项目中一般使用的是png)
@@ -265,6 +275,30 @@ img {// 不用担心兼容性问题。
 {
     appearence:button;//设置单选框或复选框为正常状态。为none时无法使用
 }
+```
+#### 20、拖拽：
+将一个元素拖拽到另一个元素。
+```html
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<div id="drag1" draggable="true" ondragstart="drag(event)">可拖拽对象</div>
+<script>
+//    拖拽结束触发。
+    function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+        //拖拽该元素时，设置一个键值对，第二个参数用于选中该元素。
+            ev.dataTransfer.setData("Text", ev.target.id);
+        }
+
+    function drop(ev) {
+    // 拖入到该元素上，松开鼠标触发，通过键获取元素id，
+       ev.preventDefault();
+       var data = ev.dataTransfer.getData("Text");
+       ev.target.appendChild(document.getElementById(data));
+    }
+</script>
 ```
 ### 二、CSS
 #### 1、布局注意：
@@ -454,12 +488,13 @@ perspective-orign:50% 50%;//改变视角位置坐标
     flex-direction:row;//排列方向
     flex-wrap:wrap;//转行类型
     justify-content:space-between;//对其方式
-    align-item:center;//元素垂直居中,控制的是另一个轴
+    align-items:center;//元素垂直居中,控制的是另一个轴
 }
 .child{
     // 其子元素对应align-item方向上的位置控制.
     align-self:flex-end;
     flex-bais:500px;    //控制单个元素所占宽度，代替width。
+    flex-grow:2;    //设置该子元素所占比，主轴上。如果其余部分固定尺寸，则>=1时撑开剩下空间。
 }
 ```
 [一排固定几个元素]使用justify-content:space-between且给子元素宽度时，这时宽度不起用，需要加上：flex-direction: row;flex-wrap: wrap;这样每行就能像想象的个数显示。
@@ -468,21 +503,95 @@ perspective-orign:50% 50%;//改变视角位置坐标
 重绘:当元素的一部分属性发生改变，如外观、背景、颜色等不会引起布局变化，只需要浏览器根据元素的新属性重新绘制，使元素呈现新的外观叫做重绘。
 重排（回流）:当render树中的一部分或者全部因为大小边距等问题发生改变而需要DOM树重新计算的过程
 ### 三、javascript
-#### 1、拦截浏览器回退操作：
+#### 1、js数据类型操作：
+javascript数据类型包括：数值、字符串、布尔、null(表示尚未存在的对象)、undefined(当声明的变量还未被初始化时，变量的默认值为undefined。)、对象(对象又包括列表、函数、字典)，6种。#alert(null == undefined); //output "true"  。ert(null === undefined); //output "false" 
+<i class="label1">数值</i>
+`parseInt("fjdk889")`//转为整型889,剔除字符串。`parseFloat()`//转为float型。`num.toFixed(2)`;//保留小数位数。
+8进制，十六进制数也可直接写入：`var v = 070`#八进制的56。`var c = 0XA`#16进制的10。
+**含e的数**：一般表示极大极小值`var m = 3.125e7`#等价于`3.125 * 10^7`。`var c = 3e - 7`#0.00....03。
+**NaN**：用于表示一个本应该是数值，返回却是非数值的情况，如数值比上0，NaN与其它数值操作同为NaN，`NaN == NaN返回false`。用isNaN()可检测。
+**转为字符串**：num.toString();
+**浮点数计算精度丢失问题**：`console.log(24314310.3412 / 100000)>>243.14310341200002`。所有编程语言都存在的问题，这是由于计算机本身特性导致的。小数位数过长，或有时计算中小数点参与移动。所以前端尽量不要使用浮点数的计算。**解决思路**：将小数转为整数，按特别方法计算后再移动小数点。
+<i class="label1">字符串操作</i>
+其它类型转为string：`String(val)`#无论val是什么类型都会转为对应的字符串。
+`x.toString()`//转为字符串。`x.replace(/target/g,'')`//替换,g表示所有满足的都替换。`x.concat(“a”,”b”)`//可与x连接多个字符串。
+`x.charAt(index)`//查找字符串的对应下标的值,`“justice”.charAt(1)=”u”`。
+`"a".toUpperCase()`方法将小写字母转换为大写,`"A".toLowerCase()`#将大写字母转为小写。
+`str.substring(start,end)`//提取字符串中介于两个下标间的字符串，一个参数时为start，截取后面所有。在源数据上操作。
+`str.substr(start,length)`#第二个参数为选择从start起截取多少个长度字符。
+`str.indexOf('aa')`#查找字符串位置。
+`str.search('abc')`#找到子串开始位置。
+```js
+var str = '大米:2.57斤/元,白菜:3.65元/斤';
+var arr = str.match(/\d+(.\d+)?/g); //match()方法找到所有匹配的项，返回一个数组。
 ```
-// 拦截history模式的回退。
-pushState()和popstate是H5的新属性。
-history.pushState(null,null,document.URL);
-// 添加popstate事件监听变化。
-window.addEventListener('popstate',function(){
-history.pushState(null,null,document.URL);
-});
-// 拦截hash模式的回退
-function c(){var url = window.location.href;}//获取到的是变化后的地址。用正则表达式来监听是否是回退到了上一个页面。
-window.onhashchange = c; //onhashchange可以今天hash模式的变化，触发函数c。
+<i class="label2">js的正则表达式</i>
+```js
+//i表示不区分大小写，g表示匹配全局，m表示可匹配多行。
+var a = /e/i;
+var b = new RegExp('e');
+console.log(a.test('aaebc'));// 返回布尔值
+console.log(a.exec('kke,mme'));//只能找到第一个匹配项，放回一个列表形式的记录（有匹配到的值）。
 ```
+<i class="label1">列表</i>
+- `list.indexOf(1)`//找到第一个1在列表中的位置，不在则返回-1。
+- `list.incloud(1)`//是否包含1，返回布尔值。
+- `list.join("-"`)//将各元素用字符链接。
+- `list.push(1)`//在列表最后添加值。
+- `list.pop()`//删除最后一个元素。
+- `unshift()`//在数组最前端添加一个新的值。
+- `arr.sort()`#不传参数的话，默认将arr中的值看成字符串来排序。
+
+```js
+var arr = [1,8,2,4,3,9,0];
+//sort()实现的排序的思想，传入函数作为参数，以灵活的用于各种情况。
+arr.sort(function(a,b){
+    //火狐使用归并排序，google使用快速+插入。b在a之前，循环用a与b比较。
+    if (a > b) {
+        return 1;//1表示不变。
+      } else if (a < b) {
+        return -1;//表示a,b交换位置。
+      } else {
+        return 0;
+      }
+})
+```
+- `list.reverse()`//将数组倒置，[1,2,3].reverse();//[3,2,1]。
+- `list.shift()`//移除第一个元素。
+- `instanceof`//检查一个对象是否为了一个对象中的实例，Console.log(p1 instanceof p2);//p1是否为p2中的实例；
+- 注意：按引用类型操作的值，其后面操作改变了值，但前面值打印出来和改变后是一样的。
+
+**数组去重**：
+```js
+function unique (arr) {
+  return Array.from(new Set(arr));//使用集和。
+}
+unique([1,1,'true','true',true,true])
+```
+<i class="label2">splice(位置,操作,值)</i>//splice()方法可以操作数组
+```js
+var arr = [1,2,3,4,5,6];
+arr.splice(2)//删除2及之后的值。
+arr.splice(0,2);表示删除0,1位置的值，两个索引值相同时删除1个。
+//插入、1表示删除并替换。[1,3,4,5,6]
+arr.splice(1,0,7)//[1,7,2,3,4,5,6] 
+arr.splice(1,1,7)//[1,7,3,4,5,6]
+arr.splice(3,-1);//获取(删除)3之后的元素
+alert(arr.splice(0,2))//获取下标0，1的值。第二个参数是选取个数（当前下标在内）。
+```
+- **列表，字典均属于Object类型**，即：`[1,2] instanceof Object`#为true，但`{a:1,b:2} instanceof Array`#为false。
+
+<i class="label2">映射操作</i>
+map();//将数组中的每个元素调出来都执行一遍回调函数;`[10,20,5,8,99,4].map(ne);`//ne为函数，列表的每个值会被当作ne的参数一一传入。
+forEach()//forEach()方法调用数组的每一个数传递给回调函数。
+例：`arr.forEach(function(value,index,data){});`//对数组做循环遍历获取数组各项值当做参数传入到函数中便于函数用其做操作。对象不能使用。ie 1.9以 下不支持;
+**undefined**：派生自null，因此`null==undefined`#返回true，使用全等符号才会返回false。已声明，未赋值的变量依然是undefined。但是没有声明的值使用，会直接报错。然而使用`typeof no(未声明值)`#得到的也是undefined类型。
+**数据类型检测**：`console.log(typeof val)`#有string、number、undefined、boolean、function、object（字典和null都显示这个）。
+**null**：表示一个空对象指针，因此用typeof检测时返回object。如果该变量之后用于赋值一个对象，那初始赋值可以置为null。
+**布尔值**：`0，空字符串、null、undefined、false`都是当做false。
+
 #### 2、转码：
-```
+```js
 encodeURI('汉字');
 decodeURI();
 //url传参汉字时可以先encodeURI()对中文编码再用decodeURI()转码
@@ -819,62 +928,19 @@ https://blog.csdn.net/WRian_Ban/article/details/70257261
 https://blog.csdn.net/xr510002594/article/details/81409426
 https://blog.csdn.net/mooncom/article/details/52402836
 https://blog.csdn.net/codingnoob/article/details/80879208
-#### 17、js数据类型操作：
-javascript数据类型包括：数值、字符串、布尔、null(表示尚未存在的对象)、undefined(当声明的变量还未被初始化时，变量的默认值为undefined。)、对象(对象又包括列表、函数、字典)，6种。#alert(null == undefined); //output "true"  。ert(null === undefined); //output "false" 
-<i class="label1">数值</i>parseInt("fjdk889") //转为整型889,剔除字符串。parseFloat()//转为float型。toFixed(2);//保留小数位数。
-<i class="label1">字符串操作</i>
-`x.toString()`//转为字符串。`x.replace(/target/g,'')`//替换,g表示所有满足的都替换。`x.concat(“a”,”b”)`//可与x连接多个字符串。
-`x.charAt(index)`//查找字符串的对应下标的值,`“justice”.charAt(1)=”u”`。
-`"a".toUpperCase()`方法将小写字母转换为大写,`"A".toLowerCase()`#将大写字母转为小写。
-`str.substring(start,end)`//提取字符串中介于两个下标间的字符串，一个参数时为start，截取后面所有。在源数据上操作。
-`str.substr(start,length)`#第二个参数为选择从start起截取多少个长度字符。
-`str.indexOf('aa')`#查找字符串位置。
-`str.search('abc')`#找到子串开始位置。
-```js
-var str = '大米:2.57斤/元,白菜:3.65元/斤';
-var arr = str.match(/\d+(.\d+)?/g); //match()方法找到所有匹配的项，返回一个数组。
+#### 17、拦截浏览器回退操作：
 ```
-<i class="label2">js的正则表达式</i>
-```js
-//i表示不区分大小写，g表示匹配全局，m表示可匹配多行。
-var a = /e/i;
-var b = new RegExp('e');
-console.log(a.test('aaebc'));// 返回布尔值
-console.log(a.exec('kke,mme'));//只能找到第一个匹配项，放回一个列表形式的记录（有匹配到的值）。
+// 拦截history模式的回退。
+pushState()和popstate是H5的新属性。
+history.pushState(null,null,document.URL);
+// 添加popstate事件监听变化。
+window.addEventListener('popstate',function(){
+history.pushState(null,null,document.URL);
+});
+// 拦截hash模式的回退
+function c(){var url = window.location.href;}//获取到的是变化后的地址。用正则表达式来监听是否是回退到了上一个页面。
+window.onhashchange = c; //onhashchange可以今天hash模式的变化，触发函数c。
 ```
-<i class="label1">列表</i>
-- `list.indexOf(1)`//找到第一个1在列表中的位置，不在则返回-1。
-- `list.incloud(1)`//是否包含1，返回布尔值。
-- `list.join("-"`)//将各元素用字符链接。
-- `list.push(1)`//在列表最后添加值。
-- `list.pop()`//删除最后一个元素。
-- `unshift()`//在数组最前端添加一个新的值。
-- `list.reverse()`//将数组倒置，[1,2,3].reverse();//[3,2,1]。
-- `list.shift()`//移除第一个元素。
-- instanceof//检查一个对象是否为了一个对象中的实例，Console.log(p1 instanceof p2);//p1是否为p2中的实例；
-**数组去重**：
-```js
-function unique (arr) {
-  return Array.from(new Set(arr));//使用集和。
-}
-unique([1,1,'true','true',true,true])
-```
-<i class="label2">splice(位置,操作,值)</i>//splice()方法可以操作数组
-```js
-var arr = [1,2,3,4,5,6];
-arr.splice(2)//删除2及之后的值。
-arr.splice(0,2);表示删除0,1位置的值，两个索引值相同时删除1个。
-//插入、1表示删除并替换。[1,3,4,5,6]
-arr.splice(1,0,7)//[1,7,2,3,4,5,6] 
-arr.splice(1,1,7)//[1,7,3,4,5,6]
-arr.splice(3,-1);//获取(删除)3之后的元素
-alert(arr.splice(0,2))//获取下标0，1的值。
-```
-<i class="label2">映射操作</i>
-map();//将数组中的每个元素调出来都执行一遍回调函数;`[10,20,5,8,99,4].map(ne);`//ne为函数，列表的每个值会被当作ne的参数一一传入。
-forEach()//forEach()方法调用数组的每一个数传递给回调函数。
-例：`arr.forEach(function(value,index,data){});`//对数组做循环遍历获取数组各项值当做参数传入到函数中便于函数用其做操作。对象不能使用。ie 1.9以 下不支持;
-
 #### 18、js对象与json格式互转：
 ```js
 var obj = {name:"wcs",id:21}
@@ -904,7 +970,7 @@ var a = 55; // 页面a的对象
 el.onclick=function(){window.open("b.html");}//打开一个新窗口
 // 页面b:
 console.log(window.opener.a);//window.opener会将前一个页面的所有对象封装为
-//一个对象的形式，b页面可以使用，但对用户体验不好。    
+//一个对象的形式，b页面可以使用，但对用户体验不好。
 
 ```
 #### 20、requestAnimationFrame()//动画制作专用
@@ -947,7 +1013,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/Events/DOMContentLoaded
 隐藏和显示：$("p").hide();$("p").show();
 淡入淡出：$("#p").fadeIn(1000,callback);$("#p").fadeOut(1000,callback) //第一个参数是变化的时间，第二个参数是运行完成后的回调函数。
 动画： $("div").animate({left:'250px'},2000,callback);//变换的属性、时间、运行完后的回调。
-#### 23、js es6语法大全
+#### 23、es6语法大全
 ```js
 let a = 10;//#######块级作用域let定义变量,只在定义的块或附近的块有用，如for循环中
 let a = () => 1;
@@ -996,7 +1062,24 @@ var a = [1,2,3,4,5];
         console.log(arguments);
     }
 c(...a);// 将a中的每个元素拿出来放到c中。
+
 //##-----------------promise
+//常用情况：
+function add(n) {
+    return new Promise(function(resolve, reject) {
+         if (n % 2 === 0) {
+              resolve('ok nice');    //成功时使用resolve
+         } else {
+              reject(`error ${n}`); //失败使用reject，返回参数
+         }
+    })
+}
+add(3).then(res => {
+   console.warn(res);    //res是resolve或reject中返回的。
+}).catch(res => {
+   console.info(res);
+});
+
 var waitSecond = new Promise(function(resolve, reject)
 {
     setTimeout(resolve, 1000);
@@ -1011,6 +1094,24 @@ waitSecond.then(function()
     {
         console.log("Hi"); // 2秒后输出"Hi"
     });
+//#####******async的使用
+//修饰一个函数，默认返回一个promise的resolve对象
+async function av(){return 10;}
+av.then(res=>{});
+//####*****await的使用。一定要放在async内部，可修饰所有数据类型
+async function funAsy() {
+     const a = 1;
+     // 等待promise的resolve的返回值，赋值给b。如果是reject的话则直接报错。
+     const b = await new Promise((resolve, reject) => {
+           setTimeout(function() {
+               reject('time')
+           }, 3000)
+     })
+     console.log(b,a)//3s后才会输出。
+     return b;
+}
+funAsy().then(res => {console.log(res)});//3s后才会输出。
+
 //-----------------代理proxgy。与就的object方法集一样的作用，都用于监听对象的变化。
   let test = {
     name: "小红"
@@ -1062,10 +1163,15 @@ Object.defineProperty(obj,'name',{
 vuejs框架中的数据监听就是通过以上方法实现的。
 https://www.cnblogs.com/xlys/p/8520676.html
 https://www.cnblogs.com/canfoo/p/6891868.html
-#### 25、try,catch的使用：
-```
-try{}
+#### 25、异常：
+```js
+// try,catch()
+try{
+    aleet('fdd');//异常情况会触发catch()
+}
 catch(err){console.log(err.message);}
+// 主动抛出异常
+throw 'not a number';//控制台输出：Uncaught: not a number
 ```
 try,catch用于预测一些自己觉得可能会因为语法错误、取值不存在或方法不存在等情况下使用(写在try后的{}中)，catch后可传一个参数值，err.message输出
 错误提示(catch后的{}中写发生错误后运行的语句)。try模块中只要有一句语句被判有误就会立刻跳到catch模块中去执行。
@@ -1199,6 +1305,18 @@ formData.has("k1"); // true
 formData.set("k1", "1"); // 修改
 formData.get("name"); // 获取key为name的第一个值
 ```
+#### 36、console的使用：
+console模块不只log()一个函数，全部如下：
+- `console.log("%d年%d月%d日", 2017, 1, 8)`#打印，%是占位符。console.info()#信息。
+- `console.warn()`#警告。
+- `console.group("第一组信息");console.log("第一组第一条：我是张三");...console.groupEnd();`#作为一组展示出来。
+- `console.error()`#打印错误。
+- `console.dir()`可以显示一个对象所有的属性和方法。
+- `console.dirxml()`用来显示网页的某个节点（node）所包含的html/xml代码。
+- `console.assert(a===2)`用来判断一个表达式或变量是否为真。若为否会抛出异常。
+- `console.table([[1,2,3],[4,5,6],[7,8,9]])`#打印表格
+- console.time()和console.timeEnd()，用来显示代码的运行时间。
+- `console.profile("性能分析器");...中间代码;console.profileEnd("性能分析器");`
 ### 四、库、框架、工具
 #### 1、gitHub的使用：
  进入gitHub官网先注册一个账号,进入菜鸟教程点击git本地命令工具下载链接下载
@@ -1258,6 +1376,7 @@ front/index.html  //忽略front文件夹下的Index.html文件
 `git add .`>`git commit -m 'new'`>`git pull`#合并到本地。
 此时会提示输入账号、密码，若输入错误，第二次可能不会再提示错误，而是直接报错(使用了第一次的缓存)。解决如下：
 win10/控制面板/用户账户/凭据管理器/windows凭据。最下方找到git的缓存，删除。
+**项目资源搜索**：awesome 接想搜索的资源。
 [merge时提示：refusing to merge unrelated histories解决](https://blog.csdn.net/lindexi_gd/article/details/52554159)
 #### 2、mpvue:
 支持 微信小程序、百度智能小程序，头条小程序 和 支付宝小程序。
@@ -1315,7 +1434,7 @@ wx.navigateBack({
 [触屏时获取手指位置]绑定的函数中传入$event,event.touches[0].pageX;touchend事件触发中获取位置:event.mp.changedTouches[0].pageX获取。
 [小程序中嵌套网页]https://www.jianshu.com/p/50657f9af5b4
 [scroll-view的使用]元素绑定了scroll事件后在小程序端会变成scroll-view标签这时其内部所有子元素的css样式会失效，需要使用内嵌样式。scroll-view标签相关的事件函数也都用v-on:scrolltolower类似绑定。
-【组件的使用】https://blog.csdn.net/qq_35661041/article/details/81476606    https://www.cnblogs.com/yun1108/p/9755785.html
+**组件的使用：https**://blog.csdn.net/qq_35661041/article/details/81476606    https://www.cnblogs.com/yun1108/p/9755785.html
 <i class="label1">子组件触发父组件事件</i>
 ```js
 //子组件事件
@@ -1434,11 +1553,11 @@ https://segmentfault.com/q/1010000010881298/a-1020000010884089
 https://www.jianshu.com/p/7302e2c7f4b7
 #### 3、nodejs：
 :::alert-info
-**简介**： Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于Chrome JavaScript 运行时建立的一个平台。Node.js是一个事件驱动I/O服务端JavaScript环境，基于Google的V8引擎，V8引擎执行Javascript的速度非常快，性能非常好。
-一般认为javascript是浏览器端的脚本语言，但是google将其再开发，用来作为服务器端脚本环境，其性能自称比Python、Perl、PHP还要快。node.js的最大优点是处理并行访问，如果一个web应用程序同时会有很多访问连接，就能体现使用node.js的优势。另一个好处是，使用javascript作为服务器端脚本语言，可以消除答一些与浏览器端js脚本的冲突。甚至发挥javascript动态编程的特性，在服务器与浏览器之间建立直接的动态程序。而npm是其自带的一个包管理工具。
+**简介**：js只能运行在浏览器内，相比于其它python，java之类的编程语言可以运行在桌面环境，js弱了很多，而node提供了js可在系统运行的环境，内部加了一些内置api，提供文件io等功能。node.js的最大优点是处理并行访问，如果一个web应用程序同时会有很多访问连接，就能体现使用node.js的优势。另一个好处是，使用javascript作为服务器端脚本语言，可以消除答一些与浏览器端js脚本的冲突。甚至发挥javascript动态编程的特性，在服务器与浏览器之间建立直接的动态程序。而npm是其自带的一个包管理工具。
 :::
 **windows上安装**：官网下载node的zip包，解压后将路径添加到path路径即可。
-**linux上nodejs的安装**：官网上下载nodejs的linux压缩包，解压进入，将node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后node -v 安装成功。
+**linux上安装**：官网上下载nodejs的linux压缩包，解压进入，将node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后node -v 安装成功。
+**脚本语言**：又被称为扩建的语言，或者动态语言，是一种编程语言，用来控制软件应用程序，脚本通常以文本（如ASCII)保存，只在被调用时进行解释或编译。
 <i class="blue">如果是windows系统的话，尽量使用管理员身份来运行cmd，然后进行npm操作。</i>
 **配置淘宝安装源**：npm本身指定的安装源是外国的，`npm install -g cnpm --registry=https://registry.npm.taobao.org`#安装淘宝镜像,使用时直接cnpm install即可.
 [参考学习地址.](https://www.cnblogs.com/onew/p/11330439.html)
@@ -1460,6 +1579,7 @@ https://www.jianshu.com/p/7302e2c7f4b7
 删除node_module文件夹，重新npm install安装依赖，然后项目下：npm  run fix-memory-limit
 //然后安装：`npm install -g increase-memory-limit`#接着进入项目目录执行：`increase-memory-limit`#结束后再试试运行项目。[参考学习地址(先尝试3，4)](https://www.jianshu.com/p/410e826506be)。
 临时设置安装源：`npm config set registry https://registry.npm.taobao.org `。[npm安装包失败的问题(设置一下安装源，npm安装即可)。](https://blog.csdn.net/moxiong3212/article/details/79756553)
+##### a、基础：
 <i class="label1">npm指令</i>管理包的指令：
 ```cmd
 npm install --save lodash  #--save表示生产环境的依赖，--save-dev表示开发环境的依赖。
@@ -1467,12 +1587,84 @@ npm cache clean -f    #清除缓存。
 npm remove eslint    //移除包内的某个依赖。
 ```
 **nvm**：[windows版nvm下载地址，下载nvm-setup.zip包](https://github.com/coreybutler/nvm-windows/releases)。安装后cmd使用nvm命令
-`nvm install 8.16.0`#安装其它node版本。`nvm use 8.16.0`#切换node版本。`nvm uninstall 8.16.0`#卸载指定版本
+`nvm install 8.16.0`#安装其它node版本。`nvm use 8.16.0`#切换node版本。`nvm uninstall 8.16.0`#卸载指定版本。
+- **运行js文件**：node name.js
+- **使用同级文件**：`const fl = require('./index')`。
+- **使用同级目录下的文件**：`const fl = require('./config/multi')`
+- __dirname：当前文件所在目录的绝对路径。
+- __filename：当前文件的绝对路径
+- process.argv#以一个列表的形式返回命令行所有参数，如：`node a.js -m cc`->`['node','a.js','-m','cc']`
+##### b、文件操作：
+读写操作：
+```js 
+var fs = require('fs')
+// 读取指定目录下的所有一级目录或文件。
+fs.readdir(MODULE_PATH, function(err, files) {
+    if (err) {
+        console.error(err);
+    } else {
+        pages = files;
+    }
+})
+/*几乎所有的这类放发都有Sync，为同步读取*/
+var pages = fs.readdirSync(MODULE_PATH)
+
+const option = {flag:'w',encoding:'utf-8',mode:'0666'}//flag指定使用的模式。
+// 写
+fs.writeFile('test.text','内容',option,function (err){
+    if(err){console.log('写入错误'+err)}
+    else{console.log('写入成功'+err)}
+})
+// 读，readFileSync为同步读取。
+fs.readFile('test.text',{flag:'r',encoding:'utf-8'},function(err,data){
+    if(!err){console.log('文件数据'+data)}
+})
+```
+##### c1、chalk的使用：
+一个给字体添加样式的包，支持模板使用：
+```js
+const chalk = require('chalk')
+//字体颜色、粗体、背景色。
+console.log(chalk.red.bold.bgWhite('内容'))
+//模板写法
+console.info(chalk`{blue.bold 内容}`)
+```
+##### c2、输入，输出：
+```js
+//方法一
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');    //设置字符集
+process.stdout.write('请输入:'); //标准输出
+process.stdin.on('data', function (data) {
+    var str = data.slice(0, -2);    //slice选取字符。不使用也可
+    process.stdin.emit('end');//输入结束，触发
+    process.stdout.write('输入的:'+str);
+});
+process.stdin.on('end', function () {//    监听上面的end事件。
+     process.stdin.pause();
+});
+// 方法二
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.question('你认为 Node.js 中文网怎么样？', (answer) => {
+    // 对答案进行处理
+    console.log(`多谢你的反馈：${answer}`);
+    rl.close();
+});
+rl.on('close', function() {
+    process.exit()    //退出命令行。
+})
+```
 #### 4、postman的使用：
 (百度搜索下载postman安装)输入框左边选择请求方式，输入框中输入请求接口，下方Params项中输入要传的键值和value值，键值和value值的输入不需用单引号或双引号不然会出错,若报错可以在body项中选择form-data然后输入Params项中的键值和value值再点Send.
 #### 5、vuejs：
 [vuejs官网。](https://cn.vuejs.org/v2/guide/)
-设计原理猜测:做过许多项目后会发现所有项目几乎都包括向页面元素放值，获取值、从后台获取数据在界面循环生成元素加数值；页面上几乎都会用到鼠标事件和一些简单的交互效果，所以将这些分类：js中的变量数值统一放在一个集data中，js中用到的函数统一放在方法集method中，即使是事件涉及的函数也映射到这个方法集中。为了配合前端框架bootstrap等的使用vue框架中对元素通过id、类名等的选种操作支持比较弱，因为前端框架中一个元素往往要加多个类名，这不便于选中元素。
+- sass的css样式中：`@import '../style/vv.sass'`#导入样式。
+- less的css样式中：`@import url(../style/vv.less)`#导入样式。
 ##### a1、vuejs运行流程:
 分文这几个阶段：初始化阶段(这个阶段主要是把普通对象转化为响应式对象)、编译阶段(编译阶段会把options.template编译成render函数，解析template中的数据，事件绑定等)、挂载阶段(这个阶段会执行render函数以获取vnode。然后模板引擎根据vnode去生成真实DOM)、监听阶段(挂载阶段之后，模板引擎已经渲染好网页，这时就进入了监听阶段。patch函数还会对比新旧vnode，并计算出更新DOM需要的操作。最后由框架更新到网页上)、注销阶段(注销过程会先触发beforeDestroy，然后注销掉watchers、child components、event listeners等，之后是destroyed钩子函数)。[具体介绍学习地址。](https://blog.csdn.net/weixin_34023863/article/details/87945630)
 ##### a2、vue生命周期：
@@ -1580,7 +1772,8 @@ function get(e){
 //currentTarget,因为可能点Z中的是子元素，触发事件的却是因为事件冒泡
 }
 ```
-##### a7、自定义组件：
+##### a7、组件：
+第三方的组件一般安装后可直接单个页面按需引入，对应的插件安装后也可以单页面直接引入使用。
 ```javascript
 // 全局注册，写在main.js文件中
 Vue.component("wcs",{
@@ -1633,6 +1826,7 @@ props:{
 <test :age="age"></test>
 data:{age:'fdsf'}//与子组件要求的数据类型不一致时会在控制台有warn提示。
 ```
+[.babelrc文件作用及属性，部分组件按需引入，需要配置。](https://www.cnblogs.com/wulinzi/p/8079509.html)
 <i class="label2">组件中使用插槽</i>有时候我们定义一个组件不能完全应付所有场景，比如一个底部弹出框，有的有选择项，有的是展示商品内容，如果靠传值来控制显示，会导致子组件内东西非常多。而分为多个组件来写，它们之间又有一些共用的东西，所以产生了插槽。
 ```vue
 // 第一个子组件的内容
@@ -1682,6 +1876,7 @@ components:{
 })
 }
 ```
+安装别人的组件：npm i .....然后（无论是css，还是组件资源，写成插件的都可以用vue.use()将其变为全局可用。）
 <i class="label2">边界情况</i>官网中将以下子组件访问父组件，父组件访问子组件数据等称为边界情况。
 <i class="label3">访问根实例</i>
 ```
@@ -1720,7 +1915,7 @@ inject: ['getMap']
 ##### a8、vuex的使用：
 一个全局变量管理控件。[vuex使用学习地址。](https://segmentfault.com/a/1190000015782272)[vuex官网。](https://vuex.vuejs.org/zh/guide/)
 安装：`npm install vuex --save`#然后在src文件夹下新建一个store文件夹，store内再建一个Index.js文件，文件内容如下：
-```
+```js
 import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
@@ -1784,25 +1979,31 @@ this.store.commit('newNum',6);//运行mutation中定义的函数。
 this.$store.dispatch('hideFooter')//运行actions中定义的函数。
 ```
 大多数的项目中，我们对于全局状态的管理并不仅仅一种情况的需求，有时有多方面的需求，比如写一个商城项目，你所用到的全局state可能是关于购物车这一块儿的也有可能是关于商品价格这一块儿的；像这样的情况我们就要考虑使用vuex中的 modules 模块化了。在store文件夹下面新建一个modules文件夹，然后在modules文件里面建立需要管理状态的js文件
-```
-// 使用时稍做改变。
+```js
+// main.js入口文件。使用时稍做改变。
 import Vue from 'vue';
 import Vuex from 'vuex';
+// 这些单独的js文件导出的是字典，而不是vuex对象。export default {state,mutations,actions.getters}
 import footerStatus from './modules/footerStatus'
 import collection from './modules/collection'
+// 需要在创建实例前use()
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-    modules:{
+const store = new Vuex.Store({
+    modules:{    //    放到模块中。
          footerStatus,
          collection
     }
 })
+
+new Vue({...,store})
 // 页面中使用
 <span class="joinStatus" @click="invokePushItems(item)"></span>
 import {mapState,mapGetters,mapActions} from 'vuex'; //先要引入
 computed:{
-    ...mapState({  //这里的...是超引用，ES6的语法，意思是state里有多少属性值我可以在这里放多少属性值
+    //这里的...是超引用，ES6的语法，意思是state里有多少属性值我可以在这里放多少属性值
+    ...mapState({
+    // 一般不适应mapState来取值。
          isShow:state=>state.footerStatus.showFooter //注意这些与上面的区别就是state.footerStatus,
                                                       //里面定义的showFooter是指footerStatus.js里state的showFooter
       }),
@@ -1820,7 +2021,7 @@ computed:{
 ##### a9、路由的使用：
 在router文件夹下的index.js文件中为每个页面添加路由。路由还提供一些钩子函数供控制跳转页面使用：
 单个路由里的钩子函数：
-```
+```js
 {// 这是Index.js文件中配置路由时的一个页面。
     path:'',
     name:'aa',
@@ -1833,7 +2034,7 @@ computed:{
 }
 ```
 组件路由：和上面的钩子函数类似，不过这个是写在每个页面的组件里的：
-```
+```js
 export default {
     name:'ww',
     data:{},
@@ -1846,9 +2047,12 @@ export default {
 }
 ```
 全局路由钩子：在main.js页面添加。
-```
+```js
+// main.js添加
 router.beforeEach((to,from,next)=>{
-    //每个页面跳转时都会调用。
+    //每个页面跳转时都会调用。改变标题
+    window.document.title = to.meta.title;
+    next();
 })
 ```
 跳转路由时缓存页面，避免被再次渲染。[跳转时页面缓存的方法。](https://www.cnblogs.com/smart-girl/p/10496769.html)
@@ -1857,7 +2061,7 @@ router.beforeEach((to,from,next)=>{
  // history=>history.pushState 浏览器历史纪录添加记录。history.replaceState 修改浏览器历史纪录中当前纪录。history.popState 当history 发生变化时触发
  // 使用时将state去掉，如：this.$router.push(url)
 ```
-hash模式：hash模式url中会带有#号，破坏url整体的美观性, history 需要服务端支持rewrite, 否则刷新会出现404现象
+**hash模式**：hash模式url中会带有#号，破坏url整体的美观性, history 需要服务端支持rewrite, 否则刷新会出现404现象。
 ```js
 window.onhashchange = function(event){
     console.log(event.oldURL, event.newURL);
@@ -1866,7 +2070,7 @@ window.onhashchange = function(event){
 
 }
 ```
-模式切换
+**模式切换**：historm模式是配合服务端渲染使用的。
 ```js
 export default new Router({
   mode:'history', // 默认是hash
@@ -2148,18 +2352,22 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }
 });
 ```
-**配置**：[webpack详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)
-##### b、vuejs中处理跨域：
+**配置**：[webpack详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)。[devserver属性学习地址。](https://blog.csdn.net/franktaoge/article/details/80083317)
+##### b、vuejs配置反向代理：
+**正向代理**：代理是处于客户端和服务器中间的一台计算机，正向代理是接受客户端的链接，然后向目标服务器请求资源，逐步返回给客户端。正向代理的服务器与目标服务器不在同一网段内，面向服务器。如vpn。
+**反向代理**：面向的是客户端，对外表现为一台服务器，目标服务器放在内网，而反向代理服务器作为网关，访问内网中的服务器需要经过代理服务器，<i class="green">所以目标服务器更安全且压力变小，代理服务器还负责分发内容，缓存前端资源，因此也能优化前端性能。</i>
 vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
 ```js
-module.exports = {
-  dev: {
-      proxyTabel:{
-          "/api": {//    一条是一个跨域设置，
-				target: "http://loacalhost:3000",//跨域地址。
+// 一般在webpack.base.config.js文件。
+const devWebpackConfig = merge(baseWebpackConfig, {
+  devServer: {
+      proxy:{
+          "/api": {
+				target: "'http://10.18.110.107",//代理地址，反向代理的服务器不需要端口。
 				changeOrigin: true,// 是否跨域
+                secure: false,// https请求需要该设置
 				ws:true,// 是否使用https
-				pathRewrite: {// 设置此项。使用时可以用这个键名来代替下面的域名。
+				pathRewrite: {// 设置此项。将满足'^/api'的替换为空。
 					'^/api': '', //如请求http://localhost:3000/main时写成=》/api/main即可。
 				}
 			}
@@ -2167,15 +2375,17 @@ module.exports = {
   },
   build:{}
 }
+//     axios.get('/api/tasktime')
 ```
+node中的另一种代理是解决跨域使用的代理，node本地自启一个服务用于接受本地请求，然后向服务端请求，这样就变成了服务端向服务端请求，不受跨域限制。<i class="green">不过这只是在开发时使用，打包后失效，所以记得生产环境将代理地址改为服务器域名。这种普通代理也使用上面的方法。</i>
 [vuejs设置跨域方法学习地址。](https://www.cnblogs.com/wangqiao170/p/9288160.html)
 ##### c、vue多页面应用配置：
 `/build/webpack.base.config.js`文件添加多个主js文件入口，形如：
 ```js
 module.exports = {
     entry:{
-        app:'./src/min.js',
-        one:'./src/one.js'
+        app:'./src/pages/home/min.js',
+        one:'./src/pages/game/min.js'
     }
 }
 ```
@@ -2185,10 +2395,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     plugins:[
         // 第一个页面的。
         new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'index.html',
+            filename: 'home.html',//这个文件名在访问多页路径时有用，所以不能重名。
+            template: './src/pages/home.html',//这里指定的是文件位置，要注意！！
             inject: true,
-            chunks: ['app']
+            //chunks指定页面要使用哪些js代码块，多页面时要指定一个唯一的主js块
+            //不写的话会默认导入所有，这回导致一个html页面导入其它模块的所有js块。
+            chunks: ['manifest', 'vendor', home]
         }),
         // 其它页面的复制，更改相应名称即可。
 });
@@ -2225,7 +2437,7 @@ module.exports = {
     }
 }
 ```
-根据上面相应的位置创建js、vue、html文件。one.vue和one.html文件种将id更改为one。
+根据上面相应的位置创建js、vue、html文件。home.vue和home.html文件种将id更改。
 ```js
 //one.js文件。
 import Vue from 'vue'
@@ -2240,6 +2452,7 @@ new Vue({
     render: h => h(one)
 })
 ```
+**访问**：http://127.0.0.1:8080/home.html#/
 [vue多页面应用配置教程。](https://blog.csdn.net/weixin_44135121/article/details/94445734)
 #### 11、uni-app的使用：
 **介绍**：uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉/淘宝）、快应用等多个平台。结合Hbuilder x使用，文件新建一个项目选择uni-app项目(网站、app、小程序都选这个)。[uni-app官网。](https://uniapp.dcloud.io/)[插件市场](https://ext.dcloud.net.cn/search?q=uni-ui)。
@@ -2366,3 +2579,7 @@ export default {
 引入后报..dont support (text/html) ..css的错误：在`<style></style>`中用@import url("");引入css样式。
 出现找不到中文语言包的问题：！暂未解决。
 [百度umeditor下载地址(选择jsp)。](http://ueditor.baidu.com/website/download.html)[使用参考学习地址。](https://blog.csdn.net/fanhu6816/article/details/81223909)
+#### 13、axios：
+[axios配置，学习地址。](https://www.cnblogs.com/mica/p/10795242.html)
+#### 14、NUXTJS：
+[NUXTJS中文网。](https://www.nuxtjs.cn/guide/configuration)
