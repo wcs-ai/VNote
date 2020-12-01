@@ -1,4 +1,3 @@
-vnote_backup_file_826537664 D:/DATA_FILE/data/VNote/IT/subject.md
 ## 1、数学
 ### 一、高等代数知识：
 #### a1、行列式与线性方程组：
@@ -279,16 +278,19 @@ weather//n,天气                                            wiki//n,维基百�
 ### b、英语中的句子成分:
 - 主语：句子主要成分。一般为名词，名词短语。
 - 谓语：一般在主语之后，由动词，动词短语构成。
-- 表语：说明主语的性质，身份，特征和状态。表语须和连系动词一起构成句子的复合谓语。可以由名词，形容词等担任。
+- **表语**：说明主语的性质，身份，特征和状态。表语须和连系动词一起构成句子的复合谓语。可以由名词，形容词等担任。
 - 宾语：谓语动作所涉及的对象，它是动作的承受者，一般由名词担任。
-- 定语：描述名词，代词，短语或从句的性质，特征范围等情况的词叫做定语。可以由名词，形容词和起名词和形容词作用的词，短语担任。
+- **定语**：描述名词，代词，短语或从句的性质，特征范围等情况的词叫做定语。可以由名词，形容词和起名词和形容词作用的词，短语担任。
 - 状语：从情况、时间、处所、方式、条件、对象、肯定、否定、范围和程度等方面对谓语中心词进行修饰、限制。
-- 系动词：用来辅助主语的动词。它本身有词义，但不能单独用作谓语，其后必须跟表语，构成系表结构说明主语的状况、性质、特征等情况。如：am、is、are、wa、were。
+- **同位语**：一个名词(或其它形式)对另一个名词或代词进行解释或补充说明，这个名词（或其它形式）就是同位语。同位语与被它限定的词的格式要一致，并常常紧挨在一起。关系不是很紧密时也用逗号隔开。Smith,our new teacher,is very kind to us.
 ### c、词性及作用：
 - 名词：人物、地点、机构等，常做主语。
 - 动词：表示动作，行为的词，有及物和不及物之分。
 - 形容词：修饰名词，不一定都放在名词前面，说明事物的特征，如果是一个有层级属性的形容词可以用副词修饰它。
 - 副词：可以修饰动词、副词、形容词和其它结构。多数位于句尾，但若宾语过长，可以前置。多个副词修饰同一个词时注意用and，but等连接，且注意顺序。
+- 介词：一种用来表示词与词, 词与句之间的关系的词。在句中不能单独作句字成分。介词后bai面一般有名词代词或相当于名词的其他词类，短语或从句作它的宾语。
+- 代词：不只有人称代词，还有一些物体别名，统称等也会用作代词，如果句中用了代词，**得搞清楚，它指代的谁**。
+- 系动词：用来辅助主语的动词。它本身有词义，但不能单独用作谓语，其后必须跟表语，构成系表结构说明主语的状况、性质、特征等情况。如：am、is、are、wa、were。
 ### d、5种基本句型：
 这5种基本句型可以拓展到其它句型。
 - 主语+系动词+表语。these apples are very fresh.
@@ -296,15 +298,90 @@ weather//n,天气                                            wiki//n,维基百�
 - 主语+谓语（及物动词）+宾语
 - 主语+谓语（及物动词）+间接宾语+直接宾语。谓语不仅是及物动词，而且涉及到两个事物。she give me a new book in my birthday.
 - 主语+谓语+宾语+状语。I have left Beijing at five.
+- **从句**：从句不能单独成句，一般在主句中做一个部分，从句一般由关联词引导，但关联词有时也会省略，如：what,that。从句分类如下：
+>名词性从句：<b class="red">在句子中的作用相当于名词。</b>包括主语从句、表语从句、宾语从句以及同位语从句。
+>形容词性从句：<b class="red">在句子中的作用相当于形容词词。</b>定语从句。
+>副词性从句：<b class="red">在句子中的作用相当于副词。</b>状语从句。还可以分为条件状语从句、原因状语从句、地点状语从句、目的状语从句、让步状语从句、比较状语从句、方式状语从句、结果状语从句和时间状语从句（常见引导词为：before，after，as等）。
 - [学习地址。](https://www.vipkid.com.cn/posts/11345.html)
 ### e、短语、语法、特殊词：
 - **名词所有格**：名词有三个格：主格、宾格、所有格，主格与宾格形式相同所以统称为通格，名词做主语，宾语，表语时用通格。所有格形式有：'s和of所有格，举例如下：
 today's paper(今天的报纸) #有生命的、时间、地点、距离也可加's。其它可以用of： the title of the book.
-- **as相关**：(1)、表示当某人身份时：As a gardener,hell take care of all flowers。(2)、`as/so long as:只要`#As long as we dont nose hert,we will find a way to over the difficult。（3）`as/so far as:据..就..`#As far as i know.（4）`so as to do>为了做...`#They started early so as to catch the first bus.（5）`so...as to...>如此..以至于`#You are so kind as to show me the way.（6）`as a matter of fact`#其实，实际上。（7）`may/might as well`#还是，还不如。
+- **as相关**：(1)、表示当某人身份时：As a gardener,hell take care of all flowers。(2)、`as/so long as:只要`#As long as we dont nose hert,we will find a way to over the difficult。（3）`as/so far as:据..就..`#As far as i know.（4）`so as to do>为了做...`#They started early so as to catch the first bus.（5）`so...as to...>如此..以至于`#You are so kind as to show me the way.（6）`as a matter of fact`#其实，实际上。（7）`may/might as well`#还是，还不如。（8）as well as#既..又...，以及、此外。（9）`as...as...`#和什么一样。
 - **to的用法**：(1)、表针对：Air is indispensable(不可或缺的) to life.（2）表比较：The quarrel(争吵) happened `prior(占先的) to` my arrival(到达)。与动词，带比较性质的词放一起常是一个固定搭配。
-- at、in、on的使用：后面一般都接时间或地点。`in hospital`#住院。（1）**at**：常用于小而具体的名词前，at the moment。at the door。（2）**in**：表时间时指在一个较长时间内，指地点时表在地点内部。in the evening。in May。in the school。（3）**on**：表地点时指其接触上方，表时间时指具体日期、节日。on Monday。on May 1st。on BeiJin。还有一些固定搭配：[参考学习地址。](https://baijiahao.baidu.com/s?id=1624869654059325367&wfr=spider&for=pc)
+- from与since：来自和自从。两者有时候容易混淆。he has lived since 1980。it's a short distance from here.
+- at、in、on的使用：后面一般都接时间或地点。`in hospital`#住院。（1）**at**：常用于小而具体的名词前，at the moment。at the door。（2）**in**：表时间时指在一个较长时间内，指地点时表在地点内部。in the evening。in May。in the school。（3）**on**：表地点时指其接触上方，表时间时指具体日期、节日。on Monday。on May 1st。on BeiJin。<b class="green">用于事物时就可以利用in在...之内，on在...之上来选取</b>。还有一些固定搭配：[参考学习地址。](https://baijiahao.baidu.com/s?id=1624869654059325367&wfr=spider&for=pc)
 - **be动词**：包括am，is，are。主语为本人时才使用am，第二人称使用are，第三人称使用is。较靠近自生的为第二人称。
 - **人称代词**：i、me**(我，做宾语时用)**、my、mine(我的)、we、us、our、ours(我们的)、you、your、yours(你们的)、he、him**(他，做宾语时用)**、his、she、her(宾格)、hers(她的)、it、its(它的)。they、them**(他们，宾格)**、their`(他们的，their county)`、theirs`(他们的，those dictionaries are theirs)`。
+- and：连词，连接2个及以上的词或短语，句子，两个词连接时用于增强形容，或表动作反复。
+- **for**：for this reason#(表因为，由于)。for three days#表时间，距离。what do you come here for#为什么。he sold his house for 300#等价交换。we set off for Lundon#开往，前往。red is for danger#代表。固定搭配中。[for使用学习地址。](https://wenku.baidu.com/view/96cb873ace84b9d528ea81c758f5f61fb6362815.html)。for为介词，翻译时不用在乎其具体意思，直译其它词就好。
+- 复数变化规则：
+- 过去式变化规则：
+- **about的使用**：（1）表大约，常用于数值前：It costs about 10$。（2）关于，I've heard of him,but i don't know about him#我听说过有这样一个人，但我不知道关于他的事。（3）`be about to`#即将，马上。we are about to leave for BeiJin#我们即将去北京。（4）放不及物动词后。`he has nothing to complain about,does he`。#这里的complain不及物，后需要加介词about/of带名词作宾语。而及物动词前后则不需要加这类介词。
+- **without和nothing和none**：`without + 名词`#表示**没有...**。而`nothing`则是表示**什么都没有**。`none`#指**没人**
+- **with的使用**：介词，常表示：行为方式、伴随、时间，原因或条件等。与witout意思相反，但用法一致，常见形式为：`with/without + 名词/代词 + 形容词/副词/介词短语...`
+- **onto**：在...之上、对...了解、映射成...。介词，hold onto(紧握)、graft onto(嫁接支链)、log onto（进入系统）。
+- `ain't` =am not prep.（不是）也可用作are not，is not，have not，has not，will not的缩略语。多用作非正式的口
+- on a minute longer#一分钟之久。（on是在...之上，longer有更久的意思，合起来可如此翻译）。
+- no point：没意义。no thing：没什么。
+- hope for the best：希望有好的结果。
+- it's not over untill it's over：不到最后，不见分晓。
+- <i class="label1">what、that、where等词的用法</i>它们不一定用于描述某个词，也常直接引导一个句子做某个成分[学习地址。](https://www.doc88.com/p-243584168541.html)
+>**what**：什么/所...的。可引导主语、表语、宾语从句，可在**从句中做成分**。`what you say is quite right`#你所说的相当正确。
+>**that**：也可引导主语、表语、宾语从句，但在从句中不做成分，无实际意义，仅仅是连接作用，**引导宾从时一般可省略**。
+>**whether和if**：是否。`He asked if/whether we wanted a drink`#他问我们是否想去喝一杯。`I don't care if it dont't rain`#(我不在乎天是否下雨)，引导的从句是前面的条件时只能用if。Whether he has left，I can't say#引导放于句首时用whether。
+>**why和because**：why强调结果，because强调原因，所以注意成分来使用。 The reason why he didn't attend the party yesterday is that ...
+>where：指代地点。i wonder where she lives#我想知道她住哪。
+>which：一般指代物。常用于引导定语从句。 This is the family which is plaining  to move to party#这是要搬进城里的一家人。
+>**who和whom**：指代人。whom只能在从句中做宾语，who可做主语。He is the boy who came to our class yesterday
+### f、数值、时间、日期：
+<i class="label1">数值的表示</i>
+- 0-10：zero、one、two、three、four、five、six、seven、eight、nine、then（10）。
+- 11-19：eleven、twelve、thirteen、fourteen、fifteen、sixteen、eighteen、nineteen（19）。
+- 20-100：twenty、thirty、fourty、fifty、sixty、seventy、eighty、ninety（90）。one hundred（100），
+- **更大**：thousand（千）、ten thousand（万）、hundred thousand（十万）、million（百万）、ten million（千万）、hundred million（亿）、billion（十亿）、ten billion（白亿）、hundred billion（千亿）。
+- **组合**：twenty one（21）、four thousand and sixty nine（4069）、six hundred and twenty five（625）。不同位之间可用and，个十不用。
+- **序数词**：first、second、third、fourth、fifth（第五）。
+- **分数**：one fifth（1/5，分子为单数，分母用序数词）、five eights（5/8分子大于1，分母用复数）。three quarters（四分位用quater）。
+- **小数**：zero point thirty five（0.35，小数点用point表示）。[数值项表示学习地址。](https://wenku.baidu.com/view/2a91eb713b68011ca300a6c30c2259010202f3b5.html)
+
+<i class="label1">时间的表示</i>
+- **通用表达**：直接小时 + 分钟，six ten（6:10）。
+- 时间的分钟部分在半小时内：ten past six（6:10）。
+- 分钟部分大于半小时：eleven to ten（9:49）#10点差11分。
+- 恰好为半小时：half past eleven（11:30）。
+- **整点表达**：`It's two. / It's two o'clock.`#noon和midnight分别表示中午，和晚上的12点。
+- **大约时间**：it's almost two（马上到两点了）。it's no quite two（还不到两点）。it's just after two（刚过两点）。
+- **上下午**：thirteen past six a.m（上午六点十三）。four o'clock p.m（下午四点）。
+- [时间表达学习地址。](https://wenku.baidu.com/view/973b06f577a20029bd64783e0912a21614797fb0.html)
+- 世纪：in the 17th century。
+
+<i class="label1">日期的表示</i>
+- **年代表达**：in the nineteen eighties（1980）。
+- **月份**：January（Jan一月）、February（Feb二月）、March（Mar三月）、April（Apr四月）、May（May五月）、June（Jun六月）、July（Jul七月）、August（Aug八月）、September（Sept九月）、October（Oct十月）、November（Nov十一月）、December（Dec十二月）。
+- **日期表示**：2014年6月1日：`1 Jun,2014`或`Jun 1st,2014`#1和1st可以换用。
+
+### g、天气心情：
+- 雨：rainy、shower(阵雨)、few showers(短暂阵雨)、light rain shower(小阵雨)、light dirrzle(微雨)、downpour(暴雨)、heavy rain(大雨)、rainstorms(暴风雨)、ice rain(冻雨)。
+- 风：wind、land wind(陆风)、hurricane(飓风)、whirlwind(旋风)、typhoon(台风)、tornado(龙卷风)、gale(季节风)、breeze(微风)、calm(无风)、violent storm(暴风)。
+- 晴：fine、fair。
+- 云：cloud、mostly sunny(晴时多云)、partly cloudy(局部多云)。
+- 雪：snow、drifting snow(飘雪)、snowfall(降雪)、bizzard(大风雪)、rain and snow(雨夹雪)、snowfalk(雪花)、`snowstorms`(暴风雪)。
+- 雾：fog、smoke(烟雾)、haze/mist(薄雾)。
+- 霜：fost
+- 冰：ice、icicle(冰柱)
+- [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)
+
+<i class="label1">表示情绪的词</i>
+- 快活的：chirrupy 、 felicity(幸福的)
+- 兴高采烈的：merry、ecstasy（狂喜,入迷）。 
+- anxious(挂念的)、lonly(孤独的)。
+- sorrowful(忧伤的)、gloomy(忧郁的)、
+- downcast(萎靡不振的)。
+- miserable( 悲哀的)、heart-broken(伤心的)
+- shirty(生气的)、moodily(易生气的)、angry(愤怒的)
+- excited(兴奋的)、pleasure（愉快,高兴）。
+
+
 ## 3、数据结构：
 要解决一个现实问题，需要将其抽象，建模成数学模型，然后设计一个解此数学模型的算法，再用编程来实现，这个过程当中，不完全是数学公式的表达。数据结构是一门研究非数值计算的程序设计问题中，计算机的操作对象以及它们之间的关系和操作等的科学。1968年国外开始设计。
 <i class="label1">算法复杂度</i>有时间复杂度和空间复杂度来衡量。 

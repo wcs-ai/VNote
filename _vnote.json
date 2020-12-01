@@ -8,6 +8,9 @@
     "sub_directories": [
         {
             "name": "IT"
+        },
+        {
+            "name": "science"
         }
     ],
     "tags": [

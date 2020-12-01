@@ -454,7 +454,8 @@ req = requests.get(url=target, headers=headers, verify=False)
 [w3c的python3爬虫教程地址。](https://www.w3cschool.cn/python3/python3-enbl2pw9.html)
 #### 5、Django和flask的使用:
 <i class="label1">django安装</i>下载地址https://www.djangoproject.com/download/，使用git下载到本地后使用python来安装(也可以使用pip或conda安装，下载的和地址下载中的django文件夹一样)，进入到下载好的django目录下使用命令：python setup.py install //如果想安装到anaconda环境中使用其python对应系统变量即可。安装后在python环境中的script文件夹下会有dnango-admin.exe文件可以直接在cmd中使用,cmd中输入django-admin能运行则成功。(若无法全局使用django-admin的话直接进入scripts文件夹下去运行即可。)
-[开始一个项目]django-admin startproject HelloWorld //创建一个HelloWorld目录,
+**配置HTTPS**：[配置教程。](https://blog.csdn.net/qq_33183456/article/details/102967838)
+**开始一个项目**：django-admin startproject HelloWorld //创建一个HelloWorld目录,
 里面有一些初始化文件，再使用命令：python manage.py runserver 0.0.0.0:8000,然后在浏览器输入127.0.0.1:8000即可看到初始化页面。在urls.py文件配置如下：
 ```python
 from django.conf.urls import url
@@ -1926,35 +1927,54 @@ out = ln(out)#再经过Linear()计算。
 [pytorch入门教程。](http://pytorchchina.com/2018/12/25/neural-networks/)[pytorch中文文档。](https://pytorch-cn.readthedocs.io/zh/latest/package_references/functional/)
 #### 40、IDE工具:
 ##### (1)、vscode：
-支持各种语言的开发,但需要对应的插件来支持,所以会有一定缺陷。
-打开vscode点击第四个图标(方形)，安装python在点右边的安装.
-(开始运行程序时编辑器会先代码进行从上到下的扫描存储好变量名,函数名,确定指针、执行上下文等操作,在这个期间debugger调是处于右三角形形态,如果这部分的操作没问题的话会变成双竖杆形状开始执行语句,如果一直是处于右三角形态的话可能是某些语句写法错误,但编译器不会提示,建议用其它编辑器运行以下可能会出提示;如果一直是双竖杆形态的话多半是其中需要的计算比较多或者设计到下载之类的。)
-快捷键: 参考地址:https://www.cnblogs.com/pleiades/p/8146658.html
-· 首先是F1/Ctrl+Shit+P万能键
-· Ctrl+P：文件切换
-· Ctrl+空格：自动提示
-· F12/Ctrl+左键：跳转到定义
-· Shift+F12：预览定义
-· Ctrl+G：跳转行号
-· Ctrl+/：注释切换
-· Alt+↑↓：整行上下移动
-· Ctrl+↑↓：编辑器垂直滚动条上下移动，光标不动
-· Ctrl+Backspace/Delete：整词/连续空白删除
-· Ctrl+→←：光标整词移动
-· Ctrl+F查找/Ctrl+Shift+F在文件中查找，这都属于通用的，类似的就不说了啊。
-. F5：运行代码。Ctrl+F5：运行当前文件代码
+支持各种语言的开发,但需要对应的插件来支持,所以会有一定缺陷。打开vscode点击第四个图标(方形)，安装python在点右边的安装.
+<i class="violet">(开始运行程序时编辑器会先代码进行从上到下的扫描存储好变量名,函数名,确定指针、执行上下文等操作,在这个期间debugger调是处于右三角形形态,如果这部分的操作没问题的话会变成双竖杆形状开始执行语句,如果一直是处于右三角形态的话可能是某些语句写法错误,但编译器不会提示,建议用其它编辑器运行以下可能会出提示;如果一直是双竖杆形态的话多半是其中需要的计算比较多或者设计到下载之类的。)</i>
+**快捷键**: 参考地址:https://www.cnblogs.com/pleiades/p/8146658.html
+首先是F1/Ctrl+Shit+P万能键。Ctrl+P：文件切换。Ctrl+空格：自动提示。F12/Ctrl+左键：跳转到定义。Shift+F12：预览定义。Ctrl+G：跳转行号。Ctrl+/：注释切换
+Alt+↑↓：整行上下移动。Ctrl+↑↓：编辑器垂直滚动条上下移动，光标不动。Ctrl+Backspace/Delete：整词/连续空白删除。Ctrl+→←：光标整词移动
+Ctrl+F查找/Ctrl+Shift+F在文件中查找，这都属于通用的。F5：运行代码。Ctrl+F5：运行当前文件代码
 **格式化代码插件**：一般前端项目使用。eslint和vture。eslint规定的缩进和vscode使用的缩进不一致时，在项目的.eslintrc.js中的rules下添加：`"indent":['error',2]`，vscode右下角space也改为2。[插件中格式化规则设置。](https://www.cnblogs.com/benbentu/p/9661998.html)
 <i class="label1">部分插件配置</i>vscode上一款不错的颜色主题：搜索Code Blue点击install右界面点击Reload使用
  vscode下载项输入框搜索Live Serve点击下载安装后右界面点击Reload to Active 后在html文件页面点击最下方(软件脚部)的Go Live(也可能是@go live)会在浏览器打开页面此时浏览器地址栏就变成了ip地址而不是本地路径地址，(使用默认浏览器时有效)。
-Powern Model插件：在选择颜色主题栏最下方选择安装其它主题，下载Power Model插件然后在左下角点击设置打开 user settings文件或按F1输入user settings，界面右半部分大括号中加上"powermode.enabled":true,就能使用该插件了,"powermode.enableShake":false//桌面是否震动
+**Powern Model插件**：在选择颜色主题栏最下方选择安装其它主题，下载Power Model插件然后在左下角点击设置打开 user settings文件或按F1输入user settings，界面右半部分大括号中加上"powermode.enabled":true,就能使用该插件了,"powermode.enableShake":false//桌面是否震动
 ，"powermode.presets":"particles"/"fireworks"/"magic"/"flames"/样式。
 (配置的文件是json文件一定要用双引号)然后点击Reload to Active载入即可使用。
-vscode-icons:颜色主题安装列表中安装vscode-icoons，点击Reload to Active然后按F1输入
-icon在弹出的列表中点击激活vscode icons即可使用该插件。
+**vscode-icons**：颜色主题安装列表中安装vscode-icoons，点击Reload to Active然后按F1输入icon在弹出的列表中点击激活vscode icons即可使用该插件。
 [同时选中多个相同的字符]ctrl+shift+L选中该页中所有相同的字符。ctrl+D选择下一个相同的字符
-[代码格式化]先安装yapf库，pip install yapf 然后在cscode设置搜索框中搜python.formatting.provider
-右边下拉框中选择yapf。设置好后选中要整理的代码块，右键点format selection整理，但对缩进无效
-空格只有半字符长问题：设置>搜索框输入font，FontFamily项输入'monospace'
+**python代码格式化**：先安装yapf库，pip install yapf 然后在cscode设置搜索框中搜python.formatting.provider右边下拉框中选择yapf。设置好后选中要整理的代码块，右键点format selection整理，但对缩进无效。空格只有半字符长问题：设置>搜索框输入font，FontFamily项输入'monospace'
+**prettier格式化**：主要web代码时使用，部分配置如下（setting.js）：其它详细的可以搜索prettier设置。
+```json
+{
+    "editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true //保存时按eslint设置格式化。
+	},
+	"eslint.alwaysShowStatus": true,
+	"eslint.nodePath": "",
+	"eslint.onIgnoredFiles": "warn",
+	"prettier.useTabs": true,
+	"editor.tabSize": 2, //制表符符号eslint
+	"editor.formatOnSave": true, //每次保存自动格式化
+	"prettier.eslintIntegration": true, //让prettier使用eslint的代码格式进行校验
+	// "prettier.semi": true, //去掉代码结尾的分号
+	"prettier.singleQuote": false, //使用单引号替代双引号
+	"javascript.format.insertSpaceBeforeFunctionParenthesis": true, //让函数(名)和后面的括号之间加个空格
+     //格式化.vue中html
+	"vetur.format.defaultFormatterOptions": {
+		"js-beautify-html": {
+			//"wrap_attributes": "force-aligned" //属性强制折行对齐
+			"wrap_attributes": "auto"
+		},
+		"prettier": {
+			"semi": true,
+			"singleQuote": true
+		},
+		"vscode-typescript": {
+			"semi": false,
+			"singleQuote": true
+		}
+	}
+}
+```
 <i class="label1">修改python环境：</i>设置中搜索python.python path将框内的路径修改为自己想要的(worker pace和user项都修改)，如果不成功则参考35中的注意事项。
 <i class="label1">控制台打印中文乱码问题</i>点击左侧工具栏第四个按钮，左上角点击生成launch.json文件，选择python环境，然后在生成的文件中以下位置填入：
 ```
