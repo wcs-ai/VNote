@@ -578,6 +578,7 @@ def timer(n):
         time.sleep(n)# sleep()是阻塞式的，期间不能做其它操作。
 timer(5)# 每5秒执行一次
 
+#--------- 另一种方法，sched实现一个通用事件调度器。
 import sched
 
 # 初始化sched模块的 scheduler 类
@@ -589,7 +590,7 @@ def printTime(inc):
     schedule.enter(inc, 0, printTime, (inc,))
 # 默认参数60s
 def main(inc=60):
-    # enter四个参数分别为：间隔事件、优先级（用于同时间到达的两个事件同时执行时定序）、被调用触发的函数，
+    # enter四个参数分别为：间隔时间、优先级（用于同时间到达的两个事件同时执行时定序）、被调用触发的函数，
     # 给该触发函数的参数（tuple形式）
     schedule.enter(0, 0, printTime, (inc,))
     schedule.run()
@@ -1267,14 +1268,14 @@ with open('data/train.txt','w') as data_a,\
 ```
 ##### a4、sys模块
 [一个详解教程](https://www.cnblogs.com/fmgao-technology/p/9074282.html)
-```
+```python
 import sys
 print(sys.maxunicode)#查看python内部使用的编码，1114111就是UCS-4编码，65535就是UCS-2
 sys.path.append("/home/wcs/ITEM") #改变但前文件的运行位置，但是os.getcwd()不会改变。
 ```
 ##### a5、codecs模块
 python的内部是使用unicode来处理的，但是unicode的使用需要考虑的是它的编码格式有两种，一是UCS-2，它一共有65536个码 位，另一种是UCS-4，它有2147483648g个码位。对于这两种格式，python都是支持的。import codecs
-```
+```python
 look1 = codecs.lookup('gb2312')#创建编码器，传入类型。
 a = look1.encode('中文')#对str类型编码
 b = look1.decode(a)#对bytes类型解码
@@ -1282,22 +1283,32 @@ b = look1.decode(a)#对bytes类型解码
 file = codecs.open('data/words.txt','r','gb2312')
 print(file.read())
 ```
-##### a6、yield的使用
+##### a6、迭代器与生成器
 举例，如果我们想要自己实现一个和range()函数一样功能的函数可能会使用循环来生成一个列表然后返回该列表来实现，但当要生产的列表非常长时这会非常占用内存，更有效的解决办法是让其变成一个迭代对象(一种惰性获取数据项的方式：可理解为先记录要生产的列表长度，然后在使用其值时才会去生成对应的那个值，这样就解决了占用内存的问题)，所以在用print()打印出来时，列表直接时一串值，而迭代对像是一个(iterable(i=10))之类的信息。python中使用yield实现：
-```
+```python
+#------迭代器
+ak = [1,2,3]
+bn = iter(ak) # 将ak作为迭代对象。
+
+#-----生成器
 def self_range(x):
     i = 0
     while i<x:
         yield i
         i += 1
-#在赋值给一个变量时不会运行，获取所有迭代值后才运行这里        
-    print('err')    
-for n in self_range(5):
-    print(n)#0,1,2,3,4 
+    #在赋值给一个变量时不会运行，获取所有迭代值后才运行这里        
+    print('err')
+
+yd = self_range(5)
+for n in yd:
+    print(n)#0,1,2,3,4
+
+#----读取
+item = next(bn) #next(yd)，iter和yield作用的迭代器都可用循环和next()函数一条条读取。
 ```
 #注意：如果将该迭代赋值给一个变量则智能执行一个完整迭代(迭代完后失效)
 ##### a7、装饰器@
-```
+```python
 def log(func):#会先运行log函数再运行test函数
     print('enter log')
     func()
@@ -1310,7 +1321,7 @@ def test():
 ```
 test()#若不运行test函数也不会运行log函数 
 类中使用的@property：
-```
+```python
 class animale(object):
     @property#为避免类中的公共变量被随意修改，使用@property和函数
     def weight(self):#配合才能修改，确保一定安全
@@ -1326,7 +1337,7 @@ dog.weight = 15#其实改变的是aw的值。若是改变一个列表or字典的
 #改为dog.list=('a',12);修饰符内:self._val[arg[0]]=arg[1]形式     
 ```
 ##### a8、json与python字典互转
-```
+```python
 import json
 dat = open("dat.json","r")
 dat = dat.read()#获取json文件中的数据
@@ -1343,7 +1354,7 @@ class DecimalEncoder(json.JSONEncoder):#似乎无效，以后研究
 ```
 ##### a9、piclke模块的使用
 pickle类似于json的使用，pickle也是用于序列化的模块，不过pickle用于python特有的类型和python数据类型间进行转换。
-```
+```python
 import pickle
 obj = ['a','b',1]
 with open('k.txt','wb') as file:
@@ -1356,7 +1367,7 @@ with open('k.txt','wb') as file:
 
 ##### b1、杂项：
 **math模块**：
-```
+```python
 import math
 x = math.floor(2.3)#2 下舍
 x = math.ceil(2.3)#3 上舍
@@ -1365,13 +1376,13 @@ x = math.ceil(2.3)#3 上舍
 **callable()函数**：判断一个对象是否是可调用()函数。if callable(fun):#若fun是一个函数的话则返回True
 [argparse模块]https://www.cnblogs.com/dengtou/p/8413609.html
 [tqdm]tqdm模块可以在循环体中显示进度。(非python自带模块，需要pip install tqdm)
-```
+```python
 from tqdm import tqdm
 for i in tqdm(range(1314520)):#套在一个迭代器外使用即可
     print('zz')
 ```
 [Decode error - output not utf-8]**错误解决**：python默认使用的编码方式一般是cp936而文件一般使用的编码是utf-8，在运行中解析非英文型字符时就会报这种错误，一些编辑器对此问题做了处理所以不会报错，而一些编辑器未做处理时就有这样的错误，解决如下：
-```
+```python
 import sys,io
 sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 ```
@@ -1380,7 +1391,7 @@ sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 **PIL模块**：https://www.cnblogs.com/moying-wq/p/10982135.html
 **any() 函数**：用于判断给定的可迭代参数 iterable 是否全部为 False，则返回 False，如果有一个为 True，则返回 True。元素除了是 0、空、FALSE 外都算 TRUE。
 ##### b2、random模块
-```
+```python
 import random
 a = random.random()#随机生成一个在0-1之间的数
 b = random.uniform(1,10)#随机生成指定范围内的浮点数
@@ -1392,7 +1403,7 @@ g = random.sample(lst,3)#向lst中随机选取3个数
 ```
 ##### b3、python正则
 在匹配函数后加.span()获得索引值，加group()获得匹配结果
-```
+```python
 import re
 #compile()创建一个正则模式,参数为正则规则,第二个参数为匹配模式，
 #re.l表示忽略大小写,re.M(多行模式),re.X(忽略空格和#后面的注释)
@@ -1425,7 +1436,7 @@ if a==None:
 https://blog.csdn.net/qq_38542085/article/details/78562458
 ##### b5、数据类型判断
 使用type(data)来获取数据的类型，使用isinstance(data,cla)判断是哪一类型：
-```
+```python
 v = (1,2,3,4,5)
 if isinstance(v,tuple):print('is tuple')
 if isinstance(v,list):print('is list')
@@ -1439,7 +1450,7 @@ if(type(v)==tuple):
 Python中使用del进行垃圾回收，将不用的对象销毁。
 数据类型转换：`int("6",32)`#字符串转整型。`float(3);float('5.5')`#转浮点型。`str(4)`#转串。
 ##### b6、requests模块的使用：
-```
+```python
 import requests
 url = 'http://localhost:8080'
 r = requests.get(url)#get(),post()对应请求的方式，其它请求方式也类似这样使用。如：put(),delete(),head()...
@@ -1451,30 +1462,30 @@ print(r1.text,r1.json,r1.content)#text是网页结构内容，json是解析后�
 [requests模块的使用。](https://blog.csdn.net/lmz_lmz/article/details/83864863)
 ##### b7、python的深浅拷贝：
 浅拷贝：数据完全共享
-```
+```python
 a = [1,2,3]
 b = a#改变b的值也会改变a的值，字典也是如此
 ```
 浅拷贝：数据半共享
-```
+```python
 # 其它的python数据结构都有copy()功能。
 a = [[2,3,4],[5,6,7],7,8,9]
 b = a.copy()#内部多层子数组是共享的，第一层的7,8,9是不共享的。
 ```
 深拷贝：完全不共享
-```
+```python
 import copy
 a = [1,[2,3,4]]
 b = copy.deepcopy(a)
 ```
 ##### b8、实现排列组合：
-```
+```python
 import itertools
 print(list(itertools.combinations([1,2,3,4],2)))#组合，无顺序限制
 list(itertools.permutations([1,2,3,4],2))#排列
 ```
 嵌套函数修改其主函数的变量：
-```
+```python
 def a():
     mm = 1
     def b():
@@ -1484,7 +1495,7 @@ def a():
     b()
 ```
 ##### b9、异常检测：
-```
+```python
 try:
     prt('vv')
 except IndexError as e:
@@ -1498,18 +1509,19 @@ finally:    #无论上面是进入了try还是进入了except,最后都会再执
     print('不管被检测的代码块有没有发生异常都会执行')
 
 ```
-##### c1、PEP:
+**PEP**:
 PEP的全称是Python Enhancement Proposals，其中Enhancement是增强改进的意思，Proposals则可译为提案或建议书，比较常见的翻译是Python增强提案或Python改进建议书。
 [pep提案地址](https://www.python.org/dev/peps/pep-0020/%20)   。[pep简介地址，需看。](https://www.cnblogs.com/abella/p/10056875.html)
-##### c2、help()和dir():
+**help()和dir()**:
 dir()用来查询一个类或者对象所有属性，比如：
 help()帮助查看类型详细信息，包含类的创建方式、属性、方法
-```
+```python
 help(pandas)
 dir(list)
 ```
-##### c3、operator模块：
+**operator模块**：
 operator模块是一些实现和python自带的计算方法，如加、减、异或运算、包含等操作，不过该模块使用c语言实现的，运算速度比python快。[参考学习地址。](https://www.cnblogs.com/who-care/p/9839058.html)
+**打包为exe文件**：pip install pyinstaller。对要打包的文件进行：pyinstaller -F target.py#对应目录下出现一个dist目录，里面有编译装载链接后的文件。
 #### 28、交叉熵与相对熵(kl散度)：[熵的本质是香农信息量log1/p] 
 信息熵：生活中描述信息的多少是很难用一个数字来衡量的，之后香农用信息熵概念来度量信息的量，信息熵代表整个系统的不确定性，熵越大不确定性就越大；需要引入交叉熵消除这个不确定性。交叉熵是信息论中的一个重要理论，主要用于度量两个概率分布间的差异性信息。
 定义：一个概率分布中`pi*log(2,pi)就称为pi的信息熵`#pi是第i项对应的概率值。假设这个pi是真实分布(这个pi是个概率值，不是不是样本出现的次数)，而预测中我们得到的是qi那么-qi*log(1/pi)就称为交叉熵；真实分布的信息熵与非真实分布的信息熵之差就称为相对熵([Kullback–Leibler divergence])：
@@ -1942,8 +1954,8 @@ Ctrl+F查找/Ctrl+Shift+F在文件中查找，这都属于通用的。F5：运�
 **vscode-icons**：颜色主题安装列表中安装vscode-icoons，点击Reload to Active然后按F1输入icon在弹出的列表中点击激活vscode icons即可使用该插件。
 [同时选中多个相同的字符]ctrl+shift+L选中该页中所有相同的字符。ctrl+D选择下一个相同的字符
 **python代码格式化**：先安装yapf库，pip install yapf 然后在cscode设置搜索框中搜python.formatting.provider右边下拉框中选择yapf。设置好后选中要整理的代码块，右键点format selection整理，但对缩进无效。空格只有半字符长问题：设置>搜索框输入font，FontFamily项输入'monospace'
-**prettier格式化**：主要web代码时使用，部分配置如下（setting.js）：其它详细的可以搜索prettier设置。
-```json
+**prettier格式化**：主要web代码时使用，部分配置如下（setting.js）：其它详细的可以搜索prettier设置。[prettier相关设置。](https://blog.csdn.net/hbiao68/article/details/107176795/)
+```js
 {
     "editor.codeActionsOnSave": {
 		"source.fixAll.eslint": true //保存时按eslint设置格式化。
@@ -1965,12 +1977,12 @@ Ctrl+F查找/Ctrl+Shift+F在文件中查找，这都属于通用的。F5：运�
 			"wrap_attributes": "auto"
 		},
 		"prettier": {
-			"semi": true,
-			"singleQuote": true
+			"semi": true,// 结尾使用分号。    ！！！这里的优先级更高。
+			"singleQuote": false    //关闭单引号代替双引号。
 		},
 		"vscode-typescript": {
 			"semi": false,
-			"singleQuote": true
+			"singleQuote": false
 		}
 	}
 }
@@ -2025,7 +2037,8 @@ Ctrl + F(当前文件查找 )。Ctrl + R(当前文件替换)。Ctrl + Shift + F(
 Ctrl + Shift + R(全局替换)。
 隐藏左边的文件栏：shift+esc       。 打开左侧项目目录：ALT+1
 Shift + F10#运行。Shift + F9#调试。Alt + Shift + F10  运行模式配置。Alt + Shift + F9   调试模式配置
-Alt+j#同时选择相同字符串的下一个。Ctrl+Alt+shift+j#选中当前文件所有相同字符串。
+同时选择相同字符串的下一个：Alt+j。
+选中当前文件所有相同字符串：Ctrl+Alt+shift+j。
 [linux上安装pycharm。](https://blog.csdn.net/xiaoxiaofengsun/article/details/82257391)
 使用Anaconda环境：setting>project:name>Project interpreter下拉框中选择运行的环境，添加新的运行环境：下拉框点show all后点击+号>选第二个单选文件夹中选择Anaconda安装目录>envs>wcs>python.exe(envs是自己在anaconda创建的所有环境,wcs是自己创建的一个环境,每个环境下都有一个python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括sublim中切换环境也是切换python.exe的位置。
 ##### (4)、jupyter:
@@ -4059,9 +4072,9 @@ A的信息增益:InformationGain(IG) = 目标熵 - A的熵 = 1-0.937745 = 0.0622
 **基尼指数**：(基尼系数是经济学中产生的概念，起初用于衡量地区的贫富差距，值位于0-1之间，值越小说明差距越小，警戒点为0.4)。现在决策树算法中用于表示随机变量不确定性的程度，随机选择元素被错误识别的频率的度量标准，所以优先选择gini指数较低的。使用上述数据为例：
 var A的基尼指数：依然以>=5作为分割点
 A>=5 && result==positive:5/12		A>=5&&result==negative:7/12
->>`gini(5,7)=1-((5/12)^2+(7/12)^2)=0.4860`#注：原**公式**为`∑pk(1-pk)=1-∑pk^2`#pk表示属于第k个类的概率。
+`gini(5,7)=1-((5/12)^2+(7/12)^2)=0.4860`#注：原**公式**为`∑pk(1-pk)=1-∑pk^2`#pk表示属于第k个类的概率。
 A<5&&result==positive:3/4			A<5&&result==negative:1/4
->>gini(3,1) = `1-((3/4)^2+(1/4)^2)`=0.375>>gini(Target,A)=`(12/16)*(0.48)+(4/16)*0.375`=0.45825
+gini(3,1) = `1-((3/4)^2+(1/4)^2)`=0.375>>gini(Target,A)=`(12/16)*(0.48)+(4/16)*0.375`=0.45825
 ...依次计算出其它特征的基尼系数。再以低到高放置节点构建决策树。
 过拟合：构建决策树模型时，过拟合是一个实际问题。当算法越来越深入以减少训练集误差	时，测试集误差却会增加，我们的模型的预测精度会下降。它通常发生于由于异常值和数据不规则而	构建多个分支的时候。使用预修剪和后修剪避免过拟合。
 <i class="label1">c4.5算法</i>：是用于生成决策树的一种经典算法，是ID3算法的一种延伸和优化，如下：通过信息增益率选择分裂属性，克服了ID3算法中通过信息增益选择的不足；<i class="blue">属性信息增益率=属性信息增益/属性的信息熵</i>。<i class="green">能处理离散型和连续型的属性类型，连续型数据会被离散化处理；构造决策树后会进行剪枝操作避免过拟合；能处理有缺失属性值的训练数据。</i>

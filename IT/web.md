@@ -272,7 +272,7 @@ BFC的创建方法：根元素或其它包含它的元素；浮动 (元素的flo
 
 四、请求处理：axios
 五、包管理工具：npm、[yarn](https://blog.csdn.net/moshowgame/article/details/103358313)。
-六、检查代码规范的eslint（可编写规则，vscode使用设置eslint相应设置进行规范化）。[eslint配置大全。](https://blog.csdn.net/p358278505/article/details/77429251)
+六、检查代码规范的eslint（可编写规则，vscode使用设置eslint相应设置进行规范化）。
 七、服务端渲染框架：与react结合的next.js，与vue结合的Nuxt.js。
 #### 18、web端性能优化：
 先列出一些方法：懒加载、字体图标、图片适当压缩、需要时才加载、vue中用keep-alive缓存加载过的组件、组件项用动态导入组件：Load:import('../component/test')。
@@ -419,10 +419,22 @@ css所有选择器：http://www.w3school.com.cn/cssref/css_selectors.asp
 [dat~=src],[dat|=src]中要求这个属性中的值是以空格分割开的).
 display：none将元素归为无(不占位置但其中内容任会解析)。
 #### 5、尺寸单位：
-em单位是根据当前元素字体大小而变化的,列入当前元素font-size:14px;
-width:10em,此时width为140px(每1em为字体大小)，而rem是继承根部元素(html)的
-字体大小的,例:html{font-size:16px;}.div{width:10rem;}//width为160px；vw视
-窗宽度,1vm相对于视窗宽度的1%,vh:视窗高度;vmin,vmax:vw和vh中选择最小/最大那个。
+- **em**：是根据当前元素字体大小而变化的,列入当前元素font-size:14px;width:10em,此时width为140px(每1em为字体大小)。
+- **rem**：是继承根部元素(html)的字体大小的,例:html{font-size:16px;}.div{width:10rem;}//width为160px。用以下代码修改根元素大小。
+```js
+(function(win, doc) {
+    var W = win.innerWidth;
+    var UIW = 750;
+    var RATIO = 100; // 1rem = 100px
+
+    if (W < 1000) {
+         doc.documentElement.style.fontSize = W / (UIW / RATIO) + "px";
+    }
+})(window, document)
+```
+- **vw**：视窗宽度,1vm相对于视窗宽度的1%。
+- **vh**：视窗高度。
+- vmin和vmax：vw和vh中选择最小/最大那个。
 #### 6、引入外部文件夹中的字体：
 [字体图标的使用]若是使用阿里图标库的话,头部link引入资源,元素中写上类名
 iconfont,元素内容中写上对应的unicode编码。下载到本地使用的话引入下载的
@@ -623,9 +635,9 @@ forEach()//forEach()方法调用数组的每一个数传递给回调函数。
 
 #### 2、转码：
 ```js
-encodeURI('汉字');
-decodeURI();
-//url传参汉字时可以先encodeURI()对中文编码再用decodeURI()转码
+encodeURI('汉字');//url传参汉字时可以先encodeURI()对中文编码,浏览器会自动解码
+decodeURI();// 再用decodeURI()转码，对汉字解码则不变。
+
 escape()与unescape()://将url地址作为参数传参时可用
 document.write(escape("Visit W3School!"))// Visit%20W3School%21
 // escape()方法对输入内容进行编码转为机械码能让所有机型识别
@@ -732,34 +744,39 @@ el.childNodes[0].nodeName;//节点名,为间隙或文字则为#text为元素则�
 var width = window.innerWidth;
 var height = window.innerHeight;
 // 点击调用摄像头
-    function get(){
-        var but = document.getElementById("but");
-        // obj传到getUserMedia()方法中
-        var obj = {
-            // 设置视图大小，允许录制音频
-            video:{width:width, height:height},
-            audio:true
-            }
-        // 兼容性处理
-        let photp = navigator.mediaDevices.getUserMedia(obj) ||
-                    navigator.webkitGetUserMedia(obj) ||
-                    navigator.mozGetUserMedia(obj) ||
-                   navigator.msGetUserMedia(obj);
-       // 会先获取权限(用户控制)，调用成功的话则运行then()方法
-       photo.then(function(MediaStream){
-           but.srcObject = MediaStream;//图像显示到but元素中
-           but.play();// 显示
-       });
-       // 调用失败则运行catch()方法
-       photo.catch(function(){alert("调用摄像头失败")});
-    }
-// 点击拍照
-    function show(){
-        var canvas = document.getElementById("canvas");
-        var ctx.canvas.getContext("2d");
-        // 上面获取到的but是RGB数组对象。
-        ctx.drawImage(but,0,0,width,height);
-    }
+function get() {
+    var but = document.getElementById("but");
+    // obj传到getUserMedia()方法中
+    var obj = {
+         // 设置视图大小，允许录制音频
+                    video: {
+                        width: width,
+                        height: height
+                    },
+                    audio: true
+                }
+                // 兼容性处理
+            let photo = navigator.mediaDevices.getUserMedia(obj) ||
+                navigator.webkitGetUserMedia(obj) ||
+                navigator.mozGetUserMedia(obj) ||
+                navigator.msGetUserMedia(obj);
+            // 会先获取权限(用户控制)，调用成功的话则运行then()方法
+            photo.then(function(MediaStream) {
+                but.srcObject = MediaStream; //图像显示到but元素中
+                but.play(); // 显示
+            });
+            // 调用失败则运行catch()方法
+            photo.catch(function() {
+                alert("调用摄像头失败")
+            });
+        }
+        // 点击拍照
+        function show() {
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            // 上面获取到的but是RGB数组对象。
+            ctx.drawImage(but, 0, 0, width, height);
+        }
 </script>
 ```
 https://www.zcfy.cc/article/choosing-cameras-in-javascript-with-the-mediadevices-api
@@ -1002,7 +1019,51 @@ console.log(window.opener.a);//window.opener会将前一个页面的所有对象
 //一个对象的形式，b页面可以使用，但对用户体验不好。
 
 ```
-#### 20、requestAnimationFrame()//动画制作专用
+#### 20、判断各种环境
+```js
+var browser = {
+    versions: function() {
+        var u = navigator.userAgent,
+            app = navigator.appVersion;
+        return { //移动终端浏览器版本信息
+            trident: u.indexOf('Trident') > -1, //IE内核
+            presto: u.indexOf('Presto') > -1, //opera内核
+            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') === -1, //火狐内核
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+            iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+            iPad: u.indexOf('iPad') > -1, //是否iPad
+            webApp: u.indexOf('Safari') === -1 //是否web应该程序，没有头部与底部
+        };
+    }(),
+    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+};
+console.info(browser);
+
+if (browser.versions.mobile) { //判断是否是移动设备打开。browser代码在下面
+    var ua = navigator.userAgent.toLowerCase(); //获取判断用的对象
+    if (ua.match(/MicroMessenger/i) === "micromessenger") {
+        //在微信中打开
+    }
+    if (ua.match(/WeiBo/i) === "weibo") {
+        //在新浪微博客户端打开
+    }
+    if (ua.match(/QQ/i) === "qq") {
+        //在QQ空间打开
+    }
+    if (browser.versions.ios) {
+        //是否在IOS浏览器打开
+    }
+    if (browser.versions.android) {
+        //是否在安卓浏览器打开
+    }
+} else {
+    //否则就是PC浏览器打开
+}
+```
+动画函数：
 ```js
 function play(){
 console.log(a);
@@ -1247,12 +1308,17 @@ event.cancelBubble = true;
   event.target.innerHTML//获取事件触发的元内容
 e.currentTarget//指的是真正触发事件的那个元素;e.target：触发事件元素的父级元素。
 ```
-#### 27、面向对象：
-封装：将一些js语句写到一个方法里面，只留下一些特定的借口供外部访问。
-继承：每个函数中都有一个prototype属性，而这个prototype属性被称为函数 的原型，原型中的所有方法都是可以被外部继承的，而函数方法内（原型外 部）的对象是该函数的私有对象，不能被继承。继承的方法可以使用new 关 键字继承，继承的那个变量就变成了一个对象（是对象而不是函数），继承 之后我们可以使用el[‘name’]=’pro’的方法向其中添加新的属性名属 性值，在原型方法中也可以继承自己的父函数中的原型，这样就可以实现重 复循环的自调用了；也 可以使用call(),applay()方法来继承。
+#### 27、js原型：
+**执行上下文，链式作用域**：
+执行上下文有且只有三类，全局执行上下文，函数上下文，与eval上下文。在执行代码前，浏览器会先扫描代码生成执行的上下文，按照上下情况决定先执行的代码，如声明变量、数据类型计算，遇到函数的时候，因为函数内部是一个块的代码，这时候就是构建一个函数的执行上下文。<i class="green">函数在调用时，会被全局执行上下文决定其执行的顺序。而一系列函数相互调用的情况下就形成了一个链式作用域。这些上下文的执行是放到一个栈(后进先出)空间中进行的。</i>
+**封装**：将一些js语句写到一个方法里面，只留下一些特定的借口供外部访问。
+**继承**：每个函数中都有一个prototype属性，而这个prototype属性被称为函数 的原型，原型中的所有方法都是可以被外部继承的，而函数方法内（原型外 部）的对象是该函数的私有对象，不能被继承。继承的方法可以使用new 关 键字继承，继承的那个变量就变成了一个对象（是对象而不是函数），继承 之后我们可以使用el[‘name’]=’pro’的方法向其中添加新的属性名属 性值，在原型方法中也可以继承自己的父函数中的原型，这样就可以实现重 复循环的自调用了；也 可以使用call(),applay()方法来继承。
 多态：传入不同的参数或者配合不同的函数使用可以得到不同的结果。
 注:继承是一个类似复制的过程，原类中关于:类名.prototype.function()的含有原类名的语句都会被新的类所能使用，这似乎是一个指针指向该方法;将一个方法的变量名放到一个对象中当参数传到另一个函数中也可以使用这种方式调用：`info['func']();`
-若用于继承的变量与原类放在同一级情况下需要将运行类中的语句写在原类后，但若是继承的变量比原类级别低(继承语句及执行类中方法的语句写在一个函数内)可以运行
+若用于继承的变量与原类放在同一级情况下需要将运行类中的语句写在原类后，但若是继承的变量比原类级别低(继承语句及执行类中方法的语句写在一个函数内)可以运行。
+
+- 网页端js开发在相当一段时间bai，由于浏览器的js解释引擎性能并不高，而且网络带宽也比较小，因此绝大多数站点的代码规模并不大，主要针对页面duzhi一些简单交互逻辑，在此前提下，浏览器厂商以及工业界都没有强大的动力去实现面向对象版本的js。
+- 考虑到到网页环境的特殊性，使用原型继承而不是类继承的方式，更节约bai存空间，而且解释器的实现更为简单。
 ```js
 function a(){}
 a.prototype = {b:function(){console.log('errror');}}
@@ -1294,8 +1360,17 @@ v = a();
 v();// 1
 /*当然如果，用到的时候往往不知是得到函数内部的值这么简单，而是还有其它复杂逻辑。*/
 ```
-#### 29、执行上下文、链式作用域：
-执行上下文有且只有三类，全局执行上下文，函数上下文，与eval上下文。在执行代码前，浏览器会先扫描代码生成执行的上下文，按照上下情况决定先执行的代码，如声明变量、数据类型计算，遇到函数的时候，因为函数内部是一个块的代码，这时候就是构建一个函数的执行上下文。<i class="green">函数在调用时，会被全局执行上下文决定其执行的顺序。而一系列函数相互调用的情况下就形成了一个链式作用域。这些上下文的执行是放到一个栈(后进先出)空间中进行的。</i>
+#### 29、监听页面刷新与离开：
+- onunload：IE6，IE7，IE8 中 刷新页面、关闭浏览器之后、页面跳转之后都会执行；IE9 刷新页面 会执行，页面跳转、关闭浏览器不能执行；firefox(包括firefox3.6) 关闭标签之后、页面跳转之后、刷新页面之后能执行，但关闭浏览器不能执行；Safari 刷新页面、页面跳转之后会执行，但关闭浏览器不能执行；Opera、Chrome 任何情况都不执行。
+- onbeforeunload：IE、Chrome、Safari 完美支持。Firefox 不支持文字提醒信息。**Opera 不支持**。
+```js
+// 刷新时调用。
+window.onbeforeunload = function(event) {
+    window.localStorage.removeItem('token');
+    //event.returnValue = "我在这写点东西...";
+    //return '提示信息';
+};
+```
 #### 31、call()和apply()的使用：
 apply和call的作用是回调，es6之前很多回调都是使用它们；**Function.apply(obj,args)方法能接收两个参数**obj：这个对象将代替Function类里this对象。args：这个是数组，它将作为参数传给Function（args-->arguments。call:和apply的意思一样,只不过是参数列表不一样。
 ```js
@@ -1377,7 +1452,6 @@ doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 **各种场景的令**：
 git merge --abort //**合并过程中的撤销**合并
 git reset --hard HEAD^ //**回退到前一个版本** ^^回退两个  ~100回退多个
-https://baijiahao.baidu.com/s?id=1609673670814569258&wfr=spider&for=pc
 git pull  //从远程更新代码到本地
 git remote //查看远程信息
 git remote -v //查看远程库信息
@@ -1390,13 +1464,14 @@ git push origin second //将本地分支推送到远程，远程也创建这个�
 - 切换分支：git checkout master  
 - 查看文件状态：git status
 - 查看具体改动：git diff    (红色是改动前，绿色是改动后)
-- 查看关联情况：git -vv
+- 删除本地分支：git branch -D second
+- **本地与远程分支关联情况**：git branch -vv
 - git merge WCS    //合并WCS分支到当前分支，再git push origin master//更新，
 
 合并情况若**合并发生冲突**的话会提示冲突的文件，找到该文件并处理标记了冲突的地方然后
 git add filename 然后git commit -m 'merge'即可
 git checkout -b origin/second //拉取second分支下的代码到本地
-git branch -D second //删除本地分支second
+
 git branch -a //查看所有分支
 git push origin --delete yc //删除远程分支
 <i class="label3">.gitignore文件忽略设置(任何时候更改忽略文件都会有效)从主目录开始算路径。</i>
@@ -1722,7 +1797,14 @@ rl.on('close', function() {
 ##### a1、vuejs运行流程:
 分文这几个阶段：初始化阶段(这个阶段主要是把普通对象转化为响应式对象)、编译阶段(编译阶段会把options.template编译成render函数，解析template中的数据，事件绑定等)、挂载阶段(这个阶段会执行render函数以获取vnode。然后模板引擎根据vnode去生成真实DOM)、监听阶段(挂载阶段之后，模板引擎已经渲染好网页，这时就进入了监听阶段。patch函数还会对比新旧vnode，并计算出更新DOM需要的操作。最后由框架更新到网页上)、注销阶段(注销过程会先触发beforeDestroy，然后注销掉watchers、child components、event listeners等，之后是destroyed钩子函数)。[具体介绍学习地址。](https://blog.csdn.net/weixin_34023863/article/details/87945630)
 **vue生命周期**：生命周期函数运行顺序如下：[生命周期解释。](https://www.cnblogs.com/wzndkj/p/9612647.html)
-beforeCreate->created->beforeMount->beforeCreate->created->beforeMount->beforeCreate->created->beforeMount->mounted->mounted->mounted
+- **beforeCreate**：new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建。<i class="gray">data和methods中的数据都还没有初始化。因此不能在此调用methods的方法和data的数据。</i>
+- created：data 和 methods都已经被初始化好了。
+- beforeMount：在内存中已经编译好了模板了，但是还没有挂载到页面中。
+- mounted：Vue实例已经初始化完成了。进入运行阶段，页面渲染完成，可在此进行操作dom。
+- beforeUpdate：页面中的显示的数据还是旧的，data中的数据是更新后的， 页面还没有和最新的数据保持同步。
+- updated：页面显示的数据和data中的数据已经保持同步了，都是最新的。
+- beforeDestory：进入到了销毁阶段，这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于可用状态。还没有真正被销毁。
+- destroyed(组件已经被销毁)。
 <i class="label1">使用vue-cli来初始化一个vue项目</i>
 :::alert-info
 **vue-cli**：是一个构建项目的工具，一个平台，也是一个npm包。它提供一套初始的项目模板，内部规定好哪些文件夹的功能。打包时使用的webpack，webpack的配置，vue-cli中也写了一些初始的配置，webpack做为项目的一个依赖而安装。其它安装的一些依赖都放在node_modules下，一些less-loader,file-loader的东西是在编译打包时运行的，其配置也作为webpack的plugin。这些工程化项目的过程中node只是作为一个让其独立运行的环境，当然这当中也使用node一些自带的功能。所以不使用vue-cli,自己定义一个目录，编写配置也是可以的，也由此有很多cli工具。**vue-cli中使用的服务时webpack的服务**。
@@ -1864,8 +1946,8 @@ props:{
       type: String,
       required: true
     },
-    propD: {// 带有默认值的数字
-      type: Number,
+    propD: {
+      type: [Number,String],//接受多个类型的写法
       default: 100
     },
     propE: {// 带有默认值的对象
@@ -1955,10 +2037,9 @@ components:{
       delay: 200,// 如果提供了超时时间且组件加载也超时了，
       // 则使用加载失败时使用的组件。默认值是：`Infinity`
       timeout: 3000 //超过该时间不再加载。毫秒
-})
+    })
 }
 ```
-安装别人的组件：npm i .....然后（无论是css，还是组件资源，写成插件的都可以用vue.use()将其变为全局可用。）
 <i class="label2">边界情况</i>官网中将以下子组件访问父组件，父组件访问子组件数据等称为边界情况。
 <i class="label3">访问根实例</i>
 ```
@@ -1987,6 +2068,57 @@ props:{},
 inject: ['getMap']
 ```
 依赖注入还是有负面影响的。它将你应用程序中的组件与它们当前的组织方式耦合起来，使重构变得更加困难。同时所提供的属性是非响应式的。这是出于设计的考虑，因为使用它们来创建一个中心化规模化的数据跟使用 $root做这件事都是不够好的。
+<i class="label3">自定义组件上使用v-model与sync修饰符</i>
+```vue
+<!--父组件-->
+<pop v-model="stateContent" :cs.sync="[1,2,3]"/><!--sync修饰的数据其子组件内可以直接更改，且父组件也会跟着变化-->
+<!--子组件-->
+<template>
+  <div class="pop">
+    <div><input :value="state" v-on:input="alt($event)" placeholder="请输入"/></div>
+  </div>
+</template>
+<script>
+export default {
+  props:{
+    state:{default:""},
+    cs:Array
+  },
+  model:{    // model中需要指定改变的props中的值和使用哪个事件改变。
+    prop:'state',
+    event:'change'
+  },
+  methods:{
+    alt(e){
+      let c = e.target.value;
+      this.cs.push('h');
+      this.$emit('change',c);    // 子组件中使用触发事件更改父组件的值，即props中的值。
+    }
+  }
+}
+</script>
+```
+<i class="label3">第三方组件库安装</i>多数组件库都支持全局注册和按需使用，两者方式稍有区别。
+全局引入：较为简单，安装后直接入口文件引入，Vue.use()使用插件，然后倒入相关样式文件，各组件内直接按语法使用即可。
+按需引入：如果支持babel中配置的可以在babel-loader的配置项中写入（入口js文件中也要导入样式文件）：
+```js
+{
+"plugins": [
+    ...
+    ["import", {    // 一些组件库是使用babel-plugin-component。
+      "libraryName": "muse-ui",    //对应node_modules下的包名
+      "libraryDirectory": "lib",// 包名下，导入的资源的所在目录。
+      "camel2DashComponentName": false
+    }]
+  ]
+}
+// 页面如下使用
+import {Button} from "muse-ui";
+...
+components:{[Button.name]:Button}//然后按照文档语法使用即可。
+```
+主题配置：同样在入口文件按照其文档配置全局的主题色、元素尺寸即可。
+
 <i class="label3">程序化的事件倾听器</i>具体用法暂未了解！
 通过 $on(eventName, eventHandler) 侦听一个事件
 通过 $once(eventName, eventHandler) 一次性侦听一个事件
@@ -2169,7 +2301,7 @@ export default new Router({
   ]
 })
 ```
-**声明式路由**：页面使用`<router-link>`跳转。
+**声明式路由**：页面使用`<router-link :to="{path:'/test',query:{}}"/>`跳转。
 **编程式路由**：如下。
 ```js
 this.$router.push('/home');
@@ -2181,6 +2313,14 @@ this.$router.go(n); //n可正可负
 this.$router.replace('/home');//与push用法一致，不过是替换当前页面。
 this.#router.back(-1);
 // *****返回上一个页面传参只能用一些特别的方法。
+
+//------****动态路由，路由配置页面如下
+{
+    path:"/book/:id",// :id为占位。必须用name跳转，
+    name:"book",
+    component:()=>import('../book')
+}
+this.$router.push({name:"book",params:{id:110}}); //页面地址变为/book/110。注意这些页面使用的是同一个页面。
 ```
 ##### b1、混入：
 混入 (mixin) 提供了一种非常灵活的方式，来分发 Vue 组件中的可复用功能。
@@ -2422,7 +2562,7 @@ pc端和手机端都下载google浏览器，手机上打开开发者选项并允
 **简介**：当项目变得很大之后再按照之前的资源引入方法会很难管理项目，不容易理清其依赖、加载顺序。webpack能自动找到所有依赖，将它们按顺序都打到一个js包中，最后引入。用Loader转换文件、plugin注入钩子。
 **模块化规范**：commonJS：需要通过转换位es5才能在浏览器环境运行。AMD：异步方法加载依赖模块，用于解决浏览器环境模块化问题。现在使用es6也有模块化(但大部分浏览器还不支持)，也需要转换为es5。
 :::
-##### a、原理：
+##### a1、原理：
 Webpack 的构建流程可以分为以下三大阶段：在每个大阶段中又会发生很多事件，Webpack 会把这些事件广播出来供给 Plugin 使用。
 - 初始化：启动构建，读取与合并配置参数，加载 Plugin，实例化 Compiler。
 - 编译：从 Entry 发出，针对每个 Module 串行调用对应的 Loader 去翻译文件内容，再找到该 Module 依赖的 Module，递归地进行编译处理。
@@ -2453,11 +2593,102 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 ```
 **require与import**：require 是赋值过程并且是运行时才执行，也就是异步加载。import 是解构过程并且是编译时执行，性能稍好。
 **配置**：[webpack详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)。[devserver属性学习地址。](https://blog.csdn.net/franktaoge/article/details/80083317)
-**webpack-dev-server参数**：--hot#热更新，修改代码后，只会替换原来块的代码，而不会整个刷新页面。--open#启动后打开浏览器。--config#指定使用的配置文件。
-##### b、vuejs配置反向代理：
+##### a2、常用loader作用：
+- vue-loader：解析vue文件。
+- css-loader：一般vue-loader解析过后结果css-loader,处理过后会把样式都变成 module 形式，然后直接导出这个模块，模块中包含了 css 的源码跟模块的 id。
+- style-loader：会引用css-loader生成的模块，然后在Html的head中加入style标签，当然也支持link引入等其它方式。
+- vue-style-loader：在style-loader上的一层封装，不过还加了一些支持服务端的渲染。
+- postcss-loader：把 CSS 解析成 JavaScript 可以操作的 AST，第二个就是调用插件来处理 AST 并得到结果。所以一般是放在css-loader之后，less-loader等之前。
+- less-loader,sass-loader,scss-loader：css的预处理使用。scss是sass的3.0版本引入的语法，去除了之前的一些严格规则，且规则与css一致。
+- style-resource-loader：向样式文件中添加全局的样式属性。
+
+```js
+//这三个loader均可以类似如下配置。
+{
+    test:/\.less$/,
+    use:[
+        'vue-style-loader',
+        { loader: 'css-loader', options: { sourceMap: true } },
+        { loader: 'postcss-loader', options: { sourceMap: true } },
+        { loader: 'less-loader', options: { sourceMap: true } }
+    ]
+},{
+    test:/\.scss$/,
+    use:[{loader:'style-resource-loader',options:{patterns:"全局样式文件路径"}}]
+}
+```
+样式写法部分注意：
+```css
+/*scoped表示该块css样式不做全局使用，编译后对应标签上会加上一个data-v-32423之类的标志，css样式会多在后面加一个
+属性选择器，与全局区分，不至于污染全局样式。
+lang指定使用的语言，不写时为普通css。*/
+<style scoped lang="less">
+.test{
+    font-size:30px;
+    /deep/.ac{color:red;}
+    /* 子组件的最外层编译后才会被加上scoped标志，而内部元素不会，若是使用了第三方组件库时，其样式
+    会被全局的覆盖，此时可以用/deep/来改变。*/
+}
+/* >>>也和/deep/一样作用，不过只有普通css中可用*/
+.k >>> .a{width:500px;}
+</style>
+```
+##### a3、常用的webpackPlugin：
+这些plugin除了webpack自带的，其它插件还是需要npm安装的。
+- **DefinePlugin**：用于配置可用的全局变量。也可以额外npm install -D dotenv然后根目录下创建.env文件编写，配置中使用require('dotenv').config()，然后一样插件中配置。
+- **HtmlWebpackPlugin**：根据原html文件配置，打包后生成一个html文件，里面可以配置一些生成明细相关。[详细参数](https://www.cnblogs.com/wonyun/p/6030090.html)。
+- **CopyWebpackPlugin**：用于将指定文件放到编译或打包后的文件中去，然后html页面可以引入使用：`<script src="<%=htmlWebpackPlugin.options.prefix %>static/jquery.min.js"></script>`。然后单页内可直接使用$()方法。
+- FriendlyErrorsPlugin：友好提示插件，允许webpack编译成功和失败后输出的信息。
+- HotModuleReplacementPlugin：热更新使用插件。
+
+```js
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+module.exports = {
+    ...
+    plugins:[
+        new webpack.DefinePlugin({'process.env':require('../config/dev.env')}) //使用dev.env文件导出的环境变量。
+        new HtmlWebpackPlugin({    //配置多页时需要使用多个该plugin。
+            title:"测试app",//网页title，相应的html文件中使用<title>{%= o.htmlWebpackPlugin.options.title %}</title>才会有效
+            filename: 'index.html',//输出后的名字
+            template: '../src/index.html', //原html路径
+            inject: true,
+            chunks:'all' //指定导入的模块，多个写法》['vendor']
+       }),
+       new CopyWebpackPlugin([{    //一个数组的形式，所以可以写成多项。
+        from: path.resolve(__dirname, '../static'),// from与to都可以是指定的文件或目录。
+        to: 'static', //编译或打包后的项目下的目录。
+        ignore: ['.*'] //可忽略匹配到的文件。
+      }])
+    ]
+}
+//###-----dev.env文件如下内容
+module.exports = {NODE_ENV:'"development"',NUM:'20'}//注意对应变量是字符串的话需要 '"字符串"',而'20'则该变量是数值。
+```
+a4、eslint及vscode一套配置：
+[eslint配置大全。](https://blog.csdn.net/p358278505/article/details/77429251)
+a5、resolve与output：
+```js
+{
+    // 只能有一个output
+    output:{
+        filename:"[name].js",//文件名，name为占位，[fullhash]为使用hash。
+        path:__dirname + '/dist',// 输出位置
+        publicPath:"/" //各个资源路径前面添加的前缀。
+    },
+    // 项目中
+    resolve:{
+        extensions:['.js','.vue','.json'],
+        alias:{'vue$':"vue/dist/vue.esm.js"}
+    }
+}
+```
+##### b、devServer部分(配置反向代理)：
 **正向代理**：代理是处于客户端和服务器中间的一台计算机，正向代理是接受客户端的链接，然后向目标服务器请求资源，逐步返回给客户端。正向代理的服务器与目标服务器不在同一网段内，面向服务器。如vpn。
 **反向代理**：面向的是客户端，对外表现为一台服务器，目标服务器放在内网，而反向代理服务器作为网关，访问内网中的服务器需要经过代理服务器，<i class="green">所以目标服务器更安全且压力变小，代理服务器还负责分发内容，缓存前端资源，因此也能优化前端性能。</i>
 vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
+**webpack-dev-server参数**：--hot#热更新，修改代码后，只会替换原来块的代码，而不会整个刷新页面。--open#启动后打开浏览器。--config#指定使用的配置文件。
 ```js
 // 一般在webpack.base.config.js文件。注意是使用0.0.0.0而不是Localhost，不然无法ipv4访问。
 const HOST = process.env.HOST || '0.0.0.0';
@@ -2478,13 +2709,15 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 				}
 			}
       },
+      // dev环境一般使用‘/’
+      publicPath:"/" //引用静态资源的公共路径。静态资源最终访问路径 = output.publicPath + 资源loader或插件等配置路径
   },
   build:{}
 }
 //     axios.get('/api/tasktime')
 ```
 node中的另一种代理是解决跨域使用的代理，node本地自启一个服务用于接受本地请求，然后向服务端请求，这样就变成了服务端向服务端请求，不受跨域限制。<i class="green">不过这只是在开发时使用，打包后失效，所以记得生产环境将代理地址改为服务器域名。这种普通代理也使用上面的方法。</i>
-[vuejs设置跨域方法学习地址。](https://www.cnblogs.com/wangqiao170/p/9288160.html)
+[vuejs设置跨域方法学习地址。](https://www.cnblogs.com/wangqiao170/p/9288160.html)[publickPath解释相关。](https://juejin.cn/post/6844903601060446221)
 ##### c、vue多页面应用配置：
 `/build/webpack.base.config.js`文件添加多个主js文件入口，形如：
 ```js
@@ -2591,6 +2824,7 @@ module: {
       use: [{
           loader:'babel-loader',//指定使用的插件。
           options:{
+              // 这里可以写.bablesrc中的格式配置。
               cacheDirectory:true,
           },
           // enforce:'post' 的含义是把该 Loader 的执行顺序放到最后。还可以是 pre，代表把 Loader 的执行顺序放到最前面
@@ -2602,8 +2836,27 @@ module: {
     }]
 }
 ```
+##### e1、px转rem配置：
+使用插件postcss-plugin-px2rem，安装：npm i postcss-plugin-px2rem -D。然后在vue-loader下配置。！移动端使用。
+```js
+var px2rem = require('postcss-plugin-px2rem');
+modules:{
+    rules:[{
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+            // 配置，rootValue值为1rem转换为px的大小。
+            postcss:function(){return [px2rem({ rootValue: 100 })];}
+        }
+    }]
+}
+```
+该插件只负责转换尺寸和单位，根元素字体大小在html文件用js去改变，两者配合使用。
 f、代码分割：
-
+[Index.html文件引入js文件。](https://blog.csdn.net/qq_15253407/article/details/89491255)
+<i class="label1">问题集</i>
+- 解析less文件时提示：TypeError: loaderContext.getResolve is not a function：换使用较低的less-loader版本。4.1.0
+- 解析less，sass等文件时提示：Module build failed: Unrecognised input。按a2中方法配置loader即可，一般用默认模板的话，utils中是已经配置好的，安装好loader即可用。
 #### 11、uni-app的使用：
 **介绍**：uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉/淘宝）、快应用等多个平台。结合Hbuilder x使用，文件新建一个项目选择uni-app项目(网站、app、小程序都选这个)。[uni-app官网。](https://uniapp.dcloud.io/)[插件市场](https://ext.dcloud.net.cn/search?q=uni-ui)。
 **项目目录结构**：pages文件夹存放业务页面，pages/index/index.vue页面是app打开时的引导页面。创建其它页面时新建一个文件夹然后在文件夹内建页面，可以多个页面放一个文件夹。
@@ -2840,12 +3093,31 @@ if (process.env.NODE_ENV === "development") {
 webpack只能将一部分es6语法转换为es5，而一些高级的es6语法，和部分es7语法无法转译，这就需要bable。bable包含：preset-env、plugin-component、polyfill等多个子插件。
 <b class="violet">项目中的.bablelr是bable的配置文件，而需要使用的话需要在webpack的modules中引入bable-loader。</b><b class="gray">babel中引入的分为转换插件（转换代码，编译）和语法插件（解析特定类型的语法，如果你已经使用了相应的转换插件，则不需要指定语法插件。）</b>
 使用前先安装：`cnpm i babel-core babel-loader babel-plugin-transform-runtime -D`
+**bable中常用的插件**：7.0以下的版本插件几乎以abel-plugin-开头，7.0以上的以@babel/开头，两个版本混用会导致解析失败。
+<i class="lable2">preset部分</i>
+- @babel/env对应6.0+的babel-env：为目标浏览器中没有的功能加载转换插件。不太推荐preset-env。
+- @babel/polyfill：可以使用诸如 Promise 和 WeakMap 之类的新的内置组件、 Array.from 或 Object.assign 之类的静态方法，不过是全局的，所以会对全局变量造成污染，现在已经不建议使用。安装时使用`--save`
+- transform-vue-jsx：可以支持jsx语法（ts）。
+- [制作可在babel中配置的插件。](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/README.md)
+- stage系列插件：它们用于解析es6,7等版本js语法的方案，包含0-4，功能逐渐降低，对最新语法处理的程度，一般使用stage-2。
+- transform-runtime：只用于开发环境，由于webpack的打包机制会将模块中导入的都打包到一起，然而一些较大的公共包也会有被打入多个chunk组的情况，transform-runtime可以提取分离它们
+
 ```js
 {
 　　// 此项指明，转码的规则
   "presets": [
-    // env项是借助插件babel-preset-env，下面这个配置说的是babel对es6,es7,es8进行转码，并且设置amd,commonjs这样的模块化文件，不进行转码
-    ["env", { "modules": false }], 
+    [
+      "@babel/env",
+      {
+        "targets": { //列出一个最小支持版本。或"targets": "> 0.25%, not dead"
+          "edge": "11",
+          "firefox": "60",
+          "chrome": "67",
+          "safari": "11.1",
+        },
+        "useBuiltIns": "usage",//usage会有一些优化作用。
+      }
+    ],
     "stage-2"
   ],
   "plugins": [
@@ -2870,6 +3142,19 @@ webpack只能将一部分es6语法转换为es5，而一些高级的es6语法，�
   }
 }
 ```
-- [制作可在babel中配置的插件。](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/README.md)
-- **webpack中配置如下**：[bable官网](https://www.babeljs.cn/docs/babel-preset-env)。[.babelrc文件作用及属性，部分组件按需引入，需要配置。](https://www.cnblogs.com/wulinzi/p/8079509.html)
+**webpack中配置如下**：[bable官网](https://www.babeljs.cn/docs/babel-preset-env)。[.babelrc文件作用及属性，部分组件按需引入，需要配置。](https://www.cnblogs.com/wulinzi/p/8079509.html)
 - `{ test:/\.js$/, use: 'babel-loader', exclude:/node_modules/ }`#exclude指定排除掉的文件夹。 如果不排除 node_modules， 则Babel 会把 node_modules 中所有的 第三方 JS 文件，都打包编译，这样，会非常消耗CPU，同时，打包速度非常慢；
+
+#### 18、html2canvas使用：
+用于将页面的html节点转化为图片，注意若其中包含图片，使用img标签而不要使用背景图。否则生成的图片不清晰。
+```js
+import html2canvas from "html2canvas";
+const _el = document.getElementById("img");
+ new html2canvas(_el, {
+        scale: 3, //缩放数，大于1表示生成高清。
+      }).then((canvas) => {
+        // canvas为转换后的Canvas对象
+        let oImg = new Image();
+        oImg.src = canvas.toDataURL(); // 导出图片
+        });
+```
