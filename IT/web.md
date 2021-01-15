@@ -6,7 +6,11 @@
 ### 一、HTML
 #### 1、svg：
 ```html
-<svg width="300" height="300"></svg>
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
+
+<!--xmlns：xlink表示前缀为xlink的元素应该由理解该规范的UA使用xlink规范来解释.
+xmlns定义了默认命名空间,因此不需要前缀,-->
+
 <!--rx，ry控制圆角-->
 <rect x="" y="" width="" rx="10" ry="20" height="" style="fill:red;stroke-width:2;stroke:blue;"/>
 //rect标签绘制矩形，x,y为位置,fill,stroke等属性可写在style外。
@@ -28,6 +32,20 @@
 ```
 M：移动至起始点，必须。L：直线结束点。H：从当前点画水平线。V:垂直线。C:三阶贝塞尔曲线。Q：二阶贝塞尔曲线。
 (将元素使用appendChild()方法动态添加到svg中并不会被显示出来,可以使用svg.innerHTML方法将元素写入)。[基础部分学习地址](http://www.mamicode.com/info-detail-1988813.html)
+**svg内联**：css的background-img的url可以显示链接图片和base64图片，将svg转为base64的也能在其中显示出来，部分版本较高的浏览器可以直接用svg代码，如下：
+```css
+.aa{
+    background:url('data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" version="1.1">...');
+}
+/*ie和一些浏览器中不能显示出来，但可以使用
+-------js的encodeURIComponent()方法将其转码后使用,注意需要xmlns属性：
+*/
+.bb{
+    background: url(data:image/svg+xml,%3Csvg%...) no-repeat center;
+}
+/*这种内联的svg渲染几乎无延迟*/
+```
+
 **table的使用**：
 ```html
 <table border="1" cellspacing="0">
@@ -178,37 +196,24 @@ http://tool.oschina.net/commons?type=2
 https://blog.csdn.net/chb_1_2/article/details/80728732
 #### 6、meta标签属性大全：
 `<meta name=”redaner”content=”webkit”/>`告诉浏览器用什么内核解析。[meta标签的使用学习地址。](https://blog.csdn.net/blue225/article/details/53894181%0A)
-#### 7、各设备屏幕尺寸：
-手机屏宽范围：300 – 768 px;        平板屏宽范围: 769 – 1199px;
-笔记本屏宽范围:1200 – 1400px;    台式，一体机屏宽范围:1401 – 1920px;
-广场电视机:1921 – 99999px
-#### 8、缓存：
-缓存分为CDN缓存、数据库缓存、代理服务器缓存和浏览器缓存，浏览器的缓存问题主要指的是http缓存即协议层，H5新增的storage缓存 和数据库缓存是应用层缓存。（协议层缓存可以分为强制缓存和对比缓存)。
+
+#### 9、概念
+**位图与矢量图**：位图又叫做点阵图，是一个个很小的颜色小方块组合在一起的图片。一个小方块代表1px（像素）。矢量图是由一个个点链接在一起组成的，是根据几何特性来绘制的图像，和位图的分辨率是没有关系的。因此图片放大后也不会失真，不会出现位图的马赛克的样子，也就是说可以无限放大图片。
+**各设备屏幕尺寸**：手机屏宽范围：300 – 768 px;        平板屏宽范围: 769 – 1199px;笔记本屏宽范围:1200 – 1400px;    台式，一体机屏宽范围:1401 – 1920px;广场电视机:1921 – 99999px。
+**缓存**：缓存分为CDN缓存、数据库缓存、代理服务器缓存和浏览器缓存，浏览器的缓存问题主要指的是http缓存即协议层，H5新增的storage缓存 和数据库缓存是应用层缓存。（协议层缓存可以分为强制缓存和对比缓存)。
 强制缓存：缓存失效时才会去服务器获取最新资源的方式，就是强制缓存,协议层中可以使用字段expires和cache-control。（暂未知）
 对比缓存：先从缓存中获取对应的数据标识，然后向服务器发送请求,确认数据是否更新,如果更新则返回新数据和新缓存;反之返回304状态码（缓存可继续使用）浏览器行为引起的缓存变化：
 (1)刷新网页：如果缓存没有失效浏览器会直接使用缓存；
 (2)手动刷新（F5）：浏览器会认为缓存失效；
 (3)强制刷新（ctrl+F5）：浏览器会直接忽略缓存；
-更细的知识https://segmentfault.com/a/1190000011212929
-#### 9、onselectStart事件:
-`<p onselectStart="return false">积分抵啊放假</p>`这里是禁止选中文字
-#### 10、改变复选框状态：
-`<input type="checkbox" checked='checked' value='1' id="ele"/>`
-写上checked表示默认为选中这与value值无关，动态改变复选框或单选框状态需要用js控制：
-```
-ele = document.getElementById("ele");
-ele.checked = false;//false表示没选中，true改为选中。
-ele.checked获取复选框状态返回true/false(布尔值，非字符串)。
-```
-#### 11、JavaScript由3部分组成：
-ECMAScript：解释器。翻译兼容性：完全兼容
-DOM：Document Object Model （文本对象）兼容性：部分不兼容。
-BOM：Browser Object Model （浏览器对象）兼容性：不兼容（例如IE，谷歌，火狐，不可能兼容），核心是window，全局对象。
-dom针对的是标准的客户端控件，html标记的这些浏览器展现的内容
-bom针对的是浏览器，BOM是浏览器对象模型，DOM是文档对象模型，前者是对浏览器本身进行操作，而后者是对浏览器（可看成容器）内的内容进行操作。
-#### 12、位图与矢量图：
-位图又叫做点阵图，是一个个很小的颜色小方块组合在一起的图片。一个小方块代表1px（像素）。矢量图是由一个个点链接在一起组成的，是根据几何特性来绘制的图像，和位图的分辨率是没有关系的。因此图片放大后也不会失真，不会出现位图的马赛克的样子，也就是说可以无限放大图片。
-#### 13、web中的安全措施：
+**CDN**：Content Delivery Network，即内容分发网络。CDN是构建在现有网络基础之上的智能虚拟网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。<b c=v>中小企业使用CDN一般是使用其它服务商提供的CDN服务，类似在域名解析处更改DNS地址即可。</b>
+**OSS**：OSS 是一个分布式的对象存储服务，提供的是一个 Key-Value 对形式的对象存储服务。用户可以根据 Object 的名称（Key）唯一的获取该Object的内容。
+- bucket：存储空间。同一个存储空间的内部是扁平的，没有文件系统的目录等概念，所有的对象都直接隶属于其对应的存储空间。存储空间的名称在 OSS 范围内必须是全局唯一的，一旦创建之后无法修改名称。
+- 对象/文件：对象是 OSS 存储数据的基本单元，也被称为 OSS 的文件。对象由元信息（Object Meta），用户数据（Data）和文件名（Key）组成。对象由存储空间内部唯一的 Key 来标识。对象元信息是一个键值对，表示了对象的一些属性，比如最后修改时间、大小等信息，同时用户也可以在元信息中存储一些自定义的信息。
+- 访问域名：Endpoint 表示 OSS 对外服务的访问域名。OSS 以 HTTP RESTful API 的形式对外提供服务，当访问不同的 Region 的时候，需要不同的域名。
+- AccessKey：AccessKey，简称 AK，指的是访问身份验证中用到的 AccessKeyId 和AccessKeySecret。OSS 通过使用 AccessKeyId 和 AccessKeySecret 对称加密的方法来验证某个请求的发送者身份。AccessKeyId 用于标识用户，AccessKeySecret 是用户用于加密签名字符串和 OSS 用来验证签名字符串的密钥。
+- [学习地址。](http://www.360doc.com/content/18/0823/22/49604565_780716594.shtml)
+#### 10、web中的安全措施：
 <i class="label1">a、sql注入</i>：通过输入框中输入一些sql的插入、删除等语句，在传到后台时被运行，然后操作数据库。防御：做一些正则匹配，替换输入中的特殊字符等，后台做一些站位等措施。
 <i class="label1">b、XSS (Cross-Site Scripting)，跨站脚本攻击</i>因为缩写和 CSS重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的Web网站注册用户的浏览器内运行非法的HTML标签或JavaScript进行的一种攻击。
 跨站脚本攻击有可能造成以下影响：利用虚假输入表单骗取用户个人信息。利用脚本窃取用户的Cookie值，被害者在不知情的情况下，帮助攻击者发送恶意请求。显示伪造的文章或图片。
@@ -221,7 +226,7 @@ bom针对的是浏览器，BOM是浏览器对象模型，DOM是文档对象模�
 X-FRAME-OPTIONS是一个 HTTP 响应头，在现代浏览器有一个很好的支持。这个 HTTP 响应头 就是为了防御用 iframe 嵌套的点击劫持攻击。
 该响应头有三个值可选，分别是：DENY，表示页面不允许通过 iframe 的方式展示。SAMEORIGIN，表示页面可以在相同域名下通过 iframe 的方式展示。ALLOW-FROM，表示页面可以在指定来源的 iframe 中展示。
 [web端安全问题及应对方法。](https://www.cnblogs.com/pretty-sunshine/p/11442326.html)
-#### 14、HTML5规范：
+#### 11、HTML5规范：
 html5中加了一些新的规范，如下示例：[H5的一些新标签的使用学习地址。](https://www.cnblogs.com/nuanai/p/8856814.html)
 ```html
 <! DOCTYPE html> //声明使用H5规范来解析文档。
@@ -233,7 +238,7 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 </body>
 </html>
 ```
-#### 15、十大经典排序算法：
+#### 12、十大经典排序算法：
 分为两类排序：非线性时间比较类排序(通过比较来决定元素间的排序)，线性时间非比较类排序(不通过比较来决定元素间的排序)。(以下均是以从小到大的排序为从下到大)
 **冒泡排序**：for(var i=0;i<arr.length-1;i++){for(var j=0;j<arr.length-i-1;j++){}}对比相邻两个元素的大小排序，执行数组长度-1次即可排完。(i<len(dat)-1)
 选择排序****：从中选择最大或最小的值放到开头，再从剩余之中重复次操作。
@@ -246,14 +251,14 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 **基数排序**：步骤：求出待排数组的最大值确定其最大位数是个位,十位还是百位...；取出带排数组a中的每个数据根据其个位值放到对应的下标的一个空二维数组中去(因为个位相同的可能有多个值将其归为一组)，结束后再将该二维数组中的值依次取出按取出顺序放回原数组中，再按十位为对应下标从原数组中取出值放到二维数组中结束后再依次取出...
 **归并排序**：将待排数组a划分为若干个子数组，比较1，2个子数组的值将其排好序，对比3，4个子数组的值将其排好序，对比1，2，3，4子数组的值排序(1,2,3,4已分别合并)，前一半的数组排好序后再排后一半子数组，最后合并排序。
 https://www.cnblogs.com/onepixel/articles/7674659.html
-#### 16、文档流和BFC：
+#### 13、文档流和BFC：
 文档流其实分为定位流、浮动流、普通流三种。而普通流其实就是指BFC中的FC。FC(Formatting Context)，直译过来是格式化上下文，它是页面中的一块渲染区域，有一套渲染规则，决定了其子元素如何布局，以及和其他元素之间的关系和作用。常见的FC有BFC、IFC，还有GFC和FFC。
 BFC全称是Block Formatting Context，即块格式化上下文。它是CSS2.1规范定义的，关于CSS渲染定位的一个概念。视觉格式化模型定义了盒（Box）的生成，盒主要包括了块盒、行内盒、匿名盒（没有名字不能被选择器选中的盒）以及一些实验性的盒（未来可能添加到规范中）。盒的类型由display属性决定。
 BFC的创建方法：根元素或其它包含它的元素；浮动 (元素的float不为none)；绝对定位元素 (元素的position为absolute或fixed)；行内块inline-blocks(元素的 display: inline-block)；
 表格单元格(元素的display: table-cell，HTML表格单元格默认属性)；overflow的值不为visible的元素；弹性盒 flex boxes (元素的display: flex或inline-flex)；但其中，最常见的就是overflow:hidden、float:left/right、position:absolute。也就是说，每次看到这些属性的时候，就代表了该元已经创建了一个BFC了(是一个独立的布局环境，我们可以理解为一个箱子（实际上是看不见摸不着的），箱子里面物品的摆放是不受外界的影响的)。[参考学习地址1。](https://blog.csdn.net/qf2019/article/details/99828150)[参考学学习地址2。](https://www.cnblogs.com/magicg/p/12650563.html)
 
 盒子模型：html的一个元素就是一个盒子，w3c盒子内容包括：marging、border、padding、content。ie的盒子模型中content部分包括border和padding部分。
-#### 17、项目构建相关：
+#### 14、项目构建相关：
 [别人收集的vue相关资源。](https://github.com/opendigg/awesome-github-vue#UI组件)
 一、ui框架一览：
 - 后台开发类框架可选择element-ui，MuseUI。飞冰(阿里-直接复制使用的ui组件库)。[Ant Design](https://pro.ant.design/index-cn)
@@ -274,7 +279,7 @@ BFC的创建方法：根元素或其它包含它的元素；浮动 (元素的flo
 五、包管理工具：npm、[yarn](https://blog.csdn.net/moshowgame/article/details/103358313)。
 六、检查代码规范的eslint（可编写规则，vscode使用设置eslint相应设置进行规范化）。
 七、服务端渲染框架：与react结合的next.js，与vue结合的Nuxt.js。
-#### 18、web端性能优化：
+#### 15、web端性能优化：
 先列出一些方法：懒加载、字体图标、图片适当压缩、需要时才加载、vue中用keep-alive缓存加载过的组件、组件项用动态导入组件：Load:import('../component/test')。
 图片处理专项：(png转为jpg后一般能缩小一半，但png色彩更丰富，且透明背景属性，所以项目中一般使用的是png)
 jpg：全名是JPEG，是数码相机的常用格式，特点呢就是色彩还原性好，天生适合风景照，可以在照片不明显失真的情况，大幅度降低体积。
@@ -287,7 +292,7 @@ img {// 不用担心兼容性问题。
     mask-image: url(card-mask.png);
 }
 ```
-#### 19、文字继承单选框和复选框：
+#### 16、文字继承单选框和复选框：
 ```html
 <input type="radio" id="a"/> <label for="a">点我触发前面id为a的单选框</label>
 <input type="checkbox" id="b"/> <label for="b">点我触发前面id为b的复选框</label>
@@ -295,7 +300,15 @@ img {// 不用担心兼容性问题。
     appearence:button;//设置单选框或复选框为正常状态。为none时无法使用
 }
 ```
-#### 20、拖拽：
+改变复选框状态：
+`<input type="checkbox" checked='checked' value='1' id="ele"/>`
+写上checked表示默认为选中这与value值无关，动态改变复选框或单选框状态需要用js控制：
+```js
+ele = document.getElementById("ele");
+ele.checked = false;//false表示没选中，true改为选中。
+ele.checked获取复选框状态返回true/false(布尔值，非字符串)。
+```
+#### 17、拖拽：
 将一个元素拖拽到另一个元素。
 ```html
 <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
@@ -539,9 +552,15 @@ perspective-orign:50% 50%;//改变视角位置坐标
     flex-grow:2;    //设置该子元素所占比，主轴上。如果其余部分固定尺寸，则>=1时撑开剩下空间。
 }
 ```
-[一排固定几个元素]使用justify-content:space-between且给子元素宽度时，这时宽度不起用，需要加上：flex-direction: row;flex-wrap: wrap;这样每行就能像想象的个数显示。
+**一排固定几个元素**：使用justify-content:space-between且给子元素宽度时，这时宽度不起用，需要加上：flex-direction: row;flex-wrap: wrap;这样每行就能像想象的个数显示。
 
 ### 三、javascript
+JavaScript由3部分组成：
+ECMAScript：解释器。翻译兼容性：完全兼容
+DOM：Document Object Model （文本对象）兼容性：部分不兼容。
+BOM：Browser Object Model （浏览器对象）兼容性：不兼容（例如IE，谷歌，火狐，不可能兼容），核心是window，全局对象。
+dom针对的是标准的客户端控件，html标记的这些浏览器展现的内容
+bom针对的是浏览器，BOM是浏览器对象模型，DOM是文档对象模型，前者是对浏览器本身进行操作，而后者是对浏览器（可看成容器）内的内容进行操作。
 #### 1、js数据类型操作：
 javascript数据类型包括：数值、字符串、布尔、null(表示尚未存在的对象)、undefined(当声明的变量还未被初始化时，变量的默认值为undefined。)、对象(对象又包括列表、函数、字典)，6种。#alert(null == undefined); //output "true"  。ert(null === undefined); //output "false" 
 <i class="label1">数值</i>
@@ -551,6 +570,7 @@ javascript数据类型包括：数值、字符串、布尔、null(表示尚未�
 **NaN**：用于表示一个本应该是数值，返回却是非数值的情况，如数值比上0，NaN与其它数值操作同为NaN，`NaN == NaN返回false`。用isNaN()可检测。
 **转为字符串**：num.toString();
 **浮点数计算精度丢失问题**：`console.log(24314310.3412 / 100000)>>243.14310341200002`。所有编程语言都存在的问题，这是由于计算机本身特性导致的。小数位数过长，或有时计算中小数点参与移动。所以前端尽量不要使用浮点数的计算。**解决思路**：将小数转为整数，按特别方法计算后再移动小数点。
+数值与字符串的运算：`1 + "1" == "1" + "1" = '11'`#除了+是字符串连接，其它运算操作符情况会被先当做数值计算。
 <i class="label1">字符串操作</i>
 其它类型转为string：`String(val)`#无论val是什么类型都会转为对应的字符串。
 `x.toString()`//转为字符串。`x.replace(/target/g,'')`//替换,g表示所有满足的都替换。`x.concat(“a”,”b”)`//可与x连接多个字符串。
@@ -625,7 +645,7 @@ forEach()//forEach()方法调用数组的每一个数传递给回调函数。
 例：`arr.forEach(function(value,index,data){});`//对数组做循环遍历获取数组各项值当做参数传入到函数中便于函数用其做操作。对象不能使用。ie 1.9以 下不支持;
 **undefined**：派生自null，因此`null==undefined`#返回true，使用全等符号才会返回false。已声明，未赋值的变量依然是undefined。但是没有声明的值使用，会直接报错。然而使用`typeof no(未声明值)`#得到的也是undefined类型，所以undefined不属于Object。
 **数据类型检测**：`console.log(typeof val)`#有string、number、undefined、boolean、function、object（字典和null都显示这个）。
-**null**：表示一个空对象指针，因此用typeof检测时返回object。如果该变量之后用于赋值一个对象，那初始赋值可以置为null。
+**null**：表示一个空对象指针，因此用typeof检测时返回object（但`null instanceof Object`返回false）。如果该变量之后用于赋值一个对象，那初始赋值可以置为null。
 **布尔值**：`0，空字符串、null、undefined、false`都是当做false。
 **隐式转换**：在进行变量比较时，js内部会对数据进行相应变换如下：（全等条件下回进行类型的比较，所以这些在**全等下不成立**）
 - [] == true;  //false  []转换为字符串'',然后转换为数字0,true转换为数字1，所以为false
@@ -635,6 +655,7 @@ forEach()//forEach()方法调用数组的每一个数传递给回调函数。
 
 #### 2、转码：
 ```js
+encodeURIComponent("<svg>")#不会对 ASCII 字母和数字,标点字特殊符等进行编码
 encodeURI('汉字');//url传参汉字时可以先encodeURI()对中文编码,浏览器会自动解码
 decodeURI();// 再用decodeURI()转码，对汉字解码则不变。
 
@@ -1072,21 +1093,7 @@ window.requestAnimationFrame(play);
 window.requestAnimationFrame(play);//开始第一帧
 cancelAnimationFrame()//方法取消动画。
 ```
-#### 21、移动端手指事件:
-需要使用事件绑定函数：addEventListener()或on()；
-touchstart:手指触摸屏幕;addEventListener('touchstart',function(){})
-touchmove:手指在屏幕上移动
-touchend:手指离开屏幕
 
-event.touches[0].pageX,event.touches[0].pageY//手指坐标，touchend事件中不能用
-event.changedTouches[0].pageX,event.changedTouches[0].pageY;//都可用
-支持多指触摸事件？？？
-(手机上涉及到手指移动事件再用移动端手指事件，其余事件就使用pc端的吧)
-并不能完美的控制元素滑动的位置(做滑动元素时还是多使用overflow:scroll属性做滑动，滑动结
-束后改变scroll位置(若要平滑效果用动画的方法设置))。
-添加手指事件的元素最好都添加颜色（即便是透明）遇到过这种情况。
-参考地址：https://blog.csdn.net/qq_40238154/article/details/78724917
-    https://www.cnblogs.com/yangmengsheng/p/5973487.html
 #### 22、jquery的使用：
 ready()方法：下载好资源后浏览器先对html文件从上往下进行解析,当遇到css样式表时先解析形成CSSOM,然后DOM和cssom形成一颗渲染树进行渲染(先摆放元素位置大小再加样式)
 如果遇到同步js文件(为设置async的script标签)会先解析js文件即:阻断对html的解析.所以推荐奖css样式文件放在头部,js文件放在html尾部。
@@ -1308,6 +1315,58 @@ event.cancelBubble = true;
   event.target.innerHTML//获取事件触发的元内容
 e.currentTarget//指的是真正触发事件的那个元素;e.target：触发事件元素的父级元素。
 ```
+**移动端手指事件**:
+需要使用事件绑定函数：addEventListener()或on()；
+touchstart:手指触摸屏幕;addEventListener('touchstart',function(){})
+touchmove:手指在屏幕上移动
+touchend:手指离开屏幕
+```
+event.touches[0].pageX,event.touches[0].pageY//手指坐标，touchend事件中不能用
+event.changedTouches[0].pageX,event.changedTouches[0].pageY;//都可用支持多指触摸事件？？？
+```
+(手机上涉及到手指移动事件再用移动端手指事件，其余事件就使用pc端的吧)
+并不能完美的控制元素滑动的位置(做滑动元素时还是多使用overflow:scroll属性做滑动，滑动结
+束后改变scroll位置(若要平滑效果用动画的方法设置))。
+添加手指事件的元素最好都添加颜色（即便是透明）遇到过这种情况。
+参考地址：https://blog.csdn.net/qq_40238154/article/details/78724917。https://www.cnblogs.com/yangmengsheng/p/5973487.html
+自定义事件：
+```js
+// 一个元素设置监听事件名可随意。
+document.body.addEventListener('文章勿盗', (event) => {
+    console.dir(event.detail);
+});
+// 为该自定义事件设置，要传参必须制定使用detail。
+var k = new CustomEvent('文章勿盗', {
+    detail: 55
+});
+// 触发该事件。
+document.body.dispatchEvent(k);
+```
+ie14下没有detail值，兼容写入如下：
+```js
+(function () {
+    if (typeof window.CustomEvent === 'function') {
+        // 如果不是IE
+        return false;
+    }
+
+    var CustomEvent = function (event, params) {
+        params = params || {
+            bubbles: false,
+            cancelable: false,
+            detail: undefined
+        };
+        var evt = document.createEvent('CustomEvent');
+        evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+        return evt;
+    };
+
+    CustomEvent.prototype = window.Event.prototype;
+
+    window.CustomEvent = CustomEvent;
+})();
+```
+**onselectStart事件**：`<p onselectStart="return false">积分抵啊放假</p>`这里是禁止选中文字
 #### 27、js原型：
 **执行上下文，链式作用域**：
 执行上下文有且只有三类，全局执行上下文，函数上下文，与eval上下文。在执行代码前，浏览器会先扫描代码生成执行的上下文，按照上下情况决定先执行的代码，如声明变量、数据类型计算，遇到函数的时候，因为函数内部是一个块的代码，这时候就是构建一个函数的执行上下文。<i class="green">函数在调用时，会被全局执行上下文决定其执行的顺序。而一系列函数相互调用的情况下就形成了一个链式作用域。这些上下文的执行是放到一个栈(后进先出)空间中进行的。</i>
@@ -2640,7 +2699,7 @@ lang指定使用的语言，不写时为普通css。*/
 - **CopyWebpackPlugin**：用于将指定文件放到编译或打包后的文件中去，然后html页面可以引入使用：`<script src="<%=htmlWebpackPlugin.options.prefix %>static/jquery.min.js"></script>`。然后单页内可直接使用$()方法。
 - FriendlyErrorsPlugin：友好提示插件，允许webpack编译成功和失败后输出的信息。
 - HotModuleReplacementPlugin：热更新使用插件。
-
+- CommonsChunkPlugin：分离公共模块使用的插件，具体见f。
 ```js
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -2668,7 +2727,7 @@ module.exports = {NODE_ENV:'"development"',NUM:'20'}//注意对应变量是字�
 ```
 a4、eslint及vscode一套配置：
 [eslint配置大全。](https://blog.csdn.net/p358278505/article/details/77429251)
-a5、resolve与output：
+##### a5、resolve与output：
 ```js
 {
     // 只能有一个output
@@ -2684,11 +2743,28 @@ a5、resolve与output：
     }
 }
 ```
+##### a6、devtool：
+为便于调试的设置。编译打包后的代码出错时难以找到编译前的位置调试，设置devtool可以让其找到编译前报错位置。
+```js
+{
+    //有5个值：cheap,eval,module,inline,source-map。这些可以互相组合
+    devtool:"cheap-module-eval-source-map"
+}
+```
+- eval：不生成.js.map文件，仅仅是在每一个模块后，增加sourceURL来关联模块处理前后对应的关系。
+- source-map：打包后有map文件，相应的要在浏览器设置中开启：设置齿轮/preference/Sources/Eable javascript sources。
+- inline：该属性不会生成独立的 .map文件，而是将 .map文件以dataURL的形式插入。
+- cheap：该属性在打包后同样会为每一个文件模块生成 .map文件
+- module：该属性的配置也是生成一个没有列的信息的sourceMaps文件，同时loader的sourcemap也被简化成为只包含对应行的。
+- 开发环境常用：cheap-module-eval-source-map。
+- 生产环境常用：cheap-module-source-map。
+- [详细学习地址。](https://www.cnblogs.com/jkr666666/p/11067189.html)
 ##### b、devServer部分(配置反向代理)：
 **正向代理**：代理是处于客户端和服务器中间的一台计算机，正向代理是接受客户端的链接，然后向目标服务器请求资源，逐步返回给客户端。正向代理的服务器与目标服务器不在同一网段内，面向服务器。如vpn。
 **反向代理**：面向的是客户端，对外表现为一台服务器，目标服务器放在内网，而反向代理服务器作为网关，访问内网中的服务器需要经过代理服务器，<i class="green">所以目标服务器更安全且压力变小，代理服务器还负责分发内容，缓存前端资源，因此也能优化前端性能。</i>
 vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
 **webpack-dev-server参数**：--hot#热更新，修改代码后，只会替换原来块的代码，而不会整个刷新页面。--open#启动后打开浏览器。--config#指定使用的配置文件。
+
 ```js
 // 一般在webpack.base.config.js文件。注意是使用0.0.0.0而不是Localhost，不然无法ipv4访问。
 const HOST = process.env.HOST || '0.0.0.0';
@@ -2852,8 +2928,28 @@ modules:{
 }
 ```
 该插件只负责转换尺寸和单位，根元素字体大小在html文件用js去改变，两者配合使用。
-f、代码分割：
-[Index.html文件引入js文件。](https://blog.csdn.net/qq_15253407/article/details/89491255)
+##### f、代码分割：
+用于将更多的公共模块从大的模块中分离出来。
+- 添加入口的方法来分离代码块：entry多加一个想要分离的js文件，如果这个文件也使用了一些其它公共的模块，同样会同这个js文件进入一个bundle中。
+- 使用CommonsChunkPlugin：插件部分添加该插件和规则，示例如下：
+```js
+{
+    plugins:[
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'tools',
+            // minChunks可以是数值，Infinity时表示无限制。
+            minChunks(module,count) {
+                // module.resource为文件路径，count是引用的次数。
+                // 将/utils下的tools.js文件分离出来。    ！！为true时表示进入该chunk。
+                return (module.resource && /\.js$/.test(module.resource) && module.resource.indexOf('/utils/tools.js') !== -1)
+            },
+            chunks:[], //也可以直接指定哪几个chunk在这个bundle
+            minSize:3 //最小包含的模块数量
+        }),
+    ]
+}
+```
+- 使用CopyWebpackPlugin将js文件直接从html引入，将js文件放到对应的静态资源文件夹中即可。[Index.html文件引入js文件。](https://blog.csdn.net/qq_15253407/article/details/89491255)
 <i class="label1">问题集</i>
 - 解析less文件时提示：TypeError: loaderContext.getResolve is not a function：换使用较低的less-loader版本。4.1.0
 - 解析less，sass等文件时提示：Module build failed: Unrecognised input。按a2中方法配置loader即可，一般用默认模板的话，utils中是已经配置好的，安装好loader即可用。

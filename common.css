@@ -339,22 +339,27 @@ i {
     font-style: normal;
 }
 
-.red {
+.red,
+[c=r] {
     color: red;
 }
 
-.blue {
+.blue,
+[c=b] {
     color: blue;
 }
 
-.green {
+.green,
+[c=gn] {
     color: green;
 }
 
-.gray {
+.gray,
+[c=gy] {
     color: gray;
 }
 
-.violet {
+.violet,
+[c=v] {
     color: violet;
 }
