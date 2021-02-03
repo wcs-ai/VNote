@@ -1,7 +1,3 @@
-<div class="title">
-<img src="E:\package\VNote\IT\_v_images/kj0.jpg"/>
-<h2>web前端</h2><h4>——酷炫的界面。</h4>
-</div>
 
 ### 一、HTML
 #### 1、svg：
@@ -536,22 +532,26 @@ perspective-orign:50% 50%;//改变视角位置坐标
     }
 ```
 #### 9、弹性布局：
-```css
+```less
 .box{
     display:flex;
     display:-webkit-flex;
     flex-direction:row;//排列方向
     flex-wrap:wrap;//转行类型
-    justify-content:space-between;//对其方式
-    align-items:center;//元素垂直居中,控制的是另一个轴
+    justify-content:space-between;//同一方向一根轴线时对其方式
+    align-content:stretch;//同一方向多行元素时的对齐方式，属性值与justify-content一样。
+    align-items:center;//元素垂直居中,控制的是另一个轴。stretch为占满高度。
 }
 .child{
-    // 其子元素对应align-item方向上的位置控制.
-    align-self:flex-end;
-    flex-bais:500px;    //控制单个元素所占宽度，代替width。
-    flex-grow:2;    //设置该子元素所占比，主轴上。如果其余部分固定尺寸，则>=1时撑开剩下空间。
+    align-self:flex-end;// 其子元素对应align-item方向上的位置控制.
+    order:1;//定义子项目的所在顺序
+    flex-basis:500px;    //定义了在分配多余空间之前，项目占据的主轴空间。若内部有内容则flex-basis不再生效。
+    flex-grow:2;    //定义元素的放大比例
+    flex-shrink:0.5;//定义元素的缩小比例
+    flex:0 1 auto; //flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
 }
 ```
+[flex布局学习地址。](https://www.runoob.com/w3cnote/flex-grammar.html)
 **一排固定几个元素**：使用justify-content:space-between且给子元素宽度时，这时宽度不起用，需要加上：flex-direction: row;flex-wrap: wrap;这样每行就能像想象的个数显示。
 
 ### 三、javascript
@@ -653,6 +653,23 @@ forEach()//forEach()方法调用数组的每一个数传递给回调函数。
 - [1] == 1;  // true  `对象先转换为字符串再转换为数字，二者再比较 [1] => '1' => 1 所以结果为true
 - '1' == true; // true。
 
+**for循环中使用定时器问题**：
+```js
+//由于var作用域为当前函数，而非当前代码块。
+for(var i = 0; i < 5; i++){
+   setTimeout(function(){
+       console.log(i)//5,5,5,5,5
+   }, 200*i);
+}
+//-----可以放到一个函数内使用。或者将var改为let。
+for(var i = 0; i < 5; i++){
+   (function(index){
+       setTimeout(function(){
+           console.log(index)//0,1,2,3,4
+       }, 200*index);
+   })(i);
+}
+```
 #### 2、转码：
 ```js
 encodeURIComponent("<svg>")#不会对 ASCII 字母和数字,标点字特殊符等进行编码
@@ -1309,10 +1326,10 @@ event.cancelBubble = true;
 <i class="label1">事件委托/代理</i>与事件冒泡相反，我们想让用户点击一个块的每个子元素都触发一个事件，可以将该事件绑定再这些子元素的父元素上就可以不用每个子元素都去绑定了。
 <i class="label1">获取鼠标事件目标的属性</i>
 ```js
-  event.target.nodeName//获取事件触发的标签名
-  event.target.className//获取事件触发的元素的类名
-  event.target.id//获取事件所触发的元素的id名
-  event.target.innerHTML//获取事件触发的元内容
+event.target.nodeName//获取事件触发的标签名
+event.target.className//获取事件触发的元素的类名
+event.target.id//获取事件所触发的元素的id名
+event.target.innerHTML//获取事件触发的元内容
 e.currentTarget//指的是真正触发事件的那个元素;e.target：触发事件元素的父级元素。
 ```
 **移动端手指事件**:
@@ -1386,8 +1403,7 @@ c.b();//执行语句写在类a的后面
 ```
 **this添加新属性与方法.原型添加属性：**
 原型的方法中使用：this.val = 10;的方法添加属性及值被子类继承后是子类中独有的与另一个子类中继承的a在堆存储中不是同一个源。
-但若是使用：a.prototype.val = 20;的方法项原型中添加属性那么这个属性将是父类私有的，这意味着在两个继承的子类中即使使用传参动态改变val值的方法前一个类赋予的val值会被后一个子类的val值所覆盖。在原型的方法中又涉及到事件添加或创建函数等操作则在这些新建函数中则无法用
-this方法调用原型中的属性；一个解决方法如下：
+但若是使用：a.prototype.val = 20;的方法项原型中添加属性那么这个属性将是父类私有的，这意味着在两个继承的子类中即使使用传参动态改变val值的方法前一个类赋予的val值会被后一个子类的val值所覆盖。在原型的方法中又涉及到事件添加或创建函数等操作则在这些新建函数中则无法用this方法调用原型中的属性；一个解决方法如下：
 ```js
 a.prototype = {
     sta:function(){
@@ -1402,8 +1418,20 @@ a.prototype = {
         }
     }
 }
+//但这并不能解决在原型中设立全局私有变量的问题。
 ```
-但这并不能解决在原型中设立全局私有变量的问题。
+如果不用new来继承函数的原型而是直接运行函数，那么构造函数中用this添加的变量就会添加到window对象下成全局变量，解决如下：
+
+```js
+function person(name,age){
+    if(this instanceof person){
+        this.name = name;
+        this.age = age;
+    }else{
+        return new person(name,age);
+    }
+}
+```
 <i class="label1">原型链</i>由上面的分析可以看出任何一个对象(除null外)都会由原型这个属性，在使用时一般是一个函数，然后将其原型指向一个对象(类似一个字典)，此时这个对象就成了原型，函数成了构造函数，而在使用new func()时是将原型继承给一个新的对象，此时这个新的对象、构造函数、原型3者之间都有了关系。这就是一个原型链。
 #### 28、函数的闭包：
 在有些情况下我们需要一个函数外调用一个函数内的局部变量，我们要想办法实现它，方法如下：
@@ -1509,14 +1537,11 @@ build/ # 忽略 build/ 目录下的所有文件
 doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 ```
 **各种场景的令**：
-git merge --abort //**合并过程中的撤销**合并
-git reset --hard HEAD^ //**回退到前一个版本** ^^回退两个  ~100回退多个
-git pull  //从远程更新代码到本地
-git remote //查看远程信息
-git remote -v //查看远程库信息
-git push origin second //将本地分支推送到远程，远程也创建这个分支(远程未存在该分支的
-情况，否则就是普通的提交信息)
-
+**合并过程中的撤销**：git merge --abort 
+**回退到前一个版本** ：git reset --hard HEAD^ //^^回退两个  ~100回退多个
+拉取代码：git pull 
+查看远程信息：git remote -v
+提交：git push origin second //将本地分支推送到远程
 - **新建分支**：git checkout -b main origin/main     //main是本地分支，第二个是指从哪条源拉取代码，不写的话默认是master。
 - **分支跟踪**：git branch --set-upstream-to=origin/wcs //当前分支跟踪（提交时提交到该分支）远程分支wcs。
 - 查看所有分支：git branch -a //，-r查看远程分支。
@@ -1526,13 +1551,12 @@ git push origin second //将本地分支推送到远程，远程也创建这个�
 - 删除本地分支：git branch -D second
 - **本地与远程分支关联情况**：git branch -vv
 - git merge WCS    //合并WCS分支到当前分支，再git push origin master//更新，
-
-合并情况若**合并发生冲突**的话会提示冲突的文件，找到该文件并处理标记了冲突的地方然后
+**合并发生冲突**的话会提示冲突的文件，找到该文件并处理标记了冲突的地方然后
 git add filename 然后git commit -m 'merge'即可
 git checkout -b origin/second //拉取second分支下的代码到本地
 
-git branch -a //查看所有分支
-git push origin --delete yc //删除远程分支
+查看所有分支：git branch -a 
+删除远程分支：git push origin --delete yc 
 <i class="label3">.gitignore文件忽略设置(任何时候更改忽略文件都会有效)从主目录开始算路径。</i>
 index.html //忽略文件
 /dist/   //忽略整个dist文件夹
@@ -1554,7 +1578,7 @@ win10/控制面板/用户账户/凭据管理器/windows凭据。最下方找到g
 - 功能分支：一个项目模块拿出来单独开发，开发完成后合并入dev。
 - 功能、缺陷、预发布完成后合并入dev，dev合并入master。
 [git分支管理学习地址。](http://www.ruanyifeng.com/blog/2012/07/git.html)
-**项目资源搜索**：awesome 接想搜索的资源。
+**项目资源搜索**：awesome 接想搜索的资源。[搜索技巧学习地址。](https://blog.csdn.net/csdnnews/article/details/86570635)
 [merge时提示：refusing to merge unrelated histories解决](https://blog.csdn.net/lindexi_gd/article/details/52554159)
 #### 2、mpvue:
 支持 微信小程序、百度智能小程序，头条小程序 和 支付宝小程序。
@@ -1854,7 +1878,7 @@ rl.on('close', function() {
 - sass的css样式中：`@import '../style/vv.sass'`#导入样式。
 - less的css样式中：`@import url(../style/vv.less)`#导入样式。
 ##### a1、vuejs运行流程:
-分文这几个阶段：初始化阶段(这个阶段主要是把普通对象转化为响应式对象)、编译阶段(编译阶段会把options.template编译成render函数，解析template中的数据，事件绑定等)、挂载阶段(这个阶段会执行render函数以获取vnode。然后模板引擎根据vnode去生成真实DOM)、监听阶段(挂载阶段之后，模板引擎已经渲染好网页，这时就进入了监听阶段。patch函数还会对比新旧vnode，并计算出更新DOM需要的操作。最后由框架更新到网页上)、注销阶段(注销过程会先触发beforeDestroy，然后注销掉watchers、child components、event listeners等，之后是destroyed钩子函数)。[具体介绍学习地址。](https://blog.csdn.net/weixin_34023863/article/details/87945630)
+**初始化阶段**(这个阶段主要是把普通对象转化为响应式对象)、**编译阶段**(编译阶段会把options.template编译成render函数，解析template中的数据，事件绑定等)、**挂载阶段**(这个阶段会执行render函数以获取vnode。然后模板引擎根据vnode去生成真实DOM)、**监听阶段**(挂载阶段之后，模板引擎已经渲染好网页，这时就进入了监听阶段。patch函数还会对比新旧vnode，并计算出更新DOM需要的操作。最后由框架更新到网页上)、**注销阶段**(注销过程会先触发beforeDestroy，然后注销掉watchers、child components、event listeners等，之后是destroyed钩子函数)。[具体介绍学习地址。](https://blog.csdn.net/weixin_34023863/article/details/87945630)
 **vue生命周期**：生命周期函数运行顺序如下：[生命周期解释。](https://www.cnblogs.com/wzndkj/p/9612647.html)
 - **beforeCreate**：new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建。<i class="gray">data和methods中的数据都还没有初始化。因此不能在此调用methods的方法和data的数据。</i>
 - created：data 和 methods都已经被初始化好了。
@@ -1885,7 +1909,6 @@ rl.on('close', function() {
 <a v-bind:href="url v-on:click="get()"></a>//绑定属性，事件
 ```
 
-
 ##### a3、循环：
 ```vue
 <li v-for="i in is">
@@ -1899,7 +1922,7 @@ rl.on('close', function() {
 ```
 加了v-for属性的元素会根据目标对象循环当前元素,包括其内部的结构，若目标对象长度为0或不是数组，字典那么当前元素也会被清除(可在for循环中加if,else语句条件循环是否要插入的元素)使用vue封装的ajax：
 要下载vue-resource.min.js，方法集中使用：
-```
+```js
 this.$http.get("url",dat).then(function(res){console.log(res.body);},
 function(){alert('失败')}));
 
@@ -2198,11 +2221,15 @@ const state={   //要设置的全局访问的state对象
      changableNum:0
      //要设置的初始属性值
    };
+
+/**-----当state中数据量，结构比较复杂时，要获取state中一些较深结构的值会比较麻烦
+而且从设计原则上考虑也应该用一些函数来单独获取值。
+*/
 const getters = {   //实时监听state值的变化(最新状态)
     isShow(state) {  //承载变化的showFooter的值
        return state.showFooter
     },
-    getChangedNum(){  //承载变化的changebleNum的值
+    getChangedNum(state){  //承载变化的changebleNum的值
        return state.changableNum
     }
 };
@@ -2578,9 +2605,6 @@ v-leave：定义离开过渡的开始状态。在离开过渡被触发时立刻�
 v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
 v-leave-to：2.1.8 版及以上定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。
 
-##### b7、报错问题集：
-npm run dev时报`Cannot found module 'xxx'`的问题：一般直接npm install xxx --save即可解决，这些包都是package.json文件中配置要下载的包，会被下载到node_modules文件夹下，如果显示安装成功但依然报类似错误的话可以尝试清空node_modules文件夹，然后npm install 重新下载所有包。
-
 #### 6、资源收集：
 webpack学习：https://blog.csdn.net/eeeecw/article/details/80453899
 前端技术文档大全：https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange
@@ -2700,6 +2724,7 @@ lang指定使用的语言，不写时为普通css。*/
 - FriendlyErrorsPlugin：友好提示插件，允许webpack编译成功和失败后输出的信息。
 - HotModuleReplacementPlugin：热更新使用插件。
 - CommonsChunkPlugin：分离公共模块使用的插件，具体见f。
+- UglifyJsPlugin：用于压缩js代码。会拖慢编译速度，建议打包时使用。`npm install uglifyjs-webpack-plugin --save-dev`#需要安装
 ```js
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -2712,14 +2737,23 @@ module.exports = {
             title:"测试app",//网页title，相应的html文件中使用<title>{%= o.htmlWebpackPlugin.options.title %}</title>才会有效
             filename: 'index.html',//输出后的名字
             template: '../src/index.html', //原html路径
-            inject: true,
+            inject: true,//向template或者templateContent中注入所有静态资源
             chunks:'all' //指定导入的模块，多个写法》['vendor']
        }),
        new CopyWebpackPlugin([{    //一个数组的形式，所以可以写成多项。
         from: path.resolve(__dirname, '../static'),// from与to都可以是指定的文件或目录。
         to: 'static', //编译或打包后的项目下的目录。
         ignore: ['.*'] //可忽略匹配到的文件。
-      }])
+      }]),
+      new UglifyJsPlugin({
+        uglifyOptions: {
+           compress: {
+              warnings: false
+           }
+        },
+        sourceMap: true,
+        parallel: true
+     }),
     ]
 }
 //###-----dev.env文件如下内容
@@ -2835,7 +2869,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                 removeAttributeQuotes: true
             },
             chunksSortMode: 'dependency',
-            //(在这里和你上面chunks里面的名称对应)
+            //(在这里和你上面chunks里面的名称对应),不然会同时导入两个页的js，然后报错。
             chunks: ['manifest', 'vendor', 'app']
         }),
     ]
@@ -2852,7 +2886,7 @@ module.exports = {
     }
 }
 ```
-根据上面相应的位置创建js、vue、html文件。home.vue和home.html文件种将id更改。
+根据上面相应的位置创建js、vue、html文件。<b c=r>home.vue和home.html文件种将id更改</b>。
 ```js
 //one.js文件。
 import Vue from 'vue'
@@ -3080,6 +3114,7 @@ export default {
 [百度umeditor下载地址(选择jsp)。](http://ueditor.baidu.com/website/download.html)[使用参考学习地址。](https://blog.csdn.net/fanhu6816/article/details/81223909)
 #### 13、axios：
 内部依然封装的ajax使用。npm install axios
+
 ```js
 import axios from "axios";
 const URL = require("./index");
@@ -3129,6 +3164,7 @@ axios.interceptors.response.use(
 export default axios;
 // ...main.js将其绑定到原型上：vue.protetype.$rpc = axios;
 ```
+
 返回的内容如下：`{config:{},data:{},headers:{},request:{},status:200,statusText:'ok'}`
 - config中包括设置axios时的url、请求方式、headers、baseUrl等。
 - data是服务端返回的数据内容。
@@ -3136,6 +3172,100 @@ export default axios;
 - request：包含custom、onerror、onabort等。
 [axios配置，学习地址。](https://www.cnblogs.com/mica/p/10795242.html)
 #### 14、NUXTJS：
+模板：在项目跟目录新建一个app.html模板，可被用于最后生成的html文件。默认模板如下：
+```html
+<!DOCTYPE html>
+<html {{ HTML_ATTRS }}>
+<head {{ HEAD_ATTRS }}>
+    {{ HEAD }}
+</head>
+<body {{ BODY_ATTRS }}>
+    {{ APP }}
+</body>
+</html>
+```
+**layouts**：该目录下的页面相当于普通vue项目中的APP.vue最外层vue页面，所以需要在页面中放置一个<Nuxt/>加载其它页面的标签。当然在layouts中放置error页面之类的可不用
+components：该目录下的为组件，各页面中不用导入，注册，直接按照组件文件名称使用即可。
+**plugins**：对应的是vue中使用的plugin，无论是自定义的还是第三方的都可以放置在plugins目录下，然后nuxt.config中配置使用。例如：plugins下建立一个axios全局配置的js文件，其它文件直接引用即可。
+```js
+//-----plugins/element-ui.js内容如下：
+import Vue from 'vue'
+import Element from 'element-ui'
+Vue.use(Element)
+
+//-----nuxt.js内容如下：
+module.exports = {
+    plugins:[{
+        src: '@/plugins/element-ui',//src指定文件地址。
+        ssr: true//若为false时则只会在客户端被打包引入，为true则会直接在服务端渲染。
+    }]
+}
+```
+**路由**：nuxt会自动根据pages下的结构转为路由，示例如下：！路由的跳转方法不变。
+- pages/index.vue =>变为`{name:"index",path:"/"}`。
+- pages/user/index.vue =>变为`{name:"user",path:"/user"}`#index文件名不计。
+- pages/user/cord.vue =>变为`{name:"user-cord",path:"/user/cord"}`。
+- pages/user/_id.vue =>变为`{name:"user-id",path:"user/:id"}`#下划线会变为动态路由标志。且文件名变为参数名。
+loading：有一个默认的顶部进度条加载动画，在nuxt.config.js中设置loading:false可以将其关闭，当然也可以是一个字典定义进度条的一些外观。也可以自己定制一个加载动画页面，然后`loading:'~/components/loading.vue'`使用。
+```js
+export default {
+    mounted(){
+    //使用$nextTick()函数<用于延迟执行一段代码>，确保loading被调用。
+        this.$nextTick(()=>{
+          this.$nuxt.$loading.start();
+        });
+    
+        setTimeout(()=>{
+          this.$nuxt.$loading.finish();
+        },1000);
+      }
+}
+```
+**middleware**：该目录用于存放中间件，中间件允许您定义一个自定义函数运行在一个页面或一组页面渲染之前。
+```js
+//middleware/state.js内容：
+export default function ({ req,redirect,route }) {
+    if(req.adfgasd){
+        if(req.url==='/'){
+            return redirect('/homepage');//重定向路径。
+        }
+    }
+  }
+
+//nuxt.config.js内容：
+module.exports = {
+    //...,路由变化时使用中间件。
+    router: {
+        middleware: 'stats',//stats对应文件名。
+    }
+}
+
+```
+store：该目录下存放vuex文件，像平常一样建立，使用即可。
+**额外的键**：nuxt提供的一些vue框架之外的键，如下：
+```js
+export default {
+//asyncData在组件化之前调用，可在这里做数据请求，return或callback返回的值会与data中的合并。
+    asyncData({params,req,res,error},callback){//params可获取上个页面传来的参数。
+        if(params.name){callback(null,{message:'success'});}// 或者return {message:"success"}也是一样的。
+        else{// 显示错误页面（layouts目录下的error.vue页面）。
+            error({ statusCode: 404, message: 'Post not found' });//或者callback({ statusCode: 404, message: 'Post not found' })
+        }
+    },
+    //用于在渲染页面之前获取数据填充应用的状态树,不会设置组件的数据。
+    async fetch({ store, params }) {//store为vuex中的对象。
+      await store.dispatch('GET_STARS');
+    },
+    //	配置当前页面的 Meta 标签等。
+    head() {
+      return {
+        title: this.title,
+        meta: [{hid: 'description'}]
+        }
+    },
+}
+```
+[参考学习地址。](https://segmentfault.com/a/1190000021050814?utm_source=tag-newest)
 [NUXTJS中文网。](https://www.nuxtjs.cn/guide/configuration)
 #### 15、mock数据的使用：
 1、使用mockjs
