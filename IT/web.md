@@ -187,11 +187,6 @@ window.onkeydown = function(){
 ```
 第一个条语句用globalCompositeOperation可用for循环配合动态变量，绘制多个图形，放在动画代码中依然可用。
 ctx.isPointInPath(x,y);ctx.isPointInStroke(x,y);//检测坐标点x,y是否在画笔对象ctx所绘制的图形中和边框上，canvas上绘制的图形与html元素在生成的方式、操作上不一样所以canvas绘制的图形不能用addEventLisener()来添加鼠标事件，所以可以借用以上这两个方法来添加鼠标事件效果。(不过这两个方法只支持使用begInPath()方法绘制出来的图形对象。)
-#### 5、HTML转义字符对照表：
-http://tool.oschina.net/commons?type=2
-https://blog.csdn.net/chb_1_2/article/details/80728732
-#### 6、meta标签属性大全：
-`<meta name=”redaner”content=”webkit”/>`告诉浏览器用什么内核解析。[meta标签的使用学习地址。](https://blog.csdn.net/blue225/article/details/53894181%0A)
 
 #### 9、概念
 **位图与矢量图**：位图又叫做点阵图，是一个个很小的颜色小方块组合在一起的图片。一个小方块代表1px（像素）。矢量图是由一个个点链接在一起组成的，是根据几何特性来绘制的图像，和位图的分辨率是没有关系的。因此图片放大后也不会失真，不会出现位图的马赛克的样子，也就是说可以无限放大图片。
@@ -254,27 +249,7 @@ BFC的创建方法：根元素或其它包含它的元素；浮动 (元素的flo
 表格单元格(元素的display: table-cell，HTML表格单元格默认属性)；overflow的值不为visible的元素；弹性盒 flex boxes (元素的display: flex或inline-flex)；但其中，最常见的就是overflow:hidden、float:left/right、position:absolute。也就是说，每次看到这些属性的时候，就代表了该元已经创建了一个BFC了(是一个独立的布局环境，我们可以理解为一个箱子（实际上是看不见摸不着的），箱子里面物品的摆放是不受外界的影响的)。[参考学习地址1。](https://blog.csdn.net/qf2019/article/details/99828150)[参考学学习地址2。](https://www.cnblogs.com/magicg/p/12650563.html)
 
 盒子模型：html的一个元素就是一个盒子，w3c盒子内容包括：marging、border、padding、content。ie的盒子模型中content部分包括border和padding部分。
-#### 14、项目构建相关：
-[别人收集的vue相关资源。](https://github.com/opendigg/awesome-github-vue#UI组件)
-一、ui框架一览：
-- 后台开发类框架可选择element-ui，MuseUI。飞冰(阿里-直接复制使用的ui组件库)。[Ant Design](https://pro.ant.design/index-cn)
-- 金融移动端类ui框架可选择Mand-mobile。
-- 较通用的移动端ui库：vux
-- 可视化的：echars、plotly。
-- [we-vue：适合微信公众号，小程序。](https://wevue.org/)
-- [nutUI：适合电商网站的移动端ui库。](https://nutui.jd.com/#/index)
-- 特效动画的：[Animate.css](https://animate.style/)。
-- pc端（非管理）：[vue material，特效稍多](http://vuematerial.materializecss.cn/#/components/button)。[mue-ui，特效稍多](https://muse-ui.org/#/zh-CN/expansion-panel)
-二、脚手架：vue-cli
-三、js功能库：
-- 处理时间的：moment。[moment文档官网。](http://momentjs.cn/)
-- 处理数据：Lodash,[Lodash官方文档。](https://lodash.com/docs/4.17.15)。
-- 富文本编辑：wangeditor
 
-四、请求处理：axios
-五、包管理工具：npm、[yarn](https://blog.csdn.net/moshowgame/article/details/103358313)。
-六、检查代码规范的eslint（可编写规则，vscode使用设置eslint相应设置进行规范化）。
-七、服务端渲染框架：与react结合的next.js，与vue结合的Nuxt.js。
 #### 15、web端性能优化：
 先列出一些方法：懒加载、字体图标、图片适当压缩、需要时才加载、vue中用keep-alive缓存加载过的组件、组件项用动态导入组件：Load:import('../component/test')。
 图片处理专项：(png转为jpg后一般能缩小一半，但png色彩更丰富，且透明背景属性，所以项目中一般使用的是png)
@@ -2606,18 +2581,8 @@ v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的
 v-leave-to：2.1.8 版及以上定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。
 
 #### 6、资源收集：
-webpack学习：https://blog.csdn.net/eeeecw/article/details/80453899
-前端技术文档大全：https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange
-直播功能：https://www.cnblogs.com/liuxin-673855200/p/9948100.html
-移动端网页上调用手机app：https://www.jianshu.com/p/3d1e48b9ec7c
-调用电话：https://www.cnblogs.com/lilin1995/p/5640684.html
-`<marquee></marquee>`标签属性大全：https://blog.csdn.net/bright_101/article/details/52124278
-张鑫旭空间：https://www.zhangxinxu.com/
-支付宝H5开放文档：https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B
-javascript所有事件集：http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp
-HTML标签大全：http://www.w3school.com.cn/tags/index.asp ；(还有很多不错的标签没用过)。[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)
-[很多实用前端工具。](https://www.zhihu.com/question/20241338?sort=created)
-[plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)
+[张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
+[HTML转义字符表](http://tool.oschina.net/commons?type=2)、[HTML标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)、[很多实用前端工具。](https://www.zhihu.com/question/20241338?sort=created)、[plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)、[javascript事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝H5开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)、[直播功能](https://www.cnblogs.com/liuxin-673855200/p/9948100.html)、
 
 #### 7、微信公众号开发注意项：
 先用超级管理员账号登录微信公众号平台，开发>开发者工具>微信开发者工具>绑定开发者(将自己的微信号绑定为开发者账号)。
@@ -3384,3 +3349,8 @@ const _el = document.getElementById("img");
         oImg.src = canvas.toDataURL(); // 导出图片
         });
 ```
+#### 19、nginx：
+:::alert-info
+**简介**：是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，在BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力在同类型的网页服务器中表现较好。
+:::
+[配置学习地址](https://www.cnblogs.com/jingmoxukong/p/5945200.html)
