@@ -48,18 +48,24 @@ https://jingyan.baidu.com/article/2d5afd698580e585a2e28ebd.html
 [高质量简历技巧学习地址。](https://zhuanlan.zhihu.com/p/83331370)
 #### 2、收藏：
 一、**好用的软件收藏**：
-<i class="label1">VNote</i>：linux版下载下来是以AppImage结尾的后缀名，赋予其权限后运行它直接使用，这并不是安装到系统上的。
+**VNote**：linux版下载下来是以AppImage结尾的后缀名，赋予其权限后运行它直接使用，这并不是安装到系统上的。
 ctrl+T切换编辑模式。似乎没有登陆。[自定义css样式]包括字体大小，颜色，间距。点击markdown>点击添加样式，会提示添加的方法(文件>打开配置文件夹，然后找到styles文件夹，可将自己写的css文件放到里面，不过后缀名为.mhdl，也可以打开resource文件夹写在common.css文件中)。使用：在笔记中使用HTML标签，然后写上配置的类名(最好不要用id名)。
 全暗色配置：v_moonlight(主题样式)、v_moonlight(markdown/渲染样式)、v_moonlight_codeblock(markdown/代码块样式)。
 可以使用图片标签：`<img src="E:\data\image\av.webp">`#似乎重启后才会生效。
-**使用**：帮助选项里有介绍一些语法。**支持数学公式**的话可在Markdown选项/扩展中选择MathJax。[MarkDown数学公式语法](https://blog.csdn.net/jyfu2_12/article/details/79207643)
-切换系统引起的打不开文件问题：重新更改一下设置即可。下载地址：https://github.com/tamlok/vnote/releases。[markdown语法大全。](https://www.jianshu.com/p/ebe52d2d468f)
-<i class="label3">linux上安装遇到问题</i>`/lib64/libstdc++.so.6: version “CXXABI_1.3.9” not found`
-查看动态库：`strings /usr/lib64/libstdc++.so.6 | grep CXXABI`#然后会出现CXXABI相关版本，其中缺少1.3.9版本。原因是对应的libstdc++.so.6版本过底。
-查看该程序：`ls -l /usr/lib64/libstdc++.so.6`#发现其是链接到libstdc++.so.6.0.19的一个软链接。因此我们需要更高版本的Libstdc++
-查找所有磁盘中的最新libstdc++:`  find / -name "libstdc++.so.*"`#如果有安装Anaconda的话，能在其下面找到新版本的库。然后如下操作。
-将其复制到/usr/lib64下，删除原libstdc++.so.6：`ln -s libstdc++.so.6.0.22 libstdc++.so.6`#建立新的软链接，会生成新的libstdc++.so.6。
-[解决学习地址。](https://blog.csdn.net/zhuiqiuzhuoyue583/article/details/80150207)
+- **使用**：帮助选项里有介绍一些语法。**支持数学公式**的话可在Markdown选项/扩展中选择MathJax。
+- **矩阵的写法**：[MarkDown数学公式语法](https://blog.csdn.net/jyfu2_12/article/details/79207643)
+$\left[\begin{array} a_{11}&\cdots&a_{1n}\\ \vdots&{ }&\vdots\\a_{n1}&\cdots&a_{nn}\end{array}\right]和\begin{matrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{matrix}=a_{11}M_{11}-a_{12}M_{12}+a_{13}M_{13}$
+- [vnote下载地址](https://github.com/tamlok/vnote/releases)。
+- [markdown语法大全。](https://www.jianshu.com/p/ebe52d2d468f)
+- **问题**：
+>切换系统引起的打不开文件问题：重新更改一下设置即可。
+>**linux上安装遇到问题**：`/lib64/libstdc++.so.6: version “CXXABI_1.3.9” not found`
+>查看动态库：`strings /usr/lib64/libstdc++.so.6 | grep CXXABI`#然后会出现CXXABI相关版本，其中缺少1.3.9版本。原因是对应的libstdc++.so.6版本过底。
+>查看该程序：`ls -l /usr/lib64/libstdc++.so.6`#发现其是链接到libstdc++.so.6.0.19的一个软链接。因此我们需要更高版本的Libstdc++
+>查找所有磁盘中的最新libstdc++:`  find / -name "libstdc++.so.*"`#如果有安装Anaconda的话，能在其下面找到新版本的库。然后如下操作。
+>将其复制到/usr/lib64下，删除原libstdc++.so.6：`ln -s libstdc++.so.6.0.22 libstdc++.so.6`#建立新的软链接，会生成新的libstdc++.so.6。
+- [解决学习地址。](https://blog.csdn.net/zhuiqiuzhuoyue583/article/details/80150207)
+
 <i class="label1">解压软件</i>：bandizip可解压多种格式的压缩文件。52zip功能不如bandizip强大，但也还可以。主要是都没有广告携带。
 <i class="label1">u盘分区和数据恢复工具</i>：DiskGenus，[DiskGenus下载地址。](https://www.diskgenius.cn/download.php)
 <i class="label1">报表相关软件</i>：[几款报表分析软件。](https://www.zhihu.com/question/20205873)

@@ -1,33 +1,4 @@
 ## 一、英语练习：
-**Sold Out**：
-I `ain't` (am not 缩写) like no one you met before    #我不像你以前认识的任何人
-I'm running for the front    #我会向前奔跑
-When they're all running for the door    #当他们都冲向那道门的时候
-And I won't sit down `won't (will not缩写)` back out    #我不会坐下 不会退缩
-You can't ever shut me up    #你永远不能让我闭嘴。Cause I'm on a mission    #因为我在完成一个使命
-And I won't quit now    #并且我不会就这样放弃。In a world full of followers    #在一个满是追随者的世界里
-I'll be a leader    #我会是一个领导者
-In a world full of doubters (怀疑)    #在一个满是怀疑的世界里。I'll be a believer #我会是一个信仰者
-I'm stepping out without a `hesitation` (疑问)。我毫无疑虑地离开
-Because the battle's already been won    #因为这场战役已经胜利了。I'm sold out    #我奉献一切
-I'm no longer living    #我再也不会。Just for myself    #只为自己活着
-Running after **Jesus**(上帝)。我义无反顾地
-I'm `gonna(将要)` be making it count    #我都会记着。I am sold out    #我奉献一切
-This ain't just some `temporary(暂时的) phase(阶段)`    #这不是短暂的阶段
-You can't face this kind of grace（优雅）And leave the way you came#你不能接收这份恩泽,舍弃你来时的路
-This is `permanent(永久的)` with `intent(意图的)` And there won't be no stopping it now    #而且也不会有什么阻止它#这是带有意图的永恒
-I'm `on a mission(执行任务)` and it's heaven sent    #我在完成上天给我的使命。In a world full of followers    #在一个满是追随者的世界里
-I'll be a leader    #我会是一个领导者。In a world full of doubters    #在一个满是怀疑的世界里。I'll be a believer    #我会是一个信仰者
-I'm stepping out without a hesitation    #我毫无疑虑地离开
-Cause my `soul(灵魂)` is like a stadium(体育场) #因为我的灵魂就像一个运动场。I'm sold out#我奉献一切
-I'm no longer living    #我再也不会。Just for myself #只为自己活着。Running after Jesus With my whole heart #我义无反顾地追随我心
-And now I'm ready to show #我已经准备好了出演。I am sold out    #我奉献一切。I'm sold out我奉献一切
-With every `single(adj,单一的)` Step that I take now##现在我迈出的每一步
-With every drop of blood Left in my `veins(静脉)`##每一滴流在静脉里的血
-I'm gonna be making it count   #我都会奋力拼搏。I am sold out#我奉献一切
-No **trials(审判)** coming against(反对) me    #没有审判能阻止我。Could put a `dent(凹痕)` in my passion（激情）    #给 我的热情以打击
-They're just an opportunity    #他们只是一个机会。To put my `faith(信仰)` into action    #来把我的信仰付诸行动
-
 ### 1、每日一句：
 1. There is a `holiness`(神圣，陛下) to the heart's `affections`(喜爱).
 2. Never let your `persistance`(坚持) and `passion`(激情) turn into `stubbornness`(固执) and `ignorance`(无知).
@@ -56,6 +27,15 @@ It’s not difficult to set targets for `staff`(n:全体职工；v:任职于)。
 ### 4、翻译：
 We `[tend](vi:照顾、倾向) to think`(往往认为) that friends and family members are our biggest `sources of connection, [laughter](笑声) and warmth`(快乐和温暖的源泉)。`researchers`(研究员) have also recently found that `interacting`(v:交流、合作) with strangers `actually`(实际上) brings a `boost`(vi:增加、促进) in `mood`(心情、语气) and `feelings of belonging`(归属感) that `we didn’t expect`(意想不到的)。 researchers `instructed`(v:命令。adj:受到教育的) Chicago-area `commuters`(通勤者) using public transportation to `strike up a conversation`(开始谈话) with someone near them。`As it [turns out](结果是、熄灭、参加)`(事实证明)。
 Your boss `proposes`(v:建议、计划、求婚) a new `initiative`(新方案、积极性、主动权) you think `won't`(won:获胜、取得。win的过去分词) work。Your `senior`(级别高的、成人的) `colleague`(同事) `outlines`(v/n:概述 ) a project timeline you think is `unrealistic`(不切实际的)。You may decide it’s best to `hold off`(推迟) on `voicing`(voice的现在分词，表达) your `opinion`(意见)。It’s also a good idea to delay the conversation。it may be the `credibility`(可靠性) of their team or getting a project `done`(完毕、结束) on time。You’ll want to state it `overtly`(公开地、明显地)。 `contextualizing`(上下文关系) your statements。I know we seem to be moving `toward`(向、面对) a `first-quarter`(第一季度) `commitment`(承若、保证) here。`allowing`(允许) them to `verbally`(口头上) `opt in`(选择加入)。You might feel your `heart racing[比赛]`(内心加速) or your face turning red.。but do whatever you can to `remain`(n:残余，遗迹；vi:保持) `neutral`(中立) in both your `words and actions`(言和行)。When your body language communicates `reluctance`(不情愿) or `anxiety`(焦虑),it `undercuts`(v:使降低效力)  the messages。your `counterpart`(职位相当的人、对手) gets to `choose what to read`(选择读什么)。`Deep breaths`(深呼吸) can help, as can speaking more slowly and `deliberately`(故意地、深思熟虑地)。`gospel truth`(天经地义的事)。
+### 5、阅读理解：
+text1:
+`Reskilling`(再就业) is something that `sounds like`(听起来像) a `buzzword`(流行词) but is actually a `requirement`(所需的东西) if we plan to have a future where a lot of would-be workers `do not get left behind`(不落后)。 We know we are moving into a `period`(一段时间、时期) where the jobs in `demand`(n:需要，v:强烈要求) will change rapidly, as will the `requirements of the jobs that remain{任然是、剩余}`(工作的需求也是如此)。The question of who should pay for reskilling is a `thorny`(棘手的) one。 the `temptation`(诱惑) is always to `let go of`(放弃) workers whose skills are `no longer`(不长久) in demand and `replace them`(替代他们) `with those whose skills are`(用那些有技能的人)。Other companies had also `pledged`(v:保证给予) to create their own plans。When the skills mismatch is in the `broader`(广泛的) `economy`(经济) `though`(即使)。Efforts in Canada and elsewhere have been `arguably`(可论证地，按理) `languid`(懒惰的) `at best`(充其量)。With the `pandemic`(流行), `unemployment`(失业) is very high `indeed`(adv:真正地，用于强调陈述)。at 3.5 per cent and 5.5 per cent `respectively`(各自地), unemployment rates in Canada and the United States were `at generational[一代的] lows`(代际低点) and worker `shortages`(缺少) were everywhere。In the `medical field`(医疗领域), to take an `obvious`(明显的、公认的) example, the pandemic `meant`(本应的、表示...的意思) that there were still `clear`(明显的) shortages of doctors, `nurses`(护士) and other medical personnel。it is not like you can `take`(携带、使达到) an `unemployed waiter`(失业的服务员)。When `forced`(被迫的) to `furlough`(休假) 90 per cent of their `cabin`(座舱 、小屋) staff。The `effort`(有组织的活动、努力、试图) was a `collective`(集体的) one and `involved`(参与、有关联) other companies as well as a `Swedish`(瑞典语) university.
+text2:
+With the global `population`(人口，popular:受欢迎) predicted to `hit close`(接近) to 10 billion by 2050, and `forecasts`(n:预测，forest:森林) that `agricultural production`(农业生产) in some regions will need to `nearly`(几乎) double to `keep pace[一步、步调]`(齐头并进), food security is increasingly `making headlines`(成为头条新闻)。for a `rather`(稍微、相当) `particular`(特别的) reason: `Brexit`(英国退出欧盟)。A move back to `self-sufficiency[充足]`(自给自足), the `argument`(争论) `goes`(v:进行，离开), would boost the `farming industry`(农产品加工业), `political sovereignty`(政治主权) and even the `nation’s health`(国家健康)。how `feasible`(可行的) is this `vision`(视力、愿景)。the area is `associated`(vi:联系，联盟) with `meat`(肉，食物) and `dairy`(牛奶厂、乳品店) production。 That `supplies`(供应) 80 per cent of what is `consumed`(消耗、烧毁，livestock:家畜)。There are many `caveats`(警告) to those `figures`(数字), but they are still `grave`(严重的、坟墓，去世)。drastically(彻底地)、probably(adv:大概、可能)、veg(蔬菜)、reserve(储备、保留)、involve(vt:包含、围绕)、factory(工厂)。the UK is `dominated`(控制、影响) by `animal husbandry`(畜牧业):most of its `terrain`(地形) doesn’t have the right soil or `climate`(气候) to grow crops on a `commercial`(商业的) `basis`(原因、方式)。most of which is already `occupied`(覆盖) by `arable`(耕作的) `fields`(田、场地)。 look for the `grains`(谷物), `sugars`(糖), `seeds`(种子、起源) and `oils`(给...加润滑油) that provide us with the `vast`(巨大的、辽阔的) `bulk`(主体) of our current `calorie intake`(热量摄入)。
+text3：
+When Microsoft bought task management app Wunderlist and mobile `calendar`(日历) Sunrise in 2015, it picked up two `newcomers`(新手) that were `attracting`(吸引，引起..的好感) `considerable`(相当多的) `buzz`(发出嗡嗡声; 时尚氛围、匆忙走动) in `Silicon Valley`(硅谷)。Both apps, however, were `later`(后来) `scrapped`(scrap废弃，打架)。the biggest companies have used to `feed`(喂养) their `insatiable`(贪得无厌的) hunger for `tech`( 同 technical college ; 工学院) `talent`(天才，天赋)。the `fates`(命运) of Wunderlist and Sunrise are examples of a `remorseless`(持续恶化的、残酷的) drive by Big Tech to `chew up`(充分咀嚼; 弄坏;) any `innovative`(引进新思想的、革新的) companies that lie in their path。Microsoft `declined`(拒绝，下降) to `comment`(评论)。Like other `start-up`(初创) `investors`(投资者)。it asked the five most valuable US tech companies for information about their many small `acquisitions`(收获) `over the past decade`(过去十年里)。Given their `combined`(联合) market value of more than $5.5tn, `rifling`(膛线) through such small `deals`(交易、待遇、经营) — many of them `much less[较少地，减去]`(更何况) `prominent`(杰出的) than Wunderlist and Sunrise — might seem `beside[在...旁边，不中] the point`(不相关的)。`a drop in the ocean`(沧海一粟) compared with their massive financial `reserves`(预定，保留), and the more than $130bn of `venture`(风险) `capital`(资本，首都)。the big companies use such deals to buy their most threatening potential competitors before their businesses have a `chance`(可能性，偶然的) to gain `momentum`(动力，要素)。
+text4：
+We’re fairly `good at`(擅长) judging people based on `first impressions`(第一印象), thin slices of experience ranging from a `glimpse`(一瞥) of a photo to a five-minute `interaction`(合作，互相影响), and `deliberation`(细想，考虑) can be not only `extraneous`(无关的) but `intrusive`(侵入的，烦扰的)。 the `late psychologist`(已去世心里学家) Ambady asked participants to watch silent 10-second video clips of `professors`(教授) and to `rate`(n:速度，进度; 比率; 价格，费用; 房产税;v:评估; 看好; 分等级; 配得上;) the `instructor's`(指导者;instruct:命令，指导) `overall`(全体的) `effectiveness`(效率)。Their ratings `correlated`(相互依赖) strongly with students’ end-of-`semester`(学期) ratings。Another set of participants had to `count backward`(倒数) from 1,000 `by nines`(到9) as they watched the `clips`(片段), occupying their `conscious`(意识到，有知觉的) working memory。`demonstrating`(证明) the `intuitive`(直觉的，使用简便的) nature of the `social processing`(社会过程)。Accuracy dropped `dramatically`(显著地，急剧地)。Ambady `suspected`(v:怀疑) that `deliberation focused`(考虑的重点) them on `vivid`(生动的，清晰的) but misleading `cues`(暗示，信号), such as `certain`(必然的，某一) `gestures`(手势、姿态、表示) or `utterances`(说话方式), rather than letting the `complex`(复杂的、复合的) `interplay`(相互作用) of `subtle`(微妙的) `signals`(信号、标志) form a `holistic`(整体的) impression。Other research shows we’re better at `detecting`(发现) `deception`(欺骗) and `sexual orientation`(性取向) from thin slices when we `rely on`(依赖，reliability:可靠) `intuition`(直觉) instead of `reflection`(印象、反射、表达)。 But if you go on `automatic`(自动的、无意识的) `pilot`(飞行员、向导;vt:驾驶、试验), you’re fine。`College`(大学) students’ ratings of `strawberry`(草莓) `jams`(果酱、卡住) and college `courses`(课程) `aligned`(校准、使一致) better with `experts’`(专家) opinions when the students weren’t asked to analyze their `rationale`(根本原因)，satisfying(令人满意的)。Intuition’s special powers are `unleashed`(释放) only in `certain`(确实、某事、某人) `circumstances`(条件、环境)。participants completed a battery of eight tasks, including four that `tapped`(轻拍、利用、开发) `reflective`(沉思的、反光的、典型的) thinking。discerning(有识别力的)、degree(级别)。 
 **试题资源**：[资源1](http://www.offcn.com/kaoyan/shiti/2572/)、[试题1](http://www.offcn.com/kaoyan/2020/1229/194907.html)、
 ## 二、数据结构习题：
 **基本概念**：
@@ -69,53 +49,95 @@ Your boss `proposes`(v:建议、计划、求婚) a new `initiative`(新方案、
 - **时间复杂度**是指最坏情况下估算算法执行时间的一个上界。
 
 **数据的结构相关**：
-- **栈**是一种实现数据流动方式的方法，**与存储数据无关**。
-- **串、队列、堆、栈**是线性结构的。有序表只是逻辑结构。
-- 数据结构的抽象操作的定义与具体实现**无关**。
-- 数据结构的基本操作设置的**最重要准则是**，实现应用程序与存储结构的独立。
+- **栈**是一种实现数据流动方式的方法，**与存储数据无关**。**串、队列、堆、栈**是线性结构的。有序表只是逻辑结构。
+- 节点M,N的关系时M:N，这是一种图的数据结构。
+- 数据结构的抽象操作的定义与具体实现**无关**。数据结构的基本操作设置的**最重要准则是**，实现应用程序与存储结构的独立。
 - 对n个元素可构造出的逻辑结构有：集合、线性结构、树形结构、图状结构。
-- 一个数据结构在计算机中的**表示（映像）**称为存储结构。
+- 一个数据结构在计算机中的**表示(映像)**称为存储结构。
 - 抽象数据类型的定义仅取决于它的一**组逻辑特性**，与在**计算机内部如何表示和实现无关**，只要其数学特性不变，都不影响在外部的使用。
+- 开放地址法处理散列表冲突时，其平均长度**高于链接法处理冲突**。
+- 快速排序在最坏情况下的时间复杂度为o(n^2)。
 
-试题资源：[试题1](https://wenku.baidu.com/view/da5218f06429647d27284b73f242336c1eb93085.html)。
+试题资源：[资源1](https://wenku.baidu.com/view/da5218f06429647d27284b73f242336c1eb93085.html)。[资源2](https://wenku.baidu.com/view/da5218f06429647d27284b73f242336c1eb93085.html)、[资源3](https://wenku.baidu.com/view/56e70f5277c66137ee06eff9aef8941ea76e4b23.html)
 
 ## 三、数学习题：
 ### 一、数学分析：
-**求渐近线**：如果当`x→∞时,f(x)→c`,则曲线y=f(x)有一**水平渐近线**y=c。如果当`x→xℴ时,f(x)→∞`,则曲线y=f(x)有一**铅直渐近线**x=xℴ。如果极限`x→+∞lim[f(x)/x]=a`存在,且极限`x→+∞lim[f(x)-ax]=b`，则存在一个**斜渐进线**。示例如下：求其渐近线。
-$y=\frac{x^2+x}{x^2-1}$
+#### a、几何相关：
+$求y=\frac{x^2+x}{x^2-1}渐近线$
 >**解析**：化简得`x / (x-1)`#x→∞时得1是一条水平渐近线。x→1时得∞是一条垂直渐近线。无斜渐近线。
 
 **连续、可导、可微、可积关系**：
 函数在某点连续但在该点不一定可导，如`|x|`函数左右导数不相等。但不可导的点一定不连续。
-**题1**：如果f(x,y)在(0,0)连续，求证若极限：lim(x->0,y->0)f(x,y)/(x^2+y^2)存在，则f在(0,0)处可微。<b c=gn>求极限</b>
+#### b、求极限部分：
+**题1**：如果f(x,y)在(0,0)连续，求证若极限：lim(x->0,y->0)f(x,y)/(x^2+y^2)存在，则f在(0,0)处可微。<b tag>求极限</b>
 >**解析**：因为lim(x->0,y->0)f(x,y)/(x^2+y^2)存在，f在(0,0)连续，所以lim(x->0,y->0)f(0,0)/(x^2+y^2)也存在。
 >由极限的四则运算可知：`lim(x->0,y->0)(f(x,y)-f(0,0))/(x^2+y^2)`存在，即`lim(△x->0,△y->0)(f(x,y)-f(0,0))/(△x^2+△y^2)`存在，所以可导。
 >$\lim_{x\rightarrow 0,y\rightarrow 0}\frac{f(x,y)-f(0,0)}{x^2+y^2}=\lim_{x\rightarrow 0,y\rightarrow 0}\frac{f(x,y)}{x^2+y^2} - \lim_{x\rightarrow 0,y\rightarrow 0}\frac{f(0,0)}{x^2+y^2} = 0$
 >所以`lim(△x->0,△y->0)(f(x,y)-f(0,0))/sqrt(△x^2+△y^2)=0`得出`f(x,y)-f(0,0)=0*△x+0*△y+o(sqrt(△x^2+△y^2))`#可微的充要条件。
 
-**题2**：<b c=gn>无穷小量与无穷小量比值求极限</b>：求`lim(x->0)(tanx-sinx)/sin(x^3)`的极限。
+**题2**：<b tag>无穷小量与无穷小量比值求极限</b>：求`lim(x->0)(tanx-sinx)/sin(x^3)`的极限。
 >**解析**：分子分母均是->0的无穷小量，由极限中定理1得知，可以使用等价无穷小量函数来替代式中的分子、分母。
 >tanx-sinx = (sinx/cosx)(1-cosx)。`sinx~x（x->0）`，`1-cosx~x^2 / 2（x->0）`，`sin x^3~x^3（x->0）`，将这些带入式中如下：
 >$\lim_{x\rightarrow 0}\frac{tanx-sinx}{sin x^3}=\lim_{x\rightarrow 0}\frac{x*\frac{x^2}{2}}{cos x}*\frac{1}{x^3}=\frac{1}{2}$
 
 <b c=r>注</b>：要使用无穷小量函数替换得替换式中的因式部分，这个因式与其它因式**需要是乘/除关系**，而不能是加/减关系。
 <i class="label2">常用的等价无穷小替换</i>x->0时。sinx~x、tanx~x、arcsinx~x、arctanx~x、1-cosx~x^du2/2、a^x-1~xlna、e^x-1~x、ln(1+x)~x、(1+Bx)^a-1~aBx、[(1+x)^1/n]-1~1/nx、loga(1+x)~x/lna
-**题3**：求`\int tanx dx`。<b c=gn>求积分</b>
+
+#### c、积分相关：
+**题1**：求`\int tanx dx`。<b tag>求积分</b>
 >**解析**：先变换tanx再用换元积分法，如下：
 >$\int tanx dx=\int \frac{sin x}{cos x}dx=-\int \frac{(cos x)'}{cos x}dx=-\int \frac{1}{cos x} dcosx$
 >令u=cosx，g(u)=1/u则得`-ln|cos x|+C`。
 
-**题4**：设Ik=\int ^k_e e^(x^2) sinx dx，比较k=1,2,3时它们的大小。
+**题2**：设Ik=\int ^k_e e^(x^2) sinx dx，比较k=1,2,3时它们的大小。
 >**解析**：e^(x^2)和sinx在(0,π)都大于0，所以e^(x^2) sinx在(0,π)上是单调函数，所以积分大小为：I1<I2<I3。
 
+**题3**：证明xln(1+x)/(1-x) + cosx>=1+x^2/2，-1<x<1。<b tag>函数式大小比对</b>
+>$解析：令f(x)=x\ln\frac{1+x}{1-x}+cosx-1-\frac{x^2}{2}$
+>$f'(x)=\ln\frac{1+x}{1-x}-sinx+\frac{2x}{1-x^2}-x，令f'(x)=0得x=0处是一个极值点。$
+>$f''(x)=\frac{4}{(1-x^2)^2}>0，所以f'(x)在(-1,1)是单调递增的$
+>所以在(-1,0)f'(x)<0，(0,1)上f'(x)>0，点x=0处是极小值点是(-1,1)上的最小值点。
+>又f(0)>0，所以xln(1+x)/(1-x) + cosx>=1+x^2/2成立。
+
+**题4**：已知曲线L:{x=f(t),y=cost}，(0<=t<π/2)，f(t)具有连续导数，f(0)=0,f(t)>0,{0<t<π/2}，若曲线L的切线与x轴的交点到切点的距离恒为1，求f(t)的表达式，和曲线L与x轴y轴所围面积。<b c=v>由于f(0)=0，f(t)>0,{0<t<π/2}所以下面f'(t)取正</b>
+>**解析**：因为f(t)的导数在[0,π/2)上连续，所以在该区间都可积，即原函数在该区间可微，所以f(t)在[0,π/2)都可导。
+>$切线斜率：k=\frac{dy}{dx}=\frac{f'(t)}{-sint}，与L切点为(f(t),cost),则由点斜式得切线方程：y-cost=\frac{f'(t)}{-sint}(x-f(t))$
+>$切线与x轴交点：(f'(t)cost+f(t),0)，交点与切点距离得：\sqrt{(f(t)-f'(t)cott-f(t))^2+sin^2t}=1得：f'(t)=\frac{sint}{cott}$
+>$f(t)=\int \frac{sint}{cott}dt=\int \frac{1-cos^2t}{cost}dt=ln|sect+tant|-sint$
+>$求定积分：\int ^{\frac{π}{2}}_0 f(t)dt=\frac{π}{4}为与坐标轴的面积$
+
+**题5**：已知L是从第一象限中从点(0,0)沿圆周x^2+y^2=2x到点(2,0)，在沿圆周x^2+y^2=4到点(0,2)的曲线段，计算曲线积分：<b tag>曲线积分</b>
+$J=\int ^{}_L 3x^2ydx+(x^2+x-2y)dy$
+>**解析**：这里利用格林公式，补一个直线L1：x=0，与之前两个圆周围成区域D，用计算区域D的二重积分减去x=0的曲线积分得到J。方向取逆时针。
+>由题中积分式子可知，P=3x^2y，Q=x^2+x-2y按照格林公式还原如下：
+>$J=\int ^{}_{L+L1} 3x^2ydx+(x^2+x-2y)dy-\int ^{}_{L1} 3x^2ydx+(x^2+x-2y)dy$
+>$\int\int ^{}_{D}(3x^2+1-3x^2)dxdy-\int ^0_2 -2ydy=\frac{π}{2}-4$
+#### d、级数相关：
+**题1**：求(n=1,∞)∑(x^n / n) * (-1)^{n-1}的收敛半径与收敛域。<b c=gy>注意收敛域区间两端是否也收敛</b>
+>**解析**：an=-1^(n-1)/n。|an|=1/n，|an+1|=1/(n+1)
+>$\lim_{n\rightarrow\infty}\frac{|a_{n+1}|}{|an|}=\frac{n}{n+1}=p$
+>R=1/p=1则收敛区间为(-1,1)，又x=-1时该级数发散，x=1时级数收敛，所以收敛域为：(-1,1]
+
+**题2**：求(n=1,∞)∑(x-1)^n / n2^n。<b c=gy>注意这里将x-1作为一个整体</b>
+>$解析：令x-1=t，\lim_{n\rightarrow\infty}\frac{a_{n+1}}{a_n}=1/2=p$
+>得R=1/p=2，因为-2<t<2，所以-1<x<3。
+
+**题3**：求幂级数(n=1,∞)∑(4n^2+4n+3)*x^2n/(2n+1)的收敛域及和函数。<b c=v>这种x的指数项不是n的属于缺项级数，可用柯西马达定理求收敛域。用逐项求积分的方法来求和函数，有时可以将求和符号化无，如p54例7</b>
+>$解析：an=\frac{4n^2+4n+3}{2n+1},\lim_{n\rightarrow\infty}\frac{|a_{n+1}|}{a_n}=1=p$
+>所以R=1/p=1，但x在1和-1处都是发散的，所以收敛域为(-1,1)。
+>$用逐项求积分的方法来求和函数。S(x)=\sum_{n=1}^{\infty}\frac{4n^2+4n+3}{2n+1}\int ^x_0 x^{2n}dx=\sum_{n=1}^{\infty}\frac{4n^2+4n+3}{2n+1}x^{2n+1}$
+
 ### 二、概率论：
-题1：设随机变量x与y相互独立，且分别服从参数为1与4的指数分布，求p{x<y}。
->解析：因为p{x<y}是一个联合分布概率，且都服从指数分布，所以(X,Y)的联合概率密度为：<b c=gy>!暂不明白如此计算的具体原因</b>
+**题1**：设A,B,C是随机事件，A,C互不相容，p(AB)=1/2，p(C)=1/3，求p(AB-C)。<b tag>-C表示C的逆事件</b>
+>**解析**：由事件关系推出：p(AB-C)=p(AB)-P(ABC)，因为A与C互不相容，所以p(ABC)也为0。
+
+**题2**：设随机变量x与y相互独立，且分别服从参数为1与4的指数分布，求p{x<y}。
+>**解析**：因为p{x<y}是一个联合分布概率，且都服从指数分布，所以(X,Y)的联合概率密度为：<b tag>!暂不明白如此计算的具体原因</b>
 
 $$f(x,y)=\begin{cases}e^{-x-4y} & x>0,y>0 \\
 0 & 其它 \end{cases}$$
 
->$则都计算x的微分或y的微分。p\lbrace X>Y \rbrace =\int ^{+\infty}_0 dx\int ^y_0 e^{-x-4y} dx=\frac{1}{5}$
+>$则都计算x的微分或y的微分。p\lbrace X < Y \rbrace =\int ^{+\infty}_0 dx\int ^y_0 e^{-x-4y} dx=\frac{1}{5}$
 
 ### 四、资源：
 [试题1](https://wenku.baidu.com/view/3e297504cf2f0066f5335a8102d276a201296056.html)。[资源1](http://www.chinakaoyan.com/info/list/ClassID/69.shtml)、[试题2](http://www.chinakaoyan.com/info/article/id/378823.shtml)、
