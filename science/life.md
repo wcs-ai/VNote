@@ -55,8 +55,7 @@ ctrl+T切换编辑模式。似乎没有登陆。[自定义css样式]包括字体
 - **使用**：帮助选项里有介绍一些语法。**支持数学公式**的话可在Markdown选项/扩展中选择MathJax。
 - **矩阵的写法**：[MarkDown数学公式语法](https://blog.csdn.net/jyfu2_12/article/details/79207643)
 $\left[\begin{array} a_{11}&\cdots&a_{1n}\\ \vdots&{ }&\vdots\\a_{n1}&\cdots&a_{nn}\end{array}\right]和\begin{matrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{matrix}=a_{11}M_{11}-a_{12}M_{12}+a_{13}M_{13}$
-- [vnote下载地址](https://github.com/tamlok/vnote/releases)。
-- [markdown语法大全。](https://www.jianshu.com/p/ebe52d2d468f)
+- markdown语法大全：点击帮助/指南即可。[vnote下载地址](https://github.com/tamlok/vnote/releases)。
 - **问题**：
 >切换系统引起的打不开文件问题：重新更改一下设置即可。
 >**linux上安装遇到问题**：`/lib64/libstdc++.so.6: version “CXXABI_1.3.9” not found`

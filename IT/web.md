@@ -306,6 +306,8 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 <meta http-equiv="Cache-Control" content="cache" /><!--no-cache是不缓存该页面-->
 <meta name="apple-mobile-web-app-capable" content="yes"><!--设置Web应用是否以全屏模式运行,content的默认值是no-->
 ```
+**input所有type类型**：
+tel、number、email、text、radio、checkbox、image、date、color、button、submit、hidden、month、password、range、reset、search、time、url、week、file、month、datetime-local
 #### 10、文字继承单选框和复选框：
 ```html
 <input type="radio" id="a"/> <label for="a">点我触发前面id为a的单选框</label>
@@ -426,6 +428,32 @@ ul::marker{
     font-size:14px;
 }
 ```
+- static默认定位下元素**宽可以占满剩余空间**。
+```html
+<div class="main">
+    <div class="left"></div>
+    <div class="right"></div>
+</div>
+<style>
+.main {
+        height: 100%;
+      }
+.main > .left {
+        height: 100%;
+        left: 0;
+        top: 0;
+        width: 210px;
+        background-color: red;
+        position: fixed;
+}
+.main > .right {
+        height: 100%;
+        background: blue;
+        margin-left: 210px;/*设置该属性，使用默认定位*/
+}
+</style>
+```
+
 #### 2、尺寸单位：
 - **em**：是根据当前元素字体大小而变化的,列入当前元素font-size:14px;width:10em,此时width为140px(每1em为字体大小)。
 - **rem**：是继承根部元素(html)的字体大小的,例:html{font-size:16px;}.div{width:10rem;}//width为160px。用以下代码修改根元素大小。
@@ -440,8 +468,8 @@ ul::marker{
     }
 })(window, document)
 ```
-- **vw**：视窗宽度,1vm相对于视窗宽度的1%。
-- **vh**：视窗高度。
+- **vw**：视窗宽度，1vw相对于视窗宽度的1%。
+- **vh**：视窗高度，1vh相对于视窗高度的1%。
 - vmin和vmax：vw和vh中选择最小/最大那个。
 
 #### 3、css3：
@@ -698,13 +726,15 @@ console.log(a.exec('kke,mme'));//只能找到第一个匹配项，放回一个�
 - `unshift()`//在数组最前端添加一个新的值。
 - `arr.sort()`#不传参数的话，默认将arr中的值看成字符串来排序。
 - `var a = arr.some(function(item,index,arr){if(item>2){return true;}})`#返回true时会结束遍历，arr是整个数组本身。a为布尔值。
+- `var a = arr.find((x)=>{return x>=4;})`#与some类似用法。返回为true时对应的值。
+- `var b = arr.filter((x)=>{return x%2==0;})`#返回所有满足条件的值，是一个数组。
 ```js
 var arr = [1,8,2,4,3,9,0];
 // filter函数接收一个函数，这个函数作用于每一个值，返回true或false决定是否丢弃该值。
 var r = arr.filter(function (s) {
      return s==2; // 注意：IE9以下的版本没有trim()方法
 });
-//sort()实现的排序的思想，传入函数作为参数，以灵活的用于各种情况。
+//----sort()实现的排序的思想，传入函数作为参数，以灵活的用于各种情况。
 arr.sort(function(a,b){
     //火狐使用归并排序，google使用快速+插入。b在a之前，循环用a与b比较。
     if (a > b) {
@@ -714,7 +744,13 @@ arr.sort(function(a,b){
       } else {
         return 0;
       }
-})
+});
+//----reduce()计算总和。
+function getSum(total, num) {//total是上一次return的结果，num是数组元素
+    console.info(">", total, num);
+    return total + num;
+}
+console.warn(numbers.reduce(getSum));
 ```
 - `list.reverse()`//将数组倒置，[1,2,3].reverse();//[3,2,1]。
 - `list.shift()`//移除第一个元素。
@@ -1008,6 +1044,23 @@ window.onbeforeunload = function(event) {
     //return '提示信息';
 };
 ```
+- **switch的使用**：
+
+```js
+var a = 5;
+switch(a){
+    case 1:
+        a = 9;
+        break;// 每个case完使用break;
+    case 2://匹配多个条件时写法。case相当于===，所以case 2 || 5这样的写法只等于2。
+    case 5:
+        alert('hello');
+        break;
+    default:// 没有匹配到时会运行default，使用switch时一定加上这个。
+        alert('结束');
+}
+```
+
 #### 7、元素操作：
 **获取元素尺寸相关**：
 el.offsetHeight;//包括边框+内边距+内容尺寸
@@ -2210,7 +2263,8 @@ rl.on('close', function() {
 - windows上：将`C:\Users\wcs\AppData\Roaming\npm`#vue被下载到该文件，添加到环境变量即可。
 
 <i class="label2">初始化</i>`vue init webpack test `#初始化一个名为test的项目，之后会询问一些设置上的问题，具体查看这个地址：[vue-cli初始化项目学习地址。](https://www.cnblogs.com/saint258/p/9621161.html)
-
+- **vue-cli-service**：该service相当于是使用node语言书写的一个本地服务，包括默认从vue.config.js读取配置（所以与webpack-service使用时的配置有些差异），运行webpack这些操作。所以也可以根据这些逻辑自己写一个恶脚手架。
+- [package.json文件各种属性解释](https://zhuanlan.zhihu.com/p/33928507)。
 ##### a2、基本使用：
 **$attrs与\$listeners**：
 ```vue
@@ -2706,7 +2760,12 @@ export default {
 router.beforeEach((to,from,next)=>{
     //每个页面跳转时都会调用。改变标题
     window.document.title = to.meta.title;
+    router.addRoutes(newRoutes);//可以添加一些新的路由
     next();//next({path:"/"}),还可以传路径来重定向路由，传false则禁止跳转。
+})
+//离开页面后触发，可在此关闭加载动画。
+router.afterEach((to,from)=>{
+    loading = false;
 })
 ```
 <i class="label1">router的两种模式：</i>hash模式背后的原理是onhashchange。因为hash发生变化的url都会被浏览器记录下来，从而你会发现浏览器的前进后退都可以用了，同时点击后退时，页面字体颜色也会发生变化。这样一来，尽管浏览器没有请求服务器，但是页面状态和url一一关联起来，后来人们给它起了一个霸气的名字叫前端路由，成为了单页应用标配。[学习地址。](https://www.cnblogs.com/imgss/p/7492333.html)
@@ -2714,7 +2773,6 @@ router.beforeEach((to,from,next)=>{
  // history=>history.pushState 浏览器历史纪录添加记录。history.replaceState 修改浏览器历史纪录中当前纪录。history.popState 当history 发生变化时触发
  // 使用时将state去掉，如：this.$router.push(url)
 ```
-**路由懒加载情况路由钩子函数失效问题**：要么不使用异步路由，要么在created钩子中写拦截逻辑。[参考地址。](https://blog.csdn.net/setsunadoudou/article/details/101284872)
 **hash模式**：hash模式url中会带有#号，破坏url整体的美观性, <b c=v>history 需要服务端支持rewrite(url重写)</b>, 否则刷新会出现404现象。
 ```js
 window.onhashchange = function(event){
@@ -2760,6 +2818,24 @@ this.#router.back(-1);
     component:()=>import('../book')
 }
 this.$router.push({name:"book",params:{id:110}}); //页面地址变为/book/110。注意这些页面使用的是同一个页面。
+```
+**子路由/二级路由**：在单页面上再加一个`<router-view/>`，示例如下：
+```vue
+<router-view/><!--App.vue页面使用一个路由标签-->
+//---路由中将二级路由配置在children中
+{
+    path:"home",
+    children:[{
+        path:"er"
+    }]
+}
+```
+home页面再使用路由标签：
+```vue
+<template>
+    <router-link to="/er">到er页面</router-link>
+    <router-view/><!--二级路由页面显示在这里。-->
+</template>
 ```
 **对路由使用keep-alive**:
 ```vue
@@ -3000,163 +3076,208 @@ v-enter-to：2.1.8 版及以上定义进入过渡的结束状态。在元素被�
 v-leave：定义离开过渡的开始状态。在离开过渡被触发时立刻生效，下一帧被移除。
 v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
 v-leave-to：2.1.8 版及以上定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。
-
-#### 6、资源收集：
-[张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
-[HTML转义字符表](http://tool.oschina.net/commons?type=2)、[HTML标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)、[很多实用前端工具。](https://www.zhihu.com/question/20241338?sort=created)、[plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)、[javascript事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝H5开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)、[直播功能](https://www.cnblogs.com/liuxin-673855200/p/9948100.html)、
-#### 7、typescript：
-1. **基础类型**：在变量名后声明其类型。
-
-```ts
-let x: [string, number];//声明一个可以有多种类型的元组变量。(元组各元素类型不必相同)
-let decLiteral: number = 6;
-let isDone: boolean = false;
-let list: number[] = [1, 2, 3];//数组写法
-let list: Array<number> = [1, 2, 3];
-let notSure: any = 4;//any表示可以是任意类型。
-//默认情况下null和undefined是所有类型的子类型。 就是说你可以把null和undefined赋值给number类型的变量。
-let u: undefined = undefined;
-let n: null = null;
-//用枚举，可作为变量的类型。
-enum Color {Red, Green, Blue}
-let c: Color = Color.Green;
-//>>>>>>>>>>>>!使用
-let y:number
-y = null! //用在值后可以让不符合的类型编译通过。
-```
-2. **函数**：
-```ts
-//有返回值的函数也是如此
-function warnUser(): string {
-    return "hello";
-}
-//void类型像是与any类型相反，它表示没有任何类型。
-function warnUser(a: number | string): void {//参数也需要定义类型。
-    alert(a);
-}
-//never类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
-function error(message: string): never {
-    throw new Error(message);
-}
-//interface用于创建一个类型要求例子，可以公共调用。
-interface LabelledValue {
-  readonly label: string;//对象必须含有该键值。readonly表示该属性只读。
-  color?: string;//带?号表示可选，在判断使用时会有一些友好的提示。
-}
-function printLabel(labelledObj: LabelledValue) {
-  console.log(labelledObj.label);
-}
-//泛型变量：传给函数什么类型，函数就返回什么类型。
-function identity<T>(arg: T): T {
-    return arg;
-}
-//参数是函数时，参数函数也要定义类型
-interface fn1{
-  ():void
-}
-function test(fn:fn1):void{
-    fn();
-}
-```
-3. **枚举**：
-```ts
-enum FileAccess {
-    // constant members
-    None,
-    Read    = 1 << 1,
-    Write   = 1 << 2,
-    ReadWrite  = Read | Write,
-    // computed member
-    G = "123".length
-}
-//常数枚举写法
-const enum Enum {
-    A = 1,
-    B = A * 2
-}
-```
-4. **类**：与es6的写法大致一致
-
-```ts
-class Animal {
-    public a: string = '11';//默认都是public
-    private name: string;//private将变量设为私有
-    //这是构造函数，这些参数能在继承时作为接收参数使用。使用的protected表示被保护，不能直接用new继承这个类。
-    protected constructor(theName: string) { this.name = 'hh'; }
-}
-
-class dog extends Animal {
-    //构造函数内调用super()这样，子类中也可以使用this指针。
-    constructor(name: string) { super(name); }
-    move(distanceInMeters = 45) {
-        console.log("Galloping...");
-        super.move(distanceInMeters);
+##### c1、vue.config.js
+```js
+module.exports = {
+    devServer:{},
+    publicPath:"./",
+    //如果是一个对象(这里写成函数形式)，则config中配置的属性会合并到最终配置上。
+    configureWebpack: config => {
+        config.outputDie = "dist";
+    },
+    chainWebpack: config => {
+        //这里配置loader
+        config.module.rule('vue').use('vue-loader').loader('vue-loader').tap(options => {
+             return options;
+        }).end();
+        //这样配置plugin。
+        config.plugin('define').tag(arg=>{
+            arg[0]['process.env'] = "dev";
+            return arg;
+        }).end();
+    },
+    css:{
+        extract:true,//组件内css抽取到一个单独css文件
+        sourceMap:true,//开启css的sourceMap
+        loaderOptions:{//css相关的loader部分配置。
+            css:{},//这个配置传递给css-loader
+            postcss:{}//这个配置会传递给postcss-loader
+        }
     }
 }
 ```
-5. **装饰器**：是一个方法，可以注入到类、方法、属性参数上来扩展类、属性、方法、参数的功能。<b c=r>装饰器只用于类</b>。[更多学习地址。](https://blog.csdn.net/weixin_33928467/article/details/87963596)
+#### 6、资源收集：
+**文章部分**：
+[张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
+[HTML转义字符表](http://tool.oschina.net/commons?type=2)、[HTML标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)、[plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)、[javascript事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝H5开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)
+**工具部分**：[很多实用前端工具。](https://www.zhihu.com/question/20241338?sort=created)
+- [属性兼容性查看网站](https://caniuse.com/?search=flex)：红色为完全不支持的版本，棕色为部分支持的版本，绿色为几乎全部支持的版本。命令使用：npm install -g caniuse-cmd
 
-```ts
-//>>>>>>>>>>>>>>>>>>普通装饰器，无法传参。
-function logClass(params:any){
-		//params就是当前类
-		console.log(params); //f HttpClient() {}
-		params.prototype.apiUrl = "xxxx"//相当于动态扩展的属性
-		params.prototype.run = function(){
-			console.log("run")
-		}
-	}
-@logClass
-class HttpClient{//将该类作为上面的params参数
-	constructor(name:string){console.info(name);}
+#### 8、IDE工具:
+##### a、vscode：
+:::alert-info
+支持各种语言的开发,但需要对应的插件来支持,所以会有一定缺陷。打开vscode点击第四个图标(方形)，安装python在点右边的安装。
+:::
+- **快捷键**: 参考地址:https://www.cnblogs.com/pleiades/p/8146658.html
+首先是F1/Ctrl+Shit+P万能键。Ctrl+P：文件切换。Ctrl+空格：自动提示。F12/Ctrl+左键：跳转到定义。Shift+F12：预览定义。Ctrl+G：跳转行号。Ctrl+/：注释切换
+Alt+↑↓：整行上下移动。Ctrl+↑↓：编辑器垂直滚动条上下移动，光标不动。Ctrl+Backspace/Delete：整词/连续空白删除。Ctrl+→←：光标整词移动
+Ctrl+F查找/Ctrl+Shift+F在文件中查找，这都属于通用的。F5：运行代码。Ctrl+F5：运行当前文件代码
+
+- **部分插件配置**：vscode上一款不错的颜色主题：搜索Code Blue点击install右界面点击Reload使用
+ vscode下载项输入框搜索Live Serve点击下载安装后右界面点击Reload to Active 后在html文件页面点击最下方(软件脚部)的Go Live(也可能是@go live)会在浏览器打开页面此时浏览器地址栏就变成了ip地址而不是本地路径地址，(使用默认浏览器时有效)。**好用的插件**：Dracula(颜色样式插件)、city Lights icon package(icon插件)、vue、Anaconda。**插件使用**：左侧栏最后一个功能搜索下载，下载好后右边界面上方有设置使用按钮。
+>**Powern Model插件**：在选择颜色主题栏最下方选择安装其它主题，下载Power Model插件然后在左下角点击设置打开 user settings文件或按F1输入user settings，界面右半部分大括号中加上"powermode.enabled":true,就能使用该插件了,"powermode.enableShake":false//桌面是否震动
+，"powermode.presets":"particles"/"fireworks"/"magic"/"flames"/样式。
+(配置的文件是json文件一定要用双引号)然后点击Reload to Active载入即可使用。
+>**vscode-icons**：颜色主题安装列表中安装vscode-icoons，点击Reload to Active然后按F1输入icon在弹出的列表中点击激活vscode icons即可使用该插件。[同时选中多个相同的字符]ctrl+shift+L选中该页中所有相同的字符。ctrl+D选择下一个相同的字符
+
+**格式化**：
+- **python代码格式化**：先安装yapf库，pip install yapf 然后在cscode设置搜索框中搜python.formatting.provider右边下拉框中选择yapf。设置好后选中要整理的代码块，右键点format selection整理，但对缩进无效。空格只有半字符长问题：设置>搜索框输入font，FontFamily项输入'monospace'
+- **prettier格式化**：主要web代码时使用，部分配置如下（setting.js）：其它详细的可以搜索prettier设置。[prettier相关设置。](https://blog.csdn.net/hbiao68/article/details/107176795/)
+- **editor格式化配置**（setting.js）：
+
+```js
+{
+  //editor是vscode自带的格式化配置方法，有这些配置时vs就会使用。
+  //!项目根目录下的.editorconfig文件就是editor的配置，vs会优先使用这个配置。
+  "editor.suggestSelection": "first",
+  "editor.fontSize": 16,
+  "editor.tabSize": 2,//table为几个字符长。
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,//保存时自动格式化。！！就算使用了其它格式化插件，也请开启此项。
+  //"eslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.fontLigatures": false,
 }
-//>>>>>>>>>>>>>>可传参的装饰器，装饰器传的参数是params，而修饰的类时target参数
-function logClass2(params:string){
-		return function(target:any){//需要返回一个函数用于接收装饰的类。
-			target.prototype.apiUrl = params;//相当于动态扩展的属性
-		}
-	}
-@logClass2("http://www.abc.com")
-class HttpClient{
-		constructor(name:string){console.info(name);}
-}
-const cc = new HttpClient('wcs');
-//>>>>>>>>>>>>>>>属性装饰器，用于类内部的变量装饰。
-function logProperty(params:any){//params是装饰器传入的参数，target是所在类，attr是修饰的对象。
-		return function(target:any,attr:any){
-			console.log(target);//{getData:f,constructor:f}
-			console.log(attr);//url
-			target[attr] = params;
-		}
-	}
-class HttpClient{
-		@logProperty("http://www.abc.com") //属性装饰器后面不能加分号，该值赋给url。
-		public url:any|undefined;
-		constructor(){console.log(134)}
-		getData(){
-			console.log(this.url)
-		}
-  }
-let cn = new HttpClient();
-cn.getData();//http://www.abc.com
-//>>>>>>>>>>>>>>>>>类方法装饰器
-function get(params:any){
-		return function(target:any,methodName:any,desc:any){
-            //params是装饰器传入的参数，target是所在原型，methodName是修饰的方法名，desc是修饰的方法的描述。
-			target.apiUrl=params;
-		}
-	}
-class HttpClient{
-		public url:any|undefined;
-		constructor(){console.info('init')}
-		@get("http://www.abc.com")
-		getData(){
-			console.log(this.url)
-		}
-  }
-let http = new HttpClient();
 ```
-[typescript中文档](https://www.tslang.cn/docs/handbook/decorators.html)。[菜鸟教程](https://www.runoob.com/typescript/ts-ambient.html)。
+- **.editorconfig格式**：安装EditorConfig插件后可用
+
+```
+[{*.js,*.vue}]    #用来匹配文件，匹配到的遵守下面规则。
+indent_style = tab  #设置缩进风格(tab是硬缩进，space为软缩进)
+indent_size = 4   #用一个整数定义的列数来设置缩进的宽度，如果indent_style为tab，则此属性默认为tab_width
+tab_width = 4    #用一个整数来设置tab缩进的列数。默认是indent_size
+end_of_line = lf   #设置换行符，值为lf、cr和crlf
+charset = utf-8     #设置编码，值为latin1、utf-8、utf-8-bom、utf-16be和utf-16le，不建议使用utf-8-bom
+trim_trailing_whitespace = true #设为true表示会去除换行行首的任意空白字符。
+insert_final_newline = true   #设为true表示使文件以一个空白行结尾
+root = true    　　　#表示是最顶层的配置文件，发现设为true时，才会停止查找.editorconfig文
+
+#其它匹配符号：
+*        匹配除/之外的任意字符串
+**        匹配任意字符串
+?        匹配任意单个字符
+[name]      匹配name中的任意一个单一字符
+[!name]     匹配不存在name中的任意一个单一字符
+{s1,s2,s3}    匹配给定的字符串中的任意一个(用逗号分隔) 
+{num1..num2}  　匹配num1到num2之间的任意一个整数, 这里的num1和num2可以为正整数也可以为负整数
+```
+- **使用prettier格式化**：可在根目录下建立prettier.config.js用于配置，其它类型参考：[prettier官网](https://prettier.io/docs/en/configuration.html)。[prettier配置大全](https://segmentfault.com/a/1190000012909159)。
+```js
+//prettier.config.js or .prettierrc.js
+module.exports = {
+    trailingComma: "none",//对象最尾无逗号。
+    tabWidth: 4,
+    semi: true,
+    singleQuote: false,
+    useTabs: false,
+};
+```
+**ignore**：忽略一些不想格式化的代码。可在项目根目录下建一个.prettierign文件忽略不格式的文件，写法与其它git等的忽略一样。
+
+```vue
+<!-- prettier-ignore -->    #html部分的忽略写法，会忽略下面这个html的格式化
+<pop v-model="fm['ac']=vb||ac[0]"/>
+
+{/* prettier-ignore */}    #jsx中的忽略写法
+
+// prettier-ignore    #js部分的忽略写法
+var c=89;
+```
+- **vetur格式化**：支持vue文件语法高亮，使用eslint-plugin-vue@beta检测，可配置对vue页面代码的格式化（多数情况下会关闭vetur的检测和js部分的格式化）。[vetur官网](https://vuejs.github.io/vetur/guide/highlighting.html#custom-block)
+```js
+{
+    "vetur.format.defaultFormatter.html": "prettier",//可设置哪部分代码使用指定插件格式化。
+    "vetur.validation.template": false,//关闭vetur的检测。这样不和eslint的检测冲突。
+    "vetur.format.defaultFormatterOptions": {
+		"js-beautify-html": {
+			//"wrap_attributes": "force-aligned" //属性强制折行对齐
+			"wrap_attributes": "auto"
+		},
+		"prettier": {
+			"semi": true,// 结尾使用分号。    ！！！这里的优先级更高。
+			"singleQuote": false    //关闭单引号代替双引号。
+		},
+		"vscode-typescript": {
+			"semi": false,
+			"singleQuote": false
+		}
+	},
+	// 格式化stylus, 需安装Manta's Stylus Supremacy插件
+    "stylusSupremacy.insertColons": false, // 是否插入冒号
+    "stylusSupremacy.insertSemicolons": false, // 是否插入分好
+}
+```
+
+<i class="label1">修改python环境：</i>设置中搜索python.python path将框内的路径修改为自己想要的(worker pace和user项都修改)，如果不成功则参考35中的注意事项。
+<i class="label1">控制台打印中文乱码问题</i>点击左侧工具栏第四个按钮，左上角点击生成launch.json文件，选择python环境，然后在生成的文件中以下位置填入：
+```
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: 当前文件",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "env":{/*添加这个env配置*/
+        "PYTHONIOENCODING":"GBK"
+      }
+    }
+```
+
+Anaconda环境设置：插件安装栏搜索anaconda安装运行即可。
+写python代码没有提示和补全：先确保安装了kite Autocomplete(一个python和javascript的自动补全插件)插件(顺便安装kiteConnect插件)，若安装重启vscode后还未生效，右下角会有kite query install ...的提示，点击install按钮跳到git地址，下方有各系统下载地址，按照教程安装，使用即可，安装后重启vscode即可生效。[git地址。](https://github.com/kiteco/vscode-plugin#installation)
+##### b、sublim编辑器：
+sublim使用起来在提示方面和运行速度方面都很不错，要使用Anaconda中的环境需要安装一些插件:
+CTRL+SHIFT+p打开输入框输入install Package Control 回车安装再：install Package都安装好后就可以在搜索框中搜索Anaconda回车安装了(左下角)
+[ctrl+Tab]鼠标放在一个调用的函数括号中按ctrl+Tab能还呼出该函数的所有参数。
+去除白框：anaconda插件，用户设置中添加："anaconda_linting": false
+sublim3配置python环境：https://blog.csdn.net/Ti__iT/article/details/78830040
+https://www.jianshu.com/p/0ad5625e9717
+[选中多个相同字符]ctrl + d,一直按，从当前向下查找相同字符。
+[改变运行环境]anaconda插件，默认设置下修改python_interpreter后的值为想要设置的python.exe
+文件所在的目录，注意使用\\。然后工具栏>编译系统中选择Anaconda Python Build
+[新建一个编译系统]选择编译系统后，sublim会按指定的编译系统解析文件中的代码。编译系统,新建:
+#修改下面python.exe所在的路径path即可。
+{
+ "cmd":["python.exe", "-u", "$file"], 
+ "path":"E:\\somtwar\\Anaconda\\plateform\\envs\\wcs",
+ "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+ "selector": "source.python"
+}
+##### c、jetBring公司产品：
+获取注册码：http://idea.lanyus.com/
+永久破解：https://www.jianshu.com/p/4c81cf31b94d
+**主题样式下载**：http://www.riaway.com/theme.php。更换主题后字体会变小，在setting>Editor>Color Scheme>color scheme Font中设置字体大小。注意不是consol Font
+**主题的使用**：setting/color scheme/右侧齿轮按钮点击选：Import setting导入自己下载的jar包，应用即可。
+pycharm破解：https://blog.csdn.net/fantasic_van/article/details/89282100。
+一些强大的插件：[Pycharm中一些强大的插件。](https://www.cnblogs.com/jfdwd/p/11137798.html)
+常用功能：[常用快捷键。](https://www.cnblogs.com/sui776265233/p/10200809.html)
+Ctrl + F(当前文件查找 )。Ctrl + R(当前文件替换)。Ctrl + Shift + F(全局查找)。
+Ctrl + Shift + R(全局替换)。
+隐藏左边的文件栏：shift+esc       。 打开左侧项目目录：ALT+1
+Shift + F10#运行。Shift + F9#调试。Alt + Shift + F10  运行模式配置。Alt + Shift + F9   调试模式配置
+同时选择相同字符串的下一个：Alt+j。
+选中当前文件所有相同字符串：Ctrl+Alt+shift+j。
+[linux上安装pycharm。](https://blog.csdn.net/xiaoxiaofengsun/article/details/82257391)
+使用Anaconda环境：setting>project:name>Project interpreter下拉框中选择运行的环境，添加新的运行环境：下拉框点show all后点击+号>选第二个单选文件夹中选择Anaconda安装目录>envs>wcs>python.exe(envs是自己在anaconda创建的所有环境,wcs是自己创建的一个环境,每个环境下都有一个python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括sublim中切换环境也是切换python.exe的位置。
+##### d、jupyter:
+一个web式的ide工具，通过电脑上安装jupyter notebook工具，运行后会开通一个本地服务，按照其给出的链接进入web页面，在上面进行编辑代码。支持50多种语言。
+安装：pip install jupyter#安装后，命令行jupyter notebook直接运行会出现一个链接，在web中打开。#windows端应该是一个虚拟机形似的运行工具。
+使用：进入web页面后会将当前用户下所有的目录显示出来，右侧的view选项中选择python3进入一个编辑页面。
+运行不显示结果问题：pip install -i https://pypi.mirrors.ustc.edu.cn/simple/ prompt-toolkit==1.0.15    # prompt-toolkit 的版本过高致使与Jupyter-notebook的版本不兼容
 #### 9、真机调试：(使用谷歌浏览器)
 **方法一**：同一局域网内，用手机直接访问node开启的web服务地址(ip地址使用电脑ipv4地址，而不是localhost)。
 **方法二**：使用google浏览器。
@@ -3298,7 +3419,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 // mac中使用：export
 "dev": "export NODE_ENV=development &&  webpack-dev-server --open --hot",
 // ————————为了统一两个系统，便于开发，使用一个第三方包:cross-env
-"dev":"cross-env DEV_ENV=test webpack-dev-..."
+"dev":"cross-env DEV_ENV=test webpack-dev-..."//注意cross-env要放在命令开头。
 //但是运行程序中虽然能拿到变量名，但无法匹配到，进行如下设置：
 //webpack.dev.conf.js的插件中.使用vue-cli-server还可以在最外层文件中添加环境变量。
 
@@ -3306,8 +3427,8 @@ module.exports = {
     ...
     plugins:[
         new webpack.DefinePlugin({
-                        'process.env':require('../config/dev.env'),//使用dev.env文件导出的环境变量。
-                        "process.env.DEV_ENV": JSON.stringify(process.env.DEV_ENV),//添加该项!!猜测其它地方如此使用也可。
+            'process.env':require('../config/dev.env'),//使用dev.env文件导出的环境变量。
+            "process.env.DEV_ENV": JSON.stringify(process.env.DEV_ENV),//添加该项!!猜测其它地方如此使用也可。
         }),
         new HtmlWebpackPlugin({    //配置多页时需要使用多个该plugin。
             title:"测试app",//网页title，相应的html文件中使用<title><%= htmlWebpackPlugin.options.title %></title>才会有效
@@ -3413,7 +3534,7 @@ if (process.env.NODE_ENV === "development") {
     Vue.use(vConsole);
 }
 ```
-##### b、devServer部分(配置反向代理)：
+##### b、devServer：
 **正向代理**：代理是处于客户端和服务器中间的一台计算机，正向代理是接受客户端的链接，然后向目标服务器请求资源，逐步返回给客户端。正向代理的服务器与目标服务器不在同一网段内，面向服务器。如vpn。
 **反向代理**：面向的是客户端，对外表现为一台服务器，目标服务器放在内网，而反向代理服务器作为网关，访问内网中的服务器需要经过代理服务器，<i class="green">所以目标服务器更安全且压力变小，代理服务器还负责分发内容，缓存前端资源，因此也能优化前端性能。</i>
 vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
@@ -3563,10 +3684,13 @@ modules:{
 - 使用CopyWebpackPlugin将js文件直接从html引入，将js文件放到对应的静态资源文件夹中即可。[Index.html文件引入js文件。](https://blog.csdn.net/qq_15253407/article/details/89491255)
 
 [编写plugin参考学习地址。](https://www.cnblogs.com/wzndkj/p/10921340.html)
-<i class="label1">问题集</i>
+##### Q、问题集：
 - 解析less文件时提示：TypeError: loaderContext.getResolve is not a function：换使用较低的less-loader版本。4.1.0
 - 解析less，sass等文件时提示：Module build failed: Unrecognised input。按a2中方法配置loader即可，一般用默认模板的话，utils中是已经配置好的，安装好loader即可用。
 - 编译运行时一直卡住的问题：可能是相应的loader版本较高，尝试安装低版本。
+- file-loader提示Rule can only have one resource source：尝试低版本的webpack。
+- mini-css-extract-plugin提示：Class extends value undefined is not a constructor or null。需要webpack版本>=4.1.0
+- mini-css-extract-plugin提示： Cannot read property 'createHash' of undefined。依然是webpack版本问题，npm install webpack@^4.29.6可以支持。
 #### 11、uni-app的使用：
 **介绍**：uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉/淘宝）、快应用等多个平台。结合Hbuilder x使用，文件新建一个项目选择uni-app项目(网站、app、小程序都选这个)。[uni-app官网。](https://uniapp.dcloud.io/)[插件市场](https://ext.dcloud.net.cn/search?q=uni-ui)。
 **项目目录结构**：pages文件夹存放业务页面，pages/index/index.vue页面是app打开时的引导页面。创建其它页面时新建一个文件夹然后在文件夹内建页面，可以多个页面放一个文件夹。
@@ -3909,7 +4033,13 @@ module.exports = {
 				ignores: []
 			}
 		]
-    }
+    },
+    //一些定义了全局的变量，这样这些变量不会被检测为未定义。
+    globals: {
+        app: true,
+        AlipayJSBridge: true,
+        process: true,
+  },
 }
 ```
 - **问题集**：可以鼠标放在提示错误的地方，点击`Peek Problem`，然后点击规则`eslint(...)`，跳到该规则相应的配置介绍，去学习它的使用。
@@ -3999,3 +4129,168 @@ const _el = document.getElementById("img");
 4. 安卓手机可以点击图片：解决：用img{ pointer-events: none; }来禁止。
 5. 键盘挡住下方输入框问题：解决：用`document.querySelector('#inputId').scrollIntoView();`选中对应元素滚动到可视范围。
 - [参考地址1](https://zhuanlan.zhihu.com/p/83969781)。[参考地址2](https://zhuanlan.zhihu.com/p/47584892)。
+
+### 六、typescript：
+1. **基础类型**：在变量名后声明其类型。<b c=r>声明的变量类型是用小写的，不然某些情况编译不通过。</b>
+
+```ts
+let x: [string, number];//声明一个可以有多种类型的元组变量。(元组各元素类型不必相同)
+let decLiteral: number = 6;
+let isDone: boolean = false;
+let list: number[] = [1, 2, 3];//数组写法
+let list: Array<number> = [1, 2, 3];
+let notSure: any = 4;//any表示可以是任意类型。
+//默认情况下null和undefined是所有类型的子类型。 就是说你可以把null和undefined赋值给number类型的变量。
+let u: undefined = undefined;
+let n: null = null;
+//用枚举，可作为变量的类型。
+enum Color {Red, Green, Blue}
+let c: Color = Color.Green;
+//>>>>>>>>>>>>!使用
+let y:number
+y = null! //用在值后可以让不符合的类型编译通过。
+```
+2. **函数**：
+```ts
+//有返回值的函数也是如此
+function warnUser(): string {
+    return "hello";
+}
+//void类型像是与any类型相反，它表示没有任何类型。
+function warnUser(a: number | string): void {//参数也需要定义类型。
+    alert(a);
+}
+//never类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
+function error(message: string): never {
+    throw new Error(message);
+}
+//interface用于创建一个类型要求例子，可以公共调用。
+interface LabelledValue {
+  readonly label: string;//对象必须含有该键值。readonly表示该属性只读。
+  color?: string;//带?号表示可选，在判断使用时会有一些友好的提示。
+}
+function printLabel(labelledObj: LabelledValue) {
+  console.log(labelledObj.label);
+}
+//泛型变量：传给函数什么类型，函数就返回什么类型。
+function identity<T>(arg: T): T {
+    return arg;
+}
+//参数是函数时，参数函数也要定义类型
+interface fn1{
+  ():void
+}
+function test(fn:fn1):void{
+    fn();
+}
+```
+3. **枚举**：
+```ts
+enum FileAccess {
+    // constant members
+    None,
+    Read    = 1 << 1,
+    Write   = 1 << 2,
+    ReadWrite  = Read | Write,
+    // computed member
+    G = "123".length
+}
+//常数枚举写法
+const enum Enum {
+    A = 1,
+    B = A * 2
+}
+```
+4. **类**：与es6的写法大致一致
+
+```ts
+class Animal {
+    public a: string = '11';//默认都是public
+    private name: string;//private将变量设为私有
+    //这是构造函数，这些参数能在继承时作为接收参数使用。使用的protected表示被保护，不能直接用new继承这个类。
+    protected constructor(theName: string) { this.name = 'hh'; }
+}
+
+class dog extends Animal {
+    //构造函数内调用super()这样，子类中也可以使用this指针。
+    constructor(name: string) { super(name); }
+    move(distanceInMeters = 45) {
+        console.log("Galloping...");
+        super.move(distanceInMeters);
+    }
+}
+```
+5. **装饰器**：是一个方法，可以注入到类或类的方法、属性参数上来扩展类、属性、方法、参数的功能。<b c=r>只用于类或其中</b>。[更多学习地址。](https://blog.csdn.net/weixin_33928467/article/details/87963596)
+
+```ts
+//>>>>>>>>>>>>>>>>>>普通装饰器，无法传参。
+function logClass(params:any){
+		//params就是当前类
+		console.log(params); //f HttpClient() {}
+		params.prototype.apiUrl = "xxxx"//相当于动态扩展的属性
+		params.prototype.run = function(){
+			console.log("run")
+		}
+	}
+@logClass
+class HttpClient{//将该类作为上面的params参数
+	constructor(name:string){console.info(name);}
+}
+//>>>>>>>>>>>>>>可传参的装饰器，装饰器传的参数是params，而修饰的类时target参数
+function logClass2(params:string){
+		return function(target:any){//需要返回一个函数用于接收装饰的类。
+			target.prototype.apiUrl = params;//相当于动态扩展的属性
+		}
+	}
+@logClass2("http://www.abc.com")
+class HttpClient{
+		constructor(name:string){console.info(name);}
+}
+const cc = new HttpClient('wcs');
+//>>>>>>>>>>>>>>>属性装饰器，用于类内部的变量装饰。
+function logProperty(params:any){//params是装饰器传入的参数，target是所在类，attr是修饰的对象。
+		return function(target:any,attr:any){
+			console.log(target);//{getData:f,constructor:f}
+			console.log(attr);//url
+			target[attr] = params;
+		}
+	}
+class HttpClient{
+		@logProperty("http://www.abc.com") //属性装饰器后面不能加分号，该值赋给url。
+		public url:any|undefined;
+		constructor(){console.log(134)}
+		getData(){
+			console.log(this.url)
+		}
+  }
+let cn = new HttpClient();
+cn.getData();//http://www.abc.com
+//>>>>>>>>>>>>>>>>>类方法装饰器
+function get(params:any){
+		return function(target:any,methodName:any,desc:any){
+            //params是装饰器传入的参数，target是所在原型，methodName是修饰的方法名，desc是修饰的方法的描述。
+			target.apiUrl=params;
+		}
+	}
+class HttpClient{
+		public url:any|undefined;
+		constructor(){console.info('init')}
+		@get("http://www.abc.com")
+		getData(){
+			console.log(this.url)
+		}
+  }
+let http = new HttpClient();
+```
+6. **ts中使用js库**：vue文件中可以导入js和ts的文件，但ts中不能导入js文件。
+- 使用script标签引入js文件，然后在各页面使用时declare定义，如JQuery，`declare var $:any;$("#id")`这样使用。
+- 使用@types插件引入。
+7. **模块**：与es6的几乎一致
+```ts
+export cosnt ak: number = 3489;
+export * from "./StringValidator";
+//一个文件只能有一个default
+declare let $:JQuery;
+export default $;//另一个文件import $ from "JQuery";使用。
+```
+[typescript中文档](https://www.tslang.cn/docs/handbook/decorators.html)。[菜鸟教程](https://www.runoob.com/typescript/ts-ambient.html)。
