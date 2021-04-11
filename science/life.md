@@ -65,11 +65,12 @@ $\left[\begin{array} a_{11}&\cdots&a_{1n}\\ \vdots&{ }&\vdots\\a_{n1}&\cdots&a_{
 >将其复制到/usr/lib64下，删除原libstdc++.so.6：`ln -s libstdc++.so.6.0.22 libstdc++.so.6`#建立新的软链接，会生成新的libstdc++.so.6。
 - [解决学习地址。](https://blog.csdn.net/zhuiqiuzhuoyue583/article/details/80150207)
 
-<i class="label1">解压软件</i>：bandizip可解压多种格式的压缩文件。52zip功能不如bandizip强大，但也还可以。主要是都没有广告携带。
-<i class="label1">u盘分区和数据恢复工具</i>：DiskGenus，[DiskGenus下载地址。](https://www.diskgenius.cn/download.php)
-<i class="label1">报表相关软件</i>：[几款报表分析软件。](https://www.zhihu.com/question/20205873)
-<i class="label2">帆软</i>：一款分析、可视化、本地管理、服务端可部署的一套完整解决方案的报表管理软件，中小型公司适用。[帆软中文文档。](https://help.fanruan.com/finereport/doc-view-1554.html)
-坑点如下：[本地web报表管理系统地址。](http://localhost:8075/webroot/decision/login?origin=18f00aba-2aa4-40c1-a1a6-a1c6ac3fdcde#management/directory)
+**windows系统装机软件**：[云骑士](https://www.yunqishi.net/)：可在原系统损坏的情况下进入装机，讲原系统重要数据拷出，可还原原系统PE（系统引导文件）。
+
+**解压软件**：bandizip可解压多种格式的压缩文件。52zip功能不如bandizip强大，但也还可以。主要是都没有广告携带。
+**u盘分区和数据恢复工具**：DiskGenus，[DiskGenus下载地址。](https://www.diskgenius.cn/download.php)
+**报表相关软件**：[几款报表分析软件。](https://www.zhihu.com/question/20205873)
+- 帆软：一款分析、可视化、本地管理、服务端可部署的一套完整解决方案的报表管理软件，中小型公司适用。[帆软中文文档。](https://help.fanruan.com/finereport/doc-view-1554.html)
 - 数据扩展问题1：数据不会横向或纵向扩展时可尝试修改该单元格扩展属性、左，上父格等。
 - 数据扩展问题2：一份报表中如果要设置多个表格，尽量每个表格放一个单元表，放同一个单元表，其中一个表数据扩展上回受到影响。
 - 数据库链接失败：检查url和更改mysql链接驱动包，包位置再webroot目录下，具体位置搜索mysql-connector-...即可。
@@ -83,8 +84,8 @@ $\left[\begin{array} a_{11}&\cdots&a_{1n}\\ \vdots&{ }&\vdots\\a_{n1}&\cdots&a_{
 - **数据字典**：组件项中涉及的数据字典用于配合下拉框，单选，复选按钮组等使用。数据字典/类型设置，中可选择数据库表，直接从表中获取某一字段。也可以事先左侧添加号查询数据集，然后选择其使用。多级联动情况下，可以在查询数据项中使用带参数的查询，这样就能实现联动查询。
 - 新增字段：转换/计算器，脚本/公式，两个可通过计算来新增一个字段。
 
-<i class="label1">ETL工具</i>extract-transform-load(抽取、转换、装载)，ETL是将业务系统的数据经过抽取、清洗转换之后加载到数据仓库的过程，目的是将企业中的分散、零乱、标准不统一的数据整合到一起，为企业的决策提供分析依据。由于ETL是极为复杂的过程，而手写程序不易管理，有愈来愈多的企业采用工具协助ETL的开发。
-<i class="label3">kettle</i>kettle是一款开源的etl工具，其功能也算全面，足以实现多数数据处理场景。[ckettle官网，下载精简版即可。](https://ckettle.ccsaii.com.cn/home)
+**ETL工具**：extract-transform-load(抽取、转换、装载)，ETL是将业务系统的数据经过抽取、清洗转换之后加载到数据仓库的过程，目的是将企业中的分散、零乱、标准不统一的数据整合到一起，为企业的决策提供分析依据。由于ETL是极为复杂的过程，而手写程序不易管理，有愈来愈多的企业采用工具协助ETL的开发。
+kettle：kettle是一款开源的etl工具，其功能也算全面，足以实现多数数据处理场景。[ckettle官网，下载精简版即可。](https://ckettle.ccsaii.com.cn/home)
 **部分总结**：
 - 点击新建出现的作业与转换，两者作用差不多，！以后了解。
 - 新建：新建转换后，主对象树/DB连接，可以连接各种数据库，包括分布式存储的数据。

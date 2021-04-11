@@ -3106,13 +3106,14 @@ module.exports = {
     }
 }
 ```
+**添加环境**：package.json/scripts中添加：`"vue-cil server --mode mock"`，根目录中可添加`.env.mock`来写一些要用的全局变量。默认有development和production。
 #### 6、资源收集：
 **文章部分**：
 [张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
 [HTML转义字符表](http://tool.oschina.net/commons?type=2)、[HTML标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)、[plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)、[javascript事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝H5开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)
 **工具部分**：[很多实用前端工具。](https://www.zhihu.com/question/20241338?sort=created)
 - [属性兼容性查看网站](https://caniuse.com/?search=flex)：红色为完全不支持的版本，棕色为部分支持的版本，绿色为几乎全部支持的版本。命令使用：npm install -g caniuse-cmd
-
+- [配色网站](https://colorhunt.co/)：很多不错的颜色值组合。
 #### 8、IDE工具:
 ##### a、vscode：
 :::alert-info
@@ -3985,7 +3986,7 @@ const _url = "https://nb.com";    //如果使用了axios，这里路径要与axi
 Mock.mock(`${_url}/index/test`, "get", require("./moc.json"));
 Mock.mock(`${_url}/index/use`, "post", require("./moc.json"));
 ```
-- main.js将其导入即可：`import Mock from "../../../mock/index";`#使用mock数据时不要与代理路径冲突。
+- main.js将其导入即可：`import Mock from "../../../mock/index";`#使用mock数据时**不要与代理路径一样，或干脆不用代理**。
 
 2、利用ajax可请求文件的方法。
 3、使用node在开一个本地服务用于返回mock数据，让代理目标地址更改为该服务地址。

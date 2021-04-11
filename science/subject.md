@@ -625,14 +625,11 @@ today's paper(今天的报纸) #有生命的、时间、地点、距离也可加
 - [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)
 
 <i class="label1">表示情绪的词</i>
-- 快活的：chirrupy 、 felicity(幸福的)
-- 兴高采烈的：merry、ecstasy（狂喜,入迷）。
-- anxious(挂念的)、lonly(孤独的)。
+- 快活的：chirrupy 、 felicity(幸福的)、excited(兴奋的)、pleasure（愉快,高兴）。兴高采烈的：merry、ecstasy（狂喜,入迷）。
+- anxious(挂念的)、lonly(孤独的)。downcast(萎靡不振的)。
 - sorrowful(忧伤的)、gloomy(忧郁的)、
-- downcast(萎靡不振的)。
 - miserable( 悲哀的)、heart-broken(伤心的)
 - shirty(生气的)、moodily(易生气的)、angry(愤怒的)
-- excited(兴奋的)、pleasure（愉快,高兴）。
 
 ### h、常见事物词汇：
 - 器官相关：shoes(鞋子)、leg(腿，下肢)、shank(小腿)、thigh(大腿)、foreleg(前腿)、hindleg(后腿)。
