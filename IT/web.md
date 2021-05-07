@@ -41,6 +41,39 @@ M：移动至起始点，必须。L：直线结束点。H：从当前点画水�
 }
 /*这种内联的svg渲染几乎无延迟*/
 ```
+**svgIcon**：目前常用的使用自绘制的svg图标方法：
+1. 写一个公共组件放置引用svg图标：
+```vue
+<template>
+  <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-on="$listeners" />
+  <svg v-else :class="svgClass" aria-hidden="true" v-on="$listeners">
+    <use :xlink:href="iconName" />
+  </svg>
+</template>
+```
+2. js文件中用require.context()返回所有svg文件。
+
+```js
+/**svg文件示例：code.svg
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg class="icon" xmlns="..."><defs><style type="text/css"></style></defs>
+<path d="..."/>
+</svg>
+*/
+
+import Vue from 'vue'
+import SvgIcon from '@cmp/private/SvgIcon'// svg component
+
+// register globally
+Vue.component('svg-icon', SvgIcon)
+
+const req = require.context('./svg', false, /\.svg$/)//返回一个webpack环境上下文（函数），包含文件id，keys等属性。
+
+const requireAll = requireContext => requireContext.keys().map(requireContext)
+requireAll(req)//全部遍历出来。
+```
+3. 入口引入，并在webpack中使用`svg-sprite-loader`，然后配置，处理这些svg文件。
 
 **table的使用**：
 ```html
@@ -63,13 +96,18 @@ M：移动至起始点，必须。L：直线结束点。H：从当前点画水�
 
 **页面的重绘与重排**（回流）：元素颜色的改变、css3的一些变换等会引起页面的重绘，不过重绘速度非常快。而元素大小、display、position、float、overflow，js的resize等会导致对页面的重新布局，即重排（也称回流）。无论是渲染树构建过程和渲染完毕后。回流比重绘需要的时间多得多，**所以应该尽量避免重排**。
 #### 3、第三方资源的加载：
-前端中有很多加载资源的标签例：iframe,video,audio,img,script,link等是用src属性或是用href属性，一些标签不能跨域加载资源多数标签允许跨域加载资源。除了link和script外其它标签几乎都有onload事件和onerror事件可在元素上添加这两个事件做加载成功和加载失败后的处理。js代码中的函数块语句需要达到相应的条件才能触发（body，head中添加的onload和`<script></script>`中的window.onload=“”除外)就算是onmouseout指定的函数也不行，因为它运行的前提就是有onmouseover被触发。
-外部资源引入标签：
+很多加载资源的标签：iframe,video,audio,img,script,link等是用src属性或是用href属性，一些标签不能跨域加载资源多数标签允许跨域加载资源。除了link和script外其它标签几乎都有onload事件和onerror事件可在元素上添加这两个事件做加载成功和加载失败后的处理。js代码中的函数块语句需要达到相应的条件才能触发（body，head中添加的onload和`<script></script>`中的window.onload=“”除外)就算是onmouseout指定的函数也不行，因为它运行的前提就是有onmouseover被触发。
+**link标签**：
+```html
+<link href="http://a...pp.jpg" rel="prefetch"/><!--prefetch表示预加载-->
+<link href="http://a...pp.css" rel="stylesheet"/><!--导入css-->
+```
+**外部资源引入标签**：
 `<embed></embed>、<iframe></iframe>、<object></object>`
-`<embed type="image/svg+xml" codebase="http:"></embed>`标签是H5新标签所有主流浏览器都支持，codebase属性中写资源路径,可以引入脚本;类似iframe标签用于引	入外资源(`<iframe>`标签只在大部分浏览器可用),但规范的xhtml和html中不支持`<embed>`标签.`<object data="rect.svg" type="image/svg+xml" codebase="http">	`
-`</object>`1标签是H4的新标签，浏览器支持性差，但不能引入脚本.(引入的文件中的js对象和本页的js对象是不能共用的,且在引入的文件中获取的url也不是该页的)
+`<embed type="image/svg+xml" codebase="http:"></embed>`标签是H5新标签所有主流浏览器都支持，codebase属性中写资源路径,可以引入脚本;类似iframe标签用于引入外资源(`<iframe>`标签只在大部分浏览器可用),但规范的xhtml和html中不支持`<embed>`标签.`<object data="rect.svg" type="image/svg+xml" codebase="http">`
+`</object>`标签是H4的新标签，浏览器支持性差，但不能引入脚本.(引入的文件中的js对象和本页的js对象是不能共用的,且在引入的文件中获取的url也不是该页的)
 **引入页面中刷新父页面更改浏览器url**：
-在`<iframe><embed><object>`标签中若是有用到跳转页面使用window.location.href或window.open()或a标签中的跳转，页面跳转后还是只是显示在\<iframe>...这些标签之中，但使用window.parent.frames.location.href = ""能让上一个页面跳转或直接window.parent.location.href,window.top.location.href让最外层的页面跳转，a标签中的跳转可用target="parent"和target="top"来实现。获取前一页url：document.referrer;//包括传参也会获取到
+在`<iframe><embed><object>`标签中若是有用到跳转页面使用window.location.href或window.open()或a标签中的跳转，页面跳转后还是只是显示在\<iframe>...这些标签之中，但使用window.parent.frames.location.href = ""能让上一个页面跳转或直接`window.parent.location.href,window.top.location.href`让最外层的页面跳转，a标签中的跳转可用target="parent"和target="top"来实现。获取前一页url：document.referrer;//包括传参也会获取到
 #### 4、canvas:
 `<canvas width="500" height="500"></canvas>`
 HTMLCanvasElement//表示页面内所有canvas元素，其余元素也有此类似对象。
@@ -349,9 +387,37 @@ ele.checked获取复选框状态返回true/false(布尔值，非字符串)。
 </script>
 ```
 #### 12、问题及解决：
-1. 逻辑复杂的地方解耦开，分页处理。
+1. 逻辑复杂的地方解耦开，分页处理。两个页面公共组件多考虑细分，逻辑部分用mixins抽离较合理。
 2. 大页海报使用canvas绘制，计算数据使用workers计算，提高性能。
-3. 登录页使用md5+非对称加密，还觉得不安全，于是又换出使用安全键盘（前端绘制）。键盘一些问题的解决。
+3. 登录页安全策略：使用md5+非对称加密，使用安全键盘（前端绘制）。键盘一些问题的解决。
+4. **vuex问题**：页面刷新会导致vuex数据丢失，解决的办法是存储时顺便存到缓存，需要使用vuex数据的页面先检查数据是否要从缓存恢复数据到vuex，或重新请求到vuex。
+```js
+window.sessionStorage.setItem("data",JSON.stringify(data));
+var a = window.sessionStorage.getItem("data");
+JSON.parse(a);//解析使用
+```
+5. props问题：props中的值是单向的，子组件改变props中的值时会触发error，可以将props中的值赋值到data中去（若是接口请求的数据在子组件created阶段），然后修改data中的该值。
+```html
+// 父组件
+<child :cas="cases"/>
+<!--父组件获取值较慢，子组件created()中得到的是赋值前的状态。-->
+<script>rpc(url,{}).then(res=>{
+    this.cases = res.data;
+    this.$refs.child.caval = this.cases;// 可以主动更新子组件中的值。
+})</script>
+// 子组件
+<input v-model="caval"/>
+<script>
+export default {
+    watch:{
+        cas(nv){if(this.cas.length===this.caval.length){
+            this.vaval = this.cas;//注意条件判断，不然可能值接收不全或死循环。
+        }}
+    }
+}
+</script>
+```
+
 ### 二、CSS
 :::alert-info
 简介：css(Cascading Style Sheets)层叠样式表，1996-12-17css1诞生，2003年1月svg被定为w3c规范，但当时的网页只是图文内容，css更受偏爱。
@@ -369,6 +435,7 @@ ele.checked获取复选框状态返回true/false(布尔值，非字符串)。
 >**选择器的解析**：解析选择器时是从右往左的（如使用`#div>.cc`时是先取.cc再取#div的顺序去构建树【更容易把公共样式放在一个节点】）少用一些子选择器。
 - **鼠标样式**：cursor:pointer;//手指,提示可点击。hand//IE5使用的手指样式、wait;//等待、help;//帮助、no-drop;//无法释放、text;//文字，暗示为文字内容、move;//提示可移动对象、crosshair;//十字准心、n-resize;//向上改变大小箭头、s-resize;//向下改变大小箭头、e-resize;//向右改变大小箭头、w-resize;//向左改变大小箭头、ne-resize;//向右上改变大小箭头、nw-resize;//向左上改变大小箭头、se-resize;//向右下改变大小箭头、not-allowed;//禁止、progress;//处理中、default;//提示可移动对象、url();//引入外部文件作为鼠标样式，文件格式必须为.cur或.ani。
 - **边框样式**：border:1px dotted red;//dotted:点线、dashed:虚线、double:双边框、groove:3d凹槽、ridge:菱形边框、insert:3d凹边、//outset:3d凸边。
+- 外边框：`outline:#00FF00 solid thick;`#样式，样式，宽度。
 - textarea标签resize属性的的各个取值:none：用户不能操纵机制调节元素的尺寸、both：用户可以调节元素的宽度和高度、horizontal：用户可以调节元素的宽度、vertical：让用户可调节元素的高度、inherit：默认继承。
 - **超出隐藏**：
 
@@ -388,13 +455,20 @@ display: -webkit-box;
 -webkit-box-orient: vertical;
 }
 ```
+- **input选中后样式**：
+```css
+input:foucs{
+    outline:none;
+    border:1px solid green;
+}
+```
 - **媒体查询器**：`@media only screen and (min-width: 300px) and (max-width: 768px) {}`
 - 平滑滚动：scroll-behavier:smooth;//发生滚动时更平滑(锚点跳转、改变scrollTop值)
 - 调整字间距：letter-spacing:5px；
 - 将table元素中的表格间距取消：border-collapse:collapse;
 - 两端对齐：text-align：justify;和text-align-last:justify;(一起使用)。最好将要对其子元素设置为inline-block元素。
 - **背景图片设置**：
-```
+```css
 background:url(" ") no-repeat;
 background-position:50% 0; //图片居中
 background-size:cover; //占满
@@ -658,6 +732,16 @@ img {// 不用担心兼容性问题。
     &:hover { font-size: 36px;}//伪类写法
     @include corner-icon("mail", top, left);//用include调用该代码块。
 }
+
+//定义变量
+$menuBg: #9966ff;
+$subMenuBg: #9933ff;
+$subMenuHover: #9900ff;
+// 使用export将它们导出，js可使用。import variable from "var.scss";//variable.menuBg
+:export{
+    menuBg:$menuBg;
+    subMenuBg:$subMenuBg;
+}
 ```
 - [sass中文档。](https://www.sasscss.com/documentation/syntax/parsing)
 - **less**：
@@ -678,6 +762,19 @@ img {// 不用担心兼容性问题。
 }
 ```
 - [less文档。](https://less.bootcss.com/#概览)
+#### 8. css架构：
+- 命令规则：一般使用BEM命名方式：`模块_描述--详细描述`，一套组件内的命令：`c-`。表状态：`is-或has-`。示例如下：
+```html
+<div class="comment--info">
+    <p class="comment_title--text">title<span class="is-show"></span></p>
+</div>
+```
+- 基本样式：网站想设置的全局默认样式（大小、边距、颜色等），包括更改组件库样式。将它们在主入口文件处导入。
+- 对象：只关注布局的css，将它们与基本样式分开放置。
+- 全局变量：常用到的颜色、尺寸放在一个定义变量的文件中，其它文件使用。
+- mixin：使用多的复杂样式也可以定义为minx，然后include注入使用。
+- [参考学习地址](https://zhuanlan.zhihu.com/p/32952130)
+
 ### 三、javascript
 :::alert-info
 **简介**：JavaScript由3部分组成：**ECMAScript**：解释器。翻译兼容性：完全兼容。**DOM**：Document Object Model （文本对象）兼容性：部分不兼容。**BOM**：Browser Object Model （浏览器对象）兼容性：不兼容（例如IE，谷歌，火狐，不可能兼容），核心是window，全局对象。dom针对的是标准的客户端控件，html标记的这些浏览器展现的内容。bom针对的是浏览器，BOM是浏览器对象模型，DOM是文档对象模型，前者是对浏览器本身进行操作，而后者是对浏览器（可看成容器）内的内容进行操作。js是**脚本语言**、**单线程**语言。
@@ -702,6 +799,7 @@ img {// 不用担心兼容性问题。
 `str.substr(start,length)`#第二个参数为选择从start起截取多少个长度字符。
 `str.indexOf('aa')`#查找字符串位置。
 `str.search('abc')`#找到子串开始位置。
+`str1.concat(str2)`#连接两个字符串，返回一个新的值。
 ```js
 var str = '大米:2.57斤/元,白菜:3.65元/斤';
 var arr = str.match(/\d+(.\d+)?/g); //match()方法找到所有匹配的项，返回一个数组。
@@ -775,7 +873,7 @@ arr.splice(1,1,7)//[1,7,3,4,5,6]
 arr.forEach(function(value,index,data){});
 ```
 
-**对象**：
+**对象**：从对象中**取较多值时最好使用es6的解构**。比如从对象中取出多个属性然后上传时的场景，如果用obj.property的方式取值，若缺少该值时程序可能会不执行也不报错。
 ```js
 Object.getPrototypeOf(person1) == Person.prototype; //true，获取对象属性。
 Object.getPrototypeOf(person1).name; //"Nicholas",但不能通过此方法来更改。
@@ -1060,6 +1158,28 @@ switch(a){
         alert('结束');
 }
 ```
+- for in与for of：
+
+```js
+// 在原型上绑定一些自定义属性。
+Object.prototype.selProto = function(v){console.info(v)}
+Array.prototype.ap = "hello ap";
+
+var m = Object.create({a:5,b:3});
+var n = [2,4,7];
+//---for in（es5语法）会将上面自定义在原型上的属性也遍历出来。Array属于Object，所以ap依然在其中。
+for(var i in n){
+    //---getOwnPropertyNames()获取只属于该对象的属性，包含length。
+    //for in遍历时利用它来筛选。
+    if(Object.getOwnPropertyNames(n).indexOf(i)!==-1){
+          console.info("in----",i,)
+    }
+}
+//---for of(es6语法)则输出值，且不会遍历原型上的自定义属性。
+for(var j of n){
+    console.info("of----",j)
+}
+```
 
 #### 7、元素操作：
 **获取元素尺寸相关**：
@@ -1276,7 +1396,7 @@ $.ajax({
 })
 ```
 - **两种数据类型**：向服务端发送的数据有Form Data和Request Payload两种，这两种数据类型可以由请求头的Content-Type控制。
->Form Data类型：`Content-Type:"application/x-www-form-urlencoded"`#默认使用的类型，在浏览器/netWork/Headers/最下方可以看到。
+>Form Data类型：`Content-Type:"application/x-www-form-urlencoded"`#默认使用的类型，使用POST，但数据不是json格式而是：`rpc.post(url,"key=234&v=9fdf0")`#的类型，在浏览器/netWork/Headers/最下方可以看到。
 >Request Payload：`Content-Type:"application/json"`#现在几乎使用这种数据类型，发送一个字典的话会默认将每个键值队拼在url后请求。使用JSON.stringify()将数据转为json在发送是常用的形式。
 
 - ajax上传文件：使用jquery封装的ajax和axios的ajax先用formdata封装文件再上传时发现浏览器的xhr/head项中没有显示FormData项数据，在请求头中修改Content-Type:'multipart/form-data'后发现head项出现FormData数据了，但是有报跨域问题，这可能跟axios源码中检测数据类型，做的特别处理有关。
@@ -1298,7 +1418,7 @@ xhr.onreadystatechange = ()=>{
     }
 </script>
 ```
-[各种Content-Type对应的数据，但是试过，似乎不太有效。](https://www.jianshu.com/p/10cdbb35ac87)
+- **404问题**：404不完全是接口路径的原因，如果后台有请求日志情况的404，可能是传输的数据类型与后台接收类型不一致。<b c=r>若后台没有请求日志，则是前端路径、接口、代理等问题。</b>
 - **ajax注入分页**：使用document.write(data)的方法要求分页里只有元素结构（没有meta,html,body等在主页中重复的标签）,可是这样仍会把主页<head></head>标签中的外链样式覆盖为无,我们可以再写一个分页专门用于装效head标签及其里面的外联样式（link,script等）;可是外联的js语句只执行一次就	无效了!!（弃）;若注入分页的js
 代码用引入的方式则`<script async='async' src=''></script>`或在注入的ajax代码中将async改为false或ajax代码后加一个延时器延时绑定事件。(一些坑爹的后台框架会劫持所有ajax请求导致报错所以使用需谨慎,本地打开带有使用ajax的文件会产生跨域问题);
 <i class="label2">ajax中地址为空情况</i>ajax中如果url地址为空在提交时会变成提交到当前页url路径。jquery的ajax中不填写dataType值时jquery会自动判断返回值的类型(所填写的data中的格式不能是json格式)。
@@ -1353,8 +1473,9 @@ el.onclick=function(){window.open("b.html");}//打开一个新窗口
 console.log(window.opener.a);//window.opener会将前一个页面的所有对象封装为
 //一个对象的形式，b页面可以使用，但对用户体验不好。
 
-```
-#### 20、判断各种环境
+
+#### 20、运行环境检测
+
 ```js
 var browser = {
     versions: function() {
@@ -1652,7 +1773,17 @@ ie14下没有detail值，兼容写入如下：
     window.CustomEvent = CustomEvent;
 })();
 ```
-**onselectStart事件**：`<p onselectStart="return false">积分抵啊放假</p>`这里是禁止选中文字
+**onselectStart事件**：`<p onselectStart="return false">积分抵啊放假</p>`
+**监听浏览器刷新&退出**：
+```js
+window.onbeforeunload=onclose;//刷新和关闭操作都会触发onbeforeunload事件。
+function onclose(){
+    // 该判断，关闭时才触发。
+    if(event.clientX>document.body.clientWidth&&event.clientY<0||event.altKey){
+        return "您要离开吗？";
+    }
+}
+```
 #### 27、原型：
 
 - **封装**：将一些js语句写到一个方法里面，只留下一些特定的借口供外部访问。
@@ -1831,10 +1962,6 @@ new关键字就意味着一次内存分配，例如 new Foo()。最好的处理�
 所谓的节流就是指用户频繁操作同一个事件，但都是相同的请求，如重复提交表单中的数据，重复下拉刷新请求数据，这会频繁的消耗用户的流量但是无意义的，遇到这种情况做法：写一个定时器，规定时间内只允许操作一次。
 而防抖动是指类似搜索框中要监听用户的输入实时获取将值传给后台获取相应的匹配项，但返回的候选项个数不一样会导致下拉展示条频繁变化抖动。解决：监听到用户输入后设定一个定义器，时间过后执行操作，如果期间接收到监听变化就取消前一个定是器，再重新创建一个，相当与只取最后一次操作，因为此时是最有效的操作。
 这两种思想都类似，不过一个取第一次操作，一个取最后一次操作。[参考地址。](https://www.jianshu.com/p/11b206794dca)
-#### 34、async validator的使用：
-vue中也可作为插件使用，博客文章中的旧版本与新版本使用差异较大。
-[validator官网git地址，里面有使用示例。](https://github.com/yiminghe/async-validator#start-of-content)
-[表单验证async validator的使用。](https://www.cnblogs.com/zyxh630/archive/2013/02/21/2920489.html)
 
 #### 36、console：
 console模块不只log()一个函数，全部如下：
@@ -1852,7 +1979,7 @@ console模块不只log()一个函数，全部如下：
 #### 1、gitHub的使用：
 **安装**： 
 1. 进入gitHub官网先注册一个账号,进入菜鸟教程点击git本地命令工具下载链接下载。git Barsh安装成功后打开(是一个命令行工具)；
-2. 输入ssh-keygen -t rsa -C "1815161966@qq.com"回车会提示要在/c/Users/Administrator/.ssh/id_rsa生成秘钥，之后一直回车到生成为止,此时在该路径下找到id_rsa.pub文件用记事本打开复制里面的所有内容;
+2. 输入ssh-keygen -t rsa -C "1815161966@qq.com"回车会提示要在/c/Users/Administrator/.ssh/id_rsa生成秘钥，之后一直回车到生成为止,此时在该路径下找到`id_rsa.pub`(公钥)文件用记事本打开复制里面的所有内容;
 3. 再在gitHub官网用户设置中找到SSH和GPG项将复制内容粘到键文本域中(title随意),回到命令行工具输入SSH -T git@github.com若成功会有提示成功信息。
 4. 把本地项目上传到github在github上创建一个仓库(点击加号选择第一个New repository),复制第一项中的url地址,然后打开Git Bush进入一个想放项目的文件目录中使用cd进入(cd G:/web)
 5. 使用语句：git clone https://github.com/master,之后会在该目录下生产一个与你的仓库名同名的一个文件夹,将代码文件复制到该文件夹中;
@@ -2257,14 +2384,16 @@ rl.on('close', function() {
 **vue-cli**：是一个构建项目的工具，一个平台，也是一个npm包。它提供一套初始的项目模板，内部规定好哪些文件夹的功能。打包时使用的webpack，webpack的配置，vue-cli中也写了一些初始的配置，webpack做为项目的一个依赖而安装。其它安装的一些依赖都放在node_modules下，一些less-loader,file-loader的东西是在编译打包时运行的，其配置也作为webpack的plugin。这些工程化项目的过程中node只是作为一个让其独立运行的环境，当然这当中也使用node一些自带的功能。所以不使用vue-cli,自己定义一个目录，编写配置也是可以的，也由此有很多cli工具。**vue-cli中使用的服务时webpack的服务**。
 :::
 
-`npm install vue-cli -g`#全局安装vue-cli工具，安装后可以使用vue命令初始化项目。[使用ts的创建。](https://zhuanlan.zhihu.com/p/99343202)
-<i class="label2">安装vue-cli后找不到vue命令问题</i>
+- 安装：`npm install vue-cli -g`#全局安装vue-cli工具，安装后可以使用vue命令初始化项目。[使用ts的创建。](https://zhuanlan.zhihu.com/p/99343202)
+- 初始化：`vue init webpack test `#初始化一个名为test的项目，之后会询问一些设置上的问题，具体查看这个地址：[vue-cli初始化项目学习地址。](https://www.cnblogs.com/saint258/p/9621161.html)
+- **vue-cli-service**：该service相当于是使用node语言书写的一个本地服务，包括默认从vue.config.js读取配置（所以与webpack-service使用时的配置有些差异），运行webpack这些操作。所以也可以根据这些逻辑自己写一个恶脚手架。
+- **可视化管理**：cmd/输入：vue ui打开vue的开始化管理界面，导入项目，然后进去查看详细。
+- [package.json文件各种属性解释](https://zhuanlan.zhihu.com/p/33928507)。
+
+**问题集**：
 - linux上：安装vue-cli后会在所的nodejs/bin下看到vue。(npm config list#可以查看这个文件的位置)。为这个vue建立一个软链接将其放到/usr/local/bin下，`sudo ln -s /home/wcs/software/nodejs/bin/vue /usr/local/bin/vue`
 - windows上：将`C:\Users\wcs\AppData\Roaming\npm`#vue被下载到该文件，添加到环境变量即可。
 
-<i class="label2">初始化</i>`vue init webpack test `#初始化一个名为test的项目，之后会询问一些设置上的问题，具体查看这个地址：[vue-cli初始化项目学习地址。](https://www.cnblogs.com/saint258/p/9621161.html)
-- **vue-cli-service**：该service相当于是使用node语言书写的一个本地服务，包括默认从vue.config.js读取配置（所以与webpack-service使用时的配置有些差异），运行webpack这些操作。所以也可以根据这些逻辑自己写一个恶脚手架。
-- [package.json文件各种属性解释](https://zhuanlan.zhihu.com/p/33928507)。
 ##### a2、基本使用：
 **$attrs与\$listeners**：
 ```vue
@@ -2372,6 +2501,18 @@ function get(e){
 //currentTarget,因为可能点Z中的是子元素，触发事件的却是因为事件冒泡
 }
 ```
+**插件**：
+```js
+//plugin.js放置 插件格式,一个对象。
+export plugin = {
+    install(vue,params){//第一个会被传入vue对象。
+        vue.prototype.plugin = function(){}
+    }
+}
+//main.js
+import {plugin} from "./plugin.js";
+vue.use(plugin,"hello");//use方法会调用plugin的install()函数
+```
 ##### a3、组件：
 第三方的组件一般安装后可直接单个页面按需引入，对应的插件安装后也可以单页面直接引入使用。子组件使用的数据最好是在父组件mounted之前就生成。
 ```javascript
@@ -2429,8 +2570,8 @@ data:{age:'fdsf'}//与子组件要求的数据类型不一致时会在控制台�
 **keep-alive的使用**：用于缓存组件，具体如下：
 - **原理**：根据组件 ID 和 tag 生成缓存 Key,并在缓存对象中查找是否已缓存过该组件实例。如果存在,直接取出缓存值并更新该 key 在 this.keys 中的位置。在 this.cache 对象中存储该组件实例并保存 key 值,之后检查缓存的实例数量是否超过 max 的设置值,超过则根据 LRU 置换策略删除最近最久未使用的实例。
 ```vue
-<!--include和exclude用于匹配组件的name，满足匹配项的才会缓存或不缓存-->
-<keep-alive :include="/login/" :exclude="/acc/">
+<!--include和exclude用于匹配组件的name，满足匹配项的才会缓存或不缓存，也可以是一个列表-->
+<keep-alive :include="[/login/,'/acc/']" :exclude="/acc/">
     <login/>
 </keep-alive>
 ```
@@ -2546,13 +2687,14 @@ props:{},
 inject: ['getMap']
 ```
 依赖注入还是有负面影响的。它将你应用程序中的组件与它们当前的组织方式耦合起来，使重构变得更加困难。同时所提供的属性是非响应式的。这是出于设计的考虑，因为使用它们来创建一个中心化规模化的数据跟使用 $root做这件事都是不够好的。
-<i class="label3">自定义组件上使用v-model与sync修饰符</i>
+**组件上使用v-model与sync修饰符**:
 ```vue
 <!--父组件-->
 <pop v-model="stateContent" :cs.sync="[1,2,3]"/><!--sync修饰的数据其子组件内可以直接更改，且父组件也会跟着变化-->
 <!--子组件-->
 <template>
   <div class="pop">
+    <!--注意，绑定value，而不是v-model-->
     <div><input :value="state" v-on:input="alt($event)" placeholder="请输入"/></div>
   </div>
 </template>
@@ -2782,10 +2924,11 @@ window.onhashchange = function(event){
 
 }
 ```
-**模式切换**：<b c=v>historm模式是配合服务端渲染使用的。</b>
+**模式切换**：<b c=v>historm模式是配合服务端渲染使用。一般服务端将所有路径都重定向到首页，路由交给前端处理。</b>
 ```js
 export default new Router({
   mode:'history', // 默认是hash
+  base:"/base",//hash和history模式使用的基础路径。打包放到部署时，包名与此一致。
   routes: [
     {
       path: '/',
@@ -3107,13 +3250,22 @@ module.exports = {
 }
 ```
 **添加环境**：package.json/scripts中添加：`"vue-cil server --mode mock"`，根目录中可添加`.env.mock`来写一些要用的全局变量。默认有development和production。
+```
+# 在vue.config.js均可使用
+MODE = "dev"
+# 要在vue项目中使用，必须前缀是VUE_APP。
+VUE_APP_BASE_API = '/base-api'
+VUE_APP_BG_API = '/bg-api'
+```
 #### 6、资源收集：
 **文章部分**：
 [张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
-[HTML转义字符表](http://tool.oschina.net/commons?type=2)、[HTML标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)、[plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)、[javascript事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝H5开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)
+[HTML转义字符表](http://tool.oschina.net/commons?type=2)、[HTML标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)、[plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)、[javascript事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝H5开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)、[validator官网git地址，里面有使用示例。](https://github.com/yiminghe/async-validator#start-of-content)
+[jest使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)
 **工具部分**：[很多实用前端工具。](https://www.zhihu.com/question/20241338?sort=created)
 - [属性兼容性查看网站](https://caniuse.com/?search=flex)：红色为完全不支持的版本，棕色为部分支持的版本，绿色为几乎全部支持的版本。命令使用：npm install -g caniuse-cmd
 - [配色网站](https://colorhunt.co/)：很多不错的颜色值组合。
+
 #### 8、IDE工具:
 ##### a、vscode：
 :::alert-info
@@ -3122,7 +3274,7 @@ module.exports = {
 - **快捷键**: 参考地址:https://www.cnblogs.com/pleiades/p/8146658.html
 首先是F1/Ctrl+Shit+P万能键。Ctrl+P：文件切换。Ctrl+空格：自动提示。F12/Ctrl+左键：跳转到定义。Shift+F12：预览定义。Ctrl+G：跳转行号。Ctrl+/：注释切换
 Alt+↑↓：整行上下移动。Ctrl+↑↓：编辑器垂直滚动条上下移动，光标不动。Ctrl+Backspace/Delete：整词/连续空白删除。Ctrl+→←：光标整词移动
-Ctrl+F查找/Ctrl+Shift+F在文件中查找，这都属于通用的。F5：运行代码。Ctrl+F5：运行当前文件代码
+Ctrl+F查找/Ctrl+Shift+F在文件中查找，这都属于通用的。F5：运行代码。Ctrl+F5：运行当前文件代码。Shift+Alt+F：触发默认格式化。
 
 - **部分插件配置**：vscode上一款不错的颜色主题：搜索Code Blue点击install右界面点击Reload使用
  vscode下载项输入框搜索Live Serve点击下载安装后右界面点击Reload to Active 后在html文件页面点击最下方(软件脚部)的Go Live(也可能是@go live)会在浏览器打开页面此时浏览器地址栏就变成了ip地址而不是本地路径地址，(使用默认浏览器时有效)。**好用的插件**：Dracula(颜色样式插件)、city Lights icon package(icon插件)、vue、Anaconda。**插件使用**：左侧栏最后一个功能搜索下载，下载好后右边界面上方有设置使用按钮。
@@ -3220,9 +3372,45 @@ var c=89;
     "stylusSupremacy.insertSemicolons": false, // 是否插入分好
 }
 ```
-
-<i class="label1">修改python环境：</i>设置中搜索python.python path将框内的路径修改为自己想要的(worker pace和user项都修改)，如果不成功则参考35中的注意事项。
-<i class="label1">控制台打印中文乱码问题</i>点击左侧工具栏第四个按钮，左上角点击生成launch.json文件，选择python环境，然后在生成的文件中以下位置填入：
+**我的vscode/setting.json**：
+```json
+{
+    "workbench.iconTheme": "city-lights-icons-vsc",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "workbench.colorTheme": "Shades of Purple",
+    "gitHistory.alwaysPromptRepositoryPicker": true,
+    "iceworks.materialSources": [],
+    "editor.suggestSelection": "first",
+    "editor.formatOnSave": true, //保存时触发格式化
+  
+    "eslint.run": "onSave",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.tabSize": 2,
+    "git.ignoreWindowsGit27Warning": true,
+    "vetur.validation.template": false, //关闭vetur的检测。
+    "vetur.format.defaultFormatter.js": "none", //关闭vetur对js的格式化。
+    "vetur.format.defaultFormatter.html": "prettier",
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.editorAssociations": [
+      {
+        "viewType": "jupyter.notebook.ipynb",
+        "filenamePattern": "*.ipynb"
+      }
+    ],
+    "files.exclude": {
+      "**/.classpath": true,
+      "**/.project": true,
+      "**/.settings": true,
+      "**/.factorypath": true
+    }
+}
+```
+修改python环境：设置中搜索python.python path将框内的路径修改为自己想要的(worker pace和user项都修改)，如果不成功则参考35中的注意事项。
+控制台打印中文乱码问题：点击左侧工具栏第四个按钮，左上角点击生成launch.json文件，选择python环境，然后在生成的文件中以下位置填入：
 ```
   "version": "0.2.0",
   "configurations": [
@@ -3259,21 +3447,22 @@ https://www.jianshu.com/p/0ad5625e9717
  "selector": "source.python"
 }
 ##### c、jetBring公司产品：
-获取注册码：http://idea.lanyus.com/
-永久破解：https://www.jianshu.com/p/4c81cf31b94d
-**主题样式下载**：http://www.riaway.com/theme.php。更换主题后字体会变小，在setting>Editor>Color Scheme>color scheme Font中设置字体大小。注意不是consol Font
+
+**主题样式下载**：http://www.riaway.com/theme.php。
+**更换主题后字体会变小问题**：在setting>Editor>Color Scheme>color scheme Font中设置字体大小。注意不是consol Font
 **主题的使用**：setting/color scheme/右侧齿轮按钮点击选：Import setting导入自己下载的jar包，应用即可。
-pycharm破解：https://blog.csdn.net/fantasic_van/article/details/89282100。
-一些强大的插件：[Pycharm中一些强大的插件。](https://www.cnblogs.com/jfdwd/p/11137798.html)
-常用功能：[常用快捷键。](https://www.cnblogs.com/sui776265233/p/10200809.html)
+
+- **pycharm插件**：[插件资源1](https://www.cnblogs.com/jfdwd/p/11137798.html)、[插件资源2](https://www.2bboy.com/archives/153.html)
+- **快捷键**：[常用快捷键。](https://www.cnblogs.com/sui776265233/p/10200809.html)
 Ctrl + F(当前文件查找 )。Ctrl + R(当前文件替换)。Ctrl + Shift + F(全局查找)。
 Ctrl + Shift + R(全局替换)。
 隐藏左边的文件栏：shift+esc       。 打开左侧项目目录：ALT+1
 Shift + F10#运行。Shift + F9#调试。Alt + Shift + F10  运行模式配置。Alt + Shift + F9   调试模式配置
 同时选择相同字符串的下一个：Alt+j。
 选中当前文件所有相同字符串：Ctrl+Alt+shift+j。
-[linux上安装pycharm。](https://blog.csdn.net/xiaoxiaofengsun/article/details/82257391)
-使用Anaconda环境：setting>project:name>Project interpreter下拉框中选择运行的环境，添加新的运行环境：下拉框点show all后点击+号>选第二个单选文件夹中选择Anaconda安装目录>envs>wcs>python.exe(envs是自己在anaconda创建的所有环境,wcs是自己创建的一个环境,每个环境下都有一个python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括sublim中切换环境也是切换python.exe的位置。
+
+- [linux上安装pycharm。](https://blog.csdn.net/xiaoxiaofengsun/article/details/82257391)
+**使用Anaconda环境**：setting>project:name>Project interpreter下拉框中选择运行的环境，添加新的运行环境：下拉框点show all后点击+号>选第二个单选文件夹中选择Anaconda安装目录>envs>wcs>python.exe(envs是自己在anaconda创建的所有环境,wcs是自己创建的一个环境,每个环境下都有一个python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括sublim中切换环境也是切换python.exe的位置。
 ##### d、jupyter:
 一个web式的ide工具，通过电脑上安装jupyter notebook工具，运行后会开通一个本地服务，按照其给出的链接进入web页面，在上面进行编辑代码。支持50多种语言。
 安装：pip install jupyter#安装后，命令行jupyter notebook直接运行会出现一个链接，在web中打开。#windows端应该是一个虚拟机形似的运行工具。
@@ -3293,7 +3482,7 @@ pc端和手机端都下载google浏览器，手机上打开开发者选项并允
 **简介**：当项目变得很大之后再按照之前的资源引入方法会很难管理项目，不容易理清其依赖、加载顺序。webpack能自动找到所有依赖，将它们按顺序都打到一个js包中，最后引入。用Loader转换文件、plugin注入钩子。
 **模块化规范**：commonJS：需要通过转换位es5才能在浏览器环境运行。AMD：异步方法加载依赖模块，用于解决浏览器环境模块化问题。现在使用es6也有模块化(但大部分浏览器还不支持)，也需要转换为es5。
 :::
-**require与import区别**：require 是赋值过程并且是运行时才执行，也就是异步加载。import 是解构过程并且是编译时执行，性能稍好。
+**require与import区别**：require 是赋值过程并且是运行时才执行，也就是异步加载。import 是解构过程并且是编译时执行，性能稍好。两者在webpack中都算是异步方案。
 - require属于commonjs规范的东西社区方案，提供了服务器/浏览器的模块加载方案。只能在**运行时确定模块的依赖关系**及输入/输出的变量，无法进行静态优化。
 - import是es6语法规范，可以解构，语言规格层面支持模块功能。支持编译时静态分析，便于JS引入宏和类型检验。动态绑定。
 ##### a1、原理：
@@ -3301,6 +3490,7 @@ Webpack 的构建流程可以分为以下三大阶段：在每个大阶段中又
 - 初始化：启动构建，读取与合并配置参数，加载 Plugin，实例化 Compiler。
 - 编译：从 Entry 发出，针对每个 Module 串行调用对应的 Loader 去翻译文件内容，再找到该 Module 依赖的 Module，递归地进行编译处理。
 - 输出：对编译后的 Module 组合成 Chunk，把 Chunk 转换成文件，输出到文件系统。如果只执行一次构建，以上阶段将会按照顺序各执行一次。
+- webpack不会对多次引入的文件重复打包。
 
 - [原理学习地址。](https://www.jianshu.com/p/44e6741e3b7e)[webpack中文文档地址。](https://webpack.docschina.org/concepts/)
 
@@ -3468,7 +3658,7 @@ module.exports = {
 module.exports = {NODE_ENV:'"development"',NUM:'20'}//注意对应变量是字符串的话需要 '"字符串"',而'20'则该变量是数值。
 ```
 
-##### a5、resolve与output：
+##### a5、resolve与output&魔术注释：
 
 ```js
 /**三种hash的区别：（3种hash都是应对浏览器缓存而建立的）
@@ -3540,6 +3730,7 @@ if (process.env.NODE_ENV === "development") {
 **反向代理**：面向的是客户端，对外表现为一台服务器，目标服务器放在内网，而反向代理服务器作为网关，访问内网中的服务器需要经过代理服务器，<i class="green">所以目标服务器更安全且压力变小，代理服务器还负责分发内容，缓存前端资源，因此也能优化前端性能。</i>
 vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
 **webpack-dev-server参数**：--hot#热更新，修改代码后，只会替换原来块的代码，而不会整个刷新页面。--open#启动后打开浏览器。--config#指定使用的配置文件。
+**注**：proxy下面是按顺序来匹配的，一个项目配置了多个映射的话，如果上面的映射项匹配到接口路径满足，那么下面的映射配置就不在生效，然而代理信息devServer也不会打印出来，所以注意自己的接口路径是否会被前面的映射匹配到。
 
 ```js
 // 一般在webpack.base.config.js文件。注意是使用0.0.0.0而不是Localhost，不然无法ipv4访问。
@@ -3549,14 +3740,18 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   devServer: {
       host:HOST,  // 设置可访问的地址。process.env.HOST表示本机ip可访问。
       port:3320, //访问网页的端口号。
+      open:true,//服务启动后打开浏览器。
+      onListening:function(server){},//提供监听触发请求时的一个自定义操作。
+      historyApiFallback:true,//历史请求信息
       // 浏览器访问的是，本机ip:端口+路径。终端会显示代理访问记录
       proxy:{
           "/api": {
-				target: "'http://10.18.110.107",//代理地址，反向代理的服务器不需要端口。
-				changeOrigin: true,// 是否跨域
-                secure: false,// https请求需要该设置
-				ws:true,// 是否使用https，！！如果target中使用https的话依然还是会使用。
-				pathRewrite: {// 设置此项。将满足'^/api'的替换为空。
+            bypass: function (req, res, proxyOptions) {},
+            target: "'http://10.18.110.107",//代理地址，反向代理的服务器不需要端口。
+            changeOrigin: true,// 是否跨域
+            secure: false,// https请求需要该设置
+				 ws:true,// 是否使用https，！！如果target中使用https的话依然还是会使用。
+				 pathRewrite: {// 设置此项。将满足'^/api'的替换为空。
 					'^/api': '', //如请求http://localhost:3000/main时写成=》/api/main即可。
 				}
 			}
@@ -3846,6 +4041,10 @@ axios.interceptors.request.use(
         if (config.method === "post") {
             config.data = JSON.stringify(config.data);
         }
+        // 可以通过axios.post(url,data,params)#params传递参数。
+        if(config.params["switchType"]){
+            config.headers["Content-Type"] = "application/json";
+        }
         return config;
     },
     err => {
@@ -3881,6 +4080,9 @@ export default axios;
 - request：包含custom、onerror、onabort等。
 [axios配置，学习地址。](https://www.cnblogs.com/mica/p/10795242.html)
 #### 14、NUXTJS：
+:::alert-info
+**ssr实现原理**：ssr有两个入口文件，client.js和server.js 。webpack通过两个入口文件分别打包成给服务端用的server bundle 和给客户端用的client bundle。当服务端接受到来自客户端的请求后，会创建一个渲染器bundleRender, 这个bundleRenderer会读取上面生成的server bundle 文件，并且执行它的代码，然后发送一个生成好的html到浏览器，等客户端加载了client bundle 之后，会和服务端生成的DOM进行Hydration (判断这个DOM和自己即将生成的DOM是否相同，如果相同就是将客户端的vue 实例挂载到这个DOM上，否则会提示警告)。
+:::
 模板：在项目跟目录新建一个app.html模板，可被用于最后生成的html文件。默认模板如下：
 ```html
 <!DOCTYPE html>
@@ -4016,6 +4218,24 @@ module.exports = {
 - 安装：cnpm install --save-dev prettier husky lint-staged eslint
 - [学习地址](https://blog.csdn.net/Jsoning/article/details/103577402)。[prettierpeiz官网](https://prettier.io/docs/en/options.html)。
 
+package.json配置如下：可在scripts中添加：`"lint": "eslint --ext .js,.vue src"`#这样来单独运行检查文件。
+```json
+{
+    "husky":{
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "src/**": [
+            "prettier --config prettier.config.js --write",
+            "eslint --fix",
+            "git add"
+        ]
+    }
+}
+```
+
 **eslint配置**：常用如下
 ```js
 module.exports = {
@@ -4120,7 +4340,44 @@ const _el = document.getElementById("img");
 **简介**：是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，在BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力在同类型的网页服务器中表现较好。
 :::
 - 安装：解压后进入目录，sudo ./configure运行配置生成Makefile文件，当前目录下再make,make install编译安装，在/usr/local下会出现nginx目录。
-[配置学习地址](https://www.cnblogs.com/jingmoxukong/p/5945200.html)
+- 配置如下：似乎新版nginx默认支持
+```
+#工作模式及连接数上限
+events {
+    worker_connections 1024;    #单个后台worker process进程的最大并发链接数
+}
+
+#设定http服务器，利用它的反向代理功能提供负载均衡支持
+http {
+    # 可配置多个server
+    server {
+        listen 443;     # 监听本机所有ip上的 443 端口
+        listen 80;      # 可设置监听多个端口
+        server_name  aa.xx.com; # 域名地址
+        
+        #反向代理的路径（和upstream绑定），location 后面设置映射的路径
+        location / {
+            proxy_pass http://zp_server1;
+        }
+
+        location /bank/page/ {
+            root html;
+            try_files $uri $uri/ /bank;
+        },
+        # 配置多个webapp时location后面的路径与前端配置的history的base路径一致。
+        location /bank2/page/ {
+            try_files $uri $uri/ /bank2;
+        }
+
+        error_page  500 502 503 504  /502.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+}
+```
+- [windows端下载地址](http://nginx.org/en/download.html)
+- [配置学习地址](https://www.cnblogs.com/jingmoxukong/p/5945200.html)
 
 ### 五、android和ios：
 **h5在两端的兼容性问题**：
@@ -4150,6 +4407,9 @@ let c: Color = Color.Green;
 //>>>>>>>>>>>>!使用
 let y:number
 y = null! //用在值后可以让不符合的类型编译通过。
+
+//-----------数值连接字符串：直接使用+或模板字符串连接会报错。
+let res:string = decLiteral.toString().concat(str);
 ```
 2. **函数**：
 ```ts
@@ -4295,3 +4555,6 @@ declare let $:JQuery;
 export default $;//另一个文件import $ from "JQuery";使用。
 ```
 [typescript中文档](https://www.tslang.cn/docs/handbook/decorators.html)。[菜鸟教程](https://www.runoob.com/typescript/ts-ambient.html)。
+
+七、交互设计：
+1、登录页实践

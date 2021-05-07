@@ -1,4 +1,35 @@
 ## 一、python：
+### 1、环境安装：
+**普通环境**：到官网下载python到本地，解压后路径添加到环境变量即可，如果没有装pip，可到[pip下载地址](https://bootstrap.pypa.io/get-pip.py)，下载到本地后，`python get-pip.py`就会开始安装。
+**Anaconda安装**：
+windows安装：进入[Anaconda官网下载地址](https://www.anaconda.com/products/individual)下载；打开Anaconda prompt命令 窗口；自己	使用pip安装的第三方库会出现下载不全，子模块缺失等问题， 非常头疼，而安装	Anaconda后在其中下载并使用它里面的软件进行编程则 不会出现问题。以Anaconda2开头命名的是对python2版本的支持,以Anaconda3开头的是对python3版本的支持。
+进入Anaconda自带指令工具Anaconda Prompt的base环境安装各种第三方库后可以不用进入设置的虚拟环境中更不用使用Anacaonda中打开代码编辑工具就可以编程使用。
+创建环境:使用conda create -n name python=3.5可以创建一个虚拟环境， name名可随意起，后面是想使用的python的版本号。自己安装的Anaconda包目录下有一个envs文件夹(environments的缩写)是放自己所创建的环境的。script文件夹下是一些库附带的可直接运行的cmd命令程序，如tensorboard。[python官网下载地址](https://www.python.org/downloads/windows/)
+<i class="red">进入环境</i>：windows使用activate name；linux使用source activate wcs.
+<i class="red">安装库</i>：conda install scipy (安装的库在所有虚拟环境中可用)
+<i class="red">卸载库</i>：conda remove scipy
+<i class="red">更新包</i>：pip install --upgrade package_name    	conda update package_name
+或 pip install 包名 --upgrade --ignore-installed 包名    #能忽略一些问题
+<i class="orange">pip安装包时提示权限不够：</i>安装时命令末尾添加--user
+pip和conda更新：若非要求，不要随便更新
+pip install requests		pip install requests --upgrade
+conda install requests		conda update requests
+<i class="red">查看所有包</i>：conda list,[存在包库的地方:安装目录下的Lib>site-packages,每个环境下的Lib>site-packages和安装目录下的pkgs,如果想要做库的转译可以转到这三个目录试试]
+注：打开Anaconda Prompt使用conda install tensorflow安装tenforflow框架，若
+弹出提示有包与该框架冲突则将其卸载直到没有冲突的包为止，将删除的包做好记录
+。在Anaconda Prompt也可以使用pip指令。各个环境安装的库不能共用
+(当使用conda 下载包时若出现中断或缓慢的问题可以尝试使用pip下载)
+<i class="red">安装指定版本</i>：conda install cudatoolkit==8.0
+<i class="red">在Anaconda中加入自己的库</i>：只要把自己的个人库放到相应的python环境中(site-packages文件夹下)，就能向其它环境中的包一样导入使用。
+Anaconda下载pytesseract库：https://www.cnblogs.com/daacheng/p/9627136.html
+<i class="red">安装后无法进入base环境问题</i>：不能安装在中文名文件下，需要加入环境变量。
+<i class="red">linux上的安装及使用注意：</i>到官网根据相应的linux系统下载或按命令指引下载包安装，安装过程中有指定安装路径位置，可以更改，回车则表示使用默认，若默认安装在/root下则以后想要进入就需要切换为root模式进入，若未自动配置环境变量可以自行添加，位置是/root/anaconda3/bin<i class="violet">注意：似乎如果不安装在用户分区下面，在vscode中就检测不到anaconda环境，设置了也没用，所以还是尽量将其安装在用户分区下。</i>。
+<i class="red">配置安装源和克隆环境：</i>conda create --name wcs --clone base  #克隆已有的库，克隆base并命名为。若克隆环境的pip报错就将原克隆环境的pip包复制过来，bin/pip文件的导入main的命令也改为和原环境的bin/pip一致。conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ # 配置库的下载源。[统一配置安装源](https://blog.csdn.net/hanguo1577717382/article/details/80245707)
+[cannot import relative]relative在dateutil包下，重新安装即可，但使用:pip install python-dateutil
+<i class="red">pip安装经常中断</i>：将外国的安装源改为国内的会有所改善：（-i参数指定安装源）
+Pip install rasa_core -i https://pypi.douban.com/simple
+豆瓣：https://pypi.douban.com/simple		阿里：https://mirrors.aliyun.com/pypi/simple
+清华： https://pypi.tuna.tsinghua.edu.cn/simple/ 		中科大：http://pypi.mirrors.ustc.edu.cn/simple/
 ### 2、python操作mysql：
 **SQL**：Structed Query Language是用于访问和处理数据库的标准的计算机语言。而可以使用sql处理数据库的数据库有MySQL、SQL Server、Access、Oracle、Sybase、DB2 等等。在进入到各数据库模式下后可以直接使用sql语句对数据库进行操作。
 **分布式存储系统**：就是将用户需要存储的数据根据某种规则存储到不同的机器上，当用户想要获取指定数据时，再按照规则到存储数据的机器里获取。
@@ -436,6 +467,8 @@ req = requests.get(url=target, headers=headers, verify=False)
 
 爬取js动态加载数据的网页的方法：https://www.znian.cn/932.html
 [w3c的python3爬虫教程地址。](https://www.w3cschool.cn/python3/python3-enbl2pw9.html)
+
+**监听网络请求**：[参考学习地址](https://www.cnblogs.com/xuanhun/p/5625186.html)
 ### 5、Django和flask的使用:
 <i class="label1">django安装</i>下载地址https://www.djangoproject.com/download/，使用git下载到本地后使用python来安装(也可以使用pip或conda安装，下载的和地址下载中的django文件夹一样)，进入到下载好的django目录下使用命令：python setup.py install //如果想安装到anaconda环境中使用其python对应系统变量即可。安装后在python环境中的script文件夹下会有dnango-admin.exe文件可以直接在cmd中使用,cmd中输入django-admin能运行则成功。(若无法全局使用django-admin的话直接进入scripts文件夹下去运行即可。)
 **配置HTTPS**：[配置教程。](https://blog.csdn.net/qq_33183456/article/details/102967838)
@@ -1310,6 +1343,7 @@ server.quit()#退出服务;如下图：
 **简介**Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java可以编写桌面应用程序、Web应用程序、分布式系统和嵌入式系统应用程序等。
 **运行原理**：java并非纯粹的解释性或编译型语言，java代码以`.java`为后缀名，运行时需要结果两次翻译，第一次是编译，经过自带的`javac`程序将源码编译为字节码，同目录下生成`.class`文件。第二次是经过jvm虚拟机对.class文件进行解释性翻译（可以控制为编译）。
 :::
+**包管理工具**：[maven下载安装](http://mvnbook.com/maven-download.html)
 ### a1、数据类型：
 基本数据类型：数值、字符串、布尔、数组、字典。
 Java支持的变量类型有：

@@ -409,35 +409,7 @@ model = gensim.models.Word2Vec.load(model_path)
 
 搜狐新闻中文数据：https://www.jianshu.com/p/370d3e67a18f
 
-#### 35、Anaconda:
-windows安装：进入[Anaconda官网下载地址](https://www.anaconda.com/products/individual)下载；打开Anaconda prompt命令 窗口；自己	使用pip安装的第三方库会出现下载不全，子模块缺失等问题， 非常头疼，而安装	Anaconda后在其中下载并使用它里面的软件进行编程则 不会出现问题。以Anaconda2开头命名的是对python2版本的支持,以Anaconda3开头的是对python3版本的支持。
-进入Anaconda自带指令工具Anaconda Prompt的base环境安装各种第三方库后可以不用进入设置的虚拟环境中更不用使用Anacaonda中打开代码编辑工具就可以编程使用。
-创建环境:使用conda create -n name python=3.5可以创建一个虚拟环境， name名可随意起，后面是想使用的python的版本号。自己安装的Anaconda包目录下有一个envs文件夹(environments的缩写)是放自己所创建的环境的。script文件夹下是一些库附带的可直接运行的cmd命令程序，如tensorboard。[python官网下载地址](https://www.python.org/downloads/windows/)
-<i class="red">进入环境</i>：windows使用activate name；linux使用source activate wcs.
-<i class="red">安装库</i>：conda install scipy (安装的库在所有虚拟环境中可用)
-<i class="red">卸载库</i>：conda remove scipy
-<i class="red">更新包</i>：pip install --upgrade package_name    	conda update package_name
-或 pip install 包名 --upgrade --ignore-installed 包名    #能忽略一些问题
-<i class="orange">pip安装包时提示权限不够：</i>安装时命令末尾添加--user
-pip和conda更新：若非要求，不要随便更新
-pip install requests		pip install requests --upgrade
-conda install requests		conda update requests
-<i class="red">查看所有包</i>：conda list,[存在包库的地方:安装目录下的Lib>site-packages,每个环境下的Lib>site-packages和安装目录下的pkgs,如果想要做库的转译可以转到这三个目录试试]
-注：打开Anaconda Prompt使用conda install tensorflow安装tenforflow框架，若
-弹出提示有包与该框架冲突则将其卸载直到没有冲突的包为止，将删除的包做好记录
-。在Anaconda Prompt也可以使用pip指令。各个环境安装的库不能共用
-(当使用conda 下载包时若出现中断或缓慢的问题可以尝试使用pip下载)
-<i class="red">安装指定版本</i>：conda install cudatoolkit==8.0
-<i class="red">在Anaconda中加入自己的库</i>：只要把自己的个人库放到相应的python环境中(site-packages文件夹下)，就能向其它环境中的包一样导入使用。
-Anaconda下载pytesseract库：https://www.cnblogs.com/daacheng/p/9627136.html
-<i class="red">安装后无法进入base环境问题</i>：不能安装在中文名文件下，需要加入环境变量。
-<i class="red">linux上的安装及使用注意：</i>到官网根据相应的linux系统下载或按命令指引下载包安装，安装过程中有指定安装路径位置，可以更改，回车则表示使用默认，若默认安装在/root下则以后想要进入就需要切换为root模式进入，若未自动配置环境变量可以自行添加，位置是/root/anaconda3/bin<i class="violet">注意：似乎如果不安装在用户分区下面，在vscode中就检测不到anaconda环境，设置了也没用，所以还是尽量将其安装在用户分区下。</i>。
-<i class="red">配置安装源和克隆环境：</i>conda create --name wcs --clone base  #克隆已有的库，克隆base并命名为。若克隆环境的pip报错就将原克隆环境的pip包复制过来，bin/pip文件的导入main的命令也改为和原环境的bin/pip一致。conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ # 配置库的下载源。[统一配置安装源](https://blog.csdn.net/hanguo1577717382/article/details/80245707)
-[cannot import relative]relative在dateutil包下，重新安装即可，但使用:pip install python-dateutil
-<i class="red">pip安装经常中断</i>：将外国的安装源改为国内的会有所改善：（-i参数指定安装源）
-Pip install rasa_core -i https://pypi.douban.com/simple
-豆瓣：https://pypi.douban.com/simple		阿里：https://mirrors.aliyun.com/pypi/simple
-清华： https://pypi.tuna.tsinghua.edu.cn/simple/ 		中科大：http://pypi.mirrors.ustc.edu.cn/simple/
+
 #### 36、tensorflow serving的安装与使用：
 <span class="label1">安装</span>tensorflow serving可以将深度学习模型部署到线上，在服务器上开启一个服务提供访问的api。可以使用3种方法安装(docker、源码安装、二进制编译)。
 [windows上docker工具下载。](http://mirrors.aliyun.com/docker-toolbox/windows/docker-toolbox/)
