@@ -1,79 +1,98 @@
-
 /*auto config*/
 
 .label1,
 .label2,
 .label3 {
-    position: relative;
-    display: inline;
-    font-style: normal;
-    background: #822659;
-    padding: 2px 20px 2px 5px;
-    border-radius: 3px;
-    color: white;
-    margin-right: 10px;
+  position: relative;
+  display: inline;
+  font-style: normal;
+  background: #822659;
+  padding: 2px 20px 2px 5px;
+  border-radius: 3px;
+  color: white;
+  margin-right: 10px;
 }
 
 .label2 {
-    background: #e27802;
+  background: #e27802;
 }
 
 .label3 {
-    background: #80ffdb;
+  background: #80ffdb;
 }
 
 .label1::after,
 .label2::after,
 .label3::after {
-    content: "";
-    text-align: center;
-    position: absolute;
-    display: block;
-    width: 16px;
-    height: 17px;
-    border-radius: 50%;
-    background: white;
-    border: 4px solid #822659;
-    right: -8px;
-    top: 0;
+  content: "";
+  text-align: center;
+  position: absolute;
+  display: block;
+  width: 16px;
+  height: 17px;
+  border-radius: 50%;
+  background: white;
+  border: 4px solid #822659;
+  right: -8px;
+  top: 0;
 }
 
 .label2::after {
-    border: 4px solid #e27802;
+  border: 4px solid #e27802;
 }
 
 .label3::after {
-    border: 4px solid #80ffdb;
+  border: 4px solid #80ffdb;
 }
-
 
 /*颜色*/
 
 i {
-    font-style: normal;
+  font-style: normal;
 }
 
 .red,
-[c=r] {
-    color: #9b3675;
+[c="r"] {
+  color: #9b3675;
 }
 
 .blue,
-[c=b] {
-    color: #1597bb;
+[c="b"] {
+  color: #1597bb;
 }
 
 .green,
-[c=gn] {
-    color: #29bb89;
+[c="gn"] {
+  color: #29bb89;
 }
 
 .gray,
-[c=gy] {
-    color: #364547;
+[c="gy"] {
+  color: #364547;
 }
 
 .violet,
-[c=v] {
-    color: #6155a6;
+[c="v"] {
+  color: #6155a6;
+}
+
+[tag] {
+  display: inline-block;
+  font-size: 14px;
+  color: white;
+  padding: 0 10px;
+  border-radius: 12px;
+  margin: 0 2px;
+}
+[tag="l1"] {
+  background: linear-gradient(70deg, #9b3675 15%, #1597bb 40%, #364547 100%);
+}
+[tag="l2"] {
+  background: linear-gradient(
+    70deg,
+    #9b3675 15%,
+    #1597bb 40%,
+    #6155a6 90%,
+    #364547 100%
+  );
 }

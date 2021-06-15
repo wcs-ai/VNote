@@ -110,11 +110,12 @@ requireAll(req)//全部遍历出来。
 在`<iframe><embed><object>`标签中若是有用到跳转页面使用window.location.href或window.open()或a标签中的跳转，页面跳转后还是只是显示在\<iframe>...这些标签之中，但使用window.parent.frames.location.href = ""能让上一个页面跳转或直接`window.parent.location.href,window.top.location.href`让最外层的页面跳转，a标签中的跳转可用target="parent"和target="top"来实现。获取前一页url：document.referrer;//包括传参也会获取到
 #### 4、canvas:
 `<canvas width="500" height="500"></canvas>`
-HTMLCanvasElement//表示页面内所有canvas元素，其余元素也有此类似对象。
-HTMLCanvasElement.toDataURL()方法将画布转化为base64图片格式。
-HTMLCanvasElement.toBlob()方法将画布转化为Blob对象。
-
+```js
+//-----HTMLCanvasElement//表示页面内所有canvas元素，其余元素也有此类似对象。
+HTMLCanvasElement.toDataURL()//方法将画布转化为base64图片格式。
+HTMLCanvasElement.toBlob()//方法将画布转化为Blob对象。
 var ctx = canvas.getContext("2d")//获取2d对象
+
 ctx.fillStyle = "blue"//填充颜色需要放在绘制形状前
 ctx.fillRect(x,y,width,height)//矩形填充颜色...
 ctx.clearRect(x,y,width,height)//矩形清除图像像素
@@ -122,47 +123,53 @@ ctx.strokeRect(x,y,width,height)//绘制一个矩形框
 ctx.fillText("str",x,y)//填充文字时不能填充其它且不能绘制形状。
 ctx.font = "20px Arial"//定义字体大小及类型。
 ctx.textAlign='center'//left,start,right,end
+
 ctx.beginPath()//绘制路径，不规则图圆时先调用
 ctx.lineWidth=3;//线框
 ctx.filter='blur(15px)';//模糊滤镜。
 ctx.lineCap="butt"//线头样式,round:圆形头、square:方形头。
 ctx.setLineDash([2,5,20,30])//设置为虚线，断点距头位置。
 ctx.lineDashOffset=10//设置虚线起始偏离起始点距离。
+
 a = ctx.createLinearGradient(0,0,300,0);//创建一个线性渐变，参数为区域
 a.addColorStop(0,"red");//渐变a中添加位置,颜色
 b=ctx.createRadialGradient(x0,y0,r0,x1,y1,r1)//中心渐变，两个圆中间的区域
 patt=ctx.createPattern(ct1,null)//创建一个填充块，参数1是另一个canvas对象
-可将canvas对象ct1填充到canvas对象ctx中。
+//可将canvas对象ct1填充到canvas对象ctx中。
 ctx.shadowBlur=20//阴影模糊程度
 ctx.shadowColor="red"//阴影颜色
 ctx.shadowOffsetX=2,ctx.shadowOffsetY=3//阴影偏移
 ctx.strokeStyle="orange"//设置边框颜色
-坐标若超出canva画布大小则全部都不能绘制出来
+//坐标若超出canva画布大小则全部都不能绘制出来
 ctx.quadraticCurveTo(10,10,20,20)//二次贝塞尔曲线，中转点，结束点
 ctx.bezierCurveTo()//三次贝塞尔曲线
 `ctx.arc(x,y,r,stAngle,Math.PI*2)`//绘制圆,控制第5个参数大小控制弧长。
 ctx.ellipse(x,y,rx,ry,Math.PI/4)//绘制椭圆
-画圆，椭圆前定义lineWidth值填充strokeStyle值可画出圆环效果。
+//画圆，椭圆前定义lineWidth值填充strokeStyle值可画出圆环效果。
 ctx.clip()//裁剪，使用之前先绘制一个路径区域再调用,裁剪掉区域外的东西
 ctx.stroke()//绘制所描绘的路径
 ctx.translate(10,10)//画布圆心位置移动,ctx.scale(0.1,0.1)//缩放,
 ctx.rotate(Math.PI*30/180)//旋转,(在绘制时若多个变换一起使用需要先使用
-translate()变换否则出现的位置与设计的不一致)
+translate()//变换否则出现的位置与设计的不一致)
 ctx.globalAlpha=0.2;//设置画布全局透明度
+/*===========
+    图片相关
+=============*/
 img=new Image()//继承Image类，img.src="mv.jpg"//获取图片文件像素数据。
 img.width、img.height、img.data//直接获取该图片的宽高，像素数据。
 ctx.drawImage(img,dx,dy,width,height)//绘制图片,img可以是图片、svg、canvas
-图形对象(不写width和height时自己会计算宽高);该方法写在img.onload=function(){}内。
+//图形对象(不写width和height时自己会计算宽高);该方法写在img.onload=function(){}内。
 imgdata=ctx.createImageData(300,100)//创建一个全0像素矩阵,可操控每个点值
-使用imgdata.data[0]=230;这种形式改变。
+//使用imgdata.data[0]=230;这种形式改变。
 dat=ctx.getImageData(x,y,width,height);//dat.data获取像素矩阵，
-getImageData()方法能获取canvas上任意图形的像素数据。
+//getImageData()方法能获取canvas上任意图形的像素数据。
 img.src =canvas.toDataURL(type,scl);//将整个canvas上的像素数据转换为
-base64格式,能直接显示到img中,type有图片格式,有:image/png(默认),
-image/jpeg,image/webp;scl为缩放值(更改图片质量0~1)
+//base64格式,能直接显示到img中,type有图片格式,有:image/png(默认),
+//image/jpeg,image/webp;scl为缩放值(更改图片质量0~1)
 ctx.putImageData(imgdata,x,y)//重绘imgdata
 ctx.save()//保存当前画布状态到栈空间，restore()方法依次取出。需要配合使用
 save()方法放绘制的开头，restore(）方法放绘制的结尾。
+```
 ctx.globalCompositeOperation="source-over"//图形重叠处理，source-in:重叠部分绘制，source-out:重叠位置不绘制、source-atop:重叠处类似遮罩的绘制、lighter:颜色叠加效果、copy:只显示新内容、xor:互相重叠部分为透明、multiply:顶层像素与底层像素相乘，一般得到黑暗图形、screen:重叠处像素反转、overlay:multiply与screen叠加效果、darken:变暗
 lighten:叠加部分变量、color-dodge:底层像素值除顶层像素值、color-burn:颜色加深。底部图层的色值除以顶部图层色值，得到的结果再反相、hard-light:重叠处强光、soft-light:柔光......
 (利用globalCompositeOperation中的copy属性可以实现图形的位移、旋转)(如果要用一个2d对象绘制多个图形且让其能产生动画效果那么需要在每个绘制图形前都加一个globalCompositeOperation,属性值不为copy即可)
@@ -346,6 +353,54 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 ```
 **input所有type类型**：
 tel、number、email、text、radio、checkbox、image、date、color、button、submit、hidden、month、password、range、reset、search、time、url、week、file、month、datetime-local
+#### 8、交互设计：
+- 移动端尺寸处理：移动端页面一般都要支持手机上打开无论屏宽，按ui比例显示界面，不过用电脑或平板也应该能打开，<b c=v>所以最外层应该设置个max-width并居中，让pc端也能正常显示。</b>
+- 非堆叠页面及元素的尺寸处理：<b c=gn>元素从上到下几乎用默认流放置的布局页面，我称为堆叠的。</b>
+（1）pc端堆叠类页面，单位一般使用px，大体布局的地方结合百分比使用，设置min-width和适当使用@media，让部分较小的笔记本电脑也能正常显示。
+（2）pc端非堆叠类，例如登录页面，由于登录表单部分较大，如果一样使用px单位，一些傻x用户使用较低的分辨率或系统设置缩放会导致问题，**使用vw或rem这些单位**（vw类型单位的话都统一使用vw或vh这样能保持一个块的比列），然后设置min-width来限制是一个较好的方法。
+
+#### 9、好用标签：
+hr标签：
+```html
+<hr class="hr" data-content="分隔线" /><!--文字会显示在正中-->
+<style>
+.hr {
+    border: 0;
+    padding: 3px;
+    /*/斜纹分隔线*/
+    background: repeating-linear-gradient(135deg, #a2a9b6 0px, #a2a9b6 1px, transparent 1px, transparent 6px);
+}
+/*波浪线效果*/
+.hr::before {
+    content: "\2000\2000";
+    /* IE浏览器实线代替 */
+    text-decoration: overline;
+    /* 现代浏览器 */
+    text-decoration: overline wavy;
+}
+.hr::after{
+    /*attr()函数可让样式作用与元素的某个属性上，IE8 需要声明 !DOCTYPE 才可以支持 attr() 函数。*/
+    content: attr(data-content);/*这里对文字内容进行装饰*/
+    position: absolute;
+    padding: 4px 1ch;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: transparent;
+    border: 1px solid #d0d0d5;
+}
+</style>
+```
+**marquee标签**：
+◎direction表示滚动的方向，值可以是left，right，up，down，默认为left
+◎behavior表示滚动的方式，值可以是scroll（连续滚动）slide（滑动一次）alternate（往返滚动）
+◎loop表示循环的次数，值是正整数，默认为无限循环
+◎scrollamount表示运动速度，值是正整数，默认为6
+◎scrolldelay表示停顿时间，值是正整数，默认为0，单位似乎是毫秒
+◎align表示元素的垂直对齐方式，值可以是top，middle，bottom，默认为middle
+◎bgcolor表示运动区域的背景色，值是16进制的RGB颜色，默认为白色
+◎height、width表示运动区域的高度和宽度，值是正整数（单位是像素）或百分数，默认width=100% height为标签内元素的高度
+◎hspace、vspace表示元素到区域边界的水平距离和垂直距离，值是正整数，单位是像素。
+◎onmouseover=this.stop() onmouseout=this.start()表示当鼠标以上区域的时候滚动停止，当鼠标移开的时候又继续滚动。
 #### 10、文字继承单选框和复选框：
 ```html
 <input type="radio" id="a"/> <label for="a">点我触发前面id为a的单选框</label>
@@ -387,16 +442,21 @@ ele.checked获取复选框状态返回true/false(布尔值，非字符串)。
 </script>
 ```
 #### 12、问题及解决：
-1. 逻辑复杂的地方解耦开，分页处理。两个页面公共组件多考虑细分，逻辑部分用mixins抽离较合理。
-2. 大页海报使用canvas绘制，计算数据使用workers计算，提高性能。
-3. 登录页安全策略：使用md5+非对称加密，使用安全键盘（前端绘制）。键盘一些问题的解决。
-4. **vuex问题**：页面刷新会导致vuex数据丢失，解决的办法是存储时顺便存到缓存，需要使用vuex数据的页面先检查数据是否要从缓存恢复数据到vuex，或重新请求到vuex。
+1. 单个页面多场景问题：逻辑复杂的地方解耦开，分页处理。两个页面公共组件多考虑细分，逻辑部分用mixins抽离较合理。
+2. 大页海报绘制问题：使用canvas绘制，计算数据使用workers计算，提高性能。
+3. 登录页安全策略：使用md5+非对称加密，使用安全键盘（前端绘制）。加密后的内容如果使用url传参的方式上送，会被浏览器转义部分内容，可以用encodeURIcomponent()编码再传，java用URLDecode
+4. **vuex问题**：页面刷新会导致vuex数据丢失，解决的办法是存储时顺便存到缓存，在vuex文件中值的默认值，就使用从缓存恢复或请求的方法，这样其它页面不用做恢复操作。
+
 ```js
+//===其它页面存储
 window.sessionStorage.setItem("data",JSON.stringify(data));
+//===vuex配置
 var a = window.sessionStorage.getItem("data");
-JSON.parse(a);//解析使用
+var state = {
+    userInfo: JSON.parse(a);//解析使用
+}
 ```
-5. props问题：props中的值是单向的，子组件改变props中的值时会触发error，可以将props中的值赋值到data中去（若是接口请求的数据在子组件created阶段），然后修改data中的该值。
+5. **props问题**：props中的值是单向的，子组件改变props中的值时会触发error，可以将props中的值赋值到data中去（若是接口请求的数据在子组件created阶段），然后修改data中的该值。
 ```html
 // 父组件
 <child :cas="cases"/>
@@ -418,6 +478,7 @@ export default {
 </script>
 ```
 
+
 ### 二、CSS
 :::alert-info
 简介：css(Cascading Style Sheets)层叠样式表，1996-12-17css1诞生，2003年1月svg被定为w3c规范，但当时的网页只是图文内容，css更受偏爱。
@@ -430,6 +491,18 @@ export default {
 - **盒模型**：box-sizing:`content-box`;//定义的width不包含border宽度，即总宽度= padding值+border值+width值（margin值不算元素宽度）但如果是背景图片依然会占据padding部分（不会占据border部分），文本内容不会占据padding部分；Box-sizing:`border-box`//定义的width包含padding值和border值即：总宽度=width；背景图片占据padding部分。（伪类元素定义出来的是content-	box模型，即使通配符中已经定义了box-sizing:boder-box）。
 - **自动换行**：word-break：break-all或white—space：normal来实现自动换行。引入外部文件中的资源地址不能用斜杠开头(一些浏览器不能识别)固定定位只相对于window窗口，无论该元素放到上面元素里。
 - **BFC**：（块级格式化上下文），是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。
+**BFC的特性**
+    1. 内部的Box会在垂直方向上一个接一个的放置。
+    2. 垂直方向上的距离由margin决定（只以其中最大一个margin为准）。
+    3. bfc的区域不会与float的元素区域重叠。
+    4. 计算bfc的高度时，浮动元素也参与计算
+    5. bfc就是页面上的一个独立容器，容器里面的子元素不会影响外面元素。
+**形成BFC的条件**
+    1. 浮动元素，float 除 none 以外的值； 
+    2. 定位元素，position（absolute，fixed）； 
+    3. display 为以下其中之一的值 inline-block，table-cell，table-caption； 
+    4. overflow 除了 visible 以外的值（hidden，auto，scroll）；
+
 - **css选择器**：`div+p`#两个紧挨者的元素，`[attribute]`#选择带有arrtibute属性的元素。[attribute=value]选择等于指定值的。[attribute~=value]属性值中包含该值的。[attribute|=value]属性值中以该value开头的。`p:first-child`#选择p的父元素的第一个子元素(属于p元素)。p:last-child#选最后一个子元素。`p:nth-child(n)`#选择第n个子元素(属于p元素)。p:nth-last-child(2)#从最后子元素开始计数。[css选择器全部](http://www.w3school.com.cn/cssref/css_selectors.asp)
 >**选择器优先级**：带!important>内嵌样式>id>类名==属性选择器>标签选择器>通配符(*)>继承(继承父元素的属性)>浏览器默认属性。子选择器用id选择时比id选择器优先级高。
 >**选择器的解析**：解析选择器时是从右往左的（如使用`#div>.cc`时是先取.cc再取#div的顺序去构建树【更容易把公共样式放在一个节点】）少用一些子选择器。
@@ -503,6 +576,7 @@ ul::marker{
 }
 ```
 - static默认定位下元素**宽可以占满剩余空间**。
+
 ```html
 <div class="main">
     <div class="left"></div>
@@ -527,7 +601,27 @@ ul::marker{
 }
 </style>
 ```
+- **关键字**：几乎可用于所有属性，浏览器上
+```css
+div{
+    color:initial;/*initial表示使用浏览器默认属性值*/
+    line-height:inherit;/*inherit表示该属性值继承它的父元素的（非继承属性也可使用）*/
+    all:revert;/*all表示所有属性，revert表示该属性值重置为浏览器默认*/
+    font-size:unset;/*如果该属性是默认继承属性，该值等同于 inherit。如果该属性是非继承属性，该值等同于 initial*/
+}
+```
+- **var函数**：用于使用自定义的css变量。IE9.1开始支持。
 
+```css
+/*:root中定义自己的遍历。*/
+:root{
+    /*必须要--开头*/
+    --wcs-bg:red;
+    --wcs-size:80px;
+}
+/*var()中调用对应的变量值*/
+.div{background-color: var(--wcs-bg);}
+```
 #### 2、尺寸单位：
 - **em**：是根据当前元素字体大小而变化的,列入当前元素font-size:14px;width:10em,此时width为140px(每1em为字体大小)。
 - **rem**：是继承根部元素(html)的字体大小的,例:html{font-size:16px;}.div{width:10rem;}//width为160px。用以下代码修改根元素大小。
@@ -591,6 +685,14 @@ el{
 img {// 不用担心兼容性问题。
     -webkit-mask-image: url(card-mask.png);
     mask-image: url(card-mask.png);
+}
+```
+渐变：
+```css
+i{
+    /*第一个值为方向，可为：to right,to left,to top,to bottom,10deg*/
+    /*默认为to top，使用角度时为顺时针旋转*/
+    background: linear-gradient(70deg,#9b3675 15%,#1597bb 40%,#6155a6 90%,#364547 100%);
 }
 ```
 #### 4、未知大小元素居中：
@@ -673,7 +775,7 @@ img {// 不用担心兼容性问题。
 **简介**：栅栏布局也是css3的内容，是一种将元素分割为模块组合形式的布局方式。兼容性也还不错，ie9中需要对父元素做清除浮动操作才能正常显示。
 :::
 
-```vue
+```html
 <div class="grid">
     <div><p>1</p></div>
     <div><p>2</p></div>
@@ -732,7 +834,11 @@ img {// 不用担心兼容性问题。
     &:hover { font-size: 36px;}//伪类写法
     @include corner-icon("mail", top, left);//用include调用该代码块。
 }
-
+// 定义函数
+@function px2vw($p){
+    @return ($p/1920)*100vw;
+}
+.ff{width:px2vw(150);}
 //定义变量
 $menuBg: #9966ff;
 $subMenuBg: #9933ff;
@@ -795,11 +901,12 @@ $subMenuHover: #9900ff;
 `x.toString()`//转为字符串。`x.replace(/target/g,'')`//替换,g表示所有满足的都替换。`x.concat(“a”,”b”)`//可与x连接多个字符串。
 `x.charAt(index)`//查找字符串的对应下标的值,`“justice”.charAt(1)=”u”`。
 `"a".toUpperCase()`方法将小写字母转换为大写,`"A".toLowerCase()`#将大写字母转为小写。
-`str.substring(start,end)`//提取字符串中介于两个下标间的字符串，一个参数时为start，截取后面所有。在源数据上操作。
-`str.substr(start,length)`#第二个参数为选择从start起截取多少个长度字符。
+`str.substring(start,end)`//提取字符串中介于两个下标间的字符串，一个参数时为start，截取后面所有。**在源数据上操作**。
+`str.substr(start,length)`#第二个参数为选择从start起截取多少个长度字符。<b c=r>不改变原数据的值。</b>
 `str.indexOf('aa')`#查找字符串位置。
 `str.search('abc')`#找到子串开始位置。
 `str1.concat(str2)`#连接两个字符串，返回一个新的值。
+`"*".repeat(3)`#生成3个重复的字符。
 ```js
 var str = '大米:2.57斤/元,白菜:3.65元/斤';
 var arr = str.match(/\d+(.\d+)?/g); //match()方法找到所有匹配的项，返回一个数组。
@@ -817,7 +924,7 @@ console.log(a.exec('kke,mme'));//只能找到第一个匹配项，放回一个�
 ```
 **数组**：
 - `list.indexOf(1)`//找到第一个1在列表中的位置，不在则返回-1。
-- `list.includ(1)`//是否包含1，返回布尔值。
+- `list.includes(1)`//是否包含1，返回布尔值。
 - `list.join("-"`)//将各元素用字符链接。
 - `list.push(1)`//在列表最后添加值。
 - `list.pop()`//删除最后一个元素。
@@ -872,7 +979,6 @@ arr.splice(1,1,7)//[1,7,3,4,5,6]
 
 arr.forEach(function(value,index,data){});
 ```
-
 **对象**：从对象中**取较多值时最好使用es6的解构**。比如从对象中取出多个属性然后上传时的场景，如果用obj.property的方式取值，若缺少该值时程序可能会不执行也不报错。
 ```js
 Object.getPrototypeOf(person1) == Person.prototype; //true，获取对象属性。
@@ -1023,8 +1129,8 @@ source.onmessage = e => {
 WebSocket是一种在单个TCP连接上进行**全双工通讯的协议**，它允许服务端主动向客户端推送数据，浏览器和服务器只用完成一次握手两者之间即可创建持久性的连接，并进行双向数据传输。需要先安装pywebsocket支持websocket服务
 ```js
 if(window.WebSocket){
-    // 继承webscoket类，传入url,可选子协议
-    var ws = new WebSocket("htt://url",[protocol]);
+    // 继承webscoket类，传入url,可选子协议,wss为加密后的协议。
+    var ws = new WebSocket("ws://url",[protocol]);
     ws.onopen = function(){// 连接建立时触发
         ws.send(data);//发送数据
     }
@@ -1068,7 +1174,8 @@ function start(){postMessage(i);i += 1;setTimeout(start,1000);}
 - **三元运算符**：三元运算符与if语句同样的作用，例：if(x>10 && x<50){alert("hello");}替为 `x>10 && x<50?alert("hello"):alert("flase")`。(两者等价问号前为判断条件，问号后为执行语句，冒号后为else时的语句)。
 三元运算符用于赋值：val = val>20 ? 20 : 10;//表示如果val大于20val值就为20，否则为10；
 三元运算符中写多条语句：a == 20 ? (a=15,alert(a)) : (a = 21,alert(a));
-- **js的异步原理**：浏览器每开一个窗口就是启动一个进程，js代码的运行只使用了一个线程，所以js异步并不是真正的启动线程的异步。js中的任务分为宏任务和微任务，<b c=r>js会先运行主栈中的任务，然后取事件队列先运行微任务，然后运行宏任务</b>。<b c=b>DOM的渲染本身是同步的操作</b>。[参考学习地址。](https://www.cnblogs.com/liangye/p/13461924.html)
+- **js的异步原理**：浏览器每开一个窗口就是启动一个进程，js代码的运行只使用了一个线程，所以js异步并不是真正的启动线程的异步。js中的任务分为宏任务和微任务，<b c=r>js会先运行主栈中的任务，然后取事件队列先运行微任务，然后运行宏任务</b>。<b c=b>DOM的渲染本身是同步的操作</b>。渲染引擎是另一个线程在执行，为了js线程能控制渲染引擎的动作，<b c=v>每次js微任务执行完后会去检查一下是否需要渲染，所以每帧的渲染间js的计算不要太多</b>，不然会掉帧。
+- [参考学习地址。](https://www.cnblogs.com/liangye/p/13461924.html)
 >**宏任务**：setTimeout，setInterval，Ajax，DOM事件。**DOM渲染后触发**。
 >**微任务**：async/await，then,catch,finally。**DOM渲染前触发**。
 ```js
@@ -1158,7 +1265,7 @@ switch(a){
         alert('结束');
 }
 ```
-- for in与for of：
+- **for in与for of**：
 
 ```js
 // 在原型上绑定一些自定义属性。
@@ -1180,31 +1287,84 @@ for(var j of n){
     console.info("of----",j)
 }
 ```
+- 交换变量：`[x,y]=[y,x]`。
+- 双非运算符：`const f=~~15.57;//15`#与floor效果一样，不过在值大于2147483647时会失效。
+- 字符串转数字：`let a = +"13.456";//13.456`#与parseInt，parseFloat效果一致。
+- 数字分隔符：`const H = 109_234_711;//109234711`#这种较大的数值时用分隔符并于查看。
+- 感叹号：`!!"123"`#true，相当于Boolean()方法对值变换。
+- bind的使用：
+```js
+function mskPhone(val) {
+    console.info("this===",this);
+    let _s = val.substr(0, 3);
+    return _s + "*".repeat(3) + val.substr(7, 11);
+}
+var cc = mskPhone.bind({a:112});//bind的第一个参数是函数mskPhone的this，其它参数按序传入。
+console.info("cc===",cc("18313746328"));//这里调用，参数接着上面的
+```
+#### 4、文件下载：
+```js
+export function download(url, params, filename) {
+	//"Content-Type": "application/x-www-form-urlencoded",
+	return request.post(url, params, {
+		headers: {
+			"Content-Type": "application/json",
+			"Accept-Encoding": "gzip,deflate,br",
+			"Accept": "*/*"
+		},
+		responseType: "blob"
+	}).then((data) => {
+		const content = data;
+        // 将文件转为数据对象。
+		const blob = new Blob([content]);
+		if ("download" in document.createElement("a")) {
+        // 创建a标签，主动触发其点击，然后下载（当前页面下载），用户点击的a标签下载似乎会打开新页面。
+			const elink = document.createElement("a");
+			elink.download = filename;
+			elink.style.display = "none";
+			elink.href = URL.createObjectURL(blob);
+			document.body.appendChild(elink);
+			elink.click();
 
-#### 7、元素操作：
+			URL.revokeObjectURL(elink.href);
+			document.body.removeChild(elink);
+		} else {
+			navigator.msSaveBlob(blob, filename);
+		}
+	}).catch((r) => {
+		console.error("er--",r);
+	});
+}
+```
+[Blob的使用](https://www.cnblogs.com/cheng825/p/11694348.html)
+#### 7、DOM：
 **获取元素尺寸相关**：
-el.offsetHeight;//包括边框+内边距+内容尺寸
-el.clientHeight;//内边距+内容尺寸
-el.clientTop;//上边框
-el.offsetTop;//距父元素左边距含margin值
-el.scrollTop//元素当前内部滚动的距离
-el.scrollHeight//元素内部可滚动的距离
-在使用ele.offsetLeft获取元素在发生变换过程中的对应值时需要用
-ele.style.left="";来重新写入该元素的位置，否则返回的永远都只是
-该元素的初始位置，使用ele.getBoundingRect().left可实时获取元素位置。
+```js
+el.offsetHeight;// 包括边框+内边距+内容尺寸
+el.offsetTop;// 距父元素左边距含margin值
+el.clientHeight;// 内边距+内容尺寸
+el.clientTop;// 到上边框距离
+el.scrollTop// 元素当前内部滚动的距离
+el.scrollHeight// 元素内部可滚动的距离，一般比clientHeight大。
+ele.style.left="";// 来重新写入该元素的位置，否则返回的永远都只是该元素的初始位置
+ele.getBoundingRect().left// 使用可实时获取元素位置。
+```
 **元素节点操作**：
+```js
 p = document.createElement("p");//创建一个节点
 document.createTextNode("text");//创建文本节点
 el.appendChild(p);//添加孩子节点：末尾添加
-<i class="blue">在添加完节点后可以用`p.setAttribute("style","width:10px;height:20px")`方法来动态改变该元素属性，直接用style则无效。</i>
+p.setAttribute("style","width:10px;height:20px");//在添加完节点后可以用方法来动态改变该元素属性，直接用style则无效。</i>
 fa.insertBefore(el,fa.lastChild);//插入节点：fa中插入节点el,在最后一个节点前插入。
 el.parentNode;//父节点,选中el的父节点。
 el.previousSibling;//选取上一个节点
 el.nextSibling;//选取下一个节点
-a.contains(b)/a.compareDocumentPosition(b)//判断一个元素是否包含另一个元素
-el.removeChild(ak);删除元素节点//只能用父元素删除子元素的方式
-el.cloneNode();复制元素//复制的元素会复制其所有属性,但并不会复制其文本内容和html结构。
-el.childNodes;//返回元素的所有子元素(两种不同情况返回的长度)、el.childNodes[0].nodeName;//节点名,为间隙或文字则为#text为元素则为。大写的标签名,nodeValue;//节点中的文本内容(非html结构)
+a.contains(b)/a.compareDocumentPosition(b);//判断一个元素是否包含另一个元素
+el.removeChild(ak);// 删除元素节点//只能用父元素删除子元素的方式
+el.cloneNode();// 复制元素//复制的元素会复制其所有属性,但并不会复制其文本内容和html结构。
+el.childNodes;// 返回元素的所有子元素(两种不同情况返回的长度)、
+el.childNodes[0].nodeName;//节点名,为间隙或文字则为#text为元素则为。大写的标签名,nodeValue;//节点中的文本内容(非html结构)
+```
 ```html
 <p><b>1</b><b>2</b><b>3</b></p>//p.childNodes.length>>3
 <p>
@@ -1215,15 +1375,17 @@ el.childNodes;//返回元素的所有子元素(两种不同情况返回的长度
 **获取属性**：`ele.style.property`和`window.getComputedStyle('元素','伪类').getPropertyValue('属性')`//这两个方法都是只读属性。
 **写入样式**：
 - `ele.style["color"] = "red";`可以使用这两种方法来改变其元素的css样式(但是会显示在内嵌样式中)：
-- `ele.style.cssText=”width:150px;height:200px;”`;//重写其css样式表
+- `ele.style.cssText=”width:150px;height:200px;”`;//一次写入多个样式
 - `ele.style.setProperty(‘样式名’,’样式值’);`//setProperty()方法设置属性是在style中的并不是一个直接的属性。
 - **为元素添加类名或id名**：setATTribute(“class”,“new”)，element.className=””;setATTribute(“id”,”id”),element.id=””;
 - 使用removeATTribute(“class”.”id”)（也可用来移除id名）或.classList.remove(“id”)来移除元素类名。
-#### 8、调用摄像头：
+#### 8、音视频：
+**调用摄像头**：
 ```html
-<video id="but" onclick="get()">调用摄像头</video>
+<video id="but">调用摄像头</video>
 <canvas id="canvas"></canvas>
-<div onclick="show()"></div>
+<button onclick="get()">打开摄像头</button>
+<button onclick="show()">拍照</button>
 <script>
 var width = window.innerWidth;
 var height = window.innerHeight;
@@ -1233,39 +1395,98 @@ function get() {
     // obj传到getUserMedia()方法中
     var obj = {
          // 设置视图大小，允许录制音频
-                    video: {
-                        width: width,
-                        height: height
-                    },
-                    audio: true
-                }
-                // 兼容性处理
-            let photo = navigator.mediaDevices.getUserMedia(obj) ||
+        video: {
+            width: width,
+            height: height
+        },
+        audio: true
+    }
+    // 兼容性处理
+    let photo = navigator.mediaDevices.getUserMedia(obj) ||
                 navigator.webkitGetUserMedia(obj) ||
                 navigator.mozGetUserMedia(obj) ||
                 navigator.msGetUserMedia(obj);
             // 会先获取权限(用户控制)，调用成功的话则运行then()方法
-            photo.then(function(MediaStream) {
-                but.srcObject = MediaStream; //图像显示到but元素中
-                but.play(); // 显示
-            });
+    photo.then(function(MediaStream) {
+        but.srcObject = MediaStream; //图像显示到but元素中
+        but.play(); // 显示
+    });
             // 调用失败则运行catch()方法
-            photo.catch(function() {
-                alert("调用摄像头失败")
-            });
-        }
+    photo.catch(function() {
+        alert("调用摄像头失败")
+    });
+}
         // 点击拍照
-        function show() {
-            var canvas = document.getElementById("canvas");
-            var ctx = canvas.getContext("2d");
-            // 上面获取到的but是RGB数组对象。
-            ctx.drawImage(but, 0, 0, width, height);
-        }
+function show() {
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    // 上面获取到的but是RGB数组对象。
+    ctx.drawImage(but, 0, 0, width, height);
+}
 </script>
 ```
-https://www.zcfy.cc/article/choosing-cameras-in-javascript-with-the-mediadevices-api
-https://blog.csdn.net/jvid_sky/article/details/53213898
+**webrtc**：web端视频电话支持技术，里面处理了媒体流数据编码、杂音、画面去噪等功能。<b c=r>web端直播推流使用此方法（这里只有大致的思路）</b>
+- [参考学习地址](https://www.dazhuanlan.com/2019/12/24/5e0191c6d8816/)
 
+```js
+/*===*-----  直播端逻辑  ----*===*/
+var stream = await navigator.mediaDevices.getUserMedia({audio,video});
+var rtc = new RTCPeerConnection(null);
+// 将每帧流添加到rtc中。
+stream.getTracks().forEach(function (track) {
+    rtc.addTrack(track);
+});
+var offer = await rtc.createOffer();// 返回一个本地会话描述。
+await rtc.setLocalDescription(offer);// 设置本地描述,然后通过其信令通道将此会话描述发送
+// 将信令sdp发送，并获取服务端用于与该客户端连接的sdp。
+const sdp = await ajax({url,data:{sdp:offer.sdp,streamurl:""}});
+// 将此获取到的sdp设为远程会话描述。
+await self.pc.setRemoteDescription(
+    new RTCSessionDescription({ type: "answer", sdp: sdp })
+);
+/*=========
+    收看端
+===========*/
+let pc = new RTCPeerConnection({
+  iceServers: [{urls: "stun:stun.nodemedia.cn:3478"}]
+});
+pc.addStream(stream); // 添加流
+pc.createOffer()
+  .then((description) => {
+    pc.setLocalDescription(description);
+  })
+  .catch(this.handleError.bind(this));
+
+// 使用websocket接收数据。
+let ws = new WebSocket(url);
+ws.onopen = () => {
+  ws.send(
+    btoa(
+      JSON.stringify({
+        method: "publish",
+        audio: audio,
+        video: video,
+        description: pc.localDescription,
+      })
+    )
+  );
+};
+// 获取数据流。
+ws.onmessage = (e) => {
+  let command = JSON.parse(atob(e.data));
+  console.log("onmessage e=", command);
+  if (command.method === "onpublish") {
+    pc.setRemoteDescription(
+      new RTCSessionDescription(command.description)
+    );
+  } else if (command.method === "onerror") {
+    console.error(command.error);
+  }
+};
+//====关闭
+ws.close();
+pc.close();
+```
 #### 10、选择图片并压缩：
 input中的file属性提供了一个从本地图库选择图片文件的功能,以下代码将选中的图
 片显示在页面上：
@@ -1310,11 +1531,8 @@ var form_ = new FormDat(form);
 //将值写到表单里对应的元素的value值中来上传
 form_.set('name',value),form_.append('name',vlaue),form_.get('name')
 ```
-
-
 #### 14、判断图片加载:
-凡带加载性质的元素均有onreadyStateChange事件，不过不同浏览器的支持不同，一
-些浏览器可能会失效。
+凡带加载性质的元素均有onreadyStateChange事件，不过不同浏览器的支持不同，一些浏览器可能会失效。
 img.onload事件(最好用的判断加载的方法)：
 ```html
 <img id="img" src="img/a.jpg"/><h2 id='h2'></h2>
@@ -1367,7 +1585,7 @@ ela.compareDocumentPosition(elb);//是则返回20，否为10,低版本的firefox
 ```
 https://www.jb51.net/article/81704.htm
 https://www.jb51.net/article/84596.htm
-#### 16、ajax及上传文件:
+#### 16、ajax:
 - **原生ajax的写法**：
 
 ```js
@@ -1385,8 +1603,8 @@ xhr.onreadystatechange = function(){
 }
 xhr.send(obj);//发送数据,必须使用
 
-https://www.cnblogs.com/ssj-777/p/5364070.html
-ajax中添加头部请求：
+//https://www.cnblogs.com/ssj-777/p/5364070.html
+//ajax中添加头部请求：
 $.ajax({
     beforeSend:function(xres){
         xres.setRequestHead('token',"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxOD")
@@ -1398,6 +1616,7 @@ $.ajax({
 - **两种数据类型**：向服务端发送的数据有Form Data和Request Payload两种，这两种数据类型可以由请求头的Content-Type控制。
 >Form Data类型：`Content-Type:"application/x-www-form-urlencoded"`#默认使用的类型，使用POST，但数据不是json格式而是：`rpc.post(url,"key=234&v=9fdf0")`#的类型，在浏览器/netWork/Headers/最下方可以看到。
 >Request Payload：`Content-Type:"application/json"`#现在几乎使用这种数据类型，发送一个字典的话会默认将每个键值队拼在url后请求。使用JSON.stringify()将数据转为json在发送是常用的形式。
+>Raw：将json格式数据用字符串表示，如：`'{"name":"www","age":"15"}'`#注意，里面的引号是需要的。
 
 - ajax上传文件：使用jquery封装的ajax和axios的ajax先用formdata封装文件再上传时发现浏览器的xhr/head项中没有显示FormData项数据，在请求头中修改Content-Type:'multipart/form-data'后发现head项出现FormData数据了，但是有报跨域问题，这可能跟axios源码中检测数据类型，做的特别处理有关。
 ```html
@@ -1421,7 +1640,7 @@ xhr.onreadystatechange = ()=>{
 - **404问题**：404不完全是接口路径的原因，如果后台有请求日志情况的404，可能是传输的数据类型与后台接收类型不一致。<b c=r>若后台没有请求日志，则是前端路径、接口、代理等问题。</b>
 - **ajax注入分页**：使用document.write(data)的方法要求分页里只有元素结构（没有meta,html,body等在主页中重复的标签）,可是这样仍会把主页<head></head>标签中的外链样式覆盖为无,我们可以再写一个分页专门用于装效head标签及其里面的外联样式（link,script等）;可是外联的js语句只执行一次就	无效了!!（弃）;若注入分页的js
 代码用引入的方式则`<script async='async' src=''></script>`或在注入的ajax代码中将async改为false或ajax代码后加一个延时器延时绑定事件。(一些坑爹的后台框架会劫持所有ajax请求导致报错所以使用需谨慎,本地打开带有使用ajax的文件会产生跨域问题);
-<i class="label2">ajax中地址为空情况</i>ajax中如果url地址为空在提交时会变成提交到当前页url路径。jquery的ajax中不填写dataType值时jquery会自动判断返回值的类型(所填写的data中的格式不能是json格式)。
+**ajax中地址为空情况**：ajax中如果url地址为空在提交时会变成提交到当前页url路径。jquery的ajax中不填写dataType值时jquery会自动判断返回值的类型(所填写的data中的格式不能是json格式)。
 <i class="label2">ajax中添加加载动画</i>使用jquery的Ajax是在beforeSend:function(){}中添加动画，在complete:function(){}中取消加载动画。在原生js的ajax中也可以自行在onreadystatechange = function(){}前后添加两个函数也可实现。但beforeSend函数只在第一次请求时触发,所以显示加载动画最好是在调用ajax之前,complete中隐藏加载动画可以加一个延时取消这样交互效果更好。
 <i class="label1">ajax接口的处理</i>做项目中在使用到ajax或其它方式对接数据时对接的接口需要用"http://"+获取的本地域名+接口来充当请求数据的接口，这样更换域名后也不会出错。(也可直接写域名后的接口名，在运行时会被自动添加上当前域名)。
 - GET与POST的区别：规范中GET是将参数放在url中，POST是将数据放在请求体中，当然也可以反过来。
@@ -1429,7 +1648,7 @@ xhr.onreadystatechange = ()=>{
 >jsonp：使用`<script src="http://a.com?id=15">`标签能跨域的特性，发起get请求让后台返回想要的数据，甚至在里面写上触发前端函数的方法。
 >cros：后台直接配置cros即可。**浏览器将CORS请求分成两类**：简单请求（simple request，请求方式受限，字段受限）和非简单请求（not-so-simple request）。
 >webscoket和workers的postMessage可以跨域。
-#### 17、拦截浏览器回退操作：
+#### 17、拦截浏览器回退：
 ```js
 // 拦截history模式的回退。
 pushState()和popstate是H5的新属性。
@@ -1465,6 +1684,7 @@ eval("obj.a.c")//1,eval("obj.a"+['c']])//1
 2、cookie缓存。(格式建议与url传参写成一样的)
 3、Storage缓存。(页面间调用storage中的值,将一个数组存入后会变为逗号分割)
 4、window.open()+window.opener
+
 ```js
 // 页面a：
 var a = 55; // 页面a的对象
@@ -1472,7 +1692,7 @@ el.onclick=function(){window.open("b.html");}//打开一个新窗口
 // 页面b:
 console.log(window.opener.a);//window.opener会将前一个页面的所有对象封装为
 //一个对象的形式，b页面可以使用，但对用户体验不好。
-
+```
 
 #### 20、运行环境检测
 
@@ -1646,6 +1866,9 @@ funAsy().then(res => {console.log(res)});//3s后才会输出。
 function a(arr){await c = new Promise...}
 async a.call([1,2,3]); //不会报错，但并不会变成同步。所以forEach,map()方法中使用也是无效的。
 
+//---等待所有结果返回：
+new Promise.all([pr1,pr2]).then().catch();//任何一个出行catch时触发catch
+
 //-----------------代理proxgy。与就的object方法集一样的作用，都用于监听对象的变化。
 //还有其它方法，能监听到一些Object.defineProperty监听不到的东西。
   let test = {
@@ -1783,6 +2006,11 @@ function onclose(){
         return "您要离开吗？";
     }
 }
+/*===========
+浏览器获得焦点与，失去焦点事件
+============*/
+window.addEventListener("focus",function(){document.title="获得焦点";});// 刚打开页面不会触发。
+window.addEventListener("blur",function(){document.title = "去哪了，快回来！"});// 切到其它网站页面时触发。
 ```
 #### 27、原型：
 
@@ -2049,6 +2277,7 @@ win10/控制面板/用户账户/凭据管理器/windows凭据。最下方找到g
 - [git分支管理学习地址。](http://www.ruanyifeng.com/blog/2012/07/git.html)
 
 **项目资源搜索**：awesome 接想搜索的资源。[搜索技巧学习地址。](https://blog.csdn.net/csdnnews/article/details/86570635)
+git-gui的使用：在安装目录下的cmd/下。不过是英文的，且没sourceTree那样全面。
 [merge时提示：refusing to merge unrelated histories解决](https://blog.csdn.net/lindexi_gd/article/details/52554159)
 #### 2、mpvue:
 支持 微信小程序、百度智能小程序，头条小程序 和 支付宝小程序。
@@ -2515,7 +2744,7 @@ vue.use(plugin,"hello");//use方法会调用plugin的install()函数
 ```
 ##### a3、组件：
 第三方的组件一般安装后可直接单个页面按需引入，对应的插件安装后也可以单页面直接引入使用。子组件使用的数据最好是在父组件mounted之前就生成。
-```javascript
+```js
 // 全局注册，写在main.js文件中
 Vue.component("wcs",{
     template:'<h1>{{ info }}</h1>',
@@ -2526,7 +2755,7 @@ Vue.component("wcs",{
 });// 页面中直接<wcs></wcs>即
 ```
 **局部注册**：
-```HTML
+```html
 <!--av是子组件test中的props中定义的值，当是一个对象时可以直接v-bind。:av="nm"(mpvue中的简写)。
 .async表示组件内修改值也改变组件外的值，两者同步。
 -->
@@ -2536,7 +2765,7 @@ import test from '../component/test'
 components:{test}
 ```
 <i class="label2">prop验证</i>在父组件向子组件中的props传递值时，props的值可以预先写定一个类型数据来做验证，若传来的值不满足验证则会有warn提示。
-```javascript
+```js
 // 子组件中的props内容。
 props:{
     age:Number,
@@ -2569,7 +2798,7 @@ data:{age:'fdsf'}//与子组件要求的数据类型不一致时会在控制台�
 ```
 **keep-alive的使用**：用于缓存组件，具体如下：
 - **原理**：根据组件 ID 和 tag 生成缓存 Key,并在缓存对象中查找是否已缓存过该组件实例。如果存在,直接取出缓存值并更新该 key 在 this.keys 中的位置。在 this.cache 对象中存储该组件实例并保存 key 值,之后检查缓存的实例数量是否超过 max 的设置值,超过则根据 LRU 置换策略删除最近最久未使用的实例。
-```vue
+```html
 <!--include和exclude用于匹配组件的name，满足匹配项的才会缓存或不缓存，也可以是一个列表-->
 <keep-alive :include="[/login/,'/acc/']" :exclude="/acc/">
     <login/>
@@ -2579,7 +2808,7 @@ data:{age:'fdsf'}//与子组件要求的数据类型不一致时会在控制台�
 ```js
 export default{
   activated() {
-    //活跃状态，在使用时触发
+    //活跃状态，在使用时触发,即使第一次进入页面也会触发。
   },
   deactivated() {
     //不使用时触发
@@ -2587,7 +2816,7 @@ export default{
 }
 ```
 **组件中使用插槽**：有时候我们定义一个组件不能完全应付所有场景，比如一个底部弹出框，有的有选择项，有的是展示商品内容，如果靠传值来控制显示，会导致子组件内东西非常多。而分为多个组件来写，它们之间又有一些共用的东西，所以产生了插槽。
-```vue
+```html
 // 第一个子组件的内容
 <template v-slot:head>// v-slot的值对应第三个子组件中slot的name属性。具名插槽可以缩写为#head
     <div>第一个子组件内容{{ name }}</div>
@@ -2614,7 +2843,7 @@ export default{
 ```
 **插槽作用域**：用于子组件中的数据想提供给父组件任意展示。[学习地址。](https://blog.csdn.net/lzl980111/article/details/104783252/)
 
-```vue
+```html
 <!--子组件中-->
 <template>
     <div><slot :data="dts"></slot></div><!--绑定一个数据上去-->
@@ -2637,7 +2866,7 @@ export default {
 ```
 
 **动态组件和异步组件**：使用component标签和v-bind:is属性来切换组件。
-```VUE
+```html
 <keep-alive>// 外面套上keep-alive标签后，加载过的组件会被缓存下来，再切回去的时候不会重新渲染。
   <component v-bind:is="name"></component> //component是vue内部自带的已注册的标签名，修改name值(对应组件名称)来在这个位置切换组件。
 </keep-alive>
@@ -2688,7 +2917,7 @@ inject: ['getMap']
 ```
 依赖注入还是有负面影响的。它将你应用程序中的组件与它们当前的组织方式耦合起来，使重构变得更加困难。同时所提供的属性是非响应式的。这是出于设计的考虑，因为使用它们来创建一个中心化规模化的数据跟使用 $root做这件事都是不够好的。
 **组件上使用v-model与sync修饰符**:
-```vue
+```html
 <!--父组件-->
 <pop v-model="stateContent" :cs.sync="[1,2,3]"/><!--sync修饰的数据其子组件内可以直接更改，且父组件也会跟着变化-->
 <!--子组件-->
@@ -3278,10 +3507,12 @@ Ctrl+F查找/Ctrl+Shift+F在文件中查找，这都属于通用的。F5：运�
 
 - **部分插件配置**：vscode上一款不错的颜色主题：搜索Code Blue点击install右界面点击Reload使用
  vscode下载项输入框搜索Live Serve点击下载安装后右界面点击Reload to Active 后在html文件页面点击最下方(软件脚部)的Go Live(也可能是@go live)会在浏览器打开页面此时浏览器地址栏就变成了ip地址而不是本地路径地址，(使用默认浏览器时有效)。**好用的插件**：Dracula(颜色样式插件)、city Lights icon package(icon插件)、vue、Anaconda。**插件使用**：左侧栏最后一个功能搜索下载，下载好后右边界面上方有设置使用按钮。
->**Powern Model插件**：在选择颜色主题栏最下方选择安装其它主题，下载Power Model插件然后在左下角点击设置打开 user settings文件或按F1输入user settings，界面右半部分大括号中加上"powermode.enabled":true,就能使用该插件了,"powermode.enableShake":false//桌面是否震动
+
+- **Powern Model插件**：在选择颜色主题栏最下方选择安装其它主题，下载Power Model插件然后在左下角点击设置打开 user settings文件或按F1输入user settings，界面右半部分大括号中加上"powermode.enabled":true,就能使用该插件了,"powermode.enableShake":false//桌面是否震动
 ，"powermode.presets":"particles"/"fireworks"/"magic"/"flames"/样式。
 (配置的文件是json文件一定要用双引号)然后点击Reload to Active载入即可使用。
->**vscode-icons**：颜色主题安装列表中安装vscode-icoons，点击Reload to Active然后按F1输入icon在弹出的列表中点击激活vscode icons即可使用该插件。[同时选中多个相同的字符]ctrl+shift+L选中该页中所有相同的字符。ctrl+D选择下一个相同的字符
+- **vscode-icons**：颜色主题安装列表中安装vscode-icoons，点击Reload to Active然后按F1输入icon在弹出的列表中点击激活vscode icons即可使用该插件。[同时选中多个相同的字符]ctrl+shift+L选中该页中所有相同的字符。ctrl+D选择下一个相同的字符
+- markdown+math：支持markdown中书写数学公式，右上角预览按钮查看效果。上班偷学数学使用。
 
 **格式化**：
 - **python代码格式化**：先安装yapf库，pip install yapf 然后在cscode设置搜索框中搜python.formatting.provider右边下拉框中选择yapf。设置好后选中要整理的代码块，右键点format selection整理，但对缩进无效。空格只有半字符长问题：设置>搜索框输入font，FontFamily项输入'monospace'
@@ -3878,6 +4109,8 @@ modules:{
 }
 ```
 - 使用CopyWebpackPlugin将js文件直接从html引入，将js文件放到对应的静态资源文件夹中即可。[Index.html文件引入js文件。](https://blog.csdn.net/qq_15253407/article/details/89491255)
+- 使用commonsChunkPlugin或新版的splitChunk都只能分割主入口同步导入的和各页面的代码，而各页面import等导入的不能控制。[import()使用](https://www.cnblogs.com/dahe1989/p/11543832.html)
+
 
 [编写plugin参考学习地址。](https://www.cnblogs.com/wzndkj/p/10921340.html)
 ##### Q、问题集：
@@ -3892,18 +4125,24 @@ modules:{
 **项目目录结构**：pages文件夹存放业务页面，pages/index/index.vue页面是app打开时的引导页面。创建其它页面时新建一个文件夹然后在文件夹内建页面，可以多个页面放一个文件夹。
 static文件夹存放静态资源文件。main.js文件是vue实例化入口。APP.vue页面写全局样式，生命周期函数。manifest.json文件配置应用名、appid、图标等。package.json配置路由，选项卡、插件、导航条等。
 **插件、组件的使用**：在插件市场中可以搜索想要的插件，点击hbuildx导入能直接调用hbuilderx安装插件，安装好后会放在目录下的components中，当作组件调用即可，示例：
-```
+```html
 <pop type="text"></pop> //不用:来表示绑定。
+<script>
 import pop from "@/components/load.vue"    //导入。
+//-------使用注释#ifndef和#endif包围的代码只在，编译或打包到该端时使用。
+// #ifndef H5
+const vv = 10;
+// #endif
 export default{
     data(){
         return {text:'hh'}
     }
 }
+</script>
 ```
 一些常用插件地址：[弹出框(顶、中、底弹出)。](https://ext.dcloud.net.cn/plugin?id=329)[头部导航插件。](https://ext.dcloud.net.cn/plugin?id=52)[时间、日期、城市联动选择器。](https://ext.dcloud.net.cn/plugin?id=273)[cool组件库文档地址，功能还算比较全面。](http://uni.cooljs.vip)
 cool组件库的大体使用：从[git地址](https://github.com/cool-team-official/cool-uni)下载到本地，把里面的src/cool文件夹复制到项目根目录中，然后pages.json文件加入以下配置：
-```
+```js
 {
     "easycom": {
         "autoscan": true,
@@ -3923,7 +4162,7 @@ cool组件库的大体使用：从[git地址](https://github.com/cool-team-offic
 import clButton from "@/cool/ui/components/button/button"
 ```
 **app唤醒页和引导页**：app中打开都有一个广告页面，第一次使用app都有一个引导页面，在uni-app开发app时需要新建一个页面来放置它们=》在index文件夹下新建一个Introduct.vue页面，然后在package.json文件设置如下：
-```
+```js
 {
     "pages":[{
         "path":"pages/index/introduct",
@@ -3953,7 +4192,7 @@ onPageScroll	监听页面滚动 ，参数为 Object
 onTabItemTap	当前是 tab 页时，点击 tab 时触发。
 onShareAppMessage	用户点击右上角分享
 **尺寸单位**：uni-app中使用upx为自适应单位，与小程序一样，750upx占满屏宽，设计稿不是750大小的需要与750算一个比例，然后在量一个元素大小时乘以该比例转化为upx大小即可。动态的写入upx单位不会生效，需要转为px再写入。如果要转换upx，只要在manifest.json里配置下面"transformPx" : true。
-[uni-app中的跨域解决。](https://blog.csdn.net/paopao79085/article/details/91948809)
+[uni-app中的跨域解决。](https://blog.csdn.net/paopao79085/article/details/91948809)、[全局可用的api](https://uniapp.dcloud.io/api/README)
 #### 12、富文本编辑器：
 web中使用的富文本编辑器比较多，这里是两个自己尝试过的：
 wangeditor：比较轻便，所以功能没有其它几样多，因为简便所以比较容易引入，几乎不会报异常错误。[wangeditor使用参考地址。](https://www.jianshu.com/p/52852d39f869)
@@ -4073,11 +4312,26 @@ export default axios;
 // ...main.js将其绑定到原型上：vue.protetype.$rpc = axios;
 ```
 
-返回的内容如下：`{config:{},data:{},headers:{},request:{},status:200,statusText:'ok'}`
+**返回的内容**：`{config:{},data:{},headers:{},request:{},status:200,statusText:'ok'}`
 - config中包括设置axios时的url、请求方式、headers、baseUrl等。
 - data是服务端返回的数据内容。
 - headres是请求中使用的头部内容。
 - request：包含custom、onerror、onabort等。
+
+**调用**：
+```js
+// 这两个方法不支持then回调，一般封装到promise中。
+axios.post(url,data,{params:{a:1,b:2}});
+axios.gt(url,{params:{a:1,b:4}});
+//===params中的键值对会被拼接到url后。
+axios.request({
+    url:"",
+    method:"POST",
+    data:{},
+    session: true,// 自定义值，请求拦截器、响应拦截器，中都能拿到。
+    params:{token:1234}
+})
+```
 [axios配置，学习地址。](https://www.cnblogs.com/mica/p/10795242.html)
 #### 14、NUXTJS：
 :::alert-info
@@ -4341,7 +4595,7 @@ const _el = document.getElementById("img");
 :::
 - 安装：解压后进入目录，sudo ./configure运行配置生成Makefile文件，当前目录下再make,make install编译安装，在/usr/local下会出现nginx目录。
 - 配置如下：似乎新版nginx默认支持
-```
+```s
 #工作模式及连接数上限
 events {
     worker_connections 1024;    #单个后台worker process进程的最大并发链接数
@@ -4359,11 +4613,20 @@ http {
         location / {
             proxy_pass http://zp_server1;
         }
-
+        # -----root作用：使用了root时，实际路径是：访问路径/root路径。如：http://localhost/bank,->http://localhost/bank/html->访问D:/.../bank/html下文件。
         location /bank/page/ {
-            root html;
+            root html;//实际寻找路径：http://localhost/bank/page/html
+            #alias D:\WEB\dist; #别名使用的路径,不与root使用。
             try_files $uri $uri/ /bank;
         },
+        #文件服务写法：
+        #-----alias作用：url路径与本地寻文件路径不影响。
+        location /download {
+            autoindex on;# 显示目录
+            autoindex_exact_size on;# 显示文件大小
+            autoindex_localtime on;# 显示文件时间
+            alias D:\\download;//访问路径变化：http://localhost/download->访问D:\Download
+        }
         # 配置多个webapp时location后面的路径与前端配置的history的base路径一致。
         location /bank2/page/ {
             try_files $uri $uri/ /bank2;
@@ -4377,7 +4640,7 @@ http {
 }
 ```
 - [windows端下载地址](http://nginx.org/en/download.html)
-- [配置学习地址](https://www.cnblogs.com/jingmoxukong/p/5945200.html)
+- [参考地址1](https://www.cnblogs.com/goloving/p/13501265.html)、[配置学习地址](https://www.cnblogs.com/jingmoxukong/p/5945200.html)
 
 ### 五、android和ios：
 **h5在两端的兼容性问题**：
