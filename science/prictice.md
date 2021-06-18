@@ -150,8 +150,10 @@ From the early days of `broadband`(宽带), `advocates`(拥护，支持) for con
 ## 四、数学习题：
 ### 一、数学分析：
 #### a、几何相关：
-$求y=\frac{x^2+x}{x^2-1}渐近线$
+题1、$求y=\frac{x^2+x}{x^2-1}渐近线$
 >**解析**：化简得`x / (x-1)`#x→∞时得1是一条水平渐近线。x→1时得∞是一条垂直渐近线。无斜渐近线。
+
+题2、
 
 **连续、可导、可微、可积关系**：
 函数在某点连续但在该点不一定可导，如`|x|`函数左右导数不相等。但不可导的点一定不连续。
@@ -197,6 +199,19 @@ $求y=\frac{x^2+x}{x^2-1}渐近线$
 题1.2：$\int \frac{x+5}{x^2-6x+13}dx=\frac{1}{2}\int \frac{d(x^2-6x+13)}{x^2-6x+13}+\int \frac{d(x-3)}{(x-3)^2+4}$
 题1.3：$\int \frac{1}{1-sinx}dx=\int \frac{1+sinx}{cos^2x}dx=\int sec^2xdx+\int tanx*secxdx$#上下同时乘1+sinx。
 题1.4：$\int \frac{1}{x}\sqrt{\frac{x+1}{x}}dx=>令\sqrt{\frac{x+1}{x}}=t得：\int (t^2-1)t\frac{-2t}{(t^2-1)^2}dt$
+题1.5：求$\int ^{+\infty}_1 \frac{lnx}{(1+x)^2}dx$，<b c=r>思路：看到lnx想到用分部积分</b>
+>解析：$原式=-\frac{lnx}{1+x}+\int ^{+\infty}_1 \frac{1}{x(1+x)}dx$#前一个式子为∞/∞型，用洛必达法则发现其趋于0，后一个式子可直接求出其不定积分
+>$=0+ln\frac{x}{1+x}| ^{+\infty}_1=ln2$
+
+题1.6：$\int \frac{1}{cosx}dx=\int \frac{1}{1-sin^2x}dsinx<=令t=sinx=>[\int \frac{1}{1+t}dt+\int \frac{1}{1-t}dt]/2=ln\frac{1+t}{1-t}*1/2$
+题1.7：$\int ^x_0 \frac{te^t}{(e^t-1)^2}dt=\int \frac{te^t+e^t+1}{(e^t+1)^2}dt-\int \frac{1}{e^t+1}dt=\frac{t}{e^t+1}|^x_0-F$
+>$F=\int \frac{e^t}{e^t(e^t+1)}dt=\int \frac{1}{e^t} det-\int \frac{1}{e^t+1} de^t$<b c=r>分子是乘积/平方的形式，多半都会用到这种拆开的因式分解。</b>
+
+题1.8：$\int \frac{xe^{arctanx}}{(1+x^2)^{3/2}}dx<令x=tant>\int\frac{tante^t}{(1+tan^2t)\sqrt{1+tan^2t}}sec^2tdt=\int\frac{tante^t}{\sqrt{sec^2t}}dt$#【法一】
+>$=\int e^tsintdt=e^t(sint-cost)/2 + C=e^t(\frac{x}{\sqrt{1+x^2}}-\frac{1}{\sqrt{1+x^2}})/2+C$
+>【法2】连续对$式中\frac{e^{arctanx}}{1+x^2}做分部积分，可得:\int\frac{xe^{arctanx}}{(1+x^2)^{3/2}}dx=\frac{xe^{arctanx}}{\sqrt{1+x^2}}-\frac{e^{arctanx}}{\sqrt{1+x^2}}-\int\frac{xe^{arctanx}}{(1+x^2)^{3/2}}dx$左右两式合并可整理得结果。
+<b c=r>法2这种右侧一直分部积分，得到和原式相同的情况很少，有可一直分部积分性质的式子，可这样尝试一番。</b>
+
 
 **题2**：设Ik=\int ^k_e e^(x^2) sinx dx，比较k=1,2,3时它们的大小。
 >**解析**：e^(x^2)和sinx在(0,π)都大于0，所以e^(x^2) sinx在(0,π)上是单调函数，所以积分大小为：I1<I2<I3。
@@ -222,9 +237,7 @@ $J=\int ^{}_L 3x^2ydx+(x^2+x-2y)dy$
 >$J=\int ^{}_{L+L1} 3x^2ydx+(x^2+x-2y)dy-\int ^{}_{L1} 3x^2ydx+(x^2+x-2y)dy$
 >$\int\int ^{}_{D}(3x^2+1-3x^2)dxdy-\int ^0_2 -2ydy=\frac{π}{2}-4$
 
-题6：求$\int ^{+\infty}_1 \frac{lnx}{(1+x)^2}dx$，<b c=r>思路：看到lnx想到用分部积分</b>
->解析：$原式=-\frac{lnx}{1+x}+\int ^{+\infty}_1 \frac{1}{x(1+x)}dx$#前一个式子为∞/∞型，用洛必达法则发现其趋于0，后一个式子可直接求出其不定积分
->$=0+ln\frac{x}{1+x}| ^{+\infty}_1=ln2$
+
 
 **题7**：设f(x)在(-∞,+∞)上有连续导数，且m<=f(x)<=M。求$\lim_{a\rightarrow 0^+}\frac{1}{4a^2}\int ^a_{-a}[f(t+a)-f(t-a)]dt$
 >解析：该函数的条件，和题中的情形可以**尝试用积分中值定理**：$原式=\lim_{a\rightarrow 0^+}\frac{1}{4a^2}[f(c+a)-f(c-a)]*(a+a)$
@@ -244,9 +257,7 @@ $J=\int ^{}_L 3x^2ydx+(x^2+x-2y)dy$
 
 > 解析：$f(a_1)(\pi-0)=0,f(a_2)cos a_2(\pi-0)=0则>>f(a_1)=f(a_2)cosa_2=0$
 
-题11：$\int \frac{1}{cosx}dx=\int \frac{1}{1-sin^2x}dsinx<=令t=sinx=>[\int \frac{1}{1+t}dt+\int \frac{1}{1-t}dt]/2=ln\frac{1+t}{1-t}*1/2$
-题12：$\int ^x_0 \frac{te^t}{(e^t-1)^2}dt=\int \frac{te^t+e^t+1}{(e^t+1)^2}dt-\int \frac{1}{e^t+1}dt=\frac{t}{e^t+1}|^x_0-F$
->$F=\int \frac{e^t}{e^t(e^t+1)}dt=\int \frac{1}{e^t} det-\int \frac{1}{e^t+1} de^t$<b c=r>分子是乘积/平方的形式，多半都会用到这种拆开的因式分解。</b>
+
 
 #### d、级数相关：
 **题1**：求(n=1,∞)∑(x^n / n) * (-1)^{n-1}的收敛半径与收敛域。<b c=r>注意收敛域区间两端是否也收敛</b>
@@ -314,12 +325,19 @@ $$
 ```
 >若要满足高阶无穷小，h趋于0时，原式趋于0。代入原式计算：$(r_1+r_2+r_3-1)f(0)+(r_1+2r_2+3r_3)f'(0)h+1/2 *(r_1+4r_2+9r_3)f''(0)h^2+o(h^2)$
 >各项要为0，这可以组成关于r1,r2,r3的一个线性方程组，其系数行列式为满秩，且与增广矩阵秩相同，所以解唯一，证明r1,r2,r3的唯一性。
+
+**题9**、设函数y=y(x)在(-∞,+∞)上具有二阶连续导数，y'!=0，x=x(y)是y=y(x)的反函数，（1）试将x=x(y)所满足的微分方程$d^2x/dy^2+(y+sinx)(dx/dy)^3=0$变换为满足y=y(x)满足的微分方程。
+- 注：<b c=b>这种看似非复合函数得二阶微分，实际上x=x(y)就是一个特殊点的复合函数，按照平时的微分法即可</b>
+>解析：据反函数求导知：$\frac{dx}{dy}=\frac{1}{y'},\frac{d^2x}{dy^2}=\frac{d(dx/dy)}{dy}=\frac{d(1/y')}{dx}\frac{dx}{dy}=\frac{-y''}{y'^2}*\frac{1}{y'}$
+>带入原方程得到$y''-y=sinx$。#上面$\frac{d(1/y')}{dx}$就是再对`1/y'`求导（<b c=r>可根据求导定义得知</b>）
+
+
 #### S、题型总结：
 1. 求积分：
 2. 求极限：
 3. 证明等式/不等式：<i tag=l2>两式相减，求导求极值</i><i tag=l2>拉格朗日中值定理</i><i tag=l2>积分中值定理</i>
 4. 应用题：
-5. 求函数表达式：<i tag=l1>泰勒展开</i>
+5. 求函数表达式：<i tag=l1>泰勒展开</i><i tag=l1>微分方程</i><i tag=l1>两边同时求积分、求导</i>
 
 ### 二、概率论：
 **题1**：设A,B,C是随机事件，A,C互不相容，p(AB)=1/2，p(C)=1/3，求p(AB-C)。<b tag>-C表示C的逆事件</b>

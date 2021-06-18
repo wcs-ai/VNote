@@ -401,6 +401,26 @@ hr标签：
 ◎height、width表示运动区域的高度和宽度，值是正整数（单位是像素）或百分数，默认width=100% height为标签内元素的高度
 ◎hspace、vspace表示元素到区域边界的水平距离和垂直距离，值是正整数，单位是像素。
 ◎onmouseover=this.stop() onmouseout=this.start()表示当鼠标以上区域的时候滚动停止，当鼠标移开的时候又继续滚动。
+**input标签**：
+```html
+<input type="text" maxlength="5" pattern="[a-z]{5}"/><!--maxlength限制最大输入长度，pattern可写正则匹配-->
+<input type="text" readonly="readonly" value="不可编辑" 	autofocus="autofocus"/><!--readonly让内容为只读状态。-->
+<input type="number" min="5" max="10"/><!--限制输入范围-->
+<!--表单和一些特殊类型的输入，可以用autocomplete属性-->
+<form method="get" autocomplete="on">
+    <input type="email" name="email" autocomplete="off" />
+</form>
+<!--list可以指定datalist的id，效果相当于select标签，不过鼠标触碰时才显示倒三角。-->
+<input type="url" list="url_list" name="link" />
+<datalist id="url_list">
+	<option label="W3School" value="http://www.w3school.com.cn" />
+	<option label="Google" value="http://www.google.com" />
+	<option label="Microsoft" value="http://www.microsoft.com" />
+</datalist>
+<input type="file" multiple/><!--multiple可选多个-->
+<input type="url" required="required" /><!--required在没有输入，但触发submit时会自行提示-->
+```
+
 #### 10、文字继承单选框和复选框：
 ```html
 <input type="radio" id="a"/> <label for="a">点我触发前面id为a的单选框</label>
@@ -839,6 +859,15 @@ i{
     @return ($p/1920)*100vw;
 }
 .ff{width:px2vw(150);}
+/*-----使用deep来改变第三方组件库中的样式*/
+/deep/.el-input{
+    .el-input_count{height:50px;}
+}
+/*==========
+    最新语法使用::v-deep代替/deep/
+============*/
+::v-deep .el-input{}
+
 //定义变量
 $menuBg: #9966ff;
 $subMenuBg: #9933ff;
@@ -979,7 +1008,7 @@ arr.splice(1,1,7)//[1,7,3,4,5,6]
 
 arr.forEach(function(value,index,data){});
 ```
-**对象**：从对象中**取较多值时最好使用es6的解构**。比如从对象中取出多个属性然后上传时的场景，如果用obj.property的方式取值，若缺少该值时程序可能会不执行也不报错。
+**对象**：从对象中取出多个属性然后上传时的场景，如果用obj.property的方式取值，若缺少该值时程序可能会**不执行也不报错**。
 ```js
 Object.getPrototypeOf(person1) == Person.prototype; //true，获取对象属性。
 Object.getPrototypeOf(person1).name; //"Nicholas",但不能通过此方法来更改。
@@ -3486,6 +3515,19 @@ MODE = "dev"
 VUE_APP_BASE_API = '/base-api'
 VUE_APP_BG_API = '/bg-api'
 ```
+##### c2、常用修饰符：
+```html
+<child-component :data.sync="tables"/><!--sync让子组件可以修改该prop的值，且同步到父组件-->
+<div @click.once="hh"></div><!--once：事件只能用一次-->
+<div @click.prevent="hh"></div><!--prevent：阻止默认行为-->
+<div @click.self="hh"></div><!--self:只有元素本身触发时才触发方法，-->
+<div @click.stop="hh"></div><!--stop：阻止事件冒泡-->
+
+<input v-model.lazy="val"/><!--lazy:这个修饰符会在光标离开input框才会更新数据-->
+<input v-model.trim="val"/><!--trim:输入框过滤首尾的空格-->
+<input v-model.number="val"/><!--number:先输入数字就会限制输入只能是数字，先字符串就相当于没有加numbe-->
+```
+
 #### 6、资源收集：
 **文章部分**：
 [张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
