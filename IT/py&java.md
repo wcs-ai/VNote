@@ -30,10 +30,17 @@ Anaconda下载pytesseract库：https://www.cnblogs.com/daacheng/p/9627136.html
 Pip install rasa_core -i https://pypi.douban.com/simple
 豆瓣：https://pypi.douban.com/simple		阿里：https://mirrors.aliyun.com/pypi/simple
 清华： https://pypi.tuna.tsinghua.edu.cn/simple/ 		中科大：http://pypi.mirrors.ustc.edu.cn/simple/
-### 2、python操作mysql：
+### 2、数据库：
+**关系型数据库**：也叫SQL型数据库，表格的形式。可以用SQL语句方便的在一个表以及多个表之间做非常复杂的数据查询。对于安全性能很高的数据访问要求得以实现。`MY SQL/Oracle/PostgreSQL`等
+**非关系型数据库**：NOSQL型数据库。是基于键值对的，可以想象成表中的主键和值的对应关系，而且不需要经过SQL层的解析，所以性能非常高。`MongoDB/RethinkDB/DynomaDB`等。
+>**Redis**:（Remote Dictionary Server )，即远程字典服务，是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。
+
+**图形数据库**：用图的结构构建的数据库，一般用于知识图片这类关系复杂的数据。Neo4j。
 **SQL**：Structed Query Language是用于访问和处理数据库的标准的计算机语言。而可以使用sql处理数据库的数据库有MySQL、SQL Server、Access、Oracle、Sybase、DB2 等等。在进入到各数据库模式下后可以直接使用sql语句对数据库进行操作。
 **分布式存储系统**：就是将用户需要存储的数据根据某种规则存储到不同的机器上，当用户想要获取指定数据时，再按照规则到存储数据的机器里获取。
 当用户（即应用程序）想要访问数据 D，分布式操作引擎通过一些映射方式，比如 Hash、一致性 Hash、数据范围分类等，将用户引导至数据 D 所属的存储节点获取数据。
+
+**mysql**：
 #### a、安装及问题：
 <i class="label1">windows上安装</i>低版本：安装包解压后进入文件夹创建一个`my-small.ini`文件然后在文件最低部添加：basedir=该文件夹绝对路径	/n  datadir=文件夹绝对路径/data。高版本的话不要设置datadir参数，不然启动服务时报错，按照菜鸟教程走即可。
 进入bin目录cmd>>`mysql --initialize --console `//初始化数据库。会输出初始账户，密码，请记住！！！
@@ -72,7 +79,8 @@ service mysqld restart    //重启
 [null值相关控制。](https://blog.csdn.net/duckyamd/article/details/53143639)[mysql数据表与csv文件互导。](https://www.cnblogs.com/luruiyuan/p/5713273.html)
 
 #### c、python连接mysql使用：
-```python
+
+```py
 from mysql import connector #pip install mysql-connector    和pymysql库一样的使用方法。
 #连接mysql,主机名(ip),..database指定连接到的数据库，没有的话则只是连接mysql
 wcs=connector.connect(host='localhost',user='root',passwd='',database='mysql')
@@ -86,12 +94,11 @@ for x in ac:print(x)#查看所有数据库或当期数据库下的所有表格�
 # 在查询时
 val = ac.execute("SELECT * FROM user")    #选取所有列
 print(val)#列的数量，直接使用sql语句时还会显示各行的键类型、等其它属性。
-
 ```
 
 **增、删、查、改**：
 //插入数据,（增）。单条插入,使用占位符%时execute()内需要填两个值
-```python
+```py
 sql = "INSERT INFO sites (name,url) VALUES (%s,%s)"
 ac.execute(sql,('wcs','http:'))#批量插入操作，第二值传入一元组,改成executemany()即可
 ac.executemany(sql,[('google','url'),('github','url'),...])
@@ -378,7 +385,7 @@ show binlog events in 'mysql-bin.000002';
 - `__new__()`#在__init__()之前运行。若要接受参数，那么两者的参数量必须保持一致。
 - `__init__(self)`#任意一个方时都会执行一次类中的__init__函数,若要调用类中的方法得先将该类赋值给另一个变量，然后由该变量调用类中的函数。可设置类接收的参数：
 
-```python
+```py
 class animal():#类中不一定要写这个初始化函数，但每个函数都要传入self
     def __init__(self):
         self.name='animal'
@@ -390,7 +397,7 @@ b.a()
 ```
 [继承，多继承]不推荐使用多继承，多数编程语言中也不支持多继承，这在逻辑上会比较复杂
 
-```python
+```py
 class animal(object):
     def eat(self,data):
         return data*2
@@ -427,7 +434,7 @@ class pig(animal):
 ### 4、爬虫：
 python2方法：
 
-```python
+```py
 url = “http://www.huaban.com”
 Req = urllib2.Request(url，data,header)#3个参数
 Res = urllib2.urlopen(Req,timeout=10)#2个参数
@@ -435,7 +442,7 @@ print Res.read()
 ```
 python3方法：
 <i class="label1">简单爬取</i>
-```python
+```py
 import requests
 url = “http://www.huaban.com”
 s = request.get(url=url)
@@ -474,7 +481,7 @@ req = requests.get(url=target, headers=headers, verify=False)
 **配置HTTPS**：[配置教程。](https://blog.csdn.net/qq_33183456/article/details/102967838)
 **开始一个项目**：django-admin startproject HelloWorld //创建一个HelloWorld目录,
 里面有一些初始化文件，再使用命令：python manage.py runserver 0.0.0.0:8000,然后在浏览器输入127.0.0.1:8000即可看到初始化页面。在urls.py文件配置如下：
-```python
+```py
 from django.conf.urls import url
 #2.0以后的版本的path在django.urls下,1.0所属版本在conf.urls下
 from django.urls import path
@@ -495,7 +502,7 @@ def ajax(request):#若有值传来则
 
 ```
 渲染web模板如下：
-```python
+```py
 from django.shortcuts import render
 
 def runoob(request):
@@ -507,7 +514,7 @@ def runoob(request):
 <i class="label2">问题集</i>run server时提示：DLL load filed》[该网站下载sqlite.dll放到环境的DLLs目录下。](https://sqlite.org/download.html)
 <i class="label1">flask的使用</i>pip install flask#安装flask。pip install flask-cors
 
-```python
+```py
 from flask import Flask,request
 from flask_cors import *
 import json,os
@@ -542,8 +549,13 @@ if __name__=='__main__':
 ```
 <i  class="violet">传参注意：接口中使用到的参数都必须传，不然会直接报404错误，而不是找不到参数的错误，即使使用了判断要不要获取参数的情况(比如后台根据typ值为0则使用文本参数text，否则使用获取文件参数file，那么前端需要3个都上传，且file是文件类型，都要与后台对应)。，要求之外的参数，前端可以多传。</i>
 [flask使用教程。](https://www.cnblogs.com/klb561/p/8679320.html)[flask的部署。](https://www.jianshu.com/p/5b09394bebfe)
+### 6、服务端缓存：
+将常被访问的数据放置于缓存器中（主存到cpu之间的缓存），提高反应速度。服务端语言也较易于控制缓存的释放。
+**redis缓存机制**：将内存数据在写入之后按照一定格式存储在磁盘文件中，宕机、断电后可以重启redis时**读取磁盘中文件恢复缓存数据**。
+**Memcached**：是一种基于内存的key-value存储，用来存储小块的任意数据（字符串、对象）。这些数据可以是数据库调用、API调用或者是页面渲染的结果。解决了大数据量缓存的很多问题。它的API兼容大部分流行的开发语言。本质上，它是一个简洁的key-value存储系统。
+**CDN**：服务器是一种特殊类型的服务器系统，准确的说它不是一台服务器，而是由**多台服务器组成**的一个缓存服务器系统。它可以起到对互联网服务器加速的功能。通常来说我们的互联网服务都是部署在某地某一台服务器上，但是这个地方的网络在全国各地的访问速率是不一样的，远的地方或者线路不一样的地方，延迟可能会很高。采用CDN服务器后，由于在全国各地均有缓存服务器，系统能够根据用户位置提供距离客户最近的缓存服务器，所以能够大大减少延迟，提升网络服务器的访问速度。
 ### 7、python时间：
-```python
+```py
 import datetime
 from datetime import timedelta
 import time
@@ -590,7 +602,7 @@ if __name__ == "__main__":
     print(fenNum)
 ```
 **定时器**：
-```python
+```py
 from datetime import datetime
 import time
 def timer(n):
@@ -618,14 +630,9 @@ def main(inc=60):
 # 10s 输出一次
 main(10)
 ```
-
-#https://www.runoob.com/python3/python3-date-time.html
-i = datetime.datetime.now()
-print(i.year,i.month,i.day,i.hour...)
 ### 8、python读取pdf、excel表格和word文档：
-<i class="label1">读取excel</i>
-<i class="label2">csv文件读取与存储</i>
-```python
+csv文件读取与存储:
+```py
 import csv
 #读取
 c = open('data.csv','r')
@@ -661,7 +668,7 @@ document.save('/data/av.docx')
 ```
 [pdf的读取学习地址。](https://www.cnblogs.com/xiao-apple36/p/10496707.html)   pip install pdfplumber #另一个读取pdf的库是pdfminer功能更强大，但没有这个易用。
 
-```python
+```py
 import pdfplumber
 with pdfplumber.open("/home/wcs/data/vv.pdf") as pdf:
     # 逐行读取。
@@ -669,7 +676,7 @@ with pdfplumber.open("/home/wcs/data/vv.pdf") as pdf:
         print(c.extract_text())#读取每行的文本，还有其它函数：extract_words(),extract_tables(),extract_image()
 ```
 xlsxwrite模块，可用于自动化生成报表使用：
-```python
+```py
 import xlsxwriter
 
 # 新建一个xlsx文件
@@ -756,10 +763,16 @@ book.close()# 关闭文件。
 ```
 
 [xlsxwrite模块其它方法学习地址。](https://www.jianshu.com/p/9952293a4bb8)
+### 9、后端身份验证：
+1. 基于cookie的session验证：客户端浏览器访问服务端时，服务端都能获取到客户端cookie中的信息，以此来区分各用户。<b c=r>跨域访问时，获取不到对方浏览器中的cookie</b>
+2. token鉴权机制：客户端登录时得到服务端的一个身份标识，客户端每次访问时可将其放与http头中，这样跨域访问，也是可行的。
+3. JWT：Json web token是为了在网络应用环境间传递声明而执行的一种基于JSON的开放标准，可实现无状态、分布式的Web应用授权。
+
 ### 12、python文件IO：
 假设当前路径为E:\mypython\test\文件IO.py。文件分为文本型和二进制型，所以读取的模式也只分为两种。(写入文件时需要保证写入的类型是字符串类型或byte型，不然非字符型会出现output Decode utf-8错误，不易查找)。部分特别的符号需要使用特别的编码才能实现，所以文件中有不同编码格式的字符时需要使用rb模式来读后再解码，不过解码后每个字符后还会有\r符。
 读取二进制型文件时需要对读取的结果解码，用如下方法查看文件的编码方式：
-```python
+
+```py
 import chardet
 tf = open('dat.bin','rb').read()
 print(chardet.detect(tf))#{'encoding':'utf-8','confidence':0.1,'language':}
@@ -777,7 +790,7 @@ fil.write(data)#写入文件，关闭文件前一直写入的话是追加的形�
 fil.writelines(list)#将一个列表写入，但不会自动加换行符。
 ```
 OS模块提供的文件IO：
-```python
+```py
 import os
 print(os.path.isfile('adr.txt'))#判断路径是否为一个文件，True或False
 os.path.join('/mypython','test\wds.txt')#将路径与文件名结合,第一项后面，第二项前面都不要加/
@@ -807,7 +820,7 @@ st_ctime:由操作系统报告的"ctime"。在某些系统上（如Unix）是最
 进入当前目录下的一个子目录：os.chdir('/mypython/test')//os模块open()都适用选择目录下的一个文件：fc=os.open('test\wds.txt')//需要直接写mypython下的目录然后反斜杠选择其下的文件(坑爹的用法!),且如果test目录下还有其它python文件则会报错。
 保险的方法读取当前工作目录下一个子目录中的文件：
 有时os.open('test\wds.txt',os.O_RDONLY)这样写会报找不到文件的错误。可以：
-```python
+```py
 import os
 #改变工作区最好也用这种全路径拼接的方法
 herePath = os.getcwd()#获取当前工作路径
@@ -825,7 +838,7 @@ os.stat('E:/obj')#获取目标路径下所有信息包括:保护模式、驻留�
 os.path.basename(path)#返回文件名
 ```
 获取、设置系统环境变量：
-```python
+```py
 os.system()：system()函数可以将传入的字符串转为在电脑上执行cmd命令，执行时会创建一个子进程，示例如下：
 os.system('shutdown -s -t 60') #1分钟后关机
 os.system("net start mysql") #开启mysql服务
@@ -834,7 +847,7 @@ os.environ//获取系统的环境变量，返回一个字典，所以可以用ge
 os.cpu_count()
 ```
 图片的存储与读取:(点击图片属性>尺寸显示的是宽x高，但程序获取的是[高,宽,通道数])
-```python
+```py
 from PIL import Image #python自带的一个读取图片的包
 import tensorflow as tf
 im = Image.open('av10.jpg')#PIL读入的图片数据需要先转为numpy型再转为张量才能
@@ -926,23 +939,72 @@ a1、前提基础：
 hasattr(obj,'name') //对象obj中是否有name这个属性，如类Obj中是否有name这个变量值。
 ```
 单例设计模式：
-```python
+```py
 class Single(object):
     def __new__(self):
         if not hasattr(self,'instance'):
             self.instance = super(Single,self).__new__(self)
         return self.instance
 ```
-### 27、python知识积累：
-<div class="introduce">
-python并非完全是解释性语言，它是有编译的，先把源码py文件编译成pyc或者pyo，然后由python的虚拟机执行，相对于py文件来说，编译成pyc和pyo本质上和py没有太大区别，只是对于这个模块的加载速度提高了，并没有提高代码的执行速度，通常情况下不用主动去编译pyc文件。ython和Java/C#一样，也是一门基于虚拟机的语言，当我们在命令行中输入python hello.py时，其实是激活了Python的“解释器”。可是在“解释”之前，其实执行的第一项工作和Java一样，交由虚拟机执行：(1)完成模块的加载和链接、(2)编译，即将源码转换为PyCodeObject(字节码)。(3)从上述内存空间中读取指令并执行、(4)程序结束后，根据命令行调用情况（即运行程序的方式）决定是否将 PyCodeObject 写回硬盘当中（也就是直接复制到 .pyc 或 .pyo 文件中）。(5)之后若再次执行该脚本，则先检查本地是否有上述字节码文件。有则执行，否则重复上述步骤。
-</div>
 
-<div class="tip">
+### 26、正则表达式：
+`[0-9]`：表示匹配字符串中0-9的数字（包括0和9），默认全局匹配,但是只返回找到的第一个。
+`^[0-9]`：^号表示匹配以0-9数字开头的。
+`^[0-9]+a`：要使用多个子规则匹配时使用+号连接，如2a就满足这个正则匹配结果。且加号前一个字符可以有多个(runo+b可以匹配到runoob,runooob...)
+`runo?b`：?则代表？前一个字符最多只能出现1次，匹配runob,runb
+`[0-6]+yy$`：$符号表示以指定字符结尾的规则。如aad0yy满足该规则。
+`[a-z0-9-_]{5,9}`：表示字符串中可以有a-z间的字母,0-9间的数字及符号，长度在5-9
+匹配转义字符：\n(换行符),\r(回车符),\s(匹配任何空白符空格、回车...),\S(匹配任何非空白符)
+匹配特殊字符：匹配字符串中的特殊字符时需要对正则式中的特殊字符转义如`+,*...变\+,\*`
+限定符：`*,+,?,{n},{n,},{n,m}`。
+**匹配特殊字符**：
+```
+[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]
+```
+`*`：匹配前后的子表达式0次或多次，如`wc*s`可匹配到ws,wcs,cs,s，wcswcs...
+()：可以将要匹配的字符用()包含，`ac*(abc)`匹配acabc
+`{n}`：匹配前一个字符多个(连在一起的情况),如：a{2}可匹配chaa,与()一起使用：(ab){2}匹配jabab，
+列如：^1{1}[0-9]{10}匹配电话号码格式。
+`{n,}`：表示至少匹配前一个字符n次，不过要求n时一个非负整数。
+.：表示一个任意字符,如a.b匹配acb得到cvg
+`{n,m}`：n和m均为非负数且m>n
+[]：[]内可以匹配多个字符如[abc]n可匹配到an,bm,cn。[0-9]表示可以是0-9内的任一个数字
+贪婪：`<.*>`匹配`<abc><dv>`得到abc,dv。`.*`组合匹配字符串中所有满足模式的字符。
+非贪婪：在贪婪模式后加?符只匹配第一个满足规则的。
+`\b`：边界匹配符(与控格相连的字符)，如\ba\b匹配到'jk a op'中的a，注意在python正则中使用时会被当做回退符被忽略解决办法使用r进行转译：re.search(r'\btc\b','j btc op')//\b放单边也行
+`\B`：非边界匹配符，只匹配不与空格相连的字符。
+`\W`：匹配非字母、数字、下划线、中文。如'\W'匹配'kc_&op78'得到&。等价于'[^A-Za-z0-9_]'
+`\w`：匹配字母、数字、下划线、中文。等价于'[A-Za-z0-9_]'
+`\d`：匹配一个数字字符。等价于[0-9]
+`\D`：匹配一个非数字字符。
+`[^0-5]`：赋值字符串，在[]中第一项加^表示取中括号中范围外的值。
+`|`：或字符，如a|b表示匹配a或b。
+**精准匹配**：`^abc$`
+**匹配中文**：`[\u4e00-\u9fa5]+`表示匹配所有中文。(只要有中文就能匹配成功)
+**全部为中文**：`^[\u4e00-\u9fa5]+$`必须全部为中文。
+**全部为同一类型的写法**：先表示好一个匹配的规则，然后开头加`^`，最后加`+$`。
+所有转义字符：\a:响铃(BEL) 		\b:退格(BS) 	\f:换页(FF)		\n:换行		\r:回车
+`\t`:水平制表(HT)table符		\v：垂直制表(VT)		\o:空字符   		\s：空格
+
+```js
+// 检验邮箱号
+var a = /^\w+@\w+([-]\w+)*(\.\w+)+$/;
+// 检验身份证号
+const _r = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+// 手机号
+var c = /^1[0-9]{10}/;
+```
+
+### 27、python知识积累：
+:::alert-info
+python并非完全是解释性语言，它是有编译的，先把源码py文件编译成pyc或者pyo，然后由python的虚拟机执行，相对于py文件来说，编译成pyc和pyo本质上和py没有太大区别，只是对于这个模块的加载速度提高了，并没有提高代码的执行速度，通常情况下不用主动去编译pyc文件。ython和Java/C#一样，也是一门基于虚拟机的语言，当我们在命令行中输入python hello.py时，其实是激活了Python的“解释器”。可是在“解释”之前，其实执行的第一项工作和Java一样，交由虚拟机执行：(1)完成模块的加载和链接、(2)编译，即将源码转换为PyCodeObject(字节码)。(3)从上述内存空间中读取指令并执行、(4)程序结束后，根据命令行调用情况（即运行程序的方式）决定是否将 PyCodeObject 写回硬盘当中（也就是直接复制到 .pyc 或 .pyo 文件中）。(5)之后若再次执行该脚本，则先检查本地是否有上述字节码文件。有则执行，否则重复上述步骤。
+:::
+
+:::alert-success
 计算机是不能够识别高级语言的，所以当我们运行一个高级语言程序的时候，就需要一个“翻译机”来从事把高级语言转变成计算机能读懂的机器语言的过程。这个过程分成两类，第一种是编译，第二种是解释。
 编译型语言在程序执行之前，先会通过编译器对程序执行一个编译的过程，把程序转变成机器语言。运行时就不需要翻译，而直接执行就可以了。最典型的例子就是C语言。
 解释型语言就没有这个编译的过程，而是在程序运行的时候，通过解释器对程序逐行作出解释，然后直接运行，最典型的例子是Ruby。
-</div>
+:::
 
 生成pyc或pyo文件：.pyo是更优化的编译，比.pyc略小。[参考学习地址。](https://blog.csdn.net/chinesehuazhou2/article/details/105236390)
 ```
@@ -1338,6 +1400,8 @@ server.sendmail(from,to,message.as_string())#使用sendmail()方法开始发送�
 server.set_debuglevel(1)#set_debuglevel(1)打印相关信息
 server.quit()#退出服务;如下图：
 ![](_v_images/20200228140233665_838760176.png)
+
+
 ## 一、java：
 ::: alert-info
 **简介**Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java可以编写桌面应用程序、Web应用程序、分布式系统和嵌入式系统应用程序等。

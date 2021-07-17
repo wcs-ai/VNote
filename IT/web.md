@@ -351,8 +351,7 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 <meta http-equiv="Cache-Control" content="cache" /><!--no-cache是不缓存该页面-->
 <meta name="apple-mobile-web-app-capable" content="yes"><!--设置Web应用是否以全屏模式运行,content的默认值是no-->
 ```
-**input所有type类型**：
-tel、number、email、text、radio、checkbox、image、date、color、button、submit、hidden、month、password、range、reset、search、time、url、week、file、month、datetime-local
+
 #### 8、交互设计：
 - 移动端尺寸处理：移动端页面一般都要支持手机上打开无论屏宽，按ui比例显示界面，不过用电脑或平板也应该能打开，<b c=v>所以最外层应该设置个max-width并居中，让pc端也能正常显示。</b>
 - 非堆叠页面及元素的尺寸处理：<b c=gn>元素从上到下几乎用默认流放置的布局页面，我称为堆叠的。</b>
@@ -360,7 +359,7 @@ tel、number、email、text、radio、checkbox、image、date、color、button�
 （2）pc端非堆叠类，例如登录页面，由于登录表单部分较大，如果一样使用px单位，一些傻x用户使用较低的分辨率或系统设置缩放会导致问题，**使用vw或rem这些单位**（vw类型单位的话都统一使用vw或vh这样能保持一个块的比列），然后设置min-width来限制是一个较好的方法。
 
 #### 9、好用标签：
-hr标签：
+**hr标签**：
 ```html
 <hr class="hr" data-content="分隔线" /><!--文字会显示在正中-->
 <style>
@@ -420,7 +419,8 @@ hr标签：
 <input type="file" multiple/><!--multiple可选多个-->
 <input type="url" required="required" /><!--required在没有输入，但触发submit时会自行提示-->
 ```
-
+**input所有type类型**：
+tel、number、email、text、radio、checkbox、image、date、color、button、submit、hidden、month、password、range、reset、search、time、url、week、file、month、datetime-local
 #### 10、文字继承单选框和复选框：
 ```html
 <input type="radio" id="a"/> <label for="a">点我触发前面id为a的单选框</label>
@@ -435,7 +435,7 @@ hr标签：
 ```js
 ele = document.getElementById("ele");
 ele.checked = false;//false表示没选中，true改为选中。
-ele.checked获取复选框状态返回true/false(布尔值，非字符串)。
+ele.checked;//获取复选框状态返回true/false(布尔值，非字符串)。
 ```
 #### 11、拖拽：
 将一个元素拖拽到另一个元素。
@@ -491,13 +491,27 @@ var state = {
 export default {
     watch:{
         cas(nv){if(this.cas.length===this.caval.length){
-            this.vaval = this.cas;//注意条件判断，不然可能值接收不全或死循环。
+            this.vaval = nv;//nv是深拷贝来的,注意条件判断，不然可能值接收不全或死循环。
         }}
+    },
+    created(){
+        // 每次组件用完不销毁的话，只触发一次
+        this.vaval = Object.create(this.cas);
     }
 }
 </script>
 ```
+6. vue自定义组件最大复用问题：ui样式一致，但内部逻辑变化差距过大的情况不再适合作为同一个组件，但ui样式可以抽离出来，其它部分不共用。
 
+```html
+/*=======将公共样式放在一个总类中。
+.common-css{...}
+*/
+<template></template>
+<script>
+export default {mixins:[mixin...]}//将一些公用的js方法以mixin注入，达到最大复用。
+</script>
+```
 
 ### 二、CSS
 :::alert-info
@@ -529,7 +543,8 @@ export default {
 - **鼠标样式**：cursor:pointer;//手指,提示可点击。hand//IE5使用的手指样式、wait;//等待、help;//帮助、no-drop;//无法释放、text;//文字，暗示为文字内容、move;//提示可移动对象、crosshair;//十字准心、n-resize;//向上改变大小箭头、s-resize;//向下改变大小箭头、e-resize;//向右改变大小箭头、w-resize;//向左改变大小箭头、ne-resize;//向右上改变大小箭头、nw-resize;//向左上改变大小箭头、se-resize;//向右下改变大小箭头、not-allowed;//禁止、progress;//处理中、default;//提示可移动对象、url();//引入外部文件作为鼠标样式，文件格式必须为.cur或.ani。
 - **边框样式**：border:1px dotted red;//dotted:点线、dashed:虚线、double:双边框、groove:3d凹槽、ridge:菱形边框、insert:3d凹边、//outset:3d凸边。
 - 外边框：`outline:#00FF00 solid thick;`#样式，样式，宽度。
-- textarea标签resize属性的的各个取值:none：用户不能操纵机制调节元素的尺寸、both：用户可以调节元素的宽度和高度、horizontal：用户可以调节元素的宽度、vertical：让用户可调节元素的高度、inherit：默认继承。
+- textarea标签：resize属性的的各个取值:none：用户不能操纵机制调节元素的尺寸、both：用户可以调节元素的宽度和高度、horizontal：用户可以调节元素的宽度、vertical：让用户可调节元素的高度、
+- 删除线：text-decoration:line-through;
 - **超出隐藏**：
 
 ```css
@@ -645,8 +660,9 @@ div{
 #### 2、尺寸单位：
 - **em**：是根据当前元素字体大小而变化的,列入当前元素font-size:14px;width:10em,此时width为140px(每1em为字体大小)。
 - **rem**：是继承根部元素(html)的字体大小的,例:html{font-size:16px;}.div{width:10rem;}//width为160px。用以下代码修改根元素大小。
+
 ```js
-(function(win, doc) {
+function transfer(win, doc) {
     var W = win.innerWidth;
     var UIW = 750;
     var RATIO = 100; // 1rem = 100px
@@ -654,7 +670,9 @@ div{
     if (W < 1000) {
          doc.documentElement.style.fontSize = W / (UIW / RATIO) + "px";
     }
-})(window, document)
+}
+window.onResize = transfer;
+transfer();
 ```
 - **vw**：视窗宽度，1vw相对于视窗宽度的1%。
 - **vh**：视窗高度，1vh相对于视窗高度的1%。
@@ -665,10 +683,12 @@ div{
 
 ```css
 el{
-    box-reflect:below 1px linear-gradient();//box-reflect属性为元素添加倒影
+    box-reflect:below 1px linear-gradient();
+    /*box-reflect属性为元素添加倒影
     //效果，第一个值设置方向，第二个值为倒影与元素的距离，第三个值为线性渐变，将
     //渐变设为透明度逐渐增加的白色效果较好，做兼容处理时box-reflect前和渐变前
     //都加上前缀。
+    */
 }
 ```
 - css3剪切：
@@ -681,7 +701,7 @@ el{
     clip-path:react();//矩形剪切，写入位置，宽高。
 }
 
-//*css3实现毛玻璃效果(高斯模糊)：*/
+/*css3实现毛玻璃效果(高斯模糊)：*/
 el{
     -webkit-filter:blur(10px);
     -moz-filter:blur(10px);
@@ -868,7 +888,7 @@ i{
 ============*/
 ::v-deep .el-input{}
 
-//定义变量
+// 定义变量
 $menuBg: #9966ff;
 $subMenuBg: #9933ff;
 $subMenuHover: #9900ff;
@@ -878,7 +898,7 @@ $subMenuHover: #9900ff;
     subMenuBg:$subMenuBg;
 }
 ```
-- [sass中文档。](https://www.sasscss.com/documentation/syntax/parsing)
+- [sass中文档](https://www.sasscss.com/documentation/syntax/parsing)
 - **less**：
 ```less
 @import "typo.css";//导入文件。
@@ -937,6 +957,7 @@ $subMenuHover: #9900ff;
 `str1.concat(str2)`#连接两个字符串，返回一个新的值。
 `"*".repeat(3)`#生成3个重复的字符。
 ```js
+"aaj,b_b".lastIndexOf("b",2);// 返回最后一个字符出现的位置，第二个参数表示开始检索的位置。
 var str = '大米:2.57斤/元,白菜:3.65元/斤';
 var arr = str.match(/\d+(.\d+)?/g); //match()方法找到所有匹配的项，返回一个数组。
 ```
@@ -959,6 +980,7 @@ console.log(a.exec('kke,mme'));//只能找到第一个匹配项，放回一个�
 - `list.pop()`//删除最后一个元素。
 - `unshift()`//在数组最前端添加一个新的值。
 - `arr.sort()`#不传参数的话，默认将arr中的值看成字符串来排序。
+- `k = arr.from(T)`#T转换成数组，T可以是字符串、列表、set。
 - `var a = arr.some(function(item,index,arr){if(item>2){return true;}})`#返回true时会结束遍历，arr是整个数组本身。a为布尔值。
 - `var a = arr.find((x)=>{return x>=4;})`#与some类似用法。返回为true时对应的值。
 - `var b = arr.filter((x)=>{return x%2==0;})`#返回所有满足条件的值，是一个数组。
@@ -1020,6 +1042,7 @@ Object.defineProperty(Person.prototype, "constructor", {
  enumerable: false, 
  value: Person 
 });
+// res是有更新部分的数据，obj1是最终数据。
 var res = Object.assign(obj1, obj2,...);//将obj1后的对象中的属性赋给obj1，相同的键值会覆盖。
 //Object.defineProperty与Object.defineProperties
 var obj = {name:'wcs',age:21,hob:[1,2],at:{a:5,b:9}}
@@ -1409,51 +1432,120 @@ el.childNodes[0].nodeName;//节点名,为间隙或文字则为#text为元素则�
 - **为元素添加类名或id名**：setATTribute(“class”,“new”)，element.className=””;setATTribute(“id”,”id”),element.id=””;
 - 使用removeATTribute(“class”.”id”)（也可用来移除id名）或.classList.remove(“id”)来移除元素类名。
 #### 8、音视频：
-**调用摄像头**：
+**调用摄像头**：[参考学习地址](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia)
+- [video所有属性及js方法](https://www.cnblogs.com/TF12138/p/4448108.html)
+
 ```html
-<video id="but">调用摄像头</video>
+<video id="vd" poster="" loop autoplay controls width="200" height="300"></video>
+<!--
+poster：视频封面，没有播放时显示的图片
+preload：预加载
+autoplay：自动播放
+loop：循环播放
+controls：浏览器自带的控制条
+-->
+<video id="video">调用摄像头</video>
 <canvas id="canvas"></canvas>
 <button onclick="get()">打开摄像头</button>
 <button onclick="show()">拍照</button>
+<button onclick="deviceClose()">关闭所有设备</button>
 <script>
 var width = window.innerWidth;
 var height = window.innerHeight;
+var video = document.getElementById("video");
+var stream = null;
+/*==============
+    video常用方法
+  ===============
+*/
+video.currentTime = 1;//设置开始播放位置
+video.controls = "controls";// 显示控制条。
+video.play();video.pause();// 播放，暂停。
+video.load(); //重新加载src指定的资源
+video.volume = value; //音量
+video.muted = value; //静音
+
+
 // 点击调用摄像头
 function get() {
-    var but = document.getElementById("but");
     // obj传到getUserMedia()方法中
     var obj = {
          // 设置视图大小，允许录制音频
         video: {
             width: width,
-            height: height
+            height: height,
+            bitrate: 1500 * 1000,
+            keyInterval: 2,
+		       // 帧率设置
+            frameRate: {
+                min: 5,
+		           ideal: 10,// 期望最合适的帧率
+                max: 15,
+            },
+            facingMode: "user",// 前后置摄像头设置，user:前，environment:后
         },
         audio: true
     }
-    // 兼容性处理
+    /*    
+        ==============================
+                兼容性处理
+        ==============================
+        注意：这些情况才能调用：地址为localhost:// 访问时、地址为https:// 时、为文件访问file:///
+        http访问时，navigator.mediaDevices为undefined。
+    */
     let photo = navigator.mediaDevices.getUserMedia(obj) ||
                 navigator.webkitGetUserMedia(obj) ||
                 navigator.mozGetUserMedia(obj) ||
                 navigator.msGetUserMedia(obj);
-            // 会先获取权限(用户控制)，调用成功的话则运行then()方法
+    // 会先获取权限(用户控制)，调用成功的话则运行then()方法
     photo.then(function(MediaStream) {
-        but.srcObject = MediaStream; //图像显示到but元素中
-        but.play(); // 显示
+        // srcObject属性，兼容性处理。
+        stream = MediaStream;
+        if("srcObject" in video){
+            video.srcObject = stream; //图像显示到video元素中
+        }else{
+            video.src = window.URL.createObjectURL(stream);
+        }
+        // 导入完毕时显示。
+        video.onloadedmetadata = function(e) {
+            video.play();
+        };
     });
-            // 调用失败则运行catch()方法
+    // 调用失败则运行catch()方法
     photo.catch(function() {
         alert("调用摄像头失败")
     });
 }
-        // 点击拍照
+// 点击拍照
 function show() {
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
     // 上面获取到的but是RGB数组对象。
-    ctx.drawImage(but, 0, 0, width, height);
+    ctx.drawImage(video, 0, 0, width, height);
+}
+// 关闭所有设备
+function deviceClose(){
+    const devices = stream.getTracks();
+    /**数据格式。
+        [{contentHint: ""
+        enabled: true
+        id: "0f4862bc-40cf-4e12-9134-a87f88f8a5b0"
+        kind: "audio"
+        label: "默认 - 麦克风 (Realtek(R) Audio)"
+        muted: false
+        onended: null
+        onmute: null
+        onunmute: null
+        readyState: "ended"
+        }]
+    */
+    devices.map(v=>{
+        v.stop();
+    })
 }
 </script>
 ```
+
 **webrtc**：web端视频电话支持技术，里面处理了媒体流数据编码、杂音、画面去噪等功能。<b c=r>web端直播推流使用此方法（这里只有大致的思路）</b>
 - [参考学习地址](https://www.dazhuanlan.com/2019/12/24/5e0191c6d8816/)
 
@@ -1463,6 +1555,7 @@ var stream = await navigator.mediaDevices.getUserMedia({audio,video});
 var rtc = new RTCPeerConnection(null);
 // 将每帧流添加到rtc中。
 stream.getTracks().forEach(function (track) {
+    //将一个新的媒体音轨添加到一组音轨中，这些音轨将被传输给另一个对等点。
     rtc.addTrack(track);
 });
 var offer = await rtc.createOffer();// 返回一个本地会话描述。
@@ -1476,47 +1569,19 @@ await self.pc.setRemoteDescription(
 /*=========
     收看端
 ===========*/
-let pc = new RTCPeerConnection({
-  iceServers: [{urls: "stun:stun.nodemedia.cn:3478"}]
-});
-pc.addStream(stream); // 添加流
-pc.createOffer()
-  .then((description) => {
-    pc.setLocalDescription(description);
-  })
-  .catch(this.handleError.bind(this));
-
-// 使用websocket接收数据。
-let ws = new WebSocket(url);
-ws.onopen = () => {
-  ws.send(
-    btoa(
-      JSON.stringify({
-        method: "publish",
-        audio: audio,
-        video: video,
-        description: pc.localDescription,
-      })
-    )
-  );
-};
-// 获取数据流。
-ws.onmessage = (e) => {
-  let command = JSON.parse(atob(e.data));
-  console.log("onmessage e=", command);
-  if (command.method === "onpublish") {
-    pc.setRemoteDescription(
-      new RTCSessionDescription(command.description)
-    );
-  } else if (command.method === "onerror") {
-    console.error(command.error);
-  }
-};
-//====关闭
-ws.close();
-pc.close();
+// 使用hls.js进行拉流，内部原理暂未了解！。
+if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    video.src = "http://fjjla.m3u8";
+    video.play();
+} else if (Hls.isSupported()) {
+    // hls.js播放m3u8视频流
+    that.flvPlayer = new Hls();
+    that.flvPlayer.loadSource("http://fjjla.m3u8");
+    that.flvPlayer.attachMedia(video);
+    video.play();
+}
 ```
-#### 10、选择图片并压缩：
+#### 10、选择文件：
 input中的file属性提供了一个从本地图库选择图片文件的功能,以下代码将选中的图
 片显示在页面上：
 ```html
@@ -1526,6 +1591,7 @@ input中的file属性提供了一个从本地图库选择图片文件的功能,�
 <canvas id="can" width="500" height="300"></canvas>
 <form id="form"></form>
 ```
+**选择图片并压缩**：
 ```js
 function get(self){
     // self是input元素
@@ -1551,7 +1617,36 @@ function get(self){
     }
 }
 ```
-// 图片的上传建议放到form表单中再使用FormDat用原生ajax上传,上传的键名是
+**选择视频并显示**：
+```js
+<script>
+    function get(self) {
+        // self是input元素
+        var img = document.getElementById("img");
+        var vd = document.getElementById("video");
+		
+        var cImg, w, h;
+        //self.files.length;获取图片张数
+        var fil = self.files[0];
+        var read = new FileReader();
+
+        read.readAsDataURL(fil);
+        read.onload = function () {
+          //vd.src = fil;
+          vd.src = window.URL.createObjectURL(fil);
+          vd.load();
+		    vd.onloadedmetadata = function(e) {
+            // 设置当前播放位置，
+			    vd.currentTime = 1;
+			    vd.controls = "controls";
+			    vd.play();// 不设置播放的话，显示有问题。离开页面后视频显示也会出现同样的问题。
+		    }
+
+        };
+      }
+</script>
+```
+图片的上传建议放到form表单中再使用FormDat用原生ajax上传,上传的键名是
 ```js
 // form表单中input的name
 var form = document.getElementById("form");
@@ -1845,7 +1940,9 @@ var a = [1,2,3,4,5];
     }
 c(...a);// 将a中的每个元素拿出来放到c中。
 
-//##-----------------promise
+/*==============
+     promise
+================*/
 //常用情况：
 function add(n) {
     return new Promise(function(resolve, reject) {
@@ -1876,7 +1973,10 @@ waitSecond.then(function()
     {
         console.log("Hi"); // 2秒后输出"Hi"
     });
-//#####>>>>>>>>******        async与await的使用，await一定要放在async内部，相当于是promise的两种使用方式。
+/*=================
+    async与await的使用，await一定要放在async内部，相当于是promise的两种使用方式。
+===================*/
+
 async function funAsy() {
      const a = 1;
      // 使用await可以直接拿到resolve()或reject()的结果赋值给b，否则b就只能是一个promise对象。
@@ -1910,8 +2010,9 @@ new Promise.all([pr1,pr2]).then().catch();//任何一个出行catch时触发catc
     }
   });
   console.log(test.name);
-
-//------迭代器与生成器
+/*===================
+       迭代器与生成器
+=====================*/
 var a = {
   x: 10,
   y: 20,
@@ -1924,7 +2025,9 @@ function* f() {
  }
 }
 var f = f();//使用yield提供的一个生成器。f.next()调用。
-//################------------模块化
+/*=================
+    模块化
+===================*/
 //js文件中用export分别导出，可以是任意数据类型。
 export const av = {
     a: 1,
@@ -2042,7 +2145,7 @@ window.addEventListener("focus",function(){document.title="获得焦点";});// �
 window.addEventListener("blur",function(){document.title = "去哪了，快回来！"});// 切到其它网站页面时触发。
 ```
 #### 27、原型：
-
+- **js中无类的概念**：类意味着复制，传统的类被实例化时，它的行为会被复制到实例中。类被继承时，行为也会被复制到子类中。而js并不会像类那样自动创建对象的副本。
 - **封装**：将一些js语句写到一个方法里面，只留下一些特定的借口供外部访问。
 - **继承**：每个函数中都有一个prototype属性，而这个prototype属性被称为函数 的原型，原型中的所有方法都是可以被外部继承的，而函数方法内（原型外 部）的对象是该函数的私有对象，不能被继承。继承的方法可以使用new 关 键字继承，继承的那个变量就变成了一个对象（是对象而不是函数），继承 之后我们可以使用el[‘name’]=’pro’的方法向其中添加新的属性名属 性值，在原型方法中也可以继承自己的父函数中的原型，这样就可以实现重 复循环的自调用了；也 可以使用call(),applay()方法来继承。
 - **多态**：传入不同的参数或者配合不同的函数使用可以得到不同的结果。
@@ -2078,11 +2181,14 @@ function person(name,age){
     }
 }
 ```
-- **原型模式**：使用原型对象的好处是可以让所有对象实例共享它所包含的属性和方法。换句话说，不必在构造函数中定义对象实例的信息，而是可以将这些信息直接添加到原型对象中。在默认情况下，所有原型对象都会自动获得一个 constructor（构造函数）属性，这个属性包含一个指向 prototype 属性所在函数的指针。<b c=r>创建了自定义的构造函数之后，其原型对象默认只会取得 constructor 属性</b>；<b c=gn>至于其他方法，则都是从 Object 继承而来的</b>。<b c=r>Object的原型指向是null，不过对于访问不到的属性返回则是undefined。</b>
+- **原型模式**：使用原型对象的好处是可以让所有对象实例共享它所包含的属性和方法。换句话说，不必在构造函数中定义对象实例的信息，而是可以将这些信息直接添加到原型对象中。在默认情况下，所有原型对象都会自动获得一个 constructor（构造函数）属性，这个属性包含一个指向 prototype 属性所在函数的指针。
+<b c=r>创建了自定义的构造函数之后，其原型对象默认只会取得 constructor 属性</b>；
+<b c=gn>至于其他方法，则都是从 Object 继承而来的</b>。
+<b c=r>Object的原型指向是null，不过对于访问不到的属性返回则是undefined。</b>
 
 ```js
-function Person(){ 
-} 
+function Person(){ } 
+
 Person.prototype.name = "Nicholas"; 
 Person.prototype.age = 29; 
 Person.prototype.job = "Software Engineer"; 
@@ -2095,8 +2201,7 @@ alert(Object.getPrototypeOf(person1) == Person.prototype); //true
 alert(Object.getPrototypeOf(person1).name); //"Nicholas",但不能通过此方法来更改。
 
 //-----直接在原型中写属性相当于重新构造了原型，所以construct会指向Object。
-function Person(){ 
-} 
+function Person(){ } 
 Person.prototype = { 
  //让其constructor重指向Person。不过会让该属性变为可枚举。
  constructor : Person, 
@@ -2232,12 +2337,12 @@ console模块不只log()一个函数，全部如下：
 - `console.table([[1,2,3],[4,5,6],[7,8,9]])`#打印表格
 - console.time()和console.timeEnd()，用来显示代码的运行时间。
 - `console.profile("性能分析器");...中间代码;console.profileEnd("性能分析器");`
-### 四、库、框架、工具
+### 四、库&框架&工具
 #### 1、gitHub的使用：
-**安装**： 
+**安装**：
 1. 进入gitHub官网先注册一个账号,进入菜鸟教程点击git本地命令工具下载链接下载。git Barsh安装成功后打开(是一个命令行工具)；
-2. 输入ssh-keygen -t rsa -C "1815161966@qq.com"回车会提示要在/c/Users/Administrator/.ssh/id_rsa生成秘钥，之后一直回车到生成为止,此时在该路径下找到`id_rsa.pub`(公钥)文件用记事本打开复制里面的所有内容;
-3. 再在gitHub官网用户设置中找到SSH和GPG项将复制内容粘到键文本域中(title随意),回到命令行工具输入SSH -T git@github.com若成功会有提示成功信息。
+2. **生成SSH公钥**：输入`ssh-keygen -t rsa -C "1815161966@qq.com"`回车会提示要在/c/Users/Administrator/.ssh/id_rsa生成秘钥，之后一直回车到生成为止,此时在该路径下找到`id_rsa.pub`(公钥)文件用记事本打开复制里面的所有内容;
+3. 再在gitHub官网用户设置中找到SSH和GPG项将复制内容粘到键文本域中(title随意),回到命令行工具输入`SSH -T git@github.com`若成功会有提示成功信息。
 4. 把本地项目上传到github在github上创建一个仓库(点击加号选择第一个New repository),复制第一项中的url地址,然后打开Git Bush进入一个想放项目的文件目录中使用cd进入(cd G:/web)
 5. 使用语句：git clone https://github.com/master,之后会在该目录下生产一个与你的仓库名同名的一个文件夹,将代码文件复制到该文件夹中;
 6. 然后命令进入该文件夹(cd GanMa)再输入git add .(把文件添加进来)再输入git commit -m"xiaoswuwei"读入完文件后输入git push -u origin master（传入到仓库中）.使用git clone +地址，也能下载别人仓库中的文件。http://www.runoob.com/w3cnote/git-guide.html
@@ -2252,7 +2357,7 @@ console模块不只log()一个函数，全部如下：
 - **新建远程分支**：网站上手动新建可直接指定源与哪个分支，命令式需要新建一个本地分支，然后：`git push origin new_dev:new_dev`#推到远程。
 - 分支跟踪：git branch --set-upstream-to=origin/wcs //从master拉取代码，当前分支跟踪（提交时提交到该分支）远程分支wcs。
 - 查看所有分支：git branch -a //，-r查看远程分支。
-- 切换分支：git checkout master  
+- 切换分支：git checkout master
 - **查看文件状态**：git status
 - **查看具体改动**：git diff    (红色是改动前，绿色是改动后)
 - **查看commit记录**：commit历史：`git log`#会显示commitID、人员、时间。最新的一个commit：`git show`。查看指定人员id的提交记录：`git show 32cbad...`。查看指定文件修改情况：`git show 3241abk... src/avn.vue`。
@@ -2265,6 +2370,10 @@ console模块不只log()一个函数，全部如下：
 - 查看所有分支：git branch -a 
 - 删除远程分支：git push origin --delete yc
 - **合并冲突解决**：协商解决冲突的页面，然后git add /src/...将冲突的页面加入，git commit -m 'merge'提交即可。
+
+**修改仓库地址**：如仓库被迁移到另一个服务器。
+1. .git/config文件修改url即可。url格式：`ssh://git@119..123/path1/project.git`
+2. `git remote set-url origin  xxxxxxx`  #命令修改。
 
 **全局配置用户名和密码**：如果没使用sshKey或使用了但不生效，那么每次push时都要求输密码和用户名，使用全局配置，一次性搞定。
 ```js
@@ -2290,7 +2399,7 @@ front/dist/  //忽略front文件夹下的整个dist文件夹
 front/index.html  //忽略front文件夹下的Index.html文件
 ```
 **非克隆项目关联到git仓库**：本地没有修改、连接等设置，步骤如下：
-`giy init` #先将本地项目变为一个git仓库。
+`git init` #先将本地项目变为一个git仓库。
 `git remote add origin https://xxxx.com`#关联远程仓库，
 `git add .`>`git commit -m 'new'`>`git pull`#合并到本地。
 此时会提示输入账号、密码，若输入错误，第二次可能不会再提示错误，而是直接报错(使用了第一次的缓存)。解决如下：
@@ -2308,164 +2417,6 @@ win10/控制面板/用户账户/凭据管理器/windows凭据。最下方找到g
 **项目资源搜索**：awesome 接想搜索的资源。[搜索技巧学习地址。](https://blog.csdn.net/csdnnews/article/details/86570635)
 git-gui的使用：在安装目录下的cmd/下。不过是英文的，且没sourceTree那样全面。
 [merge时提示：refusing to merge unrelated histories解决](https://blog.csdn.net/lindexi_gd/article/details/52554159)
-#### 2、mpvue:
-支持 微信小程序、百度智能小程序，头条小程序 和 支付宝小程序。
-教程地址：http://mpvue.com/mpvue/#_2
-vue-cli安装：https://blog.csdn.net/u011320770/article/details/81281193
-安装好vue-cli后用命令来初始一个项目,因为需要安装很多的配置文件和依赖，分为初始化创建一个小程序和初始化创建一个网站,两种命令不一样，如下：
-小程序:vue init mpvue/mp-vue-quickstart wxObject    [安装期间会询问appid的一些信息...]web:vue init webpack web  [安装期间也会询问一些问题，但没有appid询问]
-src文件中修改代码就能自动修改两个端代码？https://segmentfault.com/a/1190000015545555    https://www.v2ex.com/t/448121
-[一套同时配置了H5和小程序的demo]https://gitee.com/shqjustin/mpvuedemo 【里面有相关博客】
-<i class="label1">运行与打包命令</i>npm run dev,npm run devH5	npm run build,npm run buildH5
-注意项：【这里写的是在上面demo中的注意项】
-[样式]使用的布局样式要使用less语言(style标签中写上less),一些标签不支持转译如ul,li,h5...index.vue等项目页面中在template标签中必须用一个标签包含所有内容(template内只能有一个一级子元素);只能使用改变类名的办法控制元素,v-bind:style=‘obj’失效,使用v-bind:style="{ color:gre }",样式参数从data中获取；不要使用标签选择器,一些小程序中使用的标签也无法转译。选择器使用>时后面不能跟#
-(小程序端不能编译),img标签设置mode属性‘widthFiex’(自适应高度),不然小程序端不能显示。[字体大小:小程序上的rem为屏幕宽度/20这与网站端不一样]https://blog.csdn.net/qq_31383345/article/details/52817807，
-[img设置自加载高度:https://developers.weixin.qq.com/miniprogram/dev/component/image.html]
-[less中文文档:所有css代码最后被放到一个css文件中，所以在布局是谨慎使用同名的东西最好指定其父级]https://www.html.cn/doc/less/features/#features-overview-feature-operations-
-<i class="label1">小程序单位</i>
-虽然mpvue可以开发小程序和H5但并不能一套代码多端运行，两者差异较大，无法做到很好的兼容。比如单位上web端需要使用px或rem，但打包为小程序后px会被转为rpx，或直接使用rpx，两者无法保证界面一样。
-小程序默认是750rpx占满全屏宽度(1px=2rpx)，所以如果是750宽的设计稿直接将其量取的值加上rpx使用即可，设计稿不是这个尺寸的需要先进行换算：
-设备 rpx换算px (屏幕宽度/750) px换算rpx (750/屏幕宽度)。
-[公共方法配置]如一些本地存储、路由跳转需要在min.js和minH5.js中配置,分页中使用this调用.将一些公共配置文件放到main.js和mainH5.js中(css和js)。
-[监听]有时编译错误时,监听代码的改变在编译会失效，重新npm run dev即可。
-[新建页面]https://blog.csdn.net/weixin_39818813/article/details/80602637,每新建一个页面就要建一个文件夹里面包含index.vue,main.js文件(可直接复制其它页面的内容改改文件夹名字)再npm run dev即可将新建的文件生成到dist文件夹中。
-[页面跳转]wx.navigateTo({url:'../pages/a/main'})//保留当前页不关闭跳到其它页可用navigateBack()
-方法返回页面,wx.reLaunch({url:''})//关闭当前页再跳到其它页，不可返回。
-
-<i class="label1">更改标题</i>跳到一个新的页面的时候往往需要改变其顶部标题,在跳到的页面对应的min.js文件中加上
-```js
-export default{
-    config:{
-        backgroundTextStyle: 'light',
-        navigationBarBackgroundColor: '#fff',//标题栏背景色
-        navigationBarTitleText: '数独小游戏',
-        navigationBarTextStyle: 'black'//字体颜色
-    }
-}
-```
-[获取元素信息]https://www.cnblogs.com/zjjDaily/p/9566234.html
-[生命周期函数:created]每个页面中使用的created函数时在进入这个项目时就调用的(进入第一个页面就会执行所有页面中的created函数)。
-[页面初始化函数mounted]希望在进入进入一个页面之后再调用的函数写在mounted函数中也可用onLoad()函数或onShow()函数等，函数与mounted函数为同一级。
-https://www.cnblogs.com/imgss/p/9164924.html
-<i class="label1">小程序页面返回不运行初始化函数问题</i>使用navigateBack()返回上一个页面后不会再运行前一个页面的初始化函数，可以在调用navigateBack()时运行前一个函数的初始化方法。
-```js
-var pages = getCurrentPages();//获取页面栈
-var before_page = pages[pages.length-2];//获取倒数第二个页面
-wx.navigateBack({
-    success:function(){
-        before_page.onLoad();//运行前一页面的onLoad()函数。
-    }
-});
-```
-[数据请求]使用fly,js做网络请求。https://www.cnblogs.com/fuzhengyi/p/9579804.html{注意：必须加上请求头,不然后台获取不到参数。[header: {'content-type': 'application/x-www-form-urlencoded'}]}.
-[触屏时获取手指位置]绑定的函数中传入$event,event.touches[0].pageX;touchend事件触发中获取位置:event.mp.changedTouches[0].pageX获取。
-[小程序中嵌套网页]https://www.jianshu.com/p/50657f9af5b4
-[scroll-view的使用]元素绑定了scroll事件后在小程序端会变成scroll-view标签这时其内部所有子元素的css样式会失效，需要使用内嵌样式。scroll-view标签相关的事件函数也都用v-on:scrolltolower类似绑定。
-**组件的使用：https**://blog.csdn.net/qq_35661041/article/details/81476606    https://www.cnblogs.com/yun1108/p/9755785.html
-<i class="label1">子组件触发父组件事件</i>
-```js
-//子组件事件
-operate(){
-    this.$emit('chooes',value1,value2);
-}
-//父组件,@加触发的事件名对应子组件的'chooes'。chooes_event后不加括号
-<choose :value='d.data' @chooes='chooes_event'></choose>
-chooes_event(a,b){
-    console.log(a,b);
-}
-```
-
-<i class="label1">强制刷新循环</i>在一些嵌套得比较深的数据结构中动态改变里面的值时会出现不能渲染到页面的问题，可使用this.$forceUpdate()方法刷新for循环的数据渲染。https://blog.csdn.net/weixin_33910385/article/details/91710105
-[web页面配置title]在mainH5.js文件中添加如下代码:（router已在头部导入）
-```js
-router.beforeEach((to,name,next)=>{
-    window.document.title = to.meta.title;
-    next();
-});
-```
-<i class="label1">小程序端转json为js对象</i>
-```js
-res_= res_.replace(/\ufeff/g,"");
-if(typeof res_=='string'){
-  res_ = JSON.parse(res_);
-}
-```
-<i class="label1">小程序图片选择</i>
-```js
-wx.chooseImage({
-  count:6,
-  sizeType:['original','compressed'],
-  success:function(res){
-    d.files = res.tempFilePaths;
-    vb = d.files.length<6-len ? d.files.length : 6 - len;
-    for(var c=0;c<vb;c++){
-      d.imgs.push(d.files[c]);
-    }
-  },
-  fail:function(){
-    self.small_hint('最多只能选择6张');
-  }
-});
-```
-<i class="label1">小程序端图片上传</i>
-```js
-for(var i=0;i<d.imgs.length;i++){//先循环把没张图片放到上传队列中
-    wx.uploadFile({
-        url:'',
-        filePath:d.imgs[i],
-        name:'file',
-        formData:{//这里写其它要传的参数
-            'token':d.token,
-        },
-        header:{
-            "Content-Type": "multipart/form-data"//加上这个头部
-        },
-        success:function(res){
-            var res;
-            if(res.statusCode){res_ = res.data;}
-            else{res_ = res;}
-            //收到的是json转为js对象。
-            res_= res_.replace(/\ufeff/g,"");
-            if(typeof res_=='string'){
-              res_ = JSON.parse(res_);
-             }
-        }
-    });
-}
-```
-<i class="label1">第三方UI组件库的使用</i>这里以iview组件库为例，npm install iview --save。安装的组件库、框架等都会出现在node_models文件夹下，也可以将其拿出放到其它文件夹下使用。两个端兼容使用还是象普通组件使用一样，各页面使用import .. from 导入再绑定到组件上，使用的css在App.vue和AppH5.vue
-页面内的css中导入：@import '../../nodemodels/iview/dist/iview.css'
-<i class="label1">小程序登录</i>先调用wx.login()获取用户code，然后让用户点击button授权按钮:
-```
-<!--小程序中的写法，绑定事件都有bind前缀-->
-<button open-type="userinfo" bindgetuserinfo='getinfo'></button>
-<!--mpvue中不加bind，编译后会自带,或@getuserinfo='getinfo'-->
-<button open-type="userinfo" v-on:getuserinfo='getinfo'></button>
-<!--获取用户电话号码,mpvue中：v-on:getphonenumber='phone'-->
-<button open-type="getPhoneNumber" bindgetphonenumber="phone"></button>
-```
-https://www.jianshu.com/p/bccbffd582bd
-[webpack manifest.js文件讲解]https://blog.csdn.net/lancewu0907/article/details/76513231/
-16个优秀的vue相关的ui组件库：https://www.cnblogs.com/zdz8207/p/vue-ui-framework.html
-【vuex的使用】https://blog.csdn.net/qq_33026699/article/details/83302890
-<i class="label1">微信浏览器内非公众号网页使用微信支付</i>https://liaolongdong.com/2017/09/09/wxpay.html
-https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_3
-<i class="label1">最外层页面渲染问题</i>路由页面或minH5.js内改变vue中注册的值无法渲染到最外层页面，可以：
-```js
-d = {show:'block'};//全局的d
-Vue.mixin({
-    data(){
-        return{
-            d:d
-        }
-    },
-    method:{
-        alter_show(){
-            d.show = 'none';//改变全局d的值可以渲染到页面
-        }
-    }
-});
-```
 
 #### 3、nodejs：
 :::alert-info
@@ -2602,7 +2553,21 @@ rl.on('close', function() {
 >获取到code（为openId）上传给后台，后台会与微信服务器换取信息，返回token给前端。
 >用该token作为用户已登录的凭证，存于本地。注意跳转页面时判断token是否过期。
 
-**微信支付**：使用H5支付需要先在商户号开通H5支付，还需要填写支付域名。前端调用自己后台的下单接口成功后跳转到后台返回的支付页url即可。
+**微信支付**：
+- 微信小程序内：向后台获取时间戳、签名串等，然后：
+```js
+wx.requestOrderPayment({
+  timeStamp: '',
+  nonceStr: '',
+  package: '',
+  signType: 'MD5',
+  paySign: '',
+  success (res) { },//拉起微信支付，支付成功后调用。
+  fail (res) { }
+});
+```
+- 公众号内：使用H5支付需要先在商户号开通H5支付，还需要填写支付域名。前端调用自己后台的下单接口成功后跳转到后台返回的支付页url即可。
+- 普通H5页面：与公众号类型。
 - **注意**：url地址处理使用encodeURIComponent(url)函数处理,这个url中不能加端口号，所以只能是刚才配置的授权网页域名。
 - [配置、获取openid、授权登录。](https://www.jianshu.com/p/b7e2100b56e4)
 
@@ -2611,6 +2576,20 @@ rl.on('close', function() {
 在login.js文件中，先将对应的appkey换成自己的。然后在获取到登录界面输入的账号，密码后添加一个网络请求，向自己的服务器获取用户在本应用下(对应的appkey应用下)的im用户id和云信服务器反给后台的云信token,然后调用cookie.setCookie()按格式放入到cookie中。
 每次更改调试需要先npm run dev打包再node server启动本地服务。
 要放到服务器使用的话直接将打包后的dist文件夹、regist.html,login.html,index.html文件放到服务器即可，主入口是index.html文件，在自己的项目中直接访问该路径+路由，然后带上uid,yxtoken两个参数(在指定im页面获取参数调用setCookie()登录，不然会报错)。
+
+4. **微信小程序**：
+- **获取openId**：
+```js
+wx.login({
+  success (res) {
+    if (res.code) {
+      // 这里调用自己后台接口，用code交换openId。
+    } else {
+      console.log('登录失败！' + res.errMsg)
+    }
+  }
+})
+```
 
 #### 5、vuejs：
 :::alert-info
@@ -2643,7 +2622,7 @@ rl.on('close', function() {
 :::
 
 - 安装：`npm install vue-cli -g`#全局安装vue-cli工具，安装后可以使用vue命令初始化项目。[使用ts的创建。](https://zhuanlan.zhihu.com/p/99343202)
-- 初始化：`vue init webpack test `#初始化一个名为test的项目，之后会询问一些设置上的问题，具体查看这个地址：[vue-cli初始化项目学习地址。](https://www.cnblogs.com/saint258/p/9621161.html)
+- 初始化：`vue init webpack test `#vue 2.x初始化命令。`vue create project`#vue3.x初始化命令。
 - **vue-cli-service**：该service相当于是使用node语言书写的一个本地服务，包括默认从vue.config.js读取配置（所以与webpack-service使用时的配置有些差异），运行webpack这些操作。所以也可以根据这些逻辑自己写一个恶脚手架。
 - **可视化管理**：cmd/输入：vue ui打开vue的开始化管理界面，导入项目，然后进去查看详细。
 - [package.json文件各种属性解释](https://zhuanlan.zhihu.com/p/33928507)。
@@ -2654,7 +2633,7 @@ rl.on('close', function() {
 
 ##### a2、基本使用：
 **$attrs与\$listeners**：
-```vue
+```html
 <!--子组件-->
 <label>输入框：</label><input v-bind="$Allattrs" v-on="$listenserAll" />
 <script>
@@ -2677,7 +2656,7 @@ export default {
 ```
 - **循环**：
 
-```vue
+```html
 <li v-for="i in is">
 <h5>{{ i }}</h5>
 <div v-if="i == 0" v-html="a">这是i</div>
@@ -2751,7 +2730,7 @@ watch:{// watch中的函数名对应data中想要监听的数据名。
 }
 ```
 - **事件绑定中传入event参数**：
-```javascript
+```js
 <p v-on:click="get($event)"></p>
 function get(e){
     // 使用此法来获取当前元素。*********注意！就算get中不传入$event对象，也会默认传入。
@@ -3507,15 +3486,22 @@ module.exports = {
     }
 }
 ```
+
 **添加环境**：package.json/scripts中添加：`"vue-cil server --mode mock"`，根目录中可添加`.env.mock`来写一些要用的全局变量。默认有development和production。
-```
+- `process.env.NODE_ENV`的值默认也会变为`--mode`后面的环境值。
+```py
+# 可在此处再次更改其值。
+NODE_ENV = "production"
 # 在vue.config.js均可使用
 MODE = "dev"
 # 要在vue项目中使用，必须前缀是VUE_APP。
 VUE_APP_BASE_API = '/base-api'
+
 VUE_APP_BG_API = '/bg-api'
 ```
+- [vue.config.js配置文档](https://cli.vuejs.org/zh/config/#outputdir)
 ##### c2、常用修饰符：
+
 ```html
 <child-component :data.sync="tables"/><!--sync让子组件可以修改该prop的值，且同步到父组件-->
 <div @click.once="hh"></div><!--once：事件只能用一次-->
@@ -3527,7 +3513,6 @@ VUE_APP_BG_API = '/bg-api'
 <input v-model.trim="val"/><!--trim:输入框过滤首尾的空格-->
 <input v-model.number="val"/><!--number:先输入数字就会限制输入只能是数字，先字符串就相当于没有加numbe-->
 ```
-
 #### 6、资源收集：
 **文章部分**：
 [张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
@@ -4013,6 +3998,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   devServer: {
       host:HOST,  // 设置可访问的地址。process.env.HOST表示本机ip可访问。
       port:3320, //访问网页的端口号。
+      hot:true,//模块热替换功能,默认是又变动后刷新整个页面
       open:true,//服务启动后打开浏览器。
       onListening:function(server){},//提供监听触发请求时的一个自定义操作。
       historyApiFallback:true,//历史请求信息
@@ -4036,8 +4022,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 }
 //     axios.get('/api/tasktime')
 ```
-node中的另一种代理是解决跨域使用的代理，node本地自启一个服务用于接受本地请求，然后向服务端请求，这样就变成了服务端向服务端请求，不受跨域限制。<i class="green">不过这只是在开发时使用，打包后失效，所以记得生产环境将代理地址改为服务器域名。这种普通代理也使用上面的方法。</i>
-[vuejs设置跨域方法学习地址。](https://www.cnblogs.com/wangqiao170/p/9288160.html)[publickPath解释相关。](https://juejin.cn/post/6844903601060446221)
+- [devserver配置部分](https://www.cnblogs.com/wb336035888/p/10448873.html)
+
 ##### c、vue多页面应用配置：
 `/build/webpack.base.config.js`文件添加多个主js文件入口，形如：
 ```js
@@ -4153,7 +4139,61 @@ modules:{
 - 使用CopyWebpackPlugin将js文件直接从html引入，将js文件放到对应的静态资源文件夹中即可。[Index.html文件引入js文件。](https://blog.csdn.net/qq_15253407/article/details/89491255)
 - 使用commonsChunkPlugin或新版的splitChunk都只能分割主入口同步导入的和各页面的代码，而各页面import等导入的不能控制。[import()使用](https://www.cnblogs.com/dahe1989/p/11543832.html)
 
+##### g、bable插件：
+webpack只能将一部分es6语法转换为es5，而一些高级的es6语法，和部分es7语法无法转译，这就需要bable。bable包含：preset-env、plugin-component、polyfill等多个子插件。
+<b class="violet">项目中的.bablelr是bable的配置文件，而需要使用的话需要在webpack的modules中引入bable-loader。</b><b class="gray">babel中引入的分为转换插件（转换代码，编译）和语法插件（解析特定类型的语法，如果你已经使用了相应的转换插件，则不需要指定语法插件。）</b>
+使用前先安装：`cnpm i babel-core babel-loader babel-plugin-transform-runtime -D`
+**bable中常用的插件**：7.0以下的版本插件几乎以abel-plugin-开头，7.0以上的以@babel/开头，两个版本混用会导致解析失败。
+<i class="lable2">preset部分</i>
+- @babel/env对应6.0+的babel-env：为目标浏览器中没有的功能加载转换插件。不太推荐preset-env。
+- @babel/polyfill：可以使用诸如 Promise 和 WeakMap 之类的新的内置组件、 Array.from 或 Object.assign 之类的静态方法，不过是全局的，所以会对全局变量造成污染，现在已经不建议使用。安装时使用`--save`
+- transform-vue-jsx：可以支持jsx语法（ts）。
+- [制作可在babel中配置的插件。](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/README.md)
+- stage系列插件：它们用于解析es6,7等版本js语法的方案，包含0-4，功能逐渐降低，对最新语法处理的程度，一般使用stage-2。
+- transform-runtime：只用于开发环境，由于webpack的打包机制会将模块中导入的都打包到一起，然而一些较大的公共包也会有被打入多个chunk组的情况，transform-runtime可以提取分离它们
 
+```js
+{
+　　// 此项指明，转码的规则
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "targets": { //列出一个最小支持版本。或"targets": "> 0.25%, not dead"
+          "edge": "11",
+          "firefox": "60",
+          "chrome": "67",
+          "safari": "11.1",
+        },
+        "useBuiltIns": "usage",//usage会有一些优化作用。
+      }
+    ],
+    "stage-2"
+  ],
+  "plugins": [
+    // 下面这个选项是引用插件来处理代码的转换，transform-runtime用来处理全局函数和优化babel编译
+     "transform-runtime",//transform-runtime为node_modules中已安装的插件（带babel-plugin-前缀）。
+     "transform-remove-console", //编译后移除console
+     //自定义的plugin。component是作为参数传入。还有import，对应的需要安装babel-plugin-component和babel-plugin-import
+     ["component", [{    
+        "libraryName": "element-ui",           //按需引用element-ui插件
+        "libraryDirectory": "src/components",    //指定从哪导入。
+        //"styleLibraryName": "theme-default"   //按需引用element-ui主题 
+     }]]
+  ],
+  "comments": false,// 在生成的文件中，不产生注释
+    // 下面这段是在特定的环境中所执行的转码规则，当环境变量是下面的test就会覆盖上面的设置
+  "env": {
+    // test 是提前设置的环境变量，如果没有设置BABEL_ENV则使用NODE_ENV，如果都没有设置默认就是development
+    "test": {
+      "presets": ["env", "stage-2"],
+      "plugins": [ "istanbul" ]    // instanbul是一个用来测试转码后代码的工具
+    }
+  }
+}
+```
+**webpack中配置如下**：[bable官网](https://www.babeljs.cn/docs/babel-preset-env)。[.babelrc文件作用及属性，部分组件按需引入，需要配置。](https://www.cnblogs.com/wulinzi/p/8079509.html)
+- `{ test:/\.js$/, use: 'babel-loader', exclude:/node_modules/ }`#exclude指定排除掉的文件夹。 如果不排除 node_modules， 则Babel 会把 node_modules 中所有的 第三方 JS 文件，都打包编译，这样，会非常消耗CPU，同时，打包速度非常慢；
 [编写plugin参考学习地址。](https://www.cnblogs.com/wzndkj/p/10921340.html)
 ##### Q、问题集：
 - 解析less文件时提示：TypeError: loaderContext.getResolve is not a function：换使用较低的less-loader版本。4.1.0
@@ -4223,23 +4263,37 @@ onReady(){
 },
 ```
 **页面生命周期函数**：
-onLoad	监听页面加载，其参数为上个页面传递的数据，参数类型为Object（用于页面传参
-onShow	监听页面显示
-onReady	监听页面初次渲染完成
-onHide	监听页面隐藏
-onUnload	监听页面卸载
-onPullDownRefresh	监听用户下拉动作 ，一般用于下拉刷新
-onReachBottom	页面上拉触底事件的处理函数
-onPageScroll	监听页面滚动 ，参数为 Object
-onTabItemTap	当前是 tab 页时，点击 tab 时触发。
-onShareAppMessage	用户点击右上角分享
-**尺寸单位**：uni-app中使用upx为自适应单位，与小程序一样，750upx占满屏宽，设计稿不是750大小的需要与750算一个比例，然后在量一个元素大小时乘以该比例转化为upx大小即可。动态的写入upx单位不会生效，需要转为px再写入。如果要转换upx，只要在manifest.json里配置下面"transformPx" : true。
-[uni-app中的跨域解决。](https://blog.csdn.net/paopao79085/article/details/91948809)、[全局可用的api](https://uniapp.dcloud.io/api/README)
+
+```js
+onLoad(){}//	监听页面加载，其参数为上个页面传递的数据，参数类型为Object（用于页面传参
+onShow()//	//监听页面显示
+onReady(){}//	监听页面初次渲染完成
+onHide(){}	//监听页面隐藏
+onUnload(){}	//监听页面卸载
+onPullDownRefresh(){}//	监听用户下拉动作 ，一般用于下拉刷新
+onReachBottom(){}//	页面上拉触底事件的处理函数
+onPageScroll(){}//	监听页面滚动 ，参数为 Object
+onTabItemTap(){}//	当前是 tab 页时，点击 tab 时触发。
+onShareAppMessage(){}//用户点击右上角分享
+/*============
+{   子组件中，周期函数使用vue语法。
+    mounted(){}
+}
+==============*/
+```
+
+**尺寸单位**：uni-app中使用upx为自适应单位，与小程序一样，750upx占满屏宽，设计稿不是750大小的需要与750算一个比例，然后在量一个元素大小时乘以该比例转化为upx大小即可。
+- H5端的rpx被转为px，但随机型变化也会变化（所以不用使用rem做适应）！暂时不知道怎么实现的。
+- **转换upx**：只要在manifest.json里配置下面"transformPx" : true。
+- H5端rem使用：[rem使用的特别解决方案](https://www.jianshu.com/p/62e399f4aa2e)
+- [uni-app中的跨域解决。](https://blog.csdn.net/paopao79085/article/details/91948809)、[全局可用的api](https://uniapp.dcloud.io/api/README)
+
+问题：H5端，页面刷新有时会有无法回退、页面不加载等问题。
 #### 12、富文本编辑器：
 web中使用的富文本编辑器比较多，这里是两个自己尝试过的：
 wangeditor：比较轻便，所以功能没有其它几样多，因为简便所以比较容易引入，几乎不会报异常错误。[wangeditor使用参考地址。](https://www.jianshu.com/p/52852d39f869)
 vue项目中安装：`npm i wangeditor -S`#使用配置如下：
-```
+```html
 <template>
   <div id="wangeditor">
     <div ref="editorElem" style="text-align:left;"></div>
@@ -4377,7 +4431,7 @@ axios.request({
 [axios配置，学习地址。](https://www.cnblogs.com/mica/p/10795242.html)
 #### 14、NUXTJS：
 :::alert-info
-**ssr实现原理**：ssr有两个入口文件，client.js和server.js 。webpack通过两个入口文件分别打包成给服务端用的server bundle 和给客户端用的client bundle。当服务端接受到来自客户端的请求后，会创建一个渲染器bundleRender, 这个bundleRenderer会读取上面生成的server bundle 文件，并且执行它的代码，然后发送一个生成好的html到浏览器，等客户端加载了client bundle 之后，会和服务端生成的DOM进行Hydration (判断这个DOM和自己即将生成的DOM是否相同，如果相同就是将客户端的vue 实例挂载到这个DOM上，否则会提示警告)。
+**ssr实现原理**：ssr有两个入口文件，client.js和server.js 。webpack通过两个入口文件分别打包成给服务端用的server bundle 和给客户端用的client bundle。当服务端接受到来自客户端的请求后，会创建一个渲染器bundleRender, 这个bundleRenderer会读取上面生成的server bundle 文件，并且执行它的代码，然后发送一个生成好的html到浏览器，等客户端加载了client bundle 之后，会和服务端生成的DOM进行Hydration (判断这个DOM和自己即将生成的DOM是否相同，如果相同就是将客户端的vue 实例挂载到这个DOM上，否则会提示警告)。一般只做首屏渲染。
 :::
 模板：在项目跟目录新建一个app.html模板，可被用于最后生成的html文件。默认模板如下：
 ```html
@@ -4562,62 +4616,21 @@ module.exports = {
 - **问题集**：可以鼠标放在提示错误的地方，点击`Peek Problem`，然后点击规则`eslint(...)`，跳到该规则相应的配置介绍，去学习它的使用。
 - 提示一些规则没有找到（顶部红色波浪线）：该版本没有对应的规则支持，尝试升级版本。
 - [eslint配置大全。](https://blog.csdn.net/p358278505/article/details/77429251)
-#### 17、bable插件：
-webpack只能将一部分es6语法转换为es5，而一些高级的es6语法，和部分es7语法无法转译，这就需要bable。bable包含：preset-env、plugin-component、polyfill等多个子插件。
-<b class="violet">项目中的.bablelr是bable的配置文件，而需要使用的话需要在webpack的modules中引入bable-loader。</b><b class="gray">babel中引入的分为转换插件（转换代码，编译）和语法插件（解析特定类型的语法，如果你已经使用了相应的转换插件，则不需要指定语法插件。）</b>
-使用前先安装：`cnpm i babel-core babel-loader babel-plugin-transform-runtime -D`
-**bable中常用的插件**：7.0以下的版本插件几乎以abel-plugin-开头，7.0以上的以@babel/开头，两个版本混用会导致解析失败。
-<i class="lable2">preset部分</i>
-- @babel/env对应6.0+的babel-env：为目标浏览器中没有的功能加载转换插件。不太推荐preset-env。
-- @babel/polyfill：可以使用诸如 Promise 和 WeakMap 之类的新的内置组件、 Array.from 或 Object.assign 之类的静态方法，不过是全局的，所以会对全局变量造成污染，现在已经不建议使用。安装时使用`--save`
-- transform-vue-jsx：可以支持jsx语法（ts）。
-- [制作可在babel中配置的插件。](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/README.md)
-- stage系列插件：它们用于解析es6,7等版本js语法的方案，包含0-4，功能逐渐降低，对最新语法处理的程度，一般使用stage-2。
-- transform-runtime：只用于开发环境，由于webpack的打包机制会将模块中导入的都打包到一起，然而一些较大的公共包也会有被打入多个chunk组的情况，transform-runtime可以提取分离它们
+#### 17、测试：
+单元测试：对软件中的最小可测试单元进行检查和验证。
+功能测试：对产品的各功能进行验证。
+集成测试：在单元测试的基础上，将所有模块按照设计要求（如根据结构图）组装成为子系统或系统，进行集成测试。
+
+- jest做单元测试：[jest中文档](https://www.jestjs.cn/docs/getting-started)
 
 ```js
-{
-　　// 此项指明，转码的规则
-  "presets": [
-    [
-      "@babel/env",
-      {
-        "targets": { //列出一个最小支持版本。或"targets": "> 0.25%, not dead"
-          "edge": "11",
-          "firefox": "60",
-          "chrome": "67",
-          "safari": "11.1",
-        },
-        "useBuiltIns": "usage",//usage会有一些优化作用。
-      }
-    ],
-    "stage-2"
-  ],
-  "plugins": [
-    // 下面这个选项是引用插件来处理代码的转换，transform-runtime用来处理全局函数和优化babel编译
-     "transform-runtime",//transform-runtime为node_modules中已安装的插件（带babel-plugin-前缀）。
-     "transform-remove-console", //编译后移除console
-     //自定义的plugin。component是作为参数传入。还有import，对应的需要安装babel-plugin-component和babel-plugin-import
-     ["component", [{    
-        "libraryName": "element-ui",           //按需引用element-ui插件
-        "libraryDirectory": "src/components",    //指定从哪导入。
-        //"styleLibraryName": "theme-default"   //按需引用element-ui主题 
-     }]]
-  ],
-  "comments": false,// 在生成的文件中，不产生注释
-    // 下面这段是在特定的环境中所执行的转码规则，当环境变量是下面的test就会覆盖上面的设置
-  "env": {
-    // test 是提前设置的环境变量，如果没有设置BABEL_ENV则使用NODE_ENV，如果都没有设置默认就是development
-    "test": {
-      "presets": ["env", "stage-2"],
-      "plugins": [ "istanbul" ]    // instanbul是一个用来测试转码后代码的工具
-    }
-  }
-}
+/*==========
+安装：npm install -D jest babel-jest babel-core babel-preset-env regenerator-runtime
+babel-jest、 babel-core、 regenerator-runtime、babel-preset-env这几个依赖是为了让我们可以使用ES6的语法特性进行单元测试。
+将测试脚本放在__tests__文件夹下。
+/root/__tests__/test.js
+===========*/
 ```
-**webpack中配置如下**：[bable官网](https://www.babeljs.cn/docs/babel-preset-env)。[.babelrc文件作用及属性，部分组件按需引入，需要配置。](https://www.cnblogs.com/wulinzi/p/8079509.html)
-- `{ test:/\.js$/, use: 'babel-loader', exclude:/node_modules/ }`#exclude指定排除掉的文件夹。 如果不排除 node_modules， 则Babel 会把 node_modules 中所有的 第三方 JS 文件，都打包编译，这样，会非常消耗CPU，同时，打包速度非常慢；
-
 #### 18、html2canvas使用：
 用于将页面的html节点转化为图片，注意若其中包含图片，使用img标签而不要使用背景图。否则生成的图片不清晰。
 ```js
@@ -4637,7 +4650,7 @@ const _el = document.getElementById("img");
 :::
 - 安装：解压后进入目录，sudo ./configure运行配置生成Makefile文件，当前目录下再make,make install编译安装，在/usr/local下会出现nginx目录。
 - 配置如下：似乎新版nginx默认支持
-```s
+```js
 #工作模式及连接数上限
 events {
     worker_connections 1024;    #单个后台worker process进程的最大并发链接数
@@ -4650,7 +4663,7 @@ http {
         listen 443;     # 监听本机所有ip上的 443 端口
         listen 80;      # 可设置监听多个端口
         server_name  aa.xx.com; # 域名地址
-        
+
         #反向代理的路径（和upstream绑定），location 后面设置映射的路径
         location / {
             proxy_pass http://zp_server1;
