@@ -1066,7 +1066,7 @@ u'字符'(字符串前加u表示使用unicode[utf-8]进行编码，中文使用)
 - **类型转换**：可以直接转换一个数组的所有值：str(list)。[学习地址。](https://www.runoob.com/python/python-strings.html)
 - **空字符串判断**：`string.isalnum()`#如果 string 至少有一个字符并且所有字符都是字母或数字则返回 True,否则返回 False。还有很多其他字符串操作函数。
 - **join()的使用**：
-```
+```py
 c = '-'.join(('a','b'))#将列表或元组用指定字符连接，如果列表值为数值型要转str
 txt.strip('\n')//删除字符串中的转行符，rstrip(),lstrip()删除左右的，string.replace('a','s')//将string字符串中的a全部替换为s。
 [startswith()]str.startswith(str, beg=0,end=len(string));检查字符串是否以指定字符开头，beg，end指定检查的起始和结束位置。
@@ -1084,7 +1084,7 @@ with open('data/train.txt','w') as data_a,\
 ```
 #### a4、sys模块
 [一个详解教程](https://www.cnblogs.com/fmgao-technology/p/9074282.html)
-```python
+```py
 import sys
 sys.argv[0]#实现从程序外部向程序传递参数。
 print(sys.maxunicode)#查看python内部使用的编码，1114111就是UCS-4编码，65535就是UCS-2
@@ -1096,7 +1096,7 @@ b = sys.stdout.write(a)
 ```
 #### a5、codecs模块
 python的内部是使用unicode来处理的，但是unicode的使用需要考虑的是它的编码格式有两种，一是UCS-2，它一共有65536个码 位，另一种是UCS-4，它有2147483648g个码位。对于这两种格式，python都是支持的。import codecs
-```python
+```py
 look1 = codecs.lookup('gb2312')#创建编码器，传入类型。
 a = look1.encode('中文')#对str类型编码
 b = look1.decode(a)#对bytes类型解码
@@ -1106,7 +1106,7 @@ print(file.read())
 ```
 #### a6、迭代器与生成器
 举例，如果我们想要自己实现一个和range()函数一样功能的函数可能会使用循环来生成一个列表然后返回该列表来实现，但当要生产的列表非常长时这会非常占用内存，更有效的解决办法是让其变成一个迭代对象(一种惰性获取数据项的方式：可理解为先记录要生产的列表长度，然后在使用其值时才会去生成对应的那个值，这样就解决了占用内存的问题)，所以在用print()打印出来时，列表直接时一串值，而迭代对像是一个(iterable(i=10))之类的信息。python中使用yield实现：
-```python
+```py
 #------迭代器
 ak = [1,2,3]
 bn = iter(ak) # 将ak作为迭代对象。
@@ -1129,7 +1129,7 @@ item = next(bn) #next(yd)，iter和yield作用的迭代器都可用循环和next
 ```
 #注意：如果将该迭代赋值给一个变量则智能执行一个完整迭代(迭代完后失效)
 #### a7、装饰器@
-```python
+```py
 def log(func):#会先运行log函数再运行test函数
     print('enter log')
     func()
@@ -1142,7 +1142,7 @@ def test():
 ```
 test()#若不运行test函数也不会运行log函数 
 类中使用的@property：
-```python
+```py
 class animale(object):
     @property#为避免类中的公共变量被随意修改，使用@property和函数
     def weight(self):#配合才能修改，确保一定安全
@@ -1158,7 +1158,7 @@ dog.weight = 15#其实改变的是aw的值。若是改变一个列表or字典的
 #改为dog.list=('a',12);修饰符内:self._val[arg[0]]=arg[1]形式     
 ```
 #### a8、json与python字典互转
-```python
+```py
 import json
 dat = open("dat.json","r")
 dat = dat.read()#获取json文件中的数据
@@ -1175,7 +1175,7 @@ class DecimalEncoder(json.JSONEncoder):#似乎无效，以后研究
 ```
 #### a9、piclke模块的使用
 pickle类似于json的使用，pickle也是用于序列化的模块，不过pickle用于python特有的类型和python数据类型间进行转换。
-```python
+```py
 import pickle
 obj = ['a','b',1]
 with open('k.txt','wb') as file:
@@ -1188,7 +1188,7 @@ with open('k.txt','wb') as file:
 
 #### b1、杂项：
 **math模块**：
-```python
+```py
 import math
 x = math.floor(2.3)#2 下舍
 x = math.ceil(2.3)#3 上舍
@@ -1197,13 +1197,13 @@ x = math.ceil(2.3)#3 上舍
 **callable()函数**：判断一个对象是否是可调用()函数。if callable(fun):#若fun是一个函数的话则返回True
 [argparse模块]https://www.cnblogs.com/dengtou/p/8413609.html
 [tqdm]tqdm模块可以在循环体中显示进度。(非python自带模块，需要pip install tqdm)
-```python
+```py
 from tqdm import tqdm
 for i in tqdm(range(1314520)):#套在一个迭代器外使用即可
     print('zz')
 ```
 [Decode error - output not utf-8]**错误解决**：python默认使用的编码方式一般是cp936而文件一般使用的编码是utf-8，在运行中解析非英文型字符时就会报这种错误，一些编辑器对此问题做了处理所以不会报错，而一些编辑器未做处理时就有这样的错误，解决如下：
-```python
+```py
 import sys,io
 sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 ```
@@ -1212,7 +1212,7 @@ sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 **PIL模块**：https://www.cnblogs.com/moying-wq/p/10982135.html
 **any() 函数**：用于判断给定的可迭代参数 iterable 是否全部为 False，则返回 False，如果有一个为 True，则返回 True。元素除了是 0、空、FALSE 外都算 TRUE。
 #### b2、random模块
-```python
+```py
 import random
 a = random.random()#随机生成一个在0-1之间的数
 b = random.uniform(1,10)#随机生成指定范围内的浮点数
@@ -1224,7 +1224,7 @@ g = random.sample(lst,3)#向lst中随机选取3个数
 ```
 #### b3、python正则
 在匹配函数后加.span()获得索引值，加group()获得匹配结果
-```python
+```py
 import re
 #compile()创建一个正则模式,参数为正则规则,第二个参数为匹配模式，
 #re.l表示忽略大小写,re.M(多行模式),re.X(忽略空格和#后面的注释)
@@ -1257,7 +1257,7 @@ if a==None:
 https://blog.csdn.net/qq_38542085/article/details/78562458
 #### b5、数据类型判断
 使用type(data)来获取数据的类型，使用isinstance(data,cla)判断是哪一类型：
-```python
+```py
 v = (1,2,3,4,5)
 if isinstance(v,tuple):print('is tuple')
 if isinstance(v,list):print('is list')
@@ -1271,7 +1271,7 @@ if(type(v)==tuple):
 Python中使用del进行垃圾回收，将不用的对象销毁。
 数据类型转换：`int("6",32)`#字符串转整型。`float(3);float('5.5')`#转浮点型。`str(4)`#转串。
 #### b6、requests模块的使用：
-```python
+```py
 import requests
 url = 'http://localhost:8080'
 r = requests.get(url)#get(),post()对应请求的方式，其它请求方式也类似这样使用。如：put(),delete(),head()...
@@ -1283,30 +1283,30 @@ print(r1.text,r1.json,r1.content)#text是网页结构内容，json是解析后�
 [requests模块的使用。](https://blog.csdn.net/lmz_lmz/article/details/83864863)
 #### b7、python的深浅拷贝：
 浅拷贝：数据完全共享
-```python
+```py
 a = [1,2,3]
 b = a#改变b的值也会改变a的值，字典也是如此
 ```
 浅拷贝：数据半共享
-```python
+```py
 # 其它的python数据结构都有copy()功能。
 a = [[2,3,4],[5,6,7],7,8,9]
 b = a.copy()#内部多层子数组是共享的，第一层的7,8,9是不共享的。
 ```
 深拷贝：完全不共享
-```python
+```py
 import copy
 a = [1,[2,3,4]]
 b = copy.deepcopy(a)
 ```
 #### b8、实现排列组合：
-```python
+```py
 import itertools
 print(list(itertools.combinations([1,2,3,4],2)))#组合，无顺序限制
 list(itertools.permutations([1,2,3,4],2))#排列
 ```
 嵌套函数修改其主函数的变量：
-```python
+```py
 def a():
     mm = 1
     def b():
@@ -1316,7 +1316,7 @@ def a():
     b()
 ```
 #### b9、异常检测：
-```python
+```py
 try:
     prt('vv')
 except IndexError as e:
@@ -1336,7 +1336,7 @@ PEP的全称是Python Enhancement Proposals，其中Enhancement是增强改进�
 **help()和dir()**:
 dir()用来查询一个类或者对象所有属性，比如：
 help()帮助查看类型详细信息，包含类的创建方式、属性、方法
-```python
+```py
 help(pandas)
 dir(list)
 ```
@@ -1345,7 +1345,7 @@ operator模块是一些实现和python自带的计算方法，如加、减、异
 **打包为exe文件**：pip install pyinstaller。对要打包的文件进行：pyinstaller -F target.py#对应目录下出现一个dist目录，里面有编译装载链接后的文件。
 ### 34、python多线程和锁:
 一个程序可以有多个进程,一个进程可以有多个线程这与js的异步执行是一样的，Python2中使用thread模块，在python3中废弃，使用_thread和threading模块，这里记录threading模块的使用。
-```
+```py
 import threading
 arr = []
 class c_thread(threading.Thread):#继承threading中的Thread类
@@ -1364,7 +1364,7 @@ td1.start()#开启线程
 td1.join()#等待开启的所有线程结束，一些需要等到所有线程结束的操作写在这步后面即可。
 ```
 虽然是多线程不过在计算的数据量不大时还是几乎会看到一个线程运行的结束了另一个才开始这种效果，因为计算机的运行速度很快的原因。如果多个线程都操作一个共同的变量可能产生的结果并不是我们想要的(例如:我们运行一段代码看结果是否要继续之后的操)。<i class="blue">所以引入了锁的概念(这也叫线程同步)，锁有两个状态：锁定和未锁定</i>，当第一个线程访问到共享变量时获得锁定，操作完共享变量后结束锁定，如果该操作期间有其它线程也运行到访问该变量则让该线程挂起，即同步阻塞,实现如下：
-```
+```py
 lock = threading.Lock()#创建锁
 #run()函数中如下
 lock.acquire()#运行到此处的线程获得锁定
@@ -1372,7 +1372,7 @@ function()#执行的操作
 lock.release()#释放锁，让下一个线程进入。
 ```
 <i class="blue">线程优先级队列Queue</i>，Queue模块提供了同步的、安全的队列类：
-```
+```py
 import queue
 q = queue.Queue(10)#创建先进先出队列，10个
 q.put(1)#填充数据
@@ -1384,6 +1384,7 @@ Queue.qsize()#返回队列大小，Queue.empty()#判断队列是否为空，Queu
 https://blog.csdn.net/hellenlee22/article/details/91047807
 ### 62、python发送邮件：
 准备工作：指定的发送邮箱需要开启SMTP服务，进入电脑版邮箱中点击设置>用户选项，滚到下方点击开启POP3/SMTP服务，点击后按提示发送短信开启并获得第三方登录授权码。（SMTP协议将邮件内容转码为机器码进行发送，接受端有pop3协议进行解码为人类可识别编码方式）。
+```py
 from email.mime.text import MIMEText    #导入邮件模块
 import smtplib  #导入smtp协议模块
 from email.header import Header
@@ -1392,13 +1393,17 @@ message = MIMEText('content','plain','utf-8')  #MIMEText()方法配置邮件参�
 message['From'] = Header("吴呈师",'utf-8')#发件人项处显示
 message['To'] = Header('测试','utf-8')#收件人项显示
 message['subject'] = Header('nice','utf-8') #邮件标题
-以上的 message中的设置发件人，收件人，标题时，里面的对象名一定要用From,To,subject;并且调用Header()方法才行
-server = smtplib.SMTP(server_add,port,hostname) #SMTP()方法调用SMTP服务，第一个参数为服务地址:smtp.qq.com;第二个参数为服务端口号默认25，第三个为主机名(可不填)。
-server.login(from,password) #login()方法登录，第一个参数为发送者邮箱，第二个参数为授权码(使用python操作是属于第三方登录所以不能使用密码只能使用授权码(授权码无空格))。
-server.sendmail(from,to,message.as_string())#使用sendmail()方法开始发送邮件，to(收件者换位一个数组时可发送多个),参数为发送者邮箱、收件者邮箱、信息，as_string()方法将其转换为字符串。(可同时发送给多个人)。
-[我的邮箱登录授权码]mdmiylsovcthdjfd
+ # 以上的 message中的设置发件人，收件人，标题时，里面的对象名一定要用From,To,subject;并且调用Header()方法才行
+ # SMTP()方法调用SMTP服务，第一个参数为服务地址:smtp.qq.com;第二个参数为服务端口号默认25，第三个为主机名(可不填)。
+server = smtplib.SMTP(server_add,port,hostname)
+#login()方法登录，第一个参数为发送者邮箱，第二个参数为授权码(使用python操作是属于第三方登录所以不能使用密码只能使用授权码(授权码无空格))。
+server.login(from,password)
+#使用sendmail()方法开始发送邮件，to(收件者换位一个数组时可发送多个),参数为发送者邮箱、收件者邮箱、信息，as_string()方法将其转换为
+server.sendmail(from,to,message.as_string())字符串。(可同时发送给多个人)。
+#[我的邮箱登录授权码]mdmiylsovcthdjfd
 server.set_debuglevel(1)#set_debuglevel(1)打印相关信息
 server.quit()#退出服务;如下图：
+```
 ![](_v_images/20200228140233665_838760176.png)
 
 
@@ -1488,14 +1493,143 @@ public class xsww{
 }
 ```
 
-## 三、C：
+## 三、C++：
+基础：
+- 环境安装：linux系统自带c++，win上可以安装vs直接开发。到vs官网下载社区免费版，登录可免费试用。
+- 创建：用vs创建一个c++工程。主入口文件放在：**源文件**下，默认为：`源.cpp`。
+- 头部文件：一般放置定义的常量、类型（用`.h`或`.hpp`做扩展名）。也可以是一些图片、xml等资源文件。
+- 引入其它自定义模块：
+```c++
+/*<>：该符号包含的头文件表示：让编译器在（编译器的预设标准路径下）去搜索相应的头文件*/
+#include <iostream>            //导入自带的模块
+#include "module/line.cpp"     //导入自己写的cpp文件。不能含有main()函数。
+using namespace std;           //告诉编译器使用 std 命名空间
+#define TYPE true             //定义一个常量。【注意：后面不加分号，不然使用时报错】
+// 变量声明（外部声明过的则是全局变量）
+extern float f;                //extern通常用于当有两个或多个文件共享相同的全局变量或函数
+i++; //先引用后增加，先在i所在的表达式中使用i的当前值，后让i加1
+++i; //先增加后引用，让i先加1，然后在i所在的表达式中使用i的新值
+// main为主入口函数。只能在主入口文件使用。
+int main(){
+    hello();                   //hello()是：line.cpp文件中定义的，可直接掉用。
+    // 条件编译
+    #ifdef TYPE                //只要值TYPE有声明，被#ifdef和#endif包围的代码块会被加入编译。
+    cout << "值TYPE存在";
+    #endif
+
+    return 0;                  // 非void修饰的函数，需要返回值来中断函数运行
+}
+```
 **数据类型**：
-```c
-int ig;//定义一个整型
-ElemType a;//表示可能是任何类型的变量。
+```c++
+int ig;            //定义一个整型
+unsigned a;        //表示可能是任何类型的变量。
+auto c = 10.25;    //auto：然编译器自动适应类型。
+/*=============
+    typedef：为现有类型创建一个新的名字。
+===============*/
+typedef int Pop[3];
+Pop cx = {1,2,3};  //直接用Pop作为一个类型。特别在结构体较常用！
+void sc = 89;      //void修饰的可为任意类型，但数组、函数的参数，不能是void类型。
+/*=============
+    字符串
+===============*/
+string st1 = "hello";
+string st2 = "world";
+
+cout << st1 + st2;//  相加进行字符串连接。与strcat(st1,st2);一样。
+strlen(st1);//        字符串长度
+strcpy(st1,st2);    //将st2值赋给st1.
+/**===============
+       数组
+==================*/
+// 声明一个长为3的数组，长度也可以不写。
+string arr[3] = {'a','b','c'};
+// 得出数组长度
+sizeof(arr);
+/*====================
+    结构体(struct)：是由一系列具有相同类型或不同类型的数据构成的数据集合，叫做结构。
+======================*/
+struct Book {
+	string title;
+	int pages;
+	bool isFree;
+  struct Book *next;  //结构体内指针。
+} *Bpoint;            //后面可以顺便定义1个该结构体的指针。
+
+Book book;            //用声明好的Book结构，来定义一个该格式的结构体。
+book.title = "title";
+Bpoint bot = &book;   //指针bot指向book地址。
+cout << bot->next;    //用箭头符号来获取指针。
+/*=============
+    new的使用
+===============*/
+auto s = new Book;    //new用于动态存储，申请一个存储空间，返回一个地址指针。
+
+qee.front = qee.rear = new QNode;       //这种赋值会公用一个节点空间。
+qee.rear->data = 10;
+cout << "val:" << qee.front->data;     //10
+auto cc = (s*)malloc(sizeof(Book));    //malloc()函数分配指定长字节的存储空间。
+/*=============
+    函数
+===============*/
+int acc(int p){return 0;}                //return表示结束函数，值类型要与函数类型一致
+/*
+    第一个参数为普通形参，修改形参值不改变外面实际传入数据。
+    第二个参数为指针传参，指向实际数据地址。
+    第三个参数为引用传参，修改其值也会修改外面的实际值。
+*/
+void ahh(string k,int *cc,int &op){     //void类型可以不用返回任何值。
+    op = 799;
+    cc = &op;
+}
+```
+**输入&输出**：
+
+```c++
+/*==============
+    输入：cin,scanf
+================*/
+char name[5];
+string aa;
+cin >> name;                  //输入的值，赋给name。
+cin >> name >> aa;            //可同时输入多个
+cin.getline();                //接受一个字符串的输入包括空格，遇到回车停止。
+cin.clear();                  //清除异常
+scanf("%s",aa);               //也可以调用输入，赋值给aa。
+/*===============
+    输出：cout,clog,cerr
+=================*/
+clog << "Error message : " << endl;        // clog用于打印日志
+cerr << "Error message : " << endl;        // cerr打印错误流
+cout << "result" << endl;                  // 输出。endl表示结束
+system("exit");               //退出命令框
 ```
 **操作符**：
 `&`：**返回变量的地址**，如&a表示给出变量a的实际地址。
 `*`：将指向一个变量，如`*a`，`LNODE* p`表示指向p，但`a * b`表示两数相乘。
 `<<=`：左移且赋值运算符，C <<= 2 等同于 C = C << 2
 `<<`：二进制左移运算符。将一个运算对象的各二进制位全部左移若干位。
+**指针**：指针是一个变量，其值为另一个变量的地址。(变量地址也必须赋值给指针！)。**引用**：引用变量是一个别名，也就是说，它是某个已存在变量的另一个名字。
+```c++
+typedef struct LNode {
+	int data;
+	struct LNode* next;
+}LNode,*LinkList;
+
+int main(){
+    string a = "hello";
+    // *表示该变量是一个指针（指针用于指向一个存储地址【十六进制数】）
+    int *point = &a;
+    // 变量前使用&符号，可以获取其在主存中的位置！
+    cout << "a 的地址：" << point;
+    double &s = a;                    // 引用变量a，相当于指向a的地址。用&表示引用。
+    a = "world";                      // a改变，s也会改变。
+    LNode na1,na2;
+    na1.data = 10;na2.data = 11;      // 两个节点。
+    LinkList la,lb;                   // 两个LinkList类型指针。
+    la = &na1;
+    la->next = &na2;                  // 节点1指针指向节点2.
+    return 0;
+}
+```

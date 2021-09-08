@@ -103,7 +103,7 @@ weather//n,天气                                            wiki//n,维基百�
 >形容词性从句：<b class="red">在句子中的作用相当于形容词词。</b>定语从句。
 >副词性从句：<b class="red">在句子中的作用相当于副词。</b>状语从句。还可以分为条件状语从句、原因状语从句、地点状语从句、目的状语从句、让步状语从句、比较状语从句、方式状语从句、结果状语从句和时间状语从句（常见引导词为：before，after，as等）。
 - [学习地址。](https://www.vipkid.com.cn/posts/11345.html)
-## e、短语、语法、特殊词：
+## e、短语&特殊词：
 - **名词所有格**：名词有三个格：主格、宾格、所有格，主格与宾格形式相同所以统称为通格，名词做主语，宾语，表语时用通格。所有格形式有：'s和of所有格，举例如下：
 today's paper(今天的报纸) #有生命的、时间、地点、距离也可加's。其它可以用of： the title of the book.
 - **as相关**：(1)、表示当某人身份时：As a gardener,hell take care of all flowers。(2)、`as/so long as:只要`#As long as we dont nose hert,we will find a way to over the difficult。（3）`as/so far as:据..就..`#As far as i know.（4）`so as to do>为了做...`#They started early so as to catch the first bus.（5）`so...as to...>如此..以至于`#You are so kind as to show me the way.（6）`as a matter of fact`#其实，实际上。（7）`may/might as well`#还是，还不如。（8）as well as#既..又...，以及、此外。（9）`as...as...`#和什么一样。
@@ -134,7 +134,7 @@ today's paper(今天的报纸) #有生命的、时间、地点、距离也可加
 >where：指代地点。i wonder where she lives#我想知道她住哪。
 >which：一般指代物。常用于引导定语从句。 This is the family which is plaining  to move to party#这是要搬进城里的一家人。
 >**who和whom**：指代人。whom只能在从句中做宾语，who可做主语。He is the boy who came to our class yesterday
-## f、数值、时间、日期：
+## f、数值&时间&日期：
 <i class="label1">数值的表示</i>
 - 0-10：zero、one、two、three、four、five、six、seven、eight、nine、then（10）。
 - 11-19：eleven、twelve、thirteen、fourteen、fifteen、sixteen、eighteen、nineteen（19）。
@@ -162,31 +162,35 @@ today's paper(今天的报纸) #有生命的、时间、地点、距离也可加
 - **日期表示**：2014年6月1日：`1 Jun,2014`或`Jun 1st,2014`#1和1st可以换用。
 - **星期**：Monday（星期一）、Tuesday（星期二）、Wednesday（星期三）、Tursday（星期四）、Friday（星期五）、Saturday（星期六）、Sunday（星期日）。
 
-## g、天气心情：
-- 雨：rainy、shower(阵雨)、few showers(短暂阵雨)、light rain shower(小阵雨)、light dirrzle(微雨)、downpour(暴雨)、heavy rain(大雨)、rainstorms(暴风雨)、ice rain(冻雨)。
-- 风：wind、land wind(陆风)、hurricane(飓风)、whirlwind(旋风)、typhoon(台风)、tornado(龙卷风)、gale(季节风)、breeze(微风)、calm(无风)、violent storm(暴风)。
-- 晴：fine、fair。
-- 云：cloud、mostly sunny(晴时多云)、partly cloudy(局部多云)。
-- 雪：snow、drifting snow(飘雪)、snowfall(降雪)、bizzard(大风雪)、rain and snow(雨夹雪)、snowfalk(雪花)、`snowstorms`(暴风雪)。
-- 雾：fog、smoke(烟雾)、haze/mist(薄雾)。
-- 霜：fost
-- 冰：ice、icicle(冰柱)
-- [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)
-
-<i class="label1">表示情绪的词</i>
-- 快活的：chirrupy 、 felicity(幸福的)、excited(兴奋的)、pleasure（愉快,高兴）。兴高采烈的：merry、ecstasy（狂喜,入迷）。
-- anxious(挂念的)、lonly(孤独的)。downcast(萎靡不振的)。
-- sorrowful(忧伤的)、gloomy(忧郁的)、
-- miserable( 悲哀的)、heart-broken(伤心的)
-- shirty(生气的)、moodily(易生气的)、angry(愤怒的)
 
 ## h、常见事物词汇：
-- 器官相关：shoes(鞋子)、leg(腿，下肢)、shank(小腿)、thigh(大腿)、foreleg(前腿)、hindleg(后腿)。`abdomen`(腹部)、noses(鼻子)
+- 人体相关：shoes(鞋子)、leg(腿，下肢)、shank(小腿)、thigh(大腿)、foreleg(前腿)、hindleg(后腿)。`abdomen`(腹部)、noses(鼻子)、belt(皮带)、ear(耳朵)、胸(chest,bosom)、breasm(乳房)、hair(头发)、皮肤(skin,derma)。生殖器(genital organ)、finger(手指)、arm、脊椎(vertebration,chine)、腰(loin,haunch)、臀部(buttocks)、vagian(阴道)。
 - 方位词：behind(在..后面)、below(正下方)、beside(在..旁边)、next to(紧挨着)、on opposite(对面)、outside the house(房子外面)、over(在上面)、under
-- 动物：cattle(牛犁)、dog、pig
-- 地名：`Indonesia`(印度尼西亚)、Harvard University(哈弗大学)
-- 运动：游泳：swim。run、basketball、volleyball、football。羽毛球：badminton，shuttlecock。
-
+- **动物**：cattle(牛犁)、dog、pig、mice(老鼠)、snake、chook(鸡)、tiger(老虎)、elephant(大象)、lion(狮子)、cat(猫)、duck(鸭子)、penguin(企鹅)、奶牛(dairy,cow)、fish(鱼)、
+- 地名机构名：`Indonesia`(印度尼西亚)、Harvard University(哈弗大学)、`France`(法国)、Britain(英国)、Portugal(葡萄牙)、`Silicon Valley`(硅谷)、Tonkin(东京)、
+- 学科：数学(mathematics; arith; math)。地理学(geography)、physics(物理学)、psychology(心里学)、astronomy(天文学)、biology(生物学)、chymistry(化学)。
+- **运动**：游泳：swim。run、basketball、volleyball、football。羽毛球：badminton，shuttlecock。shoot(射击)、gym(体操)、marathon(马拉松)、dive(跳水)、fencing(击剑)、
+- 专有名词：`Buddhist`(佛教徒)、grass(草)、tree、flower。
+- 交通工具：自行车(bicycle,bike,cycle)。卡车(lorry,truck)。轿车，汽车(bus,car)。火车(train,horse)。飞机(airplane,aircraft)。轮船(steamer)。
+- 地区级别：country、city、rural(乡村)、province。
+- 政务相关：prosecuted(起诉、检举) ，corruption(贪污，贿赂)。office(官方)、 bribery(行贿）、penalties(处罚)、
+- 形近词：aspect(方面)、respect(受尊重的)、inspect(检查)。【expect(v:期待、expectant：adj:期待的)，except(除..之外)，experience(经历、体验)】。【detecting(发现) deception(欺骗),decide(决定)】
+- **天气**：冰：ice、icicle(冰柱)。雾：fog、smoke(烟雾)、haze/mist(薄雾)。霜(fost)。晴：fine、fair。
+    1. 雪：snow、drifting snow(飘雪)、snowfall(降雪)、bizzard(大风雪)、rain and snow(雨夹雪)、snowfalk(雪花)、`snowstorms`(暴风雪)。
+    2. 云：cloud、mostly sunny(晴时多云)、partly cloudy(局部多云)。
+    3. 雨：rainy、shower(阵雨)、few showers(短暂阵雨)、light rain shower(小阵雨)、light dirrzle(微雨)、downpour(暴雨)、heavy rain(大雨)、rainstorms(暴风雨)、ice rain(冻雨)。
+    4. 风：wind、land wind(陆风)、hurricane(飓风)、whirlwind(旋风)、typhoon(台风)、tornado(龙卷风)、gale(季节风)、breeze(微风)、calm(无风)、violent storm(暴风)。
+- **情绪**：anxious(挂念的)、lonly(孤独的)。downcast(萎靡不振的)。
+    - 快活的：chirrupy 、 felicity(幸福的)、excited(兴奋的)、pleasure（愉快,高兴）。兴高采烈的：merry、ecstasy（狂喜,入迷）。
+    - sorrowful(忧伤的)、gloomy(忧郁的)、 miserable( 悲哀的)、heart-broken(伤心的)。shirty(生气的)、moodily(易生气的)、angry(愤怒的)
+- [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)
+## 语法：
+Come round for lunch and then we can discuss it at leisure. 【有空过来吃午饭吧，我们可以慢慢聊】
+he `resigned`(辞职) after his `implication`(含义、牵连) in a sex Scandal.【他在涉及一件性丑闻事件后辞职了】
+I `have no` intention of going to the wedding.【我无意去参加婚礼】
+At the Sheffield arena,the speakers were magnified `then times`(10倍) on a giant screen.【在谢菲尔体育馆，演讲者在一个巨大的屏幕上被放大十倍】
+分类了解：
+教育、军事、政治、医学、地理、历史、交通、科技、语言、宗教观念、影视、古典文学、名人
 # 2、物理：
 **功率**：是指物体在单位时间内所做的功的多少，即功率是描述做功快慢的物理量。功的数量一定，时间越短，功率值就越大。求功率的公式为功率=功/时间。
 牛顿第二运动定律：物体加速度的大小跟作用力成正比，跟物体的质量成反比，且与物体质量的倒数成正比；加速度的方向跟作用力的方向相同。`F=ma`#F与a的方向相同，F与a相反时需加负号。

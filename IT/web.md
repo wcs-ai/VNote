@@ -352,12 +352,6 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 <meta name="apple-mobile-web-app-capable" content="yes"><!--设置Web应用是否以全屏模式运行,content的默认值是no-->
 ```
 
-#### 8、交互设计：
-- 移动端尺寸处理：移动端页面一般都要支持手机上打开无论屏宽，按ui比例显示界面，不过用电脑或平板也应该能打开，<b c=v>所以最外层应该设置个max-width并居中，让pc端也能正常显示。</b>
-- 非堆叠页面及元素的尺寸处理：<b c=gn>元素从上到下几乎用默认流放置的布局页面，我称为堆叠的。</b>
-（1）pc端堆叠类页面，单位一般使用px，大体布局的地方结合百分比使用，设置min-width和适当使用@media，让部分较小的笔记本电脑也能正常显示。
-（2）pc端非堆叠类，例如登录页面，由于登录表单部分较大，如果一样使用px单位，一些傻x用户使用较低的分辨率或系统设置缩放会导致问题，**使用vw或rem这些单位**（vw类型单位的话都统一使用vw或vh这样能保持一个块的比列），然后设置min-width来限制是一个较好的方法。
-
 #### 9、好用标签：
 **hr标签**：
 ```html
@@ -569,12 +563,26 @@ input:foucs{
     outline:none;
     border:1px solid green;
 }
+/*修改placeholder字体样式*/
+input::-webkit-input-placeholder{
+    color: revert;
+}
 ```
 - **媒体查询器**：`@media only screen and (min-width: 300px) and (max-width: 768px) {}`
 - 平滑滚动：scroll-behavier:smooth;//发生滚动时更平滑(锚点跳转、改变scrollTop值)
 - 调整字间距：letter-spacing:5px；
 - 将table元素中的表格间距取消：border-collapse:collapse;
 - 两端对齐：text-align：justify;和text-align-last:justify;(一起使用)。最好将要对其子元素设置为inline-block元素。
+- 禁止选中文本：
+```css
+{
+-moz-user-select: none; /*火狐*/
+-webkit-user-select: none; /*webkit浏览器*/
+-ms-user-select: none; /*IE10*/
+-khtml-user-select: none; /*早期浏览器*/
+user-select: none;
+}
+```
 - **背景图片设置**：
 ```css
 background:url(" ") no-repeat;
@@ -946,17 +954,18 @@ $subMenuHover: #9900ff;
 
 **字符**：
 其它类型转为string：`String(val)`#无论val是什么类型都会转为对应的字符串。
-`parseInt('0xAA',16)`//parseInt第二个参数可以指定将字符串转为直接的进制数。0xAA本身是16进制。
-`x.toString()`//转为字符串。`x.replace(/target/g,'')`//替换,g表示所有满足的都替换。`x.concat(“a”,”b”)`//可与x连接多个字符串。
-`x.charAt(index)`//查找字符串的对应下标的值,`“justice”.charAt(1)=”u”`。
-`"a".toUpperCase()`方法将小写字母转换为大写,`"A".toLowerCase()`#将大写字母转为小写。
-`str.substring(start,end)`//提取字符串中介于两个下标间的字符串，一个参数时为start，截取后面所有。**在源数据上操作**。
-`str.substr(start,length)`#第二个参数为选择从start起截取多少个长度字符。<b c=r>不改变原数据的值。</b>
-`str.indexOf('aa')`#查找字符串位置。
-`str.search('abc')`#找到子串开始位置。
-`str1.concat(str2)`#连接两个字符串，返回一个新的值。
-`"*".repeat(3)`#生成3个重复的字符。
 ```js
+parseInt('0xAA',16)//parseInt第二个参数可以指定将字符串转为直接的进制数。0xAA本身是16进制。
+x.toString()//转为字符串。`x.replace(/target/g,'')`//替换,g表示所有满足的都替换。`x.concat(“a”,”b”)`//可与x连接多个字符串。
+x.charAt(index)//查找字符串的对应下标的值,`“justice”.charAt(1)=”u”`。
+"a".toUpperCase();//方法将小写字母转换为大写,`"A".toLowerCase()`#将大写字母转为小写。
+str.substring(start,end)//提取字符串中介于两个下标间的字符串，一个参数时为start，截取后面所有。**在源数据上操作**。
+str.substr(start,length)//第二个参数为选择从start起截取多少个长度字符。<b c=r>不改变原数据的值。</b>
+str.indexOf('aa')//查找字符串位置。
+str.search('abc')//找到子串开始位置。
+str1.concat(str2)//连接两个字符串，返回一个新的值。
+"*".repeat(3)//生成3个重复的字符。
+
 "aaj,b_b".lastIndexOf("b",2);// 返回最后一个字符出现的位置，第二个参数表示开始检索的位置。
 var str = '大米:2.57斤/元,白菜:3.65元/斤';
 var arr = str.match(/\d+(.\d+)?/g); //match()方法找到所有匹配的项，返回一个数组。
@@ -973,18 +982,39 @@ console.log(a.test('aaebc'));// 返回布尔值
 console.log(a.exec('kke,mme'));//只能找到第一个匹配项，放回一个列表形式的记录（有匹配到的值）。
 ```
 **数组**：
-- `list.indexOf(1)`//找到第一个1在列表中的位置，不在则返回-1。
-- `list.includes(1)`//是否包含1，返回布尔值。
-- `list.join("-"`)//将各元素用字符链接。
-- `list.push(1)`//在列表最后添加值。
-- `list.pop()`//删除最后一个元素。
-- `unshift()`//在数组最前端添加一个新的值。
-- `arr.sort()`#不传参数的话，默认将arr中的值看成字符串来排序。
-- `k = arr.from(T)`#T转换成数组，T可以是字符串、列表、set。
-- `var a = arr.some(function(item,index,arr){if(item>2){return true;}})`#返回true时会结束遍历，arr是整个数组本身。a为布尔值。
-- `var a = arr.find((x)=>{return x>=4;})`#与some类似用法。返回为true时对应的值。
-- `var b = arr.filter((x)=>{return x%2==0;})`#返回所有满足条件的值，是一个数组。
+
 ```js
+list.indexOf(1)//找到第一个1在列表中的位置，不在则返回-1。
+list.includes(1)//是否包含1，返回布尔值。
+list.join("-")//将各元素用字符链接。
+list.push(1)//在列表最后添加值。
+list.pop();//删除最后一个元素。
+list.unshift();//在数组最前端添加一个新的值。
+Array.from('dafl');//[d,a,f,l]
+[1,2,3].toString();//"1,2,3"
+Array.isArray({});//false
+arr.sort()//不传参数的话，默认将arr中的值看成字符串来排序。
+k = arr.from(T)//T转换成数组，T可以是字符串、列表、set。
+var k = arr.concat([1,2,3]);//or concat(6)
+var a = arr.some(function(item,index,arr){if(item>2){return true;}})//返回true时会结束遍历，arr是整个数组本身。a为布尔值。
+var a = arr.find((x)=>{return x>=4;})//与some类似用法。返回为true时对应的值。
+var b = arr.filter((x)=>{return x%2==0;})//返回所有满足条件的值，是一个数组。
+list.reverse()//将数组倒置，[1,2,3].reverse();//[3,2,1]。
+list.shift()//移除第一个元素。
+//instanceof//检查一个对象是否为了一个对象中的实例，Console.log(p1 instanceof p2);//p1是否为p2中的实例；
+/*=============
+    数组迭代器
+===============*/
+var e = ['a', 'b', 'c'].entries();
+e.next().value;//[0, 'a'];
+/*===============
+    全条件满足（全满足时为true）
+=================*/
+const _all = [1,2,3].every(v=>{
+    if(v<4){return true;}
+    else{return false;}
+})
+
 var arr = [1,8,2,4,3,9,0];
 // filter函数接收一个函数，这个函数作用于每一个值，返回true或false决定是否丢弃该值。
 var r = arr.filter(function (s) {
@@ -1008,9 +1038,7 @@ function getSum(total, num) {//total是上一次return的结果，num是数组�
 }
 console.warn(numbers.reduce(getSum));
 ```
-- `list.reverse()`//将数组倒置，[1,2,3].reverse();//[3,2,1]。
-- `list.shift()`//移除第一个元素。
-- `instanceof`//检查一个对象是否为了一个对象中的实例，Console.log(p1 instanceof p2);//p1是否为p2中的实例；
+
 - 注意：按引用类型操作的值，其后面操作改变了值，但前面值打印出来和改变后是一样的。
 
 - **数组去重**：
@@ -1032,9 +1060,23 @@ arr.forEach(function(value,index,data){});
 ```
 **对象**：从对象中取出多个属性然后上传时的场景，如果用obj.property的方式取值，若缺少该值时程序可能会**不执行也不报错**。
 ```js
+var obj = {a:1,b:3};
 Object.getPrototypeOf(person1) == Person.prototype; //true，获取对象属性。
 Object.getPrototypeOf(person1).name; //"Nicholas",但不能通过此方法来更改。
 Object.keys({a:1,b:2});//可枚举出对象的属性。
+Object.values(dict);//value值做一个数组
+// 键值对按数组返回
+Object.entries({a:3,b:8});//[['a',3],['b',8]]
+
+Object.is(obj1,obj2);//可对比两个值是否相等
+//冻结该对象，不能对其做修改
+Object.freeze(obj);
+//对象不能再添加新的属性。可修改，删除现有属性，不能添加新属性。
+Object.preventExtensions(obj);
+// 判断是否有指定属性
+obj.hasOwnProperty('a');
+//判断obj是否在obj2的原型链上。
+obj.isPrototypeOf(obj2)
 //getOwnPropertyNames()方法可以得到所有属性，包括对象的不可枚举属性。
 Object.getOwnPropertyNames(Person.prototype);
 //将对象的某个属性设置为是否可枚举。
@@ -1053,7 +1095,11 @@ Object.defineProperty(obj,'name',{
 //----缺点：无法监听到增加和删除操作，无法监听到内部数组的改变。
 Object.defineProperty(obj.hob,'0',{});// 监听改变对象中的数组值时
 Object.defineProperty(obj.at,'a',{})
-
+/*================
+    Object.create()
+该方法创建的数据只是指针指向原型，添加时才会在自身数据上添加，不大建议使用！
+==================*/
+Object.create({a:1,b:2});
 ```
 Object.defineProperty()方法可传有三个参数，第一个是要监听的对象，第二个是参数是该对象中已有的属性或未有的属性，第三个参数是对象的形式，里面可以写两个方法，set方法在改变目标对象中指定属性(第二个参数)时触发的函数，可传入一个参数表示被修改的值，get方法在目标对象指定属性值被获取时触发。set方法和get方法都是在对应的操作前就先触发的，比如：obj.name = 'jieke',是先触发set方法再运行obj.name='jieke'语句；第三个参数中也可以写访问器属性：
 ```js
@@ -1077,6 +1123,7 @@ Object.defineProperty(obj,'name',{
  });
  Object.getOwnPropertyDescriptor(obj,'name');//获取目标对象指定属性的描述
 ```
+- [Object方法集学习地址](https://www.cnblogs.com/mopagunda/p/8328084.html)
 - **列表，字典均属于Object类型**，即：`[1,2] instanceof Object`#为true，但`{a:1,b:2} instanceof Array`#为false。
 **undefined**：派生自null，因此`null==undefined`#返回true，使用全等符号才会返回false。已声明，未赋值的变量依然是undefined。但是没有声明的值使用，会直接报错。然而使用`typeof no(未声明值)`#得到的也是undefined类型，所以undefined不属于Object。
 **null**：表示一个空对象指针，因此用typeof检测时返回object（但`null instanceof Object`返回false）。如果该变量之后用于赋值一个对象，那初始赋值可以置为null。
@@ -1160,7 +1207,7 @@ var str = "javascript";
 console.log(window.btoa(str))//amF2YXNjcmlwdA==
 console.log(atob("amF2YXNjcmlwdA=="))// 'javascript'
 ```
-进制转换：
+**进制转换**：
 ```js
 (10).toString(16) // =>"a"。//10进制转为16进制10进制转为16进制
 (012).toString(16) // =>"a"。//8进制转为16进制//8进制转为16进制
@@ -1170,15 +1217,32 @@ console.log(atob("amF2YXNjcmlwdA=="))// 'javascript'
 #### 3、基础：
 - **SSE与WebSocket**:
 SSE(Server-Sent Eevents，服务器发送事件)用于创建到服务器的单向连接。
+
 ```js
 // EventSource接受的参数必须同源。
 // 使用message事件监听从服务器收到的消息，并存储在event.data对象里。
-let source = new EventSource('index.php')
-source.onmessage = e => {
-  console.log(e.data)
-}
+var source = new EventSource('http://127.0.0.1:8080/event/query');
+    //只要和服务器连接，就会触发open事件
+        source.addEventListener("open",function(){
+           console.log("和服务器建立连接");
+        });
+
+        //处理服务器响应报文中的load事件
+        source.addEventListener("load",function(e){
+            console.log("服务器发送给客户端的数据为:" + e.data);
+        });
+
+        //如果服务器响应报文中没有指明事件，默认触发message事件
+        source.addEventListener("message",function(e){
+            console.log("服务器发送给客户端的数据为:" + e.data);
+        });
+
+        //发生错误，则会触发error事件
+        source.addEventListener("error",function(e){
+            console.log("服务器发送给客户端的数据为:" + e.data);
+        });
 ```
-WebSocket是一种在单个TCP连接上进行**全双工通讯的协议**，它允许服务端主动向客户端推送数据，浏览器和服务器只用完成一次握手两者之间即可创建持久性的连接，并进行双向数据传输。需要先安装pywebsocket支持websocket服务
+WebSocket是一种在单个TCP连接上进行**全双工通讯的协议**，它允许服务端主动向客户端推送数据，浏览器和服务器只用完成一次握手两者之间即可创建持久性的连接，并进行双向数据传输。需要先安装pywebsocket支持websocket服务。
 ```js
 if(window.WebSocket){
     // 继承webscoket类，传入url,可选子协议,wss为加密后的协议。
@@ -1191,7 +1255,6 @@ if(window.WebSocket){
 }
 else{alert("连接错误")}
 ```
-
 - **H5 web Workers**:
 workers是让一个js文件在后台执行不影响页面执行速度的一种技术,对一些需要处理大型的数据是一个不错的优化选择，且主流浏览器都支持(除了IE）。可以用在canvas绘制大量图形时，将计算结果返回到主线程然后渲染。<b c=r>worker是一个线程而不是微任务，宏任务的概念</b>
 
@@ -1399,7 +1462,7 @@ el.clientTop;// 到上边框距离
 el.scrollTop// 元素当前内部滚动的距离
 el.scrollHeight// 元素内部可滚动的距离，一般比clientHeight大。
 ele.style.left="";// 来重新写入该元素的位置，否则返回的永远都只是该元素的初始位置
-ele.getBoundingRect().left// 使用可实时获取元素位置。
+ele.getBoundingRect().left;// 使用可实时获取元素位置。
 ```
 **元素节点操作**：
 ```js
@@ -1427,8 +1490,8 @@ el.childNodes[0].nodeName;//节点名,为间隙或文字则为#text为元素则�
 **获取属性**：`ele.style.property`和`window.getComputedStyle('元素','伪类').getPropertyValue('属性')`//这两个方法都是只读属性。
 **写入样式**：
 - `ele.style["color"] = "red";`可以使用这两种方法来改变其元素的css样式(但是会显示在内嵌样式中)：
-- `ele.style.cssText=”width:150px;height:200px;”`;//一次写入多个样式
-- `ele.style.setProperty(‘样式名’,’样式值’);`//setProperty()方法设置属性是在style中的并不是一个直接的属性。
+- `ele.style.cssText=”width:150px;height:200px;”`;//内嵌样式全部重写。
+- `ele.style.setProperty(‘样式名’,’样式值’);`//更新的方式写入，不会去除不相关样式。
 - **为元素添加类名或id名**：setATTribute(“class”,“new”)，element.className=””;setATTribute(“id”,”id”),element.id=””;
 - 使用removeATTribute(“class”.”id”)（也可用来移除id名）或.classList.remove(“id”)来移除元素类名。
 #### 8、音视频：
@@ -1546,8 +1609,11 @@ function deviceClose(){
 </script>
 ```
 
-**webrtc**：web端视频电话支持技术，里面处理了媒体流数据编码、杂音、画面去噪等功能。<b c=r>web端直播推流使用此方法（这里只有大致的思路）</b>
-- [参考学习地址](https://www.dazhuanlan.com/2019/12/24/5e0191c6d8816/)
+**webrtc**：运输层使用的UDP传输。web端视频电话支持技术，里面处理了媒体流数据编码、杂音、画面去噪等功能。
+- <b c=r>web端直播推流使用此方法（这里只有大致的思路）</b>
+- [参考学习地址](https://www.dazhuanlan.com/2019/12/24/5e0191c6d8816/)，[腾讯的一套webrtc直播sdk](https://github.com/tencentyun/tweblive)
+- **HLS**：的工作原理是把整个流分成一个个小的基于 HTTP 的文件来下载，每次只下载一些。当媒体流正在播放时，客户端可以选择从许多不同的备用源中以不同的速率下载同样的资源，允许流媒体会话适应不同的数据速率。[hts与m3u8](https://www.jianshu.com/p/e97f6555a070)
+- **m3u8**：该文件实质是一个播放列表（playlist），其可能是一个媒体播放列表（Media Playlist），或者是一个主列表（Master Playlist）。但无论是哪种播放列表，其内部文字使用的都是 utf-8 编码。
 
 ```js
 /*===*-----  直播端逻辑  ----*===*/
@@ -1563,7 +1629,7 @@ await rtc.setLocalDescription(offer);// 设置本地描述,然后通过其信令
 // 将信令sdp发送，并获取服务端用于与该客户端连接的sdp。
 const sdp = await ajax({url,data:{sdp:offer.sdp,streamurl:""}});
 // 将此获取到的sdp设为远程会话描述。
-await self.pc.setRemoteDescription(
+await offer.setRemoteDescription(
     new RTCSessionDescription({ type: "answer", sdp: sdp })
 );
 /*=========
@@ -1581,6 +1647,12 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
     video.play();
 }
 ```
+**flv.js**：解析flv文件的拉流实现。
+**rtmp推拉流**：
+- 推流协议使用rtmp，之前的借助flash插件实现rtmp推流，但flash插件各浏览器几乎已不支持。
+- 这个协议建立在TCP协议或者轮询HTTP协议之上。所以理论上可以用js实现rtmp协议，似乎也有人这么做，但没找到相关的解析rtmp协议的js库。
+- [git地址](https://github.com/chxj1992/rtmp-streamer)
+- [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia浏览器rtmp播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)
 #### 10、选择文件：
 input中的file属性提供了一个从本地图库选择图片文件的功能,以下代码将选中的图
 片显示在页面上：
@@ -2044,7 +2116,7 @@ export default {
 }
 
 ```
-#### 26、事件：
+#### 26、BOM：
 **事件流**：事件流描述的是从页面中接收事件的顺序。事件发生时会在元素节点与根节点之间按照特定的顺序传播，路径所经过的所有节点都会收到该事件，这个传播过程即DOM事件流。事件传播的顺序对应浏览器的两种事件流模型：捕获型事件流和冒泡型事件流。
 冒泡型事件流：事件的传播是从最特定的事件目标到最不特定的事件目标。即从DOM树的叶子到根、到window对象。
 捕获型事件流：事件的传播是从最不特定的事件目标到最特定的事件目标。即从DOM树的根到叶子。
@@ -2071,6 +2143,18 @@ if(event && event.stopPropagation){ // w3c标准
     event.cancelBubble = true;
 }
 ```
+**鼠标事件**：
+```js
+var el = document.getElementById("el");
+el. onmouseenter = function(e){}          //鼠标在进入时触发
+el.onmousedown = function(e){}            //鼠标在元素上按下时触发
+el.onmousemove = function(e){}            //鼠标在元素上移动时触发
+el.onmouseup = function(e){}              //鼠标在元素上松开时触发
+el.onmouseover = function(e){}            //鼠标指针移出某个元素到另一个元素上时发生
+el.mouseout = function(e){}               //鼠标指针位于某个元素上且将要移出元素的边界时发
+el.onmouseleave = function(e){}           //鼠标指针位移出元素时发生
+```
+
 **事件委托/代理**：利用事件冒泡，我们想让用户点击一个块的每个子元素都触发一个事件，可以将该事件绑定再这些子元素的父元素上就可以不用每个子元素都去绑定了。
 **获取鼠标事件目标的属性**：
 ```js
@@ -2472,7 +2556,7 @@ npm remove eslint    //移除包内的某个依赖。
 
 ##### b、文件操作：
 读写操作：
-```js 
+```js
 var fs = require('fs')
 // 读取指定目录下的所有一级目录或文件。
 fs.readdir(MODULE_PATH, function(err, files) {
@@ -2590,7 +2674,9 @@ wx.login({
   }
 })
 ```
-
+- 调起微信小程序：小程序需要已正式上线发布。
+    - 通过url scheme跳转进来（公众平台/工具，生成类似weixin://dl/business?t=Ljf-...），ios，网页中可直接location.href打开。
+    - android App调用：android无法通过scheme调起小程序，不过可以提供**小程序原始id**（公众平台/设置，查看。非小程序id）、线上版本号、页面路径，供其app打开。
 #### 5、vuejs：
 :::alert-info
 **核心实现**：每个组件实例会有一个渲染watcher，用于收集页面上的绑定的属性。计算属性和监听属性建立后都会各有一个watcher用于手机相应的依赖，并同时向Dep中发布订阅，添加到Dep.subs中，然后各watcher收集到的响应式对象会交给Observe，其使用Object方法集为这些响应式对象添加getter，setter属性，当发生改动时会触发setter，然后setter内根据其绑定的相关watcher通知Dep，触发Dep的notify()函数，去遍历Dep.subs中的订阅者，触发相关watcher的update方法重新计算、渲染。
@@ -2752,7 +2838,9 @@ vue.use(plugin,"hello");//use方法会调用plugin的install()函数
 ```
 ##### a3、组件：
 第三方的组件一般安装后可直接单个页面按需引入，对应的插件安装后也可以单页面直接引入使用。子组件使用的数据最好是在父组件mounted之前就生成。
+
 ```js
+<script>
 // 全局注册，写在main.js文件中
 Vue.component("wcs",{
     template:'<h1>{{ info }}</h1>',
@@ -2761,6 +2849,23 @@ Vue.component("wcs",{
     props:[],
     methods:{}
 });// 页面中直接<wcs></wcs>即
+</script>
+/*======================
+    父组件值改变，子组件不刷新问题
+========================*/
+<child :key="dateStream" :forms="useForm"/>
+<script>
+alter(){
+    this.ajaxRequest();
+    this.dialogOpen = true;                        //会先打开子组件，但数据还没拿到。
+},
+ajaxRequest(){
+    ajax({..}).then(r=>{
+        this.useForm = {...};
+        this.dataStream = new Date().getTime();    //更改子组件key值，此时会再次刷新子组件。
+    })
+}
+</script>
 ```
 **局部注册**：
 ```html
@@ -2909,9 +3014,9 @@ this.$root.foo = 5;// 修改数据。
 var map = this.$parent.map || this.$parent.$parent.map
 ```
 <i class="label3">父组件访问子组件数据、事件等</i>
-**元素选择器**：`<p ref="aa"></p>` ref标记元素，this.$refs.aa选中元素，如果绑定的是一个组件还可以继续this.$refs.aa.get()调起组件内的方法。
+**元素选择器**：`<p ref="aa"></p>` ref标记元素，`this.$refs.aa选中元素，如果绑定的是一个组件还可以继续this.$refs.aa.get()`调起组件内的方法。
 <i class="label3">依赖注入</i>类似访问父组件实例的情况，不过依赖注入可以在后代组件中都访问到，而且不用暴露所有父组件实例。
-```
+```js
 // 父组件内容。
 data:{},
 provide: function () {
@@ -3025,6 +3130,7 @@ const actions = {//异步运行
     },
     showFooter(context) {  //同上注释
         context.commit('show');
+        context.commit("user/login");//使用斜杆方法调用其它模块的方法
     },
     getNewNum(context,num){   //同上注释，num为要变化的形参
         context.commit('newNum',num)
@@ -3052,6 +3158,8 @@ new Vue({
 this.store.state.changebleNum//可直接获取到值。
 this.store.commit('newNum',6);//运行mutation中定义的函数。
 this.$store.dispatch('hideFooter')//运行actions中定义的函数。
+// 有多模块情况使用：
+this.$store.dispatch("user/getInfo");
 ```
 大多数的项目中，我们对于全局状态的管理并不仅仅一种情况的需求，有时有多方面的需求，比如写一个商城项目，你所用到的全局state可能是关于购物车这一块儿的也有可能是关于商品价格这一块儿的；像这样的情况我们就要考虑使用vuex中的 modules 模块化了。在store文件夹下面新建一个modules文件夹，然后在modules文件里面建立需要管理状态的js文件
 ```js
@@ -3307,23 +3415,25 @@ directives: {
   }
 }
 ```
-除了inserted，一个指令定义对象可以提供如下几个钩子函数 (均为可选)：
-bind：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
-inserted：被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
-update：所在组件的 VNode 更新时调用，但是可能发生在其子 VNode 更新之前。指令的值可能发生了改变，也可能没有。但是你可以通过比较更新前后的值来忽略不必要的模板更新 (详细的钩子函数参数见下)。
-componentUpdated：指令所在组件的 VNode 及其子 VNode 全部更新后调用。
-unbind：只调用一次，指令与元素解绑时调用。
-**钩子函数参数**，指令钩子函数会被传入以下参数：
-el：指令所绑定的元素，可以用来直接操作 DOM。
-binding：一个对象，包含以下属性：
-name：指令名，不包括 v- 前缀。
-value：指令的绑定值，例如：v-my-directive="1 + 1" 中，绑定值为 2。
-oldValue：指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用。无论值是否改变都可用。
-expression：字符串形式的指令表达式。例如 v-my-directive="1 + 1" 中，表达式为 "1 + 1"。
-arg：传给指令的参数，可选。例如 v-my-directive:foo 中，参数为 "foo"。
-modifiers：一个包含修饰符的对象。例如：v-my-directive.foo.bar 中，修饰符对象为 { foo: true, bar: true }。
-vnode：Vue 编译生成的虚拟节点。移步 VNode API 来了解更多详情。
-oldVnode：上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用。
+**钩子函数**：
+- **bind**：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
+- **inserted**：被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
+- **update**：所在组件的 VNode 更新时调用，但是可能发生在其子 VNode 更新之前。指令的值可能发生了改变，但是你可以通过比较更新前后的值来忽略不必要的模板更新 (详细的钩子函数参数见下)。
+- **componentUpdated**：指令所在组件的 VNode 及其子 VNode 全部更新后调用。
+- **unbind**：只调用一次，指令与元素解绑时调用。
+
+**钩子函数参数**：指令钩子函数会被传入以下参数
+- el：指令所绑定的元素，可以用来直接操作 DOM。
+- binding：一个对象，包含以下属性：
+- name：指令名，不包括 v- 前缀。
+- value：指令的绑定值，例如：v-my-directive="1 + 1" 中，绑定值为 2。
+- oldValue：指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用。无论值是否改变都可用。
+- expression：字符串形式的指令表达式。例如 v-my-directive="1 + 1" 中，表达式为 "1 + 1"。
+- arg：传给指令的参数，可选。例如 v-my-directive:foo 中，参数为 "foo"。
+- modifiers：一个包含修饰符的对象。例如：v-my-directive.foo.bar 中，修饰符对象为 { foo: true, bar: true }。
+- vnode：Vue 编译生成的虚拟节点。移步 VNode API 来了解更多详情。
+- oldVnode：上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用。
+
 ##### b3、渲染函数&jsx：
 Vue 推荐在绝大多数情况下使用模板来创建你的 HTML。然而在一些场景中，你真的需要 JavaScript 的完全编程的能力。这时你可以用渲染函数，它比模板更接近编译器。
 ```js
@@ -3517,10 +3627,11 @@ VUE_APP_BG_API = '/bg-api'
 **文章部分**：
 [张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
 [HTML转义字符表](http://tool.oschina.net/commons?type=2)、[HTML标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)、[plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)、[javascript事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝H5开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)、[validator官网git地址，里面有使用示例。](https://github.com/yiminghe/async-validator#start-of-content)
-[jest使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)
+[jest使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)、[谷歌浏览器插件开发文档](https://developer.chrome.com/extensions/getstarted.html)
 **工具部分**：[很多实用前端工具。](https://www.zhihu.com/question/20241338?sort=created)
 - [属性兼容性查看网站](https://caniuse.com/?search=flex)：红色为完全不支持的版本，棕色为部分支持的版本，绿色为几乎全部支持的版本。命令使用：npm install -g caniuse-cmd
 - [配色网站](https://colorhunt.co/)：很多不错的颜色值组合。
+- [诸多在线工具网站](https://tool.lu/)
 
 #### 8、IDE工具:
 ##### a、vscode：
@@ -3698,12 +3809,14 @@ https://www.jianshu.com/p/0ad5625e9717
 文件所在的目录，注意使用\\。然后工具栏>编译系统中选择Anaconda Python Build
 [新建一个编译系统]选择编译系统后，sublim会按指定的编译系统解析文件中的代码。编译系统,新建:
 #修改下面python.exe所在的路径path即可。
+```json
 {
  "cmd":["python.exe", "-u", "$file"], 
  "path":"E:\\somtwar\\Anaconda\\plateform\\envs\\wcs",
  "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
  "selector": "source.python"
 }
+```
 ##### c、jetBring公司产品：
 
 **主题样式下载**：http://www.riaway.com/theme.php。
@@ -3723,9 +3836,13 @@ Shift + F10#运行。Shift + F9#调试。Alt + Shift + F10  运行模式配置�
 **使用Anaconda环境**：setting>project:name>Project interpreter下拉框中选择运行的环境，添加新的运行环境：下拉框点show all后点击+号>选第二个单选文件夹中选择Anaconda安装目录>envs>wcs>python.exe(envs是自己在anaconda创建的所有环境,wcs是自己创建的一个环境,每个环境下都有一个python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括sublim中切换环境也是切换python.exe的位置。
 ##### d、jupyter:
 一个web式的ide工具，通过电脑上安装jupyter notebook工具，运行后会开通一个本地服务，按照其给出的链接进入web页面，在上面进行编辑代码。支持50多种语言。
-安装：pip install jupyter#安装后，命令行jupyter notebook直接运行会出现一个链接，在web中打开。#windows端应该是一个虚拟机形似的运行工具。
-使用：进入web页面后会将当前用户下所有的目录显示出来，右侧的view选项中选择python3进入一个编辑页面。
-运行不显示结果问题：pip install -i https://pypi.mirrors.ustc.edu.cn/simple/ prompt-toolkit==1.0.15    # prompt-toolkit 的版本过高致使与Jupyter-notebook的版本不兼容
+- 安装：`pip install jupyter`。
+- 使用：命令行`jupyter notebook`直接运行会出现一个链接，在web中打开。#windows端应该是一个虚拟机形似的运行工具。
+进入web页面后会将当前用户下所有的目录显示出来，右侧的view选项中选择python3进入一个编辑页面。
+- 问题：pip install -i https://pypi.mirrors.ustc.edu.cn/simple/ prompt-toolkit==1.0.15    # prompt-toolkit 的版本过高致使与Jupyter-notebook的版本不兼容
+e、visual studio：
+下载安装：到官网下载社区版，社区版可免费使用。选中安装位置、下载位置、工具位置。
+新建项目：左上角新建项目。源文件下新建c++文件。
 #### 9、真机调试：(使用谷歌浏览器)
 **方法一**：同一局域网内，用手机直接访问node开启的web服务地址(ip地址使用电脑ipv4地址，而不是localhost)。
 **方法二**：使用google浏览器。
@@ -4288,6 +4405,40 @@ onShareAppMessage(){}//用户点击右上角分享
 - H5端rem使用：[rem使用的特别解决方案](https://www.jianshu.com/p/62e399f4aa2e)
 - [uni-app中的跨域解决。](https://blog.csdn.net/paopao79085/article/details/91948809)、[全局可用的api](https://uniapp.dcloud.io/api/README)
 
+**app调用微信小程序**：[参考地址](https://ask.dcloud.net.cn/question/67412)
+
+```js
+function gowx(){
+    if (plus.os.name == 'Android') {
+        // 需先在manifest.json中配置微信分享。
+        plus.share.getServices(function(res){
+            var sweixin = null;
+				    for(var i=0;i<res.length;i++){
+				        var t = res[i];
+				        if(t.id == 'weixin'){
+				            sweixin = t;
+				        }
+				    }
+				    if(sweixin){
+				        sweixin.launchMiniProgram({
+				            id: "小程序原始id",//非小程序id
+                       type: 1.1,// 版本号
+                       path:"pages/index/index"
+				        });
+				    }
+				},function(res){
+				    console.log(JSON.stringify(res));
+        });
+    }else{
+        plus.runtime.launchApplication({
+						action: 'weixin://dl/business?t=Kjl-...'
+					}, function(e) {
+						console.log('Open system default browser failed: ' + e.message);
+					});
+    }
+}
+```
+
 问题：H5端，页面刷新有时会有无法回退、页面不加载等问题。
 #### 12、富文本编辑器：
 web中使用的富文本编辑器比较多，这里是两个自己尝试过的：
@@ -4527,42 +4678,7 @@ export default {
 }
 ```
 [参考学习地址。](https://segmentfault.com/a/1190000021050814?utm_source=tag-newest)、[NUXTJS中文网。](https://www.nuxtjs.cn/guide/configuration)、[nuxt部署](https://www.jianshu.com/p/bbe874c32f90)
-#### 15、mock数据的使用：
-1、使用mockjs
-- 安装：npm i mockjs -D。建立一个放置数据的目录，用json文件存放数据，新建一个mock.js文件。
-- mock.js文件配置请求的路径和对应的数据：
-```js
-const Mock = require("mockjs");
-const _url = "https://nb.com";    //如果使用了axios，这里路径要与axios配置的baseUrl一致。
-//请求路径、请求类型、数据。
-Mock.mock(`${_url}/index/test`, "get", require("./moc.json"));
-Mock.mock(`${_url}/index/use`, "post", require("./moc.json"));
-```
-- main.js将其导入即可：`import Mock from "../../../mock/index";`#使用mock数据时**不要与代理路径一样，或干脆不用代理**。
 
-2、利用ajax可请求文件的方法。
-3、使用node在开一个本地服务用于返回mock数据，让代理目标地址更改为该服务地址。
-[使用本地mock数据。](https://blog.csdn.net/zhushikezhang/article/details/104447438)
-**mock与测试环境切换**：可以在运行命令多添加一个参数，用于判断是否mock环境。
-`"dev:mock": "cross-env DEV_ENV=mock webpack-dev-server --inline --progress --config build/webpack.dev.conf.js mock"`
-config/index.js文件中检测环境，修改url，然后axios配置文件中使用该文件的url，mock.js文件中的地址写为固定即可。
-```js
-// process.argv获取传入的所有参数。
-if (process.env.DEV_ENV==='mock') {
-    // mock数据地址。
-    url = "http://mock_test.com";
-} else if (process.env.DEV_ENV==='sit') {
-    // 测试环境
-    url = "http://test_env.com";
-} else {
-    // 正式环境
-    url = "http://127.0.0.1:3000";
-}
-
-module.exports = {
-    dev: {url:url,}
-}
-```
 #### 16、提交代码时检查：
 - 简介：husky是git的一个钩子，可以在git的hook中执行一些命令。使用的是eslint检查。prettier可配置vscode格式化方式。lint-staged对git暂存的文件进行lint检查。提交时对暂存的代码用eslint规则检查，出现error的话会禁止提交。
 - 安装：cnpm install --save-dev prettier husky lint-staged eslint
@@ -4616,21 +4732,7 @@ module.exports = {
 - **问题集**：可以鼠标放在提示错误的地方，点击`Peek Problem`，然后点击规则`eslint(...)`，跳到该规则相应的配置介绍，去学习它的使用。
 - 提示一些规则没有找到（顶部红色波浪线）：该版本没有对应的规则支持，尝试升级版本。
 - [eslint配置大全。](https://blog.csdn.net/p358278505/article/details/77429251)
-#### 17、测试：
-单元测试：对软件中的最小可测试单元进行检查和验证。
-功能测试：对产品的各功能进行验证。
-集成测试：在单元测试的基础上，将所有模块按照设计要求（如根据结构图）组装成为子系统或系统，进行集成测试。
 
-- jest做单元测试：[jest中文档](https://www.jestjs.cn/docs/getting-started)
-
-```js
-/*==========
-安装：npm install -D jest babel-jest babel-core babel-preset-env regenerator-runtime
-babel-jest、 babel-core、 regenerator-runtime、babel-preset-env这几个依赖是为了让我们可以使用ES6的语法特性进行单元测试。
-将测试脚本放在__tests__文件夹下。
-/root/__tests__/test.js
-===========*/
-```
 #### 18、html2canvas使用：
 用于将页面的html节点转化为图片，注意若其中包含图片，使用img标签而不要使用背景图。否则生成的图片不清晰。
 ```js
@@ -4874,5 +4976,258 @@ export default $;//另一个文件import $ from "JQuery";使用。
 ```
 [typescript中文档](https://www.tslang.cn/docs/handbook/decorators.html)。[菜鸟教程](https://www.runoob.com/typescript/ts-ambient.html)。
 
-七、交互设计：
+### 七、测试：
+单元测试：对软件中的最小可测试单元进行检查和验证。
+功能测试：对产品的各功能进行验证。
+集成测试：在单元测试的基础上，将所有模块按照设计要求（如根据结构图）组装成为子系统或系统，进行集成测试。
+
+**1、jest做单元测试**：[jest中文档](https://www.jestjs.cn/docs/getting-started)
+- 安装：
+（1）全局安装：`npm install jest -g`
+（2）初始化一个配置：`jest --init`    #项目下会生成一个Jest.config.js配置文件。
+（3）命令指定配置：自定义配置文件使用。需要注意与babel版本有关，一下是一个合适版本的组合。
+```json
+{
+    "scripts":{
+        "test":"jest --config test/config.js"
+    },
+    "devDependencies":{
+        "babel-core": "^6.22.1",
+        "babel-helper-vue-jsx-merge-props": "^2.0.3",
+        "babel-jest": "^21.0.2",
+        "babel-loader": "^7.1.1",
+        "babel-preset-env": "^1.3.2",
+        "babel-preset-stage-2": "^6.22.0",
+        "babel-register": "^6.22.0",
+        "jest": "^22.0.4",
+        "jest-serializer-vue": "^0.3.0",
+    }
+}
+```
+（4）项目也安装：`npm install -D jest`。
+- 配置文件：[配置文档地址](https://jestjs.io/docs/expect#expectvalue)
+
+```js
+module.exports = {
+    clearMocks: true,
+    // Indicates whether the coverage information should be collected while executing the test
+    collectCoverage: true,
+    coverageDirectory: "coverage",
+    coverageProvider: "v8",
+    testEnvironment: "node",//测试脚本所在环境，js-dom为六浏览器环境。
+    testMatch: [
+        "**/__tests__/**/*.js",//设置匹配测试用的脚本文件，默认放在：跟目录/__tests__/sj.js
+        "**/?(*.)+(spec|test).[tj]s?(x)"
+    ],
+}
+```
+- **错误集**：
+>jest SecurityError: localStorage is not available..：配置文件中将环境改为node即可，`testEnvironment: "node"`。
+
+**2、mock数据做测试**：mock也可用作直观的测试使用。
+1. 使用mockjs
+- 安装：npm i mockjs -D。建立一个放置数据的目录，用json文件存放数据，新建一个mock.js文件。
+- mock.js文件配置请求的路径和对应的数据：
+```js
+const Mock = require("mockjs");
+const _url = "https://nb.com";    //如果使用了axios，这里路径要与axios配置的baseUrl一致。
+//请求路径、请求类型、数据。
+Mock.mock(`${_url}/index/test`, "get", require("./moc.json"));
+Mock.mock(`${_url}/index/use`, "post", require("./moc.json"));
+```
+- main.js将其导入即可：`import Mock from "../../../mock/index";`#使用mock数据时**不要与代理路径一样，或干脆不用代理**。
+
+2. 利用ajax可请求文件的方法。
+3. 使用node在开一个本地服务用于返回mock数据，让代理目标地址更改为该服务地址。
+[使用本地mock数据。](https://blog.csdn.net/zhushikezhang/article/details/104447438)
+**mock与测试环境切换**：可以在运行命令多添加一个参数，用于判断是否mock环境。
+`"dev:mock": "cross-env DEV_ENV=mock webpack-dev-server --inline --progress --config build/webpack.dev.conf.js mock"`
+config/index.js文件中检测环境，修改url，然后axios配置文件中使用该文件的url，mock.js文件中的地址写为固定即可。
+
+```js
+// process.argv获取传入的所有参数。
+if (process.env.DEV_ENV==='mock') {
+    // mock数据地址。
+    url = "http://mock_test.com";
+} else if (process.env.DEV_ENV==='sit') {
+    // 测试环境
+    url = "http://test_env.com";
+} else {
+    // 正式环境
+    url = "http://127.0.0.1:3000";
+}
+
+module.exports = {
+    dev: {url:url,}
+}
+```
+**3、e2e测试**：把整个系统当作一个黑盒，测试人员模拟真实用户在浏览器中操作UI，测试出的问题可能是前端也可能是后端导致的。
+
+- [cypress英文档](https://docs.cypress.io/guides/overview/why-cypress)
+
+### 八、交互设计：
+- 移动端尺寸处理：移动端页面一般都要支持手机上打开无论屏宽，按ui比例显示界面，不过用电脑或平板也应该能打开，<b c=v>所以最外层应该设置个max-width并居中，让pc端也能正常显示。</b>
+- 非堆叠页面及元素的尺寸处理：<b c=gn>元素从上到下几乎用默认流放置的布局页面，我称为堆叠的。</b>
+（1）pc端堆叠类页面，单位一般使用px，大体布局的地方结合百分比使用，设置min-width和适当使用@media，让部分较小的笔记本电脑也能正常显示。
+（2）pc端非堆叠类，例如登录页面，由于登录表单部分较大，如果一样使用px单位，一些傻x用户使用较低的分辨率或系统设置缩放会导致问题，**使用vw或rem这些单位**（vw类型单位的话都统一使用vw或vh这样能保持一个块的比列），然后设置min-width来限制是一个较好的方法。
+
 1、登录页实践
+
+### 九、华为鸿蒙：
+1. 系统层次：[文档学习地址](https://developer.harmonyos.com/cn/docs/documentation/doc-guides/ability-service-lifecycle-0000000000044472)
+- 内核层（进程/线程管理、内存管理、文件系统、网络外设管理等）。
+- 服务层：
+（1）分布式任务调度：基于分布式软总线和分布式数据管理，可对设备应用进行远程调用、远程启用、远程连接等操作；
+（2）分布式数据管理：（属于框架层）对数据流动时对数据分类、分级保证使用数据正确。对数据生成、存储等各生命周期保护，保证数据安全。支持多设备下的数据存储、共享、访问；
+（3）分布式软总线：（任务总线和数据总线）多设备互联、自发现连接、；方舟多语言运行时子系统。
+（4）服务子系统：事件通知服务子系统、电话服务子系统、多媒体子系统。
+- 框架层：UI框架，可java/js语言、用户程序框架，支持c/c++/java/js、多种语言框架api、ability框架。
+- 应用层：应用部署（根据硬件形态和需求可选择所需组件、根据硬件资源情况和功能需求，选择配置组件中的功能集、根据编译链关系自动生成组件依赖关系）。
+
+2. 开发：安装华为IDE工具，下载SDK，新建一个app项目：一个app只有一个entry类
+- entry/src/main/resource
+```js
+{
+  //app: "全局配置信息",（最外层大致有哪些要记）
+  "app": { "bundleName": "com.example.phonedemo","vendor": "example","version": {}},
+  "deviceConfig": {},//设备恢复、网络安全等
+   //HAP包配置信息
+  "module": {
+    //自定义权限申请,（内部字段要记）
+    "defPermissions":{
+        "name":"come.myability.permision.MYPERMISION",//记住格式
+        "grantMode":"system_grant",
+        "avaliableScope":["signature"]
+    },
+    "package": "com.example.phonedemo",
+    "name": ".MyApplication",
+    "mainAbility": "com.example.phonedemo.MainAbility",
+    "deviceType": ["phone"],
+    "abilities": [],
+    //对权限进行逐个声明（部分非敏感权限）。敏感权限（通讯录、位置等）需要代码中动态申请
+    "reqPermissions":{},
+    //jsUI应用时，使用使用web来构建页面
+    "js": [
+      {
+        "pages": ["pages/index/index"],
+        "name": "default",
+      }
+    ]
+  }
+}
+```
+
+**界面ui**：界面元素由**组件**和**布局**构成。可用xml布局和java代码布局。【javascript ui框架属于应用层】
+- 组件：绘制在屏幕上的一个对象。Component（界面中所有组件的基类）。
+>常用：（1）Text：、Image、Clock、TickTimer、ProgressBar。
+- 布局：容纳其它组件和布局的容器。ComponentContainer（容器，容纳Component和其它ComponentContainer）。
+>常用：PositionLayout、DirectionalLayout（水平垂直布局）、StackLayout（层叠布局，用`moveChildToFront`可将子视图移到顶层）、DependentLayout（相对于其它元素定位）、TableLayout（表格布局）、AdaptiveBoxLayout等。
+
+```xml
+<!--=========background_button.xml==========-->
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:ohos="http://schemas.huawei.com/res/ohos" ohos:shape="oval">
+    <corners ohos:radius="10"/>
+    <solid ohos:color="#007CFD"/>
+</shape>
+<!--===================
+        另一个xml文件
+=======================-->
+<?xml version="1.0" encoding="utf-8"?>
+<!--部分属性：
+match_content：表示自适应内容大小
+ohos:truncation_mode="ellipsis_at_middle"：表示文本超长时在文本框中间位置使用省略号截断。
+$graphic:background_button：表示引用上面定义的xml文件中的样式。
+ohos:scale_mode="zoom_center"：图像缩放类型。stretch、center（不缩放）、inside（原比列缩放）、clip_center等
+ohos:alpha="0.5"：设置透明度。
+Button,TextField都继承自Text组件。
+-->
+<DirectionalLayout
+    xmlns:ohos="http://.."
+    ohos:width="match_content"
+    ohos:height="match_parent"
+>
+    <Text ohos:text="内容部分" ohos:truncation_mode="ellipsis_at_middle"/>
+    <Button ohos:margin="20" ohos:background_element="$graphic:background_button"/>
+    <Image
+        ohos:id="$+id:imageComponent"
+        ohos:height="200vp"
+        ohos:width="200vp"
+        ohos:alpha="0.5"
+        ohos:scale_mode="zoom_center"
+        />
+<!--动画-->
+    <animation-list xmlns:ohos="http://schemas.huawei.com/res/ohos" ohos:oneshot="false">
+        <item ohos:element="$media:01" ohos:duration="100"/>
+        <item ohos:element="$media:02" ohos:duration="100"/>
+        <item ohos:element="$media:03" ohos:duration="100"/>
+    </animation-list>
+</DirectionalLayout>
+```
+
+**Ability**：能力的抽象。功能、页面。
+- **FA**：支持page Ability，提供用户交互能力。`page Ability`，java程序生命周期如下：
+
+```java
+package com.example.phonedemo;
+
+import ohos.ace.ability.AceAbility;
+import ohos.aafwk.content.Intent;
+// page Ability生命周期
+public class MainAbility extends AceAbility {
+    @Override
+    public void onStart(Intent intent) {}     // 首次创建page实列触发
+    @Override
+    public void onActive(Intent intent) {}    // 页面进入活跃状态时触发
+    @Override
+    public void onInactive() {}               // 页面失去焦点触发
+    @Override
+    public void onBackground() {}             // 页面不可见时触发
+    @Override
+    public void onForeground() {}             // 后台重新回到前台时
+    @Override
+    public void onStop() {super.onStop();}    // 销毁页面时触发
+}
+```
+- AbilitySlice间导航：
+>同一Page内导航：
+（1）当发起导航的AbilitySlice和导航目标的AbilitySlice处于**同一个Page时**，您可以通过`present()`方法实现导航。
+（2）希望在用户从导航目标**AbilitySlice返回**时，能够获得其返回结果，则应当使用`presentForResult()`实现导航。
+（3）系统为每个Page维护了一个AbilitySlice实例的栈，每个进入前台的AbilitySlice实例均会入栈。当开发者在调用present()或presentForResult()时指定的AbilitySlice实例已经在栈中存在时，则栈中位于此实例之上的AbilitySlice均会出栈并终止其生命周期。
+
+**PA**：`particle Ability`#支持Service模板（后台任务运行，service中用`terminateAbility()`停止，其它用stopAbility()停止）和Data模板（对外提供对数据的增、删、查、改，文件等）。
+- service Ability ：后台运行程序。生命周期如下：terminateAbility()停止。
+>启动类型的service：`startAbility()`时创建、stopAbility()来停止。
+>连接类型的service：该Service在其他Ability调用`connectAbility()`时创建（可连接startAbility创建的）、disconnectAbility​()断开连接、onStop停止。
+- Data Ability：用于管理数据。
+
+**Intent**：是对象之间传递信息的载体。例如，当一个Ability需要启动另一个Ability时，或者一个AbilitySlice需要导航到另一个AbilitySlice时，可以通过Intent指定启动的目标同时携带相关数据。I
+3. **管理**：
+**线程管理**：运行时，系统为应用启动一个主线程，所有UI操作都在主线程执行，所以也叫UI线程。
+- 进程通信：通过`EventRunner`创建线程（可创建多个EventHandler）。进程通信机制`EventHandler`（只能与一个EventRunner绑定。将`EventInner`和`Runnable`投递到其它线程进行处理）。EventHandler创建的子类中通过重写processEvent来处理事件。
+- EventRunner：有托管方式（系统自动调用run(),stop()等方法控制）。手动方式（自己调用控制）。
+- 任务分发器：TaskDispatch。
+>分发器类型：GlobalTaskDispatch（全局并发任务分发器）、ParallelTaskDispatch（并发任务分发器）、SerialTaskDispatch（串型）、SpecTaskDispatch（专有）。
+>任务派发方法：（1）SyncDispatch()：同步派发，使用不但可能死锁。（2）asyncDispatch()：异步派发。（3）delayDispatch()：异步延迟派发。（4）group()：成组派发。
+
+**数据管理**：使用关系型数据库概念来增、删、查等操作数据。
+（1）用`@Database`注解，继承OrmDatabase类，对应关系型数据库。
+（2）用`@Entity`注解，继承OrmObject，使用对应表。`Preference.flush()`#异步写入。`Preference.flushSync()`#同步写入。
+- 关系型数据库，对象关系映射数据库都是基于SQLite。轻量偏好数据库是NoSQL型数据库。
+
+**网络管理**：数据连接管理、数据网络管理、流量统计、创建本地套接字。
+- 需要权限：ohos.permission.GET_NETWORK_INFO（获取网络连接信息）、ohos.permission.SET_NETWORK_INFO（修改网络连接状态）、ohos.permission.INTERNET（允许网络连接）。
+- 主要功能：数据连接管理：网卡绑定、数据链路参数查询、打开url。数据网络管理、提供网络访问、socket等api。
+- 连接方式：WLAN、蓝牙和BLE、NFC（卡模拟）、电话服务。
+
+```java
+NetManager netManager = NetManager.getInstance(null);    //获取网络管理实列对象
+NetHandle netHandle = netManager.getDefaultNet();        //获取默认数据网络
+```
+
+**日志管理**：5种级别：DEBUGGER、INFO、WARN、INFO、ERROR、FATAL。
+```java
+static final HiLogLabel LABEL = new HiLogLabel(HiLog.LOG_APP,0X00201,"MY_TAG");
+HiLog.warn("warn");//输出一条日志
+```
+调试：预览器、模拟器、真机。

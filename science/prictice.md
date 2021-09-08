@@ -25,14 +25,16 @@ You got a little too `{caught up}(捉住) in social media`(沉迷于社交媒体
 **trick**：<b c=r>建议先读完一段或两段了解大意，做一些简单的猜想，推断后再看具体每一空，根据上下文语义，是否呼应，固定搭配等来选词。不宜思虑太多</b>
 It’s not difficult to set targets for `staff`(n:全体职工；v:任职于)。`Watch`(看) people `get on`(上车) and show their `tickets`(车票)。 Are they `carefully`(仔细地) `inspected`(检查)？their `negative`(消极的) `consequences`(后果、重要性)。they are `blamed`(责备)。threatened（威胁，恐吓）。the target is `punctuality`(严守时间，正确)。hospitality(款待)、innovation(改革、创新)、infrequent(稀少的)、lane(道路)。drivers were `punished`(惩罚)。 If the target was changed to `revenue`(收益、税收)。comfort(舒服、安慰)。 If the `criterion`(标准) `changed to`(变为) `safety`(安全)、diligent(勤奋的)。But both these criteria would be at the `expense of time`(时间的消费)
  people became `immensely`(极大地) `inventive`(有创意的) in hitting targets。revealed(揭示)、admitte(承认)、trip(旅行)、interpret(v:解释)、secret(秘密)、tolerate(v:容忍) 。The `moral`(道德的；品行、寓意) of the story is simple。Choose one criterion and you may `well`(adv:完全地。adj:健康。int:好吧。n:水井。v:流出) `sacrifice`(牺牲) others。`call for`(要求)、`count for`(对...作出解释)。achieve the objective(实现目标)、participant(参与者、乘客)。anxiety(噩梦)。flattered(adj:感到满意的、v:讨好)。panicky(惊慌的)。
-TEXT2:
+【2020一】
 Even if families don't `roast`(烘烤) **on**(on加后面的day表示具体的某一天) a cold winter's day,few `culinary`(烹饪的) pleasures can match it. Yet as we report now, the food police are `determined`(决心) that this **enjoyment**(乐趣,patience:耐心) should be `rendered`(v:提供,使成为) `yet`(然而) another `guilty`(有罪的、内疚的) pleasure **guaranteed**(v:担保,adj:有保障的。intensified:强化的，privileged:特权的，compelled:被强迫的) to damage our health. The Food Standards Authority(FSA) has `issued`(v:发布) a public cookied **at**(以...) high `temperatures`(高温). This means that people should **avoid**(避免,reget:后悔) `crisping`(脆化) their roast `potatoes`(土豆),reject thin-`crust`(地壳，面包皮) pizzas and only **partially**(部分地，regularly:定期地) toast their bread. But where is the evidence to support such `alarmist`(危言耸听得) advice? **while**(虽然) studies `neurological`(神经学) damage in `mice`(老鼠), there is no **conclusive**(决定性的，external:外部的) `evidence`(n:证据,v:表明) that it causes cancer in humans。Scientists say the computed is **likely**(insufficient:不足的，bound:必定的) to cause `cancer`(癌症) but have no hard scientific `proof`(n:证明，adj:抗...的) on the basic of the `precautionary`(预防性，in addition to:除..之外，at the cost of:以..为代价，in contrast to:与..相反的是) principle,it could be argued that it is **advisable**(明智的,interesting:有趣的，urgent:紧急的，fortunate:幸运的) to follow the FSA advice after all,it was `rumoured`(传说的) to `prove`(vt:证明，显示出) a connection。`Doubtless`(adv:无疑地) a piece of `boiled`(煮) `beef`(牛肉) can always be **served**(加up表上菜，比used更合适) up on Sunday `alongside`(在..旁边) be worth living? `To be fair`(说实话,for instance:例如，to be brief:简而言之),the FSA says it is not telling people to cut out roast foods **entirely**(完全地，graduly:逐渐地，reluctantly:勉强地),but to reduce their lifetime `intake`(摄入)。However,their **campaign**(运动,promise:允许，competition:竞争) risks coming just `end up`(以..结束，follow up:接下来，open up:揭露，general:普遍的) with no one listening。
 【2021一】:
 `Fluid`(流) intelligence is the type of intelligence that the ability to think quickly, logically, and `abstractly`(抽象地) in order to solve new problems。It  `peaks`(达到最高点)   in young `adulthood`(成年),  and then  generally  starts to slowly `decline`(下降) as we age. But **while**(尽管、since:由于、once:一旦、until:到..为止)  aging is `inevitable`(不可避免的), scientists are `finding out`(发现) that `certain`(确实) changes in `brain`(脑，智力。v:猛击..头部) function `may not be`(并非如此)。One study found that muscle loss and the  **accumulation** (积累，detection:侦查、consumption:消耗、separation:分离)  of body fat around the `abdomen`(腹部) are associated with a decline in fluid intelligence. This suggests the  **possibility**((表示that后面描述的可能性)  that lifestyle factors might help prevent or  delay  this type of decline。The researchers looked at data that  included  `measurements`(测量、尺寸) of lean muscle and `abdominal`(腹部的) fat。They found that middle-aged people  with  higher `measures`(程度) of abdominal fat  scored  `worse`(更坏的,adv:恶化) on measures of fluid intelligence `as the years went by`(随着年龄逝去) 。For women, the association may be  `attributable`(归因于..;superior:比…好的,parallel:与…平行的,resistant:不受……损害的) to changes in `immunity`(免疫力) that resulted from `excess`(超过,v:过量的) abdominal fat; in men, the immune system did not `appear`(显现) to be  `involved`(有关的，isolated:被孤立)  . It is hoped that future studies could  `explain`(解释)  these differences and `perhaps`(或许) lead to different  treatments(疗法;compensations:补偿、symptoms:症状)  for men and women。**Meanwhile**(与此同时、Likewise:同样地,Therefore:因此,Instead:相反地)  , there are steps you can  **take**(与前面steps搭配表采取措施)  to help reduce abdominal fat and `maintain`(v:保持) `lean`(n:瘦肉，v:倾斜) muscle `mass`(大量、块) as you age in order to protect both your physical and mental  `well-being`(健康、formation:形成、coordination:协调) 。The two highly recommended lifestyle `approaches`(v:接近、n:方法) are maintaining or increasing your  level  of `aerobic`(需氧的) `exercise`(练习) and following `Mediterranean-style`(地中海式)  **diet**(日常饮食、routine:常规,prescription:药方) that is `high in fiber`(高纤维) and `eliminates`(v:消除) `highly processed foods`(高度加工食品)。
 【2018一】
 `Trust`(信任) is a `tricky`(难办的、狡猾的) business。 it's a `necessary condition`(必要条件) for many `worthwhile`(重要的) things: `child care`(儿童看护)。putting your `faith`(信仰), in the wrong place often carries a high price。when people place their trust in an `individual`(单独的，一个人的) or an `institution`(机构), their brains release `oxytocin`(催产素)。(then:然后，than:比)。those subjects were ready to lend `significantly[明显的，别有含义的] higher amounts[金额，合计] of money`(大量的钱) to strangers。Lucky for us, we also have a sixth sense for `dishonesty`(不诚实) that may **protect**(delight：n:快乐，adj:喜悦的,vi:使高兴。monitor:班长，v:监视) us。Sixty toddlers were each introduced to an adult tester holding a plastic container。
 `In contrast`(相比之下), only five of the 30 children paired with the **unreliable**(inflexible：僵硬的，incapable:无能的) tester participated in a follow-up activity。
-
+【2016一】
+ in `Cambodia`(柬埔寨), the choice of a `spouse`(配偶) is a complex one for the young `male`(男性，`regard`:vt:将..认为，把..视为、看待，n:注意、尊重)。 **as well as**(也，又。by way of:通过，winth regard to:关于。on behalf of:代表) those of the young woman。A young man can decide to(a dapt to:适用) a likely spouse on his own and then ask his parents to `arrange`(安排、达成..协议，
+renew:更新。postpone:推迟) the marriage `negotiations`(谈判)。The traditional `wedding`(婚礼) is a long and colorful `affair`(公共事务，事情)。 `Buddhist`(佛教徒) `priests`(神父) offer a short `sermon`(讲道) and `recite`(吟咏、列举) `prayers`(祈祷、经文) of `blessing`(祝福、许可、好事)。`tying`(绑，捆，束) `cotton`(n:棉布、v:一致;理解;和谐;亲近) `threads`(线索、思路) `soaked`(湿透、浸泡) in `holy water`(圣水) around the `bride`(新娘)。 and passing a `candle`(蜡烛) around a circle of happily married and  `respected`(受尊敬的、尊重) `couples`(两人、一对、夫妻) to `bless`(祝福)。`Divorce`(离婚) is `legal`(合法的) and easy to `obtain`(获得)。but a `gender`(性别) `prejudice`(偏见) shows up。
 ### 4、翻译：
 **trick**：<b c=b>遇到不会的词可先在脑中用相似的词比对，也许有新发现。</b>
 We `[tend](vi:照顾、倾向) to think`(往往认为) that friends and family members are our biggest `sources of connection, [laughter](笑声) and warmth`(快乐和温暖的源泉)。`researchers`(研究员) have also recently found that `interacting`(v:交流、合作) with strangers `actually`(实际上) brings a `boost`(vi:增加、促进) in `mood`(心情、语气) and `feelings of belonging`(归属感) that `we didn’t expect`(意想不到的)。 researchers `instructed`(v:命令。adj:受到教育的) Chicago-area `commuters`(通勤者) using public transportation to `strike up a conversation`(开始谈话) with someone near them。`As it [turns out](结果是、熄灭、参加)`(事实证明)。
@@ -48,7 +50,7 @@ text1:
 text2:
 With the global `population`(人口，popular:受欢迎) predicted to `hit close`(接近) to 10 billion by 2050, and `forecasts`(n:预测，forest:森林) that `agricultural production`(农业生产) in some regions will need to `nearly`(几乎) double to `keep pace[一步、步调]`(齐头并进), food security is increasingly `making headlines`(成为头条新闻)。for a `rather`(稍微、相当) `particular`(特别的) reason: `Brexit`(英国退出欧盟)。A move back to `self-sufficiency[充足]`(自给自足), the `argument`(争论) `goes`(v:进行，离开), would boost the `farming industry`(农产品加工业), `political sovereignty`(政治主权) and even the `nation’s health`(国家健康)。how `feasible`(可行的) is this `vision`(视力、愿景)。the area is `associated`(vi:联系，联盟) with `meat`(肉，食物) and `dairy`(牛奶厂、乳品店) production。 That `supplies`(供应) 80 per cent of what is `consumed`(消耗、烧毁，livestock:家畜)。There are many `caveats`(警告) to those `figures`(数字), but they are still `grave`(严重的、坟墓，去世)。drastically(彻底地)、probably(adv:大概、可能)、veg(蔬菜)、reserve(储备、保留)、involve(vt:包含、围绕)、factory(工厂)。the UK is `dominated`(控制、影响) by `animal husbandry`(畜牧业):most of its `terrain`(地形) doesn’t have the right soil or `climate`(气候) to grow crops on a `commercial`(商业的) `basis`(原因、方式)。most of which is already `occupied`(覆盖) by `arable`(耕作的) `fields`(田、场地)。 look for the `grains`(谷物), `sugars`(糖), `seeds`(种子、起源) and `oils`(给...加润滑油) that provide us with the `vast`(巨大的、辽阔的) `bulk`(主体) of our current `calorie intake`(热量摄入)。
 text3：
-When Microsoft bought task management app Wunderlist and mobile `calendar`(日历) Sunrise in 2015, it picked up two `newcomers`(新手) that were `attracting`(吸引，引起..的好感) `considerable`(相当多的) `buzz`(发出嗡嗡声; 时尚氛围、匆忙走动) in `Silicon Valley`(硅谷)。Both apps, however, were `later`(后来) `scrapped`(scrap废弃，打架)。the biggest companies have used to `feed`(喂养) their `insatiable`(贪得无厌的) hunger for `tech`( 同 technical college ; 工学院) `talent`(天才，天赋)。the `fates`(命运) of Wunderlist and Sunrise are examples of a `remorseless`(持续恶化的、残酷的) drive by Big Tech to `chew up`(充分咀嚼; 弄坏;) any `innovative`(引进新思想的、革新的) companies that lie in their path。Microsoft `declined`(拒绝，下降) to `comment`(评论)。Like other `start-up`(初创) `investors`(投资者)。it asked the five most valuable US tech companies for information about their many small `acquisitions`(收获) `over the past decade`(过去十年里)。Given their `combined`(联合) market value of more than $5.5tn, `rifling`(膛线) through such small `deals`(交易、待遇、经营) — many of them `much less[较少地，减去]`(更何况) `prominent`(杰出的) than Wunderlist and Sunrise — might seem `beside[在...旁边，不中] the point`(不相关的)。`a drop in the ocean`(沧海一粟) compared with their massive financial `reserves`(预定，保留), and the more than $130bn of `venture`(风险) `capital`(资本，首都)。the big companies use such deals to buy their most threatening potential competitors before their businesses have a `chance`(可能性，偶然的) to gain `momentum`(动力，要素)。
+When Microsoft bought task management app Wunderlist and mobile `calendar`(日历) Sunrise in 2015, it picked up two `newcomers`(新手) that were `attracting`(吸引，引起..的好感) `considerable`(相当多的) `buzz`(发出嗡嗡声; 时尚氛围、匆忙走动) in `Silicon Valley`(硅谷)。Both apps, however, were `later`(后来) `scrapped`(scrap废弃，打架)。the biggest companies have used to `feed`(喂养) their `insatiable`(贪得无厌的) hunger for `tech`( 同 technical college ; 工学院) `talent`(天才，天赋)。the `fates`(命运) of Wunderlist and Sunrise are examples of a `remorseless`(持续恶化的、残酷的) drive by Big Tech to `chew up`(充分咀嚼; 弄坏) any `innovative`(引进新思想的、革新的) companies that lie in their path。Microsoft `declined`(拒绝，下降) to `comment`(评论)。Like other `start-up`(初创) `investors`(投资者)。it asked the five most valuable US tech companies for information about their many small `acquisitions`(收获) `over the past decade`(过去十年里)。Given their `combined`(联合) market value of more than $5.5tn, `rifling`(膛线) through such small `deals`(交易、待遇、经营) — many of them `much less[较少地，减去]`(更何况) `prominent`(杰出的) than Wunderlist and Sunrise — might seem `beside[在...旁边，不中] the point`(不相关的)。`a drop in the ocean`(沧海一粟) compared with their massive financial `reserves`(预定，保留), and the more than $130bn of `venture`(风险) `capital`(资本，首都)。the big companies use such deals to buy their most threatening potential competitors before their businesses have a `chance`(可能性，偶然的) to gain `momentum`(动力，要素)。
 text4：
 We’re fairly `good at`(擅长) judging people based on `first impressions`(第一印象), thin slices of experience ranging from a `glimpse`(一瞥) of a photo to a five-minute `interaction`(合作，互相影响), and `deliberation`(细想，考虑) can be not only `extraneous`(无关的) but `intrusive`(侵入的，烦扰的)。 the `late psychologist`(已去世心里学家) Ambady asked participants to watch silent 10-second video clips of `professors`(教授) and to `rate`(n:速度，进度; 比率; 价格，费用; 房产税;v:评估; 看好; 分等级; 配得上;) the `instructor's`(指导者;instruct:命令，指导) `overall`(全体的) `effectiveness`(效率)。Their ratings `correlated`(相互依赖) strongly with students’ end-of-`semester`(学期) ratings。Another set of participants had to `count backward`(倒数) from 1,000 `by nines`(到9) as they watched the `clips`(片段), occupying their `conscious`(意识到，有知觉的) working memory。`demonstrating`(证明) the `intuitive`(直觉的，使用简便的) nature of the `social processing`(社会过程)。Accuracy dropped `dramatically`(显著地，急剧地)。Ambady `suspected`(v:怀疑) that `deliberation focused`(考虑的重点) them on `vivid`(生动的，清晰的) but misleading `cues`(暗示，信号), such as `certain`(必然的，某一) `gestures`(手势、姿态、表示) or `utterances`(说话方式), rather than letting the `complex`(复杂的、复合的) `interplay`(相互作用) of `subtle`(微妙的) `signals`(信号、标志) form a `holistic`(整体的) impression。Other research shows we’re better at `detecting`(发现) `deception`(欺骗) and `sexual orientation`(性取向) from thin slices when we `rely on`(依赖，reliability:可靠) `intuition`(直觉) instead of `reflection`(印象、反射、表达)。 But if you go on `automatic`(自动的、无意识的) `pilot`(飞行员、向导;vt:驾驶、试验), you’re fine。`College`(大学) students’ ratings of `strawberry`(草莓) `jams`(果酱、卡住) and college `courses`(课程) `aligned`(校准、使一致) better with `experts’`(专家) opinions when the students weren’t asked to analyze their `rationale`(根本原因)，satisfying(令人满意的)。Intuition’s special powers are `unleashed`(释放) only in `certain`(确实、某事、某人) `circumstances`(条件、环境)。participants completed a battery of eight tasks, including four that `tapped`(轻拍、利用、开发) `reflective`(沉思的、反光的、典型的) thinking。discerning(有识别力的)、degree(级别)。 
 【2021一/1】
@@ -72,9 +74,16 @@ That `misses`(忽视) the way the `surveillance`(监视，countless:数不清的
 【2018/四】
 The U.S. Postal Service (USPS,美国邮政局) continues to `bleed`(流血) red `ink`(墨水)。the 10th `straight`(比直地) year its expenses have exceeded `revenue`(税收，赋税)。`Fundamentally`(根本上), the USPS is in a `historic`(历史上著名的) `squeeze`(挤压、捏) between technological change that has `permanently`(永久地) `decreased`(减少) demand for its `bread-and-butter`(很重要的) product。`denies`(否认。deny第三人称) management the `flexibility`(灵活性) to `adjust`(调整、适应) its operations to the new `reality`(实际情况，ultimate:终极目标)。`aspects`(方面) of the status `quo`(现状) they depend on get protected。 leaving the Postal Service unable to pay its `bills`(草案、账单,把..宣传为) `except`(除非) by deferring `vital`(必不可少的。vehicles:车辆，survival:生存) modernization。
 someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to the `bare`(裸体的，脱掉)。keep the Postal Service `afloat`(漂浮、能维持下去), not `comprehensive`(全部的、详尽的。n:综合中学) `reform`(改革)。a major `omission`(省略) `considering`(考虑到) that personnel accounts for 80 percent of the `agency's`(服务机构，eliminating:消除) costs。The `emerging`(出现，merge:合并) `consensus`(一致的意见) around the bill is a sign that `legislators`(立法委员) are getting `frightened`(受惊的) about a politically `embarrassing`(使尴尬) short-term `collapse`(塌陷) at the USPS。
+【2016/一|1】
+`France`(法国),which `prides`(自豪) itself as the global `innovator of fashion`(时尚创新者)。its `lawmakers`(立法者) `gave`(give过去式) `preliminary`(初步的) approval last week to a law that would `make it`(到达，成功) a `crime`(n:罪行，v:指控犯罪)。The `parliament`(会议) also agreed to `ban`(禁止) `websites`(网站) that `incite`(鼓动) `excessive`(过分的) `thinness`(变瘦) by `promoting extreme dieting`(促进极端饮食)。Such measures have a couple of `uplifting`(令人振奋的，prison:监狱、关押) `motives`(动机，teenager:青少年，arbiters：仲裁者)。
+    the charter's(宪章) main tool of `enforcement`(执行) is to `deny access`(拒绝访问) for designers and `modeling`(模拟、建设) `agencies`(服务机构) to `Copenhagen`(哥本哈根，compliance:顺从) Fashion Week。Relying on `ethical`(道德) `persuasion`(说服) rather than law to address the misuse of body `ideals`(理想，elevate:提升，鼓舞) may be the best step。
+【2016/一|2】
+A century ago Octavia Hill `Launched`(下水的、已发射的、发起) the National Trust not to `rescue stylish houses`(拯救时尚的房子)。specifically to provide city `dwellers`(居民) with spaces for `leisure`(空闲，guardian:守护者) where they could experience a refreshing air 。At the next `election`(选举) `none of`(没有一个) the big `parties`(政党、聚会、群) seem likely to `endorse`(赞同、宣传、签名) this `sentiment`(观点、情绪、伤感)。The `conservatives`(保守党) planning `reform`(改革) `explicitly`(明确地) gives `rural`(农村的) development `priority`(优先、首要事情) over `conservation`(保护、防止流失)。The `concept`(概念) of `sustainable`(可持续的) development has been defined as `profitable`(有利可图)。`sensing its chance`(感受到它的可能性)，has sided with those `pleading`(乞求、申辩、认罪。intrusion：入侵) for a more considered approach to using green land。The idea that `housing crisis`(住房危机) equal `concreted`(混凝土) `meadows`(草地) is pure `lobby`(游说、大厅) talk。They do so best where building `sticks`(将..刺入，粘贴、放置) to their `edges`(边缘)  and respects their `character`(性格、特征)。`not let rip`(别让它撕裂，crowed：公鸡打鸣)。the planning has enabled it to `retain`(保持) an `enviable`(令人羡慕的) rural `coherence`(条理性)。there is `no doubt`(毫无疑问) of the `alternative`(可替代的，非传统的) --- the `corrupted`(使堕落、损坏) `landscapes`(风景，spectrum：光谱、范围) of southern Portugal(葡萄牙)。
+【2016/一|3】
+when they are `prosecuted`(起诉、检举) for `corruption`(贪污，贿赂，premise：前提、假设，quality：质量，donate:捐赠)。 Al recent study attempts to separate them by looking at `bribery`(行贿，consult：咨询，firm:坚实) `prosecutions`(起诉) under UCPA。 those with the most `comprehensive`(综合的、全部的) CSR `programmes`(方案) tended to get more `lenient`(宽大的) `penalties`(处罚)。lts in `fines`(罚金) that generally are 40% lower than the typical `punishment`(惩罚) for `bribing`(向..行贿) fo `reign`(统治) officials(官员)。
 
-
-**试题资源**：[资源1](http://www.offcn.com/kaoyan/shiti/2572/)、[当前试题](https://www.kaoyan.com/yingyu/zhenti/5a3f363035b71.html)
+**试题资源**：[资源1](http://www.offcn.com/kaoyan/shiti/2572/)、[2018一试题](https://www.kaoyan.com/yingyu/zhenti/5a3f363035b71.html)、[2020一试题](https://zhuanlan.zhihu.com/p/98760181)
+[2016一](http://wenku.baidu.com/link?url=5vN3r6sf9vjOoe8y-7L3VDI6KRkxy9N6qjoo0ZBosr3mpaOws3AbPf-7czPsqVmi0_3tivmwAVs-k5BY77Gnc3js1R2rWlLNoz7nRoqNt1MPxZZ6DC5Nxbt2nbb8FlWr)
 
 ## 二、计算机综合：
 ### 1、数据结构习题：
@@ -108,12 +117,13 @@ someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to t
 - 进行二分查找时，二分的序列以floor()后结果为准。
 - (2,5,8,20,25,36,40,60)中折半查找60的比对顺序为：`20,36,40,60`
 
+题1：表达式`a*(b+c)-d`的后缀表达式是：`abc+*d-`
 
 **试题资源**：[资源1](https://wenku.baidu.com/view/3bc3c1ba3d1ec5da50e2524de518964bce84d2e7.html)。[资源2](https://wenku.baidu.com/view/da5218f06429647d27284b73f242336c1eb93085.html)、[资源3](https://wenku.baidu.com/view/56e70f5277c66137ee06eff9aef8941ea76e4b23.html)
 
 ### 2、计算机组成原理：
 #### (1)基本：
-- 主频是指CPU时钟周期的倒数。
+
 - 早期计算机以运算器为核心，后期计算机发展以存储器为核心。
 - 工作站可以认为是一种高性能的微型计算机。
 - 计算机的**指令系统**是计算机软件和硬件的接口。
@@ -164,7 +174,51 @@ someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to t
 **题3**：磁盘平均寻道时间为12ms，传输速率为10MB/s，磁盘控制器延时为2ms，一个转速为7200r/min的硬盘写1KB数据时间为？
 >解析：7200r/min=120r/s，而穿速率为10MB/s，说明这120r中写或读的数据量为10MB，则每r（即每个磁道）容量为`1/12MB`。所以写入1KB数据无须换道。
 >写入1KB时间=磁盘启动时间+寻道时间（找到对应的磁道）+数据传输时间=$2+12+\frac{1*10^3ms}{10*1024kB}=14.1ms$
+
+**题4**：某CPU主频为8MHz，若已知每个机器周期平均包含4个时钟周期，该计算机平均指令执行速度为0.8MIPS。
+（1）求该计算机平均指令周期及每个指令周期含有几个机器周期？
+（2）若改用时钟周期为0.4μs的cpu芯片，则计算机平均指令执行速度会变为多少MIPS？
+（3）若要得到平均每秒40万次的指令执行速率，应该采用主频为多少的cpu芯片？
+>(1)解析：时钟周期=$\frac{1}{8*10^6Hz}=0.125\times 10^{-6}s=0.125\mu s$，机器周期=$0.125\mu s\times 4=0.5\mu s$，
+>指令周期=$\frac{1\times 10^6次}{0.8\times 10^6次/s}=1.25\times 10^{-6}s=1.25\mu s$，每个指令周期包含$1.25\mu s/0.5\mu s=2.5$个机器周期。
+>(2)解析：机器周期=$4\times 0.4\mu s=1.6\mu s$，指令周期所包含的机器周期数不变，指令周期=$2.5\times 1.6\mu s=4\mu s$,而1MIPS=1次指令执行周期/1μs，
+>所以，该机器指令平均执行速度=$1/4MIPS=0.25MIPS$
+>(3)解析：指令执行速度=0.4MIPS，则指令周期=$1/0.4=2.5\times 10^{-6}s=2.5\mu s$#机器周期=1μs，时钟周期=1/4=0.25μs，则主频=1/0.25=4MHz。#这里单位转化没写出。
+
+题5：十进制数2000用十六进制表示。
+>解析：$2000=1024+512+256+128+64+16=2^{10}+2^9+2^8+2^7+2^6+2^4=11111010000$源码表示为`011111010000`#加上了符号位，每4位一组转为十进制=>7D0，最后加上H=>7D0H。
+
+题6：假设主存容量位512KB，cache容量为4KB，每个字块位16个字，每个字32位。求直接映射方式下主存地址各字段位数？
+>解析：因为要将主存中的部分数据调入cache内，所以主存地址中自然要包含些cache地址对应的信息。
+>cache容量为`4x1024B=2^12B`所以其地址位用12位表示，每个字块`16x(32/8B)=64B=2^6`#所以字块内地址用6位表示，`块数=4KB/64B=64=2^6`#所以字块地址也用6位表示。
+>主存容量为`512x8=2^19B`#地址位用19位表示。主存字块标记=主存地址长度-cache地址长度=19-12=7。
+>主存地址字段组成=主存字块标记 | 缓存字块地址 | 字块内地址 = 7 | 6 | 6
+
+题7：假设主存容量为512Kx16位，cache容量为4096x16位，块长为4个16位的字，访存地址为字地址。（1）全相联映射方式下，设计主存地址格式。（2）二路组相联映射下，设计主存地址格式。
+>(1)解析：cache块长为`4B=2^2`#所以块内地址为2位，16是存储字长（表1字节存储空间为16位），主存容量=`512x1024B=2^19`，所以主存地址为19位。
+>主存字块标记=`主存地址长-字块内地址长`=19-2=17。主存地址表示=`主存字块标记 | 字块内地址`=17 | 2
+>(2)解析：二路组相联表示每组2个块，`4096/(4x2)=512=2^9组`#所以组地址长为9。主存字块标记=主存地址长-组地址长-块内地址长=19-9-2=8
+>主存地址表示=**主存块标记 | 组地址 | 字块内地址** = 8 | 9 | 2
+
+题8：一8位机的主存采用半导体存储器，地址码为18位，若使用4kx4位的RAM芯片组成该机所允许的最大存储空间，并选用模块条的形式，问若每个模块条为32kx8位，要几个模块条，每个模块多少RAM芯片？
+>解析：主存容量为`2^18B`,`模块条容量=2^5x1024=2^15B`，则块条数`=2^18/2^15=8`块。
+>一个4位RAM要做8位1字的存储器，所以1个RAM只能按2K算，`块数=32/2=16块`。
+
+题9：字长16位的某计算机，其主存容量为64KB，采用单字长单地址指令，共64条指令，设计以下指令：立即寻址时的指令格式、直接寻址时的指令格式、基址寻址时的、相对寻址时的。
+>解析：字长16位，所以指令长也设为16位。这里有四种寻址方式，所以用2位表示寻址方式，6位表示操作类型，剩下的做操作数或操作数地址。
+>格式：`op | xx | D`#xx=00为直接寻址，有效地址E=D。xx=01：间接寻址，`E=(D)(64k)`。xx=10:变址寻址，`E=(R)+D(64k)`#R为变址寄存器。xx=11:相对寻址，`E=(PC)+D`
+
+**题10**：某计算机有变址寻址、间接寻址、相对寻址方式，当前指令地址码部分为001AH，正在执行的指令所在地址为1F05H，变址寄存器的内容为23A0H。存储器内容如下：
+|  地址   |  内容   |  地址   |   内容  |  地址   |  内容   |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+|  001AH   |  23A0H   |   1F05H  |  2400H   |   1F1FH  |  2500H   |
+|  23A0H   |  2600H   |  23BAH   |  1748H   |     |     |
+>执行的指令为变址寻址时：`操作数s=((Rx)+A)=(23A0H+001AH)=(23BAH)=1748H`#Rx为变址寄存器，括号`(地址/部件)`<b c=v>表示取出其或其地址所在的内容。</b>
+>为间接寻址时：`操作数s=((A))=((001AH))=(23A0H)=2600H`#要访问两次存储器。
+>执行转移指令时：`转移地址=(pc)+1+A=1F06H+1H+001AH=1F21H`#使用的相对寻址。
+
 ### 3、操作系统：
+#### (1)基础
 1. 操作系统是扩充**裸机**的第一层系统。
 2. 操作系统的**3个职能**：管理系统软硬件资源、合理组织计算机工作流程、为用户提供良好的工作环境接口。
 3. 使用操作系统提供的**系统调用**接口，能在用户程序中将一字符串送到显示器上。
@@ -177,7 +231,7 @@ someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to t
     - 第三类是既不主动运行也不面对用户态的程序，它们是有前两类程序调用的的。前两类都是由中断驱动的，所以这一类也是。
 8. 中断系统判断是否有中断发生，应该是在执行完一条指令后就进行判断。
 
-**进程相关**：
+#### (2)进程相关：
 1. 进程处于**等待操作系统分配cpu时间**时处于非阻塞状态。一次时间片用完退出处理机后，进入就绪状态。输入输出状态也可能让进程变为阻塞。
 2. 进程调度是从**就绪队列**选择一个进程投入运行。进程被创建后进入就绪队列。UNIX中进程调度采用的技术是**动态优先数**。
 3. PCB即是系统感知进程存在的唯一标志，也是唯一实体，程序只是描述了进程应该完成的功能。
@@ -187,7 +241,7 @@ someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to t
 7. **作业调度**程序是从处于**收容**状态的作业中选取一个作业装入主存。
 8. 与资源相关联的信号量，就是当前可用资源的数量。
 
-**存储相关**：
+#### (3)存储相关：
 - **Belady现象**：为进程分配的内存页增加，缺页率反而增加的异常现象。**先进先出算法**（非基于堆栈实现）FIFO容易产生这种现象。
 - **可变分区管理**为进程分配连续内存。固定分区分配方式属于连续内存分配方式。
 - 联想存储器：提高变换速度、可按内存寻址、不增加太多硬件投资。
@@ -202,6 +256,91 @@ someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to t
 - 小根堆：(5,18,12,19,28,20,15,22)加入一个3后的调整过程如下：
 ![Image Alt Text](file:///E:/DATA/images/dui.jpg =500x)
 
+题1：有3个并发进程read、move、print。两个缓冲区B1,B2只存储一条数据，read读取数据存入B1，move从B1读取数据，加工后放入B2，print从B2读出，输出。要求输出顺序一致，用wait，singal原语表示
+```js
+B1;B2;        //缓冲区
+SR=1;SM1=0;SP=0;SM2=1;    //让几个进程互相得知是否执行的变量。
+
+process read:
+    x = R;            //获取到的资源
+    wait(SR);         //等待资源获取完毕
+    B1.push(x);       //加入到B1。
+    signal(SM1);      //SM1<0时会释放队列中第一个等待信号量的进程
+process move:
+    wait(SM1);        //等待SM1是否结束，<0会继续等待
+    y = B1.pop();     //取出数据
+    signal(SR); 
+    B2.push(op(y))    ////对y进行加工
+    signal(SP);
+process print:
+    wait(SP);
+    z = B2.pop();
+    signal(SM2);
+    print(z);
+end;
+```
+题2：程序PA,PB单独执行时需要时间分别为TA=1h，TB=1.5h。若采用多道程序，让PA,PB并行工作，时间变为，TA=18min,TB=27min。处理器利用率为50%，系统开销为15min，问系统效率能提高多少。
+>解析：计算其先后时间比，来确定其效率。`效率=并行运行时间 / 串形运行时间 = [(18+27)x2+15] / 60 / 2.5 = 70%`#/60是转换时间单位，x2是处理器实际运行的实际。提高了`1-70%=30%`
+
+题3：某多道程序设计系统配有一台处理器和两台外设IO1,IO2，现有3个优先级由高到低的J1,J2,J3都装入了主存，它们使用资源的先后顺序和时间为：
+`J1[IO2(30ms),CPU(10ms),IO1(30ms),CPU(10ms)]`，`J2[IO1(20ms),CPU(20ms),IO2(40ms)]`，`J3[CPU(30ms),IO1(20ms)]`,计算各作业所完成时间。
+>解析：优先可抢占是，优先级高的进程可以抢占自己要的资源。如图所示，J1用时80ms，J2,J3用时90ms。3个作业全完成时IO1利用率：`(20+30+20)/90=78%`。`cpu利用率=(10+20+30+10)/90=78%`
+
+```puml
+@startuml
+scale 10 as 100 pixels
+robust "CPU的运行" as process
+concise "进程J1" as J1
+concise "进程J2" as J2
+concise "进程J3" as J3
+
+@0
+process is 运行
+J1 is 使用IO2
+J2 is 使用IO1
+J3 is 使用CPU
+@20
+process is 运行
+J1 is 使用IO2
+J2 is 使用CPU
+J3 is 等待CPU
+@30
+process is 运行
+J1 is 使用CPU
+J2 is 等待CPU
+J3 is 等待CPU
+@40
+process is 运行
+J1 is 使用IO1
+J2 is 使用CPU
+J3 is 等待CPU
+@50
+process is 运行
+J1 is 使用IO1
+J2 is 使用IO2
+J3 is 使用CPU
+@60
+process is 等待
+J1 is 使用IO1
+J2 is 使用IO2
+J3 is 等待IO1
+@70
+process is 运行
+J1 is 使用CPU
+J2 is 使用IO2
+J3 is 使用IO1
+@80
+process is 等待
+J1 is 空闲
+J2 is 使用IO2
+J3 is 使用IO1
+@90
+process is 等待
+J1 is 空闲
+J2 is 空闲
+J3 is 空闲
+@enduml
+```
 
 ### 4、计算机网络：
 - 计算机网络，主要由网络软件、网络硬件组成。
@@ -225,6 +364,8 @@ someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to t
 - **异构网络**：数据链路层和物理层均不同。
 - 网络层主要设备：路由器、三层交换机。
 - ipv4地址如何转为ipv6表示？？？
+- 进程通信**标识**需要一个**五元组**表示。
+- www浏览器是由一组客户、一组解释单元与一个**控制单元**组成。
 
 **题1**：某信道带宽为10kHz,编码采用32种不同物理状态来表示数据，问无噪声环境下，该信道最大数据传输速率是？
 >解析：W=kHz，根据奈奎斯特定理[^a1]，**波特率**[^a2]`B=2W=20kHz`，无噪声环境最大数据传输率$R=B\log_2M=20*10^3\log_220=100kbps$#M为编码模式数目32。
@@ -240,13 +381,23 @@ someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to t
 >解析：从子网掩码看，这明显是一个c类地址，只有最后一段还可划分主机位数来使用，224转为二进制为`11100000`
 >其中前3位已经固定，后面5位还可变化为不同的主机号，所以所处网络`网络号位数=8+8+8+3=27`。
 
+题5：假设允许的最大报文段长度为64字节，序号用8b表示，报文段在网络中生存的时间为30s，则每一条TCP连接的最高数据率是？
+>解析：8b即为8位，最大序号为255，因为序号使**用完后又会从第一个序号开始**编号使用，<b c=gy>但同一序号不能再同一网络传输中使用，所以每次最多传255个报文段。</b>
+>`最高数据率=255*64*8/(20*1024)`#可将除数部分的1024换成1000，便于计算。
+
+题5.1：设TCP使用的最大窗口为64KB，传输信道的宽带可认为是不受限制的，若报文段平均时延为20ms，则最大**吞吐量**是？
+>解析：**一个窗口包含该次所要发送的全部序列数据**，`64KB=64x1024B=64x1024x8b`所以：`吞吐量=64x1024x8b/(20*1024^2)=26.21Mb/s`
+
 计算机网络资源：[资源1](https://wenku.baidu.com/view/fee13e61ef06eff9aef8941ea76e58fafab0452c.html)、[资源2](https://wenku.baidu.com/view/78b9a95777232f60ddcca1d3.html)
 
 ## 四、数学习题：
 ### 一、数学分析：
 #### a、几何相关：
-题1、$求y=\frac{x^2+x}{x^2-1}渐近线$
+题1：$求y=\frac{x^2+x}{x^2-1}渐近线$
 >**解析**：化简得`x / (x-1)`#x→∞时得1是一条水平渐近线。x→1时得∞是一条垂直渐近线。无斜渐近线。
+
+题1.1：曲线$y=\frac{x+4sinx}{5x-2cosx}$的水平渐进线方程？
+>解析：$\lim_{x\rightarrow\infty} \frac{1+4sinx/x}{5-2cosx/2}=1/5$#还是水平太菜！
 
 **题2**、 位于第一象限的曲线 y=f(x)过点$(\sqrt{2}/2,1/2)$其上任一点 P(x,y)处的法线与 y 轴交点为Q，PQ 被 x 轴平分。(1)求 y=f(x)的方程。(2)已知曲线 y=sinx 在[0,\pi]上的弧长为 l，用 l 表示曲线 y=f(x)的弧长 s。
 
@@ -261,14 +412,27 @@ someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to t
 > 解析：曲率半径=1/曲率=$\frac{(1+y'^2)^{3/2}}{|y''|}=\frac{(4x+1)^{3/2}}{2}$，弧长s=$s(x)=\int ^x_1 \sqrt{1+y'^2}dx$
 >$\frac{dp}{ds}=\frac{dp/dx}{ds/dx},\frac{d^2p}{ds^2}=\frac{d(dp/dx)}{dx}\frac{dx}{ds}$<b c=b>这里与题3中的微分计算方法一样</b>
 
-**连续、可导、可微、可积关系**：
-函数在某点连续但在该点不一定可导，如`|x|`函数左右导数不相等。但不可导的点一定不连续。
+题4：一容器是由一曲线绕y轴旋转而成的，曲线由`x^2+y^2=2y(y>=1/2)与x^2+y^2=1(y<=1/2)`两个缺圆连接而成，相交于y=1/2处。求该容器容积。
+>解析：计算其下半曲线旋转得的体积x2即可，**变化为用y表示**：$x=\sqrt{1-y^2},y1=-1,y2=1/2,\space V_x=2\pi\int ^{1/2}_{-1}1-y^2dy=\frac{9\pi}{4}$
 #### b、求极限部分：
-**题1**：如果f(x,y)在(0,0)连续，求证若极限：`lim(x->0,y->0)f(x,y)/(x^2+y^2)`存在，则f在(0,0)处可微。<b tag>求极限</b>
+**题1**：如果f(x,y)在(0,0)连续，求证若极限：`lim(x->0,y->0)f(x,y)/(x^2+y^2)`存在，则f在(0,0)处可微。
 >**解析**：因为`lim(x->0,y->0)f(x,y)/(x^2+y^2)`存在，f在(0,0)连续，所以lim(x->0,y->0)f(0,0)/(x^2+y^2)也存在。
 >由极限的四则运算可知：`lim(x->0,y->0)(f(x,y)-f(0,0))/(x^2+y^2)`存在，即`lim(△x->0,△y->0)(f(x,y)-f(0,0))/(△x^2+△y^2)`存在，所以可导。
 >$\lim_{x\rightarrow 0,y\rightarrow 0}\frac{f(x,y)-f(0,0)}{x^2+y^2}=\lim_{x\rightarrow 0,y\rightarrow 0}\frac{f(x,y)}{x^2+y^2} - \lim_{x\rightarrow 0,y\rightarrow 0}\frac{f(0,0)}{x^2+y^2} = 0$
 >所以`lim(△x->0,△y->0)(f(x,y)-f(0,0))/sqrt(△x^2+△y^2)=0`得出`f(x,y)-f(0,0)=0*△x+0*△y+o(sqrt(△x^2+△y^2))`#可微的充要条件。
+
+题1.1：函数$f(x)=\lim_{n\rightarrow\infty}\frac{1+x}{1+x^{2n}}$#讨论其间断点。<b c=gn>求左右极限时像为值大一点或小一点引起的变化</b>
+>解析：特殊点有：$f(x)=\begin{cases}(1)\space1+x& |x|<1\\(2)\space0&|x|>1\\(3)\space0&x=-1\\(4)\space1&x=1\end{cases}$
+>$x\rightarrow -1^-$时，明显是(2)情况，$\lim_{x\rightarrow -1^-}f(x)=0,同理\lim_{x\rightarrow -1^+}1+x=0$，
+>而$\lim_{x\rightarrow 1^-}1+x=2,\lim_{x\rightarrow 1^+}f(x)=0$#所以x在-1是连续，在1是跳跃间断点，没有可去间断点和第二类间断点。
+
+题1.2：$f(x)=\begin{cases}\frac{2}{3}x^3 & x\leq 1\\x^2 &x>1\end{cases}$则f在x=1处的左右导数情况？
+>解析：直接求其左右导数，$\lim_{x\rightarrow 1^-}\frac{2x^3/3-2/3}{x-1}=2,\space \lim_{x\rightarrow 1^+}\frac{x^2-2/3}{x-1}=\infty$#
+><b c=r>虽然求1+时是使用第2个函数式，但代入计算时还是x=1，而x=1是第1个函数式情况，所以是2/3！</b>
+
+**题1.3**：an=1+1/2+1/3+..+1/n-ln(n)，n=1,2,..，证明数列{an}收敛。
+>解析：$a_{n+1}-a_n=1/(n+1)-ln(1+1/n)<0$#所以数列{an}单减。
+$a_n>ln(1+1)+ln(1+1/2)+..+ln(1+1/n)-ln(n)=ln2+ln3-ln2+ln4-ln3+..+ln(n+1)-ln(n)-ln(n)=ln(n+1)-ln(n)>0$#有界，所以收敛。
 
 **题2**：<b tag>无穷小量与无穷小量比值求极限</b>：求`lim(x->0)(tanx-sinx)/sin(x^3)`的极限。
 >**解析**：分子分母均是->0的无穷小量，由极限中定理1得知，可以使用等价无穷小量函数来替代式中的分子、分母。
@@ -300,6 +464,30 @@ someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to t
 - 思路：<b c=r>原式中类似`1^∞`型极限，尝试写出它的形式，然后配合可导的定义式求解</b>
 >解析：原式=$\lim_{h\rightarrow 0}[1+\frac{f(x+hx)-f(x)}{f(x)}]^{1/h}按该类型极限的求法得：\frac{f(x+hx)-f(x)}{f(x)}*1/h=\frac{x}{f(x)}*\frac{f(x+hx)-f(x)}{hx}$
 >$原式=\frac{xf'(x)}{f(x)}得其极限后：e^{1/x}=e^{xf'(x)/f(x)}=>1/x=xf'(x)/f(x)$变换后两边求积分可得f(x)表达式。
+
+
+**题8**：设函数f(x)连续，且f(0)!=0,求极限$\lim_{x\rightarrow 0}\frac{\int ^x_0 (x-t)f(t)dt}{x\int ^x_0 f(x-t)dt}$
+>解析：原式=$\frac{\int ^x_0 f(t)dt}{\int ^x_0 f(x-t)dt}-\frac{\int ^x_0 tf(t)dt}{x\int ^x_0 f(x-t)dt}$#因为f(x)连续，所以可使用积分中值定理得：分子分母趋于0，用洛必达法则：
+>这里虽然可以使用洛必达法则，但由于x->0，所以可完全用**积分中值定理变换**，能更快得到结果。
+>原式=$1-\frac{xf(x)}{-xf(x)+\int ^x_0 f(x-t)}<继续洛必达法则=>\frac{1}{2}$#<b c=r>注意是对x求导，积分上下限中常数项因为积分过程中对应已经变为常数项，所以导之后是0！</b>
+
+**题9**：数列$\lbrace x_n \rbrace满足0<x_1<\pi,x_{n+1}=sinx_n(n=1,2,..)$（1）证明$\lim_{n\rightarrow\infty}x_n$存在，并求极限。
+- 思路：查看xn的变化，<b c=gn>用数学归纳法证明其特性，用单调有界证明其极限存在</b>。
+>(1)解析：归纳法：由于sinx<x，0<x1<π知，0<x2=sinx1<x1<π，设0<xn<π则0<xn+1=sinxn<xn<π。所以{xn}单调减少且有下界，$\lim_{n\rightarrow\infty}xn=0$
+>(2)计算$\lim_{n\rightarrow\infty}(\frac{x_{n+1}}{x_n})^{1/x^2_n}=\lim_{n\rightarrow\infty}(1+\frac{x_{n+1}-x_n}{x_n})^{1/x^2_n}$
+>$\lim_{n\rightarrow\infty}\frac{x_{n+1}-x_n}{x^3_n}=\lim_{n\rightarrow\infty}\frac{sinx_n-x_n}{x^3_n}=\lim_{n\rightarrow\infty}\frac{-x^3_n/6}{x^3_n}=-1/6$
+>原式极限=$e^{-1/6}$#<b c=r>以上分式虽然可以拆开，但若要使用等价替换则不能拆开他们，否则计算不一样。有争议！！！！！！！！！！</b>
+
+题10：求极限$\lim_{x\rightarrow 0}\frac{[sinx-sin(sinx)]sinx}{x^4}=\lim_{x\rightarrow 0} \frac{sinx-sin(sinx)}{x^3}$
+>法一$\lim_{x\rightarrow 0}\frac{cosx(1-cos(sinx))}{3x^2}=\lim_{x\rightarrow 0}cosx(1-cos(sinx))\frac{sin^2x/2}{3x^2}=1/6$
+>法二$\lim_{x\rightarrow 0}\frac{t-sint}{t}=\lim_{x\rightarrow 0}\frac{1-cost}{3t^2}=1/6$#变量代换six=t，等价无穷小替换。
+>法三$sinx=x-x^3/3!+o(x^2),sin(sinx)=sinx-sin^3x/3!+o(sin^2x)$这里是0处3阶展开，代入式中得。<b c=r>适当的将部分式子用泰勒展开，一般1~3阶</b>
+>$\lim_{x\rightarrow 0}\frac{sinx-[sinx-sin^2x/6+o(x^2)]}{x^3}=1/6$#其中`o(x^2)`可忽略掉。
+
+**题11**：（1）证明方程$x^n+x^{n-1}+..+x=1,\space(n>1)$在区间(1/2,1)内有且仅仅有一个实根。（2）求（1）中实根xn，证明$\lim_{n\rightarrow\infty}x_n$存在和极限。
+>(1)解析：用等比数列求和公式求$f(1/2)=\frac{\frac{1}{2}(1-1/2^n)}{1-1/2}-1<0,f(1)=n-1>0$#有连续函数介质定理知，至少存在一个x∈(1/2,1)使f(x)=0。
+>f'(x)>0所以在(1/2,1)单增，因此该区间内只有一个f(x)=0
+>(2)解析：因为$x^n_n+x^{n-1}_n+..+x_n=1,\space x^{n+1}_{n+1}+x^{n}_{n+1}+..+x_{n+1}=1,\space 所以\{x_n\}$在单调减少，又xn>1/2，所以lim(xn)=1/2.
 
 #### c1、积分相关：
 **题1**：$\int tanx dx=\int \frac{sin x}{cos x}dx=-\int \frac{(cos x)'}{cos x}dx=-\int \frac{1}{cos x} dcosx$#令u=cosx，g(u)=1/u则得`-ln|cos x|+C`。
@@ -340,6 +528,9 @@ someone is `bound`(跳跃) to `point out`(指出) that it `amounts`(数量) to t
 >$f(t)=\int \frac{sint}{cott}dt=\int \frac{1-cos^2t}{cost}dt=ln|sect+tant|-sint$
 >$求定积分：\int ^{\frac{π}{2}}_0 f(t)dt=\frac{π}{4}为与坐标轴的面积$
 
+题3.1：计算二重积分$\int\int^{}_D xyds$,区域D由曲线`r=1+cost(0<=t<=\pi)`与极轴围成。
+>解析：直接将x=rcost,y=rsint替换xy计算。
+
 **题4**：已知L是从第一象限中从点(0,0)沿圆周x^2+y^2=2x到点(2,0)，在沿圆周x^2+y^2=4到点(0,2)的曲线段，计算曲线积分：<b tag>曲线积分</b>
 $J=\int ^{}_L 3x^2ydx+(x^2+x-2y)dy$
 >**解析**：这里利用格林公式，补一个直线L1：x=0，与之前两个圆周围成区域D，用计算区域D的二重积分减去x=0的曲线积分得到J。方向取逆时针。
@@ -372,11 +563,16 @@ $J=\int ^{}_L 3x^2ydx+(x^2+x-2y)dy$
 >$T=\int\int ^{}_{D_1}x^2dxdy+\int ^1_0\int ^{2-x}_{1-x} \frac{1}{\sqrt{x^2+y^2}}dy+\int ^2_1\int ^{2-x}_{0} \frac{1}{\sqrt{x^2+y^2}}dy$
 >$T=1/12+\sqrt{2}ln(1+\sqrt{2})$#注意在x=1处积分上下限发生变化。<b c=v>在直角坐标积分计算比较麻烦，但用极坐标ρ的范围又很难表示！！</b>
 
-
 #### c2、导数相关：
 
 **题1**：设Ik=\int ^k_e e^(x^2) sinx dx，比较k=1,2,3时它们的大小。
->**解析**：e^(x^2)和sinx在(0,π)都大于0，所以e^(x^2) sinx在(0,π)上是单调函数，所以积分大小为：I1<I2<I3。
+>**解析**：`e^(x^2)`和sinx在(0,π)都大于0，所以e^(x^2) sinx在(0,π)上是单调函数，所以积分大小为：I1<I2<I3。
+
+题1.1：函数$u(x,y)=p(x+y)+p(x-y)+\int ^{x+y}_{x-y} p(t)dt证\partial ^2u/\partial x^2=\partial ^u/\partial y^2$
+>解析：$\frac{\partial u}{\partial x}=p'(x+y)+p'(x-y)+p(x+y)-p(x-y)，\frac{\partial u}{\partial y}=p'(x+y)-p'(x-y)+p(x+y)+p(x-y)$#<b c=r>注意这个积分求导</b>
+
+题1.2：奇函数f(x)在[-1,1]上有二阶导数，f(1)=1，证明存在a∈(-1,1)使得：`f''(a)+f'(a)=1`。
+>解析：奇函数的导数必是偶函数。f(-1)=-1，存在$f'(-b)=f'(b)=1令F(x)=(f'(x)-1)e^x$#F(b)=F(-b)=0，据罗尔定理知，有a∈(-b,b)使得`F'(b)=0=(f''(a)+f'(a)-1)=0`
 
 **题2**：证明xln(1+x)/(1-x) + cosx>=1+x^2/2，-1<x<1。<b tag>函数式大小比对</b>
 >$解析：令f(x)=x\ln\frac{1+x}{1-x}+cosx-1-\frac{x^2}{2}$
@@ -389,7 +585,7 @@ $J=\int ^{}_L 3x^2ydx+(x^2+x-2y)dy$
 >解析：该函数的条件，和题中的情形可以**尝试用积分中值定理**：$原式=\lim_{a\rightarrow 0^+}\frac{1}{4a^2}[f(c+a)-f(c-a)]*(a+a)$
 >再对式中f使用拉个郎日中值定理：$原式=\lim_{a\rightarrow 0^+}\frac{1}{4a^2}*4a^2f'(q)=f'(0)$
 
-**题4**：函数f(x)在[0,+∞)上可导，f(0)=1且满足等式：`f'(x)+f(x)-1/(x+1) \int ^x_0 f(t)dt=0`#求f'(x)。
+**题4**：函数f(x)在[0,+∞)上可导，f(0)=1且满足等式：$f'(x)+f(x)-1/(x+1) \int ^x_0 f(t)dt=0$#求f'(x)。
 - 思路：<b c=r>看着类似于微分方程，但别总想着用微分方程方法求解！</b>
 >解析：乘(x+1)，然后两边求导，得：`(x+1)f''(x)+(2+x)f'(x)=0`#因为`\int ^x_0 f(t)dt=F(x)-F(0)`#后一个求导后为0，前一个导为f(x)与式中-f(x)和为0。
 >`f''(x)=-(x+1)/(x+2) * f'(x)`#结合f'(0)=1推出`f'(x)=-e^-x/(x+1)`。
@@ -411,6 +607,29 @@ $J=\int ^{}_L 3x^2ydx+(x^2+x-2y)dy$
 >(1)解析：$f(x+\pi)=\int ^{x+3\pi/2}_{x+\pi}|sint|dt<令u=t+\pi>f(x+\pi)=f(x)=\int ^{x+\pi/2}_x |sinu|du$#利用微分性质，巧妙变换。
 >(2)解析：在[0，π]上求值域即可。$f(x)=|sin(x+\pi/2)|-|sinx|=|cosx|-|sinx|$#求该区间内极值，最值。<b c=gn>保留与去除绝对值，效果一致，可以保留处理</b>
 
+题7：函数$f(x)=\lim_{x\rightarrow\infty}\sqrt[n]{1+|x|^{3n}}$有几个不可导点？
+>解析：2个，x在(-1,1)内$\lim_{x\rightarrow\infty}|x|^3n=0$明显在-1,1两点处左右极限不等，故不可导。<b c=r>小题虽整体不难，但有些小陷阱！</b>
+
+题8：函数$y=\frac{1}{2x+3},则y^{(n)}(0)=?$
+- 思路：这类似有规律的题可优先尝试归纳法，使用更简便的指数形式求导，更容易看出规律！
+>解析：$n=1时：y'=-2(2x+3)^{-2}，n=2时：y''=(-2)^2*2*(2x+3)^{-3}$则n时$y^{(n)}=(-2)^nn(2x+3)^{-(n+1)},y^{(n)}(0)=..$
+
+题9：函数z=f(x,y)的全微分dz=2xdx-2ydy，并且f(1,1)=2求f(x,y)在椭圆`D={(x,y)|x^2+y^2/4 <=1}`上的最大值和最小值。
+>解析：从全微分知$\frac{∂z}{∂x}=2x,\frac{∂z}{∂y}=-2y$结合f(1,1)=2得原式：$f(x,y)=x^2-y^2+2$。
+>令偏导为0，得到可能得极值点(0,0)，再计算：$A=\frac{∂^2z}{∂x^2}|^{}_{(0,0)}=2,B=\frac{∂^2z}{∂x∂y}|^{}_{(0,0)}=0,C=\frac{∂^2z}{∂y^2}|^{}_{(0,0)}=-2$
+>AC-B^2<0所以点(0,0)不是极值点，这样就只能考虑边界情况，将`x^2+y^2/4=1`也加入用拉格朗日数乘法计算。
+
+```mathjax
+$$F(x,y,λ)=f(x,y)+λ(x^2+y^2/4-1),\begin{cases}
+F'_x=\frac{∂f}{∂x}+2λx=2(1+λ)x=0 \\
+F'_y=\frac{∂f}{∂y}+λy/2=-2y+λy/2=0 \\
+F'_λ=x^2+y^2/4-1=0
+\end{cases}，计算出几对x,y,λ值，带入选出最大值3最小值-2。$$
+```
+
+题10：f(x)是区间[0,π/4]上的单调，可导函数，满足：$\int ^{f(x)}_0 f^{-1}(t)dt=\int ^x_0 t\frac{cost-sint}{sint+cost}dt，f^{-1}是f的反函数$
+>解析：两边同时求导$f'(x)f^{-1}(f(x))=x\frac{cosx-sinx}{sinx+cosx}$#由反函数定义知$f(x)=Q(x),f^{-1}(Q(x))=x，所以f^{-1}(f(x))=x$<b c=r>不要受其中的f(x)和右侧式子影响！</b>
+>得：$f(x)=ln(sinx+cosx)+C$其反函数值域为[0,π/4]且也单调增加，所以x=0,y=0时都为0，有f(0)=0求出C=0（画出两者的图很容易理解！）。
 #### d、级数相关：
 **题1**：求(n=1,∞)∑(x^n / n) * (-1)^{n-1}的收敛半径与收敛域。<b c=r>注意收敛域区间两端是否也收敛</b>
 >**解析**：an=-1^(n-1)/n。|an|=1/n，|an+1|=1/(n+1)
@@ -432,11 +651,18 @@ $J=\int ^{}_L 3x^2ydx+(x^2+x-2y)dy$
 
 #### e、微分相关：
 题1：设函$F(x,y)=\int ^{xy}_0 \frac{sint}{1+t^2}dt,则\frac{∂^2F}{∂x^2}| ^{x=0}_{y=z}=?$
->解析1：$x的偏导:F'_x=\frac{∂F}{∂x}=\frac{ysinxy}{1+x^2y^2}$#被积函数直接是F的导，所以直接使用。<b c=r>第一个y不应该出现才对！</b>
+>解析：$x的偏导:F'_x=\frac{∂F}{∂x}=\frac{ysinxy}{1+x^2y^2}$#被积函数直接是F的导，所以直接使用。<b c=r>第一个y不应该出现才对！</b>
 >$∂^2F是x的二阶偏导:F''_{xx}(x,y)=∂^2F=∂\frac{\frac{∂F}{∂x}}{∂x}=\frac{∂^2F}{∂x^2}=\frac{y^2cos(xy)(1+x^2y^2)-2xy^3sin(xy)}{(1+x^2y^2)^2}$#代入值求解即可。
 
-题2：设f(u,v)为二元可微函数，`z=f(x^y,y^x)`则∂z/∂x=?
-解析：$u=x^y,v=y^x，∂z/∂x=\frac{∂z}{∂u}*\frac{∂u}{∂x}+\frac{∂z}{∂v}*\frac{∂v}{∂x}=yx^{y-1}f'_1+y^xlnyf'_2$#用f'1表示∂z/∂u，f'2表示
+题1.1：y=y(x)由方程$y=1-xe^y$
+
+题1.2：设f(u,v)为二元可微函数，`z=f(x^y,y^x)`则∂z/∂x=?
+>解析：$u=x^y,v=y^x，∂z/∂x=\frac{∂z}{∂u}*\frac{∂u}{∂x}+\frac{∂z}{∂v}*\frac{∂v}{∂x}=yx^{y-1}f'_1+y^xlnyf'_2$#用f'1表示∂z/∂u，f'2表示
+
+题1.3：已知$y=\frac{x}{lnx}$是微分方程$y'=y/x+p(x/y)$的解，求p(x/y)的表达式。
+>解析：将y代入计算，p(x/y)中的y也要代入。<b c=gy>要求的就是p(x/y)所以没有想到替换p(x/y)中的y，导致思维卡住！！！</b>
+>$\frac{lnx-1}{ln^2x}=1/lnx+p(lnx)得:p(lnx)=-1/ln^2x,令lnx=u代入：p(u)=-1/u^2,再讲u=x/y代入即可$
+
 题3：设$\begin{cases}x=5(t-sint) \\ y=5(1-cost) \end{cases}求\frac{dy}{dx}和\frac{d^2y}{dx^2}$
 >解析：$\frac{dy}{dx}=\frac{dy/dt}{dx/dt}=\frac{sint}{1-cost}而d^2y$是要求其关于x的二次微分，<b c=r>但dy/dx后式中只剩下t参数，所以要把t看成是关于x的复合函数来求</b>，于是：
 $t=F(t)，\frac{d^y}{dx^2}=d\frac{dy/dx}{dt}*\frac{dt}{dx}隐函数微分法得dt/dx=x'/t'=\frac{1}{5(1-cost)}=>\frac{d^y}{dx^2} =\frac{1}{5(1-cost)^2}$
@@ -477,6 +703,24 @@ $$
 >解析：据反函数求导知：$\frac{dx}{dy}=\frac{1}{y'},\frac{d^2x}{dy^2}=\frac{d(dx/dy)}{dy}=\frac{d(1/y')}{dx}\frac{dx}{dy}=\frac{-y''}{y'^2}*\frac{1}{y'}$
 >带入原方程得到$y''-y=sinx$。#上面$\frac{d(1/y')}{dx}$就是再对`1/y'`求导（<b c=r>可根据求导定义得知</b>）
 
+题10：$y=(1+sinx)^x,则dy|^{}_{x=\pi}=A\Delta x+o(x^2)=y'dx+o(x^2)=-\pi dx$#<b c=v>注意将△x用dx表示，这也是微分的表示形式！</b>
+
+**题11**：用变量代换x=cost(0<t<π)，化简微分方程$(1-x^2)y''-xy'+y=0$，并求其满足$y|^{}_{x=0}=1,y'|^{}_{x=0}=2$时的特解。
+>思路：<b c=r>微分方程中对x进行了代换，相当于加了复合函数，而y'等则是关于x的导，直接带入解除的话却变成了关于t的方程，显然是不对的</b>
+>注：<b c=gn>下面的转微分表示每一步都需要结合微分定义式来理解，不然理解困难。</b>
+>解析：$y'=\frac{dy}{dt}\frac{dt}{dx}=-\frac{1}{sint}\frac{dy}{dt}$#将x=cost用隐函数微分法求出，因为最后是求关于x的方程，所以不是$\frac{dy}{dx}\frac{dx}{dt}$。
+>$y''=\frac{dy'}{dt}\frac{dt}{dx}=[-\frac{1}{sint}\frac{dy}{dt}]'\frac{dt}{dx}=[-\frac{-cost}{sin^2t}\frac{dy}{dt}-\frac{1}{sint}\frac{d^2y}{dt^2}]\frac{1}{sint}$
+>代入原式得$\frac{d^2y}{dt^2}+y=0<变为正常微分方程>y''+y=0$#二次齐次方程求解得通解：$y=e^{0x}[C_1cos(1*x)+C_2sin(1*x)]$#再代入题中条件得$y=2x+\sqrt{1-x^2}$。
+
+**题12**：求微分方程$y''(x+y'^2)$满足初始条件$y(1)=y'(1)=1$的特解。
+- 思路：这种不含y的二阶微分方方程，<b c=v>将一阶导变换为一个变量p表示，将整个公式变为一个关于p的一阶微分来解</b>,将式子看成是x关于y的，**反过来求**，这样容易很多。
+>设$y'=p,y''=p'$则原方程变为：$p'(x+p^2)=p<=>\frac{dx}{dp}=\frac{x}{p}+p<=>x'-x/p=p$#<b c=r>看成p关于x的比较难处理，看成x关于p的则变得容易</b>
+>按一阶非其次微分公式得$x=p(p+c),p(1)=1带入：1=1(1+c)$得c=0所以$x=p^2=>y'=\sqrt{x}=>y=\frac{2}{3}x^{3/2}+C,y(1)=1带入得C=1/3$
+
+题13：函数y(x)具有二阶导数，曲线L：y=y(x)与直线y=x相切于原点，记a为曲线l在点(x,y)处切线的倾角（x正半轴与上方直线方向夹角）若：`da/dx=dy/dx`，求y(x)表达式。
+>解析：与y=x在原点相切，所以y(0)=0，y'(0)=1。且有`tana=dy/dx`。a看成是关于x的关系式。$y'=tana，所以a=arctan(y')，求导a'=\frac{y''}{1+y'^2}=y'$#因为y是关于x的关系式。
+>右侧构成微分方程。$令p=y'，\frac{p'}{(1+p^2)p}=1=>\frac{p'}{(1+p^2)p}dy=dx两边积分：ln\frac{p^2}{1+p^2}=2x+lnc$#再代入上面的条件，可解。
+
 #### f、应用题：
 题1、一质量为9000kg飞机在机场降落，着落时水平速度为700km/h，飞机所受总阻力与飞机速度成正比（比列系数`k=6x10^6`）从着陆点算，飞机滑行最长距离为多少？
 - <b c=r>应用题，需要多联系实际，物理来考虑数学式中这些值的表述。</b>
@@ -503,15 +747,26 @@ $$
 >$\frac{V_速}{ds}=\frac{dv/dt}{ds}=\frac{2\pi r^3/3t}{2\pi r^2}=r/3t=-k=>rd=-kdt=>r=-kt+C$#3与k都是常数，干脆合并。dv是负数。
 >$r(0)=r_0$体积变化7/8时r变化1/2, $r(3)=r_0/2得r=-r_0t/6+r_0$#6h可融化完。
 
+#### g、证明题：
+**题1**：函数f(x)在[0,1]上连续，在(0,1)可导，且f(0)=0,f(1)=1，证明：（1）存在a∈(0,1)使f(a)=1-a；（2）存在两个不同的点c,b使得`f'(c)f'(b)=1`。
+- 思路：重新制造一个函数来辅助证明，这是不容易的事！
+>（1）解析：令F(x)=f(x)-1+x，a∈(0,1)，可知F(0)=-1,F(1)=1，F(x)在[0,1]也是连续的。
+>由连续函数零点定理可知，存在a∈(0,1),使得F(a)=0。代入得：`F(a)=f(a)-1+a=>f(a)=1-a`。
+>（2）解析：利用1的证明，在[0,a],[a,1]上分别用拉格朗日中值定理：
+$\begin{cases}\frac{f(a)-f(0)}{a-0}=f'(a)&c∈[0,a]\\ \frac{f(1)-f(a)}{1-a}=f'(b)&b∈[a,1] \end{cases}，f'(b)f'(c)=1*\frac{1-(1-a)}{a}=1$
 
+题2：函数f(x)，g(x)在[a,b]上连续，在(a,b)内二阶内具有二阶导数且它们最大值相等，f(a)=g(a),f(b)=g(b)。证明存在c∈(a,b)使得f''(c)=g''(c)。
+>解析：由拉格朗日中值定理知：存在d∈(a,b)使`f(b)-f(a)=f'(d)(b-a)，g(b)-g(a)=g'(d)(b-a)`#所以g(d)=f(d)。
+><b c=b>函数在(a,b)内二阶可导，但在a,b点不一定连续，不能直接用拉格朗日中值定理。</b>
+>存在e∈(a,d)，k∈(d,b)使得：`f(d)-f(a)=(d-a)f'(e)，f(b)-f(d)=(b-d)f'(k)`#g(x)也满足，所以有g'(e)=f'(e),f'(k)=g'(k)。
+>在点e,和k显然是连续的，可再次使用拉格朗日中值定理，得出结论。
 #### S、题型总结：
-1. 求积分：
-2. 求极限：<i tag=l2>因式分解，化简</i><i tag=l1>`1^∞`型极限求法</i><i tag=l2>0/0型优先尝试等价无穷小替换</i><i tag=l2>∞，0单个或多个组合的考虑洛必达法则</i><i tag=l2>数列和情况多用夹逼定理</i>
-<i tag=l2>数列值情况多用到单调性，结合最值决定</i><i tag=l1>其它</i>
-
-3. 证明等式/不等式：<i tag=l2>两式相减，求导求极值</i><i tag=l2>拉格朗日中值定理</i><i tag=l1>积分中值定理</i><i tag=l1>柯西中值定理</i>
+1. **求积分**：<i tag=l1>分式拆开、化简</i><i tag=l2>怪异复杂的多考虑第一换元</i><i tag=l2>能无限分布积分的考虑是否能与左侧原式合并</i><i tag=l2>按形式相同的积分公式化简式子</i>
+2. **求极限**：<i tag=l2>因式分解，化简</i><i tag=l1>`1^∞`型极限求法</i><i tag=l2>0/0型优先尝试等价无穷小替换</i><i tag=l2>∞，0单个或多个组合的考虑洛必达法则</i><i tag=l2>数列和情况多用夹逼定理</i><i tag=l2>极限非0常数可先求出极限</i><i tag=l2>数列值情况多用到单调性，结合最值决定</i><i tag=l1>泰勒展开替代部分因式</i><i tag=l1>其它</i>
+3. 证明等式/不等式：<i tag=l2>两式相减，求导求极值</i><i tag=l2>拉格朗日中值定理，折半区间连续使用</i><i tag=l1>积分中值定理</i><i tag=l1>柯西中值定理</i><i tag=l2>构造一个新的函数包含该函数，更利于证明 </i>
 4. 应用题：
 5. 求函数表达式：<i tag=l1>泰勒展开</i><i tag=l1>微分方程</i><i tag=l1>两边同时求积分、求导</i>
+6. **求微分方程**：<i tag=l2>`y'换为dy/dx`表示，特别是简单的微分方程或有变量代换的</i><i tag=l1>高阶且无y时，用变量替换p=y'降为低阶来求</i><i tag=l1>如`y(y'-y)=x`这种难以拆开为正常形式的可反过来求`dx/dy=x'`而不是`dy/dx=y'`</i><i tag=l2>y'有n次方情况，可直接尝试求积分</i>
 
 ### 二、概率论：
 **题1**：设A,B,C是随机事件，A,C互不相容，p(AB)=1/2，p(C)=1/3，求p(AB-C)。<b tag>-C表示C的逆事件</b>
@@ -528,6 +783,22 @@ $$f(x,y)=\begin{cases}e^{-x-4y} & x>0,y>0 \\
 题1：A,B,C均为n阶矩阵，若AB=C，且B可逆，则：
 >解析：将A,C按列分块为[a1,a2,...,an]，[c1,...,cn]表示，AB有：$a_1b_{11}+a_2b_{21}+...+a_nb_{n1}=c_1,a_1b_{12}+...+a_nb_{n2}=c_2,...$说明A的列向量可以线性表出C的列向量。
 >因为B可逆，则有$A=CB^{-1}$这说明A的列向量可由C的列向量线性表出，因此它们的列向量可以互相线性表出，所以矩阵A与C的列向量等价。
+
+题1.1：A,B均为二阶方阵，`A^*,B^*`分别为A,B的伴随矩阵，若|A|=2,|B|=3,则分块矩阵$T=\left[\begin{array}_0&A\\B&0\end{array}\right]$的伴随矩阵？
+>解析：直接用公式求（注意求逆矩阵时副对角线交换）
+
+```mathjax
+$T^*=|T|T^{-1}=>T^*=\left|\begin{array}_0&A\\B&0\end{array}\right|\left[\begin{array}_0&A\\B&0\end{array}\right]^{-1}
+=6\left[\begin{array}_0&B^{-1}\\A^{-1}&0\end{array}\right]=\left[\begin{array}_0&6A^*/|A|\\6B^*/|B|&0\end{array}\right]
+=\left[\begin{array}_0&3A^*\\2B^*&0\end{array}\right]
+$
+```
+题1.2：A,P均为3阶矩阵，P^T为P的转置矩阵，且$F=P^TAP=\left[\begin{array}_1&0&0\\0&1&0\\0&0&2\end{array}\right]$,若P=(a1,a2,a3),Q=(a1+a2,a2,a3)则Q^TAQ=？
+>解析：很明显Q可由P结果一次初等线性变换而成。$Q=(a1,a2,a3)=PC=\left[\begin{array}_1&0&0\\1&1&0\\0&0&1\end{array}\right]$
+>所以$Q^TAQ=(PC)^TA(PC)=C^TP^TAPC=C^TFC$
+
+题1.3：A为4阶实对称矩阵，且A^2+A=0（0矩阵），若A的秩为3，则A的特征值为？
+>解析：<b c=r>使用特征值定义</b>，$Aa=ra,\space A^2a=r^2a,而A^2+A=0=>(r^2+r)a=0$#特征向量a不为0，所以特征值r只有-1和0两种，而A的秩又是3，所以r1=r2=r3=-1,r4=0。
 
 题2：设$a=\left[\begin{array}_1 \\2 \\ 1 \end{array}\right],b=\left[\begin{array}_1 \\1/2 \\ 0 \end{array}\right],y=\left[\begin{array}_0 \\0 \\ 8 \end{array}\right],A=ab^T,B=b^Ta$
 求解方程：$2B^2A^2x=A^4x+B^4x+y$
@@ -576,6 +847,37 @@ _10+a&10+a&10+a&10+a \\
 4&4&4&4+a
 \end{array}\right]=<化为下三角>\left[\begin{array}_10+a&0&0&0\\2&a&0&0\\3&0&a&0\\4&0&0&a \end{array}\right]=(a+10)a^3=0$
 ```
+
+题8：n元线性方程组Ax=b，其中：(证明行列式`|A|=(n+1)a^n`)
+$A=\left[\begin{array}_2a&1&{}&{}&{}\\a^2&2a&1&{} &\space\\{}&\ddots&\ddots&\ddots\\{}&{}&a^2&2a&1\\{}&{}&{}&a^2&2a \end{array}\right]$
+>解析：利用展开式来计算并不能得到目的式，<b c=b>巧妙利用数学归纳法来证明。</b>
+>当n-1时d1=2a，命题成立。当n=2时，`d2=3a^2`，命题成立。当n<k时，dk=(n+1)a^n，命题成立，则当n=k时，行第一列展开，$dn=2ad_{k-1}-a^2d_{k-2}=(k+1)a^k$。
+
+题8：A为3阶矩阵，a1,a2为A的分别属于特征值-1,1的特征向量，向量a3满足Aa3=a2+a3。(1)证明a1,a2,a3线性无关。（2）令p=(a1,a2,a3)，求p^-1Ap。
+>(1)解析：利用特征值的定义，Aa1=-a1，Aa2=a2。假设：$(1)k_1a_1+k_2a_2+k_3a_3=0$左乘A，则$k_1Aa_1+k_2Aa_2+k_3Aa_3=k_2a_2-k_1a_1+k_3(a_2+a_3)=0\space (2)$
+>由(1)-(2)得：$2k_1a_1-k_2a_2=0$，a1,a2是不同特征值的特征向量，所以a1,a2线性无关，得k1=k3=0，所以：a1,a2,a3线性无关。
+>(2)解析：按体中条件可以先尝试计算$AP=A(a_1,a_2,a_3)=(Aa_1,Aa_2,Aa_3)=(-a_1,a_2,a_2+a_3)=T$
+>$AP=T=(a_1,a_2,a_3)\left[\begin{array}_-1&0&0\\0&1&1\\0&0&1 \end{array}\right]=P\left[\begin{array}_-1&0&0\\0&1&1\\0&0&1 \end{array}\right]$
+>$P^{-1}AP=\left[\begin{array}_-1&0&0\\0&1&1\\0&0&1 \end{array}\right]$#计算AP，变化之后变得易算。
+
+题9：非线性方程组：（1）证其系数矩阵的秩r(A)=2。（2）求a,b的值及方程组的通解。
+$\begin{cases}x_1+x_2+x_3+x_4=-1\\4x_1+3x_2+5x_3-x_4=-1\\ax_1+x_2+3x_3+bx_4=1\end{cases}$有3个线性无关的解
+>(1)解析：设a1,a2,a3是其非齐次方程组的线性无关解，那么a1-a2,a1-a3是其Ax=0的线性无关解，所以3-r(A)<=2
+>又有顺序主子式$\left|\begin{array}_1&1\\4&3 \end{array}\right|$不为0，所以r(A)>=2，因此r(A)=2。
+>(2)解析：对系数行列式化为上三角可得：a=2,b=-3，拼凑得出a=(2,-3,0,0)是Ax=b的解，b1=(-2,1,1,0),b2=(4,-5,0,1)是Ax=0的解，则非齐次方程组通解：a+kb1+kb2
+
+**题10**：确定常数a使向量组a1=(1,1,a),a2=(1,a,1),a3=(a,1,1)可由向量组b1=(1,1,a),b2=(-2,a,4),b3=(-a,a,a)线性表示。但向量组b1,b2,b3不能由向量组a1,a2,a3线性表示。
+>解析：因为向量组A=(a1,a2,a3)可由向量组B=(b1,b2,b3)线性表出，所以r(A)<=r(B)。<i c=b>4个n维向量a1,a2,a3,b1一定会是线性相关的，但a1,a2,a3不能线性表出b1,所以a1,a2,a3**线性相关**。</i>
+>则`|A|=|a1,a2,a3|=-(a-1)^2(a+2)=0`#a=1时满足题目要求。a=-2时，做`(b1,b2,b3|a1,a2,a3)`#对其中的左部分做初等行变换化为上3角，得到`r(B)=2,r(B|A)=3`，所以方程组`Bx=A无解`。
+
+题11：二次型$f(x1,x2,x3)=ax^2_1+ax^2_2+(a-1)x^2_3+2x_1x_3-2x_2x_3$,(1)求二次型f的矩阵的所有特征值。（2）若f的规范形为$y^2_1+y^2_2$#求a的值。
+>(1)解析：根据二次型可得矩阵。下面λE-A已经是化简过的式子。<b c=gn>这种行参数的化为上三角形式反而不易求特征值。化简其它部分即可！</b>
+```mathjax
+$A=\left[\begin{array}_a&0&1\\0&a&-1\\1&-1&a-1\end{array}\right],\space 
+|λE-A|=\left[\begin{array}_λ-a&0&0\\0&λ-a&1\\-1&1&λ-a+1\end{array}\right]=(λ-a)(λ-(a+1))(λ-(a-2)),\space 得λ_1=a,λ_2=a+1,λ_3=a-2
+$
+```
+>(2)解析：规范形一般是标准型再结果**非退化线性变换**得来的，所以**其值不一定与特征值一样**。<b c=b>但其正负惯性指数与特征值正负数一样</b>。结合（1）得其a=2时符合。
 
 [^a1]: 奈奎斯特定理：它为采样率建立了一个足够的条件，该采样率允许离散采样序列从有限带宽的连续时间信号中捕获所有信息。
 [^a2]: 波特率：表示单位时间内传送的码元符号的个数，它是对符号传输速率的一种度量。
