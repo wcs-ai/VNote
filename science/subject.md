@@ -1,79 +1,5 @@
 
 # 1、英语
-## a、编程常用相关词汇：
-```
-###>>>>>        A        <<<<<###
-abnormal//adj,异常的；变态的                              artificial intelligence//人工智能                       architecture//n,建筑学，建筑风格                         
-assume//vt,承担，假定	                                    allocating//n,分配、vt,配置                              algorithm//n,算法，运算法则
-average,mean//n,平均                                     abstrict//n,摘要                                        assist//v,参加，有助于、协助
-assign//vt,赋值,指派
-###>>>>>        B        <<<<<###
-batch//n,一批,vt,分批处理	                                binomial//adj,二项的                                    binomial distribution//二项分布
-beam//n,光线，电波;vt,发送，照射                           binary//adj,二进制的
-###>>>>>        C        <<<<<###
-coordinate//n,坐标；adj,同等的并列的                       cause,reason// n,原因                                    corpus//n,语料库
-convolution//卷积                                        corps,object//n,物体                                    capital gain//资本得利
-capital loss//资本损失                                    convert//vt,使转变                                        capital//n,首都、省会、资本家
-crop//v,收割,剪短,n,产量                                    context//n,上下文，环境                                config//n,配置，布局
-convole//vt,使卷，使缠绕                                   chief//n,首领,adj,主要的,adv,主要的                    couplet//n,对联
-competitive//adj,竞争的，比赛的                            candidate//n,候选人，候补者                            collapse//v,倒塌，瓦解
-coefficient//n,系数
-capture//n,捕获
-###>>>>>        D        <<<<<###
-decay//vi,衰退,衰减                                        dependencies//n,依赖性，相关性                         duplicate//adj,复制的，重复的
-denote//n,指示，表示                                    draft//n,草稿，汇票；//vt,起草，制定                    dense//adj,密集的	
-directive//n,指令
-###>>>>>        E        <<<<<###
-exceed,surpass//超过                                    example//n,例子,榜样                                     exponential//adj,指数的
-exhaust//vt,耗尽,exhausted//adj,用尽的                    execute//v,执行、处死                                excluded//adj,排除的
-entities//n,实体
-###>>>>>        F        <<<<<###
-favorable//adj,有利的良好的，优惠的                        fitment//n,家具，设备，装修                            forbidden//adj,被禁止的,严禁的
-###>>>>>        G        <<<<<###
-graphics//n,图表算法，制图法
-###>>>>>        H        <<<<<###
-histogram//n,直方图
-###>>>>>        I        <<<<<###
-interpolate//vi,插入、篡改                                invalid//adj,无效的，有病的                            integer//n,整数
-iterable//adj,能推论的，迭代                               increment//n,数量、增加                                implement//vt,实施，执行
-###>>>>>        J        <<<<<###
-###>>>>>        K        <<<<<###
-###>>>>>        L        <<<<<###
-logistics//n,后勤学，物流	                                legend//n,图例，说明，传奇                                latent//adj,潜在的
-###>>>>>        M        <<<<<###
-merge//vt,合并，吞没                                       machine learn//机器学习
-###>>>>>        N        <<<<<###
-###>>>>>        O        <<<<<###
-operand//n,操作数，运算对象
-###>>>>>        P        <<<<<###
-previously//adj,以前的                                 proto//n,原型，样机                                        primary//adj,主要的、初级的
-parity//n,平价、相等；disparity//n,不平等的                patented//adj,专利的                                    params//n,参数
-postprocessor//n,后处理机                                perceptron//n,感知器	                                    propose//n,建议，打算
-process//n,过程；//v,审核，处理
-###>>>>>        Q        <<<<<###
-quantity//n,量、数量、数目
-###>>>>>        R        <<<<<###
-regression//n,回归、复原、退化                            resource//n,资源	
-###>>>>>        S        <<<<<###
-sequence//序列、顺序                                    subplot//n,次要情节                                        scalar//n,标量的
-summary//n,adj,摘要，简易的                                shuffle//v,洗牌、搅乱                                   statistics//v,统计
-shown//v,解释、表露、给予                                seniority//n,排行榜                                        slices//n,切片
-serial//adj,连续的serialize//连载	                        semantic//adj,语义的，语义学的                                scheme//n,计划，组合，体制
-stack//n,堆，堆叠                                        solely//adv,单独地、唯一地                                sparse//adj,稀疏的
-slash//vt,猛砍，严厉批评                                slote//n,斜率                                        syntax//n,句法，语构。
-###>>>>>        T        <<<<<###
-tutorial//adj,辅助的,个别指导的                            transpose//v,调换、颠倒顺序                               trace//vt,跟踪，探索
-trend//n,趋势
-###>>>>>        U        <<<<<###
-unfolds//vt,打开，vi:展现	                                utterances//n,表达，说话
-###>>>>>        V        <<<<<###
-visor//n,遮阳板
-###>>>>>        W        <<<<<###
-weather//n,天气                                            wiki//n,维基百科
-###>>>>>        X        <<<<<###
-###>>>>>        Y        <<<<<###
-###>>>>>        Z        <<<<<###
-```
 
 ## b、英语中的句子成分:
 - 主语：句子主要成分。一般为名词，名词短语。
@@ -162,7 +88,6 @@ today's paper(今天的报纸) #有生命的、时间、地点、距离也可加
 - **日期表示**：2014年6月1日：`1 Jun,2014`或`Jun 1st,2014`#1和1st可以换用。
 - **星期**：Monday（星期一）、Tuesday（星期二）、Wednesday（星期三）、Tursday（星期四）、Friday（星期五）、Saturday（星期六）、Sunday（星期日）。
 
-
 ## h、常见事物词汇：
 - 人体相关：shoes(鞋子)、leg(腿，下肢)、shank(小腿)、thigh(大腿)、foreleg(前腿)、hindleg(后腿)。`abdomen`(腹部)、noses(鼻子)、belt(皮带)、ear(耳朵)、胸(chest,bosom)、breasm(乳房)、hair(头发)、皮肤(skin,derma)。生殖器(genital organ)、finger(手指)、arm、脊椎(vertebration,chine)、腰(loin,haunch)、臀部(buttocks)、vagian(阴道)。
 - 方位词：behind(在..后面)、below(正下方)、beside(在..旁边)、next to(紧挨着)、on opposite(对面)、outside the house(房子外面)、over(在上面)、under
@@ -170,11 +95,19 @@ today's paper(今天的报纸) #有生命的、时间、地点、距离也可加
 - 地名机构名：`Indonesia`(印度尼西亚)、Harvard University(哈弗大学)、`France`(法国)、Britain(英国)、Portugal(葡萄牙)、`Silicon Valley`(硅谷)、Tonkin(东京)、
 - 学科：数学(mathematics; arith; math)。地理学(geography)、physics(物理学)、psychology(心里学)、astronomy(天文学)、biology(生物学)、chymistry(化学)。
 - **运动**：游泳：swim。run、basketball、volleyball、football。羽毛球：badminton，shuttlecock。shoot(射击)、gym(体操)、marathon(马拉松)、dive(跳水)、fencing(击剑)、
-- 专有名词：`Buddhist`(佛教徒)、grass(草)、tree、flower。
-- 交通工具：自行车(bicycle,bike,cycle)。卡车(lorry,truck)。轿车，汽车(bus,car)。火车(train,horse)。飞机(airplane,aircraft)。轮船(steamer)。
+- 宗教相关：`Buddhist`(佛教徒)、grass(草)、tree、flower。
+The `minister`(神父、部长；照料) `preached`(讲道、宣扬) a `sermon`(一大通教训) on the `parable`(寓言) of the lost sheep.【牧师讲道时用了亡羊的比喻】
+- 交通工具：自行车(bicycle,bike,cycle)。卡车(lorry,truck)。轿车，汽车(bus,car)。火车(train,horse)。飞机(airplane,aircraft)。轮船(steamer)。vessel（容器、船）
 - 地区级别：country、city、rural(乡村)、province。
-- 政务相关：prosecuted(起诉、检举) ，corruption(贪污，贿赂)。office(官方)、 bribery(行贿）、penalties(处罚)、
+- 生物医疗：saliva（唾液）、sweat（汗液）、fat（脂肪）、abdomen（腹部）、oxytocin（催生素）、remedy（治疗）、skeleton（骨架）`disease resistant plants`(抗病植株)
+- 科研：experts（专家、高手）
+to draw/make `inferences`(推论) from the data.【根据资料推断出结果】
+The study `demonstrates`(证明，演示) the link between poverty and `malnutrition`(营养不良).【这项研究证明了贫困和营养不良之间的联系】
+
+- **政务相关**：prosecuted(起诉、检举) ，corruption(贪污，贿赂)。office(官方)、 bribery(行贿）、penalties(处罚)、 sinister(邪恶的) 、sovereign(独立自主的、君主)
+The `committee's`(委员会) `exclusive`(独有的，不含..的；独家新闻) focus will be to `improve`(改进，超过) public transportation.【委员会关注的唯一焦点将是改善公共交通运输】
 - 形近词：aspect(方面)、respect(受尊重的)、inspect(检查)。【expect(v:期待、expectant：adj:期待的)，except(除..之外)，experience(经历、体验)】。【detecting(发现) deception(欺骗),decide(决定)】
+【never,nerve(神经，勇敢)】【encourage】
 - **天气**：冰：ice、icicle(冰柱)。雾：fog、smoke(烟雾)、haze/mist(薄雾)。霜(fost)。晴：fine、fair。
     1. 雪：snow、drifting snow(飘雪)、snowfall(降雪)、bizzard(大风雪)、rain and snow(雨夹雪)、snowfalk(雪花)、`snowstorms`(暴风雪)。
     2. 云：cloud、mostly sunny(晴时多云)、partly cloudy(局部多云)。
@@ -183,14 +116,29 @@ today's paper(今天的报纸) #有生命的、时间、地点、距离也可加
 - **情绪**：anxious(挂念的)、lonly(孤独的)。downcast(萎靡不振的)。
     - 快活的：chirrupy 、 felicity(幸福的)、excited(兴奋的)、pleasure（愉快,高兴）。兴高采烈的：merry、ecstasy（狂喜,入迷）。
     - sorrowful(忧伤的)、gloomy(忧郁的)、 miserable( 悲哀的)、heart-broken(伤心的)。shirty(生气的)、moodily(易生气的)、angry(愤怒的)
+- 艺术类：
+The museum houses `several`(几个，各自的) of his Cubist `masterpieces`（杰作）.【博物馆收藏了他的几件立体派杰作】
+`pure`(纯粹的，完全的) `silks`(丝绸) `embroidered`(秀花的) with `elaborate`(复杂的) patterns.【秀有精美图案的真丝绸衣服】
 - [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)
 ## 语法：
+1. 生活闲聊：
 Come round for lunch and then we can discuss it at leisure. 【有空过来吃午饭吧，我们可以慢慢聊】
 he `resigned`(辞职) after his `implication`(含义、牵连) in a sex Scandal.【他在涉及一件性丑闻事件后辞职了】
 I `have no` intention of going to the wedding.【我无意去参加婚礼】
 At the Sheffield arena,the speakers were magnified `then times`(10倍) on a giant screen.【在谢菲尔体育馆，演讲者在一个巨大的屏幕上被放大十倍】
-分类了解：
-教育、军事、政治、医学、地理、历史、交通、科技、语言、宗教观念、影视、古典文学、名人
+They `left the town`(离开小镇) and `journeyed`(旅行) south.【他们离开了小镇，去南方旅行】
+i didn't like Dev,and the feeling seemed `to be mutual`(互相的).【我不喜欢德福，它好像也不喜欢我】
+2. 生物医学：
+Liver cancer is linked to the `hepatitis B virus`. 【肝癌与乙肝病毒存在关联】
+Could a `hug`(拥抱,embrace) `a day`(每天)  keep the `doctor away`(远离)?【每天一个拥抱真的能远离疾病吗】
+3. 军事：
+The government will not `negotiate`(谈判) with terrorists.【政府不会和恐怖分子谈判】
+4. 科技:
+They `gave no`(没有) `indication`(表明、象征) of `how` the work should be done.【他们根本没说明者项工作应该怎样做】
+This problem is hard enough to `perplex`(使混乱) `even the teacher`.【这个问题很难，以至于老师都迷惑不解】
+the `transmission`(传输信息) of computer data `along`(沿着，进展) telephone lines.【计算机数据沿电话线的传输】
+
+教育、政治、、地理、历史、交通、、语言、宗教观念、影视、古典文学、名人
 # 2、物理：
 **功率**：是指物体在单位时间内所做的功的多少，即功率是描述做功快慢的物理量。功的数量一定，时间越短，功率值就越大。求功率的公式为功率=功/时间。
 牛顿第二运动定律：物体加速度的大小跟作用力成正比，跟物体的质量成反比，且与物体质量的倒数成正比；加速度的方向跟作用力的方向相同。`F=ma`#F与a的方向相同，F与a相反时需加负号。

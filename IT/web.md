@@ -965,6 +965,7 @@ str.indexOf('aa')//查找字符串位置。
 str.search('abc')//找到子串开始位置。
 str1.concat(str2)//连接两个字符串，返回一个新的值。
 "*".repeat(3)//生成3个重复的字符。
+"mm9plk4klj1hg".split(/\d/);//分割，也可指定字符分割。
 
 "aaj,b_b".lastIndexOf("b",2);// 返回最后一个字符出现的位置，第二个参数表示开始检索的位置。
 var str = '大米:2.57斤/元,白菜:3.65元/斤';
@@ -1647,7 +1648,9 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
     video.play();
 }
 ```
-**flv.js**：解析flv文件的拉流实现。
+**flv.js**：解析flv文件的拉流实现。flv.js这个项目解决了HTML5支持flash协议的问题，这就是flv.js应运而生短期爆红的历史背景。flv.js 中的demux就是一套 FLV 媒体数据格式的解析器，
+>[原理讲解地址](https://www.cnblogs.com/saysmy/p/10209581.html)
+
 **rtmp推拉流**：
 - 推流协议使用rtmp，之前的借助flash插件实现rtmp推流，但flash插件各浏览器几乎已不支持。
 - 这个协议建立在TCP协议或者轮询HTTP协议之上。所以理论上可以用js实现rtmp协议，似乎也有人这么做，但没找到相关的解析rtmp协议的js库。
@@ -2534,8 +2537,9 @@ git-gui的使用：在安装目录下的cmd/下。不过是英文的，且没sou
 <i class="label1">npm指令</i>管理包的指令：
 ```cmd
 npm install --save lodash  #--save表示生产环境的依赖，--save-dev表示开发环境的依赖。
-npm cache clean -f    #清除缓存。
-npm remove eslint    //移除包内的某个依赖。
+npm cache clean -f       //清除缓存。
+npm remove eslint        //移除包内的某个依赖。
+npm install vue@3.0      //安装指定版本写法
 ```
 **nvm**：[windows版nvm下载地址，下载nvm-setup.zip包](https://github.com/coreybutler/nvm-windows/releases)。安装后cmd使用nvm命令
 `nvm install 8.16.0`#安装其它node版本。`nvm use 8.16.0`#切换node版本。`nvm uninstall 8.16.0`#卸载指定版本。
@@ -2708,7 +2712,7 @@ wx.login({
 :::
 
 - 安装：`npm install vue-cli -g`#全局安装vue-cli工具，安装后可以使用vue命令初始化项目。[使用ts的创建。](https://zhuanlan.zhihu.com/p/99343202)
-- 初始化：`vue init webpack test `#vue 2.x初始化命令。`vue create project`#vue3.x初始化命令。
+- 初始化：`vue init webpack test `#配置更开发，适合中大型。`vue create project`#配置较简单。
 - **vue-cli-service**：该service相当于是使用node语言书写的一个本地服务，包括默认从vue.config.js读取配置（所以与webpack-service使用时的配置有些差异），运行webpack这些操作。所以也可以根据这些逻辑自己写一个恶脚手架。
 - **可视化管理**：cmd/输入：vue ui打开vue的开始化管理界面，导入项目，然后进去查看详细。
 - [package.json文件各种属性解释](https://zhuanlan.zhihu.com/p/33928507)。
@@ -5079,10 +5083,14 @@ module.exports = {
 - 服务层：
 （1）分布式任务调度：基于分布式软总线和分布式数据管理，可对设备应用进行远程调用、远程启用、远程连接等操作；
 （2）分布式数据管理：（属于框架层）对数据流动时对数据分类、分级保证使用数据正确。对数据生成、存储等各生命周期保护，保证数据安全。支持多设备下的数据存储、共享、访问；
-（3）分布式软总线：（任务总线和数据总线）多设备互联、自发现连接、；方舟多语言运行时子系统。
-（4）服务子系统：事件通知服务子系统、电话服务子系统、多媒体子系统。
+（3）分布式软总线：（任务总线和数据总线）多设备互联、自发现连接、为设备之间的无感发现和零等待传输创造了条件。
+（4）分布式设备虚拟化：可以实现不同设备的资源融合、设备管理、数据处理，多种设备共同形成一个超级虚拟终端。
+（4）基础软件服务子系统：事件通知服务子系统、电话服务子系统、多媒体子系统、DFX子系统、MSDP&DV子系统。
 - 框架层：UI框架，可java/js语言、用户程序框架，支持c/c++/java/js、多种语言框架api、ability框架。
 - 应用层：应用部署（根据硬件形态和需求可选择所需组件、根据硬件资源情况和功能需求，选择配置组件中的功能集、根据编译链关系自动生成组件依赖关系）。
+- DVID： 分布式虚拟设备标识符。设备登录了HarmonyOS账号后，应用程序信息生成分布式虚拟设备ID。
+>场景一：应用程序一键式登录。场景二：应用程序管理多设备
+- UUID：应用在其生命周期内可以用该标识唯一识别相同设备。应用使用情况统计分析。（当应用卸载后该标识销毁。再次重新安装后调用获取UUID接口时会重新生成不同的ID）
 
 2. 开发：安装华为IDE工具，下载SDK，新建一个app项目：一个app只有一个entry类
 - entry/src/main/resource
@@ -5099,7 +5107,7 @@ module.exports = {
         "grantMode":"system_grant",
         "avaliableScope":["signature"]
     },
-    "package": "com.example.phonedemo",
+    "package": "com.example.phonedemo",//应用包名，唯一
     "name": ".MyApplication",
     "mainAbility": "com.example.phonedemo.MainAbility",
     "deviceType": ["phone"],
@@ -5116,6 +5124,37 @@ module.exports = {
   }
 }
 ```
+注意事项：
+
+```java
+/*部分文件目录
+java/com/ttjy/stxd/a.java
+java/com/ttjy/stxd/b.java
+java/com/ttjy/stxd/util/c.java
+*/
+
+/*==========文件a,b在同一级目录，模块名一样================
+文件所属模块：包名相同的文件，其文件所有公共类，在其它文件可直接使用。
+将其它项目文件拷贝过来时，记得更改这里
+=========================*/
+package com.ttjy.stxd;
+// ohos下为框架自带的一些api。
+import ohos.aafwk.ability.Ability;
+import ohos.aafwk.ability.AbilitySlice;
+// com开头的，是导入libs中自添加的一些库文件，或是本项目其它java文件
+import com.alipay.sdk.app.PayTask;
+// 导入其它目录下的java文件示例。
+import com.ttjy.stxd.util.c;
+
+// c.java文件模块名。因为在util下，所以后面+util
+package com.ttjy.stxd.util;
+```
+
+**NFC功能**：
+1. NFC基础查询：在进行NFC功能开发之前，开发者应该先确认设备是否支持NFC功能、NFC是否打开等基本信息。
+2. 访问安全单元（Secure Element，简称为SE）：SE可用于保存重要信息，应用可以访问指定SE，并发送数据到SE上。
+3. 卡模拟：设备可以模拟卡片，替代卡片完成对应操作，如模拟门禁卡、公交卡等。
+4. NFC消息通知：通过这个模块，开发者可以获取NFC开关状态改变的消息以及NFC的场强消息。
 
 **界面ui**：界面元素由**组件**和**布局**构成。可用xml布局和java代码布局。【javascript ui框架属于应用层】
 - 组件：绘制在屏幕上的一个对象。Component（界面中所有组件的基类）。
@@ -5147,7 +5186,7 @@ Button,TextField都继承自Text组件。
     ohos:width="match_content"
     ohos:height="match_parent"
 >
-    <Text ohos:text="内容部分" ohos:truncation_mode="ellipsis_at_middle"/>
+    <Text ohos:text="内容部分" ohos:text_alignment="center" ohos:truncation_mode="ellipsis_at_middle"/>
     <Button ohos:margin="20" ohos:background_element="$graphic:background_button"/>
     <Image
         ohos:id="$+id:imageComponent"
@@ -5164,6 +5203,9 @@ Button,TextField都继承自Text组件。
     </animation-list>
 </DirectionalLayout>
 ```
+- 动画：
+>静态动画：核心是transform样式，主要可以实现以下三种变换类型，一次样式设置只能实现一种类型变换。translate、scale、rotate
+>连续动画：静态动画只有开始状态和结束状态，没有中间状态，如果需要设置中间的过渡状态和转换效果，需要使用连续动画实现。连续动画的核心是animation样式，它定义了动画的开始状态、结束状态以及时间和速度的变化曲线。通过animation样式。
 
 **Ability**：能力的抽象。功能、页面。
 - **FA**：支持page Ability，提供用户交互能力。`page Ability`，java程序生命周期如下：
@@ -5193,7 +5235,7 @@ public class MainAbility extends AceAbility {
 >同一Page内导航：
 （1）当发起导航的AbilitySlice和导航目标的AbilitySlice处于**同一个Page时**，您可以通过`present()`方法实现导航。
 （2）希望在用户从导航目标**AbilitySlice返回**时，能够获得其返回结果，则应当使用`presentForResult()`实现导航。
-（3）系统为每个Page维护了一个AbilitySlice实例的栈，每个进入前台的AbilitySlice实例均会入栈。当开发者在调用present()或presentForResult()时指定的AbilitySlice实例已经在栈中存在时，则栈中位于此实例之上的AbilitySlice均会出栈并终止其生命周期。
+（3）系统为每个Page维护了一个AbilitySlice实例的栈，每个进入前台的AbilitySlice实例均会**入栈**。当开发者在调用present()或presentForResult()时指定的AbilitySlice实例已经在栈中存在时，则栈中位于此实例之上的AbilitySlice均会**出栈**并终止其生命周期。
 
 **PA**：`particle Ability`#支持Service模板（后台任务运行，service中用`terminateAbility()`停止，其它用stopAbility()停止）和Data模板（对外提供对数据的增、删、查、改，文件等）。
 - service Ability ：后台运行程序。生命周期如下：terminateAbility()停止。
@@ -5201,7 +5243,12 @@ public class MainAbility extends AceAbility {
 >连接类型的service：该Service在其他Ability调用`connectAbility()`时创建（可连接startAbility创建的）、disconnectAbility​()断开连接、onStop停止。
 - Data Ability：用于管理数据。
 
-**Intent**：是对象之间传递信息的载体。例如，当一个Ability需要启动另一个Ability时，或者一个AbilitySlice需要导航到另一个AbilitySlice时，可以通过Intent指定启动的目标同时携带相关数据。I
+**Intent**：是对象之间传递信息的载体。例如，当一个Ability需要启动另一个Ability时，或者一个AbilitySlice需要导航到另一个AbilitySlice时，可以通过Intent指定启动的目标同时携带相关数据。
+- 获取intentAgent：`getIntentAgent`(Context context, IntentAgentInfo paramsInfo)
+- 激发：triggerIntentAgent()触发通知。
+- 取消：cancel(IntentAgent agent)取消一个IntentAgent实例。
+- 常用场景：即时消息、广告 、导航 
+
 3. **管理**：
 **线程管理**：运行时，系统为应用启动一个主线程，所有UI操作都在主线程执行，所以也叫UI线程。
 - 进程通信：通过`EventRunner`创建线程（可创建多个EventHandler）。进程通信机制`EventHandler`（只能与一个EventRunner绑定。将`EventInner`和`Runnable`投递到其它线程进行处理）。EventHandler创建的子类中通过重写processEvent来处理事件。
@@ -5231,3 +5278,7 @@ static final HiLogLabel LABEL = new HiLogLabel(HiLog.LOG_APP,0X00201,"MY_TAG");
 HiLog.warn("warn");//输出一条日志
 ```
 调试：预览器、模拟器、真机。
+**应用发布**：顺序如下：
+1. 准备签名文件：生成密钥和证书请求文件、创建AGC项目、创建HarmonyOS应用、申请发布证书和Profile文件。
+2. 编译构建APP：配置签名信息、编译构建App、
+3. 上架应用市场
