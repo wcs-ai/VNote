@@ -5094,6 +5094,76 @@ module.exports = {
 
 2. 开发：安装华为IDE工具，下载SDK，新建一个app项目：一个app只有一个entry类
 - entry/src/main/resource
+代码部分：
+
+```java
+/*部分文件目录
+java/
+--com/
+----ttjy/
+------stxd/
+--------slice/
+- - - - - -aSlice.java    //aSlice.java是a.java的一个子ability，一般在这个页面绘制java ui界面
+--------util/
+- - - - - -c.java
+- - - --a.java            //这是一个java ability
+- - - --b.java
+
+*/
+
+/*==========文件a,b在同一级目录，模块名一样================
+文件所属模块：包名相同的文件，其文件所有公共类，在其它文件可直接使用。
+将其它项目文件拷贝过来时，记得更改这里
+=========================*/
+package com.ttjy.stxd;
+// ohos下为框架自带的一些api。
+import ohos.aafwk.ability.Ability;
+import ohos.aafwk.ability.AbilitySlice;
+// com开头的，是导入libs中自添加的一些库文件，或是本项目其它java文件
+import com.alipay.sdk.app.PayTask;
+// 导入其它目录下的java文件示例。
+import com.ttjy.stxd.util.c;
+import ohos.hiviewdfx.HiLog;
+import ohos.hiviewdfx.HiLogLabel;
+// c.java文件模块名。因为在util下，所以后面+util
+package com.ttjy.stxd.util;
+
+class MyRemote extends RemoteObject implements IRemoteBroker {
+    // 定义日志。0x00201是定义日志的域，控制台搜索00201即可看到该日志块打印的所有日志
+    private final HiLogLabel LABEL = new HiLogLabel(HiLog.LOG_APP, 0x00201, "MY_TAG");
+
+    public void run(){
+        HiLog.info(LABEL,"bbc");
+    }
+}
+```
+js页面代码：
+```js
+export default{
+    // js FA调用java PA
+    async js2java(){
+        // 向java PA传输的参数
+        var actionData = {};
+        actionData.firstNum = 1024;
+        actionData.secondNum = 2048;
+        // 必须先声明map，再向其中添加数据，不然无法调用
+        var action = {};
+        action.bundleName = 'com.light.dark';
+        action.abilityName = 'com.light.dark.skipPay';
+        action.messageCode = ACTION_MESSAGE_CODE_PLUS;
+        action.data = actionData;
+        action.abilityType = ABILITY_TYPE_EXTERNAL;
+        action.syncOption = ACTION_SYNC;
+
+        // 调用PA能力
+        var result = await FeatureAbility.callAbility(action);
+        var ret = JSON.parse(result);
+
+        this.money = ret.abilityResult;
+    }
+}
+```
+配置部分：
 ```js
 {
   //app: "全局配置信息",（最外层大致有哪些要记）
@@ -5111,7 +5181,31 @@ module.exports = {
     "name": ".MyApplication",
     "mainAbility": "com.example.phonedemo.MainAbility",
     "deviceType": ["phone"],
-    "abilities": [],
+    "abilities": [{
+        // 入口页面，entity.system.home表示入口页面。
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.system.home"
+            ]
+          }
+        ],
+        "visible": true,
+        "name": "com.light.dark.MainAbility",
+        "icon": "$media:icon",
+        "description": "$string:mainability_description",
+        "label": "$string:entry_MainAbility",
+        "type": "page",
+        "launchType": "standard"
+    },{
+        "name": "com.light.dark.skipPay",
+        "icon": "$media:icon",
+        "description": "$string:skippay_description",
+        "type": "service"   //一个service ability
+      },],
     //对权限进行逐个声明（部分非敏感权限）。敏感权限（通讯录、位置等）需要代码中动态申请
     "reqPermissions":{},
     //jsUI应用时，使用使用web来构建页面
@@ -5123,31 +5217,6 @@ module.exports = {
     ]
   }
 }
-```
-注意事项：
-
-```java
-/*部分文件目录
-java/com/ttjy/stxd/a.java
-java/com/ttjy/stxd/b.java
-java/com/ttjy/stxd/util/c.java
-*/
-
-/*==========文件a,b在同一级目录，模块名一样================
-文件所属模块：包名相同的文件，其文件所有公共类，在其它文件可直接使用。
-将其它项目文件拷贝过来时，记得更改这里
-=========================*/
-package com.ttjy.stxd;
-// ohos下为框架自带的一些api。
-import ohos.aafwk.ability.Ability;
-import ohos.aafwk.ability.AbilitySlice;
-// com开头的，是导入libs中自添加的一些库文件，或是本项目其它java文件
-import com.alipay.sdk.app.PayTask;
-// 导入其它目录下的java文件示例。
-import com.ttjy.stxd.util.c;
-
-// c.java文件模块名。因为在util下，所以后面+util
-package com.ttjy.stxd.util;
 ```
 
 **NFC功能**：
@@ -5247,7 +5316,7 @@ public class MainAbility extends AceAbility {
 - 获取intentAgent：`getIntentAgent`(Context context, IntentAgentInfo paramsInfo)
 - 激发：triggerIntentAgent()触发通知。
 - 取消：cancel(IntentAgent agent)取消一个IntentAgent实例。
-- 常用场景：即时消息、广告 、导航 
+- 常用场景：即时消息、广告 、导航
 
 3. **管理**：
 **线程管理**：运行时，系统为应用启动一个主线程，所有UI操作都在主线程执行，所以也叫UI线程。
