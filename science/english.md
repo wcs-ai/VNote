@@ -32,27 +32,58 @@
 ## e、短语&特殊词：
 - **名词所有格**：名词有三个格：主格、宾格、所有格，主格与宾格形式相同所以统称为通格，名词做主语，宾语，表语时用通格。所有格形式有：'s和of所有格，举例如下：
 today's paper(今天的报纸) #有生命的、时间、地点、距离也可加's。其它可以用of： the title of the book.
-- **as相关**：(1)、表示当某人身份时：As a gardener,hell take care of all flowers。(2)、`as/so long as:只要`#As long as we dont nose hert,we will find a way to over the difficult。（3）`as/so far as:据..就..`#As far as i know.（4）`so as to do>为了做...`#They started early so as to catch the first bus.（5）`so...as to...>如此..以至于`#You are so kind as to show me the way.（6）`as a matter of fact`#其实，实际上。（7）`may/might as well`#还是，还不如。（8）as well as#既..又...，以及、此外。（9）`as...as...`#和什么一样。
-- **to的用法**：(1)、表针对：Air is indispensable(不可或缺的) to life.（2）表比较：The quarrel(争吵) happened `prior(占先的) to` my arrival(到达)。与动词，带比较性质的词放一起常是一个固定搭配。
-- **from与since**：来自和自从。两者有时候容易混淆。he has lived since 1980。it's a short distance from here。（1）动词+from：come from来自,date from追溯, depart from违背, die from死于, escape from逃出,fall from自…跌落，excuse from免除, keep from阻止做,prevent from不准做。（2）be+形容词+from：be absent from缺席,be different from与众不同, be far from更不用说, be hidden from躲避,be made from用…制成, be tired from因…而疲倦。（3）from...to...：from bad to worse每况愈下，from beginning to end自始至终，from cover to cover从头到尾。（4）from+时间：可表距离...。[from用法学习地址。](https://www.hjenglish.com/new/p963970/)
-- **at、in、on的使用**：后面一般都接时间或地点。`in hospital`#住院。（1）**at**：常用于小而具体的名词前，at the moment。at the door。（2）**in**：表时间时指在一个较长时间内，指地点时表在地点内部。in the evening。in May。in the school。（3）**on**：表地点时指其接触上方，表时间时指具体日期、节日。on Monday。on May 1st。on BeiJin。on a minute longer#一分钟之久。（on是在...之上，longer有更久的意思，合起来可如此翻译）。on a winter day表示再具体的某一天。<b c="gn">用于事物时就可以利用in在...之内，on在...之上来选取</b>。还有一些固定搭配：[参考学习地址。](https://baijiahao.baidu.com/s?id=1624869654059325367&wfr=spider&for=pc)
-- **be动词**：包括am，is，are。主语为本人时才使用am，第二人称使用are，第三人称使用is。较靠近自生的为第二人称。
-- **人称代词**：i、me**(我，做宾语时用)**、my、mine(我的)、we、us、our、ours(我们的)、you、your、yours(你们的)、he、him**(他，做宾语时用)**、his、she、her(宾格)、hers(她的)、it、its(它的)。they、them**(他们，宾格)**、their`(他们的，their county)`、theirs`(他们的，those dictionaries are theirs)`。
+- **as相关**：
+（1）表示当某人身份时：As a gardener,hell take care of all flowers。
+（2）`as/so long as:只要`#As long as we dont nose hert,we will find a way to over the difficult。
+（3）`as/so far as:据..就..`#As far as i know.
+（4）`so as to do>为了做...`#They started early so as to catch the first bus.
+（5）`so...as to...>如此..以至于`#You are so kind as to show me the way.
+（6）`as a matter of fact`#其实，实际上。（7）`may/might as well`#还是，还不如。
+（8）as well as#既..又...，以及、此外。（9）`as...as...`#和什么一样。
+- **to的用法**：
+（1）表针对：Air is indispensable(不可或缺的) to life.
+（2）表比较：The quarrel(争吵) happened `prior(占先的) to` my arrival(到达)。与动词，带比较性质的词放一起常是一个固定搭配。
+- **from与since**：来自和自从。两者有时候容易混淆。he has lived since 1980。it's a short distance from here。
+（1）动词+from：come from来自,date from追溯, depart from违背, die from死于, escape from逃出,fall from自…跌落，excuse from免除, keep from阻止做,prevent from不准做。
+（2）be+形容词+from：be absent from缺席,be different from与众不同, be far from更不用说, be hidden from躲避,be made from用…制成, be tired from因…而疲倦。
+（3）from...to...：from bad to worse每况愈下，from beginning to end自始至终，from cover to cover从头到尾。
+（4）from+时间：可表距离...。[from用法学习地址。](https://www.hjenglish.com/new/p963970/)
+- **at、in、on的使用**：后面一般都接时间或地点。`in hospital`#住院。
+（1）**at**：常用于小而具体的名词前，at the moment。at the door。
+（2）**in**：表时间时指在一个较长时间内，指地点时表在地点内部。in the evening。in May。in the school。
+（3）**on**：表地点时指其接触上方，表时间时指具体日期、节日。on Monday。on May 1st。on BeiJin。on a minute longer#一分钟之久。（on是在...之上，longer有更久的意思，合起来可如此翻译）
+on a winter day表示再具体的某一天。<b c="gn">用于事物时就可以利用in在...之内，on在...之上来选取</b>。
+还有一些固定搭配：[参考学习地址。](https://baijiahao.baidu.com/s?id=1624869654059325367&wfr=spider&for=pc)
+- **be动词**：包括am，is，are。主语为本人时才使用am，第二人称使用are，第三人称使用is。较靠近自生的为第二人称。其它除了固定搭配外，单数用is，复数用are。
+- **人称代词**：i、me**(我，做宾语时用)**
+（1）my、mine(我的)、we、us、our、ours(我们的)、you、your、yours(你们的)、he、him**(他，做宾语时用)**
+（2）his、she、her(宾格)、hers(她的)、it、its(它的)。they、them**(他们，宾格)**、their`(他们的，their county)`、theirs`(他们的，those dictionaries are theirs)`。
 - and：连词，连接2个及以上的词或短语，句子，两个词连接时用于增强形容，或表动作反复。
-- **for**：for this reason#(表因为，由于)。for three days#表时间，距离。what do you come here for#为什么。he sold his house for 300#等价交换。we set off for Lundon#开往，前往。red is for danger#代表。固定搭配中。[for使用学习地址。](https://wenku.baidu.com/view/96cb873ace84b9d528ea81c758f5f61fb6362815.html)。for为介词，翻译时不用在乎其具体意思，直译其它词就好。
-- 复数变化规则：（1）一般情况末尾加s。（2）以s、sh、ch、x结尾的加es。（3）以ce、se、ze结尾的加s(为了区别于2中的内容)。（4）以辅音字母加y结尾的改y为i再加es，`holidy->holidies`。(5)、以o结尾的部分加s，有的加es。（6）部分词为单复同行，如deer，sheep等。（7）部分词的复数形式为不规则变化，如`child->children，foot->feet`等。
+- **for**：for this reason#(表因为，由于)。
+（1）for three days#表时间，距离。what do you come here for#为什么。he sold his house for 300#等价交换。
+（2）we set off for Lundon#开往，前往。red is for danger#代表。固定搭配中。
+（3）[for使用学习地址。](https://wenku.baidu.com/view/96cb873ace84b9d528ea81c758f5f61fb6362815.html)。for为介词，翻译时不用在乎其具体意思，直译其它词就好。
+- 复数变化规则：
+（1）一般情况末尾加s。（2）以s、sh、ch、x结尾的加es。（3）以ce、se、ze结尾的加s(为了区别于2中的内容)。
+（4）以辅音字母加y结尾的改y为i再加es，`holidy->holidies`。(5)、以o结尾的部分加s，有的加es。
+（6）部分词为单复同行，如deer，sheep等。（7）部分词的复数形式为不规则变化，如`child->children，foot->feet`等。
 - 过去式变化规则：
-- **by的使用**：（1）以...计。常接计量单位，且用the：they are paid by the month他们的报酬按月计)。Bananas are usually sold by weight#香蕉通常按重量卖。（2）表时间的用法。意为：“最迟在...前”，“到...时候已经”，we will have finished  the work by next month。he was very tired by the eveing#到晚上他已经很累了。“在...期间”：do you like to swim by moonlight#你喜欢在月光下游泳吗？（3）表手段方式：they came here by the first bus。by hand#用手工。he makes a living by teaching#他以教书为生。
-- **about的使用**：（1）表大约，常用于数值前：It costs about 10$。（2）关于，I've heard of him,but i don't know about him#我听说过有这样一个人，但我不知道关于他的事。（3）`be about to`#即将，马上。we are about to leave for BeiJin#我们即将去北京。（4）放不及物动词后。`he has nothing to complain about,does he`。#这里的complain不及物，后需要加介词about/of带名词作宾语。而及物动词前后则不需要加这类介词。
+- **by的使用**：
+（1）以...计。常接计量单位，且用the：they are paid by the month他们的报酬按月计)。Bananas are usually sold by weight#香蕉通常按重量卖。
+（2）表时间的用法。意为：“最迟在...前”，“到...时候已经”，we will have finished  the work by next month。he was very tired by the eveing#到晚上他已经很累了。
+“在...期间”：do you like to swim by moonlight#你喜欢在月光下游泳吗？
+（3）表手段方式：they came here by the first bus。by hand#用手工。he makes a living by teaching#他以教书为生。
+- **about的使用**：
+（1）表大约，常用于数值前：It costs about 10$。
+（2）关于，I've heard of him,but i don't know about him#我听说过有这样一个人，但我不知道关于他的事。
+（3）`be about to`#即将，马上。we are about to leave for BeiJin#我们即将去北京。（4）放不及物动词后。`he has nothing to complain about,does he`。#这里的complain不及物，后需要加介词about/of带名词作宾语。而及物动词前后则不需要加这类介词。
 - **without和nothing和none**：`without+名词`#表示**没有...**。`nothing`则是表示**什么都没有**。`none`#指**没人**。**within**：在(某段时间)之内，不出(某段距离)
 - **with的使用**：介词，常表示：行为方式、伴随、时间，原因或条件等。与witout意思相反，但用法一致，常见形式为：`with/without + 名词/代词 + 形容词/副词/介词短语...`
 - **onto**：在...之上、对...了解、映射成...。介词，hold onto(紧握)、graft onto(嫁接支链)、log onto（进入系统）。
 - `ain't` =am not prep.（不是）也可用作are not，is not，have not，has not，will not的缩略语。多用作非正式的口
-- no point：没意义。no thing：没什么。
-- hope for the best：希望有好的结果。
-- it's not over untill it's over：不到最后，不见分晓。
-- `hardware engineering` 硬件工程
-- <i class="label1">what、that、where等词的用法</i>它们不一定用于描述某个词，也常直接引导一个句子做某个成分[学习地址。](https://www.doc88.com/p-243584168541.html)
+- no point：没意义。no thing：没什么。`hope for the best`：希望有好的结果。`it's not over untill it's over`：不到最后，不见分晓。`hardware engineering` 硬件工程
+
+- **what、that、where**等词的用法：它们不一定用于描述某个词，也常直接引导一个句子做某个成分[学习地址。](https://www.doc88.com/p-243584168541.html)
 >**what**：什么/所...的。可引导主语、表语、宾语从句，可在**从句中做成分**。`what you say is quite right`#你所说的相当正确。
 >**that**：也可引导主语、表语、宾语从句，但在从句中不做成分，无实际意义，仅仅是连接作用，**引导宾从时一般可省略**。
 >**whether和if**：是否。`He asked if/whether we wanted a drink`#他问我们是否想去喝一杯。`I don't care if it dont't rain`#(我不在乎天是否下雨)，引导的从句是前面的条件时只能用if。Whether he has left，I can't say#引导放于句首时用whether。
@@ -89,38 +120,6 @@ today's paper(今天的报纸) #有生命的、时间、地点、距离也可加
 - **星期**：Monday（星期一）、Tuesday（星期二）、Wednesday（星期三）、Tursday（星期四）、Friday（星期五）、Saturday（星期六）、Sunday（星期日）。
 
 ## h、常见事物词汇：
-- 人体相关：shoes(鞋子)、leg(腿，下肢)、shank(小腿)、thigh(大腿)、foreleg(前腿)、hindleg(后腿)。`abdomen`(腹部)、noses(鼻子)、belt(皮带)、ear(耳朵)、胸(chest,bosom)、breasm(乳房)、hair(头发)、皮肤(skin,derma)。生殖器(genital organ)、finger(手指)、arm、脊椎(vertebration,chine)、腰(loin,haunch)、臀部(buttocks)、vagian(阴道)。
-- 方位词：behind(在..后面)、below(正下方)、beside(在..旁边)、next to(紧挨着)、on opposite(对面)、outside the house(房子外面)、over(在上面)、under
-- **动物**：cattle(牛犁)、dog、pig、mice(老鼠)、snake、chook(鸡)、tiger(老虎)、elephant(大象)、lion(狮子)、cat(猫)、duck(鸭子)、penguin(企鹅)、奶牛(dairy,cow)、fish(鱼)、
-- 地名机构名：`Indonesia`(印度尼西亚)、Harvard University(哈弗大学)、`France`(法国)、Britain(英国)、Portugal(葡萄牙)、`Silicon Valley`(硅谷)、Tonkin(东京)、
-- 学科：数学(mathematics; arith; math)。地理学(geography)、physics(物理学)、psychology(心里学)、astronomy(天文学)、biology(生物学)、chymistry(化学)。
-- **运动**：游泳：swim。run、basketball、volleyball、football。羽毛球：badminton，shuttlecock。shoot(射击)、gym(体操)、marathon(马拉松)、dive(跳水)、fencing(击剑)、
-- 宗教相关：`Buddhist`(佛教徒)、grass(草)、tree、flower。
-The `minister`(神父、部长；照料) `preached`(讲道、宣扬) a `sermon`(一大通教训) on the `parable`(寓言) of the lost sheep.【牧师讲道时用了亡羊的比喻】
-- 交通工具：自行车(bicycle,bike,cycle)。卡车(lorry,truck)。轿车，汽车(bus,car)。火车(train,horse)。飞机(airplane,aircraft)。轮船(steamer)。vessel（容器、船）
-- 地区级别：country、city、rural(乡村)、province。
-- 生物医疗：saliva（唾液）、sweat（汗液）、fat（脂肪）、abdomen（腹部）、oxytocin（催生素）、remedy（治疗）、skeleton（骨架）`disease resistant plants`(抗病植株)
-- 科研：experts（专家、高手）
-to draw/make `inferences`(推论) from the data.【根据资料推断出结果】
-The study `demonstrates`(证明，演示) the link between poverty and `malnutrition`(营养不良).【这项研究证明了贫困和营养不良之间的联系】
-
-- **政务相关**：prosecuted(起诉、检举) ，corruption(贪污，贿赂)。office(官方)、 bribery(行贿）、penalties(处罚)、 sinister(邪恶的) 、sovereign(独立自主的、君主)
-The `committee's`(委员会) `exclusive`(独有的，不含..的；独家新闻) focus will be to `improve`(改进，超过) public transportation.【委员会关注的唯一焦点将是改善公共交通运输】
-- 形近词：aspect(方面)、respect(受尊重的)、inspect(检查)。【expect(v:期待、expectant：adj:期待的)，except(除..之外)，experience(经历、体验)】。【detecting(发现) deception(欺骗),decide(决定)】
-【never,nerve(神经，勇敢)】【encourage】
-- **天气**：冰：ice、icicle(冰柱)。雾：fog、smoke(烟雾)、haze/mist(薄雾)。霜(fost)。晴：fine、fair。
-    1. 雪：snow、drifting snow(飘雪)、snowfall(降雪)、bizzard(大风雪)、rain and snow(雨夹雪)、snowfalk(雪花)、`snowstorms`(暴风雪)。
-    2. 云：cloud、mostly sunny(晴时多云)、partly cloudy(局部多云)。
-    3. 雨：rainy、shower(阵雨)、few showers(短暂阵雨)、light rain shower(小阵雨)、light dirrzle(微雨)、downpour(暴雨)、heavy rain(大雨)、rainstorms(暴风雨)、ice rain(冻雨)。
-    4. 风：wind、land wind(陆风)、hurricane(飓风)、whirlwind(旋风)、typhoon(台风)、tornado(龙卷风)、gale(季节风)、breeze(微风)、calm(无风)、violent storm(暴风)。
-- **情绪**：anxious(挂念的)、lonly(孤独的)。downcast(萎靡不振的)。
-    - 快活的：chirrupy 、 felicity(幸福的)、excited(兴奋的)、pleasure（愉快,高兴）。兴高采烈的：merry、ecstasy（狂喜,入迷）。
-    - sorrowful(忧伤的)、gloomy(忧郁的)、 miserable( 悲哀的)、heart-broken(伤心的)。shirty(生气的)、moodily(易生气的)、angry(愤怒的)
-- 艺术类：
-The museum houses `several`(几个，各自的) of his Cubist `masterpieces`（杰作）.【博物馆收藏了他的几件立体派杰作】
-`pure`(纯粹的，完全的) `silks`(丝绸) `embroidered`(秀花的) with `elaborate`(复杂的) patterns.【秀有精美图案的真丝绸衣服】
-- [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)
-## 语法：
 1. 生活闲聊：
 Come round for lunch and then we can discuss it at leisure. 【有空过来吃午饭吧，我们可以慢慢聊】
 he `resigned`(辞职) after his `implication`(含义、牵连) in a sex Scandal.【他在涉及一件性丑闻事件后辞职了】
@@ -129,17 +128,92 @@ At the Sheffield arena,the speakers were magnified `then times`(10倍) on a gian
 They `left the town`(离开小镇) and `journeyed`(旅行) south.【他们离开了小镇，去南方旅行】
 i didn't like Dev,and the feeling seemed `to be mutual`(互相的).【我不喜欢德福，它好像也不喜欢我】
 the rain ceased and the sky cleared.【雨过天晴】
-2. 生物医学：
+    - 方位词：behind(在..后面)、below(正下方)、beside(在..旁边)、next to(紧挨着)、on opposite(对面)、outside the house(房子外面)、over(在上面)、under
+    - **运动**：游泳：swim。run、basketball、volleyball、football。羽毛球：badminton，shuttlecock。shoot(射击)、gym(体操)、marathon(马拉松)、dive(跳水)、fencing(击剑)、
+
+2. **生物医疗**：saliva（唾液）、sweat（汗液）、fat（脂肪）、abdomen（腹部）、oxytocin（催生素）、remedy（治疗）、skeleton（骨架）`disease resistant plants`(抗病植株)
+    coronavirus（冠状病毒）、virus(病毒)
 Liver cancer is linked to the `hepatitis B virus`. 【肝癌与乙肝病毒存在关联】
 Could a `hug`(拥抱,embrace) `a day`(每天)  keep the `doctor away`(远离)?【每天一个拥抱真的能远离疾病吗】
-3. 军事：
-The government will not `negotiate`(谈判) with terrorists.【政府不会和恐怖分子谈判】
-4. 科技:
+    - 人体相关：shoes(鞋子)、leg(腿，下肢)、shank(小腿)、thigh(大腿)、foreleg(前腿)、hindleg(后腿)。`abdomen`(腹部)、noses(鼻子)、belt(皮带)、ear(耳朵)、胸(chest,bosom)、breasm(乳房)、hair(头发)、皮肤(skin,derma)。生殖器(genital organ)、finger(手指)、arm、脊椎(vertebration,chine)、腰(loin,haunch)、臀部(buttocks)、vagian(阴道)。
+    - **动物**：cattle(牛犁)、dog、pig、mice(老鼠)、snake、chook(鸡)、tiger(老虎)、elephant(大象)、lion(狮子)、cat(猫)、duck(鸭子)、penguin(企鹅)、奶牛(dairy,cow)、fish(鱼)、
+3. **科研**：experts（专家、高手）
+to draw/make `inferences`(推论) from the data.【根据资料推断出结果】
+The study `demonstrates`(证明，演示) the link between poverty and `malnutrition`(营养不良).【这项研究证明了贫困和营养不良之间的联系】
 They `gave no`(没有) `indication`(表明、象征) of `how` the work should be done.【他们根本没说明者项工作应该怎样做】
 This problem is hard enough to `perplex`(使混乱) `even the teacher`.【这个问题很难，以至于老师都迷惑不解】
 the `transmission`(传输信息) of computer data `along`(沿着，进展) telephone lines.【计算机数据沿电话线的传输】
+    - 学科：数学(mathematics; arith; math)。地理学(geography)、physics(物理学)、psychology(心里学)、astronomy(天文学)、biology(生物学)、chymistry(化学)。
+4. **军事政务**：
+    The government will not `negotiate`(谈判) with terrorists.【政府不会和恐怖分子谈判】
+    prosecuted(起诉、检举) ，corruption(贪污，贿赂)。office(官方)、 bribery(行贿）、penalties(处罚)、 sinister(邪恶的) 、sovereign(独立自主的、君主)
+The `committee's`(委员会) `exclusive`(独有的，不含..的；独家新闻) focus will be to `improve`(改进，超过) public transportation.【委员会关注的唯一焦点将是改善公共交通运输】
+- 君主党派：the Spanish case provides arguments both for and against `monarchy`(n-君主政体).【西班牙一事例，为反对君主体制和争论提供了依据】
+    - 宗教相关：`Buddhist`(佛教徒)、grass(草)、tree、flower。
+The `minister`(神父、部长；照料) `preached`(讲道、宣扬) a `sermon`(一大通教训) on the `parable`(寓言) of the lost sheep.【牧师讲道时用了亡羊的比喻】
+    - 交通工具：自行车(bicycle,bike,cycle)。卡车(lorry,truck)。轿车，汽车(bus,car)。火车(train,horse)。飞机(airplane,aircraft)。轮船(steamer)。vessel（容器、船）
+    - 地区级别：country、city、rural(乡村)、province。
+    - 地名机构名：`Indonesia`(印度尼西亚)、Harvard University(哈弗大学)、`France`(法国)、Britain(英国)、Portugal(葡萄牙)、`Silicon Valley`(硅谷)、Tonkin(东京)、
 
-教育、政治、、地理、历史、交通、、语言、宗教观念、影视、古典文学、名人
+- 形近词：aspect(方面)、respect(受尊重的)、inspect(检查)。【expect(v:期待、expectant：adj:期待的)，except(除..之外)，experience(经历、体验)】。【detecting(发现) deception(欺骗),decide(决定)】
+【never,nerve(神经，勇敢)】【encourage】
+5. **天气**：冰：ice、icicle(冰柱)。雾：fog、smoke(烟雾)、haze/mist(薄雾)。霜(fost)。晴：fine、fair。
+    1. 雪：snow、drifting snow(飘雪)、snowfall(降雪)、bizzard(大风雪)、rain and snow(雨夹雪)、snowfalk(雪花)、`snowstorms`(暴风雪)。
+    2. 云：cloud、mostly sunny(晴时多云)、partly cloudy(局部多云)。
+    3. 雨：rainy、shower(阵雨)、few showers(短暂阵雨)、light rain shower(小阵雨)、light dirrzle(微雨)、downpour(暴雨)、heavy rain(大雨)、rainstorms(暴风雨)、ice rain(冻雨)。
+    4. 风：wind、land wind(陆风)、hurricane(飓风)、whirlwind(旋风)、typhoon(台风)、tornado(龙卷风)、gale(季节风)、breeze(微风)、calm(无风)、violent storm(暴风)。
+6. **情绪**：
+    - 积极类：chirrupy 、 felicity(幸福的)、excited(兴奋的)、pleasure（愉快,高兴）。兴高采烈的：merry、ecstasy（狂喜,入迷）。
+    - 消极类：sorrowful(忧伤的)、gloomy(忧郁的)、 miserable( 悲哀的)、heart-broken(伤心的)。shirty(生气的)、moodily(易生气的)、angry(愤怒的)、anxious(挂念的)、lonly(孤独的)。downcast(萎靡不振的)。
+    panic(n-恐慌，v-使惊恐)、
+7. 艺术类：
+The museum houses `several`(几个，各自的) of his Cubist `masterpieces`（杰作）.【博物馆收藏了他的几件立体派杰作】
+`pure`(纯粹的，完全的) `silks`(丝绸) `embroidered`(秀花的) with `elaborate`(复杂的) patterns.【秀有精美图案的真丝绸衣服】
+- [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)    教育、政治、、地理、历史、交通、、语言、宗教观念、影视、古典文学、名人
+
+## 作文：
+### 一、看图描述类：
+1. 第一段：描述图画内容
+Here is a vivid and lively `cartoon`(n-漫画)/chart/table in which we can see that + 图画内容。
+Clearly, the cartoon tells us a simple truth: + 图画的寓意。【这幅图告诉我们一个简单额道理..】
+These pictures describe a common social phenomenon in China today that + 图内容。【这些图画描述了目前中国存在的一个非常普遍的社会现象..】
+2. 第二段：现象说明
+3. 第三段：总结，阐述含义
+Obviously, the purpose of the cartoon is to inform us that some severe measure have been carried out to +方面。【很明显，这幅图的目的是告诉我们，部分措施已被用于..】
+### 二、信件：
+1. **公共部分**：
+【开头】Dear 名/职位：
+                                                                                                    Sincerely yours,LiMing【来自你的李明<结尾写法>】
+2. **感谢信**：（写出感谢事项；简述事中自己的感受，称赞对方的善良、能力等；扯些送礼，看望之类的）
+【第一段】I am writing this letter to express my `sincere`(adj-真诚的) `gratitude`(n-感谢) to you for your help and `kindness`(n-善行).
+    ...
+【最后一句】Once again, thank you for your help. I hope that I will have the opportunity to return your `charming`(adj-令人着迷的) help.
+3. **建议信**：（描述建议的事物；具体的分点问题，对应的建议描写；祝愿其成功）
+I am 身份 who 与被建议对象的关系 . Generally speaking,.. + is/are quite good; however, I have some better suggestions for you.
+Firstly, it would be greatly `appreciated`(v-感激) if you could 建议一 because 原因一 . Moreover, 原因二 , so it is advisable for you to put emphasis on 建议二。
+I hope that you will find these suggestions helpful. Thank you for your reading and patience.
+4. 推荐信：（描述对方的烦恼，推荐的对象；推荐对象优点及能解决的问题等；期待对方的回信）
+I am writing this letter to recommend you —— +..。 I know 被推荐对象 well, because —— .
+The primary factors for my recommendation are as follows. For one thing, 理由一 + ...。 For another, 理由二 ...
+I hope that you will find —— wonderful and worthy of attention.
+5. 邀请信：（邀请目的，时间等；邀请原因，对方优点等；表示希望对方到来）
+The 2018 Graduation Ceremony of our university will be held at the `auditorium`(n-礼堂) from 9:00 to 11:00 on June 28.【我校2018毕业典礼将在6-28举行】
+With your `remarkable`(adj-显著的) `expert`(n-行家，adj-专业的) knowledge,you have contributed a lot to ..。【您以非凡的专业知识对...贡献很多】
+So i,on behalf of the Office of Student Affairs,sincerely extend to you an invitation to this ceremony.【因此，我代表学校学生事务办公室，真诚地邀请您来参加典礼】
+we would like to invite you to `occupy`(v-担任) 承担的具体事务/职位。
+The schedule of the ceremony is `attached`(adj-附加的，v-贴上) for your reference.【随信附上典礼议程供您参考】
+We would be very grateful if you could `inform`(v-通知，了解) us of your decision before 时间 . 【如果你决定了...时候来，并通知我们，我们将非常感激】
+We very much hope that you would accept the invitation.【我们非常希望你能接受这次邀请】
+we look forward to your reply.【我们期待你的回复】
+6. 探望信：（简单问候，目的；描写些周身事物、询问对方自身、周围环境等情况；祝愿对方）
+The epidemic is growing everywhere。【各地疫情日益严重】
+7. 通知：
+To ensure that students from overseas have a better knowledge of our library service.【为了确保海外留学生更好的了解我校图书馆服务】
+i'm writing to inform you of some relevant information with `regard to`(关于) our university library.
+please feel free to contact us if you need any help via(经过) xxx@xx.com.【如果你们需要任何帮助，随时通过邮件到...联系我们】
+Li Ming                                【最后格式，名】
+December 1st,2021               【最后格式，日期】
+[历年作文类型](https://www.sohu.com/a/436038114_120423996)
 
 # 二、练习：
 ## 1、每日一句：

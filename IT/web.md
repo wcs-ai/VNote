@@ -2424,7 +2424,7 @@ console模块不只log()一个函数，全部如下：
 - `console.table([[1,2,3],[4,5,6],[7,8,9]])`#打印表格
 - console.time()和console.timeEnd()，用来显示代码的运行时间。
 - `console.profile("性能分析器");...中间代码;console.profileEnd("性能分析器");`
-### 四、库&框架&工具
+### 四、库&工具
 #### 1、gitHub的使用：
 **安装**：
 1. 进入gitHub官网先注册一个账号,进入菜鸟教程点击git本地命令工具下载链接下载。git Barsh安装成功后打开(是一个命令行工具)；
@@ -2435,9 +2435,10 @@ console模块不只log()一个函数，全部如下：
 6. 然后命令进入该文件夹(cd GanMa)再输入git add .(把文件添加进来)再输入git commit -m"xiaoswuwei"读入完文件后输入git push -u origin master（传入到仓库中）.使用git clone +地址，也能下载别人仓库中的文件。http://www.runoob.com/w3cnote/git-guide.html
 
 **基本操作**：
-- **合并过程中的撤销**：git merge --abort 
+- 权限：项目创建时master默认受保护，分支锁定：锁定后分支也是受保护状态。受保护状态的分支所有者有全部权限，其余开发人员只可拉取，不能再直接推送，只能使用发起合并请求的方式来推送。
+- **合并过程中的撤销**：git merge --abort
 - **回退到前一个版本** ：git reset --hard HEAD^ //^^回退两个  ~100回退多个
-- 拉取代码：git pull 
+- 拉取代码：git pull
 - 查看远程信息：git remote -v
 - 提交：git add filename，git commit -m '备注'，git push origin second //将本地分支推送到远程，
 - **新建本地分支**：git checkout -b main origin/main     //main是本地分支，第二个是指从哪条源拉取代码，不写的话默认是master。
@@ -2454,7 +2455,7 @@ console模块不只log()一个函数，全部如下：
 - **本地分支合并**：git merge WCS    //合并WCS分支到当前分支，再git push origin master//更新
 - **远程分支合并**：一般在网站上申请合并到哪个分支，相关人员去审核，然后拉取到本地打包等操作。
 - **合并发生冲突**：会提示冲突的文件，找到该文件并处理标记了冲突的地方然后add，commit即可。
-- 查看所有分支：git branch -a 
+- 查看所有分支：git branch -a
 - 删除远程分支：git push origin --delete yc
 - **合并冲突解决**：协商解决冲突的页面，然后git add /src/...将冲突的页面加入，git commit -m 'merge'提交即可。
 
@@ -2512,12 +2513,16 @@ git-gui的使用：在安装目录下的cmd/下。不过是英文的，且没sou
 **windows上安装**：官网下载node的zip包，解压后将路径添加到path路径即可。
 **linux上安装**：官网上下载nodejs的linux压缩包，解压进入，将node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后node -v 安装成功。
 **脚本语言**：又被称为扩建的语言，或者动态语言，是一种编程语言，用来控制软件应用程序，脚本通常以文本（如ASCII)保存，只在被调用时进行解释或编译。
-<i class="blue">如果是windows系统的话，尽量使用管理员身份来运行cmd，然后进行npm操作。</i>
+
+**包管理工具**：如果是windows系统的话，尽量使用管理员身份来运行cmd，然后进行npm操作
+1. cnpm：
 **配置淘宝安装源**：npm本身指定的安装源是外国的，`npm install -g cnpm --registry=https://registry.npm.taobao.org`#安装淘宝镜像,使用时直接cnpm install即可.
 [参考学习地址.](https://www.cnblogs.com/onew/p/11330439.html)
-<i class="label1">打包vue项目报错：javascript heap out of memory</i>node 打包vue项目提示该javascript运行导致内存溢出，这是node封装的v8引擎运行的javascript其限制了js能使用的内存，当打包的项目稍大一些的时候就会出现该错误，解决如下：
-//在package.json文件加入：
+
+- 错误集：
+    - 打包vue项目报错：javascript heap out of memory。node 打包vue项目提示该javascript运行导致内存溢出，这是node封装的v8引擎运行的javascript其限制了js能使用的内存，解决如下：
 ```js
+//在package.json文件加入：
 {
     ...
     "scripts":{
@@ -2530,11 +2535,15 @@ git-gui的使用：在安装目录下的cmd/下。不过是英文的，且没sou
     }
 }
 ```
-删除node_module文件夹，重新npm install安装依赖，然后项目下：npm  run fix-memory-limit
-//然后安装：`npm install -g increase-memory-limit`#接着进入项目目录执行：`increase-memory-limit`#结束后再试试运行项目。[参考学习地址(先尝试3，4)](https://www.jianshu.com/p/410e826506be)。
-临时设置安装源：`npm config set registry https://registry.npm.taobao.org `。[npm安装包失败的问题(设置一下安装源，npm安装即可)。](https://blog.csdn.net/moxiong3212/article/details/79756553)
-##### a、npm：
-<i class="label1">npm指令</i>管理包的指令：
+
+ - 删除node_module文件夹，重新npm install安装依赖，然后项目下：npm  run fix-memory-limit
+ //然后安装：`npm install -g increase-memory-limit`#接着进入项目目录执行：`increase-memory-limit`#结束后再试试运行项目。
+- [参考学习地址(先尝试3，4)](https://www.jianshu.com/p/410e826506be)。
+- [npm安装包失败的问题(设置一下安装源，npm安装即可)。](https://blog.csdn.net/moxiong3212/article/details/79756553)
+
+2. **npm**：
+临时设置安装源：`npm config set registry https://registry.npm.taobao.org `。
+npm指令管理包的指令：
 ```cmd
 npm install --save lodash  #--save表示生产环境的依赖，--save-dev表示开发环境的依赖。
 npm cache clean -f       //清除缓存。
@@ -2543,12 +2552,12 @@ npm install vue@3.0      //安装指定版本写法
 ```
 **nvm**：[windows版nvm下载地址，下载nvm-setup.zip包](https://github.com/coreybutler/nvm-windows/releases)。安装后cmd使用nvm命令
 `nvm install 8.16.0`#安装其它node版本。`nvm use 8.16.0`#切换node版本。`nvm uninstall 8.16.0`#卸载指定版本。
-- **运行js文件**：node name.js
-- **使用同级文件**：`const fl = require('./index')`。
-- **使用同级目录下的文件**：`const fl = require('./config/multi')`
-- __dirname：当前文件所在目录的绝对路径。
-- __filename：当前文件的绝对路径
-- process.argv#以一个列表的形式返回命令行所有参数，如：`node a.js -m cc`->`['node','a.js','-m','cc']`
+    - **运行js文件**：node name.js
+    - **使用同级文件**：`const fl = require('./index')`。
+    - **使用同级目录下的文件**：`const fl = require('./config/multi')`
+    - __dirname：当前文件所在目录的绝对路径。    
+    - __filename：当前文件的绝对路径
+    - process.argv#以一个列表的形式返回命令行所有参数，如：`node a.js -m cc`->`['node','a.js','-m','cc']`
 
 <i class="label1">编写自己的npm包</i>可以自己按照npm包的规则来写一个包，然后发布到npm平台使用。步骤如下：
 - [先到npm官网注册一个人账号。](https://www.npmjs.com/signup)
@@ -2557,7 +2566,9 @@ npm install vue@3.0      //安装指定版本写法
 - 登录：npm login登录账号。
 - 指定的入口js文件最后需要用：`module.exports = obj`//的形式导出一个模块。
 - 发布：npm publish。撤销发布：npm unpublish
-
+3. yarn：并行安装、离线模式、安装版本统一、多注册来源处理。
+    - 安装：`npm install yarn -g`
+    - yarn安装：yarn install
 ##### b、文件操作：
 读写操作：
 ```js
@@ -2681,952 +2692,9 @@ wx.login({
 - 调起微信小程序：小程序需要已正式上线发布。
     - 通过url scheme跳转进来（公众平台/工具，生成类似weixin://dl/business?t=Ljf-...），ios，网页中可直接location.href打开。
     - android App调用：android无法通过scheme调起小程序，不过可以提供**小程序原始id**（公众平台/设置，查看。非小程序id）、线上版本号、页面路径，供其app打开。
-#### 5、vuejs：
-:::alert-info
-**核心实现**：每个组件实例会有一个渲染watcher，用于收集页面上的绑定的属性。计算属性和监听属性建立后都会各有一个watcher用于手机相应的依赖，并同时向Dep中发布订阅，添加到Dep.subs中，然后各watcher收集到的响应式对象会交给Observe，其使用Object方法集为这些响应式对象添加getter，setter属性，当发生改动时会触发setter，然后setter内根据其绑定的相关watcher通知Dep，触发Dep的notify()函数，去遍历Dep.subs中的订阅者，触发相关watcher的update方法重新计算、渲染。
-:::
-![v2-b94d747fd273ec8224e6349f701430fd_720w](_v_images/20210305103536586_26904.jpg =510x)![vue](_v_images/20210305201824661_21824.png =790x)
 
-##### a1、原理:
-**初始化阶段**(这个阶段主要是把普通对象转化为响应式对象)、**编译阶段**(编译阶段会把options.template编译成render函数，解析template中的数据，事件绑定等)、**挂载阶段**(这个阶段会执行render函数以获取vnode。然后模板引擎根据vnode去生成真实DOM)、**监听阶段**(挂载阶段之后，模板引擎已经渲染好网页，这时就进入了监听阶段。patch函数还会对比新旧vnode，并计算出更新DOM需要的操作。最后由框架更新到网页上)、**注销阶段**(注销过程会先触发beforeDestroy，然后注销掉watchers、child components、event listeners等，之后是destroyed钩子函数)。[具体介绍学习地址。](https://blog.csdn.net/weixin_34023863/article/details/87945630)
-**vue生命周期**：生命周期函数运行顺序如下：注意各阶段对应的钩子函数。
-- **beforeCreate**：new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建。<i class="gray">data和methods中的数据都还没有初始化。因此不能在此调用methods的方法和data的数据。</i>
-- created：data 和 methods都已经被初始化好了。
-- beforeMount：在内存中已经编译好了模板了，但是还没有挂载到页面中。
-- mounted：Vue实例已经初始化完成了。进入运行阶段，页面渲染完成，可在此进行操作dom。
-- beforeUpdate：页面中的显示的数据还是旧的，data中的数据是更新后的， 页面还没有和最新的数据保持同步。
-- updated：页面显示的数据和data中的数据已经保持同步了，都是最新的。
-- beforeDestory：进入到了销毁阶段，这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于可用状态。还没有真正被销毁。
-- destroyed(组件已经被销毁)。
-- [生命周期解释。](https://www.cnblogs.com/wzndkj/p/9612647.html)
-- **单个组件中为什么data是一个函数**：由于组件可以复用，而对象又是引用型的，如果改成map，会造成互相污染，函数则是返回一个全新的。
-- **vue怎么监听数组的**：通过在Array重写数组方法，在其中添加监听，监听到有使用这些方法时则直接出发Dep的notify来更新。
-- **虚拟DOM**：vue中的虚拟DOM是根据对编译后的模板，生成一个用js对象描述节点内容，属性的抽象。
-- **nextTick**：vue 用异步队列的方式来控制 DOM 更新和 nextTick 回调先后执行，nexTick中的操作是放于微任务队列，若浏览器不支持则会使用setTimeout(fn,0)来处理。
-- [vuejs官网。](https://cn.vuejs.org/v2/guide/)、[vue深入原理参考学习地址](https://zhuanlan.zhihu.com/p/101330697)
-- **diff算法**：用于新老虚拟DOM之间找到最小更新部分，然后进行更新。（1）比较新旧节点是否为同一节点（使用key或选择器）若不是同一节点则以旧节点为基准插入这个新节点，然后删除旧节点。（2）若是同一节点且文本属性等都相同则不作处理，若只有文本差异则替换文本即可。（3）若新节点有子节点，则清空老节点，将新节点的子节点插入老节点中即可。
 
-**vue-cli**：
-:::alert-info
-**vue-cli**：是一个构建项目的工具，一个平台，也是一个npm包。它提供一套初始的项目模板，内部规定好哪些文件夹的功能。打包时使用的webpack，webpack的配置，vue-cli中也写了一些初始的配置，webpack做为项目的一个依赖而安装。其它安装的一些依赖都放在node_modules下，一些less-loader,file-loader的东西是在编译打包时运行的，其配置也作为webpack的plugin。这些工程化项目的过程中node只是作为一个让其独立运行的环境，当然这当中也使用node一些自带的功能。所以不使用vue-cli,自己定义一个目录，编写配置也是可以的，也由此有很多cli工具。**vue-cli中使用的服务时webpack的服务**。
-:::
 
-- 安装：`npm install vue-cli -g`#全局安装vue-cli工具，安装后可以使用vue命令初始化项目。[使用ts的创建。](https://zhuanlan.zhihu.com/p/99343202)
-- 初始化：`vue init webpack test `#配置更开发，适合中大型。`vue create project`#配置较简单。
-- **vue-cli-service**：该service相当于是使用node语言书写的一个本地服务，包括默认从vue.config.js读取配置（所以与webpack-service使用时的配置有些差异），运行webpack这些操作。所以也可以根据这些逻辑自己写一个恶脚手架。
-- **可视化管理**：cmd/输入：vue ui打开vue的开始化管理界面，导入项目，然后进去查看详细。
-- [package.json文件各种属性解释](https://zhuanlan.zhihu.com/p/33928507)。
-
-**问题集**：
-- linux上：安装vue-cli后会在所的nodejs/bin下看到vue。(npm config list#可以查看这个文件的位置)。为这个vue建立一个软链接将其放到/usr/local/bin下，`sudo ln -s /home/wcs/software/nodejs/bin/vue /usr/local/bin/vue`
-- windows上：将`C:\Users\wcs\AppData\Roaming\npm`#vue被下载到该文件，添加到环境变量即可。
-
-##### a2、基本使用：
-**$attrs与\$listeners**：
-```html
-<!--子组件-->
-<label>输入框：</label><input v-bind="$Allattrs" v-on="$listenserAll" />
-<script>
-export default {
-    name:"pop",
-    computed:{
-        $Allattrs(){
-            return this.$attrs;//this.$attrs表示绑定在该组件上的所有属性。
-        },
-        $listenserAll() {//this.$listeners也是表示从父组件接收到的所有绑定事件。
-          return Object.assign({}, this.$listeners, {
-            input: (event) => this.$emit("input", event.target.value),
-           });
-        },
-    }
-}
-</script>
-<!--父组件,native修饰符的事件不会出现在$listeners中-->
-<pop placeholder="$attrs支持不使用bind写法传值" @focus="focus" @input="inp" @change.native="change"/>
-```
-- **循环**：
-
-```html
-<li v-for="i in is">
-<h5>{{ i }}</h5>
-<div v-if="i == 0" v-html="a">这是i</div>
-<div v-else-if="i == 1" v-html="b">这是else</div>
-<div v-else v-html="c"></div>
-</li>
-// 常用情况,key尽量使用一个唯一的值，不使用索引。
-<p v-for="(val,idx) in phones" :key="idx">{{ val.text }}</p>
-```
-**注**：由于vue2.x使用Object.defineProperty监听对象，数组数据无法监听到改变，尽量使用Array自带方法：splice/push等操作数组，或$forceUpdate强制刷新。
-
-- **method**：
-
-```js
-var v = new Vue({
-    el:"#view",
-    data:{name:"error"},
-    method:{alter:function(){this.name = "vue"}},// 这里的this指向的是method
-    //所以data中的数据已被逐一放置到method中
-    component:{"template":'<h3>dkl</h3>'}
-});
-v.alter()//直接运行函数
-
-```
-调用方法集中的函数：v.alter()直接调用，或原始中`<p v-on:click="alter()"></p>`，v-on绑定的事件是动态绑定的所以使用v-for循环出来也能使用。
-- **样式绑定**：
-```html
-<div v-bind:class="{a:isa,b:isb}"></div><!--isa为true时将类名a绑定-->
-<p v-bind:class="[a,b]"></p>// 绑定多个类名
-<a v-bind:style="styObj"></a>//styObj是js中定义好的变量，内嵌样式
-<b v-bind:style="{ width: w + 'px',color: col }">
-
-```
-- **计算属性与监听属性**：与methods是一个函数集对象，不过computed中的函数可以直接放到模板中<b class="violet">computed一般用于页面渲染的数据，watch一般监听一个值改变影响较大情况。</b>：
-```js
-//<p>{{ name }}</p>// name对应cmputed中对应的函数名，会将函数返回值作为name值。也可以写成{{ name() }}
-...
-data:{
-    b:22,
-    vb:89
-},
-computed:{
-    name:function(){
-        a = this.b + 1;
-        return a;// 这里的返回值a依赖于this.b，只有当this.b发生变化时才会重新运行该函数，
-        //如果这里时一系列复杂庞大的数据操作，每次调用name时也能快速获取到值(所以这是一个缓存效果)。如果不希望缓存的话可以用methods中的方法。
-    },
-    age:{
-        // 像上面的name函数在创建后，会被vue实例转化为一个对象，默认有一个get属性获取值。
-        get:function(){return 35;},// getter该数据时触发。
-        set:function(){// 可以以这样的方式来添加一个set操作。set该数据时触发。
-            return this.b + 10;
-        }
-    }
-},
-watch:{// watch中的函数名对应data中想要监听的数据名。
-    vb:function(newVal,oldVal){// 会传入两个参数。在vb这个数据变化时触发。
-        this.b = 29;
-    },
-    a(){//a发生了变化},
-    obj:{
-        // 监听一个对象的变化，需要加deep属性。
-        heandler(nw,old){
-            //发生变化时触发
-        },
-        deep:true
-    },
-    "obj.name"(){
-        //也可以这样来监听一个对象的属性。
-    }
-}
-```
-- **事件绑定中传入event参数**：
-```js
-<p v-on:click="get($event)"></p>
-function get(e){
-    // 使用此法来获取当前元素。*********注意！就算get中不传入$event对象，也会默认传入。
-    e.target.style.color = "red";//若绑定事件的元素中有多个子元素请用
-//currentTarget,因为可能点Z中的是子元素，触发事件的却是因为事件冒泡
-}
-```
-**插件**：
-```js
-//plugin.js放置 插件格式,一个对象。
-export plugin = {
-    install(vue,params){//第一个会被传入vue对象。
-        vue.prototype.plugin = function(){}
-    }
-}
-//main.js
-import {plugin} from "./plugin.js";
-vue.use(plugin,"hello");//use方法会调用plugin的install()函数
-```
-##### a3、组件：
-第三方的组件一般安装后可直接单个页面按需引入，对应的插件安装后也可以单页面直接引入使用。子组件使用的数据最好是在父组件mounted之前就生成。
-
-```js
-<script>
-// 全局注册，写在main.js文件中
-Vue.component("wcs",{
-    template:'<h1>{{ info }}</h1>',
-    props:['info'],
-    data:{},
-    props:[],
-    methods:{}
-});// 页面中直接<wcs></wcs>即
-</script>
-/*======================
-    父组件值改变，子组件不刷新问题
-========================*/
-<child :key="dateStream" :forms="useForm"/>
-<script>
-alter(){
-    this.ajaxRequest();
-    this.dialogOpen = true;                        //会先打开子组件，但数据还没拿到。
-},
-ajaxRequest(){
-    ajax({..}).then(r=>{
-        this.useForm = {...};
-        this.dataStream = new Date().getTime();    //更改子组件key值，此时会再次刷新子组件。
-    })
-}
-</script>
-```
-**局部注册**：
-```html
-<!--av是子组件test中的props中定义的值，当是一个对象时可以直接v-bind。:av="nm"(mpvue中的简写)。
-.async表示组件内修改值也改变组件外的值，两者同步。
--->
-<test v-bind:av="nm" v-bind="post" :varray.async="datas"></test>
-import test from '../component/test'
-...
-components:{test}
-```
-<i class="label2">prop验证</i>在父组件向子组件中的props传递值时，props的值可以预先写定一个类型数据来做验证，若传来的值不满足验证则会有warn提示。
-```js
-// 子组件中的props内容。
-props:{
-    age:Number,
-    propB: [String, Number],// 多个可能的类型
-    propC: {// 必填的字符串
-      type: String,
-      required: true
-    },
-    propD: {
-      type: [Number,String],//接受多个类型的写法
-      default: 100
-    },
-    propE: {// 带有默认值的对象
-      type: Object,
-      // 对象或数组默认值必须从一个工厂函数获取
-      default: function () {
-        return { message: 'hello' }
-      }
-    },
-    propF: {    // 自定义验证函数
-      validator: function (value) {
-        // 这个值必须匹配下列字符串中的一个
-        return ['success', 'warning', 'danger'].indexOf(value) !== -1
-      }
-    }
-}
-// 父组件内容
-<test :age="age"></test>
-data:{age:'fdsf'}//与子组件要求的数据类型不一致时会在控制台有warn提示。
-```
-**keep-alive的使用**：用于缓存组件，具体如下：
-- **原理**：根据组件 ID 和 tag 生成缓存 Key,并在缓存对象中查找是否已缓存过该组件实例。如果存在,直接取出缓存值并更新该 key 在 this.keys 中的位置。在 this.cache 对象中存储该组件实例并保存 key 值,之后检查缓存的实例数量是否超过 max 的设置值,超过则根据 LRU 置换策略删除最近最久未使用的实例。
-```html
-<!--include和exclude用于匹配组件的name，满足匹配项的才会缓存或不缓存，也可以是一个列表-->
-<keep-alive :include="[/login/,'/acc/']" :exclude="/acc/">
-    <login/>
-</keep-alive>
-```
-- **两个额外的钩子函数**：由于组件被缓存起来，再次使用到该组件时不会触发它的一系列生命周期函数，可用如下钩子判断是否处于使用中。
-```js
-export default{
-  activated() {
-    //活跃状态，在使用时触发,即使第一次进入页面也会触发。
-  },
-  deactivated() {
-    //不使用时触发
-  }
-}
-```
-**组件中使用插槽**：有时候我们定义一个组件不能完全应付所有场景，比如一个底部弹出框，有的有选择项，有的是展示商品内容，如果靠传值来控制显示，会导致子组件内东西非常多。而分为多个组件来写，它们之间又有一些共用的东西，所以产生了插槽。
-```html
-// 第一个子组件的内容
-<template v-slot:head>// v-slot的值对应第三个子组件中slot的name属性。具名插槽可以缩写为#head
-    <div>第一个子组件内容{{ name }}</div>
-</template>
-// 第二个子组件的内容
-<template v-slot:[slotType]>// 只能用在template标签上。用[]时就是使用动态插槽名，改变slotType值可以改变要插入的插槽。
-    <div>第二个子组件内容。</div>
-</template>
-// 第三个子组件的内容，设置了slot
-<template>
-    <div>
-    <slot name="head"></slot>// 对应的v-slot值会放到对应的name值位置。
-    <slot name="body"></slot>// 这种指明了插槽名的情况被叫做具名插槽。
-    </div>
-</template>
-// 一个单页面中的内容
-<template v-slot:head>
-    <div>
-        <hello> //这里的hello是子组件3
-            <c1></c1> //这是子组件1，也可以这这个标签中写v-slot:head属性。
-        </hello>
-    </div>
-</template>
-```
-**插槽作用域**：用于子组件中的数据想提供给父组件任意展示。[学习地址。](https://blog.csdn.net/lzl980111/article/details/104783252/)
-
-```html
-<!--子组件中-->
-<template>
-    <div><slot :data="dts"></slot></div><!--绑定一个数据上去-->
-</template>
-<script>
-export default {
-    name:"child",
-    data(){return {dts:[1,2,3]};}
-}
-</script>
-
-<!--父组件中-->
-<template>
-    <div>
-    <child slot-scope="slot"><!--数据都在slot下-->
-        <span>{{ slot.dts.join('-') }}</span>
-    </child>
-    </div>
-</template>
-```
-
-**动态组件和异步组件**：使用component标签和v-bind:is属性来切换组件。
-```html
-<keep-alive>// 外面套上keep-alive标签后，加载过的组件会被缓存下来，再切回去的时候不会重新渲染。
-  <component v-bind:is="name"></component> //component是vue内部自带的已注册的标签名，修改name值(对应组件名称)来在这个位置切换组件。
-</keep-alive>
-data:{
-    name:'test'
-},
-components:{
-    test,
-    vv:()=>import("../components/vv"),//该组件会被单独打包成代码块，使用时才会被以<script>的形式引入页面。
-    cc:() => ({    //定义异步组件加载时的一些其它行为。
-      // 需要加载的组件 (应该是一个 `Promise` 对象)
-      component: import('./MyComponent.vue'),// 异步组件加载时使用的组件
-      loading: LoadingComponent,// 加载时使用的组件
-      error: ErrorComponent,// 失败时使用的组件。
-      delay: 200,// 如果提供了超时时间且组件加载也超时了，
-      // 则使用加载失败时使用的组件。默认值是：`Infinity`
-      timeout: 3000 //超过该时间不再加载。毫秒
-    })
-}
-```
-**异步组件原理**：内部调用createComponent()方法创建组件，异步的写法是一个函数，判断到组件是一个函数的情况会将组件内容赋值给asyncFactory(一个promise)，然后传给resolveAsyncComponent()，其内部会执行asyncFactory创建一个空的虚拟节点，加载完之后会调factory函数传入resolve和reject两个参数，执行后返回一个成功的回调和失败的回调，promise成功了就会调resolve，resolve中就会调取forceRender方法强制更新视图重新渲染。<b c=gn>异步组件被打包成单独的bundle，如v-if使用组件时，才会从服务器下载相应的js文件。</b>[参考学习地址](https://blog.csdn.net/qq_42072086/article/details/109642272)。
-**边界情况**：官网中将以下子组件访问父组件，父组件访问子组件数据等称为边界情况。
-<i class="label3">访问根实例</i>
-```
-// 在子组件中用$root访问根组件的data或computed中的数据。
-a = this.$root.foo;
-this.$root.foo = 5;// 修改数据。
-```
-<i class="label3">访问父组件实例</i>
-```
-// 与访问根实例，类似。
-var map = this.$parent.map || this.$parent.$parent.map
-```
-<i class="label3">父组件访问子组件数据、事件等</i>
-**元素选择器**：`<p ref="aa"></p>` ref标记元素，`this.$refs.aa选中元素，如果绑定的是一个组件还可以继续this.$refs.aa.get()`调起组件内的方法。
-<i class="label3">依赖注入</i>类似访问父组件实例的情况，不过依赖注入可以在后代组件中都访问到，而且不用暴露所有父组件实例。
-```js
-// 父组件内容。
-data:{},
-provide: function () {
-  return {
-    getMap: this.getMap
-  }
-}
-//子组件内容
-props:{},
-inject: ['getMap']
-```
-依赖注入还是有负面影响的。它将你应用程序中的组件与它们当前的组织方式耦合起来，使重构变得更加困难。同时所提供的属性是非响应式的。这是出于设计的考虑，因为使用它们来创建一个中心化规模化的数据跟使用 $root做这件事都是不够好的。
-**组件上使用v-model与sync修饰符**:
-```html
-<!--父组件-->
-<pop v-model="stateContent" :cs.sync="[1,2,3]"/><!--sync修饰的数据其子组件内可以直接更改，且父组件也会跟着变化-->
-<!--子组件-->
-<template>
-  <div class="pop">
-    <!--注意，绑定value，而不是v-model-->
-    <div><input :value="state" v-on:input="alt($event)" placeholder="请输入"/></div>
-  </div>
-</template>
-<script>
-export default {
-  props:{
-    state:{default:""},
-    cs:Array
-  },
-  model:{    // model中需要指定改变的props中的值和使用哪个事件改变。
-    prop:'state',
-    event:'change'
-  },
-  methods:{
-    alt(e){
-      let c = e.target.value;
-      this.cs.push('h');
-      this.$emit('change',c);    // 子组件中使用触发事件更改父组件的值，即props中的值。
-    }
-  }
-}
-</script>
-```
-<i class="label3">第三方组件库安装</i>多数组件库都支持全局注册和按需使用，两者方式稍有区别。
-全局引入：较为简单，安装后直接入口文件引入，Vue.use()使用插件，然后倒入相关样式文件，各组件内直接按语法使用即可。
-按需引入：如果支持babel中配置的可以在babel-loader的配置项中写入（入口js文件中也要导入样式文件）：
-```js
-{
-"plugins": [
-    ...
-    ["import", {    // 一些组件库是使用babel-plugin-component。
-      "libraryName": "muse-ui",    //对应node_modules下的包名
-      "libraryDirectory": "lib",// 包名下，导入的资源的所在目录。
-      "camel2DashComponentName": false
-    }]
-  ]
-}
-// 页面如下使用
-import {Button} from "muse-ui";
-...
-components:{[Button.name]:Button}//然后按照文档语法使用即可。
-```
-主题配置：同样在入口文件按照其文档配置全局的主题色、元素尺寸即可。
-
-<i class="label3">程序化的事件倾听器</i>具体用法暂未了解！
-通过 $on(eventName, eventHandler) 侦听一个事件
-通过 $once(eventName, eventHandler) 一次性侦听一个事件
-通过 $off(eventName, eventHandler) 停止侦听一个事件
-<i class="label3">通过 v-once 创建低开销的静态组件</i>在组件的`<template v-once>`中添加，加载过后里面的内容会被缓存起来。
-<i class="label1">阻止事件冒泡</i>v-on:click.stop='get()'
-
-##### a4、vuex的使用：
-一个全局变量管理控件。[vuex使用学习地址。](https://segmentfault.com/a/1190000015782272)[vuex官网。](https://vuex.vuejs.org/zh/guide/)
-安装：`npm install vuex --save`#然后在src文件夹下新建一个store文件夹，store内再建一个Index.js文件，文件内容如下：
-```js
-import Vue from 'vue';
-import Vuex from 'vuex';
-Vue.use(Vuex);
-
-const state={   //要设置的全局访问的state对象
-     showFooter: true,
-     changableNum:0
-     //要设置的初始属性值
-   };
-
-/**-----当state中数据量，结构比较复杂时，要获取state中一些较深结构的值会比较麻烦
-而且从设计原则上考虑也应该用一些函数来单独获取值。
-*/
-const getters = {   //实时监听state值的变化(最新状态)
-    isShow(state) {  //承载变化的showFooter的值
-       return state.showFooter
-    },
-    getChangedNum(state){  //承载变化的changebleNum的值
-       return state.changableNum
-    }
-};
-const mutations = {
-    show(state) {   //自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
-        state.showFooter = true;
-    },
-    hide(state) {  //同上
-        state.showFooter = false;
-    },
-    newNum(state,sum){ //同上，这里面的参数除了state之外还传了需要增加的值sum
-       state.changableNum+=sum;
-    }
-};
-const actions = {//异步运行
-    hideFooter(context) {  //自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性
-        context.commit('hide');
-    },
-    showFooter(context) {  //同上注释
-        context.commit('show');
-        context.commit("user/login");//使用斜杆方法调用其它模块的方法
-    },
-    getNewNum(context,num){   //同上注释，num为要变化的形参
-        context.commit('newNum',num)
-     }
-};
-const store = new Vuex.Store({
-       state,
-       getters,
-       mutations,
-       actions
-});
-export default store;
-
-// main.js文件中。
-import store from './store'//引入store
- 
-new Vue({
-  el: '#app',
-  router,
-  store,//使用store
-  template: '<App/>',
-  components: { App }
-})
-// 使用
-this.store.state.changebleNum//可直接获取到值。
-this.store.commit('newNum',6);//运行mutation中定义的函数。
-this.$store.dispatch('hideFooter')//运行actions中定义的函数。
-// 有多模块情况使用：
-this.$store.dispatch("user/getInfo");
-```
-大多数的项目中，我们对于全局状态的管理并不仅仅一种情况的需求，有时有多方面的需求，比如写一个商城项目，你所用到的全局state可能是关于购物车这一块儿的也有可能是关于商品价格这一块儿的；像这样的情况我们就要考虑使用vuex中的 modules 模块化了。在store文件夹下面新建一个modules文件夹，然后在modules文件里面建立需要管理状态的js文件
-```js
-// main.js入口文件。使用时稍做改变。
-import Vue from 'vue';
-import Vuex from 'vuex';
-// 这些单独的js文件导出的是字典，而不是vuex对象。export default {state,mutations,actions.getters}
-import footerStatus from './modules/footerStatus'
-import collection from './modules/collection'
-// 需要在创建实例前use()
-Vue.use(Vuex);
-
-const store = new Vuex.Store({
-    modules:{    //    放到模块中。
-         footerStatus,
-         collection
-    }
-})
-
-new Vue({...,store})
-// 页面中使用
-<span class="joinStatus" @click="invokePushItems(item)"></span>
-import {mapState,mapGetters,mapActions} from 'vuex'; //先要引入
-computed:{
-    //这里的...是超引用，ES6的语法，意思是state里有多少属性值我可以在这里放多少属性值
-    ...mapState({
-    // 一般不适应mapState来取值。
-         isShow:state=>state.footerStatus.showFooter //注意这些与上面的区别就是state.footerStatus,
-                                                      //里面定义的showFooter是指footerStatus.js里state的showFooter
-      }),
-      //你也可以用下面的mapGetters来获取isShow的值，貌似下面的更简洁
-       ...mapGetters('footerStatus',{ //footerStatus指的是modules文件夹下的footerStatus.js模块
-         isShow:'isShow' //第一个isShow是我自定义的只要对应template里v-if="isShow"就行，
-                         //第二个isShow是对应的footerStatus.js里的getters里的isShow
-      }),
-      //使用this.store.dispatch()有时会牵扯的事件的触发及传值，那就会有下面的mapActions用法了
-      ...mapActions('collection',[ //collection是指modules文件夹下的collection.js
-          'invokePushItems'  //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
-      ])
-   }
-```
-##### a5、路由：
-```js
-import Vue from 'vue';
-import Router from 'vue-router';
-Vue.use(Router); //全局注册路由，这样<router-view/>才会生效
-
-const router = new Router({...});
-new Vue({
-    el: '#home',
-    router,//放到vue中，之后可使用路由函数。
-    ...
-});
-```
-在router文件夹下的index.js文件中为每个页面添加路由。路由还提供一些钩子函数供控制跳转页面使用：
-
-```js
-{// 这是Index.js文件中配置路由时的一个页面。单个路由里的钩子函数：
-    path:'/',
-    name:'aa',
-    //使用import实现路由的懒加载，webpack中会以import做分割点将单独路由分割成块快，访问该页面时才会请求该js文件，渲染路由。
-    component:import('../pages/av.vue'),
-    beforeEnter:(to,from,next)=>{    //钩子函数。准备进入路由时触发
-        console.log(from,to);//from，to分别是当前页，要跳转的目标页，的信息。可以获取其中信息做一些限制。
-        next(false);//传入false的话则不能跳转。
-    },
-    alias:'/b' //别名，跳转到该页时使用的路径名
-}
-
-//组件路由：和上面的钩子函数类似，不过这个是写在每个页面的组件里的：
-export default {
-    name:'ww',
-    data:{},
-    beforeRouteEnter:(to,from,next)=>{
-        //这些参数和上面的一样。准备进入路由时触发
-    },
-    beforeRouteLeave:(to,from,next)=>{
-        //准备离开路由组件时触发。
-    }
-}
-```
-**全局路由钩子**：在main.js页面添加。
-```js
-// main.js添加
-router.beforeEach((to,from,next)=>{
-    //每个页面跳转时都会调用。改变标题
-    window.document.title = to.meta.title;
-    router.addRoutes(newRoutes);//可以添加一些新的路由
-    next();//next({path:"/"}),还可以传路径来重定向路由，传false则禁止跳转。
-})
-//离开页面后触发，可在此关闭加载动画。
-router.afterEach((to,from)=>{
-    loading = false;
-})
-```
-<i class="label1">router的两种模式：</i>hash模式背后的原理是onhashchange。因为hash发生变化的url都会被浏览器记录下来，从而你会发现浏览器的前进后退都可以用了，同时点击后退时，页面字体颜色也会发生变化。这样一来，尽管浏览器没有请求服务器，但是页面状态和url一一关联起来，后来人们给它起了一个霸气的名字叫前端路由，成为了单页应用标配。[学习地址。](https://www.cnblogs.com/imgss/p/7492333.html)
-```js
- // history=>history.pushState 浏览器历史纪录添加记录。history.replaceState 修改浏览器历史纪录中当前纪录。history.popState 当history 发生变化时触发
- // 使用时将state去掉，如：this.$router.push(url)
-```
-**hash模式**：hash模式url中会带有#号，破坏url整体的美观性, <b c=v>history 需要服务端支持rewrite(url重写)</b>, 否则刷新会出现404现象。
-```js
-window.onhashchange = function(event){
-    console.log(event.oldURL, event.newURL);
-    let hash = location.hash.slice(1);
-    document.body.style.color = hash;
-
-}
-```
-**模式切换**：<b c=v>historm模式是配合服务端渲染使用。一般服务端将所有路径都重定向到首页，路由交给前端处理。</b>
-```js
-export default new Router({
-  mode:'history', // 默认是hash
-  base:"/base",//hash和history模式使用的基础路径。打包放到部署时，包名与此一致。
-  routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
-      // 重定向也可以使用函数，做假跳转。！！！如果对应的重定向路径也是一级路由，那么会直接跳转该页。
-      direct:'/child', //访问该页面时路径变为/index（得在children配置），但router-view显示的是component的。
-      children:[{path:'/index',name:'index'}]
-    }
-  ]
-})
-```
-**声明式路由**：页面使用`<router-link :to="{path:'/test',query:{}}"/>`跳转。
-**编程式路由**：如下。
-```js
-this.$router.push('/home');
-this.$router.push({name:'home',params:{uid:33}}); //得到：/home/33  #刷新页面后，33会消失。
-this.$router.push({path:'/home/login',query:{uid:23}}); //得到：/home/login?uid=23#path存在时params不生效。
-//---另一个页面获取参数：this.$route.params.uid，或对应的使用this.$route.query.uid。
-//***页面栈中跳转路由：
-this.$router.go(n); //n可正可负
-this.$router.replace('/home');//与push用法一致，不过是替换当前页面。
-this.#router.back(-1);
-// *****返回上一个页面传参只能用一些特别的方法。
-
-//------****动态路由，路由配置页面如下
-{
-    path:"/book/:id",// :id为占位。必须用name跳转，
-    name:"book",
-    component:()=>import('../book')
-}
-this.$router.push({name:"book",params:{id:110}}); //页面地址变为/book/110。注意这些页面使用的是同一个页面。
-```
-**子路由/二级路由**：在单页面上再加一个`<router-view/>`，示例如下：
-```vue
-<router-view/><!--App.vue页面使用一个路由标签-->
-//---路由中将二级路由配置在children中
-{
-    path:"home",
-    children:[{
-        path:"er"
-    }]
-}
-```
-home页面再使用路由标签：
-```vue
-<template>
-    <router-link to="/er">到er页面</router-link>
-    <router-view/><!--二级路由页面显示在这里。-->
-</template>
-```
-**对路由使用keep-alive**:
-```vue
-<transition  name="fade" mode="in-out">
-	<keep-alive ><!--这是个更好的使用方法，返回页面时滚动条位置不变-->
-	    <router-view v-if="$route.meta.keepAlive" />
-	</keep-alive>
-</transition >
-<transition  name="fade" mode="in-out">
-	<router-view v-if="!$route.meta.keepAlive"  />
-</transition>
-```
-##### b1、混入：
-混入 (mixin) 提供了一种非常灵活的方式，来分发 Vue 组件中的可复用功能。[学习地址。](https://www.jianshu.com/p/1bfd582da93e)
-```js
-// 局部混入。mixin中的像建立一个vue实例时那样创建created,mounted等属性，这些会被合并到vue实例中，发生冲突时与组件中定义的为准。
-var mixin = {
-  created: function () {
-    console.log('混入对象的钩子被调用')
-  }
-}
-
-new Vue({
-  mixins: [mixin],
-  data:{},
-})
-// 全局混入
-Vue.mixin({
-  created: function () {
-    var myOption = this.$options.myOption
-    if (myOption) {
-      console.log(myOption)
-    }
-  }
-});
-```
-**使用场景**：可复用的功能，或那种因为解耦将同一页面分为两个，这两个页面组件一样但逻辑有差异，那么它们相同的功能部分就可以单独定义出来，然后使用mixins组合。
-```js
-const mixin1 = {
-  data(){
-    return {name:"www",age:20}
-  },
-  methods:{
-    hello(){console.info(this.name);}
-  },
-  created(){
-    console.warn('mixin result',this.name)
-  }
-}
-const mixin2 = {
-  data(){
-    return {job:"ai",addr:"ttk"}
-  },
-  methods:{
-    hello(){console.info(this.job);}
-  },
-  mounted(){
-    console.info('mixin2 res');
-    this.skip();
-  }
-}
-export default {
-    mixins:[mixin1,mixin2],//使用混入，按照这个顺序覆盖前面的data，methods中相同的部分（初始化阶段完成），然后执行它们的周期函数。
-    data(){
-        return {name:"last"}
-    },
-    created(){console.info('最后执行')}
-}
-```
-##### b2、自定义指令：
-有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用到自定义指令。
-```js
-<input v-focus />
-// 注册一个全局自定义指令 `v-focus`
-Vue.directive('focus', {
-  // 当被绑定的元素插入到 DOM 中时……
-  inserted: function (el) {
-    // 聚焦元素
-    el.focus()
-  }
-})
-// 局部自定义指令
-directives: {
-  focus: {
-    // 指令的定义
-    inserted: function (el) {
-      el.focus()
-    }
-  }
-}
-```
-**钩子函数**：
-- **bind**：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
-- **inserted**：被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
-- **update**：所在组件的 VNode 更新时调用，但是可能发生在其子 VNode 更新之前。指令的值可能发生了改变，但是你可以通过比较更新前后的值来忽略不必要的模板更新 (详细的钩子函数参数见下)。
-- **componentUpdated**：指令所在组件的 VNode 及其子 VNode 全部更新后调用。
-- **unbind**：只调用一次，指令与元素解绑时调用。
-
-**钩子函数参数**：指令钩子函数会被传入以下参数
-- el：指令所绑定的元素，可以用来直接操作 DOM。
-- binding：一个对象，包含以下属性：
-- name：指令名，不包括 v- 前缀。
-- value：指令的绑定值，例如：v-my-directive="1 + 1" 中，绑定值为 2。
-- oldValue：指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用。无论值是否改变都可用。
-- expression：字符串形式的指令表达式。例如 v-my-directive="1 + 1" 中，表达式为 "1 + 1"。
-- arg：传给指令的参数，可选。例如 v-my-directive:foo 中，参数为 "foo"。
-- modifiers：一个包含修饰符的对象。例如：v-my-directive.foo.bar 中，修饰符对象为 { foo: true, bar: true }。
-- vnode：Vue 编译生成的虚拟节点。移步 VNode API 来了解更多详情。
-- oldVnode：上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用。
-
-##### b3、渲染函数&jsx：
-Vue 推荐在绝大多数情况下使用模板来创建你的 HTML。然而在一些场景中，你真的需要 JavaScript 的完全编程的能力。这时你可以用渲染函数，它比模板更接近编译器。
-```js
-Vue.component('anchored-heading', {
-  render: function (createElement) {// render渲染函数，在生命周期函数中也是使用该函数来解析组建的。
-    return createElement(
-      'h1',   // 标签名称
-      {//这个对象内部定义一些模板的事件、指令、插槽类的东西。
-      // 与 `v-bind:class` 的 API 相同，// 接受一个字符串、对象或字符串和对象组成的数组
-      'class': {foo: true,bar: false},
-      // 与 `v-bind:style` 的 API 相同，// 接受一个字符串、对象，或对象组成的数组
-      style: {color: 'red',fontSize: '14px'},
-      // 普通的 HTML attribute
-      attrs: {id: 'foo'},
-      // 组件 prop
-      props: {myProp: 'bar'},
-      // DOM 属性
-      domProps: {innerHTML: 'baz'},
-      // 事件监听器在 `on` 属性内，// 但不再支持如 `v-on:keyup.enter` 这样的修饰器。// 需要在处理函数中手动检查 keyCode。
-      on: { click: this.clickHandler},
-      // 仅用于组件，用于监听原生事件，而不是组件内部使用/ `vm.$emit` 触发的事件。
-      nativeOn: {click: this.nativeClickHandler},
-      // 自定义指令。注意，你无法对 `binding` 中的 `oldValue`// 赋值，因为 Vue 已经自动为你进行了同步。
-      directives: [{
-      name: 'my-custom-directive',
-      value: '2',
-      expression: '1 + 1',
-      arg: 'foo',
-      modifiers: {bar: true}
-        }],
-      // 作用域插槽的格式为// { name: props => VNode | Array<VNode> }
-      scopedSlots: {default: props => createElement('span', props.text)},
-      // 如果组件是其它组件的子组件，需为插槽指定名称
-      slot: 'name-of-slot',
-      // 其它特殊顶层属性
-      key: 'myKey',
-      ref: 'myRef',
-      // 如果你在渲染函数中给多个元素都应用了相同的 ref 名，// 那么 `$refs.myRef` 会变成一个数组。
-      refInFor: true
-      },
-      [
-        '先写一些文字',// 这是h1标签的一个文本节点。
-        createElement('h1', '一则头条'),
-        createElement(MyComponent, {// 相当于创建一个组件的子组件。
-            props: {
-                someProp: 'foobar'
-            }
-        })
-      ])
-  }
-})
-```
-##### b4、插件：
-vuejs的插件是与vue实例分开的，使用时与vue原型绑定在一起。
-```js
-vue.use(vuex)//使用use方法来导入插件。
-// 单独开发插件步骤。
-MyPlugin.install = function (Vue, options) {
-  // 1. 添加全局方法或属性
-  Vue.myGlobalMethod = function () {
-    // 逻辑...
-  }
-  // 2. 添加全局资源
-  Vue.directive('my-directive', {
-    bind (el, binding, vnode, oldVnode) {
-      // 逻辑...
-    }
-    ...
-  })
-
-  // 3. 注入组件选项
-  Vue.mixin({
-    created: function () {
-      // 逻辑...
-    }
-    ...
-  })
-  // 4. 添加实例方法
-  Vue.prototype.$myMethod = function (methodOptions) {
-    // 逻辑...
-  }
-}
-```
-##### b5、过滤器：
-允许你自定义过滤器，可被用于一些常见的文本格式化。过滤器可以用在两个地方：双花括号插值和 v-bind 表达式
-```js
-// 局部定义过滤器
-filters: {
-  capitalize: function (value) {    //把传入值变为想要的。
-    if (!value) return ''
-    value = value.toString()
-    return value.charAt(0).toUpperCase() + value.slice(1)
-  }
-}
-// 全局定义过滤器。
-Vue.filter('capitalize', function (value) {
-  if (!value) return ''
-  value = value.toString()
-  return value.charAt(0).toUpperCase() + value.slice(1)
-})
-<!--使用示例： 在双花括号中 -->
-{{ message | capitalize }}
-<!-- 在 `v-bind` 中 ，后面可以继续加过滤器：| capitalize-->
-<div v-bind:id="rawId | formatId"></div>
-```
-##### b6、过渡，动画：
-vuejs有提供元素在插入，移除时做动画封装，使用起来还算方便。
-```js
-//fade开头的类名控制动画。
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-<transition name="fade">    //transition是自带的已注册组件，说功能更贴切。
-    <p v-show="show"></p>    //在show状态改变后，会触发过渡效果(name指定的类名的开头)
-</transition>
-// 列表的过渡，使用transition-group
-<transition-group name="list" tag="p">
-    <span v-for="item in items" v-bind:key="item" class="list-item">
-      {{ item }}
-    </span>
-</transition-group>
-```
-在进入/离开的过渡中，会有 6 个 class 切换。
-v-enter：定义进入过渡的开始状态。在元素被插入之前生效，在元素被插入之后的下一帧移除。
-v-enter-active：定义进入过渡生效时的状态。在整个进入过渡的阶段中应用，在元素被插入之前生效，在过渡/动画完成之后移除。这个类可以被用来定义进入过渡的过程时间，延迟和曲线函数。
-v-enter-to：2.1.8 版及以上定义进入过渡的结束状态。在元素被插入之后下一帧生效 (与此同时 v-enter 被移除)，在过渡/动画完成之后移除。
-v-leave：定义离开过渡的开始状态。在离开过渡被触发时立刻生效，下一帧被移除。
-v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
-v-leave-to：2.1.8 版及以上定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。
-##### c1、vue.config.js
-```js
-module.exports = {
-    devServer:{},
-    publicPath:"./",
-    //如果是一个对象(这里写成函数形式)，则config中配置的属性会合并到最终配置上。
-    configureWebpack: config => {
-        config.outputDie = "dist";
-    },
-    chainWebpack: config => {
-        //这里配置loader
-        config.module.rule('vue').use('vue-loader').loader('vue-loader').tap(options => {
-             return options;
-        }).end();
-        //这样配置plugin。
-        config.plugin('define').tag(arg=>{
-            arg[0]['process.env'] = "dev";
-            return arg;
-        }).end();
-    },
-    css:{
-        extract:true,//组件内css抽取到一个单独css文件
-        sourceMap:true,//开启css的sourceMap
-        loaderOptions:{//css相关的loader部分配置。
-            css:{},//这个配置传递给css-loader
-            postcss:{}//这个配置会传递给postcss-loader
-        }
-    }
-}
-```
-
-**添加环境**：package.json/scripts中添加：`"vue-cil server --mode mock"`，根目录中可添加`.env.mock`来写一些要用的全局变量。默认有development和production。
-- `process.env.NODE_ENV`的值默认也会变为`--mode`后面的环境值。
-```py
-# 可在此处再次更改其值。
-NODE_ENV = "production"
-# 在vue.config.js均可使用
-MODE = "dev"
-# 要在vue项目中使用，必须前缀是VUE_APP。
-VUE_APP_BASE_API = '/base-api'
-
-VUE_APP_BG_API = '/bg-api'
-```
-- [vue.config.js配置文档](https://cli.vuejs.org/zh/config/#outputdir)
-##### c2、常用修饰符：
-
-```html
-<child-component :data.sync="tables"/><!--sync让子组件可以修改该prop的值，且同步到父组件-->
-<div @click.once="hh"></div><!--once：事件只能用一次-->
-<div @click.prevent="hh"></div><!--prevent：阻止默认行为-->
-<div @click.self="hh"></div><!--self:只有元素本身触发时才触发方法，-->
-<div @click.stop="hh"></div><!--stop：阻止事件冒泡-->
-
-<input v-model.lazy="val"/><!--lazy:这个修饰符会在光标离开input框才会更新数据-->
-<input v-model.trim="val"/><!--trim:输入框过滤首尾的空格-->
-<input v-model.number="val"/><!--number:先输入数字就会限制输入只能是数字，先字符串就相当于没有加numbe-->
-```
 #### 6、资源收集：
 **文章部分**：
 [张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
@@ -3856,473 +2924,7 @@ pc端和手机端都下载google浏览器，手机上打开开发者选项并允
 127.0.0.1:5500/self.html,需要输入192.168.1.12:5500/self.html)这里的192.168.1.12是你pc的ipv4地址。(注:虽然在手机浏览器上能看到效果但其实在pc端浏览器上运行的效果,并不是在手机端浏览器环境下运行出来的)。[参考地址1。](https://www.cnblogs.com/meakchen/p/5665887.html)[参考地址2。](https://www.cnblogs.com/imwtr/archive/2016/09/18/5881039.html)
 **问题**：如果方法一无法打开页面，那么可以尝试设置防火墙，设置里有控制各服务允许通过防火墙的设置，找到node,javascript相关字样的，勾选允许即可。
 [解决该问题参考地址。](https://www.cnblogs.com/AwenJS/p/12840924.html)
-#### 10、webpack：
-:::alert-info
-**简介**：当项目变得很大之后再按照之前的资源引入方法会很难管理项目，不容易理清其依赖、加载顺序。webpack能自动找到所有依赖，将它们按顺序都打到一个js包中，最后引入。用Loader转换文件、plugin注入钩子。
-**模块化规范**：commonJS：需要通过转换位es5才能在浏览器环境运行。AMD：异步方法加载依赖模块，用于解决浏览器环境模块化问题。现在使用es6也有模块化(但大部分浏览器还不支持)，也需要转换为es5。
-:::
-**require与import区别**：require 是赋值过程并且是运行时才执行，也就是异步加载。import 是解构过程并且是编译时执行，性能稍好。两者在webpack中都算是异步方案。
-- require属于commonjs规范的东西社区方案，提供了服务器/浏览器的模块加载方案。只能在**运行时确定模块的依赖关系**及输入/输出的变量，无法进行静态优化。
-- import是es6语法规范，可以解构，语言规格层面支持模块功能。支持编译时静态分析，便于JS引入宏和类型检验。动态绑定。
-##### a1、原理：
-Webpack 的构建流程可以分为以下三大阶段：在每个大阶段中又会发生很多事件，Webpack 会把这些事件广播出来供给 Plugin 使用。
-- 初始化：启动构建，读取与合并配置参数，加载 Plugin，实例化 Compiler。
-- 编译：从 Entry 发出，针对每个 Module 串行调用对应的 Loader 去翻译文件内容，再找到该 Module 依赖的 Module，递归地进行编译处理。
-- 输出：对编译后的 Module 组合成 Chunk，把 Chunk 转换成文件，输出到文件系统。如果只执行一次构建，以上阶段将会按照顺序各执行一次。
-- webpack不会对多次引入的文件重复打包。
 
-- [原理学习地址。](https://www.jianshu.com/p/44e6741e3b7e)[webpack中文文档地址。](https://webpack.docschina.org/concepts/)
-
-```js
-//commonJS的导入导出。
-const moduleA = require('./moduleA');
-moduleA.exports = moduleA.someFun;
-
-//AMD的模块定义，和导入使用。
-define('module',['dep'],function(dep){return exports;});
-require(['module'],function(module){});
-```
-**安装**：npm install webpack -g#全局安装。目录下使用：npm init#会在当前路径下生成一个mypackage文件夹，里面有package.json文件、webpack.config.js文件和src文件夹。
-**项目中使用别名**：可以在build目录下的配置文件中使用
-```js
-//例如/build/webpack.dev.conf.js配置如下
-const merge = require('webpack-merge')
-const baseWebpackConfig = require('./webpack.base.conf')
-// merge将其它文件的配置合并过来。
-const devWebpackConfig = merge(baseWebpackConfig, {
-    resolve:{
-        alias:{"@c":"src/common/tools"}//别名对应路径。
-    }
-});
-```
-**配置**：[webpack详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)。[devserver属性学习地址。](https://blog.csdn.net/franktaoge/article/details/80083317)
-##### a2、常用loader：
-- vue-loader：解析vue文件。
-- css-loader：一般vue-loader解析过后结果css-loader,处理过后会把样式都变成 module 形式，然后直接导出这个模块，模块中包含了 css 的源码跟模块的 id。
-- style-loader：会引用css-loader生成的模块，然后在Html的head中加入style标签，当然也支持link引入等其它方式。
-- vue-style-loader：在style-loader上的一层封装，不过还加了一些支持服务端的渲染。
-- postcss-loader：把 CSS 解析成 JavaScript 可以操作的 AST，第二个就是调用插件来处理 AST 并得到结果，还能自动添加css前缀，如果要与MiniCssExtractPlugin的loader一起使用还要配置其它选项！。所以一般是放在css-loader之后，less-loader等之前。
-- less-loader,sass-loader,scss-loader：css的预处理使用。scss是sass的3.0版本引入的语法，去除了之前的一些严格规则，且规则与css一致。
-- style-resource-loader：向样式文件中添加全局的样式属性。
-- url-loader：用来为资源文件生成路径的。允许你有条件地将文件转换为内联的 base-64 URL。
-- file-loader：可以指定要复制和放置资源文件的位置
-
-```js
-//这三个loader均可以类似如下配置。
-module:{
-    rules:[
-     {
-        test: /\.js$/,    // 匹配指定的文件类型。
-        //use: ['babel-loader?cacheDirectory'],//use指定对文件使用的插件，可以多项，配置规则。
-        use: [{
-          loader:'babel-loader',//指定使用的插件。
-          options:{
-              // 这里可以写.bablesrc中的格式配置。
-              cacheDirectory:true,
-          },
-          // enforce:'post' 的含义是把该 Loader 的执行顺序放到最后。还可以是 pre，代表把 Loader 的执行顺序放到最前面
-          enforce:'post'
-      }],
-      // 只命中src目录里的js文件，加快 Webpack 搜索速度
-      include: path.resolve(__dirname, 'src'),
-      exclude:/node_modules/ //指定不需要编译的目录。
-    },{
-        test:/\.less$/,
-        use:[
-            'vue-style-loader',
-            { loader: 'css-loader', options: { sourceMap: true } },
-            { loader: 'postcss-loader', options: { sourceMap: true } },
-            { loader: 'less-loader', options: { sourceMap: true } }
-        ]
-    },{
-        test:/\.scss$/,
-        use:[{loader:'style-resource-loader',options:{patterns:"全局样式文件路径"}}]
-    },{
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-            limit: 10000,//大小大于该值的交给file-loader处理。
-            outputPath: 'images', //打包后的输出路径
-            name: utils.assetsPath('img/[name].[hash:7].[ext]')
-        },
-    },{
-        // 还能用file-loader来从js中抽离css用，
-        test: /\.css$/,
-        use: ['file-loader']
-    }]
-}
-```
-样式写法部分注意：
-```css
-/*scoped表示该块css样式不做全局使用，编译后对应标签上会加上一个data-v-32423之类的标志，css样式会多在后面加一个
-属性选择器，与全局区分，不至于污染全局样式。
-lang指定使用的语言，不写时为普通css。*/
-<style scoped lang="less">
-.test{
-    font-size:30px;
-    background:url('~@/imgs/acc.jpg') 50% 0;/*背景图写法*/
-    /deep/.ac{color:red;}
-    /* 子组件的最外层编译后才会被加上scoped标志，而内部元素不会，若是使用了第三方组件库时，其样式
-    会被全局的覆盖，此时可以用/deep/来改变。*/
-}
-/* >>>也和/deep/一样作用，不过只有普通css中可用*/
-.k >>> .a{width:500px;}
-</style>
-```
-##### a3、常用的Plugin：
-<b c=b>plugin在loader之后执行，目的在于解决 loader 无法实现的其他事。</b>。这些plugin除了webpack自带的，其它插件还是需要npm安装的。
-- **DefinePlugin**：用于配置可用的全局变量。也可以额外npm install -D dotenv然后根目录下创建.env文件编写，配置中使用require('dotenv').config()，然后一样插件中配置。
-- **HtmlWebpackPlugin**：根据原html文件配置，打包后生成一个html文件，里面可以配置一些生成明细相关。[详细参数](https://www.cnblogs.com/wonyun/p/6030090.html)。
-- **CopyWebpackPlugin**：用于将指定文件放到编译或打包后的文件中去，然后html页面可以引入使用：`<script src="<%=htmlWebpackPlugin.options.prefix %>static/jquery.min.js"></script>`。然后单页内可直接使用$()方法。
-- FriendlyErrorsPlugin：友好提示插件，允许webpack编译成功和失败后输出的信息。
-- HotModuleReplacementPlugin：热更新使用插件。
-- CommonsChunkPlugin：分离公共模块使用的插件，具体见f。
-- UglifyJsPlugin：用于压缩js代码。会拖慢编译速度，建议打包时使用。`npm install uglifyjs-webpack-plugin --save-dev`#需要安装
-- ExtractTextPlugin：主要是为了抽离css样式,防止将样式打包在js中引起页面样式加载错乱的现象。
-```js
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-
-// ###########windows中使用set设置一个临时的环境变量
-"dev": "set NODE_ENV=development &&  webpack-dev-server --open --hot"
-// mac中使用：export
-"dev": "export NODE_ENV=development &&  webpack-dev-server --open --hot",
-// ————————为了统一两个系统，便于开发，使用一个第三方包:cross-env
-"dev":"cross-env DEV_ENV=test webpack-dev-..."//注意cross-env要放在命令开头。
-//但是运行程序中虽然能拿到变量名，但无法匹配到，进行如下设置：
-//webpack.dev.conf.js的插件中.使用vue-cli-server还可以在最外层文件中添加环境变量。
-
-module.exports = {
-    ...
-    plugins:[
-        new webpack.DefinePlugin({
-            'process.env':require('../config/dev.env'),//使用dev.env文件导出的环境变量。
-            "process.env.DEV_ENV": JSON.stringify(process.env.DEV_ENV),//添加该项!!猜测其它地方如此使用也可。
-        }),
-        new HtmlWebpackPlugin({    //配置多页时需要使用多个该plugin。
-            title:"测试app",//网页title，相应的html文件中使用<title><%= htmlWebpackPlugin.options.title %></title>才会有效
-            filename: 'index.html',//输出后的名字
-            template: '../src/index.html', //原html路径
-            inject: true,//向template或者templateContent中注入所有静态资源
-            chunks:'all' //指定导入的模块，多个写法》['vendor']
-       }),
-       new CopyWebpackPlugin([{    //一个数组的形式，所以可以写成多项。
-        from: path.resolve(__dirname, '../static'),// from与to都可以是指定的文件或目录。
-        to: 'static', //编译或打包后的项目下的目录。
-        ignore: ['.*'] //可忽略匹配到的文件。
-      }]),
-      new UglifyJsPlugin({
-        uglifyOptions: {
-           compress: {
-              warnings: false
-           }
-        },
-        sourceMap: true,
-        parallel: true
-     }),
-    ],
-    modules:{
-        rules:[{
-            test: /\.css/,
-            loader: ExtractTextPlugin.extract({
-                use: ['css-loader'],
-                fallback: 'vue-style-loader',
-                publicPath: '../../'    //解决打包后背景图找不到问题。vue-cli脚手架的话在utils文件中添加。
-            })
-        }]
-    }
-}
-//###-----dev.env文件如下内容
-module.exports = {NODE_ENV:'"development"',NUM:'20'}//注意对应变量是字符串的话需要 '"字符串"',而'20'则该变量是数值。
-```
-
-##### a5、resolve与output&魔术注释：
-
-```js
-/**三种hash的区别：（3种hash都是应对浏览器缓存而建立的）
-hash：是跟整个项目的构建相关，只要项目里有文件更改，整个项目构建的hash值都会更改
-chunkhash：只要我们不改动公共库的代码，就可以保证其哈希值不会受影响。
-contenthash:
-*/
-{
-    // 只能有一个output
-    output:{
-        filename:"[name].js",//为从入口处涉及到的bundle命名，name为占位，[fullhash]为使用hash。
-        chunkFilename:"chunk[hash].js",//为按需加载类型的js命名。可以在路由处import给chunk命名。
-        path:__dirname + '/dist',// 输出位置
-        publicPath:"/" //各个资源路径前面添加的前缀。
-    },
-    // 项目中
-    resolve:{
-        extensions:['.js','.vue','.json'],
-        alias:{'vue$':"vue/dist/vue.esm.js"}
-    }
-}
-
-//-----路由配置
-export default new Router({
-    routes:[{
-        path: '/textEdit',
-        name: 'textEdit',
-        //注释中为chunk命名。
-        component: () =>
-            import ( /*webpackChunkName:"wangeditor"*/  //可以多个路由命名为同一个名字，这样它们会被打包到同一个块。
-                     /* webpackMode: "lazy" */
-                     /* webpackPrefetch: true */ //这个是预先加载资源使用的注释。与 <link rel="prefetch"> 相同的特性
-                     '../pages/textEdit.vue'),
-        info: { login: true, title: "富文本编辑" }
-    }]
-});
-```
-- [其它注释学习参考地址。](https://webpack.js.org/api/module-methods/#magic-comments)
-##### a6、devtool：
-为便于调试的设置。编译打包后的代码出错时难以找到编译前的位置调试，设置devtool可以让其找到编译前报错位置。
-```js
-{
-    //有5个值：cheap,eval,module,inline,source-map。这些可以互相组合
-    devtool:"cheap-module-eval-source-map"
-}
-```
-- eval：不生成.js.map文件，仅仅是在每一个模块后，增加sourceURL来关联模块处理前后对应的关系。
-- source-map：打包后有map文件，相应的要在浏览器设置中开启：设置齿轮/preference/Sources/Eable javascript sources。
-- inline：该属性不会生成独立的 .map文件，而是将 .map文件以dataURL的形式插入。
-- cheap：该属性在打包后同样会为每一个文件模块生成 .map文件
-- module：该属性的配置也是生成一个没有列的信息的sourceMaps文件，同时loader的sourcemap也被简化成为只包含对应行的。
-- 开发环境常用：cheap-module-eval-source-map。
-- 生产环境常用：cheap-module-source-map。
-- [详细学习地址。](https://www.cnblogs.com/jkr666666/p/11067189.html)
-##### a7、vconsole插件：
-移动端上网页调试颇为不便，使用vconsole模拟控制台功能进行调试。
-- 安装：npm install vconsole
-- main.js中使用：
-```js
-import Vconsole from "vconsole";
-// 开发环境中使用。
-if (process.env.NODE_ENV === "development") {
-    let vConsole = new Vconsole();
-    Vue.use(vConsole);
-}
-```
-##### b、devServer：
-**正向代理**：代理是处于客户端和服务器中间的一台计算机，正向代理是接受客户端的链接，然后向目标服务器请求资源，逐步返回给客户端。正向代理的服务器与目标服务器不在同一网段内，面向服务器。如vpn。
-**反向代理**：面向的是客户端，对外表现为一台服务器，目标服务器放在内网，而反向代理服务器作为网关，访问内网中的服务器需要经过代理服务器，<i class="green">所以目标服务器更安全且压力变小，代理服务器还负责分发内容，缓存前端资源，因此也能优化前端性能。</i>
-vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
-**webpack-dev-server参数**：--hot#热更新，修改代码后，只会替换原来块的代码，而不会整个刷新页面。--open#启动后打开浏览器。--config#指定使用的配置文件。
-**注**：proxy下面是按顺序来匹配的，一个项目配置了多个映射的话，如果上面的映射项匹配到接口路径满足，那么下面的映射配置就不在生效，然而代理信息devServer也不会打印出来，所以注意自己的接口路径是否会被前面的映射匹配到。
-
-```js
-// 一般在webpack.base.config.js文件。注意是使用0.0.0.0而不是Localhost，不然无法ipv4访问。
-const HOST = process.env.HOST || '0.0.0.0';
-
-const devWebpackConfig = merge(baseWebpackConfig, {
-  devServer: {
-      host:HOST,  // 设置可访问的地址。process.env.HOST表示本机ip可访问。
-      port:3320, //访问网页的端口号。
-      hot:true,//模块热替换功能,默认是又变动后刷新整个页面
-      open:true,//服务启动后打开浏览器。
-      onListening:function(server){},//提供监听触发请求时的一个自定义操作。
-      historyApiFallback:true,//历史请求信息
-      // 浏览器访问的是，本机ip:端口+路径。终端会显示代理访问记录
-      proxy:{
-          "/api": {
-            bypass: function (req, res, proxyOptions) {},
-            target: "'http://10.18.110.107",//代理地址，反向代理的服务器不需要端口。
-            changeOrigin: true,// 是否跨域
-            secure: false,// https请求需要该设置
-				 ws:true,// 是否使用https，！！如果target中使用https的话依然还是会使用。
-				 pathRewrite: {// 设置此项。将满足'^/api'的替换为空。
-					'^/api': '', //如请求http://localhost:3000/main时写成=》/api/main即可。
-				}
-			}
-      },
-      // dev环境一般使用‘/’
-      publicPath:"/" //引用静态资源的公共路径。静态资源最终访问路径 = output.publicPath + 资源loader或插件等配置路径
-  },
-  build:{}
-}
-//     axios.get('/api/tasktime')
-```
-- [devserver配置部分](https://www.cnblogs.com/wb336035888/p/10448873.html)
-
-##### c、vue多页面应用配置：
-`/build/webpack.base.config.js`文件添加多个主js文件入口，形如：
-```js
-module.exports = {
-    entry:{
-        app:'./src/pages/home/min.js',
-        one:'./src/pages/game/min.js'
-    }
-}
-```
-`/build/webpack.dev.conf.js`文件添加如下配置。
-```js
-const devWebpackConfig = merge(baseWebpackConfig, {
-    plugins:[
-        // 第一个页面的。
-        new HtmlWebpackPlugin({
-            filename: 'home.html',//这个文件名在访问多页路径时有用，所以不能重名。
-            template: './src/pages/home.html',//这里指定的是文件位置，要注意！！
-            inject: true,
-            //chunks指定页面要使用哪些js代码块，多页面时要指定一个唯一的主js块
-            //不写的话会默认导入所有，这回导致一个html页面导入其它模块的所有js块。
-            chunks: ['manifest', 'vendor', home]
-        }),
-        // 其它页面的复制，更改相应名称即可。
-});
-```
-`/build/webpack.prod.conf.js`文件添加如下配置。
-```js
-const webpackConfig = merge(baseWebpackConfig, {
-    plugins:[
-        // 其它页面复制，相应的更换index，app即可。
-        new HtmlWebpackPlugin({
-            filename: config.build.index,
-            template: 'index.html',
-            inject: true,
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeAttributeQuotes: true
-            },
-            chunksSortMode: 'dependency',
-            //(在这里和你上面chunks里面的名称对应),不然会同时导入两个页的js，然后报错。
-            chunks: ['manifest', 'vendor', 'app']
-        }),
-    ]
-});
-```
-`/config/index.js`文件添加：
-```js
-module.exports = {
-    build:{
-    //build时导出的文件。
-        index: path.resolve(__dirname, '../dist/index.html'),
-        one: path.resolve(__dirname, '../dist/one.html'),
-        two: path.resolve(__dirname, '../dist/two.html'),
-    }
-}
-```
-根据上面相应的位置创建js、vue、html文件。<b c=r>home.vue和home.html文件种将id更改</b>。
-```js
-//one.js文件。
-import Vue from 'vue'
-import one from './one.vue'
-import router from './router'
-
-Vue.config.productionTip = false
-/* eslint-disable no-new */
-new Vue({
-    el: '#one',
-    router,    //加上路由的话可以在路由页
-    render: h => h(one)
-})
-```
-**访问**：http://127.0.0.1:8080/home.html#/[vue多页面应用配置教程。](https://blog.csdn.net/weixin_44135121/article/details/94445734)
-
-##### e1、px转rem配置：
-使用插件postcss-plugin-px2rem，安装：npm i postcss-plugin-px2rem -D。然后在vue-loader下配置。！移动端使用。
-```js
-var px2rem = require('postcss-plugin-px2rem');
-modules:{
-    rules:[{
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-            // 配置，rootValue值为1rem转换为px的大小。
-            postcss:function(){return [px2rem({ rootValue: 100 })];}
-        }
-    }]
-}
-```
-该插件只负责转换尺寸和单位，根元素字体大小在html文件用js去改变，两者配合使用。
-##### f、代码分割：
-用于将更多的公共模块从大的模块中分离出来。<b c=v>不过尽量将功能中依赖的js都放在一个bundle，这样只用一次http请求。</b>
-- 添加入口的方法来分离代码块：entry多加一个想要分离的js文件，如果这个文件也使用了一些其它公共的模块，同样会同这个js文件进入一个bundle中。
-- 使用CommonsChunkPlugin：插件部分添加该插件和规则，示例如下：<b c=r>webpack4.x后被废弃。改用splitChunkPlugin</b>
-```js
-{
-    plugins:[
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'tools',
-            // minChunks可以是数值，Infinity时表示无限制。
-            minChunks(module,count) {
-                // module.resource为文件路径，count是引用的次数。
-                // 将/utils下的tools.js文件分离出来。    ！！为true时表示进入该chunk。
-                return (module.resource && /\.js$/.test(module.resource) && module.resource.indexOf('/utils/tools.js') !== -1)
-            },
-            chunks:[], //也可以直接指定哪几个chunk在这个bundle
-            minSize:3 //最小包含的模块数量
-        }),
-    ]
-}
-```
-- 使用CopyWebpackPlugin将js文件直接从html引入，将js文件放到对应的静态资源文件夹中即可。[Index.html文件引入js文件。](https://blog.csdn.net/qq_15253407/article/details/89491255)
-- 使用commonsChunkPlugin或新版的splitChunk都只能分割主入口同步导入的和各页面的代码，而各页面import等导入的不能控制。[import()使用](https://www.cnblogs.com/dahe1989/p/11543832.html)
-
-##### g、bable插件：
-webpack只能将一部分es6语法转换为es5，而一些高级的es6语法，和部分es7语法无法转译，这就需要bable。bable包含：preset-env、plugin-component、polyfill等多个子插件。
-<b class="violet">项目中的.bablelr是bable的配置文件，而需要使用的话需要在webpack的modules中引入bable-loader。</b><b class="gray">babel中引入的分为转换插件（转换代码，编译）和语法插件（解析特定类型的语法，如果你已经使用了相应的转换插件，则不需要指定语法插件。）</b>
-使用前先安装：`cnpm i babel-core babel-loader babel-plugin-transform-runtime -D`
-**bable中常用的插件**：7.0以下的版本插件几乎以abel-plugin-开头，7.0以上的以@babel/开头，两个版本混用会导致解析失败。
-<i class="lable2">preset部分</i>
-- @babel/env对应6.0+的babel-env：为目标浏览器中没有的功能加载转换插件。不太推荐preset-env。
-- @babel/polyfill：可以使用诸如 Promise 和 WeakMap 之类的新的内置组件、 Array.from 或 Object.assign 之类的静态方法，不过是全局的，所以会对全局变量造成污染，现在已经不建议使用。安装时使用`--save`
-- transform-vue-jsx：可以支持jsx语法（ts）。
-- [制作可在babel中配置的插件。](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/README.md)
-- stage系列插件：它们用于解析es6,7等版本js语法的方案，包含0-4，功能逐渐降低，对最新语法处理的程度，一般使用stage-2。
-- transform-runtime：只用于开发环境，由于webpack的打包机制会将模块中导入的都打包到一起，然而一些较大的公共包也会有被打入多个chunk组的情况，transform-runtime可以提取分离它们
-
-```js
-{
-　　// 此项指明，转码的规则
-  "presets": [
-    [
-      "@babel/env",
-      {
-        "targets": { //列出一个最小支持版本。或"targets": "> 0.25%, not dead"
-          "edge": "11",
-          "firefox": "60",
-          "chrome": "67",
-          "safari": "11.1",
-        },
-        "useBuiltIns": "usage",//usage会有一些优化作用。
-      }
-    ],
-    "stage-2"
-  ],
-  "plugins": [
-    // 下面这个选项是引用插件来处理代码的转换，transform-runtime用来处理全局函数和优化babel编译
-     "transform-runtime",//transform-runtime为node_modules中已安装的插件（带babel-plugin-前缀）。
-     "transform-remove-console", //编译后移除console
-     //自定义的plugin。component是作为参数传入。还有import，对应的需要安装babel-plugin-component和babel-plugin-import
-     ["component", [{    
-        "libraryName": "element-ui",           //按需引用element-ui插件
-        "libraryDirectory": "src/components",    //指定从哪导入。
-        //"styleLibraryName": "theme-default"   //按需引用element-ui主题 
-     }]]
-  ],
-  "comments": false,// 在生成的文件中，不产生注释
-    // 下面这段是在特定的环境中所执行的转码规则，当环境变量是下面的test就会覆盖上面的设置
-  "env": {
-    // test 是提前设置的环境变量，如果没有设置BABEL_ENV则使用NODE_ENV，如果都没有设置默认就是development
-    "test": {
-      "presets": ["env", "stage-2"],
-      "plugins": [ "istanbul" ]    // instanbul是一个用来测试转码后代码的工具
-    }
-  }
-}
-```
-**webpack中配置如下**：[bable官网](https://www.babeljs.cn/docs/babel-preset-env)。[.babelrc文件作用及属性，部分组件按需引入，需要配置。](https://www.cnblogs.com/wulinzi/p/8079509.html)
-- `{ test:/\.js$/, use: 'babel-loader', exclude:/node_modules/ }`#exclude指定排除掉的文件夹。 如果不排除 node_modules， 则Babel 会把 node_modules 中所有的 第三方 JS 文件，都打包编译，这样，会非常消耗CPU，同时，打包速度非常慢；
-[编写plugin参考学习地址。](https://www.cnblogs.com/wzndkj/p/10921340.html)
-##### Q、问题集：
-- 解析less文件时提示：TypeError: loaderContext.getResolve is not a function：换使用较低的less-loader版本。4.1.0
-- 解析less，sass等文件时提示：Module build failed: Unrecognised input。按a2中方法配置loader即可，一般用默认模板的话，utils中是已经配置好的，安装好loader即可用。
-- 编译运行时一直卡住的问题：可能是相应的loader版本较高，尝试安装低版本。
-- file-loader提示Rule can only have one resource source：尝试低版本的webpack。
-- mini-css-extract-plugin提示：Class extends value undefined is not a constructor or null。需要webpack版本>=4.1.0
-- mini-css-extract-plugin提示： Cannot read property 'createHash' of undefined。依然是webpack版本问题，npm install webpack@^4.29.6可以支持。
 #### 11、uni-app的使用：
 **介绍**：uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉/淘宝）、快应用等多个平台。结合Hbuilder x使用，文件新建一个项目选择uni-app项目(网站、app、小程序都选这个)。[uni-app官网。](https://uniapp.dcloud.io/)[插件市场](https://ext.dcloud.net.cn/search?q=uni-ui)。
 **项目目录结构**：pages文件夹存放业务页面，pages/index/index.vue页面是app打开时的引导页面。创建其它页面时新建一个文件夹然后在文件夹内建页面，可以多个页面放一个文件夹。
@@ -5098,42 +3700,97 @@ module.exports = {
 
 ```java
 /*部分文件目录
+Resource/
+--base/
+---layout/    //存放布局文件。java中用ResourceTable.Layout_前缀调用
+---graphic/   //作为背景使用
+---media/     //存放图片，java中用ResourceTable.Media_前缀调用
 java/
 --com/
 ----ttjy/
 ------stxd/
---------slice/
-- - - - - -aSlice.java    //aSlice.java是a.java的一个子ability，一般在这个页面绘制java ui界面
---------util/
-- - - - - -c.java
 - - - --a.java            //这是一个java ability
 - - - --b.java
-
+--------slice/
+- - - - - -PaySlice.java    //PaySlice.java是a.java的一个子ability，一般在这个页面绘制java ui界面
+--------util/
+- - - - - -c.java
 */
 
-/*==========文件a,b在同一级目录，模块名一样================
-文件所属模块：包名相同的文件，其文件所有公共类，在其它文件可直接使用。
-将其它项目文件拷贝过来时，记得更改这里
+/*==========================
+slice/PaySlice.java文件（java page）        文件所属模块：包名相同的文件，其文件所有公共类，在其它文件可直接使用。将其它项目文件拷贝过来时，记得更改这里
 =========================*/
-package com.ttjy.stxd;
-// ohos下为框架自带的一些api。
-import ohos.aafwk.ability.Ability;
+package com.ttjy.stxd.slice;
+
+import com.ccb.paycard.ResourceTable;
 import ohos.aafwk.ability.AbilitySlice;
-// com开头的，是导入libs中自添加的一些库文件，或是本项目其它java文件
-import com.alipay.sdk.app.PayTask;
-// 导入其它目录下的java文件示例。
-import com.ttjy.stxd.util.c;
+import ohos.aafwk.content.Intent;
+import ohos.aafwk.content.Operation;
+// 日志部分
 import ohos.hiviewdfx.HiLog;
 import ohos.hiviewdfx.HiLogLabel;
-// c.java文件模块名。因为在util下，所以后面+util
-package com.ttjy.stxd.util;
+// 布局部分
+import ohos.agp.components.Image;
+import ohos.agp.components.Component;
+import com.ttjy.stxd.slice.Success;
+import com.ttjy.stxd.MainAbility;
 
-class MyRemote extends RemoteObject implements IRemoteBroker {
-    // 定义日志。0x00201是定义日志的域，控制台搜索00201即可看到该日志块打印的所有日志
-    private final HiLogLabel LABEL = new HiLogLabel(HiLog.LOG_APP, 0x00201, "MY_TAG");
+public class PaySlice extends AbilitySlice {
+    private static final HiLogLabel LABEL = new HiLogLabel(HiLog.LOG_APP, 0x230, "MY_TAG");    //建立日志
+    @Override
+    public void onStart(Intent intent) {
+        super.onStart(intent);
+        super.setUIContent(ResourceTable.Layout_pay);                                          //设置使用的布局xml文件
+        // 获取intent的参数值，还有getBoolParam,getIntParam()等方法
+        String formOrder = intent.getStringParam("formOrder");
+        findComponentById(ResourceTable.Id_header_back).setClickedListener(this::goBack);      //绑定点击事件
+        // 在选中元素前加类型，得到对应的元素类，这样才能使用相应类下的函数。
+        Image lonImg = (Image) findComponentById(ResourceTable.Id_radio_img);
+        lonImg.setPixelMap(ResourceTable.Media_checked);                                       //设置图片
+    }
+    public void goBack(Component v){ terminate();}                                             //页面返回
+    public toSuccess(){
+        Intent itt = new Intent();itt.setParam("res","justice");
+        present(new Success(),itt);                                                            //page内跳转方法
+    }
+    public void goHome(Component v){
+        Intent intent = new Intent();
+        Operation operation = new Intent.OperationBuilder().withDeviceId("")
+        .withBundleName(getBundleName()).withAbilityName(MainAbility.class.getName()).build();
+        intent.setOperation(operation);startAbility(intent);                                   //不同ability间的跳转。
+    }
+}
+/*===========================
+    b.java文件，service
+=============================*/
+package com.ttjy.stxd;
 
-    public void run(){
-        HiLog.info(LABEL,"bbc");
+public class ComputeServiceAbility extends Ability {
+    private MyRemote remote = new MyRemote();
+    // FA在请求PA服务时会调用Ability.connectAbility连接PA，连接成功后，需要在onConnect返回一个remote对象，供FA向PA发送消息
+    @Override
+    protected IRemoteObject onConnect(Intent intent) {
+        super.onConnect(intent);
+        return remote.asObject();
+    }
+    // 远程链接类
+    class MyRemote extends RemoteObject implements IRemoteBroker {
+        private static final int PLUS = 1001;
+        MyRemote() {super("MyService_MyRemote");}
+        // 调用监听
+        @Override
+        public boolean onRemoteRequest(int code, MessageParcel data, MessageParcel reply, MessageOption option) {
+            switch (code) {
+                case PLUS: {
+                    /*结果返回*/
+                    Map<String, Object> result = new HashMap<String, Object>();
+                    result.put("code", 0);
+                    result.put("abilityResult", 20);
+                    reply.writeString(ZSONObject.toZSONString(result));            //回复js结果。
+                    break;
+                }
+            }
+        }
     }
 }
 ```
@@ -5148,8 +3805,8 @@ export default{
         actionData.secondNum = 2048;
         // 必须先声明map，再向其中添加数据，不然无法调用
         var action = {};
-        action.bundleName = 'com.light.dark';
-        action.abilityName = 'com.light.dark.skipPay';
+        action.bundleName = 'com.ttjy.stxd';
+        action.abilityName = 'com.ttjy.stxd.b';
         action.messageCode = ACTION_MESSAGE_CODE_PLUS;
         action.data = actionData;
         action.abilityType = ABILITY_TYPE_EXTERNAL;
@@ -5177,9 +3834,9 @@ export default{
         "grantMode":"system_grant",
         "avaliableScope":["signature"]
     },
-    "package": "com.example.phonedemo",//应用包名，唯一
+    "package": "com.ttjy.stxd",//应用包名，唯一
     "name": ".MyApplication",
-    "mainAbility": "com.example.phonedemo.MainAbility",
+    "mainAbility": "com.ttjy.stxd.a",
     "deviceType": ["phone"],
     "abilities": [{
         // 入口页面，entity.system.home表示入口页面。
@@ -5194,14 +3851,20 @@ export default{
           }
         ],
         "visible": true,
-        "name": "com.light.dark.MainAbility",
+        "name": "com.ttjy.stxd.a",
         "icon": "$media:icon",
         "description": "$string:mainability_description",
         "label": "$string:entry_MainAbility",
         "type": "page",
-        "launchType": "standard"
+        "launchType": "standard",
+        "metaData": {
+          "customizeData": [{
+            "name": "hwc-theme",
+            "value": "androidhwext:style/Theme.Emui.Light.NoTitleBar" //去掉页面顶部标题
+          }]
+        }
     },{
-        "name": "com.light.dark.skipPay",
+        "name": "com.ttjy.stxd.b",
         "icon": "$media:icon",
         "description": "$string:skippay_description",
         "type": "service"   //一个service ability
@@ -5351,3 +4014,1468 @@ HiLog.warn("warn");//输出一条日志
 1. 准备签名文件：生成密钥和证书请求文件、创建AGC项目、创建HarmonyOS应用、申请发布证书和Profile文件。
 2. 编译构建APP：配置签名信息、编译构建App、
 3. 上架应用市场
+
+### 十、vuejs：
+:::alert-info
+**核心实现**：每个组件实例会有一个渲染watcher，用于收集页面上的绑定的属性。计算属性和监听属性建立后都会各有一个watcher用于手机相应的依赖，并同时向Dep中发布订阅，添加到Dep.subs中，然后各watcher收集到的响应式对象会交给Observe，其使用Object方法集为这些响应式对象添加getter，setter属性，当发生改动时会触发setter，然后setter内根据其绑定的相关watcher通知Dep，触发Dep的notify()函数，去遍历Dep.subs中的订阅者，触发相关watcher的update方法重新计算、渲染。
+:::
+
+![v2-b94d747fd273ec8224e6349f701430fd_720w](_v_images/20210305103536586_26904.jpg =510x)![vue](_v_images/20210305201824661_21824.png =790x)
+
+#### a1、原理:
+**初始化阶段**(这个阶段主要是把普通对象转化为响应式对象)、**编译阶段**(编译阶段会把options.template编译成render函数，解析template中的数据，事件绑定等)、**挂载阶段**(这个阶段会执行render函数以获取vnode。然后模板引擎根据vnode去生成真实DOM)、**监听阶段**(挂载阶段之后，模板引擎已经渲染好网页，这时就进入了监听阶段。patch函数还会对比新旧vnode，并计算出更新DOM需要的操作。最后由框架更新到网页上)、**注销阶段**(注销过程会先触发beforeDestroy，然后注销掉watchers、child components、event listeners等，之后是destroyed钩子函数)。
+**vue生命周期**：生命周期函数运行顺序如下：注意各阶段对应的钩子函数。
+- **beforeCreate**：new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建。<i class="gray">data和methods中的数据都还没有初始化。因此不能在此调用methods的方法和data的数据。</i>
+- created：data 和 methods都已经被初始化好了。
+- beforeMount：在内存中已经编译好了模板了，但是还没有挂载到页面中。
+- mounted：Vue实例已经初始化完成了。进入运行阶段，页面渲染完成，可在此进行操作dom。
+- beforeUpdate：页面中的显示的数据还是旧的，data中的数据是更新后的， 页面还没有和最新的数据保持同步。
+- updated：页面显示的数据和data中的数据已经保持同步了，都是最新的。
+- beforeDestory：进入到了销毁阶段，这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于可用状态。还没有真正被销毁。
+- destroyed(组件已经被销毁)。
+- **单个组件中为什么data是一个函数**：由于组件可以复用，而对象又是引用型的，如果改成map，会造成互相污染，函数则是返回一个全新的。
+- **vue怎么监听数组的**：通过在Array重写数组方法，在其中添加监听，监听到有使用这些方法时则直接出发Dep的notify来更新。
+- **虚拟DOM**：vue中的虚拟DOM是根据对编译后的模板，生成一个用js对象描述节点内容，属性的抽象。
+- **nextTick**：vue 用异步队列的方式来控制 DOM 更新和 nextTick 回调先后执行，nexTick中的操作是放于微任务队列，若浏览器不支持则会使用setTimeout(fn,0)来处理。
+- 
+- **diff算法**：用于新老虚拟DOM之间找到最小更新部分，然后进行更新。（1）比较新旧节点是否为同一节点（使用key或选择器）若不是同一节点则以旧节点为基准插入这个新节点，然后删除旧节点。（2）若是同一节点且文本属性等都相同则不作处理，若只有文本差异则替换文本即可。（3）若新节点有子节点，则清空老节点，将新节点的子节点插入老节点中即可。
+
+**vue-cli**：
+:::alert-info
+**vue-cli**：是一个构建项目的工具，一个平台，也是一个npm包。它提供一套初始的项目模板，内部规定好哪些文件夹的功能。打包时使用的webpack，webpack的配置，vue-cli中也写了一些初始的配置，webpack做为项目的一个依赖而安装。其它安装的一些依赖都放在node_modules下，一些less-loader,file-loader的东西是在编译打包时运行的，其配置也作为webpack的plugin。这些工程化项目的过程中node只是作为一个让其独立运行的环境，当然这当中也使用node一些自带的功能。所以不使用vue-cli,自己定义一个目录，编写配置也是可以的，也由此有很多cli工具。**vue-cli中使用的服务时webpack的服务**。
+:::
+
+- 安装：`npm install vue-cli -g`#全局安装vue-cli工具，安装后可以使用vue命令初始化项目。
+- 初始化：`vue init webpack test `#配置更开发，适合中大型。`vue create project`#配置较简单。
+- **vue-cli-service**：该service相当于是使用node语言书写的一个本地服务，包括默认从vue.config.js读取配置（所以与webpack-service使用时的配置有些差异），运行webpack这些操作。所以也可以根据这些逻辑自己写一个恶脚手架。
+- **可视化管理**：cmd/输入：vue ui打开vue的开始化管理界面，导入项目，然后进去查看详细。
+
+相关资源：
+- [package.json文件各种属性解释](https://zhuanlan.zhihu.com/p/33928507)。[v3直达](https://v3.cn.vuejs.org/guide/migration/introduction.html#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)、[使用ts的创建。](https://zhuanlan.zhihu.com/p/99343202)
+- [vite.config.js配置](https://vitejs.dev/config/#server-port)、[vuejs官网。](https://cn.vuejs.org/v2/guide/)、[vue深入原理参考学习地址](https://zhuanlan.zhihu.com/p/101330697)、[生命周期解释](https://www.cnblogs.com/wzndkj/p/9612647.html)、[具体介绍学习地址。](https://blog.csdn.net/weixin_34023863/article/details/87945630)
+
+**问题集**：
+- linux上：安装vue-cli后会在所的nodejs/bin下看到vue。(npm config list#可以查看这个文件的位置)。为这个vue建立一个软链接将其放到/usr/local/bin下，`sudo ln -s /home/wcs/software/nodejs/bin/vue /usr/local/bin/vue`
+- windows上：将`C:\Users\wcs\AppData\Roaming\npm`#vue被下载到该文件，添加到环境变量即可。
+
+#### a2、基本使用：
+**$attrs与\$listeners**：
+```html
+<!--子组件-->
+<label>输入框：</label><input v-bind="$Allattrs" v-on="$listenserAll" />
+<script>
+export default {
+    name:"pop",
+    computed:{
+        $Allattrs(){
+            return this.$attrs;//this.$attrs表示绑定在该组件上的所有属性。
+        },
+        $listenserAll() {//this.$listeners也是表示从父组件接收到的所有绑定事件。
+          return Object.assign({}, this.$listeners, {
+            input: (event) => this.$emit("input", event.target.value),
+           });
+        },
+    }
+}
+</script>
+<!--父组件,native修饰符的事件不会出现在$listeners中-->
+<pop placeholder="$attrs支持不使用bind写法传值" @focus="focus" @input="inp" @change.native="change"/>
+```
+- **循环**：
+
+```html
+<li v-for="i in is">
+<h5>{{ i }}</h5>
+<div v-if="i == 0" v-html="a">这是i</div>
+<div v-else-if="i == 1" v-html="b">这是else</div>
+<div v-else v-html="c"></div>
+</li>
+// 常用情况,key尽量使用一个唯一的值，不使用索引。
+<p v-for="(val,idx) in phones" :key="idx">{{ val.text }}</p>
+```
+**注**：由于vue2.x使用Object.defineProperty监听对象，数组数据无法监听到改变，尽量使用Array自带方法：splice/push等操作数组，或$forceUpdate强制刷新。
+
+- **method**：
+
+```js
+var v = new Vue({
+    el:"#view",
+    data:{name:"error"},
+    method:{alter:function(){this.name = "vue"}},// 这里的this指向的是method
+    //所以data中的数据已被逐一放置到method中
+    component:{"template":'<h3>dkl</h3>'}
+});
+v.alter()//直接运行函数
+
+```
+调用方法集中的函数：v.alter()直接调用，或原始中`<p v-on:click="alter()"></p>`，v-on绑定的事件是动态绑定的所以使用v-for循环出来也能使用。
+- **样式绑定**：
+```html
+<div v-bind:class="{a:isa,b:isb}"></div><!--isa为true时将类名a绑定-->
+<p v-bind:class="[a,b]"></p>// 绑定多个类名
+<a v-bind:style="styObj"></a>//styObj是js中定义好的变量，内嵌样式
+<b v-bind:style="{ width: w + 'px',color: col }">
+
+```
+- **计算属性与监听属性**：与methods是一个函数集对象，不过computed中的函数可以直接放到模板中<b class="violet">computed一般用于页面渲染的数据，watch一般监听一个值改变影响较大情况。</b>：
+```js
+//<p>{{ name }}</p>// name对应cmputed中对应的函数名，会将函数返回值作为name值。也可以写成{{ name() }}
+...
+data:{
+    b:22,
+    vb:89
+},
+computed:{
+    name:function(){
+        a = this.b + 1;
+        return a;// 这里的返回值a依赖于this.b，只有当this.b发生变化时才会重新运行该函数，
+        //如果这里时一系列复杂庞大的数据操作，每次调用name时也能快速获取到值(所以这是一个缓存效果)。如果不希望缓存的话可以用methods中的方法。
+    },
+    age:{
+        // 像上面的name函数在创建后，会被vue实例转化为一个对象，默认有一个get属性获取值。
+        get:function(){return 35;},// getter该数据时触发。
+        set:function(){// 可以以这样的方式来添加一个set操作。set该数据时触发。
+            return this.b + 10;
+        }
+    }
+},
+watch:{// watch中的函数名对应data中想要监听的数据名。
+    vb:function(newVal,oldVal){// 会传入两个参数。在vb这个数据变化时触发。
+        this.b = 29;
+    },
+    a(){//a发生了变化},
+    obj:{
+        // 监听一个对象的变化，需要加deep属性。
+        heandler(nw,old){
+            //发生变化时触发
+        },
+        deep:true
+    },
+    "obj.name"(){
+        //也可以这样来监听一个对象的属性。
+    }
+}
+```
+- **事件绑定中传入event参数**：
+```js
+<p v-on:click="get($event)"></p>
+function get(e){
+    // 使用此法来获取当前元素。*********注意！就算get中不传入$event对象，也会默认传入。
+    e.target.style.color = "red";//若绑定事件的元素中有多个子元素请用
+//currentTarget,因为可能点Z中的是子元素，触发事件的却是因为事件冒泡
+}
+```
+**插件**：
+```js
+//plugin.js放置 插件格式,一个对象。
+export plugin = {
+    install(vue,params){//第一个会被传入vue对象。
+        vue.prototype.plugin = function(){}
+    }
+}
+//main.js
+import {plugin} from "./plugin.js";
+vue.use(plugin,"hello");//use方法会调用plugin的install()函数
+```
+#### a3、组件：
+第三方的组件一般安装后可直接单个页面按需引入，对应的插件安装后也可以单页面直接引入使用。子组件使用的数据最好是在父组件mounted之前就生成。
+
+```js
+<script>
+// 全局注册，写在main.js文件中
+Vue.component("wcs",{
+    template:'<h1>{{ info }}</h1>',
+    props:['info'],
+    data:{},
+    props:[],
+    methods:{}
+});// 页面中直接<wcs></wcs>即
+</script>
+/*======================
+    父组件值改变，子组件不刷新问题
+========================*/
+<child :key="dateStream" :forms="useForm"/>
+<script>
+alter(){
+    this.ajaxRequest();
+    this.dialogOpen = true;                        //会先打开子组件，但数据还没拿到。
+},
+ajaxRequest(){
+    ajax({..}).then(r=>{
+        this.useForm = {...};
+        this.dataStream = new Date().getTime();    //更改子组件key值，此时会再次刷新子组件。
+    })
+}
+</script>
+```
+**局部注册**：
+```html
+<!--av是子组件test中的props中定义的值，当是一个对象时可以直接v-bind。:av="nm"(mpvue中的简写)。
+.async表示组件内修改值也改变组件外的值，两者同步。
+-->
+<test v-bind:av="nm" v-bind="post" :varray.async="datas"></test>
+import test from '../component/test'
+...
+components:{test}
+```
+<i class="label2">prop验证</i>在父组件向子组件中的props传递值时，props的值可以预先写定一个类型数据来做验证，若传来的值不满足验证则会有warn提示。
+```js
+// 子组件中的props内容。
+props:{
+    age:Number,
+    propB: [String, Number],// 多个可能的类型
+    propC: {// 必填的字符串
+      type: String,
+      required: true
+    },
+    propD: {
+      type: [Number,String],//接受多个类型的写法
+      default: 100
+    },
+    propE: {// 带有默认值的对象
+      type: Object,
+      // 对象或数组默认值必须从一个工厂函数获取
+      default: function () {
+        return { message: 'hello' }
+      }
+    },
+    propF: {    // 自定义验证函数
+      validator: function (value) {
+        // 这个值必须匹配下列字符串中的一个
+        return ['success', 'warning', 'danger'].indexOf(value) !== -1
+      }
+    }
+}
+// 父组件内容
+<test :age="age"></test>
+data:{age:'fdsf'}//与子组件要求的数据类型不一致时会在控制台有warn提示。
+```
+**keep-alive的使用**：用于缓存组件，具体如下：
+- **原理**：根据组件 ID 和 tag 生成缓存 Key,并在缓存对象中查找是否已缓存过该组件实例。如果存在,直接取出缓存值并更新该 key 在 this.keys 中的位置。在 this.cache 对象中存储该组件实例并保存 key 值,之后检查缓存的实例数量是否超过 max 的设置值,超过则根据 LRU 置换策略删除最近最久未使用的实例。
+```html
+<!--include和exclude用于匹配组件的name，满足匹配项的才会缓存或不缓存，也可以是一个列表-->
+<keep-alive :include="[/login/,'/acc/']" :exclude="/acc/">
+    <login/>
+</keep-alive>
+```
+- **两个额外的钩子函数**：由于组件被缓存起来，再次使用到该组件时不会触发它的一系列生命周期函数，可用如下钩子判断是否处于使用中。
+```js
+export default{
+  activated() {
+    //活跃状态，在使用时触发,即使第一次进入页面也会触发。
+  },
+  deactivated() {
+    //不使用时触发
+  }
+}
+```
+**组件中使用插槽**：有时候我们定义一个组件不能完全应付所有场景，比如一个底部弹出框，有的有选择项，有的是展示商品内容，如果靠传值来控制显示，会导致子组件内东西非常多。而分为多个组件来写，它们之间又有一些共用的东西，所以产生了插槽。
+```html
+// 第一个子组件的内容
+<template v-slot:head>// v-slot的值对应第三个子组件中slot的name属性。具名插槽可以缩写为#head
+    <div>第一个子组件内容{{ name }}</div>
+</template>
+// 第二个子组件的内容
+<template v-slot:[slotType]>// 只能用在template标签上。用[]时就是使用动态插槽名，改变slotType值可以改变要插入的插槽。
+    <div>第二个子组件内容。</div>
+</template>
+// 第三个子组件的内容，设置了slot
+<template>
+    <div>
+    <slot name="head"></slot>// 对应的v-slot值会放到对应的name值位置。
+    <slot name="body"></slot>// 这种指明了插槽名的情况被叫做具名插槽。
+    </div>
+</template>
+// 一个单页面中的内容
+<template v-slot:head>
+    <div>
+        <hello> //这里的hello是子组件3
+            <c1></c1> //这是子组件1，也可以这这个标签中写v-slot:head属性。
+        </hello>
+    </div>
+</template>
+```
+**插槽作用域**：用于子组件中的数据想提供给父组件任意展示。[学习地址。](https://blog.csdn.net/lzl980111/article/details/104783252/)
+
+```html
+<!--子组件中-->
+<template>
+    <div><slot :data="dts"></slot></div><!--绑定一个数据上去-->
+</template>
+<script>
+export default {
+    name:"child",
+    data(){return {dts:[1,2,3]};}
+}
+</script>
+
+<!--父组件中-->
+<template>
+    <div>
+    <child slot-scope="slot"><!--数据都在slot下-->
+        <span>{{ slot.dts.join('-') }}</span>
+    </child>
+    </div>
+</template>
+```
+
+**动态组件和异步组件**：使用component标签和v-bind:is属性来切换组件。
+```html
+<keep-alive>// 外面套上keep-alive标签后，加载过的组件会被缓存下来，再切回去的时候不会重新渲染。
+  <component v-bind:is="name"></component> //component是vue内部自带的已注册的标签名，修改name值(对应组件名称)来在这个位置切换组件。
+</keep-alive>
+data:{
+    name:'test'
+},
+components:{
+    test,
+    vv:()=>import("../components/vv"),//该组件会被单独打包成代码块，使用时才会被以<script>的形式引入页面。
+    cc:() => ({    //定义异步组件加载时的一些其它行为。
+      // 需要加载的组件 (应该是一个 `Promise` 对象)
+      component: import('./MyComponent.vue'),// 异步组件加载时使用的组件
+      loading: LoadingComponent,// 加载时使用的组件
+      error: ErrorComponent,// 失败时使用的组件。
+      delay: 200,// 如果提供了超时时间且组件加载也超时了，
+      // 则使用加载失败时使用的组件。默认值是：`Infinity`
+      timeout: 3000 //超过该时间不再加载。毫秒
+    })
+}
+```
+**异步组件原理**：内部调用createComponent()方法创建组件，异步的写法是一个函数，判断到组件是一个函数的情况会将组件内容赋值给asyncFactory(一个promise)，然后传给resolveAsyncComponent()，其内部会执行asyncFactory创建一个空的虚拟节点，加载完之后会调factory函数传入resolve和reject两个参数，执行后返回一个成功的回调和失败的回调，promise成功了就会调resolve，resolve中就会调取forceRender方法强制更新视图重新渲染。<b c=gn>异步组件被打包成单独的bundle，如v-if使用组件时，才会从服务器下载相应的js文件。</b>[参考学习地址](https://blog.csdn.net/qq_42072086/article/details/109642272)。
+**边界情况**：官网中将以下子组件访问父组件，父组件访问子组件数据等称为边界情况。
+<i class="label3">访问根实例</i>
+```
+// 在子组件中用$root访问根组件的data或computed中的数据。
+a = this.$root.foo;
+this.$root.foo = 5;// 修改数据。
+```
+<i class="label3">访问父组件实例</i>
+```
+// 与访问根实例，类似。
+var map = this.$parent.map || this.$parent.$parent.map
+```
+<i class="label3">父组件访问子组件数据、事件等</i>
+**元素选择器**：`<p ref="aa"></p>` ref标记元素，`this.$refs.aa选中元素，如果绑定的是一个组件还可以继续this.$refs.aa.get()`调起组件内的方法。
+<i class="label3">依赖注入</i>类似访问父组件实例的情况，不过依赖注入可以在后代组件中都访问到，而且不用暴露所有父组件实例。
+```js
+// 父组件内容。
+data:{},
+provide: function () {
+  return {
+    getMap: this.getMap
+  }
+}
+//子组件内容
+props:{},
+inject: ['getMap']
+```
+依赖注入还是有负面影响的。它将你应用程序中的组件与它们当前的组织方式耦合起来，使重构变得更加困难。同时所提供的属性是非响应式的。这是出于设计的考虑，因为使用它们来创建一个中心化规模化的数据跟使用 $root做这件事都是不够好的。
+**组件上使用v-model与sync修饰符**:
+```html
+<!--父组件-->
+<pop v-model="stateContent" :cs.sync="[1,2,3]"/><!--sync修饰的数据其子组件内可以直接更改，且父组件也会跟着变化-->
+<!--子组件-->
+<template>
+  <div class="pop">
+    <!--注意，绑定value，而不是v-model-->
+    <div><input :value="state" v-on:input="alt($event)" placeholder="请输入"/></div>
+  </div>
+</template>
+<script>
+export default {
+  props:{
+    state:{default:""},
+    cs:Array
+  },
+  model:{    // model中需要指定改变的props中的值和使用哪个事件改变。
+    prop:'state',
+    event:'change'
+  },
+  methods:{
+    alt(e){
+      let c = e.target.value;
+      this.cs.push('h');
+      this.$emit('change',c);    // 子组件中使用触发事件更改父组件的值，即props中的值。
+    }
+  }
+}
+</script>
+```
+<i class="label3">第三方组件库安装</i>多数组件库都支持全局注册和按需使用，两者方式稍有区别。
+全局引入：较为简单，安装后直接入口文件引入，Vue.use()使用插件，然后倒入相关样式文件，各组件内直接按语法使用即可。
+按需引入：如果支持babel中配置的可以在babel-loader的配置项中写入（入口js文件中也要导入样式文件）：
+```js
+{
+"plugins": [
+    ...
+    ["import", {    // 一些组件库是使用babel-plugin-component。
+      "libraryName": "muse-ui",    //对应node_modules下的包名
+      "libraryDirectory": "lib",// 包名下，导入的资源的所在目录。
+      "camel2DashComponentName": false
+    }]
+  ]
+}
+// 页面如下使用
+import {Button} from "muse-ui";
+...
+components:{[Button.name]:Button}//然后按照文档语法使用即可。
+```
+主题配置：同样在入口文件按照其文档配置全局的主题色、元素尺寸即可。
+
+<i class="label3">程序化的事件倾听器</i>具体用法暂未了解！
+通过 $on(eventName, eventHandler) 侦听一个事件
+通过 $once(eventName, eventHandler) 一次性侦听一个事件
+通过 $off(eventName, eventHandler) 停止侦听一个事件
+<i class="label3">通过 v-once 创建低开销的静态组件</i>在组件的`<template v-once>`中添加，加载过后里面的内容会被缓存起来。
+<i class="label1">阻止事件冒泡</i>v-on:click.stop='get()'
+
+#### a4、vuex的使用：
+一个全局变量管理控件。[vuex使用学习地址。](https://segmentfault.com/a/1190000015782272)[vuex官网。](https://vuex.vuejs.org/zh/guide/)
+安装：`npm install vuex --save`#然后在src文件夹下新建一个store文件夹，store内再建一个Index.js文件，文件内容如下：
+```js
+import Vue from 'vue';
+import Vuex from 'vuex';
+Vue.use(Vuex);
+
+const state={   //要设置的全局访问的state对象
+     showFooter: true,
+     changableNum:0
+     //要设置的初始属性值
+   };
+
+/**-----当state中数据量，结构比较复杂时，要获取state中一些较深结构的值会比较麻烦
+而且从设计原则上考虑也应该用一些函数来单独获取值。
+*/
+const getters = {   //实时监听state值的变化(最新状态)
+    isShow(state) {  //承载变化的showFooter的值
+       return state.showFooter
+    },
+    getChangedNum(state){  //承载变化的changebleNum的值
+       return state.changableNum
+    }
+};
+const mutations = {
+    show(state) {   //自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
+        state.showFooter = true;
+    },
+    hide(state) {  //同上
+        state.showFooter = false;
+    },
+    newNum(state,sum){ //同上，这里面的参数除了state之外还传了需要增加的值sum
+       state.changableNum+=sum;
+    }
+};
+const actions = {//异步运行
+    hideFooter(context) {  //自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性
+        context.commit('hide');
+    },
+    showFooter(context) {  //同上注释
+        context.commit('show');
+        context.commit("user/login");//使用斜杆方法调用其它模块的方法
+    },
+    getNewNum(context,num){   //同上注释，num为要变化的形参
+        context.commit('newNum',num)
+     }
+};
+const store = new Vuex.Store({
+       state,
+       getters,
+       mutations,
+       actions
+});
+export default store;
+
+// main.js文件中。
+import store from './store'//引入store
+ 
+new Vue({
+  el: '#app',
+  router,
+  store,//使用store
+  template: '<App/>',
+  components: { App }
+})
+// 使用
+this.store.state.changebleNum//可直接获取到值。
+this.store.commit('newNum',6);//运行mutation中定义的函数。
+this.$store.dispatch('hideFooter')//运行actions中定义的函数。
+// 有多模块情况使用：
+this.$store.dispatch("user/getInfo");
+```
+大多数的项目中，我们对于全局状态的管理并不仅仅一种情况的需求，有时有多方面的需求，比如写一个商城项目，你所用到的全局state可能是关于购物车这一块儿的也有可能是关于商品价格这一块儿的；像这样的情况我们就要考虑使用vuex中的 modules 模块化了。在store文件夹下面新建一个modules文件夹，然后在modules文件里面建立需要管理状态的js文件
+```js
+// main.js入口文件。使用时稍做改变。
+import Vue from 'vue';
+import Vuex from 'vuex';
+// 这些单独的js文件导出的是字典，而不是vuex对象。export default {state,mutations,actions.getters}
+import footerStatus from './modules/footerStatus'
+import collection from './modules/collection'
+// 需要在创建实例前use()
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+    modules:{    //    放到模块中。
+         footerStatus,
+         collection
+    }
+})
+
+new Vue({...,store})
+// 页面中使用
+<span class="joinStatus" @click="invokePushItems(item)"></span>
+import {mapState,mapGetters,mapActions} from 'vuex'; //先要引入
+computed:{
+    //这里的...是超引用，ES6的语法，意思是state里有多少属性值我可以在这里放多少属性值
+    ...mapState({
+    // 一般不适应mapState来取值。
+         isShow:state=>state.footerStatus.showFooter //注意这些与上面的区别就是state.footerStatus,
+                                                      //里面定义的showFooter是指footerStatus.js里state的showFooter
+      }),
+      //你也可以用下面的mapGetters来获取isShow的值，貌似下面的更简洁
+       ...mapGetters('footerStatus',{ //footerStatus指的是modules文件夹下的footerStatus.js模块
+         isShow:'isShow' //第一个isShow是我自定义的只要对应template里v-if="isShow"就行，
+                         //第二个isShow是对应的footerStatus.js里的getters里的isShow
+      }),
+      //使用this.store.dispatch()有时会牵扯的事件的触发及传值，那就会有下面的mapActions用法了
+      ...mapActions('collection',[ //collection是指modules文件夹下的collection.js
+          'invokePushItems'  //collection.js文件中的actions里的方法，在上面的@click中执行并传入实参
+      ])
+   }
+```
+#### a5、路由：
+```js
+import Vue from 'vue';
+import Router from 'vue-router';
+Vue.use(Router); //全局注册路由，这样<router-view/>才会生效
+
+const router = new Router({...});
+new Vue({
+    el: '#home',
+    router,//放到vue中，之后可使用路由函数。
+    ...
+});
+```
+在router文件夹下的index.js文件中为每个页面添加路由。路由还提供一些钩子函数供控制跳转页面使用：
+
+```js
+{// 这是Index.js文件中配置路由时的一个页面。单个路由里的钩子函数：
+    path:'/',
+    name:'aa',
+    //使用import实现路由的懒加载，webpack中会以import做分割点将单独路由分割成块快，访问该页面时才会请求该js文件，渲染路由。
+    component:import('../pages/av.vue'),
+    beforeEnter:(to,from,next)=>{    //钩子函数。准备进入路由时触发
+        console.log(from,to);//from，to分别是当前页，要跳转的目标页，的信息。可以获取其中信息做一些限制。
+        next(false);//传入false的话则不能跳转。
+    },
+    alias:'/b' //别名，跳转到该页时使用的路径名
+}
+
+//组件路由：和上面的钩子函数类似，不过这个是写在每个页面的组件里的：
+export default {
+    name:'ww',
+    data:{},
+    beforeRouteEnter:(to,from,next)=>{
+        //这些参数和上面的一样。准备进入路由时触发
+    },
+    beforeRouteLeave:(to,from,next)=>{
+        //准备离开路由组件时触发。
+    }
+}
+```
+**全局路由钩子**：在main.js页面添加。
+```js
+// main.js添加
+router.beforeEach((to,from,next)=>{
+    //每个页面跳转时都会调用。改变标题
+    window.document.title = to.meta.title;
+    router.addRoutes(newRoutes);//可以添加一些新的路由
+    next();//next({path:"/"}),还可以传路径来重定向路由，传false则禁止跳转。
+})
+//离开页面后触发，可在此关闭加载动画。
+router.afterEach((to,from)=>{
+    loading = false;
+})
+```
+<i class="label1">router的两种模式：</i>hash模式背后的原理是onhashchange。因为hash发生变化的url都会被浏览器记录下来，从而你会发现浏览器的前进后退都可以用了，同时点击后退时，页面字体颜色也会发生变化。这样一来，尽管浏览器没有请求服务器，但是页面状态和url一一关联起来，后来人们给它起了一个霸气的名字叫前端路由，成为了单页应用标配。[学习地址。](https://www.cnblogs.com/imgss/p/7492333.html)
+
+**hash模式**：hash模式url中会带有#号，破坏url整体的美观性, <b c=v>history 需要服务端支持rewrite(url重写)</b>, 否则刷新会出现404现象。
+```js
+ // history=>history.pushState 浏览器历史纪录添加记录。history.replaceState 修改浏览器历史纪录中当前纪录。history.popState 当history 发生变化时触发
+ // 使用时将state去掉，如：this.$router.push(url)
+window.onhashchange = function(event){
+    console.log(event.oldURL, event.newURL);
+    let hash = location.hash.slice(1);
+    document.body.style.color = hash;
+
+}
+```
+**模式切换**：<b c=v>historm模式是配合服务端渲染使用。一般服务端将所有路径都重定向到首页，路由交给前端处理。</b>
+```js
+export default new Router({
+  mode:'history', // 默认是hash
+  base:"/base",//hash和history模式使用的基础路径。打包放到部署时，包名与此一致。
+  routes: [
+    {
+      path: '/',
+      name: 'HelloWorld',
+      component: HelloWorld,
+      // 重定向也可以使用函数，做假跳转。！！！如果对应的重定向路径也是一级路由，那么会直接跳转该页。
+      direct:'/child', //访问该页面时路径变为/index（得在children配置），但router-view显示的是component的。
+      children:[{path:'/index',name:'index'}]
+    }
+  ]
+})
+```
+**声明式路由**：页面使用`<router-link :to="{path:'/test',query:{}}"/>`跳转。
+**编程式路由**：如下。
+```js
+this.$router.push('/home');
+this.$router.push({name:'home',params:{uid:33}}); //得到：/home/33  #刷新页面后，33会消失。
+this.$router.push({path:'/home/login',query:{uid:23}}); //得到：/home/login?uid=23#path存在时params不生效。
+//---另一个页面获取参数：this.$route.params.uid，或对应的使用this.$route.query.uid。
+//***页面栈中跳转路由：
+this.$router.go(n); //n可正可负
+this.$router.replace('/home');//与push用法一致，不过是替换当前页面。
+this.#router.back(-1);
+// *****返回上一个页面传参只能用一些特别的方法。
+
+//------****动态路由，路由配置页面如下
+{
+    path:"/book/:id",// :id为占位。必须用name跳转，
+    name:"book",
+    component:()=>import('../book')
+}
+this.$router.push({name:"book",params:{id:110}}); //页面地址变为/book/110。注意这些页面使用的是同一个页面。
+```
+**子路由/二级路由**：在单页面上再加一个`<router-view/>`，示例如下：
+```vue
+<router-view/><!--App.vue页面使用一个路由标签-->
+//---路由中将二级路由配置在children中
+{
+    path:"home",
+    children:[{
+        path:"er"
+    }]
+}
+```
+home页面再使用路由标签，**对路由使用keep-alive**:
+```html
+<template>
+    <router-link to="/er">到er页面</router-link>
+    <router-view/><!--二级路由页面显示在这里。-->
+</template>
+<transition  name="fade" mode="in-out">
+	<keep-alive ><!--这是个更好的使用方法，返回页面时滚动条位置不变-->
+	    <router-view v-if="$route.meta.keepAlive" />
+	</keep-alive>
+</transition >
+<transition  name="fade" mode="in-out">
+	<router-view v-if="!$route.meta.keepAlive"  />
+</transition>
+```
+**动态添加路由**：
+```js
+import Router from 'vue-router';
+router = new Router({mode:"",base:"",routes:[..]});
+// 动态添加路由配置：
+router.addRoutes([{path:"/",component:require('@cmp/eye.vue'),name:""}]);
+```
+#### b1、混入：
+混入 (mixin) 提供了一种非常灵活的方式，来分发 Vue 组件中的可复用功能。[学习地址。](https://www.jianshu.com/p/1bfd582da93e)
+```js
+// 局部混入。mixin中的像建立一个vue实例时那样创建created,mounted等属性，这些会被合并到vue实例中，发生冲突时与组件中定义的为准。
+var mixin = {
+  created: function () {
+    console.log('混入对象的钩子被调用')
+  }
+}
+
+new Vue({
+  mixins: [mixin],
+  data:{},
+})
+// 全局混入
+Vue.mixin({
+  created: function () {
+    var myOption = this.$options.myOption
+    if (myOption) {
+      console.log(myOption)
+    }
+  }
+});
+```
+**使用场景**：可复用的功能，或那种因为解耦将同一页面分为两个，这两个页面组件一样但逻辑有差异，那么它们相同的功能部分就可以单独定义出来，然后使用mixins组合。
+```js
+const mixin1 = {
+  data(){
+    return {name:"www",age:20}
+  },
+  methods:{
+    hello(){console.info(this.name);}
+  },
+  created(){
+    console.warn('mixin result',this.name)
+  }
+}
+const mixin2 = {
+  data(){
+    return {job:"ai",addr:"ttk"}
+  },
+  methods:{
+    hello(){console.info(this.job);}
+  },
+  mounted(){
+    console.info('mixin2 res');
+    this.skip();
+  }
+}
+export default {
+    mixins:[mixin1,mixin2],//使用混入，按照这个顺序覆盖前面的data，methods中相同的部分（初始化阶段完成），然后执行它们的周期函数。
+    data(){
+        return {name:"last"}
+    },
+    created(){console.info('最后执行')}
+}
+```
+#### b2、自定义指令：
+有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用到自定义指令。
+```js
+<input v-focus />
+// 注册一个全局自定义指令 `v-focus`
+Vue.directive('focus', {
+  // 当被绑定的元素插入到 DOM 中时……
+  inserted: function (el) {
+    // 聚焦元素
+    el.focus()
+  }
+})
+// 局部自定义指令
+directives: {
+  focus: {
+    // 指令的定义
+    inserted: function (el) {
+      el.focus()
+    }
+  }
+}
+```
+**钩子函数**：
+- **bind**：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
+- **inserted**：被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
+- **update**：所在组件的 VNode 更新时调用，但是可能发生在其子 VNode 更新之前。指令的值可能发生了改变，但是你可以通过比较更新前后的值来忽略不必要的模板更新 (详细的钩子函数参数见下)。
+- **componentUpdated**：指令所在组件的 VNode 及其子 VNode 全部更新后调用。
+- **unbind**：只调用一次，指令与元素解绑时调用。
+
+**钩子函数参数**：指令钩子函数会被传入以下参数
+- el：指令所绑定的元素，可以用来直接操作 DOM。
+- binding：一个对象，包含以下属性：
+- name：指令名，不包括 v- 前缀。
+- value：指令的绑定值，例如：v-my-directive="1 + 1" 中，绑定值为 2。
+- oldValue：指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用。无论值是否改变都可用。
+- expression：字符串形式的指令表达式。例如 v-my-directive="1 + 1" 中，表达式为 "1 + 1"。
+- arg：传给指令的参数，可选。例如 v-my-directive:foo 中，参数为 "foo"。
+- modifiers：一个包含修饰符的对象。例如：v-my-directive.foo.bar 中，修饰符对象为 { foo: true, bar: true }。
+- vnode：Vue 编译生成的虚拟节点。移步 VNode API 来了解更多详情。
+- oldVnode：上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用。
+
+#### b3、渲染函数&jsx：
+Vue 推荐在绝大多数情况下使用模板来创建你的 HTML。然而在一些场景中，你真的需要 JavaScript 的完全编程的能力。这时你可以用渲染函数，它比模板更接近编译器。
+```js
+Vue.component('anchored-heading', {
+  render: function (createElement) {// render渲染函数，在生命周期函数中也是使用该函数来解析组建的。
+    return createElement(
+      'h1',   // 标签名称
+      {//这个对象内部定义一些模板的事件、指令、插槽类的东西。
+      // 与 `v-bind:class` 的 API 相同，// 接受一个字符串、对象或字符串和对象组成的数组
+      'class': {foo: true,bar: false},
+      // 与 `v-bind:style` 的 API 相同，// 接受一个字符串、对象，或对象组成的数组
+      style: {color: 'red',fontSize: '14px'},
+      // 普通的 HTML attribute
+      attrs: {id: 'foo'},
+      // 组件 prop
+      props: {myProp: 'bar'},
+      // DOM 属性
+      domProps: {innerHTML: 'baz'},
+      // 事件监听器在 `on` 属性内，// 但不再支持如 `v-on:keyup.enter` 这样的修饰器。// 需要在处理函数中手动检查 keyCode。
+      on: { click: this.clickHandler},
+      // 仅用于组件，用于监听原生事件，而不是组件内部使用/ `vm.$emit` 触发的事件。
+      nativeOn: {click: this.nativeClickHandler},
+      // 自定义指令。注意，你无法对 `binding` 中的 `oldValue`// 赋值，因为 Vue 已经自动为你进行了同步。
+      directives: [{
+      name: 'my-custom-directive',
+      value: '2',
+      expression: '1 + 1',
+      arg: 'foo',
+      modifiers: {bar: true}
+        }],
+      // 作用域插槽的格式为// { name: props => VNode | Array<VNode> }
+      scopedSlots: {default: props => createElement('span', props.text)},
+      // 如果组件是其它组件的子组件，需为插槽指定名称
+      slot: 'name-of-slot',
+      // 其它特殊顶层属性
+      key: 'myKey',
+      ref: 'myRef',
+      // 如果你在渲染函数中给多个元素都应用了相同的 ref 名，// 那么 `$refs.myRef` 会变成一个数组。
+      refInFor: true
+      },
+      [
+        '先写一些文字',// 这是h1标签的一个文本节点。
+        createElement('h1', '一则头条'),
+        createElement(MyComponent, {// 相当于创建一个组件的子组件。
+            props: {
+                someProp: 'foobar'
+            }
+        })
+      ])
+  }
+})
+```
+#### b4、插件：
+vuejs的插件是与vue实例分开的，使用时与vue原型绑定在一起。
+```js
+vue.use(vuex)//使用use方法来导入插件。
+// 单独开发插件步骤。
+MyPlugin.install = function (Vue, options) {
+  // 1. 添加全局方法或属性
+  Vue.myGlobalMethod = function () {
+    // 逻辑...
+  }
+  // 2. 添加全局资源
+  Vue.directive('my-directive', {
+    bind (el, binding, vnode, oldVnode) {
+      // 逻辑...
+    }
+    ...
+  })
+
+  // 3. 注入组件选项
+  Vue.mixin({
+    created: function () {
+      // 逻辑...
+    }
+    ...
+  })
+  // 4. 添加实例方法
+  Vue.prototype.$myMethod = function (methodOptions) {
+    // 逻辑...
+  }
+}
+```
+#### b5、过滤器：
+允许你自定义过滤器，可被用于一些常见的文本格式化。过滤器可以用在两个地方：双花括号插值和 v-bind 表达式
+```js
+// 局部定义过滤器
+filters: {
+  capitalize: function (value) {    //把传入值变为想要的。
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  }
+}
+// 全局定义过滤器。
+Vue.filter('capitalize', function (value) {
+  if (!value) return ''
+  value = value.toString()
+  return value.charAt(0).toUpperCase() + value.slice(1)
+})
+<!--使用示例： 在双花括号中 -->
+{{ message | capitalize }}
+<!-- 在 `v-bind` 中 ，后面可以继续加过滤器：| capitalize-->
+<div v-bind:id="rawId | formatId"></div>
+```
+#### b6、过渡，动画：
+vuejs有提供元素在插入，移除时做动画封装，使用起来还算方便。
+```js
+//fade开头的类名控制动画。
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+<transition name="fade">    //transition是自带的已注册组件，说功能更贴切。
+    <p v-show="show"></p>    //在show状态改变后，会触发过渡效果(name指定的类名的开头)
+</transition>
+// 列表的过渡，使用transition-group
+<transition-group name="list" tag="p">
+    <span v-for="item in items" v-bind:key="item" class="list-item">
+      {{ item }}
+    </span>
+</transition-group>
+```
+在进入/离开的过渡中，会有 6 个 class 切换。
+v-enter：定义进入过渡的开始状态。在元素被插入之前生效，在元素被插入之后的下一帧移除。
+v-enter-active：定义进入过渡生效时的状态。在整个进入过渡的阶段中应用，在元素被插入之前生效，在过渡/动画完成之后移除。这个类可以被用来定义进入过渡的过程时间，延迟和曲线函数。
+v-enter-to：2.1.8 版及以上定义进入过渡的结束状态。在元素被插入之后下一帧生效 (与此同时 v-enter 被移除)，在过渡/动画完成之后移除。
+v-leave：定义离开过渡的开始状态。在离开过渡被触发时立刻生效，下一帧被移除。
+v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
+v-leave-to：2.1.8 版及以上定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。
+
+#### c1、vue.config.js
+```js
+module.exports = {
+    devServer:{},
+    publicPath:"./",
+    //如果是一个对象(这里写成函数形式)，则config中配置的属性会合并到最终配置上。
+    configureWebpack: config => {
+        config.outputDie = "dist";
+    },
+    chainWebpack: config => {
+        // 配置title
+        config.plugin('html').tap(args=>{
+            args[0].title = "进销存系统";
+            return args;
+        });
+        //这里配置loader
+        config.module.rule('vue').use('vue-loader').loader('vue-loader').tap(options => {
+             return options;
+        }).end();
+        //这样配置plugin。
+        config.plugin('define').tag(arg=>{
+            arg[0]['process.env'] = "dev";
+            return arg;
+        }).end();
+    },
+    css:{
+        extract:true,//组件内css抽取到一个单独css文件
+        sourceMap:true,//开启css的sourceMap
+        loaderOptions:{//css相关的loader部分配置。
+            css:{},//这个配置传递给css-loader
+            postcss:{}//这个配置会传递给postcss-loader
+        }
+    }
+}
+```
+
+**添加环境**：package.json/scripts中添加：`"vue-cil server --mode mock"`，根目录中可添加`.env.mock`来写一些要用的全局变量。默认有development和production。
+- `process.env.NODE_ENV`的值默认也会变为`--mode`后面的环境值。
+```py
+# 可在此处再次更改其值。
+NODE_ENV = "production"
+# 在vue.config.js均可使用
+MODE = "dev"
+# 要在vue项目中使用，必须前缀是VUE_APP。
+VUE_APP_BASE_API = '/base-api'
+
+VUE_APP_BG_API = '/bg-api'
+```
+- [vue.config.js官方配置文档](https://cli.vuejs.org/zh/config/#outputdir)
+#### c2、常用修饰符：
+
+```html
+<child-component :data.sync="tables"/><!--sync让子组件可以修改该prop的值，且同步到父组件-->
+<div @click.once="hh"></div><!--once：事件只能用一次-->
+<div @click.prevent="hh"></div><!--prevent：阻止默认行为-->
+<div @click.self="hh"></div><!--self:只有元素本身触发时才触发方法，-->
+<div @click.stop="hh"></div><!--stop：阻止事件冒泡-->
+
+<input v-model.lazy="val"/><!--lazy:这个修饰符会在光标离开input框才会更新数据-->
+<input v-model.trim="val"/><!--trim:输入框过滤首尾的空格-->
+<input v-model.number="val"/><!--number:先输入数字就会限制输入只能是数字，先字符串就相当于没有加numbe-->
+```
+#### c3、extend()使用：
+```js
+import locp from "@/components/loading/loading.vue";
+import Vue from 'vue';
+//https://blog.csdn.net/qq_39024012/article/details/108152290
+const loade = Vue.extend(locp);//解析组件生成一个实列
+
+const control = new loade();
+control.$mount(document.body); //将组件挂载到页面元素上
+// 控制
+const loading = {
+	show(){
+		control.show = true;     //show是组件locp,data中的数据
+	},
+	cancel(){
+		control.show = false;
+	}
+}
+
+export default loading;        //导出后可在ajax拦截器，等全局使用。
+```
+
+### 十一、webpack：
+:::alert-info
+**简介**：当项目变得很大之后再按照之前的资源引入方法会很难管理项目，不容易理清其依赖、加载顺序。webpack能自动找到所有依赖，将它们按顺序都打到一个js包中，最后引入。用Loader转换文件、plugin注入钩子。
+**模块化规范**：commonJS：需要通过转换位es5才能在浏览器环境运行。AMD：异步方法加载依赖模块，用于解决浏览器环境模块化问题。现在使用es6也有模块化(但大部分浏览器还不支持)，也需要转换为es5。
+:::
+**require与import区别**：require 是赋值过程并且是运行时才执行，也就是异步加载。import 是解构过程并且是编译时执行，性能稍好。两者在webpack中都算是异步方案。
+- require属于commonjs规范的东西社区方案，提供了服务器/浏览器的模块加载方案。只能在**运行时确定模块的依赖关系**及输入/输出的变量，无法进行静态优化。
+- import是es6语法规范，可以解构，语言规格层面支持模块功能。支持编译时静态分析，便于JS引入宏和类型检验。动态绑定。
+#### a0、package.json
+```js
+{
+  "name": "@jeecg/antd-online-mini",
+  "version": "3.0.0-beta",
+  // 导入该项目时，默认导入的文件，一般做依赖包时配置
+  "main": "./dist/OnlineForm.umd.min.js",
+  //可运行的命令项
+  "scripts": {
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+  },
+  "dependencies": {},
+  "devDependencies": {},
+}
+```
+
+#### a1、原理：
+Webpack 的构建流程可以分为以下三大阶段：在每个大阶段中又会发生很多事件，Webpack 会把这些事件广播出来供给 Plugin 使用。
+- 初始化：启动构建，读取与合并配置参数，加载 Plugin，实例化 Compiler。
+- 编译：从 Entry 发出，针对每个 Module 串行调用对应的 Loader 去翻译文件内容，再找到该 Module 依赖的 Module，递归地进行编译处理。
+- 输出：对编译后的 Module 组合成 Chunk，把 Chunk 转换成文件，输出到文件系统。如果只执行一次构建，以上阶段将会按照顺序各执行一次。
+- webpack不会对多次引入的文件重复打包。
+
+- [原理学习地址。](https://www.jianshu.com/p/44e6741e3b7e)[webpack中文文档地址。](https://webpack.docschina.org/concepts/)
+
+```js
+//commonJS的导入导出。
+const moduleA = require('./moduleA');
+moduleA.exports = moduleA.someFun;
+
+//AMD的模块定义，和导入使用。
+define('module',['dep'],function(dep){return exports;});
+require(['module'],function(module){});
+```
+**安装**：npm install webpack -g#全局安装。目录下使用：npm init#会在当前路径下生成一个mypackage文件夹，里面有package.json文件、webpack.config.js文件和src文件夹。
+**项目中使用别名**：可以在build目录下的配置文件中使用
+```js
+//例如/build/webpack.dev.conf.js配置如下
+const merge = require('webpack-merge')
+const baseWebpackConfig = require('./webpack.base.conf')
+// merge将其它文件的配置合并过来。
+const devWebpackConfig = merge(baseWebpackConfig, {
+    resolve:{
+        alias:{"@c":"src/common/tools"}//别名对应路径。
+    }
+});
+```
+**配置**：[webpack详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)。[devserver属性学习地址。](https://blog.csdn.net/franktaoge/article/details/80083317)
+#### a2、常用loader：
+- vue-loader：解析vue文件。
+- css-loader：一般vue-loader解析过后结果css-loader,处理过后会把样式都变成 module 形式，然后直接导出这个模块，模块中包含了 css 的源码跟模块的 id。
+- style-loader：会引用css-loader生成的模块，然后在Html的head中加入style标签，当然也支持link引入等其它方式。
+- vue-style-loader：在style-loader上的一层封装，不过还加了一些支持服务端的渲染。
+- postcss-loader：把 CSS 解析成 JavaScript 可以操作的 AST，第二个就是调用插件来处理 AST 并得到结果，还能自动添加css前缀，如果要与MiniCssExtractPlugin的loader一起使用还要配置其它选项！。所以一般是放在css-loader之后，less-loader等之前。
+- less-loader,sass-loader,scss-loader：css的预处理使用。scss是sass的3.0版本引入的语法，去除了之前的一些严格规则，且规则与css一致。
+- style-resource-loader：向样式文件中添加全局的样式属性。
+- url-loader：用来为资源文件生成路径的。允许你有条件地将文件转换为内联的 base-64 URL。
+- file-loader：可以指定要复制和放置资源文件的位置
+
+```js
+//这三个loader均可以类似如下配置。
+module:{
+    rules:[
+     {
+        test: /\.js$/,    // 匹配指定的文件类型。
+        //use: ['babel-loader?cacheDirectory'],//use指定对文件使用的插件，可以多项，配置规则。
+        use: [{
+          loader:'babel-loader',//指定使用的插件。
+          options:{
+              // 这里可以写.bablesrc中的格式配置。
+              cacheDirectory:true,
+          },
+          // enforce:'post' 的含义是把该 Loader 的执行顺序放到最后。还可以是 pre，代表把 Loader 的执行顺序放到最前面
+          enforce:'post'
+      }],
+      // 只命中src目录里的js文件，加快 Webpack 搜索速度
+      include: path.resolve(__dirname, 'src'),
+      exclude:/node_modules/ //指定不需要编译的目录。
+    },{
+        test:/\.less$/,
+        use:[
+            'vue-style-loader',
+            { loader: 'css-loader', options: { sourceMap: true } },
+            { loader: 'postcss-loader', options: { sourceMap: true } },
+            { loader: 'less-loader', options: { sourceMap: true } }
+        ]
+    },{
+        test:/\.scss$/,
+        use:[{loader:'style-resource-loader',options:{patterns:"全局样式文件路径"}}]
+    },{
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+            limit: 10000,//大小大于该值的交给file-loader处理。
+            outputPath: 'images', //打包后的输出路径
+            name: utils.assetsPath('img/[name].[hash:7].[ext]')
+        },
+    },{
+        // 还能用file-loader来从js中抽离css用，
+        test: /\.css$/,
+        use: ['file-loader']
+    }]
+}
+```
+样式写法部分注意：
+```css
+/*scoped表示该块css样式不做全局使用，编译后对应标签上会加上一个data-v-32423之类的标志，css样式会多在后面加一个
+属性选择器，与全局区分，不至于污染全局样式。
+lang指定使用的语言，不写时为普通css。*/
+<style scoped lang="less">
+.test{
+    font-size:30px;
+    background:url('~@/imgs/acc.jpg') 50% 0;/*背景图写法*/
+    /deep/.ac{color:red;}
+    /* 子组件的最外层编译后才会被加上scoped标志，而内部元素不会，若是使用了第三方组件库时，其样式
+    会被全局的覆盖，此时可以用/deep/来改变。*/
+}
+/* >>>也和/deep/一样作用，不过只有普通css中可用*/
+.k >>> .a{width:500px;}
+</style>
+```
+#### a3、常用的Plugin：
+<b c=b>plugin在loader之后执行，目的在于解决 loader 无法实现的其他事。</b>。这些plugin除了webpack自带的，其它插件还是需要npm安装的。
+- **DefinePlugin**：用于配置可用的全局变量。也可以额外npm install -D dotenv然后根目录下创建.env文件编写，配置中使用require('dotenv').config()，然后一样插件中配置。
+- **HtmlWebpackPlugin**：根据原html文件配置，打包后生成一个html文件，里面可以配置一些生成明细相关。[详细参数](https://www.cnblogs.com/wonyun/p/6030090.html)。
+- **CopyWebpackPlugin**：用于将指定文件放到编译或打包后的文件中去，然后html页面可以引入使用：`<script src="<%=htmlWebpackPlugin.options.prefix %>static/jquery.min.js"></script>`。然后单页内可直接使用$()方法。
+- FriendlyErrorsPlugin：友好提示插件，允许webpack编译成功和失败后输出的信息。
+- HotModuleReplacementPlugin：热更新使用插件。
+- CommonsChunkPlugin：分离公共模块使用的插件，具体见f。
+- UglifyJsPlugin：用于压缩js代码。会拖慢编译速度，建议打包时使用。`npm install uglifyjs-webpack-plugin --save-dev`#需要安装
+- ExtractTextPlugin：主要是为了抽离css样式,防止将样式打包在js中引起页面样式加载错乱的现象。
+```js
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
+// ###########windows中使用set设置一个临时的环境变量
+"dev": "set NODE_ENV=development &&  webpack-dev-server --open --hot"
+// mac中使用：export
+"dev": "export NODE_ENV=development &&  webpack-dev-server --open --hot",
+// ————————为了统一两个系统，便于开发，使用一个第三方包:cross-env
+"dev":"cross-env DEV_ENV=test webpack-dev-..."//注意cross-env要放在命令开头。
+//但是运行程序中虽然能拿到变量名，但无法匹配到，进行如下设置：
+//webpack.dev.conf.js的插件中.使用vue-cli-server还可以在最外层文件中添加环境变量。
+
+module.exports = {
+    ...
+    plugins:[
+        new webpack.DefinePlugin({
+            'process.env':require('../config/dev.env'),//使用dev.env文件导出的环境变量。
+            "process.env.DEV_ENV": JSON.stringify(process.env.DEV_ENV),//添加该项!!猜测其它地方如此使用也可。
+        }),
+        new HtmlWebpackPlugin({    //配置多页时需要使用多个该plugin。
+            title:"测试app",//网页title，相应的html文件中使用<title><%= htmlWebpackPlugin.options.title %></title>才会有效
+            filename: 'index.html',//输出后的名字
+            template: '../src/index.html', //原html路径
+            inject: true,//向template或者templateContent中注入所有静态资源
+            chunks:'all' //指定导入的模块，多个写法》['vendor']
+       }),
+       new CopyWebpackPlugin([{    //一个数组的形式，所以可以写成多项。
+        from: path.resolve(__dirname, '../static'),// from与to都可以是指定的文件或目录。
+        to: 'static', //编译或打包后的项目下的目录。
+        ignore: ['.*'] //可忽略匹配到的文件。
+      }]),
+      new UglifyJsPlugin({
+        uglifyOptions: {
+           compress: {
+              warnings: false
+           }
+        },
+        sourceMap: true,
+        parallel: true
+     }),
+    ],
+    modules:{
+        rules:[{
+            test: /\.css/,
+            loader: ExtractTextPlugin.extract({
+                use: ['css-loader'],
+                fallback: 'vue-style-loader',
+                publicPath: '../../'    //解决打包后背景图找不到问题。vue-cli脚手架的话在utils文件中添加。
+            })
+        }]
+    }
+}
+//###-----dev.env文件如下内容
+module.exports = {NODE_ENV:'"development"',NUM:'20'}//注意对应变量是字符串的话需要 '"字符串"',而'20'则该变量是数值。
+```
+
+#### a5、resolve与output&魔术注释：
+
+```js
+/**三种hash的区别：（3种hash都是应对浏览器缓存而建立的）
+hash：是跟整个项目的构建相关，只要项目里有文件更改，整个项目构建的hash值都会更改
+chunkhash：只要我们不改动公共库的代码，就可以保证其哈希值不会受影响。
+contenthash:
+*/
+{
+    // 只能有一个output
+    output:{
+        filename:"[name].js",//为从入口处涉及到的bundle命名，name为占位，[fullhash]为使用hash。
+        chunkFilename:"chunk[hash].js",//为按需加载类型的js命名。可以在路由处import给chunk命名。
+        path:__dirname + '/dist',// 输出位置
+        publicPath:"/" //各个资源路径前面添加的前缀。
+    },
+    // 项目中
+    resolve:{
+        extensions:['.js','.vue','.json'],
+        alias:{'vue$':"vue/dist/vue.esm.js"}
+    }
+}
+
+//-----路由配置
+export default new Router({
+    routes:[{
+        path: '/textEdit',
+        name: 'textEdit',
+        //注释中为chunk命名。
+        component: () =>
+            import ( /*webpackChunkName:"wangeditor"*/  //可以多个路由命名为同一个名字，这样它们会被打包到同一个块。
+                     /* webpackMode: "lazy" */
+                     /* webpackPrefetch: true */ //这个是预先加载资源使用的注释。与 <link rel="prefetch"> 相同的特性
+                     '../pages/textEdit.vue'),
+        info: { login: true, title: "富文本编辑" }
+    }]
+});
+```
+- [其它注释学习参考地址。](https://webpack.js.org/api/module-methods/#magic-comments)
+#### a6、devtool：
+为便于调试的设置。编译打包后的代码出错时难以找到编译前的位置调试，设置devtool可以让其找到编译前报错位置。
+```js
+{
+    //有5个值：cheap,eval,module,inline,source-map。这些可以互相组合
+    devtool:"cheap-module-eval-source-map"
+}
+```
+- eval：不生成.js.map文件，仅仅是在每一个模块后，增加sourceURL来关联模块处理前后对应的关系。
+- source-map：打包后有map文件，相应的要在浏览器设置中开启：设置齿轮/preference/Sources/Eable javascript sources。
+- inline：该属性不会生成独立的 .map文件，而是将 .map文件以dataURL的形式插入。
+- cheap：该属性在打包后同样会为每一个文件模块生成 .map文件
+- module：该属性的配置也是生成一个没有列的信息的sourceMaps文件，同时loader的sourcemap也被简化成为只包含对应行的。
+- 开发环境常用：cheap-module-eval-source-map。
+- 生产环境常用：cheap-module-source-map。
+- [详细学习地址。](https://www.cnblogs.com/jkr666666/p/11067189.html)
+#### a7、vconsole插件：
+移动端上网页调试颇为不便，使用vconsole模拟控制台功能进行调试。
+- 安装：npm install vconsole
+- main.js中使用：
+```js
+import Vconsole from "vconsole";
+// 开发环境中使用。
+if (process.env.NODE_ENV === "development") {
+    let vConsole = new Vconsole();
+    Vue.use(vConsole);
+}
+```
+#### b、devServer：
+**正向代理**：代理是处于客户端和服务器中间的一台计算机，正向代理是接受客户端的链接，然后向目标服务器请求资源，逐步返回给客户端。正向代理的服务器与目标服务器不在同一网段内，面向服务器。如vpn。
+**反向代理**：面向的是客户端，对外表现为一台服务器，目标服务器放在内网，而反向代理服务器作为网关，访问内网中的服务器需要经过代理服务器，<i class="green">所以目标服务器更安全且压力变小，代理服务器还负责分发内容，缓存前端资源，因此也能优化前端性能。</i>
+vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
+**webpack-dev-server参数**：--hot#热更新，修改代码后，只会替换原来块的代码，而不会整个刷新页面。--open#启动后打开浏览器。--config#指定使用的配置文件。
+**注**：proxy下面是按顺序来匹配的，一个项目配置了多个映射的话，如果上面的映射项匹配到接口路径满足，那么下面的映射配置就不在生效，然而代理信息devServer也不会打印出来，所以注意自己的接口路径是否会被前面的映射匹配到。
+
+```js
+// 一般在webpack.base.config.js文件。注意是使用0.0.0.0而不是Localhost，不然无法ipv4访问。
+const HOST = process.env.HOST || '0.0.0.0';
+
+const devWebpackConfig = merge(baseWebpackConfig, {
+  devServer: {
+      host:HOST,  // 设置可访问的地址。process.env.HOST表示本机ip可访问。
+      port:3320, //访问网页的端口号。
+      hot:true,//模块热替换功能,默认是又变动后刷新整个页面
+      open:true,//服务启动后打开浏览器。
+      onListening:function(server){},//提供监听触发请求时的一个自定义操作。
+      historyApiFallback:true,//历史请求信息
+      // 浏览器访问的是，本机ip:端口+路径。终端会显示代理访问记录
+      proxy:{
+          "/api": {
+            bypass: function (req, res, proxyOptions) {},
+            target: "'http://10.18.110.107",//代理地址，反向代理的服务器不需要端口。
+            changeOrigin: true,// 是否跨域
+            secure: false,// https请求需要该设置
+				 ws:true,// 是否使用https，！！如果target中使用https的话依然还是会使用。
+				 pathRewrite: {// 设置此项。将满足'^/api'的替换为空。
+					'^/api': '', //如请求http://localhost:3000/main时写成=》/api/main即可。
+				}
+			}
+      },
+      // dev环境一般使用‘/’
+      publicPath:"/" //引用静态资源的公共路径。静态资源最终访问路径 = output.publicPath + 资源loader或插件等配置路径
+  },
+  build:{}
+}
+//     axios.get('/api/tasktime')
+```
+- [devserver配置部分](https://www.cnblogs.com/wb336035888/p/10448873.html)
+
+#### c、vue多页面应用配置：
+`/build/webpack.base.config.js`文件添加多个主js文件入口，形如：
+```js
+module.exports = {
+    entry:{
+        app:'./src/pages/home/min.js',
+        one:'./src/pages/game/min.js'
+    }
+}
+```
+`/build/webpack.dev.conf.js`文件添加如下配置。
+```js
+const devWebpackConfig = merge(baseWebpackConfig, {
+    plugins:[
+        // 第一个页面的。
+        new HtmlWebpackPlugin({
+            filename: 'home.html',//这个文件名在访问多页路径时有用，所以不能重名。
+            template: './src/pages/home.html',//这里指定的是文件位置，要注意！！
+            inject: true,
+            //chunks指定页面要使用哪些js代码块，多页面时要指定一个唯一的主js块
+            //不写的话会默认导入所有，这回导致一个html页面导入其它模块的所有js块。
+            chunks: ['manifest', 'vendor', home]
+        }),
+        // 其它页面的复制，更改相应名称即可。
+});
+```
+`/build/webpack.prod.conf.js`文件添加如下配置。
+```js
+const webpackConfig = merge(baseWebpackConfig, {
+    plugins:[
+        // 其它页面复制，相应的更换index，app即可。
+        new HtmlWebpackPlugin({
+            filename: config.build.index,
+            template: 'index.html',
+            inject: true,
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+            },
+            chunksSortMode: 'dependency',
+            //(在这里和你上面chunks里面的名称对应),不然会同时导入两个页的js，然后报错。
+            chunks: ['manifest', 'vendor', 'app']
+        }),
+    ]
+});
+```
+`/config/index.js`文件添加：
+```js
+module.exports = {
+    build:{
+    //build时导出的文件。
+        index: path.resolve(__dirname, '../dist/index.html'),
+        one: path.resolve(__dirname, '../dist/one.html'),
+        two: path.resolve(__dirname, '../dist/two.html'),
+    }
+}
+```
+根据上面相应的位置创建js、vue、html文件。<b c=r>home.vue和home.html文件种将id更改</b>。
+```js
+//one.js文件。
+import Vue from 'vue'
+import one from './one.vue'
+import router from './router'
+
+Vue.config.productionTip = false
+/* eslint-disable no-new */
+new Vue({
+    el: '#one',
+    router,    //加上路由的话可以在路由页
+    render: h => h(one)
+})
+```
+**访问**：http://127.0.0.1:8080/home.html#/[vue多页面应用配置教程。](https://blog.csdn.net/weixin_44135121/article/details/94445734)
+
+#### e1、px转rem配置：
+使用插件postcss-plugin-px2rem，安装：npm i postcss-plugin-px2rem -D。然后在vue-loader下配置。！移动端使用。
+```js
+var px2rem = require('postcss-plugin-px2rem');
+modules:{
+    rules:[{
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+            // 配置，rootValue值为1rem转换为px的大小。
+            postcss:function(){return [px2rem({ rootValue: 100 })];}
+        }
+    }]
+}
+```
+该插件只负责转换尺寸和单位，根元素字体大小在html文件用js去改变，两者配合使用。
+#### f、代码分割：
+用于将更多的公共模块从大的模块中分离出来。<b c=v>不过尽量将功能中依赖的js都放在一个bundle，这样只用一次http请求。</b>
+- 添加入口的方法来分离代码块：entry多加一个想要分离的js文件，如果这个文件也使用了一些其它公共的模块，同样会同这个js文件进入一个bundle中。
+- 使用CommonsChunkPlugin：插件部分添加该插件和规则，示例如下：<b c=r>webpack4.x后被废弃。改用splitChunkPlugin</b>
+```js
+{
+    plugins:[
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'tools',
+            // minChunks可以是数值，Infinity时表示无限制。
+            minChunks(module,count) {
+                // module.resource为文件路径，count是引用的次数。
+                // 将/utils下的tools.js文件分离出来。    ！！为true时表示进入该chunk。
+                return (module.resource && /\.js$/.test(module.resource) && module.resource.indexOf('/utils/tools.js') !== -1)
+            },
+            chunks:[], //也可以直接指定哪几个chunk在这个bundle
+            minSize:3 //最小包含的模块数量
+        }),
+    ]
+}
+```
+- 使用CopyWebpackPlugin将js文件直接从html引入，将js文件放到对应的静态资源文件夹中即可。[Index.html文件引入js文件。](https://blog.csdn.net/qq_15253407/article/details/89491255)
+- 使用commonsChunkPlugin或新版的splitChunk都只能分割主入口同步导入的和各页面的代码，而各页面import等导入的不能控制。[import()使用](https://www.cnblogs.com/dahe1989/p/11543832.html)
+
+#### g、bable插件：
+webpack只能将一部分es6语法转换为es5，而一些高级的es6语法，和部分es7语法无法转译，这就需要bable。bable包含：preset-env、plugin-component、polyfill等多个子插件。
+<b class="violet">项目中的.bablelr是bable的配置文件，而需要使用的话需要在webpack的modules中引入bable-loader。</b><b class="gray">babel中引入的分为转换插件（转换代码，编译）和语法插件（解析特定类型的语法，如果你已经使用了相应的转换插件，则不需要指定语法插件。）</b>
+使用前先安装：`cnpm i babel-core babel-loader babel-plugin-transform-runtime -D`
+**bable中常用的插件**：7.0以下的版本插件几乎以abel-plugin-开头，7.0以上的以@babel/开头，两个版本混用会导致解析失败。
+<i class="lable2">preset部分</i>
+- @babel/env对应6.0+的babel-env：为目标浏览器中没有的功能加载转换插件。不太推荐preset-env。
+- @babel/polyfill：可以使用诸如 Promise 和 WeakMap 之类的新的内置组件、 Array.from 或 Object.assign 之类的静态方法，不过是全局的，所以会对全局变量造成污染，现在已经不建议使用。安装时使用`--save`
+- transform-vue-jsx：可以支持jsx语法（ts）。
+- [制作可在babel中配置的插件。](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/README.md)
+- stage系列插件：它们用于解析es6,7等版本js语法的方案，包含0-4，功能逐渐降低，对最新语法处理的程度，一般使用stage-2。
+- transform-runtime：只用于开发环境，由于webpack的打包机制会将模块中导入的都打包到一起，然而一些较大的公共包也会有被打入多个chunk组的情况，transform-runtime可以提取分离它们
+
+```js
+{
+　　// 此项指明，转码的规则
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "targets": { //列出一个最小支持版本。或"targets": "> 0.25%, not dead"
+          "edge": "11",
+          "firefox": "60",
+          "chrome": "67",
+          "safari": "11.1",
+        },
+        "useBuiltIns": "usage",//usage会有一些优化作用。
+      }
+    ],
+    "stage-2"
+  ],
+  "plugins": [
+    // 下面这个选项是引用插件来处理代码的转换，transform-runtime用来处理全局函数和优化babel编译
+     "transform-runtime",//transform-runtime为node_modules中已安装的插件（带babel-plugin-前缀）。
+     "transform-remove-console", //编译后移除console
+     //自定义的plugin。component是作为参数传入。还有import，对应的需要安装babel-plugin-component和babel-plugin-import
+     ["component", [{    
+        "libraryName": "element-ui",           //按需引用element-ui插件
+        "libraryDirectory": "src/components",    //指定从哪导入。
+        //"styleLibraryName": "theme-default"   //按需引用element-ui主题 
+     }]]
+  ],
+  "comments": false,// 在生成的文件中，不产生注释
+    // 下面这段是在特定的环境中所执行的转码规则，当环境变量是下面的test就会覆盖上面的设置
+  "env": {
+    // test 是提前设置的环境变量，如果没有设置BABEL_ENV则使用NODE_ENV，如果都没有设置默认就是development
+    "test": {
+      "presets": ["env", "stage-2"],
+      "plugins": [ "istanbul" ]    // instanbul是一个用来测试转码后代码的工具
+    }
+  }
+}
+```
+**webpack中配置如下**：[bable官网](https://www.babeljs.cn/docs/babel-preset-env)。[.babelrc文件作用及属性，部分组件按需引入，需要配置。](https://www.cnblogs.com/wulinzi/p/8079509.html)
+- `{ test:/\.js$/, use: 'babel-loader', exclude:/node_modules/ }`#exclude指定排除掉的文件夹。 如果不排除 node_modules， 则Babel 会把 node_modules 中所有的 第三方 JS 文件，都打包编译，这样，会非常消耗CPU，同时，打包速度非常慢；
+[编写plugin参考学习地址。](https://www.cnblogs.com/wzndkj/p/10921340.html)
+#### Q、问题集：
+- 解析less文件时提示：TypeError: loaderContext.getResolve is not a function：换使用较低的less-loader版本。4.1.0
+- 解析less，sass等文件时提示：Module build failed: Unrecognised input。按a2中方法配置loader即可，一般用默认模板的话，utils中是已经配置好的，安装好loader即可用。
+- 编译运行时一直卡住的问题：可能是相应的loader版本较高，尝试安装低版本。
+- file-loader提示Rule can only have one resource source：尝试低版本的webpack。
+- mini-css-extract-plugin提示：Class extends value undefined is not a constructor or null。需要webpack版本>=4.1.0
+- mini-css-extract-plugin提示： Cannot read property 'createHash' of undefined。依然是webpack版本问题，npm install webpack@^4.29.6可以支持。

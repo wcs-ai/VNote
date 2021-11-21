@@ -42,18 +42,18 @@ Pip install rasa_core -i https://pypi.douban.com/simple
 
 **mysql**：
 #### a、安装及问题：
-<i class="label1">windows上安装</i>低版本：安装包解压后进入文件夹创建一个`my-small.ini`文件然后在文件最低部添加：basedir=该文件夹绝对路径	/n  datadir=文件夹绝对路径/data。高版本的话不要设置datadir参数，不然启动服务时报错，按照菜鸟教程走即可。
-进入bin目录cmd>>`mysql --initialize --console `//初始化数据库。会输出初始账户，密码，请记住！！！
-- 提示找不到VCRUNTIME140_1.dll：安装微软常用库。
-- mysqld isntall 服务时提示：Install/Remove of the Service Denied!#可进入<i class="red">管理员身份运行</i>。
-- 其它软件连接mysql需要使用mysql驱动包，[mysql驱动包下载地址。](https://mvnrepository.com/artifact/mysql/mysql-connector-java)。
-- mysql的jdbc驱动6.0版本以上需要设置time zone，可以在连接url中设置：`jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8`。
-```
+windows上安装：安装包解压后进入文件夹创建一个`my-small.ini`文件。
+【低版本】在文件最低部添加：basedir=该文件夹绝对路径	/n  datadir=文件夹绝对路径/data。
+【高版本】不要设置datadir参数，不然启动服务时报错，按照菜鸟教程走即可。
+进入bin目录cmd>>`mysqld --initialize --console `//初始化数据库。会输出初始账户，密码，请记住！！！
+
+```sql
 mysqld install MySQL//安装名为MySQL的服务。注意在管理员身份下运行命令。`c:>d:`#切换到d盘
 mysqld --remove MySQL `//移除指定服务。
 net start mysql //启动mysql服务 ，启动失败的话直接到服务列表手动启动即可。
 mysql -h root -p //登录(初始密码为空)，
 ```
+
 **使用前**：注意使用前必须修改用户密码，方法如下：  :bulb:
 ```
 D:\mysql\bin>mysql -u root -p    #目录下登入mysql
@@ -70,12 +70,24 @@ service mysqld stop //关闭
 service mysqld start //开启
 service mysqld restart    //重启
 ```
-
-[连接mysql时提示：Authentication method 'caching_sha2_password' is not supported解决方法](https://blog.csdn.net/u011583336/article/details/80999043)。
+**问题集**：
+- 提示找不到VCRUNTIME140_1.dll：安装微软常用库。
+- mysqld isntall 服务时提示：Install/Remove of the Service Denied!#可进入<i class="red">管理员身份运行</i>。
+- 其它软件连接mysql需要使用mysql驱动包，[mysql驱动包下载地址。](https://mvnrepository.com/artifact/mysql/mysql-connector-java)。
+- mysql的jdbc驱动6.0版本以上需要设置time zone，可以在连接url中设置：`jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8`。
+- 忘记root密码的方法：
+```
+mysqld --skip-grant-tables &    //进入bin目录下执行
+mysql -u root                   // 然后能跳过密码进入mysql模式
+mysql> update user set password=password('123') where user='root' and host='localhost';    //修改了新的密码，再退出登录即可
+```
+- [连接mysql时提示：Authentication method 'caching_sha2_password' is not supported解决方法](https://blog.csdn.net/u011583336/article/details/80999043)。
 #### b、可视化：
 **mysql可视化管理工具**：navicat for MySQL破解：https://blog.csdn.net/wypersist/article/details/79834490
 <i class="label1">mysql数据表与csv文件互导</i>简单的操作可使用navicate的导入直接将一个csv文件转为一个新表。
 使用命令导入则需要先建立一个新表(数据类型使用varchar)，然后将文件导入该表。导入的文件放到安装时my.ini配置文件中datadir或basedir指定的文件夹中去，不然会被认为不是安全的文件。
+**SQLyog**：
+- 连接数据库时错误password not be loaded：进入mysql>，输入：`ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';`再连接即可
 [null值相关控制。](https://blog.csdn.net/duckyamd/article/details/53143639)[mysql数据表与csv文件互导。](https://www.cnblogs.com/luruiyuan/p/5713273.html)
 
 #### c、python连接mysql使用：
@@ -1495,7 +1507,21 @@ public class xsww{
     }
 }
 ```
+### a7、maven仓库
+- 项目依赖可放在targed/dependency
+- 查看本地mvn仓库位置：`mvn help:effective-settings`
+- 按pom.xml文件下载依赖：pom.xml所在目录cmd命令：`mvn dependency:copy-dependencies`
+- 创建一个maven项目：mvn archetype:generate -DgroupId={project-packaging} #或ide手动选择类型
+    - DgroupId：包名，如：com.google
+    - DartifactId: 项目名称，如：NumberGenerator
+    - DarchetypeArtifactId: 项目的类型，Maven提供了很多模板，如果你没写这个，创建的时候就会列出一大堆模板让你选择
+    - DinteractiveMode: 是否使用交互模式，如果是true，那么在创建过程中就要手动输入一些参数
+redis：
+- 启动：redis目录，`redis-server.exe redis.windows.conf`
 
+javaFx：
+[javaFx下载地址](https://gluonhq.com/products/javafx/)
+[javaFx文档](http://www.javafxchina.net/blog/docs/)、[3d模型文件导入](https://blog.csdn.net/weixin_38581615/article/details/70946391)
 ## 三、C++：
 基础：
 - 环境安装：linux系统自带c++，win上可以安装vs直接开发。到vs官网下载社区免费版，登录可免费试用。
