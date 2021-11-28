@@ -351,7 +351,7 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 <meta http-equiv="Cache-Control" content="cache" /><!--no-cache是不缓存该页面-->
 <meta name="apple-mobile-web-app-capable" content="yes"><!--设置Web应用是否以全屏模式运行,content的默认值是no-->
 ```
-
+注释常用语：`//TODO`(待实现的功能)、`//FIXME`(需要修正的功能)、`//XXX`(需要改进的功能)
 #### 9、好用标签：
 **hr标签**：
 ```html
@@ -1062,45 +1062,58 @@ arr.forEach(function(value,index,data){});
 **对象**：从对象中取出多个属性然后上传时的场景，如果用obj.property的方式取值，若缺少该值时程序可能会**不执行也不报错**。
 ```js
 var obj = {a:1,b:3};
-Object.getPrototypeOf(person1) == Person.prototype; //true，获取对象属性。
-Object.getPrototypeOf(person1).name; //"Nicholas",但不能通过此方法来更改。
+/*================
+该方法创建的数据只是指针指向原型，添加时才会在自身数据上添加，不大建议使用！
+==================*/
+Object.create({a:1,b:2},{
+    p: {
+    value: 2,           // 属性值
+    writable: true,     //  是否可以重写值
+    enumerable: true,   //是否可枚举
+    configurable: true  //是否可以修改以上几项配置
+  }
+});        //第二个参数配置属性控制。
+/*=============================
+           属性、原型操作
+===============================*/
+Object.getPrototypeOf(obj) == obj.prototype; //获取指定对象的原型（内部[[Prototype]]属性的值）
+Object.getPrototypeOf(person1).name;         //"Nicholas",但不能通过此方法来更改。
+Object.setPrototypeOf(vue,{v:2})             //设置一个指定的对象的原型
+Object.getOwnPropertyDescriptors(obj);       //返回指定对象所有自身属性【原型属性不含有】
+obj.hasOwnProperty('a');                     // 判断是否有指定属性
+//getOwnPropertyNames()方法可以得到所有属性，包括对象的不可枚举属性。
+Object.getOwnPropertyNames(Person.prototype);
+//将对象的某个属性设置为是否可枚举。//----缺点：无法监听到增加和删除操作，无法监听到内部数组的改变。
+Object.keys(obj).forEach((key) => {
+        let value = obj[key];
+        Object.defineProperty(obj, key, {
+          get: function () {
+            console.log("访问属性 name 触发");
+            return value; // 定义访问该属性的返回值
+          },
+          set: function (newValue) {
+            console.log("设置属性 name", newValue);
+            value = newValue; // 修改该属性的值
+          },
+        });
+      });
+/*===============
+    属性控制
+=================*/
+Object.is(obj1,obj2);              //可对比两个值是否相等
+Object.freeze(obj);                //冻结该对象，不能对其做修改
+Object.preventExtensions(obj);     //对象不能再添加新的属性。可修改，删除现有属性，不能添加新属性。
+Object.seal(obj);                  //将obj密封，不可扩展、删除、修改属性特性。但可修改值。
+/*=============================
+            键值对操作
+===============================*/
 Object.keys({a:1,b:2});//可枚举出对象的属性。
 Object.values(dict);//value值做一个数组
 // 键值对按数组返回
 Object.entries({a:3,b:8});//[['a',3],['b',8]]
-
-Object.is(obj1,obj2);//可对比两个值是否相等
-//冻结该对象，不能对其做修改
-Object.freeze(obj);
-//对象不能再添加新的属性。可修改，删除现有属性，不能添加新属性。
-Object.preventExtensions(obj);
-// 判断是否有指定属性
-obj.hasOwnProperty('a');
-//判断obj是否在obj2的原型链上。
-obj.isPrototypeOf(obj2)
-//getOwnPropertyNames()方法可以得到所有属性，包括对象的不可枚举属性。
-Object.getOwnPropertyNames(Person.prototype);
-//将对象的某个属性设置为是否可枚举。
-Object.defineProperty(Person.prototype, "constructor", { 
- enumerable: false, 
- value: Person 
-});
+obj.isPrototypeOf(obj2)            //判断obj是否在obj2的原型链上。
 // res是有更新部分的数据，obj1是最终数据。
 var res = Object.assign(obj1, obj2,...);//将obj1后的对象中的属性赋给obj1，相同的键值会覆盖。
-//Object.defineProperty与Object.defineProperties
-var obj = {name:'wcs',age:21,hob:[1,2],at:{a:5,b:9}}
-Object.defineProperty(obj,'name',{
-    set:function(val){alert('你修改了值name'+val);},
-    get:function(){alert('你获取了值name');}
-});
-//----缺点：无法监听到增加和删除操作，无法监听到内部数组的改变。
-Object.defineProperty(obj.hob,'0',{});// 监听改变对象中的数组值时
-Object.defineProperty(obj.at,'a',{})
-/*================
-    Object.create()
-该方法创建的数据只是指针指向原型，添加时才会在自身数据上添加，不大建议使用！
-==================*/
-Object.create({a:1,b:2});
 ```
 Object.defineProperty()方法可传有三个参数，第一个是要监听的对象，第二个是参数是该对象中已有的属性或未有的属性，第三个参数是对象的形式，里面可以写两个方法，set方法在改变目标对象中指定属性(第二个参数)时触发的函数，可传入一个参数表示被修改的值，get方法在目标对象指定属性值被获取时触发。set方法和get方法都是在对应的操作前就先触发的，比如：obj.name = 'jieke',是先触发set方法再运行obj.name='jieke'语句；第三个参数中也可以写访问器属性：
 ```js
@@ -3641,8 +3654,13 @@ const _url = "https://nb.com";    //如果使用了axios，这里路径要与axi
 Mock.mock(`${_url}/index/test`, "get", require("./moc.json"));
 Mock.mock(`${_url}/index/use`, "post", require("./moc.json"));
 ```
-- main.js将其导入即可：`import Mock from "../../../mock/index";`#使用mock数据时**不要与代理路径一样，或干脆不用代理**。
-
+- **导入**：main.js将其导入即可。使用mock数据时**不要与代理路径一样，或干脆不用代理**。
+```js
+// 使用环境判断，开发时才导入
+if (process.env.NODE_ENV !== 'production') {
+  require('@/mock');
+}
+```
 2. 利用ajax可请求文件的方法。
 3. 使用node在开一个本地服务用于返回mock数据，让代理目标地址更改为该服务地址。
 [使用本地mock数据。](https://blog.csdn.net/zhushikezhang/article/details/104447438)
@@ -3668,7 +3686,9 @@ module.exports = {
 }
 ```
 **3、e2e测试**：把整个系统当作一个黑盒，测试人员模拟真实用户在浏览器中操作UI，测试出的问题可能是前端也可能是后端导致的。
-
+**cypress**：
+- 安装：npm install cypress --save-dev，项目下自动生成cypress文件夹。
+- 运行：script添加运行命令："test:view": "cypress open"，npm run test:view打开cypress测试界面。
 - [cypress英文档](https://docs.cypress.io/guides/overview/why-cypress)
 
 ### 八、交互设计：

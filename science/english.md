@@ -182,20 +182,28 @@ These pictures describe a common social phenomenon in China to
 Obviously, the purpose of the cartoon is to inform us that some severe measure have been carried out to +方面。【很明显，这幅图的目的是告诉我们，部分措施已被用于..】
 ### 二、信件：
 1. **公共部分**：
-【开头】Dear 名/职位：
+【开头】Dear 名/职位：    Dear Sir or Madam【不知对方情况】    To Whom It May Concern【致有关人士】
+【积累词：dinner(n-晚餐/宴会)、dissatisfaction(n-不满)、`dormitories`(n-集体宿舍)、course(n-课程)】
+【形容类：`immeasurable`(adj-无可估量的)、`overpriced`(adj-价格过高的)、】
+【连接类词：as you know，in addition(此外)，Although(尽管)、Anyway(无论如何)、in my opinion(在我看来)】
                                                                                                     Sincerely yours,LiMing【来自你的李明<结尾写法>】
 2. **感谢信**：（写出感谢事项；简述事中自己的感受，称赞对方的善良、能力等；扯些送礼，看望之类的）
 【第一段】I am writing this letter to express my `sincere`(adj-真诚的) `gratitude`(n-感谢) to you for your help and `kindness`(n-善行).
-    ...
+How are your? i haven't seen you for a while.【近来可好，有段时间没看见你了】
+you must give me the chance to return your great kindness.【当你来这时，请一定要给我机会答谢你的盛情】
 【最后一句】Once again, thank you for your help. I hope that I will have the opportunity to return your `charming`(adj-令人着迷的) help.
-3. **建议信**：（描述建议的事物；具体的分点问题，对应的建议描写；祝愿其成功）
+3. **建议信**/投诉：（描述建议的事物；具体的分点问题，对应的建议描写；祝愿其成功）
+i write to express my `dissatisfaction`(n-不满) with your service.【我写这封信是要表达对你们服务的不满】
 I am 身份 who 与被建议对象的关系 . Generally speaking,.. + is/are quite good; however, I have some better suggestions for you.
 Firstly, it would be greatly `appreciated`(v-感激) if you could 建议一 because 原因一 . Moreover, 原因二 , so it is advisable for you to put emphasis on 建议二。
+i trust you will take my complaints seriously, and make every effort to improve your service in the future.【我相信你会认真对待我的投诉，并在将来尽力改善你的服务】
 I hope that you will find these suggestions helpful. Thank you for your reading and patience.
 4. 推荐信：（描述对方的烦恼，推荐的对象；推荐对象优点及能解决的问题等；期待对方的回信）
 I am writing this letter to recommend you —— +..。 I know 被推荐对象 well, because —— .
-The primary factors for my recommendation are as follows. For one thing, 理由一 + ...。 For another, 理由二 ...
+The primary factors for my recommendation are as follows. 【我推荐它的主要原因如下】
+For one thing, 理由一 + ...。 For another, 理由二 ...
 I hope that you will find —— wonderful and worthy of attention.
+wish you enjoy the movie.Looking forward to your reply.【希望你喜欢这部电影，期待你的答复】
 5. 邀请信：（邀请目的，时间等；邀请原因，对方优点等；表示希望对方到来）
 The 2018 Graduation Ceremony of our university will be held at the `auditorium`(n-礼堂) from 9:00 to 11:00 on June 28.【我校2018毕业典礼将在6-28举行】
 With your `remarkable`(adj-显著的) `expert`(n-行家，adj-专业的) knowledge,you have contributed a lot to ..。【您以非凡的专业知识对...贡献很多】
@@ -205,8 +213,14 @@ The schedule of the ceremony is `attached`(adj-附加的，v-贴上) for your re
 We would be very grateful if you could `inform`(v-通知，了解) us of your decision before 时间 . 【如果你决定了...时候来，并通知我们，我们将非常感激】
 We very much hope that you would accept the invitation.【我们非常希望你能接受这次邀请】
 we look forward to your reply.【我们期待你的回复】
-6. 探望信：（简单问候，目的；描写些周身事物、询问对方自身、周围环境等情况；祝愿对方）
+
+6. 探望/感谢信：（简单问候，目的；描写些周身事物、询问对方自身、周围环境等情况；祝愿对方）
 The epidemic is growing everywhere。【各地疫情日益严重】
+i can't remember ever having enjoyed myself so thoroughly elsewhere.【我记不起在什么地方比在那里过得更愉快了】
+i count myself fortunate indeed to have such a generous and charming friend as you.【能有你这样慷概、可爱的朋友我的确很幸运】
+Congratulations upon having received your `doctorate`(博士学位) in philosophy from Yale University.【祝贺你取得了耶鲁大学哲学博士学位】
+i have followed your progress with pleasure and interest for many years.【多年来我一直以愉快、关切的心情关注着你的进步】
+It is the most joyful news i have ever heard for a long time.【这是我长期以来听到的最令人愉快的消息】
 7. 通知：
 To ensure that students from overseas have a better knowledge of our library service.【为了确保海外留学生更好的了解我校图书馆服务】
 i'm writing to inform you of some relevant information with `regard to`(关于) our university library.

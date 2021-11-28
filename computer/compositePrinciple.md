@@ -602,11 +602,11 @@ net stop mpssvc // 关闭防火墙
 net start mpssvc // 开启防火墙
 where python //查看相应的安装路径
 time // 输入回车后可更改系统时间
-systeminfo //查看电脑一些信息
+
 netsh winsock reset //重置网络，重启后生效
 net user //查看本机所有用户名   echo %username% //查看当前使用的用户
 nvcc -V //查看cuda版本
-services.mc //打开服务列表，windows update...项为系统更新。
+
 https://www.cnblogs.com/accumulater/p/7110811.html
 **常用快捷键**：
 切换窗口：alt+Table 或 win然后鼠标点击。
@@ -614,9 +614,14 @@ https://www.cnblogs.com/accumulater/p/7110811.html
 返回桌面：win+D。
 
 **文件目录相关命令**：
-cd G:/web,cd..，dir //进入文件目录、反回上一级、查看当前目录下所有目录及文件
-打开指定目录界面：explorer D:\DATA_FILE
-删除文件夹：del package    #显示目录结构：tree
+- cd G:/web,cd..，dir //进入文件目录、反回上一级、查看当前目录下所有目录及文件
+- 打开指定目录界面：explorer D:\DATA_FILE
+- 删除文件夹：del package    #显示目录结构：tree
+- 创建文件：md `C:\a.txt`
+- 移动文件：move C:\a.txt D:\
+
+services.mc //打开服务列表，windows update...项为系统更新。
+systeminfo //查看电脑一些信息
 **查看mac/物理地址**：ipconfig/all    #显示物理地址的那行。
 **查看系统型号**：win+r弹框中输入directx看到的系统型号即是电脑型号，或者鲁大师、电脑管家中的硬件检测工具中也会显示。
 ## b、win常见问题：
