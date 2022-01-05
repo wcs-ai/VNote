@@ -1,7 +1,7 @@
 
 # 一、英语
 
-## b、英语中的句子成分:
+## a、英语中的句子成分:
 - 主语：句子主要成分。一般为名词，名词短语。
 - 谓语：一般在主语之后，由动词，动词短语构成。
 - **表语**：说明主语的性质，身份，特征和状态。表语须和连系动词一起构成句子的复合谓语。可以由名词，形容词等担任。
@@ -9,15 +9,7 @@
 - **定语**：描述名词，代词，短语或从句的性质，特征范围等情况的词叫做定语。可以由名词，形容词和起名词和形容词作用的词，短语担任。
 - 状语：从情况、时间、处所、方式、条件、对象、肯定、否定、范围和程度等方面对谓语中心词进行修饰、限制。
 - **同位语**：一个名词(或其它形式)对另一个名词或代词进行解释或补充说明，这个名词（或其它形式）就是同位语。同位语与被它限定的词的格式要一致，并常常紧挨在一起。关系不是很紧密时也用逗号隔开。Smith,our new teacher,is very kind to us.
-## c、词性及作用：
-- 名词：人物、地点、机构等，常做主语。
-- 动词：表示动作，行为的词，有及物和不及物之分。
-- 形容词：修饰名词，不一定都放在名词前面，说明事物的特征，如果是一个有层级属性的形容词可以用副词修饰它。
-- 副词：可以修饰动词、副词、形容词和其它结构。多数位于句尾，但若宾语过长，可以前置。多个副词修饰同一个词时注意用and，but等连接，且注意顺序。
-- 介词：一种用来表示词与词, 词与句之间的关系的词。在句中不能单独作句字成分。介词后bai面一般有名词代词或相当于名词的其他词类，短语或从句作它的宾语。
-- 代词：不只有人称代词，还有一些物体别名，统称等也会用作代词，如果句中用了代词，**得搞清楚，它指代的谁**。
-- 系动词：用来辅助主语的动词。它本身有词义，但不能单独用作谓语，其后必须跟表语，构成系表结构说明主语的状况、性质、特征等情况。如：am、is、are、wa、were。
-## d、5种基本句型：
+## b、5种基本句型：
 这5种基本句型可以拓展到其它句型。
 - 主语+系动词+表语。these apples are very fresh.
 - 主语+谓语（不及物动词），后面不能加宾语，可加状语。i can't sleep in the night.
@@ -29,6 +21,97 @@
 >形容词性从句：<b class="red">在句子中的作用相当于形容词词。</b>定语从句。
 >副词性从句：<b class="red">在句子中的作用相当于副词。</b>状语从句。还可以分为条件状语从句、原因状语从句、地点状语从句、目的状语从句、让步状语从句、比较状语从句、方式状语从句、结果状语从句和时间状语从句（常见引导词为：before，after，as等）。
 - [学习地址。](https://www.vipkid.com.cn/posts/11345.html)
+## c、词性及作用：
+名词：人物、地点、机构等，常做主语。
+**动词**：表示动作，行为的词，有及物和不及物之分。
+- 形容词：修饰名词，不一定都放在名词前面，说明事物的特征，如果是一个有层级属性的形容词可以用副词修饰它。
+- 副词：可以修饰动词、副词、形容词和其它结构。多数位于句尾，但若宾语过长，可以前置。多个副词修饰同一个词时注意用and，but等连接，且注意顺序。
+- 介词：一种用来表示词与词, 词与句之间的关系的词。在句中不能单独作句字成分。介词后bai面一般有名词代词或相当于名词的其他词类，短语或从句作它的宾语。
+- 代词：不只有人称代词，还有一些物体别名，统称等也会用作代词，如果句中用了代词，**得搞清楚，它指代的谁**。
+- 系动词：用来辅助主语的动词。它本身有词义，但不能单独用作谓语，其后必须跟表语，构成系表结构说明主语的状况、性质、特征等情况。如：am、is、are、wa、were。
+
+## d、语法及理解：
+:::alert-success
+**英文文法**是一个标记系统，对句中所述标识出来，以做区别（但语法中的规则都会有**特例**），这是其所有语法的**目的**。*用这些标识来轻松写作，表达，也根据这些标记来反推文意*。
+用**理解的方式**来记忆语法，文理皆是该如此，有事半功倍，恍然大悟的效果。
+:::
+
+1. 中英文语法的异同：
+中文中使用的是语境导向；如：一句中提过的主题不会再提，省略了也能清楚明白，<i c=gn>他的家房间很大，院子很漂亮。</i>
+英文是语句为导向；如：即使知道指的是什么，也要在句中表示出来（更清楚），<i c=gn>**Hsinch Museum** was built in 1936. **It** was used as the local goverment. **It** also ...</i>#每句都加it！
+2. 分清责任：讲究谁是主动，谁是被动，主动句描述时主动方是重点，被动句时，被动方是重点描述。
+（1）主动与被动：**My father** build a house.（主动句）；**The house** was built.（被动句）
+（2）现在分词与过去分词[^pl]：分词的现在和过去不是指时态上，而是指<mark>主动和被动</mark>。<i c=b>主动时用现在分词，被动时用过去分词！</i>
+    【主动帮妈妈】**Helping his Mom**,he washed the dishes.【他被妈妈帮】**Helped by his Mom**, he washed the dishes.
+3. **主从分明**：稍复杂的句子一般都有主句和从句，主句句意完整，可单独成句，从句则不行。（了解到该句子主要是向表达什么）
+（1）如果句子用：because..,so..等结构来描写，则不能突出主句。所以不会出现because..,so...的情况，而是：<i c=gn>i bought this book because...</i>
+（2）附属句子一般用：不定词（to V），分词（V-ing）,及名词字句（that+CL）等形式，都是**附属句子的标记**。如下：
+    I went to the party *`to` see my friends*。Iwent to the party *`thinking` about my friends.*。I went to the party _`that` started at 7 pm._
+4. 第三人称单数时要加s：<i c=gn>She **likes** swimming.</i>，<i c=r>通常情况是两个人(i,you)的对话，为了突出第3人时，**选择动词加s**，来标记。</i>
+5. **未明确事物**：英文讲究标记明确，但对于未明确的事物一般会用到any。<b c=b>any用在尚未发生的事上</b>，而非只是疑问/否定句。情况如下：
+（1）命令句：Read __any__ book you can find!
+（2）条件句：If you have __any__ question, please let me know.
+（3）未来式：I will eat __any__ food you make.
+（4）可能情况：He may solve __any__  of your problems.
+（5）尚未兑现的承诺：I promise to do __anything__ for you.
+6. **主谓宾都得有明确标记**：
+（1）中文：<i c=gn>下雨了</i>#无有主语，句意清楚。英文：<i c=gn>It is raining.</i>#It做虚主词，语法上必须用一个词来做主语。
+（2）中文：他很高；（主语直接加副词即可）。英文：<i c=gn>He **is** tall. / He is my student.</i>#用be动词充当合适的谓语。
+7. 重点在前：中文习惯将描述的重点放在后面，英语则常放句头；如：中文：小强比小安**高**。英文：Johan is **taller** than Anne.
+8. **由小到大**：中文描述一般是：`大->小`的次序，英文描述一般是：`小->大`的次序。如：中：新生南路，三段22巷，100号。英文则是：<b c=gn>No. 100,Lane 22,Section 3.</b>。时间顺序也是如此。
+9. **先后有序**：英文自然表述是“重点在前，背景在后，先主后从”这样就不用加标点符号，若违反了这个顺序，则需要用**逗号**隔开主从句。如下：
+:::alert-primary
+**先主后从**：John wnet to the party at 8 pm last night。**先从后主**：Last night, at 8 pm, _John went to the party._#最后一句为主句
+:::
+如果有好几个重要动作发生，分不出高下时：<b c=b>先发生的先说，后发生的后说，用and,or等词连接</b>
+10. 时态：在动词上标记，表示时间情况。如下：
+（1）正在进行：She is eating apples.（2）事情发生在说话之前：She ate apples.（3）事情发生在说话之后：She will eat apples.（4）习惯进行(一直有发生)：She eats apples.
+注：不是每个动词都能+ing表正在进行时。如：I am **getting** to know him。而不是：I am knowing him.
+11. 时貌：（同一件事情，以不同角度表述）
+:::alert-secondary
+（1）现在完成：He has found the answer before reading it now.
+（2）过去完成：He had found the answer before he read the book.
+（3）未来完成：He will have found the answer before next summer.
+:::
+
+|   时态   |             过去             |               过去将来               |             现在              |               将来                |
+| -------- | ---------------------------- | ----------------------------------- | ----------------------------- | --------------------------------- |
+| 一般     | did，一般过去时               | would do,一般过去将来时              | do，一般现在时                 | will do，一般将来时                |
+| 进行     | was/were doing,过去进行时     | would be doing,过去将来进行时        | am/is/are doing,现在进行时     | will be doing,将来进行时           |
+| 完成     | had done,过去完成时           | would have done,过去将来完成时       | have done,现在完成时           | will have done,将来完成时          |
+| 完成进行 | had been doing,过去完成进行时 | would have been doing,过去完成进行时 | have been doing,现在完成进行时 | will have been doing将来完成进行时 |
+12. **你知我知**：要求名词所有者明确（对名词的出现需要表明其“单复数”外，还要标记其“**所属**”）
+（1）特定词【双方都知道的事物】前用定冠词the：I talked to __the boss__.
+（2）对方不知道的事物前用定冠词a：I bought __a__ car.
+（3）所有者已描述清楚则不用：His book. #他的一本书。
+13. **标记真假**：一般描述的是真实性事件，对于假设、条件，等虚假性表达要特殊标记区分。
+**条件**：指可能出现的，对未知情况的臆测。**假设**：指不能出现的，对已发生之事的感叹！
+（1）对条件：用<i c=gn>没有特定时间的习惯式标记。</i>：If it __rains__ tomorrow, we will cancel the outing.
+（2）假设1：用过去式标记：If she __was__ a man, her life would be different. #看语境情况来决定用过去式，还是完成式！ 
+（3）假设2：过去完成时标记：If i __had known__ it earlier, i would have done something different.
+14. 时空转换：空间是具体的，时间是抽象的，人们不自觉的用具象来表示抽象的东西，所以on,in,at都有这些方面使用到。<b c=gn>根据意境来决定使用，而不是死背！</b>
+（1）in【包含与范围内】：空间上指在某个容器之内。用到时间上则指在*某个时间段内*。抽象到其它事物上则有“属于”概念。
+（2）on【在接触面上】：空间上有在..平面上的意识。用到时间上则指*某个时间的接触面*。抽象到其它事物上则有“面向”的意思。
+（3）at【位与定点】：空间上指明确的地理坐标。用到时间上则指某个具体的时刻，时间点。抽象到其它事务上则为“定位”。
+15. 主格与受格：句中i在受词位置时，按描述顺序也可分辨其不是主词，为了加强标记，英语中用其受格做区分：`he/she/i/you/they/we -> him/her/me/you/them/us`
+16. 主词与受词：主词和受词不一定都是一个词，可能是一个词组，或一个句子。<b c=r>将对应那一整个都看成主词/受词，然后再去分解它们</b>，这易于理解得多！
+（1）`Playing computer games` is fun.#前面一个整体为主词；
+（2）I would like to know `what you think about this book.`#后一个整体为受词。
+17. 虚主词：
+（1）缺主语时使用：It is raining.
+（2）主词太长时，读来不畅：it is very nice of you to do that. (替换前：you are very nice to do that)
+（3）there + be表存在状态：**There** is a girl.#这有个小女孩；而不是使用have，此时的there也是 虚主词。
+（4）若强调的不是存在，而是来去时，be动词跟换：Here `comes` my food!#上菜。There `goes` my bus.
+18. 语言的懒人原则：<b c=v>部分动词即使是及物动词，后面也可不接其它词；</b><i c=gn>因为生活中有一些常用的表达，经常加上较麻烦，所以其语法中可允许去掉！</i>
+（1）I don't know. #一定是指其所问的事！
+（2）Can you tell? #一定是意指能否告诉我。
+（3）Have you eaten? #一定是问三餐，而非其它。
+（4）They went darking. #一定指喝酒。
+（5）Who cooks in your house? #一定指做饭，而非其它食物。<b c=b>一般常用的高频词，且说出来大家都知其意的词，才允许省去后面的内容</b>
+19. 情绪主导：英语认为，人是理性的，一切情绪产生都是外物引起的，所以扯到情绪时，人作为受词，引起部分作为主词！
+（1）It attracts me. #他勾引我！It interests me.#它激发我（而不是我对他感兴趣）
+（2）I am `attracted` by her appearance. #<i c=gn>要将受词放开头时，就使用**被动语态**！</i>
+（3）His performance is `amazing`! #要用形容词表达时，使用现在分词（主动）
 ## e、短语&特殊词：
 - **名词所有格**：名词有三个格：主格、宾格、所有格，主格与宾格形式相同所以统称为通格，名词做主语，宾语，表语时用通格。所有格形式有：'s和of所有格，举例如下：
 today's paper(今天的报纸) #有生命的、时间、地点、距离也可加's。其它可以用of： the title of the book.
@@ -128,11 +211,12 @@ At the Sheffield arena,the speakers were magnified `then times`(10倍) on a gian
 They `left the town`(离开小镇) and `journeyed`(旅行) south.【他们离开了小镇，去南方旅行】
 i didn't like Dev,and the feeling seemed `to be mutual`(互相的).【我不喜欢德福，它好像也不喜欢我】
 the rain ceased and the sky cleared.【雨过天晴】
-    - 方位词：behind(在..后面)、below(正下方)、beside(在..旁边)、next to(紧挨着)、on opposite(对面)、outside the house(房子外面)、over(在上面)、under
-    - **运动**：游泳：swim。run、basketball、volleyball、football。羽毛球：badminton，shuttlecock。shoot(射击)、gym(体操)、marathon(马拉松)、dive(跳水)、fencing(击剑)、
+- 方位词：behind(在..后面)、below(正下方)、beside(在..旁边)、next to(紧挨着)、on opposite(对面)、outside the house(房子外面)、over(在上面)、under
+- 方向：West(n-西方)、East(n-东方)、North(n-北方)、South(n-南方)
+- **运动**：游泳：swim。run、basketball、volleyball、football。羽毛球：badminton，shuttlecock。shoot(射击)、gym(体操)、marathon(马拉松)、dive(跳水)、fencing(击剑)、
 
 2. **生物医疗**：saliva（唾液）、sweat（汗液）、fat（脂肪）、abdomen（腹部）、oxytocin（催生素）、remedy（治疗）、skeleton（骨架）`disease resistant plants`(抗病植株)
-    coronavirus（冠状病毒）、virus(病毒)
+    coronavirus（冠状病毒）、virus(病毒)、chronic disease(慢性病)、infectious disease(传染病)、infect(v-传染)、birth rate(出生率)、population again(人口老年化)
 Liver cancer is linked to the `hepatitis B virus`. 【肝癌与乙肝病毒存在关联】
 Could a `hug`(拥抱,embrace) `a day`(每天)  keep the `doctor away`(远离)?【每天一个拥抱真的能远离疾病吗】
     - 人体相关：shoes(鞋子)、leg(腿，下肢)、shank(小腿)、thigh(大腿)、foreleg(前腿)、hindleg(后腿)。`abdomen`(腹部)、noses(鼻子)、belt(皮带)、ear(耳朵)、胸(chest,bosom)、breasm(乳房)、hair(头发)、皮肤(skin,derma)。生殖器(genital organ)、finger(手指)、arm、脊椎(vertebration,chine)、腰(loin,haunch)、臀部(buttocks)、vagian(阴道)。
@@ -144,17 +228,18 @@ They `gave no`(没有) `indication`(表明、象征) of `how` the work should be
 This problem is hard enough to `perplex`(使混乱) `even the teacher`.【这个问题很难，以至于老师都迷惑不解】
 the `transmission`(传输信息) of computer data `along`(沿着，进展) telephone lines.【计算机数据沿电话线的传输】
     - 学科：数学(mathematics; arith; math)。地理学(geography)、physics(物理学)、psychology(心里学)、astronomy(天文学)、biology(生物学)、chymistry(化学)。
+    - 生态：ecosystem(生态系统)、keep ecological balance(保持生态平衡)、global warming(全球变暖)、nuclear enery(核能)、solar energy(太阳能)、carbon dioxide(二氧化碳)\
+    desertification(沙漠化)、deforestation(乱砍乱阀)、overfishing(过度捕捞)、reckless exploitation(过度开发)、litter(乱认垃圾)、pollute(v-污染)
 4. **军事政务**：
-    The government will not `negotiate`(谈判) with terrorists.【政府不会和恐怖分子谈判】
-    prosecuted(起诉、检举) ，corruption(贪污，贿赂)。office(官方)、 bribery(行贿）、penalties(处罚)、 sinister(邪恶的) 、sovereign(独立自主的、君主)
+The government will not `negotiate`(谈判) with terrorists.【政府不会和恐怖分子谈判】
+prosecuted(起诉、检举) ，corruption(贪污，贿赂)。office(官方)、 bribery(行贿）、penalties(处罚)、 sinister(邪恶的) 、sovereign(独立自主的、君主)
 The `committee's`(委员会) `exclusive`(独有的，不含..的；独家新闻) focus will be to `improve`(改进，超过) public transportation.【委员会关注的唯一焦点将是改善公共交通运输】
 - 君主党派：the Spanish case provides arguments both for and against `monarchy`(n-君主政体).【西班牙一事例，为反对君主体制和争论提供了依据】
-    - 宗教相关：`Buddhist`(佛教徒)、grass(草)、tree、flower。
+- 宗教相关：`Buddhist`(佛教徒)、Confucianism(儒家)、Buddhism(佛家)、Daoism/Taoism(道家)、Peking Opera(京剧)、housing problem(住房问题)
 The `minister`(神父、部长；照料) `preached`(讲道、宣扬) a `sermon`(一大通教训) on the `parable`(寓言) of the lost sheep.【牧师讲道时用了亡羊的比喻】
-    - 交通工具：自行车(bicycle,bike,cycle)。卡车(lorry,truck)。轿车，汽车(bus,car)。火车(train,horse)。飞机(airplane,aircraft)。轮船(steamer)。vessel（容器、船）
-    - 地区级别：country、city、rural(乡村)、province。
-    - 地名机构名：`Indonesia`(印度尼西亚)、Harvard University(哈弗大学)、`France`(法国)、Britain(英国)、Portugal(葡萄牙)、`Silicon Valley`(硅谷)、Tonkin(东京)、
-
+- 交通工具：自行车(bicycle,bike,cycle)。卡车(lorry,truck)。轿车，汽车(bus,car)。火车(train,horse)。飞机(airplane,aircraft)。轮船(steamer)。vessel（容器、船）
+- 地区级别：country、city、rural(乡村)、province。
+- 地名机构名：`Indonesia`(印度尼西亚)、Harvard University(哈弗大学)、`France`(法国)、Britain(英国)、Portugal(葡萄牙)、`Silicon Valley`(硅谷)、Tonkin(东京)
 - 形近词：aspect(方面)、respect(受尊重的)、inspect(检查)。【expect(v:期待、expectant：adj:期待的)，except(除..之外)，experience(经历、体验)】。【detecting(发现) deception(欺骗),decide(决定)】
 【never,nerve(神经，勇敢)】【encourage】
 5. **天气**：冰：ice、icicle(冰柱)。雾：fog、smoke(烟雾)、haze/mist(薄雾)。霜(fost)。晴：fine、fair。
@@ -166,20 +251,30 @@ The `minister`(神父、部长；照料) `preached`(讲道、宣扬) a `sermon`(
     - 积极类：chirrupy 、 felicity(幸福的)、excited(兴奋的)、pleasure（愉快,高兴）。兴高采烈的：merry、ecstasy（狂喜,入迷）。
     - 消极类：sorrowful(忧伤的)、gloomy(忧郁的)、 miserable( 悲哀的)、heart-broken(伤心的)。shirty(生气的)、moodily(易生气的)、angry(愤怒的)、anxious(挂念的)、lonly(孤独的)。downcast(萎靡不振的)。
     panic(n-恐慌，v-使惊恐)、
-7. 艺术类：
+7. 文化艺术类：
+master's degree(硕士学位)、doctor's degree(博士学位)、college students(大学生)、graduate school(研究生院)、faculty(n-全体教师)、compulsory education(义务教育)、information era(信息时代)
+academic atmosphere(学习氛围)、recruitment(招生)、enrollment(录取)、clutural diversity(文化多元化)、online games(网络游戏)、dishonest behavior(欺诈行为)、honesty(诚信)、seek employment(找工作)
 The museum houses `several`(几个，各自的) of his Cubist `masterpieces`（杰作）.【博物馆收藏了他的几件立体派杰作】
 `pure`(纯粹的，完全的) `silks`(丝绸) `embroidered`(秀花的) with `elaborate`(复杂的) patterns.【秀有精美图案的真丝绸衣服】
-- [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)    教育、政治、、地理、历史、交通、、语言、宗教观念、影视、古典文学、名人
+- [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)   政治、地理、历史、宗教观念、影视、古典文学、名人
 
 ## 作文：
 ### 一、看图描述类：
 1. 第一段：描述图画内容
+The diagram above clearly reflects that ..【上幅图清楚的展示了..】
 Here is a vivid and lively `cartoon`(n-漫画)/chart/table in which we can see that + 图画内容。
-Clearly, the cartoon tells us a simple truth: + 图画的寓意。【这幅图告诉我们一个简单额道理..】
+From the information given in the `pie chart/line chart/histogram`(饼图/折线图/柱状图),we can see ...【从这副饼图所提供的信息，我们能看到...】
 These pictures describe a common social phenomenon in China today that + 图内容。【这些图画描述了目前中国存在的一个非常普遍的社会现象..】
+The percentage increased `steadily`(adv-稳固地) from 48.45% to 63.67% between 2010 and 2020, a rise of nearly 14%.【从2010年到2020年数据从48.45稳步增长到63.67，增长了近14%】
+Clearly, the cartoon tells us a simple truth: + 图画的寓意。【这幅图告诉我们一个简单额道理..】
+What lead to this?【这是什么导致的呢？】
+Several primary factors that `account for`(统计) the above mentioned changes could be summarized as follows.【促成上述变化的原因可以概括如下】
 2. 第二段：现象说明
+`It goes without saying`(毫无疑问) that remarkable achievements have been made in China's `urbanization`(n-都市化) since the reform and opening-up in the `past few decades`(过去几十年)
+【毫无疑问，自从实行改革开十几年来，中国城市化已取得巨大成就】
 3. 第三段：总结，阐述含义
 Obviously, the purpose of the cartoon is to inform us that some severe measure have been carried out to +方面。【很明显，这幅图的目的是告诉我们，部分措施已被用于..】
+【相关词：diagram(n-线图)、population(n-人口)】
 ### 二、信件：
 1. **公共部分**：
 【开头】Dear 名/职位：    Dear Sir or Madam【不知对方情况】    To Whom It May Concern【致有关人士】
@@ -221,7 +316,10 @@ i count myself fortunate indeed to have such a generous and charming friend as y
 Congratulations upon having received your `doctorate`(博士学位) in philosophy from Yale University.【祝贺你取得了耶鲁大学哲学博士学位】
 i have followed your progress with pleasure and interest for many years.【多年来我一直以愉快、关切的心情关注着你的进步】
 It is the most joyful news i have ever heard for a long time.【这是我长期以来听到的最令人愉快的消息】
+Hope that I can enter the ideal university to continue my study, and I hope that you can live a better life.【希望我能进入理想大学继续学习，也希望你能过得更好】
 7. 通知：
+To ensure the safety of the citizens.【为了保障广大市民们的安全】
+In order to better carry out the government's services【为了更好开展政府的服务】
 To ensure that students from overseas have a better knowledge of our library service.【为了确保海外留学生更好的了解我校图书馆服务】
 i'm writing to inform you of some relevant information with `regard to`(关于) our university library.
 please feel free to contact us if you need any help via(经过) xxx@xx.com.【如果你们需要任何帮助，随时通过邮件到...联系我们】
@@ -315,3 +413,6 @@ when they are `prosecuted`(起诉、检举) for `corruption`(贪污，贿赂，p
 
 **试题资源**：[资源1](http://www.offcn.com/kaoyan/shiti/2572/)、[2018一试题](https://www.kaoyan.com/yingyu/zhenti/5a3f363035b71.html)、[2020一试题](https://zhuanlan.zhihu.com/p/98760181)
 [2016一](http://wenku.baidu.com/link?url=5vN3r6sf9vjOoe8y-7L3VDI6KRkxy9N6qjoo0ZBosr3mpaOws3AbPf-7czPsqVmi0_3tivmwAVs-k5BY77Gnc3js1R2rWlLNoz7nRoqNt1MPxZZ6DC5Nxbt2nbb8FlWr)
+
+
+[^ppl]: 分词：v-ing或v-ed形式，一般是做名词和形容词，分词不能做句子谓语。

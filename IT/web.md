@@ -1,6 +1,6 @@
 
-### 一、HTML
-#### 1、svg：
+# 一、HTML
+## 1、svg：
 ```html
 <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
 
@@ -75,18 +75,8 @@ requireAll(req)//全部遍历出来。
 ```
 3. 入口引入，并在webpack中使用`svg-sprite-loader`，然后配置，处理这些svg文件。
 
-**table的使用**：
-```html
-<table border="1" cellspacing="0">
-<thead><!--border为线宽，cellspacing为格间距-->
-<tr><th></th></tr>
-</thead>
-<tbody>
-<tr><td rowspan="2" colspan="3"></td></tr>
-</tbody>
-</table>
-```
-#### 2、页面渲染过程：
+
+## 2、页面渲染过程：
 - 先向服务端请求html网页。对html内容由上至下进行扫描，然后从头加载。
 - 由上至下将内容构建DOM树和CSSOM树。
 - 如果中途遇到css请求资源的加载会先请求css资源，然后加入到cssom树的构建中。
@@ -95,7 +85,7 @@ requireAll(req)//全部遍历出来。
 - [参考学习地址。](https://www.cnblogs.com/chenyoumei/p/9156849.html)
 
 **页面的重绘与重排**（回流）：元素颜色的改变、css3的一些变换等会引起页面的重绘，不过重绘速度非常快。而元素大小、display、position、float、overflow，js的resize等会导致对页面的重新布局，即重排（也称回流）。无论是渲染树构建过程和渲染完毕后。回流比重绘需要的时间多得多，**所以应该尽量避免重排**。
-#### 3、第三方资源的加载：
+## 3、第三方资源的加载：
 很多加载资源的标签：iframe,video,audio,img,script,link等是用src属性或是用href属性，一些标签不能跨域加载资源多数标签允许跨域加载资源。除了link和script外其它标签几乎都有onload事件和onerror事件可在元素上添加这两个事件做加载成功和加载失败后的处理。js代码中的函数块语句需要达到相应的条件才能触发（body，head中添加的onload和`<script></script>`中的window.onload=“”除外)就算是onmouseout指定的函数也不行，因为它运行的前提就是有onmouseover被触发。
 **link标签**：
 ```html
@@ -107,8 +97,20 @@ requireAll(req)//全部遍历出来。
 `<embed type="image/svg+xml" codebase="http:"></embed>`标签是H5新标签所有主流浏览器都支持，codebase属性中写资源路径,可以引入脚本;类似iframe标签用于引入外资源(`<iframe>`标签只在大部分浏览器可用),但规范的xhtml和html中不支持`<embed>`标签.`<object data="rect.svg" type="image/svg+xml" codebase="http">`
 `</object>`标签是H4的新标签，浏览器支持性差，但不能引入脚本.(引入的文件中的js对象和本页的js对象是不能共用的,且在引入的文件中获取的url也不是该页的)
 **引入页面中刷新父页面更改浏览器url**：
-在`<iframe><embed><object>`标签中若是有用到跳转页面使用window.location.href或window.open()或a标签中的跳转，页面跳转后还是只是显示在\<iframe>...这些标签之中，但使用window.parent.frames.location.href = ""能让上一个页面跳转或直接`window.parent.location.href,window.top.location.href`让最外层的页面跳转，a标签中的跳转可用target="parent"和target="top"来实现。获取前一页url：document.referrer;//包括传参也会获取到
-#### 4、canvas:
+在`<iframe><embed><object>`标签中若是有用到跳转页面使用window.location.href或window.open()或a标签中的跳转，页面跳转后还是只是显示在\<iframe>...这些标签之中
+但使用window.parent.frames.location.href = ""能让上一个页面跳转或直接`window.parent.location.href,window.top.location.href`让最外层的页面跳转，
+a标签中的跳转可用target="parent"和target="top"来实现。获取前一页url：document.referrer;//包括传参也会获取到
+**iframe属性：**[参考地址](https://www.cnblogs.com/hzb462606/p/11394683.html)
+```html
+<iframe frameborder="0" sandbox=""></iframe>
+<!--sandbox:
+allow-same-origin：允许 iframe 内容被视为与包含文档有相同的来源；
+allow-top-navigation：允许 iframe 内容从包含文档导航（加载）内容；
+allow-forms：允许表单提交；
+allow-scripts：允许脚本执行；
+-->
+```
+## 4、canvas:
 `<canvas width="500" height="500"></canvas>`
 ```js
 //-----HTMLCanvasElement//表示页面内所有canvas元素，其余元素也有此类似对象。
@@ -235,7 +237,7 @@ window.onkeydown = function(){
 第一个条语句用globalCompositeOperation可用for循环配合动态变量，绘制多个图形，放在动画代码中依然可用。
 ctx.isPointInPath(x,y);ctx.isPointInStroke(x,y);//检测坐标点x,y是否在画笔对象ctx所绘制的图形中和边框上，canvas上绘制的图形与html元素在生成的方式、操作上不一样所以canvas绘制的图形不能用addEventLisener()来添加鼠标事件，所以可以借用以上这两个方法来添加鼠标事件效果。(不过这两个方法只支持使用begInPath()方法绘制出来的图形对象。)
 
-#### 5、概念
+## 5、概念
 **位图与矢量图**：位图又叫做点阵图，是一个个很小的颜色小方块组合在一起的图片。一个小方块代表1px（像素）。矢量图是由一个个点链接在一起组成的，是根据几何特性来绘制的图像，和位图的分辨率是没有关系的。因此图片放大后也不会失真，不会出现位图的马赛克的样子，也就是说可以无限放大图片。
 >图片处理专项：(png转为jpg后一般能缩小一半，但png色彩更丰富，且透明背景属性，所以项目中一般使用的是png)
 >jpg：全名是JPEG，是数码相机的常用格式，特点呢就是色彩还原性好，天生适合风景照，可以在照片不明显失真的情况，大幅度降低体积。
@@ -255,7 +257,7 @@ ctx.isPointInPath(x,y);ctx.isPointInStroke(x,y);//检测坐标点x,y是否在画
 - 访问域名：Endpoint 表示 OSS 对外服务的访问域名。OSS 以 HTTP RESTful API 的形式对外提供服务，当访问不同的 Region 的时候，需要不同的域名。
 - AccessKey：AccessKey，简称 AK，指的是访问身份验证中用到的 AccessKeyId 和AccessKeySecret。OSS 通过使用 AccessKeyId 和 AccessKeySecret 对称加密的方法来验证某个请求的发送者身份。AccessKeyId 用于标识用户，AccessKeySecret 是用户用于加密签名字符串和 OSS 用来验证签名字符串的密钥。
 - [学习地址。](http://www.360doc.com/content/18/0823/22/49604565_780716594.shtml)
-#### 6、web中的安全措施：
+## 6、web中的安全措施：
 1. **sql注入**：通过输入框中输入一些sql的插入、删除等语句，在传到后台时被运行，然后操作数据库。防御：做一些正则匹配，替换输入中的特殊字符等，后台做一些站位等措施。
 2. **XSS**： (Cross-Site Scripting)，跨站脚本攻击,因为缩写和 CSS重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的Web网站注册用户的浏览器内运行非法的HTML标签或JavaScript进行的一种攻击。
 - 可能造成以下影响：利用虚假输入表单骗取用户个人信息。利用脚本窃取用户的Cookie值，被害者在不知情的情况下，帮助攻击者发送恶意请求。显示伪造的文章或图片。
@@ -327,7 +329,7 @@ addTask('task1');
 X-FRAME-OPTIONS是一个 HTTP 响应头，在现代浏览器有一个很好的支持。这个 HTTP 响应头 就是为了防御用 iframe 嵌套的点击劫持攻击。
 该响应头有三个值可选，分别是：DENY，表示页面不允许通过 iframe 的方式展示。SAMEORIGIN，表示页面可以在相同域名下通过 iframe 的方式展示。ALLOW-FROM，表示页面可以在指定来源的 iframe 中展示。
 [web端安全问题及应对方法。](https://www.cnblogs.com/pretty-sunshine/p/11442326.html)
-#### 7、HTML规范：
+## 7、HTML规范：
 `<!DOCTYPE>` 声明不是 HTML 标签；它是指示 web 浏览器关于页面使用哪个 HTML 版本进行编写的指令。在 HTML 4.01 中，<!DOCTYPE> 声明引用 DTD，因为 HTML 4.01 基于 SGML。DTD 规定了标记语言的规则，这样浏览器才能正确地呈现内容。HTML5 不基于 SGML，所以不需要引用 DTD。[doctype类型参考学习地址。](https://blog.csdn.net/Whisper_a/article/details/38706901)
 html5中加了一些新的规范，如下示例：[H5的一些新标签的使用学习地址。](https://www.cnblogs.com/nuanai/p/8856814.html)
 ```html
@@ -352,7 +354,7 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 <meta name="apple-mobile-web-app-capable" content="yes"><!--设置Web应用是否以全屏模式运行,content的默认值是no-->
 ```
 注释常用语：`//TODO`(待实现的功能)、`//FIXME`(需要修正的功能)、`//XXX`(需要改进的功能)
-#### 9、好用标签：
+## 9、好用标签：
 **hr标签**：
 ```html
 <hr class="hr" data-content="分隔线" /><!--文字会显示在正中-->
@@ -415,7 +417,24 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 ```
 **input所有type类型**：
 tel、number、email、text、radio、checkbox、image、date、color、button、submit、hidden、month、password、range、reset、search、time、url、week、file、month、datetime-local
-#### 10、文字继承单选框和复选框：
+
+**table的使用**：其直接属性控制的样式与css样式不同一。
+```html
+<table border="1" cellspacing="0" cellspadding="0" rules="rows" bordercolor="#e3e3e3">
+<!--border为线宽，cellspacing为格间距
+rules：规定内侧边框的哪个部分是可见的。frame：规定外侧边框的哪个部分是可见的；    //border为0时这两个属性不生效。
+-->
+<thead>
+<tr><th></th></tr>
+</thead>
+<tbody>
+<!--width可直接调整该列宽-->
+<tr><td rowspan="2" colspan="3" width="150"></td></tr>
+</tbody>
+</table>
+```
+- [table属性大全](https://www.w3school.com.cn/tags/tag_table.asp)
+## 10、文字继承单选框和复选框：
 ```html
 <input type="radio" id="a"/> <label for="a">点我触发前面id为a的单选框</label>
 <input type="checkbox" id="b"/> <label for="b">点我触发前面id为b的复选框</label>
@@ -431,7 +450,7 @@ ele = document.getElementById("ele");
 ele.checked = false;//false表示没选中，true改为选中。
 ele.checked;//获取复选框状态返回true/false(布尔值，非字符串)。
 ```
-#### 11、拖拽：
+## 11、拖拽：
 将一个元素拖拽到另一个元素。
 ```html
 <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
@@ -455,7 +474,7 @@ ele.checked;//获取复选框状态返回true/false(布尔值，非字符串)。
     }
 </script>
 ```
-#### 12、问题及解决：
+## 12、问题及解决：
 1. 单个页面多场景问题：逻辑复杂的地方解耦开，分页处理。两个页面公共组件多考虑细分，逻辑部分用mixins抽离较合理。
 2. 大页海报绘制问题：使用canvas绘制，计算数据使用workers计算，提高性能。
 3. 登录页安全策略：使用md5+非对称加密，使用安全键盘（前端绘制）。加密后的内容如果使用url传参的方式上送，会被浏览器转义部分内容，可以用encodeURIcomponent()编码再传，java用URLDecode
@@ -507,11 +526,11 @@ export default {mixins:[mixin...]}//将一些公用的js方法以mixin注入，�
 </script>
 ```
 
-### 二、CSS
+# 二、CSS
 :::alert-info
 简介：css(Cascading Style Sheets)层叠样式表，1996-12-17css1诞生，2003年1月svg被定为w3c规范，但当时的网页只是图文内容，css更受偏爱。
 :::
-#### 1、基础：
+## 1、基础：
 - **流**：俗称文档流，指的是css中的基本的定位和布局机制，css中的布局规则。所以从上而下从左至右的描述只是css的一个默认流而已。
 - **自适应布局**：对凡是具有自适应布局的一类统称，流体布局是自适应布局的一部分，但**流体布局**狭窄的多，<b class="violet">如div+css就是流布局，而table布局则不属于流布局，因为css真正是从css2.1开始的，IE8开始支持它，在这之前table就已经存在，所以ie8前的浏览器多数使用table布局。</b>
 - **css3**：移动端的掀起崔氏css3的产生，css3中新添了很多丰富网页的属性，如3d、变换、渐变、圆角、弹性布局、栅格布局、动画等。但并未影响，更新之前2.1的流属性。
@@ -665,7 +684,7 @@ div{
 /*var()中调用对应的变量值*/
 .div{background-color: var(--wcs-bg);}
 ```
-#### 2、尺寸单位：
+## 2、尺寸单位：
 - **em**：是根据当前元素字体大小而变化的,列入当前元素font-size:14px;width:10em,此时width为140px(每1em为字体大小)。
 - **rem**：是继承根部元素(html)的字体大小的,例:html{font-size:16px;}.div{width:10rem;}//width为160px。用以下代码修改根元素大小。
 
@@ -686,7 +705,7 @@ transfer();
 - **vh**：视窗高度，1vh相对于视窗高度的1%。
 - vmin和vmax：vw和vh中选择最小/最大那个。
 
-#### 3、css3：
+## 3、css3：
 - css3倒影：
 
 ```css
@@ -743,7 +762,7 @@ i{
     background: linear-gradient(70deg,#9b3675 15%,#1597bb 40%,#6155a6 90%,#364547 100%);
 }
 ```
-#### 4、未知大小元素居中：
+## 4、未知大小元素居中：
 - 使用table布局：
 ```css
 .parent1{
@@ -795,7 +814,7 @@ i{
 }
 ```
 - 使用弹性布局的：justify-content:center;align-items:center;
-#### 5、弹性布局：
+## 5、弹性布局：
 ```less
 .box{
     display:flex;
@@ -818,7 +837,7 @@ i{
 ```
 [flex布局学习地址。](https://www.runoob.com/w3cnote/flex-grammar.html)
 **一排固定几个元素**：使用justify-content:space-between且给子元素宽度时，这时宽度不起用，需要加上：flex-direction: row;flex-wrap: wrap;这样每行就能像想象的个数显示。
-#### 6、栅栏布局：
+## 6、栅栏布局：
 :::alert-info
 **简介**：栅栏布局也是css3的内容，是一种将元素分割为模块组合形式的布局方式。兼容性也还不错，ie9中需要对父元素做清除浮动操作才能正常显示。
 :::
@@ -858,7 +877,7 @@ i{
 </style>
 ```
 - [学习地址。](http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html)
-#### 7、预编译的css：
+## 7、预编译的css：
 - **sass与scss**：scss是sass的升级版。
 
 ```scss
@@ -908,6 +927,7 @@ $subMenuHover: #9900ff;
 ```
 - [sass中文档](https://www.sasscss.com/documentation/syntax/parsing)
 - **less**：
+
 ```less
 @import "typo.css";//导入文件。
 @width: 10px;
@@ -923,9 +943,18 @@ $subMenuHover: #9900ff;
     display: block;
   }
 }
+// 函数使用
+#colors() {
+  primary: blue;
+  secondary: green;
+}
+.button {
+  color: #colors[primary];
+  border: 1px solid #colors[secondary];
+}
 ```
 - [less文档。](https://less.bootcss.com/#概览)
-#### 8. css架构：
+## 8. css架构：
 - 命令规则：一般使用BEM命名方式：`模块_描述--详细描述`，一套组件内的命令：`c-`。表状态：`is-或has-`。示例如下：
 ```html
 <div class="comment--info">
@@ -938,12 +967,12 @@ $subMenuHover: #9900ff;
 - mixin：使用多的复杂样式也可以定义为minx，然后include注入使用。
 - [参考学习地址](https://zhuanlan.zhihu.com/p/32952130)
 
-### 三、javascript
+# 三、javascript
 :::alert-info
 **简介**：JavaScript由3部分组成：**ECMAScript**：解释器。翻译兼容性：完全兼容。**DOM**：Document Object Model （文本对象）兼容性：部分不兼容。**BOM**：Browser Object Model （浏览器对象）兼容性：不兼容（例如IE，谷歌，火狐，不可能兼容），核心是window，全局对象。dom针对的是标准的客户端控件，html标记的这些浏览器展现的内容。bom针对的是浏览器，BOM是浏览器对象模型，DOM是文档对象模型，前者是对浏览器本身进行操作，而后者是对浏览器（可看成容器）内的内容进行操作。js是**脚本语言**、**单线程**语言。
 :::
 
-#### 1、数据类型：
+## 1、数据类型：
 数据类型包括：数值、字符串、布尔、null(表示尚未存在的对象)、undefined(当声明的变量还未被初始化时，变量的默认值为undefined。)、对象(对象又包括列表、函数、字典)，6种。#alert(null == undefined); //output "true"  。ert(null === undefined); //output "false" 
 **数值**：
 `parseInt("fjdk889")`//转为整型889,剔除字符串。`parseFloat()`//转为float型。`num.toFixed(2)`;//保留小数位数。8进制，十六进制数也可直接写入：`var v = 070`#八进制的56。`var c = 0XA`#16进制的10。**转为字符串**：num.toString();
@@ -1205,7 +1234,7 @@ for(var i = 0; i < 5; i++){
 }
 ```
 
-#### 2、转码：
+## 2、编码相关：
 ```js
 encodeURIComponent("<svg>")#不会对 ASCII 字母和数字,标点字特殊符等进行编码
 encodeURI('汉字');//url传参汉字时可以先encodeURI()对中文编码,浏览器会自动解码
@@ -1228,7 +1257,7 @@ console.log(atob("amF2YXNjcmlwdA=="))// 'javascript'
 (0x16).toString(10) // =>"22"。//16进制转为10进制
 (0x16).toString(8) // =>"26"。//16进制转为8进制
 ```
-#### 3、基础：
+## 3、其它：
 - **SSE与WebSocket**:
 SSE(Server-Sent Eevents，服务器发送事件)用于创建到服务器的单向连接。
 
@@ -1431,42 +1460,150 @@ function mskPhone(val) {
 var cc = mskPhone.bind({a:112});//bind的第一个参数是函数mskPhone的this，其它参数按序传入。
 console.info("cc===",cc("18313746328"));//这里调用，参数接着上面的
 ```
-#### 4、文件下载：
+## 6、BOM：
+### [1]事件：
+**事件流**：事件流描述的是从页面中接收事件的顺序。事件发生时会在元素节点与根节点之间按照特定的顺序传播，路径所经过的所有节点都会收到该事件，这个传播过程即DOM事件流。事件传播的顺序对应浏览器的两种事件流模型：捕获型事件流和冒泡型事件流。
+冒泡型事件流：事件的传播是从最特定的事件目标到最不特定的事件目标。即从DOM树的叶子到根、到window对象。
+捕获型事件流：事件的传播是从最不特定的事件目标到最特定的事件目标。即从DOM树的根到叶子。
+**事件绑定**：
 ```js
-export function download(url, params, filename) {
-	//"Content-Type": "application/x-www-form-urlencoded",
-	return request.post(url, params, {
-		headers: {
-			"Content-Type": "application/json",
-			"Accept-Encoding": "gzip,deflate,br",
-			"Accept": "*/*"
-		},
-		responseType: "blob"
-	}).then((data) => {
-		const content = data;
-        // 将文件转为数据对象。
-		const blob = new Blob([content]);
-		if ("download" in document.createElement("a")) {
-        // 创建a标签，主动触发其点击，然后下载（当前页面下载），用户点击的a标签下载似乎会打开新页面。
-			const elink = document.createElement("a");
-			elink.download = filename;
-			elink.style.display = "none";
-			elink.href = URL.createObjectURL(blob);
-			document.body.appendChild(elink);
-			elink.click();
-
-			URL.revokeObjectURL(elink.href);
-			document.body.removeChild(elink);
-		} else {
-			navigator.msSaveBlob(blob, filename);
-		}
-	}).catch((r) => {
-		console.error("er--",r);
-	});
+<p onclick="start()"></p>// 原生的事件绑定。
+function start(){};
+// js动态绑定事件
+document.getElementById("myBtn").addEventListener("click", function(e){
+    // 第一个参数是事件类型，第二个参数是一个函数，会为其传入一个参数为事件对象，可以用e.target
+    document.getElementById("demo").innerHTML = "Hello World";
+});
+```
+**事件冒泡与事件捕获**：由于老版本的浏览器不支持，因此很少有人使用事件捕获。我们也建议读者放心地使用事件冒泡，在有特殊需要时再使用事件捕获。
+![paopao](_v_images/20200424091838620_274839134.png =270x)
+**DOM事件流**：**先发生事件捕获再发生事件冒泡**，父元素捕获事件流（捕获阶段不会接收到事件），具体绑定事件的元素接收到事件后再发生事件冒泡。
+在不同浏览器中，冒泡的程度不同：IE 6.0:div -> body -> html -> document。其他浏览器:div -> body -> html -> document -> window。
+并不是所有的事件都能冒泡，以下事件不冒泡：blur、focus、load、unload。解决办法：
+```js
+if(event && event.stopPropagation){ // w3c标准
+    //event.preventDefault():阻止默认行为；
+    event.stopPropagation();//阻止冒泡1.
+}else{ // IE系列 IE 678
+    event.cancelBubble = true;
 }
 ```
-[Blob的使用](https://www.cnblogs.com/cheng825/p/11694348.html)
-#### 7、DOM：
+**鼠标事件**：
+```js
+var el = document.getElementById("el");
+el. onmouseenter = function(e){}          //鼠标在进入时触发
+el.onmousedown = function(e){}            //鼠标在元素上按下时触发
+el.onmousemove = function(e){}            //鼠标在元素上移动时触发
+el.onmouseup = function(e){}              //鼠标在元素上松开时触发
+el.onmouseover = function(e){}            //鼠标指针移出某个元素到另一个元素上时发生
+el.mouseout = function(e){}               //鼠标指针位于某个元素上且将要移出元素的边界时发
+el.onmouseleave = function(e){}           //鼠标指针位移出元素时发生
+```
+
+**事件委托/代理**：利用事件冒泡，我们想让用户点击一个块的每个子元素都触发一个事件，可以将该事件绑定再这些子元素的父元素上就可以不用每个子元素都去绑定了。
+**获取鼠标事件目标的属性**：
+```js
+event.target.nodeName//获取事件触发的标签名
+event.target.className//获取事件触发的元素的类名
+event.target.id//获取事件所触发的元素的id名
+event.target.innerHTML//获取事件触发的元内容
+e.currentTarget//指的是真正触发事件的那个元素;e.target：触发事件元素的父级元素。
+```
+**移动端手指事件**:
+需要使用事件绑定函数：addEventListener()或on()；
+touchstart:手指触摸屏幕;addEventListener('touchstart',function(){})
+touchmove:手指在屏幕上移动
+touchend:手指离开屏幕
+```
+event.touches[0].pageX,event.touches[0].pageY//手指坐标，touchend事件中不能用
+event.changedTouches[0].pageX,event.changedTouches[0].pageY;//都可用支持多指触摸事件？？？
+```
+
+并不能完美的控制元素滑动的位置(做滑动元素时还是多使用overflow:scroll属性做滑动，滑动结束后改变scroll位置(若要平滑效果用动画的方法设置))。添加手指事件的元素最好都添加颜色（即便是透明）遇到过这种情况。
+**自定义事件**：
+```js
+// 一个元素设置监听事件名可随意。
+document.body.addEventListener('文章勿盗', (event) => {
+    console.dir(event.detail);
+});
+// 为该自定义事件设置，要传参必须制定使用detail。
+var k = new CustomEvent('文章勿盗', {
+    detail: 55
+});
+// 触发该事件。
+document.body.dispatchEvent(k);
+```
+ie14下没有detail值，兼容写入如下：
+```js
+(function () {
+    if (typeof window.CustomEvent === 'function') {
+        // 如果不是IE
+        return false;
+    }
+
+    var CustomEvent = function (event, params) {
+        params = params || {
+            bubbles: false,
+            cancelable: false,
+            detail: undefined
+        };
+        var evt = document.createEvent('CustomEvent');
+        evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+        return evt;
+    };
+
+    CustomEvent.prototype = window.Event.prototype;
+
+    window.CustomEvent = CustomEvent;
+})();
+```
+**onselectStart事件**：`<p onselectStart="return false">积分抵啊放假</p>`
+**监听浏览器刷新&退出**：
+```js
+window.onbeforeunload=onclose;//刷新和关闭操作都会触发onbeforeunload事件。
+function onclose(){
+    // 该判断，关闭时才触发。
+    if(event.clientX>document.body.clientWidth&&event.clientY<0||event.altKey){
+        return "您要离开吗？";
+    }
+}
+/*===========
+浏览器获得焦点与，失去焦点事件
+============*/
+window.addEventListener("focus",function(){document.title="获得焦点";});// 刚打开页面不会触发。
+window.addEventListener("blur",function(){document.title = "去哪了，快回来！"});// 切到其它网站页面时触发。
+```
+### [2]打印功能：
+```js
+// 打印print_content元素内容
+function printExample() {
+	let nt = document.getElementById("print_content");
+	// 克隆该节点
+	let clone = nt.cloneNode(true);
+	clone.style.width = "1000px";
+
+	const newWin = window.open(""); // 新打开一个空窗口
+
+	var styleTag = document.createElement("style");
+	styleTag.innerHTML = `div{box-sizing:border-box;}.table{width:100%;}.table td{padding:5px;}.right{
+    text-align:right;}.right-border{border-right:1px solid black;}.product{border:2px solid black;
+  border-top:none;}.row div{padding:8px 5px;}`;
+   newWin.document.title = "报关单打印";
+
+	newWin.document.head.appendChild(styleTag);
+	newWin.document.body.appendChild(clone);
+
+	newWin.document.close(); //关闭文档输入流（window.close()和document.close()的区别）
+	newWin.focus();
+	setTimeout(() => {
+		//定时器等待，JS单线程，异步执行此行代码
+		newWin.print();
+		newWin.close(); //打印完成或取消，关闭新窗口
+	}, 300);
+}
+```
+- [参考学习地址](https://www.cnblogs.com/weiyu11/p/7574726.html)
+## 7、DOM：
 **获取元素尺寸相关**：
 ```js
 el.offsetHeight;// 包括边框+内边距+内容尺寸
@@ -1490,7 +1627,7 @@ el.previousSibling;//选取上一个节点
 el.nextSibling;//选取下一个节点
 a.contains(b)/a.compareDocumentPosition(b);//判断一个元素是否包含另一个元素
 el.removeChild(ak);// 删除元素节点//只能用父元素删除子元素的方式
-el.cloneNode();// 复制元素//复制的元素会复制其所有属性,但并不会复制其文本内容和html结构。
+el.cloneNode(true);// 复制元素,true是会连其子元素一齐复制
 el.childNodes;// 返回元素的所有子元素(两种不同情况返回的长度)、
 el.childNodes[0].nodeName;//节点名,为间隙或文字则为#text为元素则为。大写的标签名,nodeValue;//节点中的文本内容(非html结构)
 ```
@@ -1508,7 +1645,7 @@ el.childNodes[0].nodeName;//节点名,为间隙或文字则为#text为元素则�
 - `ele.style.setProperty(‘样式名’,’样式值’);`//更新的方式写入，不会去除不相关样式。
 - **为元素添加类名或id名**：setATTribute(“class”,“new”)，element.className=””;setATTribute(“id”,”id”),element.id=””;
 - 使用removeATTribute(“class”.”id”)（也可用来移除id名）或.classList.remove(“id”)来移除元素类名。
-#### 8、音视频：
+## 8、音视频：
 **调用摄像头**：[参考学习地址](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia)
 - [video所有属性及js方法](https://www.cnblogs.com/TF12138/p/4448108.html)
 
@@ -1669,7 +1806,7 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 - 这个协议建立在TCP协议或者轮询HTTP协议之上。所以理论上可以用js实现rtmp协议，似乎也有人这么做，但没找到相关的解析rtmp协议的js库。
 - [git地址](https://github.com/chxj1992/rtmp-streamer)
 - [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia浏览器rtmp播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)
-#### 10、选择文件：
+## 10、选择文件：
 input中的file属性提供了一个从本地图库选择图片文件的功能,以下代码将选中的图
 片显示在页面上：
 ```html
@@ -1743,7 +1880,7 @@ var form_ = new FormDat(form);
 //将值写到表单里对应的元素的value值中来上传
 form_.set('name',value),form_.append('name',vlaue),form_.get('name')
 ```
-#### 14、判断图片加载:
+## 14、判断图片加载:
 凡带加载性质的元素均有onreadyStateChange事件，不过不同浏览器的支持不同，一些浏览器可能会失效。
 img.onload事件(最好用的判断加载的方法)：
 ```html
@@ -1766,7 +1903,7 @@ img.onreadystatechange = function(){
 </script>
 ```
 https://www.cnblogs.com/snandy/p/3704938.html
-#### 15、兼容性问题：
+## 15、兼容性问题：
 事件的兼容性处理：
 ```js
 el.onclick = function(event){
@@ -1797,7 +1934,8 @@ ela.compareDocumentPosition(elb);//是则返回20，否为10,低版本的firefox
 ```
 https://www.jb51.net/article/81704.htm
 https://www.jb51.net/article/84596.htm
-#### 16、ajax:
+## 16、网络相关：
+### 1、ajax:
 - **原生ajax的写法**：
 
 ```js
@@ -1860,7 +1998,43 @@ xhr.onreadystatechange = ()=>{
 >jsonp：使用`<script src="http://a.com?id=15">`标签能跨域的特性，发起get请求让后台返回想要的数据，甚至在里面写上触发前端函数的方法。
 >cros：后台直接配置cros即可。**浏览器将CORS请求分成两类**：简单请求（simple request，请求方式受限，字段受限）和非简单请求（not-so-simple request）。
 >webscoket和workers的postMessage可以跨域。
-#### 17、拦截浏览器回退：
+
+### 2、文件下载：
+```js
+export function download(url, params, filename) {
+	//"Content-Type": "application/x-www-form-urlencoded",
+	return request.post(url, params, {
+		headers: {
+			"Content-Type": "application/json",
+			"Accept-Encoding": "gzip,deflate,br",
+			"Accept": "*/*"
+		},
+		responseType: "blob"
+	}).then((data) => {
+		const content = data;
+        // 将文件转为数据对象。
+		const blob = new Blob([content]);
+		if ("download" in document.createElement("a")) {
+        // 创建a标签，主动触发其点击，然后下载（当前页面下载），用户点击的a标签下载似乎会打开新页面。
+			const elink = document.createElement("a");
+			elink.download = filename;
+			elink.style.display = "none";
+			elink.href = URL.createObjectURL(blob);
+			document.body.appendChild(elink);
+			elink.click();
+
+			URL.revokeObjectURL(elink.href);
+			document.body.removeChild(elink);
+		} else {
+			navigator.msSaveBlob(blob, filename);
+		}
+	}).catch((r) => {
+		console.error("er--",r);
+	});
+}
+```
+[Blob的使用](https://www.cnblogs.com/cheng825/p/11694348.html)
+## 17、拦截浏览器回退：
 ```js
 // 拦截history模式的回退。
 pushState()和popstate是H5的新属性。
@@ -1873,7 +2047,7 @@ history.pushState(null,null,document.URL);
 function c(){var url = window.location.href;}//获取到的是变化后的地址。用正则表达式来监听是否是回退到了上一个页面。
 window.onhashchange = c; //onhashchange可以今天hash模式的变化，触发函数c。
 ```
-#### 18、json：
+## 18、json：
 ```js
 var obj = {name:"wcs",id:21}
 obj = JSON.stringify(obj);// {"name":"wcs","id":21}
@@ -1891,7 +2065,7 @@ eval("obj.a."+b+"["+ "'"+v+"'" +"]")//这种情况v两边加单引号。
 var obj = {a:{c:1,n:2},b:[0,1,2]};
 eval("obj.a.c")//1,eval("obj.a"+['c']])//1
 ```
-#### 19、页面间传值：
+## 19、页面间传值：
 1、url传参。(域名或路径后将参数用?或#号分割,参数间用&分割)
 2、cookie缓存。(格式建议与url传参写成一样的)
 3、Storage缓存。(页面间调用storage中的值,将一个数组存入后会变为逗号分割)
@@ -1906,7 +2080,7 @@ console.log(window.opener.a);//window.opener会将前一个页面的所有对象
 //一个对象的形式，b页面可以使用，但对用户体验不好。
 ```
 
-#### 20、运行环境检测
+## 20、运行环境检测
 
 ```js
 var browser = {
@@ -1961,7 +2135,7 @@ window.requestAnimationFrame(play);//开始第一帧
 cancelAnimationFrame()//方法取消动画。
 ```
 
-#### 22、jquery的使用：
+## 22、jquery的使用：
 ready()方法：下载好资源后浏览器先对html文件从上往下进行解析,当遇到css样式表时先解析形成CSSOM,然后DOM和cssom形成一颗渲染树进行渲染(先摆放元素位置大小再加样式)
 如果遇到同步js文件(为设置async的script标签)会先解析js文件即:阻断对html的解析.所以推荐奖css样式文件放在头部,js文件放在html尾部。
 将引入js文件的位置放在头部时若js文件中获取html中DOM元素就会失败,解决方法：
@@ -1977,14 +2151,14 @@ https://developer.mozilla.org/zh-CN/docs/Web/Events/DOMContentLoaded
 隐藏和显示：$("p").hide();$("p").show();
 淡入淡出：$("#p").fadeIn(1000,callback);$("#p").fadeOut(1000,callback) //第一个参数是变化的时间，第二个参数是运行完成后的回调函数。
 动画： $("div").animate({left:'250px'},2000,callback);//变换的属性、时间、运行完后的回调。
-#### 23、es6语法：
+## 23、es6语法：
 因为是在2015发布的，所以又用ES2015+来代替。
 ```js
-let a = 10;//#######块级作用域let定义变量,只在定义的块或附近的块有用，如for循环中
+let a = 10;//###块级作用域let定义变量,只在定义的块或附近的块有用，如for循环中
 let a = () => 1;
 alert(a);// 报错 a已被清除。
 const a = 20;//const定义常量，第一次赋值后不能被改变。但如果是用来定义一个对象的话是可以改变其值的。
-/*#######箭头函数，this*/
+/*###箭头函数，this*/
 let foo = () => 1;//建立一个名为foo的函数返回值1，传参数时就等号后就写括号，
 // var f = (1,2) =>{};多个参数时的写法，单个参数可不写括号，箭头指向执行语句
 ()=>{};// 将无名函数作为一个参数时的写法
@@ -2014,7 +2188,7 @@ for(var i of obj){console.log(i);}//for of方法与for in方法不同，for of�
 // 模板字符串
 var name = 'your name is' + f_name + l_name;
 var name = 'your name is ${f_name} ${l_name}';// 变量写在${}中
-//#######模块的使用
+//###模块的使用
 import {a,b} from 'pages/home'
 import a from 'pages/home/index'
 export default{
@@ -2132,119 +2306,9 @@ export default {
 }
 
 ```
-#### 26、BOM：
-**事件流**：事件流描述的是从页面中接收事件的顺序。事件发生时会在元素节点与根节点之间按照特定的顺序传播，路径所经过的所有节点都会收到该事件，这个传播过程即DOM事件流。事件传播的顺序对应浏览器的两种事件流模型：捕获型事件流和冒泡型事件流。
-冒泡型事件流：事件的传播是从最特定的事件目标到最不特定的事件目标。即从DOM树的叶子到根、到window对象。
-捕获型事件流：事件的传播是从最不特定的事件目标到最特定的事件目标。即从DOM树的根到叶子。
-**事件绑定**：
-```js
-<p onclick="start()"></p>// 原生的事件绑定。
-function start(){};
-// js动态绑定事件
-document.getElementById("myBtn").addEventListener("click", function(e){
-    // 第一个参数是事件类型，第二个参数是一个函数，会为其传入一个参数为事件对象，可以用e.target
-    document.getElementById("demo").innerHTML = "Hello World";
-});
-```
-**事件冒泡与事件捕获**：由于老版本的浏览器不支持，因此很少有人使用事件捕获。我们也建议读者放心地使用事件冒泡，在有特殊需要时再使用事件捕获。
-![paopao](_v_images/20200424091838620_274839134.png =270x)
-**DOM事件流**：**先发生事件捕获再发生事件冒泡**，父元素捕获事件流（捕获阶段不会接收到事件），具体绑定事件的元素接收到事件后再发生事件冒泡。
-在不同浏览器中，冒泡的程度不同：IE 6.0:div -> body -> html -> document。其他浏览器:div -> body -> html -> document -> window。
-并不是所有的事件都能冒泡，以下事件不冒泡：blur、focus、load、unload。解决办法：
-```js
-if(event && event.stopPropagation){ // w3c标准
-    //event.preventDefault():阻止默认行为；
-    event.stopPropagation();//阻止冒泡1.
-}else{ // IE系列 IE 678
-    event.cancelBubble = true;
-}
-```
-**鼠标事件**：
-```js
-var el = document.getElementById("el");
-el. onmouseenter = function(e){}          //鼠标在进入时触发
-el.onmousedown = function(e){}            //鼠标在元素上按下时触发
-el.onmousemove = function(e){}            //鼠标在元素上移动时触发
-el.onmouseup = function(e){}              //鼠标在元素上松开时触发
-el.onmouseover = function(e){}            //鼠标指针移出某个元素到另一个元素上时发生
-el.mouseout = function(e){}               //鼠标指针位于某个元素上且将要移出元素的边界时发
-el.onmouseleave = function(e){}           //鼠标指针位移出元素时发生
-```
 
-**事件委托/代理**：利用事件冒泡，我们想让用户点击一个块的每个子元素都触发一个事件，可以将该事件绑定再这些子元素的父元素上就可以不用每个子元素都去绑定了。
-**获取鼠标事件目标的属性**：
-```js
-event.target.nodeName//获取事件触发的标签名
-event.target.className//获取事件触发的元素的类名
-event.target.id//获取事件所触发的元素的id名
-event.target.innerHTML//获取事件触发的元内容
-e.currentTarget//指的是真正触发事件的那个元素;e.target：触发事件元素的父级元素。
-```
-**移动端手指事件**:
-需要使用事件绑定函数：addEventListener()或on()；
-touchstart:手指触摸屏幕;addEventListener('touchstart',function(){})
-touchmove:手指在屏幕上移动
-touchend:手指离开屏幕
-```
-event.touches[0].pageX,event.touches[0].pageY//手指坐标，touchend事件中不能用
-event.changedTouches[0].pageX,event.changedTouches[0].pageY;//都可用支持多指触摸事件？？？
-```
 
-并不能完美的控制元素滑动的位置(做滑动元素时还是多使用overflow:scroll属性做滑动，滑动结束后改变scroll位置(若要平滑效果用动画的方法设置))。添加手指事件的元素最好都添加颜色（即便是透明）遇到过这种情况。
-**自定义事件**：
-```js
-// 一个元素设置监听事件名可随意。
-document.body.addEventListener('文章勿盗', (event) => {
-    console.dir(event.detail);
-});
-// 为该自定义事件设置，要传参必须制定使用detail。
-var k = new CustomEvent('文章勿盗', {
-    detail: 55
-});
-// 触发该事件。
-document.body.dispatchEvent(k);
-```
-ie14下没有detail值，兼容写入如下：
-```js
-(function () {
-    if (typeof window.CustomEvent === 'function') {
-        // 如果不是IE
-        return false;
-    }
-
-    var CustomEvent = function (event, params) {
-        params = params || {
-            bubbles: false,
-            cancelable: false,
-            detail: undefined
-        };
-        var evt = document.createEvent('CustomEvent');
-        evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-        return evt;
-    };
-
-    CustomEvent.prototype = window.Event.prototype;
-
-    window.CustomEvent = CustomEvent;
-})();
-```
-**onselectStart事件**：`<p onselectStart="return false">积分抵啊放假</p>`
-**监听浏览器刷新&退出**：
-```js
-window.onbeforeunload=onclose;//刷新和关闭操作都会触发onbeforeunload事件。
-function onclose(){
-    // 该判断，关闭时才触发。
-    if(event.clientX>document.body.clientWidth&&event.clientY<0||event.altKey){
-        return "您要离开吗？";
-    }
-}
-/*===========
-浏览器获得焦点与，失去焦点事件
-============*/
-window.addEventListener("focus",function(){document.title="获得焦点";});// 刚打开页面不会触发。
-window.addEventListener("blur",function(){document.title = "去哪了，快回来！"});// 切到其它网站页面时触发。
-```
-#### 27、原型：
+## 27、原型：
 - **js中无类的概念**：类意味着复制，传统的类被实例化时，它的行为会被复制到实例中。类被继承时，行为也会被复制到子类中。而js并不会像类那样自动创建对象的副本。
 - **封装**：将一些js语句写到一个方法里面，只留下一些特定的借口供外部访问。
 - **继承**：每个函数中都有一个prototype属性，而这个prototype属性被称为函数 的原型，原型中的所有方法都是可以被外部继承的，而函数方法内（原型外 部）的对象是该函数的私有对象，不能被继承。继承的方法可以使用new 关 键字继承，继承的那个变量就变成了一个对象（是对象而不是函数），继承 之后我们可以使用el[‘name’]=’pro’的方法向其中添加新的属性名属 性值，在原型方法中也可以继承自己的父函数中的原型，这样就可以实现重 复循环的自调用了；也 可以使用call(),applay()方法来继承。
@@ -2374,7 +2438,7 @@ alert(instance1.colors); //"red,blue,green,black"
 var instance2 = new SubType(); 
 alert(instance2.colors); //"red,blue,green"
 ```
-#### 28、函数：
+## 28、函数：
 ```js
 //function后面加名字的属于具名函数，有函数提升的效果（可在创建前就调用函数）
 name();//不报错
@@ -2395,7 +2459,7 @@ function cc() {
 ```
 ![](_v_images/20210303192355713_21879.png =607x)
 - **闭包**：一般来讲，当函数执行完毕后，局部活动对象就会被销毁，内存中仅保存全局作用域。在另一个函数内部定义的函数会将包含函数（即外部函数）的活动对象添加到它的作用域链中。由于闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存。过度使用闭包可能会导致内存占用过多
-#### 31、call()和apply()的使用：
+## 31、call()和apply()的使用：
 apply和call的作用是回调，es6之前很多回调都是使用它们；**Function.apply(obj,args)方法能接收两个参数**obj：这个对象将代替Function类里this对象。args：这个是数组，它将作为参数传给Function（args-->arguments。call:和apply的意思一样,只不过是参数列表不一样。
 ```js
 /*定义一个Person类*/ 
@@ -2414,18 +2478,18 @@ function Person(name,age) {
  alert("name:"+student.name+"\n"+"age:"+student.age+"\n"+"grade:"+student.grade);
 ```
 //学生类里面我没有给name和age属性赋值啊,为什么又存在这两个属性的值呢,这个就是apply的神奇之处.
-#### 32、js垃圾回收机制：
+## 32、js垃圾回收机制：
 多数编程语言都带有垃圾回收机制。现在各大浏览器通常用采用的垃圾回收有两种方法：标记清除、引用计数。
 减少JavaScript中的垃圾回收：
 new关键字就意味着一次内存分配，例如 new Foo()。最好的处理方法是：在初始化的时候新建对象，然后在后续过程中尽量多的重用这些创建好的对象。
 为了最大限度的实现对象的重用，应该像避使用new语句一样避免使用{}来新建对象。
 使用delete x;手动删除一个变量。
-#### 33、节流和防抖动：
+## 33、节流和防抖动：
 所谓的节流就是指用户频繁操作同一个事件，但都是相同的请求，如重复提交表单中的数据，重复下拉刷新请求数据，这会频繁的消耗用户的流量但是无意义的，遇到这种情况做法：写一个定时器，规定时间内只允许操作一次。
 而防抖动是指类似搜索框中要监听用户的输入实时获取将值传给后台获取相应的匹配项，但返回的候选项个数不一样会导致下拉展示条频繁变化抖动。解决：监听到用户输入后设定一个定义器，时间过后执行操作，如果期间接收到监听变化就取消前一个定是器，再重新创建一个，相当与只取最后一次操作，因为此时是最有效的操作。
 这两种思想都类似，不过一个取第一次操作，一个取最后一次操作。[参考地址。](https://www.jianshu.com/p/11b206794dca)
 
-#### 36、console：
+## 36、console：
 console模块不只log()一个函数，全部如下：
 - `console.log("%d年%d月%d日", 2017, 1, 8)`#打印，%是占位符。console.info()#信息。
 - `console.warn()`#警告。
@@ -2437,8 +2501,8 @@ console模块不只log()一个函数，全部如下：
 - `console.table([[1,2,3],[4,5,6],[7,8,9]])`#打印表格
 - console.time()和console.timeEnd()，用来显示代码的运行时间。
 - `console.profile("性能分析器");...中间代码;console.profileEnd("性能分析器");`
-### 四、库&工具
-#### 1、gitHub的使用：
+# 四、库&工具
+## 1、gitHub的使用：
 **安装**：
 1. 进入gitHub官网先注册一个账号,进入菜鸟教程点击git本地命令工具下载链接下载。git Barsh安装成功后打开(是一个命令行工具)；
 2. **生成SSH公钥**：输入`ssh-keygen -t rsa -C "1815161966@qq.com"`回车会提示要在/c/Users/Administrator/.ssh/id_rsa生成秘钥，之后一直回车到生成为止,此时在该路径下找到`id_rsa.pub`(公钥)文件用记事本打开复制里面的所有内容;
@@ -2519,7 +2583,7 @@ win10/控制面板/用户账户/凭据管理器/windows凭据。最下方找到g
 git-gui的使用：在安装目录下的cmd/下。不过是英文的，且没sourceTree那样全面。
 [merge时提示：refusing to merge unrelated histories解决](https://blog.csdn.net/lindexi_gd/article/details/52554159)
 
-#### 3、nodejs：
+## 3、nodejs：
 :::alert-info
 **简介**：js只能运行在浏览器内，相比于其它python，java之类的编程语言可以运行在桌面环境，js弱了很多，而node提供了js可在系统运行的环境，内部加了一些内置api，提供文件io等功能。node.js的最大优点是处理并行访问，如果一个web应用程序同时会有很多访问连接，就能体现使用node.js的优势。另一个好处是，使用javascript作为服务器端脚本语言，可以消除答一些与浏览器端js脚本的冲突。甚至发挥javascript动态编程的特性，在服务器与浏览器之间建立直接的动态程序。而npm是其自带的一个包管理工具。
 :::
@@ -2582,7 +2646,7 @@ npm install vue@3.0      //安装指定版本写法
 3. yarn：并行安装、离线模式、安装版本统一、多注册来源处理。
     - 安装：`npm install yarn -g`
     - yarn安装：yarn install
-##### b、文件操作：
+### b、文件操作：
 读写操作：
 ```js
 var fs = require('fs')
@@ -2609,7 +2673,7 @@ fs.readFile('test.text',{flag:'r',encoding:'utf-8'},function(err,data){
     if(!err){console.log('文件数据'+data)}
 })
 ```
-##### c1、chalk的使用：
+### c1、chalk的使用：
 一个给字体添加样式的包，支持模板使用：
 ```js
 const chalk = require('chalk')
@@ -2618,7 +2682,7 @@ console.log(chalk.red.bold.bgWhite('内容'))
 //模板写法
 console.info(chalk`{blue.bold 内容}`)
 ```
-##### c2、输入，输出：
+### c2、输入，输出：
 ```js
 //方法一
 process.stdin.resume();
@@ -2653,7 +2717,7 @@ rl.on('close', function() {
     process.exit()    //退出命令行。
 })
 ```
-#### 4、第三方平台：
+## 4、第三方平台：
 1. **postman的使用**：
 (百度搜索下载postman安装)输入框左边选择请求方式，输入框中输入请求接口，下方Params项中输入要传的键值和value值，键值和value值的输入不需用单引号或双引号不然会出错,若报错可以在body项中选择form-data然后输入Params项中的键值和value值再点Send。
 2. **微信公众号**：
@@ -2706,9 +2770,46 @@ wx.login({
     - 通过url scheme跳转进来（公众平台/工具，生成类似weixin://dl/business?t=Ljf-...），ios，网页中可直接location.href打开。
     - android App调用：android无法通过scheme调起小程序，不过可以提供**小程序原始id**（公众平台/设置，查看。非小程序id）、线上版本号、页面路径，供其app打开。
 
+- **文件formData上传**：小程序无有formData对象，使用以下方式与formData对象上传文件对象
 
+```js
+wx.chooseImage({
+	count: 1, //默认9
+	sizeType: ["original"], //可以指定是原图还是压缩图，默认二者都有
+	sourceType: ["album"], //从相册选择
+	success: function(res) {
+		//console.log(JSON.stringify(res.tempFilePaths),config.baseUrl + "/system/user/profile/avatar");
+		wx.uploadFile({
+			url: "http://xxx.com/system/user/profile/avatar",
+			filePath: res.tempFilePaths[0],
+			header: {
+				"content-type": "multipart/form-data", //'application/json',
+				token: uni.getStorageSync("token"),
+				Authorization: uni.getStorageSync("token")
+			},
+			name: "avatarfile",
+			formData: {
+				id: 11    //TODO:放置额外的参数
+			},
+			success(rq) {
+				let data = JSON.parse(rq.data);// TODO:返回的是JSON
+				if (data.respCode === "00") {
+					_s.userInfo.avatar = data.imgUrl;
+					uni.showToast({
+						title: "修改成功",
+						icon: "none"
+					});
+				}
+			}
+		});
+	}
+});
+```
+5、动画开发：
 
-#### 6、资源收集：
+- [anime.js文档](https://www.animejs.cn/documentation/#direction)
+
+## 6、资源收集：
 **文章部分**：
 [张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
 [HTML转义字符表](http://tool.oschina.net/commons?type=2)、[HTML标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure各破解版本下载地址。](https://www.axure.com.cn/78629/)、[plotly.js起始教程地址，里面有下载地址(dist文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)、[javascript事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝H5开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)、[validator官网git地址，里面有使用示例。](https://github.com/yiminghe/async-validator#start-of-content)
@@ -2716,10 +2817,10 @@ wx.login({
 **工具部分**：[很多实用前端工具。](https://www.zhihu.com/question/20241338?sort=created)
 - [属性兼容性查看网站](https://caniuse.com/?search=flex)：红色为完全不支持的版本，棕色为部分支持的版本，绿色为几乎全部支持的版本。命令使用：npm install -g caniuse-cmd
 - [配色网站](https://colorhunt.co/)：很多不错的颜色值组合。
-- [诸多在线工具网站](https://tool.lu/)
+- [诸多在线工具网站](https://tool.lu/)、[windows部分批处理命令学习](https://blog.csdn.net/qq_17204441/article/details/89062591)
 
-#### 8、IDE工具:
-##### a、vscode：
+## 8、IDE工具:
+### a、vscode：
 :::alert-info
 支持各种语言的开发,但需要对应的插件来支持,所以会有一定缺陷。打开vscode点击第四个图标(方形)，安装python在点右边的安装。
 :::
@@ -2882,7 +2983,7 @@ var c=89;
 
 Anaconda环境设置：插件安装栏搜索anaconda安装运行即可。
 写python代码没有提示和补全：先确保安装了kite Autocomplete(一个python和javascript的自动补全插件)插件(顺便安装kiteConnect插件)，若安装重启vscode后还未生效，右下角会有kite query install ...的提示，点击install按钮跳到git地址，下方有各系统下载地址，按照教程安装，使用即可，安装后重启vscode即可生效。[git地址。](https://github.com/kiteco/vscode-plugin#installation)
-##### b、sublim编辑器：
+### b、sublim编辑器：
 sublim使用起来在提示方面和运行速度方面都很不错，要使用Anaconda中的环境需要安装一些插件:
 CTRL+SHIFT+p打开输入框输入install Package Control 回车安装再：install Package都安装好后就可以在搜索框中搜索Anaconda回车安装了(左下角)
 [ctrl+Tab]鼠标放在一个调用的函数括号中按ctrl+Tab能还呼出该函数的所有参数。
@@ -2902,7 +3003,7 @@ https://www.jianshu.com/p/0ad5625e9717
  "selector": "source.python"
 }
 ```
-##### c、jetBring公司产品：
+### c、jetBring公司产品：
 
 **主题样式下载**：http://www.riaway.com/theme.php。
 **更换主题后字体会变小问题**：在setting>Editor>Color Scheme>color scheme Font中设置字体大小。注意不是consol Font
@@ -2919,7 +3020,7 @@ Shift + F10#运行。Shift + F9#调试。Alt + Shift + F10  运行模式配置�
 
 - [linux上安装pycharm。](https://blog.csdn.net/xiaoxiaofengsun/article/details/82257391)
 **使用Anaconda环境**：setting>project:name>Project interpreter下拉框中选择运行的环境，添加新的运行环境：下拉框点show all后点击+号>选第二个单选文件夹中选择Anaconda安装目录>envs>wcs>python.exe(envs是自己在anaconda创建的所有环境,wcs是自己创建的一个环境,每个环境下都有一个python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括sublim中切换环境也是切换python.exe的位置。
-##### d、jupyter:
+### d、jupyter:
 一个web式的ide工具，通过电脑上安装jupyter notebook工具，运行后会开通一个本地服务，按照其给出的链接进入web页面，在上面进行编辑代码。支持50多种语言。
 - 安装：`pip install jupyter`。
 - 使用：命令行`jupyter notebook`直接运行会出现一个链接，在web中打开。#windows端应该是一个虚拟机形似的运行工具。
@@ -2928,7 +3029,7 @@ Shift + F10#运行。Shift + F9#调试。Alt + Shift + F10  运行模式配置�
 e、visual studio：
 下载安装：到官网下载社区版，社区版可免费使用。选中安装位置、下载位置、工具位置。
 新建项目：左上角新建项目。源文件下新建c++文件。
-#### 9、真机调试：(使用谷歌浏览器)
+## 9、真机调试：(使用谷歌浏览器)
 **方法一**：同一局域网内，用手机直接访问node开启的web服务地址(ip地址使用电脑ipv4地址，而不是localhost)。
 **方法二**：使用google浏览器。
 pc端和手机端都下载google浏览器，手机上打开开发者选项并允许使用usb调试(可按链接中教程一样使用安装驱动也可以pc端下载手机助手),手机和pc用数据线连接,然后打开手机端chrome浏览器(确认连接,连接成功后手机助手会显示手机页面),在pc端google浏览器地址栏中输入chrome://inspect进入如下
@@ -2938,7 +3039,7 @@ pc端和手机端都下载google浏览器，手机上打开开发者选项并允
 **问题**：如果方法一无法打开页面，那么可以尝试设置防火墙，设置里有控制各服务允许通过防火墙的设置，找到node,javascript相关字样的，勾选允许即可。
 [解决该问题参考地址。](https://www.cnblogs.com/AwenJS/p/12840924.html)
 
-#### 11、uni-app的使用：
+## 11、uni-app的使用：
 **介绍**：uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉/淘宝）、快应用等多个平台。结合Hbuilder x使用，文件新建一个项目选择uni-app项目(网站、app、小程序都选这个)。[uni-app官网。](https://uniapp.dcloud.io/)[插件市场](https://ext.dcloud.net.cn/search?q=uni-ui)。
 **项目目录结构**：pages文件夹存放业务页面，pages/index/index.vue页面是app打开时的引导页面。创建其它页面时新建一个文件夹然后在文件夹内建页面，可以多个页面放一个文件夹。
 static文件夹存放静态资源文件。main.js文件是vue实例化入口。APP.vue页面写全局样式，生命周期函数。manifest.json文件配置应用名、appid、图标等。package.json配置路由，选项卡、插件、导航条等。
@@ -3057,9 +3158,13 @@ function gowx(){
     }
 }
 ```
+路由及传参：
+getApp().globalData.idenInfo = res;
 
-问题：H5端，页面刷新有时会有无法回退、页面不加载等问题。
-#### 12、富文本编辑器：
+- 问题集合：
+（1）H5端，页面刷新有时会有无法回退、页面不加载等问题。
+（2）打开小程序报：errno: -4083：维新开发工具/设置/安全/打开服务端口
+## 12、富文本编辑器：
 web中使用的富文本编辑器比较多，这里是两个自己尝试过的：
 wangeditor：比较轻便，所以功能没有其它几样多，因为简便所以比较容易引入，几乎不会报异常错误。[wangeditor使用参考地址。](https://www.jianshu.com/p/52852d39f869)
 vue项目中安装：`npm i wangeditor -S`#使用配置如下：
@@ -3117,7 +3222,7 @@ export default {
 引入后报..dont support (text/html) ..css的错误：在`<style></style>`中用@import url("");引入css样式。
 出现找不到中文语言包的问题：！暂未解决。
 [百度umeditor下载地址(选择jsp)。](http://ueditor.baidu.com/website/download.html)[使用参考学习地址。](https://blog.csdn.net/fanhu6816/article/details/81223909)
-#### 13、axios：
+## 13、axios：
 内部依然封装的ajax使用。npm install axios
 
 ```js
@@ -3199,7 +3304,7 @@ axios.request({
 })
 ```
 [axios配置，学习地址。](https://www.cnblogs.com/mica/p/10795242.html)
-#### 14、NUXTJS：
+## 14、NUXTJS：
 :::alert-info
 **ssr实现原理**：ssr有两个入口文件，client.js和server.js 。webpack通过两个入口文件分别打包成给服务端用的server bundle 和给客户端用的client bundle。当服务端接受到来自客户端的请求后，会创建一个渲染器bundleRender, 这个bundleRenderer会读取上面生成的server bundle 文件，并且执行它的代码，然后发送一个生成好的html到浏览器，等客户端加载了client bundle 之后，会和服务端生成的DOM进行Hydration (判断这个DOM和自己即将生成的DOM是否相同，如果相同就是将客户端的vue 实例挂载到这个DOM上，否则会提示警告)。一般只做首屏渲染。
 :::
@@ -3298,7 +3403,7 @@ export default {
 ```
 [参考学习地址。](https://segmentfault.com/a/1190000021050814?utm_source=tag-newest)、[NUXTJS中文网。](https://www.nuxtjs.cn/guide/configuration)、[nuxt部署](https://www.jianshu.com/p/bbe874c32f90)
 
-#### 16、提交代码时检查：
+## 16、提交代码时检查：
 - 简介：husky是git的一个钩子，可以在git的hook中执行一些命令。使用的是eslint检查。prettier可配置vscode格式化方式。lint-staged对git暂存的文件进行lint检查。提交时对暂存的代码用eslint规则检查，出现error的话会禁止提交。
 - 安装：cnpm install --save-dev prettier husky lint-staged eslint
 - [学习地址](https://blog.csdn.net/Jsoning/article/details/103577402)。[prettierpeiz官网](https://prettier.io/docs/en/options.html)。
@@ -3352,7 +3457,7 @@ module.exports = {
 - 提示一些规则没有找到（顶部红色波浪线）：该版本没有对应的规则支持，尝试升级版本。
 - [eslint配置大全。](https://blog.csdn.net/p358278505/article/details/77429251)
 
-#### 18、html2canvas使用：
+## 18、html2canvas使用：
 用于将页面的html节点转化为图片，注意若其中包含图片，使用img标签而不要使用背景图。否则生成的图片不清晰。
 ```js
 import html2canvas from "html2canvas";
@@ -3365,7 +3470,7 @@ const _el = document.getElementById("img");
         oImg.src = canvas.toDataURL(); // 导出图片
         });
 ```
-#### 19、nginx：
+## 19、nginx：
 :::alert-info
 **简介**：是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，在BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力在同类型的网页服务器中表现较好。
 :::
@@ -3418,7 +3523,7 @@ http {
 - [windows端下载地址](http://nginx.org/en/download.html)
 - [参考地址1](https://www.cnblogs.com/goloving/p/13501265.html)、[配置学习地址](https://www.cnblogs.com/jingmoxukong/p/5945200.html)
 
-### 五、android和ios：
+# 五、android和ios：
 **h5在两端的兼容性问题**：
 1. **时间兼容性**：将时间转换为时间戳时，ios端得到NaN问题。解决：安卓用Date.parse(new Date('2018-03-30 12:00:00'))，iosDate.parse(new Date('2018/03/30 12:00:00'))。
 2. **input框聚焦**：有时候，ios有时候会出现outline或者阴影，安卓则是显示正常的。解决：`input:focus{outline:none} input:{-webkit-appearance: none;}`
@@ -3427,7 +3532,7 @@ http {
 5. 键盘挡住下方输入框问题：解决：用`document.querySelector('#inputId').scrollIntoView();`选中对应元素滚动到可视范围。
 - [参考地址1](https://zhuanlan.zhihu.com/p/83969781)。[参考地址2](https://zhuanlan.zhihu.com/p/47584892)。
 
-### 六、typescript：
+# 六、typescript：
 1. **基础类型**：在变量名后声明其类型。<b c=r>声明的变量类型是用小写的，不然某些情况编译不通过。</b>
 
 ```ts
@@ -3593,9 +3698,9 @@ export * from "./StringValidator";
 declare let $:JQuery;
 export default $;//另一个文件import $ from "JQuery";使用。
 ```
-[typescript中文档](https://www.tslang.cn/docs/handbook/decorators.html)。[菜鸟教程](https://www.runoob.com/typescript/ts-ambient.html)。
+[typescript中文档](https://www.tslang.cn/docs/handbook/decorators.html)。[菜鸟教程](https://www.runoob.com/typescript/ts-ambient.html)。[tsconfig.js](https://segmentfault.com/a/1190000021749847)
 
-### 七、测试：
+# 七、测试：
 单元测试：对软件中的最小可测试单元进行检查和验证。
 功能测试：对产品的各功能进行验证。
 集成测试：在单元测试的基础上，将所有模块按照设计要求（如根据结构图）组装成为子系统或系统，进行集成测试。
@@ -3691,7 +3796,7 @@ module.exports = {
 - 运行：script添加运行命令："test:view": "cypress open"，npm run test:view打开cypress测试界面。
 - [cypress英文档](https://docs.cypress.io/guides/overview/why-cypress)
 
-### 八、交互设计：
+# 八、交互设计：
 - 移动端尺寸处理：移动端页面一般都要支持手机上打开无论屏宽，按ui比例显示界面，不过用电脑或平板也应该能打开，<b c=v>所以最外层应该设置个max-width并居中，让pc端也能正常显示。</b>
 - 非堆叠页面及元素的尺寸处理：<b c=gn>元素从上到下几乎用默认流放置的布局页面，我称为堆叠的。</b>
 （1）pc端堆叠类页面，单位一般使用px，大体布局的地方结合百分比使用，设置min-width和适当使用@media，让部分较小的笔记本电脑也能正常显示。
@@ -3699,7 +3804,7 @@ module.exports = {
 
 1、登录页实践
 
-### 九、华为鸿蒙：
+# 九、华为鸿蒙：
 1. 系统层次：[文档学习地址](https://developer.harmonyos.com/cn/docs/documentation/doc-guides/ability-service-lifecycle-0000000000044472)
 - 内核层（进程/线程管理、内存管理、文件系统、网络外设管理等）。
 - 服务层：
@@ -4035,14 +4140,14 @@ HiLog.warn("warn");//输出一条日志
 2. 编译构建APP：配置签名信息、编译构建App、
 3. 上架应用市场
 
-### 十、vuejs：
+# 十、vuejs：
 :::alert-info
 **核心实现**：每个组件实例会有一个渲染watcher，用于收集页面上的绑定的属性。计算属性和监听属性建立后都会各有一个watcher用于手机相应的依赖，并同时向Dep中发布订阅，添加到Dep.subs中，然后各watcher收集到的响应式对象会交给Observe，其使用Object方法集为这些响应式对象添加getter，setter属性，当发生改动时会触发setter，然后setter内根据其绑定的相关watcher通知Dep，触发Dep的notify()函数，去遍历Dep.subs中的订阅者，触发相关watcher的update方法重新计算、渲染。
 :::
 
 ![v2-b94d747fd273ec8224e6349f701430fd_720w](_v_images/20210305103536586_26904.jpg =510x)![vue](_v_images/20210305201824661_21824.png =790x)
 
-#### a1、原理:
+## a1、原理:
 **初始化阶段**(这个阶段主要是把普通对象转化为响应式对象)、**编译阶段**(编译阶段会把options.template编译成render函数，解析template中的数据，事件绑定等)、**挂载阶段**(这个阶段会执行render函数以获取vnode。然后模板引擎根据vnode去生成真实DOM)、**监听阶段**(挂载阶段之后，模板引擎已经渲染好网页，这时就进入了监听阶段。patch函数还会对比新旧vnode，并计算出更新DOM需要的操作。最后由框架更新到网页上)、**注销阶段**(注销过程会先触发beforeDestroy，然后注销掉watchers、child components、event listeners等，之后是destroyed钩子函数)。
 **vue生命周期**：生命周期函数运行顺序如下：注意各阶段对应的钩子函数。
 - **beforeCreate**：new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建。<i class="gray">data和methods中的数据都还没有初始化。因此不能在此调用methods的方法和data的数据。</i>
@@ -4078,7 +4183,7 @@ HiLog.warn("warn");//输出一条日志
 - linux上：安装vue-cli后会在所的nodejs/bin下看到vue。(npm config list#可以查看这个文件的位置)。为这个vue建立一个软链接将其放到/usr/local/bin下，`sudo ln -s /home/wcs/software/nodejs/bin/vue /usr/local/bin/vue`
 - windows上：将`C:\Users\wcs\AppData\Roaming\npm`#vue被下载到该文件，添加到环境变量即可。
 
-#### a2、基本使用：
+## a2、基本使用：
 **$attrs与\$listeners**：
 ```html
 <!--子组件-->
@@ -4197,7 +4302,7 @@ export plugin = {
 import {plugin} from "./plugin.js";
 vue.use(plugin,"hello");//use方法会调用plugin的install()函数
 ```
-#### a3、组件：
+## a3、组件：
 第三方的组件一般安装后可直接单个页面按需引入，对应的插件安装后也可以单页面直接引入使用。子组件使用的数据最好是在父组件mounted之前就生成。
 
 ```js
@@ -4449,7 +4554,7 @@ components:{[Button.name]:Button}//然后按照文档语法使用即可。
 <i class="label3">通过 v-once 创建低开销的静态组件</i>在组件的`<template v-once>`中添加，加载过后里面的内容会被缓存起来。
 <i class="label1">阻止事件冒泡</i>v-on:click.stop='get()'
 
-#### a4、vuex的使用：
+## a4、vuex的使用：
 一个全局变量管理控件。[vuex使用学习地址。](https://segmentfault.com/a/1190000015782272)[vuex官网。](https://vuex.vuejs.org/zh/guide/)
 安装：`npm install vuex --save`#然后在src文件夹下新建一个store文件夹，store内再建一个Index.js文件，文件内容如下：
 ```js
@@ -4562,7 +4667,7 @@ computed:{
       ])
    }
 ```
-#### a5、路由：
+## a5、路由：
 ```js
 import Vue from 'vue';
 import Router from 'vue-router';
@@ -4700,7 +4805,7 @@ router = new Router({mode:"",base:"",routes:[..]});
 // 动态添加路由配置：
 router.addRoutes([{path:"/",component:require('@cmp/eye.vue'),name:""}]);
 ```
-#### b1、混入：
+## b1、混入：
 混入 (mixin) 提供了一种非常灵活的方式，来分发 Vue 组件中的可复用功能。[学习地址。](https://www.jianshu.com/p/1bfd582da93e)
 ```js
 // 局部混入。mixin中的像建立一个vue实例时那样创建created,mounted等属性，这些会被合并到vue实例中，发生冲突时与组件中定义的为准。
@@ -4757,7 +4862,7 @@ export default {
     created(){console.info('最后执行')}
 }
 ```
-#### b2、自定义指令：
+## b2、自定义指令：
 有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用到自定义指令。
 ```js
 <input v-focus />
@@ -4798,7 +4903,7 @@ directives: {
 - vnode：Vue 编译生成的虚拟节点。移步 VNode API 来了解更多详情。
 - oldVnode：上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用。
 
-#### b3、渲染函数&jsx：
+## b3、渲染函数&jsx：
 Vue 推荐在绝大多数情况下使用模板来创建你的 HTML。然而在一些场景中，你真的需要 JavaScript 的完全编程的能力。这时你可以用渲染函数，它比模板更接近编译器。
 ```js
 Vue.component('anchored-heading', {
@@ -4850,7 +4955,7 @@ Vue.component('anchored-heading', {
   }
 })
 ```
-#### b4、插件：
+## b4、插件：
 vuejs的插件是与vue实例分开的，使用时与vue原型绑定在一起。
 ```js
 vue.use(vuex)//使用use方法来导入插件。
@@ -4881,7 +4986,7 @@ MyPlugin.install = function (Vue, options) {
   }
 }
 ```
-#### b5、过滤器：
+## b5、过滤器：
 允许你自定义过滤器，可被用于一些常见的文本格式化。过滤器可以用在两个地方：双花括号插值和 v-bind 表达式
 ```js
 // 局部定义过滤器
@@ -4903,7 +5008,7 @@ Vue.filter('capitalize', function (value) {
 <!-- 在 `v-bind` 中 ，后面可以继续加过滤器：| capitalize-->
 <div v-bind:id="rawId | formatId"></div>
 ```
-#### b6、过渡，动画：
+## b6、过渡，动画：
 vuejs有提供元素在插入，移除时做动画封装，使用起来还算方便。
 ```js
 //fade开头的类名控制动画。
@@ -4931,7 +5036,7 @@ v-leave：定义离开过渡的开始状态。在离开过渡被触发时立刻�
 v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
 v-leave-to：2.1.8 版及以上定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。
 
-#### c1、vue.config.js
+## c1、vue.config.js
 ```js
 module.exports = {
     devServer:{},
@@ -4980,7 +5085,7 @@ VUE_APP_BASE_API = '/base-api'
 VUE_APP_BG_API = '/bg-api'
 ```
 - [vue.config.js官方配置文档](https://cli.vuejs.org/zh/config/#outputdir)
-#### c2、常用修饰符：
+## c2、常用修饰符：
 
 ```html
 <child-component :data.sync="tables"/><!--sync让子组件可以修改该prop的值，且同步到父组件-->
@@ -4993,7 +5098,7 @@ VUE_APP_BG_API = '/bg-api'
 <input v-model.trim="val"/><!--trim:输入框过滤首尾的空格-->
 <input v-model.number="val"/><!--number:先输入数字就会限制输入只能是数字，先字符串就相当于没有加numbe-->
 ```
-#### c3、extend()使用：
+## c3、extend()使用：
 ```js
 import locp from "@/components/loading/loading.vue";
 import Vue from 'vue';
@@ -5015,7 +5120,7 @@ const loading = {
 export default loading;        //导出后可在ajax拦截器，等全局使用。
 ```
 
-### 十一、webpack：
+# 十一、webpack：
 :::alert-info
 **简介**：当项目变得很大之后再按照之前的资源引入方法会很难管理项目，不容易理清其依赖、加载顺序。webpack能自动找到所有依赖，将它们按顺序都打到一个js包中，最后引入。用Loader转换文件、plugin注入钩子。
 **模块化规范**：commonJS：需要通过转换位es5才能在浏览器环境运行。AMD：异步方法加载依赖模块，用于解决浏览器环境模块化问题。现在使用es6也有模块化(但大部分浏览器还不支持)，也需要转换为es5。
@@ -5023,7 +5128,7 @@ export default loading;        //导出后可在ajax拦截器，等全局使用�
 **require与import区别**：require 是赋值过程并且是运行时才执行，也就是异步加载。import 是解构过程并且是编译时执行，性能稍好。两者在webpack中都算是异步方案。
 - require属于commonjs规范的东西社区方案，提供了服务器/浏览器的模块加载方案。只能在**运行时确定模块的依赖关系**及输入/输出的变量，无法进行静态优化。
 - import是es6语法规范，可以解构，语言规格层面支持模块功能。支持编译时静态分析，便于JS引入宏和类型检验。动态绑定。
-#### a0、package.json
+## a0、package.json
 ```js
 {
   "name": "@jeecg/antd-online-mini",
@@ -5040,7 +5145,7 @@ export default loading;        //导出后可在ajax拦截器，等全局使用�
 }
 ```
 
-#### a1、原理：
+## a1、原理：
 Webpack 的构建流程可以分为以下三大阶段：在每个大阶段中又会发生很多事件，Webpack 会把这些事件广播出来供给 Plugin 使用。
 - 初始化：启动构建，读取与合并配置参数，加载 Plugin，实例化 Compiler。
 - 编译：从 Entry 发出，针对每个 Module 串行调用对应的 Loader 去翻译文件内容，再找到该 Module 依赖的 Module，递归地进行编译处理。
@@ -5072,7 +5177,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 });
 ```
 **配置**：[webpack详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)。[devserver属性学习地址。](https://blog.csdn.net/franktaoge/article/details/80083317)
-#### a2、常用loader：
+## a2、常用loader：
 - vue-loader：解析vue文件。
 - css-loader：一般vue-loader解析过后结果css-loader,处理过后会把样式都变成 module 形式，然后直接导出这个模块，模块中包含了 css 的源码跟模块的 id。
 - style-loader：会引用css-loader生成的模块，然后在Html的head中加入style标签，当然也支持link引入等其它方式。
@@ -5145,7 +5250,7 @@ lang指定使用的语言，不写时为普通css。*/
 .k >>> .a{width:500px;}
 </style>
 ```
-#### a3、常用的Plugin：
+## a3、常用的Plugin：
 <b c=b>plugin在loader之后执行，目的在于解决 loader 无法实现的其他事。</b>。这些plugin除了webpack自带的，其它插件还是需要npm安装的。
 - **DefinePlugin**：用于配置可用的全局变量。也可以额外npm install -D dotenv然后根目录下创建.env文件编写，配置中使用require('dotenv').config()，然后一样插件中配置。
 - **HtmlWebpackPlugin**：根据原html文件配置，打包后生成一个html文件，里面可以配置一些生成明细相关。[详细参数](https://www.cnblogs.com/wonyun/p/6030090.html)。
@@ -5160,7 +5265,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-// ###########windows中使用set设置一个临时的环境变量
+// #####windows中使用set设置一个临时的环境变量
 "dev": "set NODE_ENV=development &&  webpack-dev-server --open --hot"
 // mac中使用：export
 "dev": "export NODE_ENV=development &&  webpack-dev-server --open --hot",
@@ -5209,11 +5314,11 @@ module.exports = {
         }]
     }
 }
-//###-----dev.env文件如下内容
+//#-----dev.env文件如下内容
 module.exports = {NODE_ENV:'"development"',NUM:'20'}//注意对应变量是字符串的话需要 '"字符串"',而'20'则该变量是数值。
 ```
 
-#### a5、resolve与output&魔术注释：
+## a5、resolve与output&魔术注释：
 
 ```js
 /**三种hash的区别：（3种hash都是应对浏览器缓存而建立的）
@@ -5252,7 +5357,7 @@ export default new Router({
 });
 ```
 - [其它注释学习参考地址。](https://webpack.js.org/api/module-methods/#magic-comments)
-#### a6、devtool：
+## a6、devtool：
 为便于调试的设置。编译打包后的代码出错时难以找到编译前的位置调试，设置devtool可以让其找到编译前报错位置。
 ```js
 {
@@ -5268,7 +5373,7 @@ export default new Router({
 - 开发环境常用：cheap-module-eval-source-map。
 - 生产环境常用：cheap-module-source-map。
 - [详细学习地址。](https://www.cnblogs.com/jkr666666/p/11067189.html)
-#### a7、vconsole插件：
+## a7、vconsole插件：
 移动端上网页调试颇为不便，使用vconsole模拟控制台功能进行调试。
 - 安装：npm install vconsole
 - main.js中使用：
@@ -5280,7 +5385,7 @@ if (process.env.NODE_ENV === "development") {
     Vue.use(vConsole);
 }
 ```
-#### b、devServer：
+## b、devServer：
 **正向代理**：代理是处于客户端和服务器中间的一台计算机，正向代理是接受客户端的链接，然后向目标服务器请求资源，逐步返回给客户端。正向代理的服务器与目标服务器不在同一网段内，面向服务器。如vpn。
 **反向代理**：面向的是客户端，对外表现为一台服务器，目标服务器放在内网，而反向代理服务器作为网关，访问内网中的服务器需要经过代理服务器，<i class="green">所以目标服务器更安全且压力变小，代理服务器还负责分发内容，缓存前端资源，因此也能优化前端性能。</i>
 vue中使用代理来处理跨域，在config文件夹下的Index.js文件中配置，这个文件是配置运行、打包的一些具体属性的，exports中对应的键值与package.json中的scripts里设置的运行命令对应，用vue-cli初始化的项目则默认是dev和build。
@@ -5321,7 +5426,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 ```
 - [devserver配置部分](https://www.cnblogs.com/wb336035888/p/10448873.html)
 
-#### c、vue多页面应用配置：
+## c、vue多页面应用配置：
 `/build/webpack.base.config.js`文件添加多个主js文件入口，形如：
 ```js
 module.exports = {
@@ -5396,7 +5501,7 @@ new Vue({
 ```
 **访问**：http://127.0.0.1:8080/home.html#/[vue多页面应用配置教程。](https://blog.csdn.net/weixin_44135121/article/details/94445734)
 
-#### e1、px转rem配置：
+## e1、px转rem配置：
 使用插件postcss-plugin-px2rem，安装：npm i postcss-plugin-px2rem -D。然后在vue-loader下配置。！移动端使用。
 ```js
 var px2rem = require('postcss-plugin-px2rem');
@@ -5412,7 +5517,7 @@ modules:{
 }
 ```
 该插件只负责转换尺寸和单位，根元素字体大小在html文件用js去改变，两者配合使用。
-#### f、代码分割：
+## f、代码分割：
 用于将更多的公共模块从大的模块中分离出来。<b c=v>不过尽量将功能中依赖的js都放在一个bundle，这样只用一次http请求。</b>
 - 添加入口的方法来分离代码块：entry多加一个想要分离的js文件，如果这个文件也使用了一些其它公共的模块，同样会同这个js文件进入一个bundle中。
 - 使用CommonsChunkPlugin：插件部分添加该插件和规则，示例如下：<b c=r>webpack4.x后被废弃。改用splitChunkPlugin</b>
@@ -5436,7 +5541,7 @@ modules:{
 - 使用CopyWebpackPlugin将js文件直接从html引入，将js文件放到对应的静态资源文件夹中即可。[Index.html文件引入js文件。](https://blog.csdn.net/qq_15253407/article/details/89491255)
 - 使用commonsChunkPlugin或新版的splitChunk都只能分割主入口同步导入的和各页面的代码，而各页面import等导入的不能控制。[import()使用](https://www.cnblogs.com/dahe1989/p/11543832.html)
 
-#### g、bable插件：
+## g、bable插件：
 webpack只能将一部分es6语法转换为es5，而一些高级的es6语法，和部分es7语法无法转译，这就需要bable。bable包含：preset-env、plugin-component、polyfill等多个子插件。
 <b class="violet">项目中的.bablelr是bable的配置文件，而需要使用的话需要在webpack的modules中引入bable-loader。</b><b class="gray">babel中引入的分为转换插件（转换代码，编译）和语法插件（解析特定类型的语法，如果你已经使用了相应的转换插件，则不需要指定语法插件。）</b>
 使用前先安装：`cnpm i babel-core babel-loader babel-plugin-transform-runtime -D`
@@ -5492,7 +5597,7 @@ webpack只能将一部分es6语法转换为es5，而一些高级的es6语法，�
 **webpack中配置如下**：[bable官网](https://www.babeljs.cn/docs/babel-preset-env)。[.babelrc文件作用及属性，部分组件按需引入，需要配置。](https://www.cnblogs.com/wulinzi/p/8079509.html)
 - `{ test:/\.js$/, use: 'babel-loader', exclude:/node_modules/ }`#exclude指定排除掉的文件夹。 如果不排除 node_modules， 则Babel 会把 node_modules 中所有的 第三方 JS 文件，都打包编译，这样，会非常消耗CPU，同时，打包速度非常慢；
 [编写plugin参考学习地址。](https://www.cnblogs.com/wzndkj/p/10921340.html)
-#### Q、问题集：
+## Q、问题集：
 - 解析less文件时提示：TypeError: loaderContext.getResolve is not a function：换使用较低的less-loader版本。4.1.0
 - 解析less，sass等文件时提示：Module build failed: Unrecognised input。按a2中方法配置loader即可，一般用默认模板的话，utils中是已经配置好的，安装好loader即可用。
 - 编译运行时一直卡住的问题：可能是相应的loader版本较高，尝试安装低版本。

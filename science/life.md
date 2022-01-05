@@ -32,9 +32,7 @@ ctrl+T切换编辑模式。似乎没有登陆。[自定义css样式]包括字体
 - markdown语法大全：点击帮助/指南即可。
 - **矩阵的写法**：
 $\left[\begin{array} a_{11}&\cdots&a_{1n}\\ \vdots&{ }&\vdots\\a_{n1}&\cdots&a_{nn}\end{array}\right]和\begin{matrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{matrix}=a_{11}M_{11}-a_{12}M_{12}+a_{13}M_{13}$
-- [MarkDown数学公式语法](https://blog.csdn.net/jyfu2_12/article/details/79207643)
-- [puml绘图学习地址](https://plantuml.com/zh/use-case-diagram)
-- [vnote下载地址](https://github.com/tamlok/vnote/releases)
+- [MarkDown数学公式语法](https://blog.csdn.net/jyfu2_12/article/details/79207643)、[puml绘图学习地址](https://plantuml.com/zh/use-case-diagram)、[数学符号汇总](https://www.baidu.com/link?url=7lHFjUadFhNqkhKiLK8vayovX-oRVFvv9t9FchRml1lWHQnmjBR6dElGI_iowvZk&wd=&eqid=a081dfce001e634c0000000661b55e53)、[vnote下载地址](https://github.com/tamlok/vnote/releases)
 
 **问题**：
 >切换系统引起的打不开文件问题：重新更改一下设置即可。
