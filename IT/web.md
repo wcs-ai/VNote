@@ -329,7 +329,7 @@ addTask('task1');
 X-FRAME-OPTIONS是一个 HTTP 响应头，在现代浏览器有一个很好的支持。这个 HTTP 响应头 就是为了防御用 iframe 嵌套的点击劫持攻击。
 该响应头有三个值可选，分别是：DENY，表示页面不允许通过 iframe 的方式展示。SAMEORIGIN，表示页面可以在相同域名下通过 iframe 的方式展示。ALLOW-FROM，表示页面可以在指定来源的 iframe 中展示。
 [web端安全问题及应对方法。](https://www.cnblogs.com/pretty-sunshine/p/11442326.html)
-## 7、HTML规范：
+## 7、HTML规范&标签
 `<!DOCTYPE>` 声明不是 HTML 标签；它是指示 web 浏览器关于页面使用哪个 HTML 版本进行编写的指令。在 HTML 4.01 中，<!DOCTYPE> 声明引用 DTD，因为 HTML 4.01 基于 SGML。DTD 规定了标记语言的规则，这样浏览器才能正确地呈现内容。HTML5 不基于 SGML，所以不需要引用 DTD。[doctype类型参考学习地址。](https://blog.csdn.net/Whisper_a/article/details/38706901)
 html5中加了一些新的规范，如下示例：[H5的一些新标签的使用学习地址。](https://www.cnblogs.com/nuanai/p/8856814.html)
 ```html
@@ -342,7 +342,9 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 </body>
 </html>
 ```
-**meta标签常用属性**：
+
+**好用标签**：
+1、**meta标签常用属性**：
 ```html
 <meta name="keywords" content="标签,属性,seo优化">
 <!--all：文件将被检索，且页面上的链接能够被查询。none时页面上的文件、连接将不能被查询。-->
@@ -354,8 +356,8 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 <meta name="apple-mobile-web-app-capable" content="yes"><!--设置Web应用是否以全屏模式运行,content的默认值是no-->
 ```
 注释常用语：`//TODO`(待实现的功能)、`//FIXME`(需要修正的功能)、`//XXX`(需要改进的功能)
-## 9、好用标签：
-**hr标签**：
+
+2、**hr标签**：
 ```html
 <hr class="hr" data-content="分隔线" /><!--文字会显示在正中-->
 <style>
@@ -385,7 +387,7 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 }
 </style>
 ```
-**marquee标签**：
+3、**marquee标签**：
 ◎direction表示滚动的方向，值可以是left，right，up，down，默认为left
 ◎behavior表示滚动的方式，值可以是scroll（连续滚动）slide（滑动一次）alternate（往返滚动）
 ◎loop表示循环的次数，值是正整数，默认为无限循环
@@ -396,7 +398,7 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 ◎height、width表示运动区域的高度和宽度，值是正整数（单位是像素）或百分数，默认width=100% height为标签内元素的高度
 ◎hspace、vspace表示元素到区域边界的水平距离和垂直距离，值是正整数，单位是像素。
 ◎onmouseover=this.stop() onmouseout=this.start()表示当鼠标以上区域的时候滚动停止，当鼠标移开的时候又继续滚动。
-**input标签**：
+4、**input标签**：
 ```html
 <input type="text" maxlength="5" pattern="[a-z]{5}"/><!--maxlength限制最大输入长度，pattern可写正则匹配-->
 <input type="text" readonly="readonly" value="不可编辑" 	autofocus="autofocus"/><!--readonly让内容为只读状态。-->
@@ -418,7 +420,7 @@ html5中加了一些新的规范，如下示例：[H5的一些新标签的使用
 **input所有type类型**：
 tel、number、email、text、radio、checkbox、image、date、color、button、submit、hidden、month、password、range、reset、search、time、url、week、file、month、datetime-local
 
-**table的使用**：其直接属性控制的样式与css样式不同一。
+5、**table的使用**：其直接属性控制的样式与css样式不同一。
 ```html
 <table border="1" cellspacing="0" cellspadding="0" rules="rows" bordercolor="#e3e3e3">
 <!--border为线宽，cellspacing为格间距
@@ -434,6 +436,19 @@ rules：规定内侧边框的哪个部分是可见的。frame：规定外侧边�
 </table>
 ```
 - [table属性大全](https://www.w3school.com.cn/tags/tag_table.asp)
+
+6、**script标签**：
+阻塞行为：<i c=gn>遇到脚本时，浏览器会先**下载**（非内嵌情况）脚本，然后执行。**执行结束后才会继续渲染下方元素**。</i>
+defer属性：带有defer属性的脚本表示内部没有DOM操作，可与其它资源`并行下载`，页面加载完成后（onload）才会执行这个脚本
+推荐的无阻塞模式：使用一个下载文件的js脚本（下载其它js文件，动态生成script标签插入）并内嵌到页面底部。
+```html
+<script type="text/javascript">
+    function loadScript(file){}
+</script>
+<script type="text/javascript" src="acc.js"></script>
+<script type="text/javascript" src="acb.js" defer></script>
+```
+
 ## 10、文字继承单选框和复选框：
 ```html
 <input type="radio" id="a"/> <label for="a">点我触发前面id为a的单选框</label>
@@ -974,14 +989,14 @@ $subMenuHover: #9900ff;
 
 ## 1、数据类型：
 数据类型包括：数值、字符串、布尔、null(表示尚未存在的对象)、undefined(当声明的变量还未被初始化时，变量的默认值为undefined。)、对象(对象又包括列表、函数、字典)，6种。#alert(null == undefined); //output "true"  。ert(null === undefined); //output "false" 
-**数值**：
+### 一、数值：
 `parseInt("fjdk889")`//转为整型889,剔除字符串。`parseFloat()`//转为float型。`num.toFixed(2)`;//保留小数位数。8进制，十六进制数也可直接写入：`var v = 070`#八进制的56。`var c = 0XA`#16进制的10。**转为字符串**：num.toString();
 - **含e的数**：一般表示极大极小值`var m = 3.125e7`#等价于`3.125 * 10^7`。`var c = 3e - 7`#0.00....03。
 - **浮点数计算精度丢失问题**：`console.log(24314310.3412 / 100000)>>243.14310341200002`。所有编程语言都存在的问题，这是由于计算机本身特性导致的。小数位数过长，或有时计算中小数点参与移动。所以前端尽量不要使用浮点数的计算。**解决思路**：将小数转为整数，按特别方法计算后再移动小数点。
 数值与字符串的运算：`1 + "1" == "1" + "1" = '11'`#除了+是字符串连接，其它运算操作符情况会被先当做数值计算。
 - **NaN**：用于表示一个本应该是数值，返回却是非数值的情况，如数值比上0，NaN与其它数值操作同为NaN，`NaN == NaN返回false`。用isNaN()可检测。
 
-**字符**：
+### 二、字符：
 其它类型转为string：`String(val)`#无论val是什么类型都会转为对应的字符串。
 ```js
 parseInt('0xAA',16)//parseInt第二个参数可以指定将字符串转为直接的进制数。0xAA本身是16进制。
@@ -1011,7 +1026,7 @@ reg.compile(reg);
 console.log(a.test('aaebc'));// 返回布尔值
 console.log(a.exec('kke,mme'));//只能找到第一个匹配项，放回一个列表形式的记录（有匹配到的值）。
 ```
-**数组**：
+### 三、数组：
 
 ```js
 list.indexOf(1)//找到第一个1在列表中的位置，不在则返回-1。
@@ -1088,7 +1103,8 @@ arr.splice(1,1,7)//[1,7,3,4,5,6]
 
 arr.forEach(function(value,index,data){});
 ```
-**对象**：从对象中取出多个属性然后上传时的场景，如果用obj.property的方式取值，若缺少该值时程序可能会**不执行也不报错**。
+### 四、map：
+从对象中取出多个属性然后上传时的场景，如果用obj.property的方式取值，若缺少该值时程序可能会**不执行也不报错**。
 ```js
 var obj = {a:1,b:3};
 /*================
@@ -1185,7 +1201,8 @@ let id = Symbol("id");//typeof id = symbol;
   [id]:'symbol'//普通枚举获取不到。
  };
 ```
-**隐式转换**：在进行变量比较时，js内部会对数据进行相应变换如下：（全等条件下回进行类型的比较，所以这些在**全等下不成立**）
+### 五、隐式转换：
+在进行变量比较时，js内部会对数据进行相应变换如下：（全等条件下回进行类型的比较，所以这些在**全等下不成立**）
 - [] == true;  //false  []转换为字符串'',然后转换为数字0,true转换为数字1，所以为false
 - [1,2,3] == '1,2,3' // true  [1,2,3]转化为'1,2,3'，然后和'1,2,3'， so结果为true;
 - [1] == 1;  // true  `对象先转换为字符串再转换为数字，二者再比较 [1] => '1' => 1 所以结果为true
@@ -1215,24 +1232,7 @@ if(typeof a==="object"){
 }
 console.info(_typ);
 ```
-**for循环中使用定时器问题**：
-```js
-//由于var作用域为当前函数，而非当前代码块。
-for(var i = 0; i < 5; i++){
-   setTimeout(function(){
-       console.log(i)//5,5,5,5,5
-   }, 200*i);
-}
-//-----可以放到一个函数内使用。或者将var改为let。
-for(var i = 0; i < 5; i++){
-    //这种匿名函数就相当于一个块及作用域。
-   (function(index){
-       setTimeout(function(){
-           console.log(index)//0,1,2,3,4
-       }, 200*index);
-   })(i);
-}
-```
+
 
 ## 2、编码相关：
 ```js
@@ -1258,7 +1258,7 @@ console.log(atob("amF2YXNjcmlwdA=="))// 'javascript'
 (0x16).toString(8) // =>"26"。//16进制转为8进制
 ```
 ## 3、其它：
-- **SSE与WebSocket**:
+### a、SSE与WebSocket:
 SSE(Server-Sent Eevents，服务器发送事件)用于创建到服务器的单向连接。
 
 ```js
@@ -1298,7 +1298,7 @@ if(window.WebSocket){
 }
 else{alert("连接错误")}
 ```
-- **H5 web Workers**:
+### b、H5 web Workers:
 workers是让一个js文件在后台执行不影响页面执行速度的一种技术,对一些需要处理大型的数据是一个不错的优化选择，且主流浏览器都支持(除了IE）。可以用在canvas绘制大量图形时，将计算结果返回到主线程然后渲染。<b c=r>worker是一个线程而不是微任务，宏任务的概念</b>
 
 ```js
@@ -1332,7 +1332,8 @@ function start(){postMessage(i);i += 1;setTimeout(start,1000);}
 - **三元运算符**：三元运算符与if语句同样的作用，例：if(x>10 && x<50){alert("hello");}替为 `x>10 && x<50?alert("hello"):alert("flase")`。(两者等价问号前为判断条件，问号后为执行语句，冒号后为else时的语句)。
 三元运算符用于赋值：val = val>20 ? 20 : 10;//表示如果val大于20val值就为20，否则为10；
 三元运算符中写多条语句：a == 20 ? (a=15,alert(a)) : (a = 21,alert(a));
-- **js的异步原理**：浏览器每开一个窗口就是启动一个进程，js代码的运行只使用了一个线程，所以js异步并不是真正的启动线程的异步。js中的任务分为宏任务和微任务，<b c=r>js会先运行主栈中的任务，然后取事件队列先运行微任务，然后运行宏任务</b>。<b c=b>DOM的渲染本身是同步的操作</b>。渲染引擎是另一个线程在执行，为了js线程能控制渲染引擎的动作，<b c=v>每次js微任务执行完后会去检查一下是否需要渲染，所以每帧的渲染间js的计算不要太多</b>，不然会掉帧。
+### c、 js的异步原理：
+浏览器每开一个窗口就是启动一个进程，js代码的运行只使用了一个线程，所以js异步并不是真正的启动线程的异步。js中的任务分为宏任务和微任务，<b c=r>js会先运行主栈中的任务，然后取事件队列先运行微任务，然后运行宏任务</b>。<b c=b>DOM的渲染本身是同步的操作</b>。渲染引擎是另一个线程在执行，为了js线程能控制渲染引擎的动作，<b c=v>每次js微任务执行完后会去检查一下是否需要渲染，所以每帧的渲染间js的计算不要太多</b>，不然会掉帧。
 - [参考学习地址。](https://www.cnblogs.com/liangye/p/13461924.html)
 >**宏任务**：setTimeout，setInterval，Ajax，DOM事件。**DOM渲染后触发**。
 >**微任务**：async/await，then,catch,finally。**DOM渲染前触发**。
@@ -1351,18 +1352,22 @@ cc.then(() => {
 console.log('f');
 //输出顺序：a,b,c,f,e,d
 ```
->**异步常见问题**：一个函数（或页面）异步获取数据，然后另一个函数（或跳转另一个页面【单页面跳转】）希望是之前的函数/页面已经取到了数据然后进行的操作，这时这个函数或页面可以**进行异步操作**(利用上面说的异步操作都放另一个队列)来确保之前的数据已经取得。
->**捕获异步错误问题**：
+### c2、页面间传值：
+1、url传参。(域名或路径后将参数用?或#号分割,参数间用&分割)
+2、cookie缓存。(格式建议与url传参写成一样的)
+3、Storage缓存。(页面间调用storage中的值,将一个数组存入后会变为逗号分割)
+4、window.open()+window.opener
+
 ```js
-try{// 异步中的错误是无法被try,catch捕获的，所以一般是使用async,await外加try,catch。
-    setTimeout(()=>{var a = Mathc.pow(4)},100)
-}
-catch(err){}
-//可以使用onerror做一个劫持。
-window.onerror = function(er){return true;}
+// 页面a：
+var a = 55; // 页面a的对象
+el.onclick=function(){window.open("b.html");}//打开一个新窗口
+// 页面b:
+console.log(window.opener.a);//window.opener会将前一个页面的所有对象封装为
+//一个对象的形式，b页面可以使用，但对用户体验不好。
 ```
-- 回调地狱：这么low的词！指那种多层函数嵌套调用的情况。现在用promise解决。
-- **formData的使用**：
+
+### d1、formData的使用：
 ```js
 const el = document.getElementById("form");
 let fd = new FormData(el);    # 不传入元素时是一个空的表单。
@@ -1372,19 +1377,8 @@ formData.has("k1"); // true
 formData.set("k1", "1"); // 修改
 formData.get("name"); // 获取key为name的第一个值
 ```
-**异常**：
-```js
-// try,catch()
-try{
-    aleet('fdd');//异常情况会触发catch()
-}
-catch(err){console.log(err.message);}
-// 主动抛出异常
-throw 'not a number';//控制台输出：Uncaught: not a number
-```
-try,catch用于预测一些自己觉得可能会因为语法错误、取值不存在或方法不存在等情况下使用(写在try后的{}中)，catch后可传一个参数值，err.message输出
-错误提示(catch后的{}中写发生错误后运行的语句)。try模块中只要有一句语句被判有误就会立刻跳到catch模块中去执行。
-**时间**：
+
+### e、时间：
 ```js
 var dat = new Date();
 dat.getFullYear();// 获取年份
@@ -1398,16 +1392,59 @@ var dt1 = new Date();
 var dt2 = new Date(dt1);// 将dt1当参数传入
 dt2.setDate(dt1.getDate()+5);//将今天的号数设置为5天之后的号数
 ```
-- **监听页面刷新与离开**：onunload：IE6，IE7，IE8 中 刷新页面、关闭浏览器之后、页面跳转之后都会执行；IE9 刷新页面 会执行，页面跳转、关闭浏览器不能执行；firefox(包括firefox3.6) 关闭标签之后、页面跳转之后、刷新页面之后能执行，但关闭浏览器不能执行；Safari 刷新页面、页面跳转之后会执行，但关闭浏览器不能执行；Opera、Chrome 任何情况都不执行。onbeforeunload：IE、Chrome、Safari 完美支持。Firefox 不支持文字提醒信息。**Opera 不支持**。
+### f1、call()和apply()的使用：
+apply和call的作用是回调，es6之前很多回调都是使用它们；**Function.apply(obj,args)方法能接收两个参数**obj：这个对象将代替Function类里this对象。args：这个是数组，它将作为参数传给Function（args-->arguments。call:和apply的意思一样,只不过是参数列表不一样。
 ```js
-// 刷新时调用。
-window.onbeforeunload = function(event) {
-    window.localStorage.removeItem('token');
-    //event.returnValue = "我在这写点东西...";
-    //return '提示信息';
-};
+/*定义一个Person类*/ 
+function Person(name,age) { 
+     this.name=name; 
+     this.age=age;
+} 
+ /*定义一个学生类*/ 
+ function Student(name,age,grade) { 
+    //Person.apply(this,arguments);//特点：this指代student对象，只接收2个参数，arguments为隐式类数组对象，用来接收传入的参数；
+      Person.call(this,name,age);//特点：this指代student对象，可以接收任意多个参数
+      this.grade=grade; 
+ } 
+ var student =new Student("zhangsan",22,"二年级");//方法Student()也是object的一个实例
+ //测试，相当于是借用apply()或call()方法来实现一个简单的继承。
+ alert("name:"+student.name+"\n"+"age:"+student.age+"\n"+"grade:"+student.grade);
 ```
-- **switch的使用**：
+//学生类里面我没有给name和age属性赋值啊,为什么又存在这两个属性的值呢,这个就是apply的神奇之处.
+### f2、console：
+console模块不只log()一个函数，全部如下：
+- `console.log("%d年%d月%d日", 2017, 1, 8)`#打印，%是占位符。console.info()#信息。
+- `console.warn()`#警告。
+- `console.group("第一组信息");console.log("第一组第一条：我是张三");...console.groupEnd();`#作为一组展示出来。
+- `console.error()`#打印错误。
+- `console.dir()`可以显示一个对象所有的属性和方法。
+- `console.dirxml()`用来显示网页的某个节点（node）所包含的html/xml代码。
+- `console.assert(a===2)`用来判断一个表达式或变量是否为真。若为否会抛出异常。
+- `console.table([[1,2,3],[4,5,6],[7,8,9]])`#打印表格
+- console.time()和console.timeEnd()，用来显示代码的运行时间。
+- `console.profile("性能分析器");...中间代码;console.profileEnd("性能分析器");`
+### f3、动画函数：
+```js
+function play(){
+console.log(a);
+window.requestAnimationFrame(play);
+}
+window.requestAnimationFrame(play);//开始第一帧
+cancelAnimationFrame()//方法取消动画。
+```
+### g、js垃圾回收机制：
+多数编程语言都带有垃圾回收机制。现在各大浏览器通常用采用的垃圾回收有两种方法：标记清除、引用计数。
+减少JavaScript中的垃圾回收：
+new关键字就意味着一次内存分配，例如 new Foo()。最好的处理方法是：在初始化的时候新建对象，然后在后续过程中尽量多的重用这些创建好的对象。
+为了最大限度的实现对象的重用，应该像避使用new语句一样避免使用{}来新建对象。
+使用delete x;手动删除一个变量。
+### h、节流和防抖动：
+所谓的节流就是指用户频繁操作同一个事件，但都是相同的请求，如重复提交表单中的数据，重复下拉刷新请求数据，这会频繁的消耗用户的流量但是无意义的，遇到这种情况做法：写一个定时器，规定时间内只允许操作一次。
+而防抖动是指类似搜索框中要监听用户的输入实时获取将值传给后台获取相应的匹配项，但返回的候选项个数不一样会导致下拉展示条频繁变化抖动。解决：监听到用户输入后设定一个定义器，时间过后执行操作，如果期间接收到监听变化就取消前一个定是器，再重新创建一个，相当与只取最后一次操作，因为此时是最有效的操作。
+这两种思想都类似，不过一个取第一次操作，一个取最后一次操作。[参考地址。](https://www.jianshu.com/p/11b206794dca)
+
+
+## 4、循环和分支：
 
 ```js
 var a = 5;
@@ -1459,6 +1496,24 @@ function mskPhone(val) {
 }
 var cc = mskPhone.bind({a:112});//bind的第一个参数是函数mskPhone的this，其它参数按序传入。
 console.info("cc===",cc("18313746328"));//这里调用，参数接着上面的
+```
+**for循环中使用定时器问题**：
+```js
+//由于var作用域为当前函数，而非当前代码块。
+for(var i = 0; i < 5; i++){
+   setTimeout(function(){
+       console.log(i)//5,5,5,5,5
+   }, 200*i);
+}
+//-----可以放到一个函数内使用。或者将var改为let。
+for(var i = 0; i < 5; i++){
+    //这种匿名函数就相当于一个块及作用域。
+   (function(index){
+       setTimeout(function(){
+           console.log(index)//0,1,2,3,4
+       }, 200*index);
+   })(i);
+}
 ```
 ## 6、BOM：
 ### [1]事件：
@@ -1573,6 +1628,42 @@ function onclose(){
 window.addEventListener("focus",function(){document.title="获得焦点";});// 刚打开页面不会触发。
 window.addEventListener("blur",function(){document.title = "去哪了，快回来！"});// 切到其它网站页面时触发。
 ```
+**拦截浏览器回退**：
+```js
+// 拦截history模式的回退。
+pushState()和popstate是H5的新属性。
+history.pushState(null,null,document.URL);
+// 添加popstate事件监听变化。
+window.addEventListener('popstate',function(){
+history.pushState(null,null,document.URL);
+});
+// 拦截hash模式的回退
+function c(){var url = window.location.href;}//获取到的是变化后的地址。用正则表达式来监听是否是回退到了上一个页面。
+window.onhashchange = c; //onhashchange可以今天hash模式的变化，触发函数c。
+```
+**判断图片加载**:
+凡带加载性质的元素均有onreadyStateChange事件，不过不同浏览器的支持不同，一些浏览器可能会失效。
+img.onload事件(最好用的判断加载的方法)：
+```html
+<img id="img" src="img/a.jpg"/><h2 id='h2'></h2>
+<script>
+    var img = document.getElementById("img");
+    var image = new Image();
+    image.src = 'https://www.baidu.com';
+    if(image.width===0){//判断图片路径是否可用
+        console.log('该图片不可用');
+    }
+    img.onload = function(){document.getElementById("img").innerHTML="ok";}
+    img.onerror = funcion(){img.src='';}//图片不可用时触发
+//readyStatechange事件(试过google，不支持)
+img.onreadystatechange = function(){
+    if(img.readyState=="complete"||img.readyState=="loaded"){
+        document.getElementById("img").innerHTML="ok";
+    }
+}
+</script>
+```
+https://www.cnblogs.com/snandy/p/3704938.html
 ### [2]打印功能：
 ```js
 // 打印print_content元素内容
@@ -1603,6 +1694,52 @@ function printExample() {
 }
 ```
 - [参考学习地址](https://www.cnblogs.com/weiyu11/p/7574726.html)
+### [3]运行环境检测
+
+```js
+var browser = {
+    versions: function() {
+        var u = navigator.userAgent,
+            app = navigator.appVersion;
+        return { //移动终端浏览器版本信息
+            trident: u.indexOf('Trident') > -1, //IE内核
+            presto: u.indexOf('Presto') > -1, //opera内核
+            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') === -1, //火狐内核
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+            iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+            iPad: u.indexOf('iPad') > -1, //是否iPad
+            webApp: u.indexOf('Safari') === -1 //是否web应该程序，没有头部与底部
+        };
+    }(),
+    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+};
+console.info(browser);
+
+if (browser.versions.mobile) { //判断是否是移动设备打开。browser代码在下面
+    var ua = navigator.userAgent.toLowerCase(); //获取判断用的对象
+    if (ua.match(/MicroMessenger/i) === "micromessenger") {
+        //在微信中打开
+    }
+    if (ua.match(/WeiBo/i) === "weibo") {
+        //在新浪微博客户端打开
+    }
+    if (ua.match(/QQ/i) === "qq") {
+        //在QQ空间打开
+    }
+    if (browser.versions.ios) {
+        //是否在IOS浏览器打开
+    }
+    if (browser.versions.android) {
+        //是否在安卓浏览器打开
+    }
+} else {
+    //否则就是PC浏览器打开
+}
+```
+
 ## 7、DOM：
 **获取元素尺寸相关**：
 ```js
@@ -1880,29 +2017,7 @@ var form_ = new FormDat(form);
 //将值写到表单里对应的元素的value值中来上传
 form_.set('name',value),form_.append('name',vlaue),form_.get('name')
 ```
-## 14、判断图片加载:
-凡带加载性质的元素均有onreadyStateChange事件，不过不同浏览器的支持不同，一些浏览器可能会失效。
-img.onload事件(最好用的判断加载的方法)：
-```html
-<img id="img" src="img/a.jpg"/><h2 id='h2'></h2>
-<script>
-    var img = document.getElementById("img");
-    var image = new Image();
-    image.src = 'https://www.baidu.com';
-    if(image.width===0){//判断图片路径是否可用
-        console.log('该图片不可用');
-    }
-    img.onload = function(){document.getElementById("img").innerHTML="ok";}
-    img.onerror = funcion(){img.src='';}//图片不可用时触发
-//readyStatechange事件(试过google，不支持)
-img.onreadystatechange = function(){
-    if(img.readyState=="complete"||img.readyState=="loaded"){
-        document.getElementById("img").innerHTML="ok";
-    }
-}
-</script>
-```
-https://www.cnblogs.com/snandy/p/3704938.html
+
 ## 15、兼容性问题：
 事件的兼容性处理：
 ```js
@@ -2034,123 +2149,8 @@ export function download(url, params, filename) {
 }
 ```
 [Blob的使用](https://www.cnblogs.com/cheng825/p/11694348.html)
-## 17、拦截浏览器回退：
-```js
-// 拦截history模式的回退。
-pushState()和popstate是H5的新属性。
-history.pushState(null,null,document.URL);
-// 添加popstate事件监听变化。
-window.addEventListener('popstate',function(){
-history.pushState(null,null,document.URL);
-});
-// 拦截hash模式的回退
-function c(){var url = window.location.href;}//获取到的是变化后的地址。用正则表达式来监听是否是回退到了上一个页面。
-window.onhashchange = c; //onhashchange可以今天hash模式的变化，触发函数c。
-```
-## 18、json：
-```js
-var obj = {name:"wcs",id:21}
-obj = JSON.stringify(obj);// {"name":"wcs","id":21}
-var json = {"name":"mx","id":23}
-// eval()方法和JSON.parse()方法都可将json转为js对象，推荐用后一种
-json1 = eval("("+ josn +")");//{name:"mx",id:23}
-json2 = JSON.parse(json);
-```
-若是使用动态的方法将js对象转为json格式的话对象中的数值型会变成字符串，需要先用parseint()方法处理后再转换。
-强大的eval()方法：
-```js
-eval()方法可以将字符串转换为可执行的js语句，例：
-eval('30>20?alert("ok"):alert("error")');//ok
-eval("obj.a."+b+"["+ "'"+v+"'" +"]")//这种情况v两边加单引号。
-var obj = {a:{c:1,n:2},b:[0,1,2]};
-eval("obj.a.c")//1,eval("obj.a"+['c']])//1
-```
-## 19、页面间传值：
-1、url传参。(域名或路径后将参数用?或#号分割,参数间用&分割)
-2、cookie缓存。(格式建议与url传参写成一样的)
-3、Storage缓存。(页面间调用storage中的值,将一个数组存入后会变为逗号分割)
-4、window.open()+window.opener
 
-```js
-// 页面a：
-var a = 55; // 页面a的对象
-el.onclick=function(){window.open("b.html");}//打开一个新窗口
-// 页面b:
-console.log(window.opener.a);//window.opener会将前一个页面的所有对象封装为
-//一个对象的形式，b页面可以使用，但对用户体验不好。
-```
 
-## 20、运行环境检测
-
-```js
-var browser = {
-    versions: function() {
-        var u = navigator.userAgent,
-            app = navigator.appVersion;
-        return { //移动终端浏览器版本信息
-            trident: u.indexOf('Trident') > -1, //IE内核
-            presto: u.indexOf('Presto') > -1, //opera内核
-            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') === -1, //火狐内核
-            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
-            iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
-            iPad: u.indexOf('iPad') > -1, //是否iPad
-            webApp: u.indexOf('Safari') === -1 //是否web应该程序，没有头部与底部
-        };
-    }(),
-    language: (navigator.browserLanguage || navigator.language).toLowerCase()
-};
-console.info(browser);
-
-if (browser.versions.mobile) { //判断是否是移动设备打开。browser代码在下面
-    var ua = navigator.userAgent.toLowerCase(); //获取判断用的对象
-    if (ua.match(/MicroMessenger/i) === "micromessenger") {
-        //在微信中打开
-    }
-    if (ua.match(/WeiBo/i) === "weibo") {
-        //在新浪微博客户端打开
-    }
-    if (ua.match(/QQ/i) === "qq") {
-        //在QQ空间打开
-    }
-    if (browser.versions.ios) {
-        //是否在IOS浏览器打开
-    }
-    if (browser.versions.android) {
-        //是否在安卓浏览器打开
-    }
-} else {
-    //否则就是PC浏览器打开
-}
-```
-动画函数：
-```js
-function play(){
-console.log(a);
-window.requestAnimationFrame(play);
-}
-window.requestAnimationFrame(play);//开始第一帧
-cancelAnimationFrame()//方法取消动画。
-```
-
-## 22、jquery的使用：
-ready()方法：下载好资源后浏览器先对html文件从上往下进行解析,当遇到css样式表时先解析形成CSSOM,然后DOM和cssom形成一颗渲染树进行渲染(先摆放元素位置大小再加样式)
-如果遇到同步js文件(为设置async的script标签)会先解析js文件即:阻断对html的解析.所以推荐奖css样式文件放在头部,js文件放在html尾部。
-将引入js文件的位置放在头部时若js文件中获取html中DOM元素就会失败,解决方法：
-在`<script>标签中加上异步属性<script src='' async="async"></script>`；
-js文件中使用DOMContentLoaded事件：
-```
-document.addEventListener('DOMContentLoaded',function(){
-document.getElementById("ele").style.color="red";
-});// ie6,7中使用onreadystatechange事件
-```
-但window.onload事件会在DOMContentLoaded事件之后加载。而jquery中的ready()方法等三种起手式中都封装了上面的事件，所以引用了jquery之后再在头部中引入其他包含操作DOM元素的js文件也不会报错。将js文件引入位置放在文档尾部</html>内，推荐这么使用。https://www.cnblogs.com/caizhenbo/p/6679478.html
-https://developer.mozilla.org/zh-CN/docs/Web/Events/DOMContentLoaded
-隐藏和显示：$("p").hide();$("p").show();
-淡入淡出：$("#p").fadeIn(1000,callback);$("#p").fadeOut(1000,callback) //第一个参数是变化的时间，第二个参数是运行完成后的回调函数。
-动画： $("div").animate({left:'250px'},2000,callback);//变换的属性、时间、运行完后的回调。
 ## 23、es6语法：
 因为是在2015发布的，所以又用ES2015+来代替。
 ```js
@@ -2439,14 +2439,21 @@ var instance2 = new SubType();
 alert(instance2.colors); //"red,blue,green"
 ```
 ## 28、函数：
-```js
-//function后面加名字的属于具名函数，有函数提升的效果（可在创建前就调用函数）
-name();//不报错
-function name(){};
-var n = function(){}//属于匿名函数，创建前调用会报错
-//------不要在if，else等语句中创建具名函数。
-```
-- **执行上下文，链式作用域**：作用域链本质上是一个指向变量对象的指针列表，它只引用但不实际包含变量对象。无论什么时候在函数中访问一个变量时，就会从作用域链中搜索具有相应名字的变量。执行上下文有且只有三类，全局执行上下文，函数上下文，与eval上下文。在执行代码前，浏览器会先扫描代码生成执行的上下文，按照上下情况决定先执行的代码，如声明变量、数据类型计算，遇到函数的时候，因为函数内部是一个块的代码，这时候就是构建一个函数的执行上下文。<i class="green">函数在调用时，会被全局执行上下文决定其执行的顺序。而一系列函数相互调用的情况下就形成了一个链式作用域。这些上下文的执行是放到一个栈(后进先出)空间中进行的。</i>
+:::alert-info
+每个函数会在内存中为其创建一个空间，存储其所用变量（下图所示，顺序和链式存储结合）。**全局变量（window,document）等会被注入到该空间中**。
+:::
+- map，Array等较深的结构按链式方法查找，<b c=r>使用的数据结构越深，速度越慢！</b>
+- 局部变量存储顺序靠前，其查找使用起来速度最快。
+- 全局变量存储到最后，查找使用起来较慢，*因此性能最差，尽量避免使用！*
+- 执行完毕后执行环境被销毁。
+- 动态作用域：使用了with、catch(){}子句、eval()函数的可以看做时动态作用域情况
+- **性能优化方法**：
+（1）将对应全局变量赋值给一个局部变量，这样在查找时就只是查找该局部变量（按标识符查找的）。
+（2）避免使用with语句。<i c=gn>with创建的作用域会被推到函数作用域首位，局部变量位置反而落于其后</i>
+（3）适当使用`try{}catch(e){}`：执行catch时，对象e会被推到作用域首位！一般在catch中专门将e交给一个函数来处理最好。
+- **闭包**：一般来讲，当函数执行完毕后，局部活动对象就会被销毁，内存中仅保存全局作用域。
+在另一个函数内部定义的函数会将包含函数（即外部函数）的活动对象添加到它的作用域链中。<i c=gn>也教耗性能</i>
+
 ```js
 var a = 15;
 function cc() {
@@ -2456,51 +2463,14 @@ function cc() {
     var a = 20;
     cc();//得到15，cc的创建并不在当前函数中，所以cc的输出还是全局变量a。
 })();
+// 改变作用域情况
+var obj = {a:1,b:2}
+with(obj){    //为obj创建一个作用域，内部的变量都是从obj中查找。
+    a = 1;b = 2;
+}
 ```
 ![](_v_images/20210303192355713_21879.png =607x)
-- **闭包**：一般来讲，当函数执行完毕后，局部活动对象就会被销毁，内存中仅保存全局作用域。在另一个函数内部定义的函数会将包含函数（即外部函数）的活动对象添加到它的作用域链中。由于闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存。过度使用闭包可能会导致内存占用过多
-## 31、call()和apply()的使用：
-apply和call的作用是回调，es6之前很多回调都是使用它们；**Function.apply(obj,args)方法能接收两个参数**obj：这个对象将代替Function类里this对象。args：这个是数组，它将作为参数传给Function（args-->arguments。call:和apply的意思一样,只不过是参数列表不一样。
-```js
-/*定义一个Person类*/ 
-function Person(name,age) { 
-     this.name=name; 
-     this.age=age;
-} 
- /*定义一个学生类*/ 
- function Student(name,age,grade) { 
-    //Person.apply(this,arguments);//特点：this指代student对象，只接收2个参数，arguments为隐式类数组对象，用来接收传入的参数；
-      Person.call(this,name,age);//特点：this指代student对象，可以接收任意多个参数
-      this.grade=grade; 
- } 
- var student =new Student("zhangsan",22,"二年级");//方法Student()也是object的一个实例
- //测试，相当于是借用apply()或call()方法来实现一个简单的继承。
- alert("name:"+student.name+"\n"+"age:"+student.age+"\n"+"grade:"+student.grade);
-```
-//学生类里面我没有给name和age属性赋值啊,为什么又存在这两个属性的值呢,这个就是apply的神奇之处.
-## 32、js垃圾回收机制：
-多数编程语言都带有垃圾回收机制。现在各大浏览器通常用采用的垃圾回收有两种方法：标记清除、引用计数。
-减少JavaScript中的垃圾回收：
-new关键字就意味着一次内存分配，例如 new Foo()。最好的处理方法是：在初始化的时候新建对象，然后在后续过程中尽量多的重用这些创建好的对象。
-为了最大限度的实现对象的重用，应该像避使用new语句一样避免使用{}来新建对象。
-使用delete x;手动删除一个变量。
-## 33、节流和防抖动：
-所谓的节流就是指用户频繁操作同一个事件，但都是相同的请求，如重复提交表单中的数据，重复下拉刷新请求数据，这会频繁的消耗用户的流量但是无意义的，遇到这种情况做法：写一个定时器，规定时间内只允许操作一次。
-而防抖动是指类似搜索框中要监听用户的输入实时获取将值传给后台获取相应的匹配项，但返回的候选项个数不一样会导致下拉展示条频繁变化抖动。解决：监听到用户输入后设定一个定义器，时间过后执行操作，如果期间接收到监听变化就取消前一个定是器，再重新创建一个，相当与只取最后一次操作，因为此时是最有效的操作。
-这两种思想都类似，不过一个取第一次操作，一个取最后一次操作。[参考地址。](https://www.jianshu.com/p/11b206794dca)
 
-## 36、console：
-console模块不只log()一个函数，全部如下：
-- `console.log("%d年%d月%d日", 2017, 1, 8)`#打印，%是占位符。console.info()#信息。
-- `console.warn()`#警告。
-- `console.group("第一组信息");console.log("第一组第一条：我是张三");...console.groupEnd();`#作为一组展示出来。
-- `console.error()`#打印错误。
-- `console.dir()`可以显示一个对象所有的属性和方法。
-- `console.dirxml()`用来显示网页的某个节点（node）所包含的html/xml代码。
-- `console.assert(a===2)`用来判断一个表达式或变量是否为真。若为否会抛出异常。
-- `console.table([[1,2,3],[4,5,6],[7,8,9]])`#打印表格
-- console.time()和console.timeEnd()，用来显示代码的运行时间。
-- `console.profile("性能分析器");...中间代码;console.profileEnd("性能分析器");`
 # 四、库&工具
 ## 1、gitHub的使用：
 **安装**：
@@ -3554,9 +3524,27 @@ y = null! //用在值后可以让不符合的类型编译通过。
 
 //-----------数值连接字符串：直接使用+或模板字符串连接会报错。
 let res:string = decLiteral.toString().concat(str);
+//interface用于创建一个类型要求例子，可以公共调用。
+/*==================
+        自定义类型
+====================*/
+interface LabelledValue {
+  readonly label: string;//对象必须含有该键值。readonly表示该属性只读。
+  color?: string;//带?号表示可选，在判断使用时会有一些友好的提示。
+}
+/*==================
+        map方法
+====================*/
+let myMap = new Map();
+myMap.set("key",value); //set(),clear(),delete(),size()等方法
 ```
 2. **函数**：
+
 ```ts
+//参数是函数时，参数函数也要定义类型
+interface fn1{
+  ():void
+}
 //有返回值的函数也是如此
 function warnUser(): string {
     return "hello";
@@ -3569,11 +3557,7 @@ function warnUser(a: number | string): void {//参数也需要定义类型。
 function error(message: string): never {
     throw new Error(message);
 }
-//interface用于创建一个类型要求例子，可以公共调用。
-interface LabelledValue {
-  readonly label: string;//对象必须含有该键值。readonly表示该属性只读。
-  color?: string;//带?号表示可选，在判断使用时会有一些友好的提示。
-}
+
 function printLabel(labelledObj: LabelledValue) {
   console.log(labelledObj.label);
 }
@@ -3581,10 +3565,7 @@ function printLabel(labelledObj: LabelledValue) {
 function identity<T>(arg: T): T {
     return arg;
 }
-//参数是函数时，参数函数也要定义类型
-interface fn1{
-  ():void
-}
+
 function test(fn:fn1):void{
     fn();
 }
@@ -3687,9 +3668,39 @@ class HttpClient{
   }
 let http = new HttpClient();
 ```
-6. **ts中使用js库**：vue文件中可以导入js和ts的文件，但ts中不能导入js文件。
-- 使用script标签引入js文件，然后在各页面使用时declare定义，如JQuery，`declare var $:any;$("#id")`这样使用。
-- 使用@types插件引入。
+6. **ts中使用js库**：
+- 安装第三方js库，如jquery：[安装jquery](https://www.cnblogs.com/juliazhang/p/10103985.html)
+
+```js
+npm install jquery --save; //安装jquery
+npm install @types/jquery --save-dev; //jquery的类型定义文件，node_modules/@types/jquery下。
+// tsconfig.js的types中加入jquery，可全局使用。
+"types": ["jquery"];
+// 使用：
+<script lang="ts">
+import jquery from "jquery";
+jquery("#id");
+</script>
+```
+- **自定义js导入**：编写对应js文件的类型定义文件（.d.ts），使用处导入定义文件，html文件导入对应js文件。
+
+```js
+//cool.d.ts 类型声明文件：
+declare module Runoob {
+  export class Calc {
+     doSum(limit:number) : number;
+  }
+}
+//home.vue页面引入：
+<script lang="ts">
+//js部分引入类型定义文件，【注意前面3个斜杆！】
+/// <reference path="../assets/cool.d.ts" />
+var obj = new Runoob.Calc();    //使用,【重运行服务后，报错提示可去除】
+</script>
+//index.html文件,引入使用
+<script src="/assets/cool.js"></script>
+```
+
 7. **模块**：与es6的几乎一致
 ```ts
 export cosnt ak: number = 3489;
