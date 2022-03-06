@@ -547,6 +547,16 @@ MPLS：多协议标记交换。能对分组做标记，在路由器中能根据�
 OPTION：请求一些选项的信息。
 GET：请求读取有url所标志的信息HEAD：请求url所标志的首部。POST：给服务器添加信息。
 PUT：在指明的url下存储一个文档。DELETE：删除指明的url所标记的资源。TRACE：用来进行环回测试的报文。CONNECT：用于代理服务器。当然还有一些其它的方法。
+- 头部属性：
+
+```js
+Accept:text/html,application/json,...    //接收的数据类型
+Accept-Encoding:gzip,deflate,br          //接收的压缩方式
+Cache-Control:no-cache                   //缓存控制
+Content-Type:text/html                   //发送的数据类型
+User-Agent:Mozilla/5.0 ..                //浏览器信息
+Cookie:34lj324-xx                        //浏览器cookie内容
+```
 - **http状态码**：
 （1）200 OK 正常返回信息。201 Created 请求成功并且服务器创建了新的资源。202 Accepted 服务器已接受请求，但尚未处理。
 （2）301 Moved Permanently 请求的网页已永久移动到新位置。302 Found 临时性重定向。303 See Other 临时性重定向，且总是使用 GET 请求新的 URI。304 请求的网页未修改过。

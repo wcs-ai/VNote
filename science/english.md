@@ -33,7 +33,7 @@
 ## d、语法及理解：
 :::alert-success
 **英文文法**是一个标记系统，对句中所述标识出来，以做区别（但语法中的规则都会有**特例**），这是其所有语法的**目的**。*用这些标识来轻松写作，表达，也根据这些标记来反推文意*。
-用**理解的方式**来记忆语法，文理皆是该如此，有事半功倍，恍然大悟的效果。
+用**理解的方式**来记忆语法，文理皆是该如此，有事半功倍，恍然大悟的效果。（以下语法规则，**反过来推未必是成立的**）
 :::
 
 1. 中英文语法的异同：
@@ -47,7 +47,29 @@
 （1）如果句子用：because..,so..等结构来描写，则不能突出主句。所以不会出现because..,so...的情况，而是：<i c=gn>i bought this book because...</i>
 （2）附属句子一般用：不定词（to V），分词（V-ing）,及名词字句（that+CL）等形式，都是**附属句子的标记**。如下：
     I went to the party *`to` see my friends*。Iwent to the party *`thinking` about my friends.*。I went to the party _`that` started at 7 pm._
-4. 第三人称单数时要加s：<i c=gn>She **likes** swimming.</i>，<i c=r>通常情况是两个人(i,you)的对话，为了突出第3人时，**选择动词加s**，来标记。</i>
+4. **关系代词**用法：它们不一定用于描述某个词，也常直接引导一个句子做某个成分[学习地址。](https://www.doc88.com/p-243584168541.html)
+- **what**：什么/所...的。可引导主语、表语、宾语从句，可在**从句中做成分**。`what you say is quite right`#你所说的相当正确。
+- **that**：从句中无论做主词还是受词，**形态都不变**。
+（1）一般用于补充动词所指内容：I will **tell** my brother `that Jere my Lin came to town yesterday`.
+（2）<i c=gn>主要动词为高频词（如：think/say/guess）时，后面that一般可省略：</i>I **think** you'd better re-consider your decision. #think较口语使用，这里省略了that。
+（3）I `propose`(v-提议，求婚) that you re-consider your decision. #propose较正式，that不省略。
+（4）that在从句中做主词和受词时形态一样。做主词时不可省，受词时一般可省。
+（5）做同位修饰时不可省略；He mentioned the fact **that** `he quit his job last month`.（后面从句完整）
+- **whether**：是否。
+（1）`He asked if/whether we wanted a drink`#他问我们是否想去喝一杯。
+（2）`Whether he has left，I can't say`#引导放于句首时用whether。
+- **why和because**：why强调结果，because强调原因，所以注意成分来使用。 The reason why he didn't attend the party yesterday is that ...
+- where：指代地点。i wonder where she lives#我想知道她住哪。
+- **who和whom**：指代人，主格与宾格（观察其在从句中所在位置可知道）。
+（1）I ran into a colleague **who** `was shopping for a cellphone`. #who代替colleague，<b c=b>在从句中做主词，所以用主格</b>
+（2）I ran into a colleague **whom** `i truly admire`. #whow指代colleague，<b c=b>在从句中做受词，所以用宾格</b>
+（3）在从句中做主词时不能省略，做受词时可以省略（因为不会造成误解）
+（4）限定：用关系代词指出大集合中的一个子集；The Americans `who are sports-crazy` are coming to the game. #<b c=b>中间部分是从句，与前后无分割符</b>
+（5）**非限定**：无须限定，与主句所指集合一样；President Ma, `who studied law`, is careful about legislation. <b c=r>中间部分是从句，与前后用“,”分开</b>
+- **which**：指代物，从句中无论做主词还是受词，**形态都不变**。从句中做受词时也可省略。
+（1）This is the family `which` is plaining  to move to party#这是要搬进城里的一家人。
+（2）I went to a park `where/(in which)` i saw the dog. #in which与where等效
+（3）This is the formula `how/(by which)` problems can be solved. #by which与how等效。
 5. **未明确事物**：英文讲究标记明确，但对于未明确的事物一般会用到any。<b c=b>any用在尚未发生的事上</b>，而非只是疑问/否定句。情况如下：
 （1）命令句：Read __any__ book you can find!
 （2）条件句：If you have __any__ question, please let me know.
@@ -64,14 +86,22 @@
 **先主后从**：John wnet to the party at 8 pm last night。**先从后主**：Last night, at 8 pm, _John went to the party._#最后一句为主句
 :::
 如果有好几个重要动作发生，分不出高下时：<b c=b>先发生的先说，后发生的后说，用and,or等词连接</b>
-10. 时态：在动词上标记，表示时间情况。如下：
+10. **时态**：在动词上标记，表示时间情况。如下：
 （1）正在进行：She is eating apples.（2）事情发生在说话之前：She ate apples.（3）事情发生在说话之后：She will eat apples.（4）习惯进行(一直有发生)：She eats apples.
 注：不是每个动词都能+ing表正在进行时。如：I am **getting** to know him。而不是：I am knowing him.
+**将来时的3种表示形式**：
+- will：I will leave soon. <i c=gn>正式，较远的未来</i>
+- `be going to / be gonna`：I am going to leave soon. <i c=gn>较口语，较近的未来</i>
+- `be V-ing`：i am leaving soon. <i c=gn>最为口语，立即的未来</i>
+
+**如何表达过去的习惯**：
+- `used to + v`表达只**存在于过去的习惯**：she used to play guitar.#他以前有弹吉他的习惯
+- `would + v`表过去的**习惯持续到现在**：she would play guitar when feeling down.
 11. 时貌：（同一件事情，以不同角度表述）
 :::alert-secondary
-（1）现在完成：He has found the answer before reading it now.
-（2）过去完成：He had found the answer before he read the book.
-（3）未来完成：He will have found the answer before next summer.
+（1）现在完成：He has found the answer before reading it now. #**参照时间点是现在**
+（2）过去完成：He had found the answer before he read the book. #参照时间点是过去
+（3）未来完成：He will have found the answer before next summer. #参照时间点是未来
 :::
 
 |   时态   |             过去             |               过去将来               |             现在              |               将来                |
@@ -80,10 +110,18 @@
 | 进行     | was/were doing,过去进行时     | would be doing,过去将来进行时        | am/is/are doing,现在进行时     | will be doing,将来进行时           |
 | 完成     | had done,过去完成时           | would have done,过去将来完成时       | have done,现在完成时           | will have done,将来完成时          |
 | 完成进行 | had been doing,过去完成进行时 | would have been doing,过去完成进行时 | have been doing,现在完成进行时 | will have been doing将来完成进行时 |
-12. **你知我知**：要求名词所有者明确（对名词的出现需要表明其“单复数”外，还要标记其“**所属**”）
+12. **名词标记**：名词出现需要标记`单复数、知与不可知`情况。
+- **你知我知**：要求名词所有者明确（对名词的出现需要表明其“单复数”外，还要标记其“**所属**”）
 （1）特定词【双方都知道的事物】前用定冠词the：I talked to __the boss__.
 （2）对方不知道的事物前用定冠词a：I bought __a__ car.
 （3）所有者已描述清楚则不用：His book. #他的一本书。
+（4）泛指类型使用：The computer is `a` very important invention. <b c=b>用个体代表全体，a或the都可使用</b>
+（5）**用在形容词前**：the old, the young；<b c=b>表示某类人或物</b>
+（6）用在某姓式前：The `Browns` often come to see us. (brown一家人经常来看我们)#<i c=gn>在某姓式**复数专有名词**前，表某姓式的一家人</i>
+- 名词复数：
+（1）可数与不可数定义：不完全取决于某物，在物理上是否可分，<i c=gn>而决定与人们习惯上是否再对此物划分。</i>
+（2）如`rice(米)`：人们通常将一团米当做一个整体，所以**rice是复数**（不是一粒米），I like noodles; he likes `rice`.
+（3）如`noodles`(面条)：noodle表示一根面条，
 13. **标记真假**：一般描述的是真实性事件，对于假设、条件，等虚假性表达要特殊标记区分。
 **条件**：指可能出现的，对未知情况的臆测。**假设**：指不能出现的，对已发生之事的感叹！
 （1）对条件：用<i c=gn>没有特定时间的习惯式标记。</i>：If it __rains__ tomorrow, we will cancel the outing.
@@ -108,13 +146,83 @@
 （3）Have you eaten? #一定是问三餐，而非其它。
 （4）They went darking. #一定指喝酒。
 （5）Who cooks in your house? #一定指做饭，而非其它食物。<b c=b>一般常用的高频词，且说出来大家都知其意的词，才允许省去后面的内容</b>
-19. 情绪主导：英语认为，人是理性的，一切情绪产生都是外物引起的，所以扯到情绪时，人作为受词，引起部分作为主词！
+19. **情绪主导**：英语认为，人是理性的，一切情绪产生都是外物引起的，所以扯到情绪时，人作为受词，引起部分作为主词！
 （1）It attracts me. #他勾引我！It interests me.#它激发我（而不是我对他感兴趣）
 （2）I am `attracted` by her appearance. #<i c=gn>要将受词放开头时，就使用**被动语态**！</i>
 （3）His performance is `amazing`! #要用形容词表达时，使用现在分词（主动）
-## e、短语&特殊词：
-- **名词所有格**：名词有三个格：主格、宾格、所有格，主格与宾格形式相同所以统称为通格，名词做主语，宾语，表语时用通格。所有格形式有：'s和of所有格，举例如下：
-today's paper(今天的报纸) #有生命的、时间、地点、距离也可加's。其它可以用of： the title of the book.
+20. **动词的几种使用形式**：动词怎么使用，形式如何，这是语义决定的：
+- 动词原形形式：<i c=gn>原形即没有时态，没了自主性，需要**依附**于带有时态标记的主要动词之后，在时空上**完全相随**</i>，*使役动词*[^factive]就是如此（使役动词后+动词原形）
+（1）I `made` him **quit**.（2）i `had` him **cut** his hair. #made，had均是使役动词。quit, cut则是原形形式！
+- 不定词to-v形式：<i c=gn>to基本语义为**空间位移**，用于时间上时指**未来要做之事**，**涉及到这两个语义时**就需要使用to-v形式！</i>
+（1）He plans `to read` the book.（2）He urged me `to leave` right away.
+- v-ing形式：ing形式在时态上表进行，动名词也是ing形式同时表示了动词的**进行性和存在性**。<i c=gn>语义受词中有动词时，其要变为**动名词**形式</i>
+（1）She started `singing` the song.（2）She finished **teaching** the class.
+- 复数形式：第三人称单数时要加s：<i c=gn>She **likes** swimming.</i>，<i c=r>通常情况是两个人(i,you)的对话，为了突出第3人时，**选择动词加s**，来标记。</i>
+- 动词分类：可根据动词类别，结合语义判断能否加-ing,-ed形式：
+（1）动态动词：【体力活动：chase, run, catch..】【心里活动：miss, consider,..】（2）静态动词：【感知状态：know, have, forget,..】【情绪状态：like, envy, angry,..】
+- 给予收受类动词：
+（1）I gave/sent/mailed a letter `to him`. #事物**两者都清楚**的情况下，一般用`to+接收者`，来表达。
+（2）I bought him `a pair of shoes.`#<b c=v>事物其未知的情况，可以将事物放到接收者后面</b>。
+21. **补语**：
+- 形容词形式补语：（1）She may grow **taller**. （2）They found him **different**. #通常放受词后，*表受词的结果状态*。
+- 名词形式补语：
+（1）Mom cut `her finger`.  The book is taken to be `a best-seller`.
+（2）**同位语修饰**：<b c=gn>（表身份，地位或角色类型）</b>，名词修饰语和所修饰的名词彼此呼应。He was elected `the president`.  We considered him `a hero`.
+（3）动词补语：受词涉及到动词情况，上面已述。
+<i c=gn>**状态性动词补语**，在其前一定要加**be动词**，to后面也一样</i>；Thank you for **being** willing to come!  He decided to **be** silent.
+22. 转述：
+（1）间接转述：He said that he would do it if he had time.    #转述语的时态与主要动词时态对齐（按中文理解就行）
+（2）直接引述：He said: "I will do it if i feel like to." #按其原话就行，用引号。
+## e、短语/词：
+- enjoy/appreciate/think：`enjoy和appreciate`的**受词对象是事物**，而不是人。think的受词对象是人。
+- `see/look/watch`：
+（1）see是视觉上不自觉的接收到；I see a forest.
+（2）look是自主的去看；I am looking at the picture.
+（3）watch是自主看，且是专注欣赏的态度；I'm watch TV `a talk show`.#同位修饰语
+- `gone to`：已经去到了！go为动态类动词，表移动，所以其过去式就是去到了。`he is gone to japan.`#他已经去到了日本。
+- `been to`：be是静态类动词，表状态，所以其过去式就是曾今再过的意识。`he has been to japan`. #他曾经去过日本
+- `variety/varied/varieble/various`:
+（1）various-`adj`：各种各样的，多种的，各不相同的。<i c=r>它可以指人或物。侧重于强调种类</i>
+（2）variety-n： 品种，不同种类，多变性。
+（3）varied-adj/v：各种各样的/变化。vary的过去式与过去分词。<I c=v>它侧重于强调多变、变化不同</i>
+（4）variable-adj/n：变化的，可变的/可变因素。
+- **类别**：
+（1）kind：性质相同，且特征相似，足以归为一类的人或东西。
+（2）sort：普通用词，对人或物进行大概分类，**有贬义**。
+（3）type：客观界限比较清楚，有相同本质特点的同类事物，**更精确，细致**。
+（4）class：**正式用词**，门类，种类或优劣等级；-v：将..分类，-n：课程，类别
+（5）classification：根据已确定的类型对某一实物鉴别分类；
+（6）category：书面用词，有确切定义的群体；
+（7）`species`：书面用词，**单复同形**，**生物分类**上的种。
+- **反对**：
+（1）oppose：广泛用词，不争论，无理由的反对。
+（2）deny：侧重否认意见或言论的真实性；
+（3）refute：语气较强，强调凭推理或证据驳斥；
+（4）contradict：肯定的否认
+（5）object to：普通的反对，对..反感
+- **商品**：
+（1）goods：一般生活/商业用词
+（2）merchandise：正式用词，商家拥有货物总称
+（3）ware：上市待卖的货物
+（4）freight：多指船装类货物
+（5）commodity：做“商品”时，多用指日用品。
+- mouth：口的搭配
+（1）word of mouth：口口相传；
+（2）to badmouth sb：说某人坏话；
+（3）from hand to mouth：仅能维持生活；
+（4）born with a `silver`(银币) `spoon`(n-勺子) in one's mouth：天生富贵；
+- `stress与pressure`：
+（1）stress侧重指承受外来的压力，也指由于某种原因而引起的心理、生理或情绪上的紧张；
+（2）pressure在科学上，指单位面积上所受到的压力。用于引申时，指某事物所产生的压力或影响力。
+- `heart`：心的延伸
+（1）the heart of the matter：事情的本质
+（2）to take heart：鼓起勇气
+（3）a heavy heart：心情沉重
+（4）heart to heart 坦诚的
+（5）to wear one's heart on one's `sleeve`(袖子)：非常坦率
+（6）one's heart goes out to：同情；Let your `heart go out to` those who are suffering, and pray for their improvement.
+（7）cross my heart：指天发誓；
+（8）a heart of gold：金子般的心；a heart of stone：铁石心肠；
 - **as相关**：
 （1）表示当某人身份时：As a gardener,hell take care of all flowers。
 （2）`as/so long as:只要`#As long as we dont nose hert,we will find a way to over the difficult。
@@ -123,9 +231,13 @@ today's paper(今天的报纸) #有生命的、时间、地点、距离也可加
 （5）`so...as to...>如此..以至于`#You are so kind as to show me the way.
 （6）`as a matter of fact`#其实，实际上。（7）`may/might as well`#还是，还不如。
 （8）as well as#既..又...，以及、此外。（9）`as...as...`#和什么一样。
-- **to的用法**：
-（1）表针对：Air is indispensable(不可或缺的) to life.
-（2）表比较：The quarrel(争吵) happened `prior(占先的) to` my arrival(到达)。与动词，带比较性质的词放一起常是一个固定搭配。
+- **lie**：躺下、说谎；意不一样时其对应的时态变化也不同
+（1）说谎：时态为：`lie>lied(过去式和过去分词)>laying`
+（2）躺下：时态为：`lie>lay(过去式)>lain(过去分词)>laying`
+（3）lie(躺下)的过去式lay，与词`lay（摆放）`同形。用句意和时态使用区分它们。
+- `hope与wish`：对事情的态度不同.
+（1）hope是对未来，努力可及的事的期望：Hope for the best and planfor the worst. #<i c=gn>已发生的事则不能再用hope：</i>i wish i had got the job.
+（2）wish是一种谦卑的态度的祈愿：i wish tomorrow is a sunny day. #祝福语时也使用wish
 - **from与since**：来自和自从。两者有时候容易混淆。he has lived since 1980。it's a short distance from here。
 （1）动词+from：come from来自,date from追溯, depart from违背, die from死于, escape from逃出,fall from自…跌落，excuse from免除, keep from阻止做,prevent from不准做。
 （2）be+形容词+from：be absent from缺席,be different from与众不同, be far from更不用说, be hidden from躲避,be made from用…制成, be tired from因…而疲倦。
@@ -145,12 +257,13 @@ on a winter day表示再具体的某一天。<b c="gn">用于事物时就可以�
 - **for**：for this reason#(表因为，由于)。
 （1）for three days#表时间，距离。what do you come here for#为什么。he sold his house for 300#等价交换。
 （2）we set off for Lundon#开往，前往。red is for danger#代表。固定搭配中。
-（3）[for使用学习地址。](https://wenku.baidu.com/view/96cb873ace84b9d528ea81c758f5f61fb6362815.html)。for为介词，翻译时不用在乎其具体意思，直译其它词就好。
-- 复数变化规则：
-（1）一般情况末尾加s。（2）以s、sh、ch、x结尾的加es。（3）以ce、se、ze结尾的加s(为了区别于2中的内容)。
-（4）以辅音字母加y结尾的改y为i再加es，`holidy->holidies`。(5)、以o结尾的部分加s，有的加es。
-（6）部分词为单复同行，如deer，sheep等。（7）部分词的复数形式为不规则变化，如`child->children，foot->feet`等。
-- 过去式变化规则：
+（3）表为了意识时使用for，而非to。
+（4）<b c=b>事件是持续情况用for</b>：`i've lived in Taipei for 22 years.`
+（4）<b c=b>非持续情况用since</b>：`i've lived in Taipei since 1990 untill now.`# since只是说明一个起点。 
+- `providing that与given that`：
+（1）proviing that标记未知的假设或条件，**意为如果**：`Providing that` he has more time, he will do a better job. #如果他有更多时间，他将会做好工作。
+（2）Given that标记已知事件，可意为考虑到：`Given that` he had more time, he did awonderful job.
+
 - **by的使用**：
 （1）以...计。常接计量单位，且用the：they are paid by the month他们的报酬按月计)。Bananas are usually sold by weight#香蕉通常按重量卖。
 （2）表时间的用法。意为：“最迟在...前”，“到...时候已经”，we will have finished  the work by next month。he was very tired by the eveing#到晚上他已经很累了。
@@ -166,14 +279,7 @@ on a winter day表示再具体的某一天。<b c="gn">用于事物时就可以�
 - `ain't` =am not prep.（不是）也可用作are not，is not，have not，has not，will not的缩略语。多用作非正式的口
 - no point：没意义。no thing：没什么。`hope for the best`：希望有好的结果。`it's not over untill it's over`：不到最后，不见分晓。`hardware engineering` 硬件工程
 
-- **what、that、where**等词的用法：它们不一定用于描述某个词，也常直接引导一个句子做某个成分[学习地址。](https://www.doc88.com/p-243584168541.html)
->**what**：什么/所...的。可引导主语、表语、宾语从句，可在**从句中做成分**。`what you say is quite right`#你所说的相当正确。
->**that**：也可引导主语、表语、宾语从句，但在从句中不做成分，无实际意义，仅仅是连接作用，**引导宾从时一般可省略**。
->**whether和if**：是否。`He asked if/whether we wanted a drink`#他问我们是否想去喝一杯。`I don't care if it dont't rain`#(我不在乎天是否下雨)，引导的从句是前面的条件时只能用if。Whether he has left，I can't say#引导放于句首时用whether。
->**why和because**：why强调结果，because强调原因，所以注意成分来使用。 The reason why he didn't attend the party yesterday is that ...
->where：指代地点。i wonder where she lives#我想知道她住哪。
->which：一般指代物。常用于引导定语从句。 This is the family which is plaining  to move to party#这是要搬进城里的一家人。
->**who和whom**：指代人。whom只能在从句中做宾语，who可做主语。He is the boy who came to our class yesterday
+
 ## f、数值&时间&日期：
 <i class="label1">数值的表示</i>
 - 0-10：zero、one、two、three、four、five、six、seven、eight、nine、then（10）。
@@ -258,7 +364,13 @@ The museum houses `several`(几个，各自的) of his Cubist `masterpieces`（�
 `pure`(纯粹的，完全的) `silks`(丝绸) `embroidered`(秀花的) with `elaborate`(复杂的) patterns.【秀有精美图案的真丝绸衣服】
 - [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)   政治、地理、历史、宗教观念、影视、古典文学、名人
 
-## 作文：
+## A、疑难句：
+1. With what `secret satisfaction`(内心的喜悦) he `anticipates`(预见、期望) that vist to the barber's in the middle of the moning!    他内心期待上午十点多去理发的心情不知道有多高兴！
+2. Was it not he who created the machine? #不就是他自己创造了这台机器吗？
+3. Now I must here, in `parenthesis`(n- 插入语，间歇), `firmly state`(坚定的陈述) that i happen to be a member of the Society for the `Suppression`(n-压制) of Moral `indignation`(n-气愤).
+【这里必须插一句，我坚定地声明我是抑制道德义愤协会的会员】
+4. Well, i'm of a `forgiving`(adj-宽容的，v-原谅) `disposition`(n-性格、倾向). 好吧，我不想计较了；
+## B、作文：
 ### 一、看图描述类：
 1. 第一段：描述图画内容
 The diagram above clearly reflects that ..【上幅图清楚的展示了..】
@@ -416,3 +528,10 @@ when they are `prosecuted`(起诉、检举) for `corruption`(贪污，贿赂，p
 
 
 [^ppl]: 分词：v-ing或v-ed形式，一般是做名词和形容词，分词不能做句子谓语。
+[^factive]: 使役动词：表示使、令、叫、让、帮意思下的不完全及物动词，如：have、let、make、help、get、leave(离开; 抛下; 留下；不碰; 使处于; 交托; 取决于; 转换)等
+[^noun]: 名词所有格：名词有三个格：主格、宾格、所有格，主格与宾格形式相同所以统称为通格，名词做主语，宾语，表语时用通格。所有格形式有：'s和of所有格，举例如下：
+today's paper(今天的报纸) #有生命的、时间、地点、距离也可加's。其它可以用of： the title of the book.
+[^fus]: 复数变化规则：
+（1）一般情况末尾加s。（2）以s、sh、ch、x结尾的加es。（3）以ce、se、ze结尾的加s(为了区别于2中的内容)。
+（4）以辅音字母加y结尾的改y为i再加es，`holidy->holidies`。(5)、以o结尾的部分加s，有的加es。
+（6）部分词为单复同行，如deer，sheep等。（7）部分词的复数形式为不规则变化，如`child->children，foot->feet`等。
