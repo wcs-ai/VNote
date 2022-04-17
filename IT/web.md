@@ -31,7 +31,7 @@ M：移动至起始点，必须。L：直线结束点。H：从当前点画水�
 **svg内联**：css的background-img的url可以显示链接图片和base64图片，将svg转为base64的也能在其中显示出来，部分版本较高的浏览器可以直接用svg代码，如下：
 ```css
 .aa{
-    background:url('data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" version="1.1">...');
+    background:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox='0 0 200 200' xmlns="http://www.w3.org/2000/svg" version="1.1">...');
 }
 /*ie和一些浏览器中不能显示出来，但可以使用
 -------js的encodeURIComponent()方法将其转码后使用,注意需要xmlns属性：
@@ -41,6 +41,7 @@ M：移动至起始点，必须。L：直线结束点。H：从当前点画水�
 }
 /*这种内联的svg渲染几乎无延迟*/
 ```
+注：利用svg的`viewBox`属性和其内部图形比例来控制它们；
 **svgIcon**：目前常用的使用自绘制的svg图标方法：
 1. 写一个公共组件放置引用svg图标：
 ```vue
@@ -422,9 +423,11 @@ tel、number、email、text、radio、checkbox、image、date、color、button�
 
 5、**table的使用**：其直接属性控制的样式与css样式不同一。
 ```html
+
 <table border="1" cellspacing="0" cellspadding="0" rules="rows" bordercolor="#e3e3e3">
 <!--border为线宽，cellspacing为格间距
 rules：规定内侧边框的哪个部分是可见的。frame：规定外侧边框的哪个部分是可见的；    //border为0时这两个属性不生效。
+将table元素中的表格间距取消：border-collapse:collapse;
 -->
 <thead>
 <tr><th></th></tr>
@@ -548,28 +551,120 @@ export default {mixins:[mixin...]}//将一些公用的js方法以mixin注入，�
 ## 1、基础：
 - **流**：俗称文档流，指的是css中的基本的定位和布局机制，css中的布局规则。所以从上而下从左至右的描述只是css的一个默认流而已。
 - **自适应布局**：对凡是具有自适应布局的一类统称，流体布局是自适应布局的一部分，但**流体布局**狭窄的多，<b class="violet">如div+css就是流布局，而table布局则不属于流布局，因为css真正是从css2.1开始的，IE8开始支持它，在这之前table就已经存在，所以ie8前的浏览器多数使用table布局。</b>
-- **css3**：移动端的掀起崔氏css3的产生，css3中新添了很多丰富网页的属性，如3d、变换、渐变、圆角、弹性布局、栅格布局、动画等。但并未影响，更新之前2.1的流属性。
+- **元素的4个盒子**（盒模型）：content-box、border-box、padding-box(`padding`的百分比值是根据**元素宽来计算**的)、margin-box;
+元素的两个元素：每个标签有两个元素组成，内部元素控制宽，高、尺寸等；因此有“行内快”属性（`display:inline-block;`）
+Box-sizing:`border-box`;可以将宽度作用到哪一个盒子，无法作用到margin-box；
 - **未定义行为**：相同的css代码在不同浏览器可能效果不一样，甚至不显示，这并非bug。因为各浏览器厂商去实现css时有一些自己的理解和定义，导致一些特殊情况未在其规则内导致的差异，繁杂多变的情况总有遗漏。<b class="gray">如伪类::activity元素上同时绑定事件，事件中使用`event.preventDefault()`#这样能使拖动之类的效果更流畅，但火狐上不会显示active定义的行为。</b>
-- **盒模型**：box-sizing:`content-box`;//定义的width不包含border宽度，即总宽度= padding值+border值+width值（margin值不算元素宽度）但如果是背景图片依然会占据padding部分（不会占据border部分），文本内容不会占据padding部分；Box-sizing:`border-box`//定义的width包含padding值和border值即：总宽度=width；背景图片占据padding部分。（伪类元素定义出来的是content-	box模型，即使通配符中已经定义了box-sizing:boder-box）。
-- **自动换行**：word-break：break-all或white—space：normal来实现自动换行。引入外部文件中的资源地址不能用斜杠开头(一些浏览器不能识别)固定定位只相对于window窗口，无论该元素放到上面元素里。
+
+-  FOUC(无样式内容闪烁)：Flash Of Unstyled Content ，`<style type="text/css" media="all">@import "../fouc.css";</style> `而引用CSS文件的@import就是造成这个问题的罪魁祸首。IE会先加载整个HTML文档的DOM，然后再去导入外部的CSS文件，使用`<link/>`标签代替即可。<b c=gy>link属于HTML标签，而@import是CSS提供的、页面被加载的时，link会同时被加载，而@import引用的CSS会等到页面被加载完再加载。</b>
 - **BFC**：（块级格式化上下文），是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。
-**BFC的特性**：bfc就是页面上的一个独立容器，容器里面的子元素不会影响外面元素。
-**形成BFC的条件**
+>**BFC的特性**：bfc就是页面上的一个独立容器，容器里面的子元素不会影响外面元素。
+>**形成BFC的条件**
 - `<html>`根元素；
-- float 的值不为 none； 
-- overflow 的值为 auto、scroll 或 hidden；
-- display 的值为 table-cell、table-caption 和 inline-block 中的任何一个；
-- position 的值不为 relative 和 static。
+（1）float 的值不为 none； 
+（2）overflow 的值为 auto、scroll 或 hidden；
+（3）display 的值为 table-cell、table-caption 和 inline-block 中的任何一个；
+（4）position 的值不为 relative 和 static。
 
 - **css选择器**：`div+p`#两个紧挨者的元素，`[attribute]`#选择带有arrtibute属性的元素。[attribute=value]选择等于指定值的。[attribute~=value]属性值中包含该值的。[attribute|=value]属性值中以该value开头的。`p:first-child`#选择p的父元素的第一个子元素(属于p元素)。p:last-child#选最后一个子元素。`p:nth-child(n)`#选择第n个子元素(属于p元素)。p:nth-last-child(2)#从最后子元素开始计数。[css选择器全部](http://www.w3school.com.cn/cssref/css_selectors.asp)
 >**选择器优先级**：带!important>内嵌样式>id>类名==属性选择器>标签选择器>通配符(*)>继承(继承父元素的属性)>浏览器默认属性。子选择器用id选择时比id选择器优先级高。
 >**选择器的解析**：解析选择器时是从右往左的（如使用`#div>.cc`时是先取.cc再取#div的顺序去构建树【更容易把公共样式放在一个节点】）少用一些子选择器。
 - **鼠标样式**：cursor:pointer;//手指,提示可点击。hand//IE5使用的手指样式、wait;//等待、help;//帮助、no-drop;//无法释放、text;//文字，暗示为文字内容、move;//提示可移动对象、crosshair;//十字准心、n-resize;//向上改变大小箭头、s-resize;//向下改变大小箭头、e-resize;//向右改变大小箭头、w-resize;//向左改变大小箭头、ne-resize;//向右上改变大小箭头、nw-resize;//向左上改变大小箭头、se-resize;//向右下改变大小箭头、not-allowed;//禁止、progress;//处理中、default;//提示可移动对象、url();//引入外部文件作为鼠标样式，文件格式必须为.cur或.ani。
-- **边框样式**：border:1px dotted red;//dotted:点线、dashed:虚线、double:双边框、groove:3d凹槽、ridge:菱形边框、insert:3d凹边、//outset:3d凸边。
-- 外边框：`outline:#00FF00 solid thick;`#样式，样式，宽度。
+- **边框样式**：
+
+```css
+border:1px dotted red;
+border-style:dotted:点线、dashed:虚线、double:双边框、groove:3d凹槽、ridge:菱形边框、insert:3d凹边、//outset:3d凸边。
+border-width:think;/*think=1px,medium=3px,thick=4px*/
+/*用border优雅的放大点击区域*/
+border:10px solid transparent;
+```
+外边框：`outline:#00FF00 solid thick;`#样式，样式，宽度。
 - textarea标签：resize属性的的各个取值:none：用户不能操纵机制调节元素的尺寸、both：用户可以调节元素的宽度和高度、horizontal：用户可以调节元素的宽度、vertical：让用户可调节元素的高度、
-- 删除线：text-decoration:line-through;
-- **超出隐藏**：
+- **布局准则**：
+（1）无浮动：浮动容错性差；
+（2）无宽度：设置了宽度之后容器的“流动性”【width，padding等尺寸上的自适应性】会丢失，元素宽发生改变后也会导致重绘；position:absolute;下的尺寸也具有流动性
+（3）无图片
+- **流体布局下的宽度分离原则**：不用自己更多的计算，且更稳健;（也可以用`box-sizing:border-box;`把宽度作用到border-box上，但不大推荐如此）
+```html
+<div id="farther"><div id="son"></div></div>
+<style>
+/*父元素控制宽，子元素控制其它盒子的尺寸，而不用都放在一个元素上写他们*/
+#farther{width:100px;}
+#son{border:2px solid black;padding:20px;}
+</style>
+```
+- **height:100%;**：父元素有具体高度时，所有定位，使用height:100%；均可生效；
+- **块级元素控制**：
+
+```html
+<div id="farther"><div id="son"></div></div>
+<style>
+/*右对齐,不需要使用浮动*/
+.son {margin-left:auto;}
+/*左右居中*/
+.son {margin:0 auto;}
+/*上下居中: 法一（但不能左右居中）*/
+.father {
+ height: 200px;
+ /*改变文档流方向*/
+ writing-mode: vertical-lr; 
+} 
+.son { 
+ height: 100px; 
+ margin: auto;
+}
+/*上下，左右垂直居中*/
+.father { 
+ width: 300px; height:150px; 
+ position: relative; 
+} 
+.son { 
+ position: absolute;
+ width:100px;
+ height:100px;
+ margin:auto;
+ top: 0; right: 0; bottom: 0; left: 0; 
+}
+/*===============
+浮动实现块级元素同行布局
+（右侧或左侧不出现空白）
+=================*/
+ul {
+ margin-right: -20px;
+}
+ul > li {
+ float: left;
+ width: 100px;
+ margin-right: 20px;
+}
+</style>
+```
+- **滚动容器底部留白**：有滚动的使用一般底部使用一些留白，效果稍好；使用`margin-bottom:20px;`来实现（所有浏览器几乎可以）使用padding则会有兼容性问题；
+- 平滑滚动：`scroll-behavior:smooth;`//发生滚动时更平滑(锚点跳转、改变scrollTop值)
+- **滚动锚定**：滚动时或点击加载更多，新的内容导致滚动条位置变化，
+overflow-anchor:auto;状态会保持当前观看内容处于用户视线内，用户感觉不到滚动条位置变化。
+overflow-anchor:none;关闭时则会优先显示加载的内容。
+
+- **input选中后样式**：
+```css
+input:foucs{
+    outline:none;
+    border:1px solid green;
+}
+/*修改placeholder字体样式*/
+input::-webkit-input-placeholder{
+    color: revert;
+}
+```
+- **媒体查询器**：`@media only screen and (min-width: 300px) and (max-width: 768px) {}`
+
+- **文本控制**：
+（1）调整字间距：letter-spacing:5px；
+（2）两端对齐：text-align：justify;和text-align-last:justify;(一起使用)。最好将要对其子元素设置为inline-block元素。
+（3）**自动换行**：word-break：break-all或white—space：normal来实现自动换行。
+（4）删除线：text-decoration:line-through;
+（5）**超出隐藏**：
 
 ```css
 /*文字超出省略*/
@@ -586,25 +681,9 @@ display: -webkit-box;
 -webkit-line-clamp: 2; //设置行数
 -webkit-box-orient: vertical;
 }
-```
-- **input选中后样式**：
-```css
-input:foucs{
-    outline:none;
-    border:1px solid green;
-}
-/*修改placeholder字体样式*/
-input::-webkit-input-placeholder{
-    color: revert;
-}
-```
-- **媒体查询器**：`@media only screen and (min-width: 300px) and (max-width: 768px) {}`
-- 平滑滚动：scroll-behavier:smooth;//发生滚动时更平滑(锚点跳转、改变scrollTop值)
-- 调整字间距：letter-spacing:5px；
-- 将table元素中的表格间距取消：border-collapse:collapse;
-- 两端对齐：text-align：justify;和text-align-last:justify;(一起使用)。最好将要对其子元素设置为inline-block元素。
-- 禁止选中文本：
-```css
+/*===============
+    禁止选择文本
+=================*/
 {
 -moz-user-select: none; /*火狐*/
 -webkit-user-select: none; /*webkit浏览器*/
@@ -612,9 +691,11 @@ input::-webkit-input-placeholder{
 -khtml-user-select: none; /*早期浏览器*/
 user-select: none;
 }
-```
-- **背景图片设置**：
-```css
+/*===============
+    禁止拖拽
+=================*/
+img{-webkit-user-drag:none;}
+/*背景图片设置*/
 background:url(" ") no-repeat;
 background-position:50% 0; //图片居中
 background-size:cover; //占满
@@ -627,18 +708,6 @@ background-size:cover; //占满
     src:url(../font/okj.otf);//一般是otf文件
 }
 div{font-family:"sAir";}//使用字体
-```
--  FOUC(无样式内容闪烁)：Flash Of Unstyled Content ，`<style type="text/css" media="all">@import "../fouc.css";</style> `而引用CSS文件的@import就是造成这个问题的罪魁祸首。IE会先加载整个HTML文档的DOM，然后再去导入外部的CSS文件，使用`<link/>`标签代替即可。<b c=gy>link属于HTML标签，而@import是CSS提供的、页面被加载的时，link会同时被加载，而@import引用的CSS会等到页面被加载完再加载。</b>
-- **滚动锚定**：滚动时或点击加载更多，新的内容导致滚动条位置变化，
-overflow-anchor:auto;状态会保持当前观看内容处于用户视线内，用户感觉不到滚动条位置变化。
-overflow-anchor:none;关闭时则会优先显示加载的内容。
-- 最外层元素高度使用浏览器高：
-
-```css
-html,body{/*先让html，body高占全屏。*/
-    height:100%;
-    overflow:hidden;
-}
 ```
 - marker伪元素：
 
@@ -707,6 +776,40 @@ p::hover{
     /*设置一个安全高度，设得太大，在收起时会有明显速度不统一的问题*/
     max-height:100px;
 }
+```
+## 1.1：无js的选项卡实现
+
+```html
+<div class="box"> 
+ <div class="list"><input id="one">1</div> 
+ <div class="list"><input id="two">2</div> 
+ <div class="list"><input id="three">3</div> 
+ <div class="list"><input id="four">4</div> 
+</div> 
+<div class="link"> 
+ <label class="click" for="one">1</label> 
+ <label class="click" for="two">2</label> 
+ <label class="click" for="three">3</label> 
+ <label class="click" for="four">4</label> 
+</div> 
+<style>
+.box { 
+ height: 10em; 
+ border: 1px solid #ddd; 
+ overflow: hidden; 
+} 
+.list { 
+ height: 100%; 
+ background: #ddd; 
+ position: relative; 
+} 
+.list > input { 
+ position: absolute; top:0; 
+ height: 100%; width: 1px; 
+ border:0; padding: 0; margin: 0; 
+ clip: rect(0 0 0 0); 
+}
+</style>
 ```
 ## 2、尺寸单位：
 - **em**：是根据当前元素字体大小而变化的,列入当前元素font-size:14px;width:10em,此时width为140px(每1em为字体大小)。
@@ -964,7 +1067,7 @@ $subMenuHover: #9900ff;
   .bordered();//less中的混合。
   &:after {
     content: " ";
-    display: block;
+    display: block;**
   }
 }
 // 函数使用
@@ -1070,14 +1173,21 @@ front/index.html  //忽略front文件夹下的Index.html文件
 win10/控制面板/用户账户/凭据管理器/windows凭据。最下方找到git的缓存，删除。
 **内网中使用git**：单独搭建一个git平台。封闭的内网环境内无法访问到外部网络，这需要自己在内网内指定一个git服务，做远程仓库用于存放代码。这也是众多代码托管平台，但多数是基于git或svn的原因。
 **git分支管理策略**：git官网给出的一个管理分支的规则，几乎多数开发者都会使用。策略如下：
-- 将master作为正式发布的分支，开一个devl作为开发使用的分支，开发完成后合并到master，然后使用master发布。（因为此时devlopment也是最新的，使用dev发布也可）。
-- 因为其它需要，dev上又可以延伸出其它3种功能的分支：预发布分支、缺陷分支、功能分支。
-- 预发布分支：开发完后，预发布在公司内测试。一般命名为release-1.0之类，开发完后合并入dev。
-- 缺陷分支：（预发布或正式发布后任有不过，对其进行修复的分支）。
-- 功能分支：一个项目模块拿出来单独开发，开发完成后合并入dev。
-- 功能、缺陷、预发布完成后合并入dev，dev合并入master。
+- 将master作为正式发布的分支，开一个devl作为开发使用的分支；
+- 开发完成后合并到master，然后使用master发布（`git merge --no-ff dev`,使用--no-ff参数后，会执行正常合并，在Master分支上生成一个新节点）
+- 因为其它需要，dev上又可以延伸出其它3种功能的分支：预发布分支、缺陷分支、功能分支。<b c=r>这3个分支使用完后应该删除</b>
+- 预发布分支：命名release1.x，**源于dev分支**；开发完后合并：（dev上）git merge --no-ff release1.x；开发完后，预发布在公司内测试。一般命名为release-1.0之类，。
+- 缺陷分支：命名fixbug，**源于master分支**；开发完后合并：（master上）git merge --no-ff dev，然后git merge --no-ff master；<b c=gn>先合并到master，再并入dev</b>
+- 功能分支：命名feature-x，**源于dev分支**；开发完后合并：（dev上）git merge --no-ff release1.x；一个项目模块拿出来单独开发，开发完成后合并入dev。
 - [git分支管理学习地址。](http://www.ruanyifeng.com/blog/2012/07/git.html)
 
+| 功能         | 命名        | 创建                                   | 合并                               | 完成后 |
+| :---------- | :--------- | :------------------------------------ | :-------------------------------- | ------ |
+| 测试版分支   | release1.x | git checkout -b release1.0 origin/dev | dev：git merge --no-ff release1.0 | 删除   |
+| 功能分支     | feature-x  | git checkout -b feature-x origin/dev  |                                   | 删除   |
+| bug分支      | fixbug     | git checkout -b fixbug origin/dev     |                                   | 删除   |
+| 开发分支     | dev        | git checkout -b dev origin/master     |                                   | --     |
+| 正式版本分支 | master     | --                                    |                                   | --     |
 **项目资源搜索**：awesome 接想搜索的资源。[搜索技巧学习地址。](https://blog.csdn.net/csdnnews/article/details/86570635)
 git-gui的使用：在安装目录下的cmd/下。不过是英文的，且没sourceTree那样全面。
 [merge时提示：refusing to merge unrelated histories解决](https://blog.csdn.net/lindexi_gd/article/details/52554159)
@@ -1537,6 +1647,10 @@ pc端和手机端都下载google浏览器，手机上打开开发者选项并允
 127.0.0.1:5500/self.html,需要输入192.168.1.12:5500/self.html)这里的192.168.1.12是你pc的ipv4地址。(注:虽然在手机浏览器上能看到效果但其实在pc端浏览器上运行的效果,并不是在手机端浏览器环境下运行出来的)。[参考地址1。](https://www.cnblogs.com/meakchen/p/5665887.html)[参考地址2。](https://www.cnblogs.com/imwtr/archive/2016/09/18/5881039.html)
 **问题**：如果方法一无法打开页面，那么可以尝试设置防火墙，设置里有控制各服务允许通过防火墙的设置，找到node,javascript相关字样的，勾选允许即可。
 [解决该问题参考地址。](https://www.cnblogs.com/AwenJS/p/12840924.html)
+
+google浏览器控制台使用：
+- netWork/wifi形状左侧，可选择slow3G，模拟弱网环境；
+- 右上角设置/右下角Disable javascript，可禁用js；
 
 ## 11、uni-app的使用：
 **介绍**：uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉/淘宝）、快应用等多个平台。结合Hbuilder x使用，文件新建一个项目选择uni-app项目(网站、app、小程序都选这个)。[uni-app官网。](https://uniapp.dcloud.io/)[插件市场](https://ext.dcloud.net.cn/search?q=uni-ui)。
@@ -2050,7 +2164,10 @@ let c: Color = Color.Green;
 //>>>>>>>>>>>>!使用
 let y:number
 y = null! //用在值后可以让不符合的类型编译通过。
-
+/*========================
+    未知对象类型使用,不要使用object
+==========================*/
+var cc:Record<string:unknow>;
 //-----------数值连接字符串：直接使用+或模板字符串连接会报错。
 let res:string = decLiteral.toString().concat(str);
 //interface用于创建一个类型要求例子，可以公共调用。

@@ -28,6 +28,7 @@ x.charAt(index)//查找字符串的对应下标的值,`“justice”.charAt(1)=�
 str.substring(start,end)//提取字符串中介于两个下标间的字符串，一个参数时为start，截取后面所有。**在源数据上操作**。
 str.substr(start,length)//第二个参数为选择从start起截取多少个长度字符。<b c=r>不改变原数据的值。</b>
 str.indexOf('aa')//查找字符串位置。
+s = "fdfd_fdf".replace(/f/g,"a");
 str.search('abc')//找到子串开始位置。
 str1.concat(str2)//连接两个字符串，返回一个新的值。
 "*".repeat(3)//生成3个重复的字符。
@@ -236,6 +237,8 @@ let id = Symbol("id");//typeof id = symbol;
 ```
 
 **数据类型检测**：`console.log(typeof val)`#有string、number、undefined、boolean、function、object（字典和null都显示这个）。
+<b c=r>非引用类型（字符串、数值、布尔等）推荐使用typeof检测。</b><b c=r>引用类型（数组、object、自带对象Date等）推荐使用instanceof检测。</b>
+
 ```js
 const a = [];
 let _typ;
@@ -254,7 +257,6 @@ if(typeof a==="object"){
 }
 console.info(_typ);
 ```
-
 
 ## 2、编码相关：
 ```js
@@ -413,6 +415,20 @@ dat.getDay();// 获取星期
 var dt1 = new Date();
 var dt2 = new Date(dt1);// 将dt1当参数传入
 dt2.setDate(dt1.getDate()+5);//将今天的号数设置为5天之后的号数
+// 与当日差距的天数时间
+      function dateScope(fromDate) {
+        const _fromDate = fromDate || 0;
+        const d1 = new Date();
+        const d2 = new Date();
+
+        d2.setDate(d1.getDate() + Number(_fromDate));
+
+        const y1 = d2.getFullYear();
+        const m1 = d2.getMonth() + 1;
+        const date = d2.getDate();
+
+        return `${y1}-${m1}-${date}`;
+      }
 ```
 ### f1、call()和apply()的使用：
 apply和call的作用是回调，es6之前很多回调都是使用它们；**Function.apply(obj,args)方法能接收两个参数**obj：这个对象将代替Function类里this对象。args：这个是数组，它将作为参数传给Function（args-->arguments。call:和apply的意思一样,只不过是参数列表不一样。
@@ -2256,6 +2272,7 @@ this.#router.back(-1);
 //------****动态路由，路由配置页面如下
 {
     path:"/book/:id",// :id为占位。必须用name跳转，
+    //path:"/hello/:nav(.*)"
     name:"book",
     component:()=>import('../book')
 }

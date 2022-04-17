@@ -175,17 +175,23 @@
 （2）直接引述：He said: "I will do it if i feel like to." #按其原话就行，用引号。
 ## e、短语/词：
 - enjoy/appreciate/think：`enjoy和appreciate`的**受词对象是事物**，而不是人。think的受词对象是人。
+- `gone to`：已经去到了！go为动态类动词，表移动，所以其过去式就是去到了。`he is gone to japan.`#他已经去到了日本。
+- `been to`：be是静态类动词，表状态，所以其过去式就是曾今再过的意识。`he has been to japan`. #他曾经去过日本
+- `disproportionately(adj-不匀称的) squeezed(挤压)`：不堪重负
+- `free mind`：什么都不想；如：half an hour's `intimacy`(亲密) with his wife and a `free mind` once a week.
 - `see/look/watch`：
 （1）see是视觉上不自觉的接收到；I see a forest.
 （2）look是自主的去看；I am looking at the picture.
 （3）watch是自主看，且是专注欣赏的态度；I'm watch TV `a talk show`.#同位修饰语
-- `gone to`：已经去到了！go为动态类动词，表移动，所以其过去式就是去到了。`he is gone to japan.`#他已经去到了日本。
-- `been to`：be是静态类动词，表状态，所以其过去式就是曾今再过的意识。`he has been to japan`. #他曾经去过日本
+
 - `variety/varied/varieble/various`:
 （1）various-`adj`：各种各样的，多种的，各不相同的。<i c=r>它可以指人或物。侧重于强调种类</i>
 （2）variety-n： 品种，不同种类，多变性。
 （3）varied-adj/v：各种各样的/变化。vary的过去式与过去分词。<I c=v>它侧重于强调多变、变化不同</i>
 （4）variable-adj/n：变化的，可变的/可变因素。
+- `stress与pressure`：
+（1）stress侧重指承受外来的压力，也指由于某种原因而引起的心理、生理或情绪上的紧张；
+（2）pressure在科学上，指单位面积上所受到的压力。用于引申时，指某事物所产生的压力或影响力。
 - **类别**：
 （1）kind：性质相同，且特征相似，足以归为一类的人或东西。
 （2）sort：普通用词，对人或物进行大概分类，**有贬义**。
@@ -194,6 +200,18 @@
 （5）classification：根据已确定的类型对某一实物鉴别分类；
 （6）category：书面用词，有确切定义的群体；
 （7）`species`：书面用词，**单复同形**，**生物分类**上的种。
+- **愉快**：
+（1）happy：【adj】侧重感到满足，幸福；
+（2）glad：【adj】最普通用词，语气弱，指乐于做某事，礼貌惯用语；
+（3）cheerful：【adj】指因内心愉快而表现出的高兴，强调自然感情流露；
+（4）joyful：【adj】语气较强，心情和感情上的欣喜；
+（5）merry：【adj】指情绪精神上的暂时高涨，侧重充满欢笑声，乐趣；
+（6）delightful：指能带来强烈的快乐；
+（7）gay：侧重无忧无虑，充满生命的快乐；
+（8）pleasant：侧重给人以赏心悦目的感觉；
+（9）nice：泛指任何类型的愉快；
+（10）jolly：通俗用词；
+（11）agreeable：指与感受者的愿望，爱好等和谐一致带来的快感；
 - **反对**：
 （1）oppose：广泛用词，不争论，无理由的反对。
 （2）deny：侧重否认意见或言论的真实性；
@@ -206,14 +224,57 @@
 （3）ware：上市待卖的货物
 （4）freight：多指船装类货物
 （5）commodity：做“商品”时，多用指日用品。
+- 完成：
+（1）complete-adj,v：完成预定任务，或使某事完善；
+（2）finish-adj：圆满完成自己着手的事
+（3）end-n,v：最普通用词，事情的自然结束或终止；
+（4）close-[v,adj,adv,n]：普通用词，行为的终止或结束；
+（5）conclude-v：某事达到预期而结束
+（6）terminate-vi：书面用词，强调有一个空间，时间的限制，到时必须结束；
+（7）accomplish：正式用词；
+（8）integrated：adj-完整的；v-使一体化；
+（9）intact：adj-完整无缺的；
+（10）full：adj-完满的，详尽的；侧重指内容，包揽所有的意味；
+- 责任，任务，债务：
+（1）duty-n：按道德和法律的标准，一个人要尽的义务，**强调自觉性**；
+（2）obligation：道义上或法律上对他人的义务，**强调强制性**；
+（3）responsibility：指任何义务，职责上所尽的本分，强调对他人的责任；
+（4）function：因职务或职业关系，履行某种职责；
+（5）assignment-n：作业，任务；
+（6）task：值分派给的任务，也指自愿的工作，往往用于任务艰难时；
+（7）work-n/v：最普通用词，含义广，指人们日常从事的体力，脑力活动；
+（8）job-n：较口语，侧重受雇佣时，以谋生为目的的工作；
+（9）debat-n：债务，恩情；物质上的负债；
+（10）liabilities：义务，债务；
+（11）blame-v：责怪；n-责任；语气较弱，一般的责难；
+（12）accuse-v：语气比blame强，归罪，谴责之意；
+（13）condemn-v：正式用词，侧重从道义上的谴责；
+（14）scold-v：普通用词，多指上级对下级，长辈对后辈的数落；
+（15）reproach-v：侧重指因他人粗心、自私等引起的不满而去指责；
+（16）rebuke-v：上级对下级进行公开的责备；
+- **机智、聪明**：
+（1）ingenious-adj：灵巧的，设计独特的；指思路敏捷，有创造的潜力；
+（2）bright：口语常用，多指年轻人，小孩理解能力强；
+（3）chever：强调头脑灵活；
+（4）wise：侧重不是一般的聪明，值有远见，大智慧；
+（5）brilliant：指人的才华出众，令人赞叹不已；
+（6）intellignet：正式用词，抽象，理解能力强；
+（7）smart：普通用词，与bright差不多，更侧重机灵；
+（8）shrewd：指今明老练，善于判断，把握机会；
+（9）sagacity-n：精明，卓识；
+（10）brain-n：脑，智力；
+- 证明：
+- 修补：
+（1）repair-v/n：补救
+（2）mend：指较简单的修复过程，无需专门技术就可行的那种
+（3）patch：用类似材料修补破洞；
+（4）fix：带有安装固定性质的修理；
 - mouth：口的搭配
 （1）word of mouth：口口相传；
 （2）to badmouth sb：说某人坏话；
 （3）from hand to mouth：仅能维持生活；
 （4）born with a `silver`(银币) `spoon`(n-勺子) in one's mouth：天生富贵；
-- `stress与pressure`：
-（1）stress侧重指承受外来的压力，也指由于某种原因而引起的心理、生理或情绪上的紧张；
-（2）pressure在科学上，指单位面积上所受到的压力。用于引申时，指某事物所产生的压力或影响力。
+
 - `heart`：心的延伸
 （1）the heart of the matter：事情的本质
 （2）to take heart：鼓起勇气
@@ -365,11 +426,12 @@ The museum houses `several`(几个，各自的) of his Cubist `masterpieces`（�
 - [天气词汇学习地址。](https://wenku.baidu.com/view/50527971f242336c1eb95e79.html)   政治、地理、历史、宗教观念、影视、古典文学、名人
 
 ## A、疑难句：
-1. With what `secret satisfaction`(内心的喜悦) he `anticipates`(预见、期望) that vist to the barber's in the middle of the moning!    他内心期待上午十点多去理发的心情不知道有多高兴！
-2. Was it not he who created the machine? #不就是他自己创造了这台机器吗？
+1. With what `secret satisfaction`(内心的喜悦) he `anticipates`(预见、期望) that vist to the barber's in the middle of the moning!   【他内心期待上午十点多去理发的心情不知道有多高兴】
+2. Was it not he who created the machine? #【不就是他自己创造了这台机器吗？】
 3. Now I must here, in `parenthesis`(n- 插入语，间歇), `firmly state`(坚定的陈述) that i happen to be a member of the Society for the `Suppression`(n-压制) of Moral `indignation`(n-气愤).
 【这里必须插一句，我坚定地声明我是抑制道德义愤协会的会员】
-4. Well, i'm of a `forgiving`(adj-宽容的，v-原谅) `disposition`(n-性格、倾向). 好吧，我不想计较了；
+4. Well, i'm of a `forgiving`(adj-宽容的，v-原谅) `disposition`(n-性格、倾向). 【好吧，我不想计较了】
+5. faced with the problem `of` existence, which is the problem `of` combining the larget possible amount `of` present satisfaction with the larget possible amount `of` security in the future.【面对生存问题，是多种问题的并存，目前最大程度的满意问题，未来最大程度的安全性问题】这种多of结构的句子，注意各of前后翻译到哪，然后分开翻译即可
 ## B、作文：
 ### 一、看图描述类：
 1. 第一段：描述图画内容
