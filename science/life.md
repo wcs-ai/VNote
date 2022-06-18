@@ -111,8 +111,8 @@ https://jingyan.baidu.com/article/2d5afd698580e585a2e28ebd.html
 - 开局避免频繁走动一子，尽快出动大子；
 - 先手；牵制、闪击、抽将、运子、引离、弃子；
 
-**杀法**：重中之重
-![](vx_images/373135140457.png =280x) ![](vx_images/2572535158883.png =280x) ![](vx_images/4942935146750.png =280x)  ![](vx_images/3691636166916.png =280x) 
+**杀法**：重中之重!
+ ![](vx_images/2572535158883.png =280x) ![](vx_images/4942935146750.png =280x)  ![](vx_images/3691636166916.png =280x) 
 ![](vx_images/1477338159585.png =280x)  ![](vx_images/1358839156140.png =280x) ![](vx_images/5152539151894.png =280x) ![](vx_images/795756239774.png =280x)
 ![](vx_images/4065257237378.png =280x)  ![](vx_images/5378057234880.png =280x)  ![](vx_images/1110958216121.png =280x)  ![](vx_images/3241358238561.png =280x)
 

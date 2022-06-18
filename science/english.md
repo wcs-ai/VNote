@@ -40,12 +40,12 @@
 中文中使用的是语境导向；如：一句中提过的主题不会再提，省略了也能清楚明白，<i c=gn>他的家房间很大，院子很漂亮。</i>
 英文是语句为导向；如：即使知道指的是什么，也要在句中表示出来（更清楚），<i c=gn>**Hsinch Museum** was built in 1936. **It** was used as the local goverment. **It** also ...</i>#每句都加it！
 2. 分清责任：讲究谁是主动，谁是被动，主动句描述时主动方是重点，被动句时，被动方是重点描述。
-（1）主动与被动：**My father** build a house.（主动句）；**The house** was built.（被动句）
-（2）现在分词与过去分词[^pl]：分词的现在和过去不是指时态上，而是指<mark>主动和被动</mark>。<i c=b>主动时用现在分词，被动时用过去分词！</i>
+   （1）主动与被动：**My father** build a house.（主动句）；**The house** was built.（被动句）
+   （2）现在分词与过去分词[^pl]：分词的现在和过去不是指时态上，而是指<mark>主动和被动</mark>。<i c=b>主动时用现在分词，被动时用过去分词！</i>
     【主动帮妈妈】**Helping his Mom**,he washed the dishes.【他被妈妈帮】**Helped by his Mom**, he washed the dishes.
 3. **主从分明**：稍复杂的句子一般都有主句和从句，主句句意完整，可单独成句，从句则不行。（了解到该句子主要是向表达什么）
-（1）如果句子用：because..,so..等结构来描写，则不能突出主句。所以不会出现because..,so...的情况，而是：<i c=gn>i bought this book because...</i>
-（2）附属句子一般用：不定词（to V），分词（V-ing）,及名词字句（that+CL）等形式，都是**附属句子的标记**。如下：
+   （1）如果句子用：because..,so..等结构来描写，则不能突出主句。所以不会出现because..,so...的情况，而是：<i c=gn>i bought this book because...</i>
+   （2）附属句子一般用：不定词（to V），分词（V-ing）,及名词字句（that+CL）等形式，都是**附属句子的标记**。如下：
     I went to the party *`to` see my friends*。Iwent to the party *`thinking` about my friends.*。I went to the party _`that` started at 7 pm._
 4. **关系代词**用法：它们不一定用于描述某个词，也常直接引导一个句子做某个成分[学习地址。](https://www.doc88.com/p-243584168541.html)
 - **what**：什么/所...的。可引导主语、表语、宾语从句，可在**从句中做成分**。`what you say is quite right`#你所说的相当正确。
@@ -384,16 +384,16 @@ the rain ceased and the sky cleared.【雨过天晴】
 
 2. **生物医疗**：saliva（唾液）、sweat（汗液）、fat（脂肪）、abdomen（腹部）、oxytocin（催生素）、remedy（治疗）、skeleton（骨架）`disease resistant plants`(抗病植株)
     coronavirus（冠状病毒）、virus(病毒)、chronic disease(慢性病)、infectious disease(传染病)、infect(v-传染)、birth rate(出生率)、population again(人口老年化)
-Liver cancer is linked to the `hepatitis B virus`. 【肝癌与乙肝病毒存在关联】
-Could a `hug`(拥抱,embrace) `a day`(每天)  keep the `doctor away`(远离)?【每天一个拥抱真的能远离疾病吗】
+    Liver cancer is linked to the `hepatitis B virus`. 【肝癌与乙肝病毒存在关联】
+    Could a `hug`(拥抱,embrace) `a day`(每天)  keep the `doctor away`(远离)?【每天一个拥抱真的能远离疾病吗】
     - 人体相关：shoes(鞋子)、leg(腿，下肢)、shank(小腿)、thigh(大腿)、foreleg(前腿)、hindleg(后腿)。`abdomen`(腹部)、noses(鼻子)、belt(皮带)、ear(耳朵)、胸(chest,bosom)、breasm(乳房)、hair(头发)、皮肤(skin,derma)。生殖器(genital organ)、finger(手指)、arm、脊椎(vertebration,chine)、腰(loin,haunch)、臀部(buttocks)、vagian(阴道)。
     - **动物**：cattle(牛犁)、dog、pig、mice(老鼠)、snake、chook(鸡)、tiger(老虎)、elephant(大象)、lion(狮子)、cat(猫)、duck(鸭子)、penguin(企鹅)、奶牛(dairy,cow)、fish(鱼)、
 3. **科研**：experts（专家、高手）
-to draw/make `inferences`(推论) from the data.【根据资料推断出结果】
-The study `demonstrates`(证明，演示) the link between poverty and `malnutrition`(营养不良).【这项研究证明了贫困和营养不良之间的联系】
-They `gave no`(没有) `indication`(表明、象征) of `how` the work should be done.【他们根本没说明者项工作应该怎样做】
-This problem is hard enough to `perplex`(使混乱) `even the teacher`.【这个问题很难，以至于老师都迷惑不解】
-the `transmission`(传输信息) of computer data `along`(沿着，进展) telephone lines.【计算机数据沿电话线的传输】
+   to draw/make `inferences`(推论) from the data.【根据资料推断出结果】
+   The study `demonstrates`(证明，演示) the link between poverty and `malnutrition`(营养不良).【这项研究证明了贫困和营养不良之间的联系】
+   They `gave no`(没有) `indication`(表明、象征) of `how` the work should be done.【他们根本没说明者项工作应该怎样做】
+   This problem is hard enough to `perplex`(使混乱) `even the teacher`.【这个问题很难，以至于老师都迷惑不解】
+   the `transmission`(传输信息) of computer data `along`(沿着，进展) telephone lines.【计算机数据沿电话线的传输】
     - 学科：数学(mathematics; arith; math)。地理学(geography)、physics(物理学)、psychology(心里学)、astronomy(天文学)、biology(生物学)、chymistry(化学)。
     - 生态：ecosystem(生态系统)、keep ecological balance(保持生态平衡)、global warming(全球变暖)、nuclear enery(核能)、solar energy(太阳能)、carbon dioxide(二氧化碳)\
     desertification(沙漠化)、deforestation(乱砍乱阀)、overfishing(过度捕捞)、reckless exploitation(过度开发)、litter(乱认垃圾)、pollute(v-污染)
@@ -451,28 +451,32 @@ Obviously, the purpose of the cartoon is to inform us that�
 【相关词：diagram(n-线图)、population(n-人口)】
 ### 二、信件：
 1. **公共部分**：
-【开头】Dear 名/职位：    Dear Sir or Madam【不知对方情况】    To Whom It May Concern【致有关人士】
-【积累词：dinner(n-晚餐/宴会)、dissatisfaction(n-不满)、`dormitories`(n-集体宿舍)、course(n-课程)】
-【形容类：`immeasurable`(adj-无可估量的)、`overpriced`(adj-价格过高的)、】
-【连接类词：as you know，in addition(此外)，Although(尽管)、Anyway(无论如何)、in my opinion(在我看来)】
+   【开头】Dear 名/职位：    Dear Sir or Madam【不知对方情况】    To Whom It May Concern【致有关人士】
+   【积累词：dinner(n-晚餐/宴会)、dissatisfaction(n-不满)、`dormitories`(n-集体宿舍)、course(n-课程)】
+   【形容类：`immeasurable`(adj-无可估量的)、`overpriced`(adj-价格过高的)、】
+   【连接类词：as you know，in addition(此外)，Although(尽管)、Anyway(无论如何)、in my opinion(在我看来)】
                                                                                                     Sincerely yours,LiMing【来自你的李明<结尾写法>】
+   
 2. **感谢信**：（写出感谢事项；简述事中自己的感受，称赞对方的善良、能力等；扯些送礼，看望之类的）
-【第一段】I am writing this letter to express my `sincere`(adj-真诚的) `gratitude`(n-感谢) to you for your help and `kindness`(n-善行).
-How are your? i haven't seen you for a while.【近来可好，有段时间没看见你了】
-you must give me the chance to return your great kindness.【当你来这时，请一定要给我机会答谢你的盛情】
-【最后一句】Once again, thank you for your help. I hope that I will have the opportunity to return your `charming`(adj-令人着迷的) help.
+    【第一段】I am writing this letter to express my `sincere`(adj-真诚的) `gratitude`(n-感谢) to you for your help and `kindness`(n-善行).
+    How are your? i haven't seen you for a while.【近来可好，有段时间没看见你了】
+    you must give me the chance to return your great kindness.【当你来这时，请一定要给我机会答谢你的盛情】
+    【最后一句】Once again, thank you for your help. I hope that I will have the opportunity to return your `charming`(adj-令人着迷的) help.
+
 3. **建议信**/投诉：（描述建议的事物；具体的分点问题，对应的建议描写；祝愿其成功）
-i write to express my `dissatisfaction`(n-不满) with your service.【我写这封信是要表达对你们服务的不满】
-I am 身份 who 与被建议对象的关系 . Generally speaking,.. + is/are quite good; however, I have some better suggestions for you.
-Firstly, it would be greatly `appreciated`(v-感激) if you could 建议一 because 原因一 . Moreover, 原因二 , so it is advisable for you to put emphasis on 建议二。
-i trust you will take my complaints seriously, and make every effort to improve your service in the future.【我相信你会认真对待我的投诉，并在将来尽力改善你的服务】
-I hope that you will find these suggestions helpful. Thank you for your reading and patience.
+    i write to express my `dissatisfaction`(n-不满) with your service.【我写这封信是要表达对你们服务的不满】
+    I am 身份 who 与被建议对象的关系 . Generally speaking,.. + is/are quite good; however, I have some better suggestions for you.
+    Firstly, it would be greatly `appreciated`(v-感激) if you could 建议一 because 原因一 . Moreover, 原因二 , so it is advisable for you to put emphasis on 建议二。
+    i trust you will take my complaints seriously, and make every effort to improve your service in the future.【我相信你会认真对待我的投诉，并在将来尽力改善你的服务】
+    I hope that you will find these suggestions helpful. Thank you for your reading and patience.
+
 4. 推荐信：（描述对方的烦恼，推荐的对象；推荐对象优点及能解决的问题等；期待对方的回信）
-I am writing this letter to recommend you —— +..。 I know 被推荐对象 well, because —— .
-The primary factors for my recommendation are as follows. 【我推荐它的主要原因如下】
-For one thing, 理由一 + ...。 For another, 理由二 ...
-I hope that you will find —— wonderful and worthy of attention.
-wish you enjoy the movie.Looking forward to your reply.【希望你喜欢这部电影，期待你的答复】
+    I am writing this letter to recommend you —— +..。 I know 被推荐对象 well, because —— .
+    The primary factors for my recommendation are as follows. 【我推荐它的主要原因如下】
+    For one thing, 理由一 + ...。 For another, 理由二 ...
+    I hope that you will find —— wonderful and worthy of attention.
+    wish you enjoy the movie.Looking forward to your reply.【希望你喜欢这部电影，期待你的答复】
+
 5. 邀请信：（邀请目的，时间等；邀请原因，对方优点等；表示希望对方到来）
 The 2018 Graduation Ceremony of our university will be held at the `auditorium`(n-礼堂) from 9:00 to 11:00 on June 28.【我校2018毕业典礼将在6-28举行】
 With your `remarkable`(adj-显著的) `expert`(n-行家，adj-专业的) knowledge,you have contributed a lot to ..。【您以非凡的专业知识对...贡献很多】
@@ -484,25 +488,47 @@ We very much hope that you would accept the invitation.【我们非常希望你�
 we look forward to your reply.【我们期待你的回复】
 
 6. 探望/感谢信：（简单问候，目的；描写些周身事物、询问对方自身、周围环境等情况；祝愿对方）
-The epidemic is growing everywhere。【各地疫情日益严重】
-i can't remember ever having enjoyed myself so thoroughly elsewhere.【我记不起在什么地方比在那里过得更愉快了】
-i count myself fortunate indeed to have such a generous and charming friend as you.【能有你这样慷概、可爱的朋友我的确很幸运】
-Congratulations upon having received your `doctorate`(博士学位) in philosophy from Yale University.【祝贺你取得了耶鲁大学哲学博士学位】
-i have followed your progress with pleasure and interest for many years.【多年来我一直以愉快、关切的心情关注着你的进步】
-It is the most joyful news i have ever heard for a long time.【这是我长期以来听到的最令人愉快的消息】
-Hope that I can enter the ideal university to continue my study, and I hope that you can live a better life.【希望我能进入理想大学继续学习，也希望你能过得更好】
+    The epidemic is growing everywhere。【各地疫情日益严重】
+    i can't remember ever having enjoyed myself so thoroughly elsewhere.【我记不起在什么地方比在那里过得更愉快了】
+    i count myself fortunate indeed to have such a generous and charming friend as you.【能有你这样慷概、可爱的朋友我的确很幸运】
+    Congratulations upon having received your `doctorate`(博士学位) in philosophy from Yale University.【祝贺你取得了耶鲁大学哲学博士学位】
+    i have followed your progress with pleasure and interest for many years.【多年来我一直以愉快、关切的心情关注着你的进步】
+    It is the most joyful news i have ever heard for a long time.【这是我长期以来听到的最令人愉快的消息】
+    Hope that I can enter the ideal university to continue my study, and I hope that you can live a better life.【希望我能进入理想大学继续学习，也希望你能过得更好】
+
 7. 通知：
-To ensure the safety of the citizens.【为了保障广大市民们的安全】
-In order to better carry out the government's services【为了更好开展政府的服务】
-To ensure that students from overseas have a better knowledge of our library service.【为了确保海外留学生更好的了解我校图书馆服务】
-i'm writing to inform you of some relevant information with `regard to`(关于) our university library.
-please feel free to contact us if you need any help via(经过) xxx@xx.com.【如果你们需要任何帮助，随时通过邮件到...联系我们】
-Li Ming                                【最后格式，名】
-December 1st,2021               【最后格式，日期】
-[历年作文类型](https://www.sohu.com/a/436038114_120423996)
+    To ensure the safety of the citizens.【为了保障广大市民们的安全】
+    In order to better carry out the government's services【为了更好开展政府的服务】
+    To ensure that students from overseas have a better knowledge of our library service.【为了确保海外留学生更好的了解我校图书馆服务】
+    i'm writing to inform you of some relevant information with `regard to`(关于) our university library.
+    please feel free to contact us if you need any help via(经过) xxx@xx.com.【如果你们需要任何帮助，随时通过邮件到...联系我们】
+    Li Ming                                【最后格式，名】
+    December 1st,2021               【最后格式，日期】
+    [历年作文类型](https://www.sohu.com/a/436038114_120423996)
+
+## C、听力
+
+1. 美式音标：
+            <img src="https://bkimg.cdn.bcebos.com/pic/d53f8794a4c27d1eeec0810b1cd5ad6edcc4381e?x-bce-process=image/resize,m_lfit,w_1224,limit_1/format,f_auto" style="zoom:50%;" /> <img src="E:\DATA\VNote\science\vx_images\5484214230467.png" style="zoom:80%;"/>
+        
+  1. 进阶步骤：精听，泛听；
+
+  1. **连读**：前词词尾辅音和后词词首元音连读，前词词尾元音和后词词首元音连读；(指的是音标，而非单词字母)；take it all
+
+  1. **略读**：爆破音不发音：爆破音t,d,p,b,k,g后面遇辅音只摆口型不发音；（that flay）
+
+        浊辅音+清辅音，一般会省掉浊辅音（have fun）；
+
+        相同音结尾+开头，一般会省掉前1个（gas station）；
+
+        `/dg/,/t/`相连情况一般不省略；
+
+  1. 弱读：h的弱读（多在代词中he,him,his,..）。介词、冠词、连词的弱读，t、d的弱读；与you和your有关的弱读；
 
 # 二、练习：
+
 ## 1、每日一句：
+
 1. There is a `holiness`(神圣，陛下) to the heart's `affections`(喜爱).
 2. Never let your `persistance`(坚持) and `passion`(激情) turn into `stubbornness`(固执) and `ignorance`(无知).
 3. Education is a `progressive`(过程) discovery of `our own ignorance`(我们自己的无知).

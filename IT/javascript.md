@@ -579,6 +579,7 @@ if(a<10){
 冒泡型事件流：事件的传播是从最特定的事件目标到最不特定的事件目标。即从DOM树的叶子到根、到window对象。
 捕获型事件流：事件的传播是从最不特定的事件目标到最特定的事件目标。即从DOM树的根到叶子。
 **事件绑定**：
+
 ```js
 <p onclick="start()"></p>// 原生的事件绑定。
 function start(){};
@@ -639,11 +640,18 @@ document.getElementById("test").onmousedown = function(e){
 **事件委托/代理**：利用事件冒泡，我们想让用户点击一个块的每个子元素都触发一个事件，可以将该事件绑定再这些子元素的父元素上就可以不用每个子元素都去绑定了。
 **获取鼠标事件目标的属性**：
 ```js
+//e.target：触发事件元素的父级元素。
 event.target.nodeName//获取事件触发的标签名
 event.target.className//获取事件触发的元素的类名
 event.target.id//获取事件所触发的元素的id名
 event.target.innerHTML//获取事件触发的元内容
-e.currentTarget//指的是真正触发事件的那个元素;e.target：触发事件元素的父级元素。
+//指的是真正触发事件的那个元素;（不过它是个实时值）异步使用或输出都会为“null”
+e.currentTarget;
+document.getElementById("a").addEventListener('click',function(e){
+    e.currentTarget.style.color = "red"; // 生效
+    console.info(e.currentTarget); // null
+    setTimeout(()=>{e.currentTarget.style.color = "red";// 报错},0);
+})
 ```
 **移动端手指事件**:
 需要使用事件绑定函数：addEventListener()或on()；
@@ -707,19 +715,7 @@ function onclose(){
 window.addEventListener("focus",function(){document.title="获得焦点";});// 刚打开页面不会触发。
 window.addEventListener("blur",function(){document.title = "去哪了，快回来！"});// 切到其它网站页面时触发。
 ```
-**拦截浏览器回退**：
-```js
-// 拦截history模式的回退。
-pushState()和popstate是H5的新属性。
-history.pushState(null,null,document.URL);
-// 添加popstate事件监听变化。
-window.addEventListener('popstate',function(){
-history.pushState(null,null,document.URL);
-});
-// 拦截hash模式的回退
-function c(){var url = window.location.href;}//获取到的是变化后的地址。用正则表达式来监听是否是回退到了上一个页面。
-window.onhashchange = c; //onhashchange可以今天hash模式的变化，触发函数c。
-```
+
 **判断三方资源加载**:
 凡带加载性质的元素均有onreadyStateChange事件，不过不同浏览器的支持不同，一些浏览器可能会失效。
 img.onload事件(最好用的判断加载的方法)：
@@ -817,6 +813,45 @@ if (browser.versions.mobile) { //判断是否是移动设备打开。browser代�
 } else {
     //否则就是PC浏览器打开
 }
+```
+### 路由控制
+**hash模式**：hash模式url中会带有#号，不会导致刷新，不过依然可以添加浏览器历史记录
+```js
+window.onhashchange = function(event){
+    console.log(event.oldURL, event.newURL);
+    // location.hash可读可写
+    location.hash = "#freedom";
+    let hash = location.hash.slice(1);
+    document.body.style.color = hash;
+}
+```
+**history使用**：
+```js
+// 页面回退
+history.back();
+// 页面前进或后退
+history.go(2);
+// 添加1个history记录
+/*
+@data: 可传的数据，map型；
+@title: 页面标题；
+@url: 页面地址
+*/
+history.pushState(data,title,url);
+// 替换掉当前页
+history.replaceState(data,title,url);
+```
+**跳转监听**：
+```js
+// 拦截history模式的回退
+// 添加popstate事件监听变化
+window.addEventListener('popstate',function(){
+    // 发生了跳转
+    history.pushState(null,null,document.URL);// 用pushState阻止回退
+});
+// 拦截hash模式的回退
+function c(){var url = window.location.href;}//获取到的是变化后的地址。用正则表达式来监听是否是回退到了上一个页面。
+window.onhashchange = c; //onhashchange可以今天hash模式的变化，触发函数c。
 ```
 
 ## 7、DOM：
@@ -1080,7 +1115,7 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 - 这个协议建立在TCP协议或者轮询HTTP协议之上。所以理论上可以用js实现rtmp协议，似乎也有人这么做，但没找到相关的解析rtmp协议的js库。
 - [git地址](https://github.com/chxj1992/rtmp-streamer)
 - [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia浏览器rtmp播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)
-## 10、选择文件：
+## 10、文件&图片：
 input中的file属性提供了一个从本地图库选择图片文件的功能,以下代码将选中的图
 片显示在页面上：
 ```html
@@ -1090,7 +1125,8 @@ input中的file属性提供了一个从本地图库选择图片文件的功能,�
 <canvas id="can" width="500" height="300"></canvas>
 <form id="form"></form>
 ```
-**选择图片并压缩**：
+### a、选择图片并压缩
+
 ```js
 function get(self){
     // self是input元素
@@ -1116,8 +1152,9 @@ function get(self){
     }
 }
 ```
-**选择视频并显示**：
-```js
+### b、选择视频并显示
+
+```html
 <script>
     function get(self) {
         // self是input元素
@@ -1134,26 +1171,97 @@ function get(self){
           //vd.src = fil;
           vd.src = window.URL.createObjectURL(fil);
           vd.load();
-		    vd.onloadedmetadata = function(e) {
-            // 设置当前播放位置，
+		 vd.onloadedmetadata = function(e) {
+          // 设置当前播放位置，
 			    vd.currentTime = 1;
 			    vd.controls = "controls";
 			    vd.play();// 不设置播放的话，显示有问题。离开页面后视频显示也会出现同样的问题。
-		    }
-
+		  }
         };
       }
 </script>
 ```
-图片的上传建议放到form表单中再使用FormDat用原生ajax上传,上传的键名是
+### c、获取图片base64法1
+
+使用canvas绘制图片，再使用toDataURL或getImgData方法获取base64数据即可；但多有跨域问题。
+
+### d、获取图片base64法2
+
 ```js
-// form表单中input的name
-var form = document.getElementById("form");
-var form_ = new FormDat(form);
-//设置值，添加值，获取form表单中的值，但不建议这样来改变表单中的值而是建议直接
-//将值写到表单里对应的元素的value值中来上传
-form_.set('name',value),form_.append('name',vlaue),form_.get('name')
+var xhr = new XMLHttpRequest();
+xhr.open('get','http://localhost:80/download/xiuxin.png');
+// 注意返回设置为blob类型
+xhr.responseType = 'blob';
+xhr.withCredentials = true;
+xhr.onreadystatechange = function(){
+    if(xhr.readyState==4 && xhr.status==200){
+        var blob = xhr.response;
+        read2base64(blob)
+    }
+}
+xhr.send();
+// 使用FileReader将blob转base64
+function read2base64(blob){
+    var reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onload = function(eve){
+        var txt = event.target.result;
+        console.log(txt);
+    }
+}
 ```
+
+### e、base64转file
+
+```js
+function base642file(base64,filename){
+    var arr = base64.split(',');
+    var mime = arr[0].match(/:(.*?);/)[1];
+    var bstr = atob(arr[1]),n = bstr.length,u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr],filename,{type:mime});
+}
+```
+
+### f、base64转blob
+
+```js
+function base642blob(base64Data){
+    var byteString;
+    var segments = base64Data.split(',');
+    if(segments[0].indexOf('base64')>=0){
+        byteString = atob(segments[1]);
+    }else{
+        byteString = unescape(segments[1]);
+    }
+    var mimeString = segments[0].split(':')[1].split(';')[0];
+    var ia = new Uint8Array(byteString.length);
+    for(var i=0;i<byteString.length;i++){
+        ia[i] = byteString.charCodeAt(i);
+    }
+    var blob = new Blob([ia],{type:mimeString});
+    return blob;
+}
+```
+
+### h、文件转base64
+
+```js
+function file2base64(){
+    // 该函数绑定文件选择点击事件
+    var file = this.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function(e){
+        var txt = e.target.result;
+        console.log(txt);
+    }
+}
+```
+
+
 
 ## 15、兼容性问题：
 事件的兼容性处理：
@@ -1194,6 +1302,8 @@ https://www.jb51.net/article/84596.htm
 var xhr = new XMLHttpRequest();
 //username和password为url所需要的授权提供认证资格一般不填
 xhr.open('post','url',true，username,password);
+/********设置回应类型，blob时对应用xhr.response获取**********/
+xhr.responseType = 'blob';
 //该函数会执行3次分别是readyState为2,3,4触发
 xhr.setRequestHeader(name,vlaue);//设置请求头,放在open()之后send()之前
 xhr.onreadystatechange = function(){
@@ -1220,7 +1330,10 @@ $.ajax({
 >Request Payload：`Content-Type:"application/json"`#现在几乎使用这种数据类型，发送一个字典的话会默认将每个键值队拼在url后请求。使用JSON.stringify()将数据转为json在发送是常用的形式。
 >Raw：将json格式数据用字符串表示，如：`'{"name":"www","age":"15"}'`#注意，里面的引号是需要的。
 
-- ajax上传文件：使用jquery封装的ajax和axios的ajax先用formdata封装文件再上传时发现浏览器的xhr/head项中没有显示FormData项数据，在请求头中修改Content-Type:'multipart/form-data'后发现head项出现FormData数据了，但是有报跨域问题，这可能跟axios源码中检测数据类型，做的特别处理有关。
+### 2、ajax上传文件
+
+使用jquery封装的ajax和axios的ajax先用formdata封装文件再上传时发现浏览器的xhr/head项中没有显示FormData项数据，在请求头中修改Content-Type:'multipart/form-data'后发现head项出现FormData数据了，但是有报跨域问题，这可能跟axios源码中检测数据类型，做的特别处理有关。
+
 ```html
 <form id='a'><input type="file" name="file"/></form>
 <script>
@@ -1251,7 +1364,7 @@ xhr.onreadystatechange = ()=>{
 >cros：后台直接配置cros即可。**浏览器将CORS请求分成两类**：简单请求（simple request，请求方式受限，字段受限）和非简单请求（not-so-simple request）。
 >webscoket和workers的postMessage可以跨域。
 
-### 2、文件下载：
+### 3、文件下载：
 ```js
 export function download(url, params, filename) {
 	//"Content-Type": "application/x-www-form-urlencoded",
@@ -1477,7 +1590,9 @@ export default {
     av:{},
     ab:function(){}
 }
-
+// *****未使用export的文件，也可以使用import导入***********
+import * as allModule from "./jquery.js";
+const moules = allModule.default; //从defalut中获取使用
 ```
 
 
@@ -1968,7 +2083,17 @@ components:{
       delay: 200,// 如果提供了超时时间且组件加载也超时了，
       // 则使用加载失败时使用的组件。默认值是：`Infinity`
       timeout: 3000 //超过该时间不再加载。毫秒
-    })
+    }),
+   // 直接使用渲染函数
+   abc: {
+      render(cre) {
+        return cre(
+          "h1",
+          {style: { color: "red" }},
+          "content-ccc"
+        );
+      },
+    }
 }
 ```
 **异步组件原理**：内部调用createComponent()方法创建组件，异步的写法是一个函数，判断到组件是一个函数的情况会将组件内容赋值给asyncFactory(一个promise)，然后传给resolveAsyncComponent()，其内部会执行asyncFactory创建一个空的虚拟节点，加载完之后会调factory函数传入resolve和reject两个参数，执行后返回一个成功的回调和失败的回调，promise成功了就会调resolve，resolve中就会调取forceRender方法强制更新视图重新渲染。<b c=gn>异步组件被打包成单独的bundle，如v-if使用组件时，才会从服务器下载相应的js文件。</b>[参考学习地址](https://blog.csdn.net/qq_42072086/article/details/109642272)。
@@ -2228,18 +2353,8 @@ router.afterEach((to,from)=>{
 ```
 <i class="label1">router的两种模式：</i>hash模式背后的原理是onhashchange。因为hash发生变化的url都会被浏览器记录下来，从而你会发现浏览器的前进后退都可以用了，同时点击后退时，页面字体颜色也会发生变化。这样一来，尽管浏览器没有请求服务器，但是页面状态和url一一关联起来，后来人们给它起了一个霸气的名字叫前端路由，成为了单页应用标配。[学习地址。](https://www.cnblogs.com/imgss/p/7492333.html)
 
-**hash模式**：hash模式url中会带有#号，破坏url整体的美观性, <b c=v>history 需要服务端支持rewrite(url重写)</b>, 否则刷新会出现404现象。
-```js
- // history=>history.pushState 浏览器历史纪录添加记录。history.replaceState 修改浏览器历史纪录中当前纪录。history.popState 当history 发生变化时触发
- // 使用时将state去掉，如：this.$router.push(url)
-window.onhashchange = function(event){
-    console.log(event.oldURL, event.newURL);
-    let hash = location.hash.slice(1);
-    document.body.style.color = hash;
 
-}
-```
-**模式切换**：<b c=v>historm模式是配合服务端渲染使用。一般服务端将所有路径都重定向到首页，路由交给前端处理。</b>
+**模式切换**：<b c=v>history模式是配合服务端渲染使用。一般服务端将所有路径都重定向到首页，路由交给前端处理。</b>
 ```js
 export default new Router({
   mode:'history', // 默认是hash
@@ -2413,11 +2528,13 @@ directives: {
 Vue 推荐在绝大多数情况下使用模板来创建你的 HTML。然而在一些场景中，你真的需要 JavaScript 的完全编程的能力。这时你可以用渲染函数，它比模板更接近编译器。
 ```js
 Vue.component('anchored-heading', {
-  render: function (createElement) {// render渲染函数，在生命周期函数中也是使用该函数来解析组建的。
-    return createElement(
+    data(){},
+    functional: true,//为true时，render函数的第二个参数可以使用，来获取同级的data，props参数等；
+    render: function (createElement,context) {// render渲染函数，在生命周期函数中也是使用该函数来解析组建的。
+     return createElement(
       'h1',   // 标签名称
-      {//这个对象内部定义一些模板的事件、指令、插槽类的东西。
-      // 与 `v-bind:class` 的 API 相同，// 接受一个字符串、对象或字符串和对象组成的数组
+      {
+        //这个对象内部定义一些模板的事件、指令、插槽类的东西。
       'class': {foo: true,bar: false},
       // 与 `v-bind:style` 的 API 相同，// 接受一个字符串、对象，或对象组成的数组
       style: {color: 'red',fontSize: '14px'},
