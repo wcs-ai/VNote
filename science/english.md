@@ -41,17 +41,17 @@
 英文是语句为导向；如：即使知道指的是什么，也要在句中表示出来（更清楚），<i c=gn>**Hsinch Museum** was built in 1936. **It** was used as the local goverment. **It** also ...</i>#每句都加it！
 2. 分清责任：讲究谁是主动，谁是被动，主动句描述时主动方是重点，被动句时，被动方是重点描述。
    （1）主动与被动：**My father** build a house.（主动句）；**The house** was built.（被动句）
-   （2）现在分词与过去分词[^pl]：分词的现在和过去不是指时态上，而是指<mark>主动和被动</mark>。<i c=b>主动时用现在分词，被动时用过去分词！</i>
+   （2）现在分词与过去分词[^pl]：分词的现在和过去不是指时态上，而是指==主动和被动==。主动时用现在分词，被动时用过去分词！
     【主动帮妈妈】**Helping his Mom**,he washed the dishes.【他被妈妈帮】**Helped by his Mom**, he washed the dishes.
 3. **主从分明**：稍复杂的句子一般都有主句和从句，主句句意完整，可单独成句，从句则不行。（了解到该句子主要是向表达什么）
-   （1）如果句子用：because..,so..等结构来描写，则不能突出主句。所以不会出现because..,so...的情况，而是：<i c=gn>i bought this book because...</i>
+   （1）如果句子用：because..,so..等结构来描写，则不能突出主句。所以不会出现because..,so...的情况，而是：i bought this book because...
    （2）附属句子一般用：不定词（to V），分词（V-ing）,及名词字句（that+CL）等形式，都是**附属句子的标记**。如下：
-    I went to the party *`to` see my friends*。Iwent to the party *`thinking` about my friends.*。I went to the party _`that` started at 7 pm._
+    I went to the party *`to` see my friends*。I went to the party *`thinking` about my friends.*。I went to the party _`that` started at 7 pm._
 4. **关系代词**用法：它们不一定用于描述某个词，也常直接引导一个句子做某个成分[学习地址。](https://www.doc88.com/p-243584168541.html)
 - **what**：什么/所...的。可引导主语、表语、宾语从句，可在**从句中做成分**。`what you say is quite right`#你所说的相当正确。
 - **that**：从句中无论做主词还是受词，**形态都不变**。
 （1）一般用于补充动词所指内容：I will **tell** my brother `that Jere my Lin came to town yesterday`.
-（2）<i c=gn>主要动词为高频词（如：think/say/guess）时，后面that一般可省略：</i>I **think** you'd better re-consider your decision. #think较口语使用，这里省略了that。
+（2）==主要动词为高频词==（如：think/say/guess）时，后面that一般可省略：I **think** you'd better re-consider your decision. #think较口语使用，这里省略了that。
 （3）I `propose`(v-提议，求婚) that you re-consider your decision. #propose较正式，that不省略。
 （4）that在从句中做主词和受词时形态一样。做主词时不可省，受词时一般可省。
 （5）做同位修饰时不可省略；He mentioned the fact **that** `he quit his job last month`.（后面从句完整）
@@ -70,7 +70,7 @@
 （1）This is the family `which` is plaining  to move to party#这是要搬进城里的一家人。
 （2）I went to a park `where/(in which)` i saw the dog. #in which与where等效
 （3）This is the formula `how/(by which)` problems can be solved. #by which与how等效。
-5. **未明确事物**：英文讲究标记明确，但对于未明确的事物一般会用到any。<b c=b>any用在尚未发生的事上</b>，而非只是疑问/否定句。情况如下：
+1. **未明确事物**：英文讲究标记明确，但对于未明确的事物一般会用到any。<b c=b>any用在尚未发生的事上</b>，而非只是疑问/否定句。情况如下：
 （1）命令句：Read __any__ book you can find!
 （2）条件句：If you have __any__ question, please let me know.
 （3）未来式：I will eat __any__ food you make.
@@ -104,8 +104,8 @@
 （3）未来完成：He will have found the answer before next summer. #参照时间点是未来
 :::
 
-|   时态   |             过去             |               过去将来               |             现在              |               将来                |
-| -------- | ---------------------------- | ----------------------------------- | ----------------------------- | --------------------------------- |
+| 时态     | 过去                          | 过去将来                             | 现在                           | 将来                               |
+| -------- | ----------------------------- | ------------------------------------ | ------------------------------ | ---------------------------------- |
 | 一般     | did，一般过去时               | would do,一般过去将来时              | do，一般现在时                 | will do，一般将来时                |
 | 进行     | was/were doing,过去进行时     | would be doing,过去将来进行时        | am/is/are doing,现在进行时     | will be doing,将来进行时           |
 | 完成     | had done,过去完成时           | would have done,过去将来完成时       | have done,现在完成时           | will have done,将来完成时          |
@@ -169,21 +169,29 @@
 （1）Mom cut `her finger`.  The book is taken to be `a best-seller`.
 （2）**同位语修饰**：<b c=gn>（表身份，地位或角色类型）</b>，名词修饰语和所修饰的名词彼此呼应。He was elected `the president`.  We considered him `a hero`.
 （3）动词补语：受词涉及到动词情况，上面已述。
-<i c=gn>**状态性动词补语**，在其前一定要加**be动词**，to后面也一样</i>；Thank you for **being** willing to come!  He decided to **be** silent.
+**状态性动词补语**，在其前一定要加**be动词**，to后面也一样；Thank you for **being** willing to come!  He decided to **be** silent.
 22. 转述：
 （1）间接转述：He said that he would do it if he had time.    #转述语的时态与主要动词时态对齐（按中文理解就行）
 （2）直接引述：He said: "I will do it if i feel like to." #按其原话就行，用引号。
+
 ## e、短语/词：
 - enjoy/appreciate/think：`enjoy和appreciate`的**受词对象是事物**，而不是人。think的受词对象是人。
 - `gone to`：已经去到了！go为动态类动词，表移动，所以其过去式就是去到了。`he is gone to japan.`#他已经去到了日本。
 - `been to`：be是静态类动词，表状态，所以其过去式就是曾今再过的意识。`he has been to japan`. #他曾经去过日本
 - `disproportionately(adj-不匀称的) squeezed(挤压)`：不堪重负
 - `free mind`：什么都不想；如：half an hour's `intimacy`(亲密) with his wife and a `free mind` once a week.
-- `see/look/watch`：
+- Taht's very clumsy of you: 你真是笨手笨脚的
+- I could't have been more wrong (我大错特错了，这类型较常用)
+- driving under the influence (酒后驾驶)
+- this is dear diary moment. (美秒的时刻)
+- `All you can do is be ready for the good.` 你唯一能做的就是期待美好的事物降临
+- `a/some semblance of sth`: 情况或性质稍微相似
+- `more power to sb`: 随..吧，想怎么样就怎么样吧
+- - `see/look/watch`：
 （1）see是视觉上不自觉的接收到；I see a forest.
 （2）look是自主的去看；I am looking at the picture.
 （3）watch是自主看，且是专注欣赏的态度；I'm watch TV `a talk show`.#同位修饰语
-
+- don't give me that,I know the game. (别跟我来这一套，我知道你的把戏)
 - `variety/varied/varieble/various`:
 （1）various-`adj`：各种各样的，多种的，各不相同的。<i c=r>它可以指人或物。侧重于强调种类</i>
 （2）variety-n： 品种，不同种类，多变性。
@@ -264,6 +272,7 @@
 （9）sagacity-n：精明，卓识；
 （10）brain-n：脑，智力；
 - 证明：
+（1）verify\testify\confirm\indicate\evidence
 - 修补：
 （1）repair-v/n：补救
 （2）mend：指较简单的修复过程，无需专门技术就可行的那种

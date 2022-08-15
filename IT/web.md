@@ -38,21 +38,22 @@ mind: svg 标签及 svg 元素动态添加均不会生效，只可做静态使�
 <polygon points="10,10 20,20 150,320"/>绘制多边形，points中没两个值是一对坐标。
 <!--set: 为元素设置属性值，一般配合动画使用-->
 <polyline points=""><set attributeName="fill" to="green"></set></polyline>绘制折线
+
 <!--****绘制任意路径、形状****
-- d: 路径绘制，属性如下：
+  - d: 路径绘制，属性如下：
     M：移动至起始点，必须。L：直线结束点。H：从当前点画水平线。
-    V:垂直线。C:三阶贝塞尔曲线。Q：二阶贝塞尔曲线。
-- stroke-dasharray: 50 20; 边的一个线段长，线段之间的距离；
-- stroke-dashoffset: 50; 指定dash模式到开始点的距离；
+    V:垂直线。C:三阶贝塞尔曲线。Q：二阶贝塞尔曲线。Z: 连接到起始点
+  - stroke-dasharray: 50 20; 边的一个线段长，线段之间的距离；
+  - stroke-dashoffset: 50; 指定dash模式到开始点的距离；
 【可让二者值相同，实现绘制线条的动画效果】
 -->
-<path d="M10 5L100 15C19 60,50 99" style="stroke-dashoffset:330;stroke-dasharray:330;stroke:#000;"/>
+<path d="M10 5L100 15C19 60,50 99 C 20 20, 40 20, 50 10" style="stroke-dashoffset:330;stroke-dasharray:330;stroke:#000;"/>
 <image xlink:href="firefox.jpg" x="0" y="0" height="50px" width="50px"/>
 <g></g><!--其它元素可以放到里面，做一组使用，无其它实意-->
 <!--用于定义模板，一些效果类的东西可以放到里面，其它标签用xlink引用-->
 <defs>
-    <!--定义一个形状的裁剪-->
-    <clipPath id="cut-off-bottom">
+    <!--定义一个形状的裁剪;使用：clip-path="url(#cut)"【显示的是裁剪部分】-->
+    <clipPath id="cut">
       <rect x="0" y="0" width="200" height="100" />
     </clipPath>
     <!--遮罩：可结合简便做淡入淡出动画-->
@@ -65,7 +66,12 @@ mind: svg 标签及 svg 元素动态添加均不会生效，只可做静态使�
         <stop offset="0%" stop-color="green" />
         <stop offset="100%" stop-color="red" />
     </linearGradient>
-    <!--定义一组圆形渐变-->
+    <!--
+      定义一组圆形渐变
+      -cx,cy: 定义渐变中心位置
+      -fx,fy: 定义渐变焦点
+      -使用示例：<circle cx="170" cy="170" r="30" fill="url(#eye_ra)"></circle>
+    -->
     <radialGradient id="eye_ra" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
         <stop offset="0%" style="stop-color: rgb(249, 11, 11)" />
         <stop offset="90%" style="stop-color: rgb(117, 19, 19)" />
@@ -76,6 +82,8 @@ mind: svg 标签及 svg 元素动态添加均不会生效，只可做静态使�
 <text x="10" y="15">
     <textPath xlink:href="#a1">在平坦的路上曲折前行</textPath>
 </text>
+<!--一系列坐标点时，每个坐标对应的1个字符-->
+<text x="0,20,40,60,70" y="0,20,40,60,70">This is some SVG</text>
 <!--foreignObject可用于放置html元素，
 且显示其渲染效果，可利用其将dom转为图片
 （不过图片需用base64数据）
@@ -108,11 +116,11 @@ mind: svg 标签及 svg 元素动态添加均不会生效，只可做静态使�
     -diffuseConstant:光点的大小
 -->
 <feDiffuseLighting in="SourceGraphic" lighting-color="red" surfaceScale="1" diffuseConstant="2">
-    <!--fePointLight：点光源，x,y,z控制光源位置-->
+    <!--fePointLight：点光源，x,y,z控制光源位置（z由低到高，光会逐渐变亮）-->
     <fePointLight x="150" y="60" z="20"/>
     <!--feDistantLight：环境光；azimuth为平行光角度；elevation为平行光的海拔-->
     <feDistantLight azimuth="240" elevation="20"/>
-    <!--feSpotLight：聚光灯效果；x,y,z控制光源位置；pointsAtX/Y/Z为聚光灯照向的位置-->
+    <!--feSpotLight：聚光灯效果；x,y,z控制光源位置；pointsAtX/Y/Z为聚光灯照向的位置;limitingConeAngle是灯光范围角度-->
     <feSpotLight x="100" y="30" z="99" limitingConeAngle="20" pointsAtX="390" pointsAtY="80" pointsAtZ="0"/>
 </feDiffuseLighting>
 <!--高斯模糊滤镜：-in:输入的基础图像；-stdDeviation:控制模糊程度；-->
@@ -166,6 +174,7 @@ mind: svg 标签及 svg 元素动态添加均不会生效，只可做静态使�
 ### b、svg 内联
 
 css 的 background-img 的 url 可以显示链接图片和 base64 图片，将 svg 转为 base64 的也能在其中显示出来，部分版本较高的浏览器可以直接用 svg 代码，如下：
+**svg 文件引入**：.svg 文件可直接使用==img 的 src==，或 background-img 引入使用；`<img src="./img/图标.svg"/>或.el{background:url('./img/cc.svg');}`;(兼容性未知)
 
 ```html
 <style>
@@ -242,14 +251,45 @@ document.getElementById("img").src = tt;
     :style="styleExternalIcon"
     class="svg-external-icon svg-icon"
     v-on="$listeners"
-  />
+  ></div>
   <svg v-else :class="svgClass" aria-hidden="true" v-on="$listeners">
-    <use :xlink:href="iconName" />
+    <use :xlink:href="iconName"></use>
   </svg>
 </template>
 ```
+### e、动态添加svg元素
 
-2. js 文件中用 require.context()返回所有 svg 文件。
+SVG是基于XML格式定义图像的一种技术，因此创建节点的时候，需要指定命名空间（Namespace），也就是用createElementNS来代替createElement创建节点
+```js
+function makeSVG(tag, attrs) {
+    const ns = 'http://www.w3.org/2000/svg';
+
+    let el= document.createElementNS(ns, tag);
+    if (tag==='svg'){
+        el.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+    }
+    for (let k in attrs) {
+        if (k === 'xlink:href') {
+            el.setAttributeNS('http://www.w3.org/1999/xlink', k, attrs[k]);
+        } else {
+            el.setAttribute(k, attrs[k]);
+        }
+    }
+    return el;
+}
+
+window.addEventListener('load', function(){
+    let svg = makeSVG('svg');
+    let g = makeSVG('g');
+    let rect = makeSVG('rect',{x:'0',y:'0',width:'20',height:'20',fill:'blue'});
+    
+    g.appendChild(rect);
+    svg.appendChild(g);
+    document.body.appendChild(svg);
+});
+```
+
+2. js 文件中用 require.context()返回所有 svg 文件
 
 ```js
 /**svg文件示例：code.svg
@@ -382,6 +422,8 @@ hard-light:重叠处强光、soft-light:柔光......
 
 ### c、图片绘制
 
+**mind**：注意获取图片数据时会出现跨域问题，可以使用 vue 运行的本地环境中，使用`require()`获取本地图片（因为其获取到的直接是 base64 数据）
+
 ```js
 img=new Image()//继承Image类，img.src="mv.jpg"//获取图片文件像素数据。
 img.width、img.height、img.data//直接获取该图片的宽高，像素数据。
@@ -400,9 +442,93 @@ ctx.putImageData(imgdata,x,y)//重绘imgdata
 /**********也可使用ajax请求来获取图片，可得到图片数据************/
 ```
 
-### d、动画示例
+**获取图片色值**：利用 getImageData()得到的是 rgba 数据。
 
-(利用 globalCompositeOperation 中的 copy 属性可以实现图形的位移、旋转)(如果要用一个 2d 对象绘制多个图形且让其能产生动画效果那么需要在每个绘制图形前都加一个 globalCompositeOperation,属性值不为 copy 即可)
+```js
+function getColor(x, y) {
+  var canvas = document.createElement("canvas");
+  var ctx = canvas.getContext("2d");
+  var img = new Image();
+
+  img.src = require("@/assets/images/sj13.jpg");
+  img.onload = function () {
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    var mgd = ctx.getImageData(0, 0, img.width, img.height);
+    var dt = mgd.data;
+    /*getImageData()得到的数据是一维数组，没相邻的4个值是一个点的rgba值，点是从左道右，从上到下排列的*/
+    //像素开始位置：(W*y + x)*4
+    var position = (img.width * Number(y) + Number(x)) * 4;
+
+    console.info(dt[position], dt[position + 1], dt[position + 2]);
+  };
+}
+```
+
+**转灰度与反向**
+
+```js
+var img = new Image();
+img.crossOrigin = 'anonymous';
+img.src = './assets/rhino.jpg';
+
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+img.onload = function() {
+    ctx.drawImage(img, 0, 0);
+};
+// 原图
+var original = function() {
+    ctx.drawImage(img, 0, 0);
+};
+// 反向色处理函数
+var invert = function() {
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    // 每个通道取反向色值即可
+    for (var i = 0; i < data.length; i += 4) {
+        data[i]     = 255 - data[i];     // red
+        data[i + 1] = 255 - data[i + 1]; // green
+        data[i + 2] = 255 - data[i + 2]; // blue
+    }
+    ctx.putImageData(imageData, 0, 0);
+};
+// 置灰处理
+var grayscale = function() {
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    // 每个像素点取均值
+    for (var i = 0; i < data.length; i += 4) {
+        var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        data[i]     = avg; // red
+        data[i + 1] = avg; // green
+        data[i + 2] = avg; // blue
+    }
+    ctx.putImageData(imageData, 0, 0);
+};
+
+const inputs = document.querySelectorAll('[name=color]');
+for (const input of inputs) {
+    input.addEventListener("change", function(evt) {
+        switch (evt.target.value) {
+            case "inverted":
+                return invert();
+            case "grayscale":
+                return grayscale();
+            default:
+                return original();
+        }
+    });
+}
+```
+
+### d、保存和恢复
+- save 和 restore 方法是用来保存和恢复 canvas 状态的，都没有参数。Canvas 的状态就是当前画面应用的所有样式和变形的一个快照。
+- 你可以调用任意多次 save方法。每一次调用 restore 方法，上一个保存的状态就从栈中弹出，所有设定都恢复。
+(利用 globalCompositeOperation 中的 copy 属性可以实现图形的位移、旋转)
+(如果要用一个 2d 对象绘制多个图形且让其能产生动画效果那么需要在每个绘制图形前都加一个 globalCompositeOperation,属性值不为 copy 即可)
 
 ```js
 var cn = document.getElementById("canvas");
@@ -467,6 +593,9 @@ window.onkeydown = function () {
 
 第一个条语句用 globalCompositeOperation 可用 for 循环配合动态变量，绘制多个图形，放在动画代码中依然可用。
 ctx.isPointInPath(x,y);ctx.isPointInStroke(x,y);//检测坐标点 x,y 是否在画笔对象 ctx 所绘制的图形中和边框上，canvas 上绘制的图形与 html 元素在生成的方式、操作上不一样所以 canvas 绘制的图形不能用 addEventLisener()来添加鼠标事件，所以可以借用以上这两个方法来添加鼠标事件效果。(不过这两个方法只支持使用 begInPath()方法绘制出来的图形对象。)
+
+### e、动画
+
 
 ## 5、概念
 
@@ -577,15 +706,27 @@ addTask("task1");
 
 ## 7、HTML 规范&标签
 
-`<!DOCTYPE>` 声明不是 HTML 标签；它是指示 web 浏览器关于页面使用哪个 HTML 版本进行编写的指令。在 HTML 4.01 中，<!DOCTYPE> 声明引用 DTD，因为 HTML 4.01 基于 SGML。DTD 规定了标记语言的规则，这样浏览器才能正确地呈现内容。HTML5 不基于 SGML，所以不需要引用 DTD。[doctype 类型参考学习地址。](https://blog.csdn.net/Whisper_a/article/details/38706901)
-html5 中加了一些新的规范，如下示例：[H5 的一些新标签的使用学习地址。](https://www.cnblogs.com/nuanai/p/8856814.html)
+`<!DOCTYPE>` 声明不是 HTML 标签；它是指示 web 浏览器关于页面使用哪个 HTML 版本进行编写的指令。在 HTML 4.01 中，<!DOCTYPE> 声明引用 DTD，因为 - HTML 4.01 基于 SGML。DTD 规定了标记语言的规则，这样浏览器才能正确地呈现内容。
+
+- HTML5 不基于 SGML，所以不需要引用 DTD。[doctype 类型参考学习地址。](https://blog.csdn.net/Whisper_a/article/details/38706901)
+- html5 中加了一些新的规范，如下示例：[H5 的一些新标签的使用学习地址。](https://www.cnblogs.com/nuanai/p/8856814.html)
+- 带有 id 的元素其 id 名，在 js 中可直接使用（等同于选择了元素）
+- 元素拥有 name 属性，且是`a,form,frame,img,iframe,..`等标签中的一个，则 js 中其 name 名可直接使用
 
 ```html
 <! DOCTYPE html>
 //声明使用H5规范来解析文档。
 <html>
   // html5中标签名可以用大写，但推荐使用小写。不要省略html,head,body标签。
-  <head></head>
+  <head>
+    <link rel="stylesheet" type="text/css" href="./ff.css" />
+    <!--带“defer”属性的script可以异步加载，页面渲染完成后执行，且能按顺序异步加载-->
+    <script src="cc.js" defer></script>
+    <!--带async的script也是异步加载，不过其加载完后会立即执行，然后继续渲染，且不能保证按顺序加载-->
+    <script src="vv.js" async></script>
+    <!--ES6 模块的写法，内部有export；与defer效果等同-->
+    <script type="module" src="./foo.js"></script>
+  </head>
   <body>
     // 如果父元素中的子元素个数很少时可以不用缩进。每个标签都必须关闭。
     <img src="" alt="HTML5" /> //alt能在图片加载失败时代替图片显示。 //
@@ -594,9 +735,11 @@ html5 中加了一些新的规范，如下示例：[H5 的一些新标签的使�
 </html>
 ```
 
+**规范文档地址**：[HTML5 规范文档](https://html.spec.whatwg.org/)
+
 **好用标签**：
 
-### 1、**meta 标签**
+### 1、meta 标签
 
 ```html
 <meta name="keywords" content="标签,属性,seo优化" />
@@ -745,9 +888,12 @@ tel、number、email、text、radio、checkbox、image、date、color、button�
   rules="rows"
   bordercolor="#e3e3e3"
 >
-  <!--border为线宽，cellspacing为格间距
-rules：规定内侧边框的哪个部分是可见的。frame：规定外侧边框的哪个部分是可见的；    //border为0时这两个属性不生效。
-将table元素中的表格间距取消：border-collapse:collapse;
+  <!--
+    - border: 为线宽;
+    - cellspacing: 为格间距
+    - rules：规定内侧边框的哪个部分是可见的。 【包括width、align等很多属性H5不再支持】
+    - frame：规定外侧边框的哪个部分是可见的；    //border为0时这两个属性不生效。
+    将table元素中的表格间距取消：border-collapse:collapse;
 -->
   <thead>
     <tr>
@@ -779,7 +925,7 @@ rules：规定内侧边框的哪个部分是可见的。frame：规定外侧边�
 <script type="text/javascript" src="acb.js" defer></script>
 ```
 
-### 7、**img 标签**：
+### 7、img\a
 
 ```html
 <!--
@@ -789,6 +935,38 @@ rules：规定内侧边框的哪个部分是可见的。frame：规定外侧边�
     'use-credentials': 会带上cookie和一些其它认证信息；
 -->
 <img alt="加载失败" src="" crossorigin="" />
+<!--只要设置了 ping 属性，用户点击此链接元素的时候，浏览器就会自动发送一个 POST 请求给 ping 属性值地址-->
+<a href="" ping="https://www.xxx.cn/notify.php">发送</a>
+```
+
+### 8、MathML
+
+HTML5 可以在文档中使用 MathML 元素，对应的标签是 `<math>...</math>`
+MathML 是数学标记语言，是一种基于 XML（标准通用标记语言的子集）的标准，用来在互联网上书写数学符号和公式的置标语言。
+
+```html
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mrow>
+    <msup><mi>a</mi><mn>2</mn></msup>
+    <mo>+</mo>
+    <msup><mi>b</mi><mn>2</mn></msup>
+    <mo>=</mo>
+    <msup><mi>c</mi><mn>2</mn></msup>
+  </mrow>
+  <!--矩阵写法-->
+  <mfenced open="[" close="]">
+    <mtable>
+      <mtr>
+        <mtd><mi>x</mi></mtd>
+        <mtd><mi>y</mi></mtd>
+      </mtr>
+      <mtr>
+        <mtd><mi>z</mi></mtd>
+        <mtd><mi>w</mi></mtd>
+      </mtr>
+    </mtable>
+  </mfenced>
+</math>
 ```
 
 ## 11、拖拽：
@@ -999,6 +1177,24 @@ border:10px solid transparent;
   overflow-anchor:auto;状态会保持当前观看内容处于用户视线内，用户感觉不到滚动条位置变化。
   overflow-anchor:none;关闭时则会优先显示加载的内容。
 
+- 滚动条样式：
+```css
+.scrollbar ::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  background: #c1c1c1;
+  border-radius: 8px;
+}
+.scrollbar ::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  background: #f4f4f4;
+  border-radius: 8px;
+}
+.scrollbar ::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 8px;
+}
+```
 - **input 选中后样式**：
 
 ```css
@@ -1268,12 +1464,72 @@ el {
 el {
   /*默认的贝塞尔速度曲线是从(0,0)到(1,1)的一条匀速直线，括号中的四个数值是.
     perspective-orign:50% 50%;//改变视角位置坐标
-    //贝塞尔曲线中的两个点的位置，通过这两个点拉扯曲线，速度安装曲线弯曲度改变。*/
+  //贝塞尔曲线中的两个点的位置，通过这两个点拉扯曲线，速度安装曲线弯曲度改变。*/
   transition: all 1s cubic-bezier(0.7, 0.1, 0.9, 1);
+}
+/***过渡transition:对svg,<path/>的d属性也可生效****/
+path{
+  /*<path d="M0 0Q40 20,100 80"/>*/
+  transition: d 1s;
 }
 ```
 
-**图片遮罩**：mask-image 优化 png 图片加载。如果是不需要透明属性的 png 图片我们可以直接转为 jpg，但如果有透明要求转为 jpg 后就会透明部分变成白色。
+- 阴影：
+
+```css
+div {
+  /*x轴偏移度，y轴偏移度，阴影模糊度，阴影范围*/
+  box-shadow: 1px 2px 10px 5px black;
+  /*常用写法*/
+  box-shadow: 1px 2px 15px black;
+  /*实现内边框原角*/
+  box-shadow: 0 0 0 5px black;
+  border-radius: 10px; /*可以作用在阴影上，结合实现边框效果*/
+}
+```
+- 变换&过渡&动画：
+```css
+div{
+  transition: height 2s;
+  transform:translate(10px,20px);
+  transform: rotate(30deg);
+  transform: skew(30deg,20deg);
+  -ms-transform:scale(2,3);
+}
+```
+- **matrix()使用**：`transform:matrix(a,b,c,d,e,f);`,matrix()以上几个的综合，a,b,c,d,e,f都是数值；作用在元素的==每1个像素点上==
+变换过程如下(用于2d变换)：结果第1行为变换后的**水平坐标**x，第2行值为变换后的**垂直坐标**y值
+$$\left[\begin{matrix}a&c&e\\b&d&f\\0&0&1\end{matrix}\right]*\left[\begin{matrix}
+  x \\ y \\ 1\end{matrix}\right]=\left[\begin{matrix}
+    ax+cy+1 \\ bx+dy+f \\ 0+0+1\end{matrix}\right]
+$$
+==移动情况==：水平移动的话，只需修改e，f即可
+```css
+div{
+  transform:matrix(1,0,0,1,x,y);
+}
+```
+==缩放情况==：修改第a，d值即是缩放；
+```css
+div{
+  transform:matrix(sx,0,0,sy,0,0);
+}
+```
+- 动画：
+```css
+/******动画填充模式*****
+none	默认值。动画在动画执行之前和之后不会应用任何样式到目标元素。
+forwards	在动画结束后（由 animation-iteration-count 决定），动画将应用该属性值。
+backwards	动画将应用在 animation-delay 定义期间启动动画的第一次迭代的关键帧中定义的属性值。这些都是 from 关键帧中的值（当 animation-direction 为 "normal" 或 "alternate" 时）或 to 关键帧中的值（当 animation-direction 为 "reverse" 或 "alternate-reverse" 时）。
+both	动画遵循 forwards 和 backwards 的规则。也就是说，动画会在两个方向上扩展动画属性。
+
+*/
+div{
+  animation: fadeShow 0.3s forwards;
+}
+```
+
+- **图片遮罩**：mask-image 优化 png 图片加载。如果是不需要透明属性的 png 图片我们可以直接转为 jpg，但如果有透明要求转为 jpg 后就会透明部分变成白色。
 所以使用 css 的 mask-image 属性有一张纯色 png 图(轮廓与原 png 一样，纯色填充后是以前的 1/100 大小)遮在 jpg 图上(png 转化后的)，这样使用 jpg 图片就能代替 png 了。
 
 ```css
@@ -1284,7 +1540,7 @@ img {
 }
 ```
 
-**渐变**：
+- **渐变**：
 
 ```css
 i {
@@ -1307,6 +1563,9 @@ i {
     rgba(100, 90, 80, 0.2),
     transparent 60%
   );
+  /********repeating-linear-gradient********/
+  /*可利用此模板来绘制条纹背景*/
+  background:repeating-linear-gradient(50deg,red 0px,red 10px,blue 10px blue 20px);
 }
 ```
 
@@ -1541,8 +1800,15 @@ $subMenuHover: #9900ff;
 - 命令规则：一般使用 BEM 命名方式：`模块_描述--详细描述`，一套组件内的命令：`c-`。表状态：`is-或has-`。示例如下：
 
 ```html
-<div class="comment--info">
-  <p class="comment_title--text">title<span class="is-show"></span></p>
+<!--最外层是模块名-->
+<div class="comment-area">
+  <!--
+    里层元素，名称前都加此模块名;
+    子名称：用_连接;
+    带功能描述的：可使用--连接
+  -->
+  <p class="comment-area_title">title</p>
+  <button class="comment-area_title--modify">修改标题</button>
 </div>
 ```
 
@@ -2782,6 +3048,7 @@ http {
 
 - [参考地址 1](https://zhuanlan.zhihu.com/p/83969781)。[参考地址 2](https://zhuanlan.zhihu.com/p/47584892)。
 
+**java/ios与js的交互原理**：Android的webview是基于webkit内核的,**webview中集成了js与java互调的接口函数**,通过addJavas criptInterface方法,==可以将Java的类注册进webkit==,给网页上的js进行调用,而且还可以通过loadUrl方法是给webkit传递一个URL,供浏览器来进行解析,实现Java和js交互
 # 六、typescript：
 
 1. **基础类型**：在变量名后声明其类型。<b c=r>声明的变量类型是用小写的，不然某些情况编译不通过。</b>
@@ -3131,23 +3398,7 @@ module.exports = {
 - 运行：script 添加运行命令："test:view": "cypress open"，npm run test:view 打开 cypress 测试界面。
 - [cypress 英文档](https://docs.cypress.io/guides/overview/why-cypress)
 
-# 八、交互实践：
-
-- 移动端尺寸处理：移动端页面一般都要支持手机上打开无论屏宽，按 ui 比例显示界面，不过用电脑或平板也应该能打开，<b c=v>所以最外层应该设置个 max-width 并居中，让 pc 端也能正常显示。</b>
-- 非堆叠页面及元素的尺寸处理：<b c=gn>元素从上到下几乎用默认流放置的布局页面，我称为堆叠的。</b>
-  （1）pc 端堆叠类页面，单位一般使用 px，大体布局的地方结合百分比使用，设置 min-width 和适当使用@media，让部分较小的笔记本电脑也能正常显示。
-  （2）pc 端非堆叠类，例如登录页面，由于登录表单部分较大，如果一样使用 px 单位，一些傻 x 用户使用较低的分辨率或系统设置缩放会导致问题，**使用 vw 或 rem 这些单位**（vw 类型单位的话都统一使用 vw 或 vh 这样能保持一个块的比列），然后设置 min-width 来限制是一个较好的方法。
-
-1、登录页实践
-
-```html
-<!--on可以让浏览器记住填写值,off可关闭-->
-<input auto-complete="on" />
-<!--new-password对密码类型表单，不记录其值-->
-<input type="password" auto-complete="new-password" />
-```
-
-# 九、华为鸿蒙：
+# 八、华为鸿蒙：
 
 1. 系统层次：[文档学习地址](https://developer.harmonyos.com/cn/docs/documentation/doc-guides/ability-service-lifecycle-0000000000044472)
 
@@ -3663,6 +3914,56 @@ lang指定使用的语言，不写时为普通css。*/
 
 ## a21、自己编写 webpack-loader
 
+loader文件：hello-loader.js （最后只使用此文件）
+
+```js
+// 每个文件都会调用一次该loader
+module.exports = function loader(source) {
+  // source文件的源码
+  console.info(source);
+  var cc = "hello loader！"
+  // 返回处理后的结果
+  return `export default ${ JSON.stringify(cc) }`;
+};
+```
+入口文件：main.js
+
+```js
+// webpack根据导入的依赖，检测到此文件角给loader
+import data from './test.hello';
+function test() {
+    // main.js中的代码也会被打包到最后的bundle.js
+    let element = document.getElementById('app');
+    console.log(data);
+    element.innerText = data;
+}
+test();
+```
+webpack.config.js
+
+```js
+const path = require("path"); // node的方法
+
+module.exports = {
+  entry: "./src/main.js",
+  //mode: "development",
+  //target: "node",
+  output: {
+    // 导入文件配置，也是index.html 引入的
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "output"),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.hello$/, // 需要加载的文件类型，正则匹配
+        loader: path.resolve(__dirname, "./loader/hello-loader.js"), // 我们的loader文件
+      },
+    ],
+  },
+};
+```
+
 [参考地址 1](https://www.lmlphp.com/user/16516/article/item/464591/)
 [参考地址 2](https://wenku.baidu.com/view/51088c0dccc789eb172ded630b1c59eef8c79a61.html)
 
@@ -3736,7 +4037,45 @@ module.exports = {
 //#-----dev.env文件如下内容
 module.exports = {NODE_ENV:'"development"',NUM:'20'}//注意对应变量是字符串的话需要 '"字符串"',而'20'则该变量是数值。
 ```
+## a3.1、实现1个plugin
 
+```js
+// plugin配置中引入使用文件即可
+class CopyrightWebpackPlugin {
+    constructor(options) {
+        console.log('插件被使用了, 传入的参数为：'， options)
+    }
+    // 参数 compiler 是 webpack 的一个实例
+    // compiler 存放着所有配置内容，包括所有打包的相关内容
+    // compiler.hooks 定义了打包过程中的时刻值（钩子）
+    // emit 时刻：将打包的资源输出到 输出目录(dist) 前,是一个异步的时刻值
+    apply(compiler) {
+        // compile 时刻是同步的时刻
+        // 同步的时刻的参数中， 第二个方法参数只传一个 compilation 参数
+        compiler.hooks.compile.tap('CopyrightWebpackPlugin', (compilation) => {
+            console.log('compiler')
+        })
+        // compilation 存放着这一次打包的内容
+        compiler.hooks.emit.tapAsync('CopyrightWebpackPlugin', (compilation, callback) => {
+            // 打包生成的内容存放在compilation.assets
+            // console.log(compilation.assets)
+            // 打包输出前添加一个 copyright.txt 文件
+            compilation.assets['copyright.txt'] = {
+                source: function() {
+                    return 'copyright output by plugin'
+                }
+                size: function() {
+                    return 26
+                }
+            };
+            // 使用 tapAsyns 时 最后一定要调用一下 callback
+            callback()
+        })
+    }
+}
+​
+module.exports = CopyrightWebpackPlugin;
+```
 ## a5、resolve 与 output&魔术注释：
 
 ```js

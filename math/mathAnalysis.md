@@ -290,17 +290,18 @@ $\sum_{i=1}^{n} f(ξ_i)\Delta x_i称此和式为函数f在[a,b]上的一个积�
 $f关于分割T的上和S(T)=\sum_{i=1}^{n}M_i \Delta x_i与下和s(T)=\sum_{i=1}^{n}m_i \Delta x_i。M_i是T分割的每份\Delta_i的上界，而m_i是下界$
 函数f在[a,b]上**可积的充要条件**是，任给ξ>0，存在相应的一个分割T使得S(T)-s(T)<ξ。设`ωi=Mi-mi`#称为△i上的振幅，可积的充要条件就可表示为：`\sum ωi △i <ξ`。
 
-- **性质**：
-    1. $若f,g在[a,b]上可积，则f+g,f-g,f*g也在[a,b]上可积。但一般情形下\int ^a_b f(x)g(x)dx \neq \int ^a_b f(x)dx \times \int ^a_b g(x)dx$
+**性质**：
+1. $若f,g在[a,b]上可积，则f+g,f-g,f*g也在[a,b]上可积。但一般情形下\int ^a_b f(x)g(x)dx \neq \int ^a_b f(x)dx \times \int ^a_b g(x)dx$
     $f在[a,b]上可积的充要条件是：任给c∈(a,b)，f在[a,c]与[c,b]上都可积，且：\int ^b_a f(x)dx=\int ^c_b f(x)dx+\int ^b_c f(x)dx$
-    2. f为[a,b]上的可积函数，若f(x)>=0，则f在[a,b]上的积分也>=0。**|f|在[a,b]上也可积**。
-    3. **定理5**：若f为[a,b]上的连续函数，则f在[a,b]上可积。
-    4. **定理6**：若f是区间[a,b]上只有有限个间断点的有界函数，则f在[a,b]上可积。<b c=r>其原函数F在[a,b]上必定是连续的</b>
-    5. **定理7**：若f是[a,b]上的单调函数<b c=gn>（即使其有无限多个间断点）</b>，则f在[a,b]上可积。
-    6. 若M及m分别是f(x)在[a,b]上的最大值和最小值，则：$m(b-a)\leq\int ^b_a f(x)dx\leq M(b-a)$
-    7. $|\int ^b_a f(x)dx|\leq \int ^b_a |f(x)|dx$
-    8. 若区间[a,b]上$f(x)\leq g(x)则\int ^b_a f(x)dx\leq \int ^b_a g(x)dx$
-    9. **对积分求导**：$[\int ^{g(x)}_{h(x)}f(x)dx]'=g'(x)f(g(x))-h'(x)f(h(x))，例2：[\int ^x_{10}f(x)dx]'=f(x)-0$<b c=r>对上下限也要求导，上下限为常数则对应的项直接为0。</b>
+2. f为[a,b]上的可积函数，若f(x)>=0，则f在[a,b]上的积分也>=0。**|f|在[a,b]上也可积**。
+3. **定理5**：若f为[a,b]上的连续函数，则f在[a,b]上可积。
+4. **定理6**：若f是区间[a,b]上只有有限个间断点的有界函数，则f在[a,b]上可积。<b c=r>其原函数F在[a,b]上必定是连续的</b>
+5. **定理7**：若f是[a,b]上的单调函数<b c=gn>（即使其有无限多个间断点）</b>，则f在[a,b]上可积。
+6. 若M及m分别是f(x)在[a,b]上的最大值和最小值，则：$m(b-a)\leq\int ^b_a f(x)dx\leq M(b-a)$
+7. $|\int ^b_a f(x)dx|\leq \int ^b_a |f(x)|dx$
+8. 若区间[a,b]上$f(x)\leq g(x)则\int ^b_a f(x)dx\leq \int ^b_a g(x)dx$
+9. **对积分求导**：$[\int ^{g(x)}_{h(x)}f(x)dx]'=g'(x)f(g(x))-h'(x)f(h(x))，例2：[\int ^x_{10}f(x)dx]'=f(x)-0$<b c=r>对上下限也要求导，上下限为常数则对应的项直接为0。</b>
+10. f(x)与g(x)在[a,b]上==连续==，且f(x)≤g(x),则至少有1点`x1∈[a,b]`使`f(x1)<g(x1)`,则$\int^b_af(x)dx<\int^b_ag(x)dx$,(注意`a<b`)
 
 - **积分第一中值定理**：若f在`[a,b]`上连续，则至少存在一点ξ∈[a,b]使得：`f在[a,b]的积分=f(ξ)(b-a)`。<b c=r>注意连续条件，因为可积不一定连续！</b>
 - 第一中值定理的推广：若f与g都在[a,b]上连续。且g(x)在[a,b]上**不变号**，则至少存在一点ξ∈[a,b]使得：

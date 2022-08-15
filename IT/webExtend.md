@@ -1,5 +1,4 @@
-# web性能篇
-# a、离线web应用
+# 一、离线web应用
 **html部分离线定义**：
 ```html
 <!DOCTYPE HTML>
@@ -26,8 +25,9 @@ FALLBACK:
 NETWORK:
 acc.jpg
 ```
-**js部分离线处理**：
+**接口的离线处理**：
 ```js
+/******状态判断******/
 if(window.navigator.onLine){
     alert("在线状态");
 }else{
@@ -39,9 +39,44 @@ swapCache()    交换当前缓存与较新缓存
 status        缓存的状态
 */
 var cs = window.applicationCache;
+
+/******离线时使用代理处理接口********/
+// index.js
+if (navigator.serviceWorker) {
+  navigator.serviceWorker
+    .register('sw.js')
+    .then(function(registration) {
+      console.log('service worker 注册成功')
+    })
+    .catch(function(err) {
+      console.log('servcie worker 注册失败')
+    })
+}
+// sw.js
+// 监听 `install` 事件，回调中缓存所需文件
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open('my-cache').then(function(cache) {
+      return cache.addAll(['./index.html', './index.js'])
+    })
+  )
+})
+
+// 拦截所有请求事件
+// 如果缓存中已经有请求的数据就直接用缓存，否则去请求数据
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(function(response) {
+      if (response) {
+        return response
+      }
+      console.log('fetch source')
+    })
+  )
+})
 ```
 
-# b、vue性能优化
+# 二、vue性能优化
 
 ## 1、函数式组件
 
@@ -70,3 +105,10 @@ var cs = window.applicationCache;
 ## 4、组件延时渲染
 
 子组件过多时，异步组件也同样可能卡顿，可用延时来渲染部分组件
+
+# 三、经验集
+
+| 描述               | 原因                                                                  | 解决                                                 |
+| :----------------- | :-------------------------------------------------------------------- | :--------------------------------------------------- |
+| 键盘弹起时影响布局 | 弹起时视窗,body等高度被压缩（非固定高时）fixed/absolute定位元素受影响 | 对应父元素写固定px高，或监听视窗高变化时隐藏对应元素 |
+| 移动端尺寸处理     |                                                                       |                                                      |
