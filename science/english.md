@@ -183,10 +183,13 @@
 - Taht's very clumsy of you: 你真是笨手笨脚的
 - I could't have been more wrong (我大错特错了，这类型较常用)
 - driving under the influence (酒后驾驶)
-- this is dear diary moment. (美秒的时刻)
+- `this is dear diary moment`. (美秒的时刻)
+- all through the house (整栋房子)
 - `All you can do is be ready for the good.` 你唯一能做的就是期待美好的事物降临
 - `a/some semblance of sth`: 情况或性质稍微相似
 - `more power to sb`: 随..吧，想怎么样就怎么样吧
+- she took my breath away (她把我魂都勾走了；摄人心魄)
+- slip on his handsome wool wrapper.
 - - `see/look/watch`：
 （1）see是视觉上不自觉的接收到；I see a forest.
 （2）look是自主的去看；I am looking at the picture.

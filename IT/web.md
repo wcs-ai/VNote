@@ -1873,6 +1873,29 @@ $subMenuHover: #9900ff;
 1. .git/config 文件修改 url 即可。url 格式：`ssh://git@119..123/path1/project.git`
 2. `git remote set-url origin xxxxxxx` #命令修改。
 
+**tag使用**：tag是一个记录点,可以用于对某个commit点或分支进行标记
+- 创建tag
+```
+git tag <tag名字> // 创建 tag
+git tag -a <tag名字> -m <注释文字> //创建带注释的tag
+```
+- 查看tag
+```
+git tag //查看本地所有tag
+git ls-remote --tags origin //查看远程所有tag
+git show <tag名字> //查看 tag 详细信息
+```
+- 提交tag
+```
+git push origin <tag名字> // 推送单个tag到远程
+git push origin --tags // 推送所有本地tag到远程
+```
+- 删除tag
+```
+git tag -d <tag名字> //删除本地tag
+git push origin :<tag名字> //删除远程tag
+```
+
 **全局配置用户名和密码**：如果没使用 sshKey 或使用了但不生效，那么每次 push 时都要求输密码和用户名，使用全局配置，一次性搞定。
 
 ```js
@@ -1912,20 +1935,20 @@ win10/控制面板/用户账户/凭据管理器/windows 凭据。最下方找到
 **git 分支管理策略**：git 官网给出的一个管理分支的规则，几乎多数开发者都会使用。策略如下：
 
 - 将 master 作为正式发布的分支，开一个 devl 作为开发使用的分支；
-- 开发完成后合并到 master，然后使用 master 发布（`git merge --no-ff dev`,使用--no-ff 参数后，会执行正常合并，在 Master 分支上生成一个新节点）
+- 开发完成后合并到 master，然后使用 master 发布（`git merge --no-ff dev`,使用--no-ff，会执行正常合并，在 Master 分支上生成一个新节点）
 - 因为其它需要，dev 上又可以延伸出其它 3 种功能的分支：预发布分支、缺陷分支、功能分支。<b c=r>这 3 个分支使用完后应该删除</b>
 - 预发布分支：命名 release1.x，**源于 dev 分支**；开发完后合并：（dev 上）git merge --no-ff release1.x；开发完后，预发布在公司内测试。一般命名为 release-1.0 之类，。
 - 缺陷分支：命名 fixbug，**源于 master 分支**；开发完后合并：（master 上）git merge --no-ff dev，然后 git merge --no-ff master；<b c=gn>先合并到 master，再并入 dev</b>
 - 功能分支：命名 feature-x，**源于 dev 分支**；开发完后合并：（dev 上）git merge --no-ff release1.x；一个项目模块拿出来单独开发，开发完成后合并入 dev。
-- [git 分支管理学习地址。](http://www.ruanyifeng.com/blog/2012/07/git.html)
+- [git 分支管理学习地址](http://www.ruanyifeng.com/blog/2012/07/git.html)
 
 | 功能         | 命名       | 创建                                  | 合并                              | 完成后 |
 | :----------- | :--------- | :------------------------------------ | :-------------------------------- | ------ |
 | 测试版分支   | release1.x | git checkout -b release1.0 origin/dev | dev：git merge --no-ff release1.0 | 删除   |
-| 功能分支     | feature-x  | git checkout -b feature-x origin/dev  |                                   | 删除   |
+| 功能分支     | feature-x  | git checkout -b feature-x origin/dev  | dev: git merge --no-ff feature   | 删除   |
 | bug 分支     | fixbug     | git checkout -b fixbug origin/dev     |                                   | 删除   |
 | 开发分支     | dev        | git checkout -b dev origin/master     |                                   | --     |
-| 正式版本分支 | master     | --                                    |                                   | --     |
+| 正式版本分支 | master     | --                                    | master:git merge --no-ff develop   | --     |
 
 **项目资源搜索**：awesome 接想搜索的资源。[搜索技巧学习地址。](https://blog.csdn.net/csdnnews/article/details/86570635)
 git-gui 的使用：在安装目录下的 cmd/下。不过是英文的，且没 sourceTree 那样全面。
@@ -1979,13 +2002,17 @@ npm cache clean -f       //清除缓存。
 npm remove eslint        //移除包内的某个依赖。
 npm install vue@3.0      //安装指定版本写法
 ```
+- **运行 js 文件**：node name.js
+- **使用同级文件**：`const fl = require('./index')`。 
+- **使用同级目录下的文件**：`const fl = require('./config/multi')`
 
 **nvm**：[windows 版 nvm 下载地址，下载 nvm-setup.zip 包](https://github.com/coreybutler/nvm-windows/releases)。安装后 cmd 使用 nvm 命令
-`nvm install 8.16.0`#安装其它 node 版本。`nvm use 8.16.0`#切换 node 版本。`nvm uninstall 8.16.0`#卸载指定版本。 - **运行 js 文件**：node name.js - **使用同级文件**：`const fl = require('./index')`。 - **使用同级目录下的文件**：`const fl = require('./config/multi')` - \*\*dirname：当前文件所在目录的绝对路径。
+- 查看可安装的NodeJS版本: nvm list available（LTS项为长期支持版本）
+- 安装node版本：`nvm install 8.16.0`
+- 切换 node 版本：`nvm use 8.16.0`
+- 卸载指定版本：`nvm uninstall 8.16.0`
 
-- \*\*filename：当前文件的绝对路径 - process.argv#以一个列表的形式返回命令行所有参数，如：`node a.js -m cc`->`['node','a.js','-m','cc']`
-
-<i class="label1">编写自己的 npm 包</i>可以自己按照 npm 包的规则来写一个包，然后发布到 npm 平台使用。步骤如下：
+**编写npm包**：可以自己按照 npm 包的规则来写一个包，然后发布到 npm 平台使用。步骤如下：
 
 - [先到 npm 官网注册一个人账号。](https://www.npmjs.com/signup)
 - 进入一个人文件夹，使用 npm init，填写一些信息（会生成 package.json 文件），初始化一个 npm 包。其中**main 指定入口文件**如：`./moment.js`。
@@ -1994,9 +2021,9 @@ npm install vue@3.0      //安装指定版本写法
 - 指定的入口 js 文件最后需要用：`module.exports = obj`//的形式导出一个模块。
 - 发布：npm publish。撤销发布：npm unpublish
 
-3. yarn：并行安装、离线模式、安装版本统一、多注册来源处理。
-   - 安装：`npm install yarn -g`
-   - yarn 安装：yarn install
+**yarn**：并行安装、离线模式、安装版本统一、多注册来源处理。
+- 安装：`npm install yarn -g`
+- yarn 安装：yarn install
 
 ### b、文件操作：
 
@@ -2192,12 +2219,12 @@ wx.chooseImage({
 
 **文章部分**：
 [张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
-[HTML 转义字符表](http://tool.oschina.net/commons?type=2)、[HTML 标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure 各破解版本下载地址。](https://www.axure.com.cn/78629/)、[plotly.js 起始教程地址，里面有下载地址(dist 文件夹下)。和源码文档。](https://www.kutu66.com//GitHub/article_132050)、[javascript 事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝 H5 开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee 标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)、[validator 官网 git 地址，里面有使用示例。](https://github.com/yiminghe/async-validator#start-of-content)
+[HTML 转义字符表](http://tool.oschina.net/commons?type=2)、[HTML 标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure 各破解版本下载地址。](https://www.axure.com.cn/78629/)、[plotly.js 起始教程地址，里面有下载地址(dist 文件夹下)和源码文档](https://www.kutu66.com//GitHub/article_132050)、[javascript 事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝 H5 开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee 标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)、[validator 官网 git 地址，里面有使用示例](https://github.com/yiminghe/async-validator#start-of-content)
 [jest 使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)、[谷歌浏览器插件开发文档](https://developer.chrome.com/extensions/getstarted.html)
 **工具部分**：[很多实用前端工具。](https://www.zhihu.com/question/20241338?sort=created)
 
 - [属性兼容性查看网站](https://caniuse.com/?search=flex)：红色为完全不支持的版本，棕色为部分支持的版本，绿色为几乎全部支持的版本。命令使用：npm install -g caniuse-cmd
-- [配色网站](https://colorhunt.co/)：很多不错的颜色值组合。
+- [配色网站](https://colorhunt.co/)：很多不错的颜色值组合
 - [诸多在线工具网站](https://tool.lu/)、[windows 部分批处理命令学习](https://blog.csdn.net/qq_17204441/article/details/89062591)
 
 ## 8、IDE 工具:
@@ -3355,6 +3382,17 @@ const _url = "https://nb.com"; //如果使用了axios，这里路径要与axios�
 //请求路径、请求类型、数据。
 Mock.mock(`${_url}/index/test`, "get", require("./moc.json"));
 Mock.mock(`${_url}/index/use`, "post", require("./moc.json"));
+// 数据部分可替换为函数，根据不同的条件来返回数据
+Mock.mock(`${_url}/index/add`, "post", function(arg){
+  /***arg是传来的接口配置******
+   body: "{\"varType\":\"03\"}"
+   type: "POST"
+   url: "/api/varInfo/varList"
+  */
+  const dt = JSON.parse(arg.body);
+  if(dt.varType=='03') return 0;
+  else return 1;
+});
 ```
 
 - **导入**：main.js 将其导入即可。使用 mock 数据时**不要与代理路径一样，或干脆不用代理**。
@@ -4349,7 +4387,7 @@ webpack 只能将一部分 es6 语法转换为 es5，而一些高级的 es6 语�
 - @babel/env 对应 6.0+的 babel-env：为目标浏览器中没有的功能加载转换插件。不太推荐 preset-env。
 - @babel/polyfill：可以使用诸如 Promise 和 WeakMap 之类的新的内置组件、 Array.from 或 Object.assign 之类的静态方法，不过是全局的，所以会对全局变量造成污染，现在已经不建议使用。安装时使用`--save`
 - transform-vue-jsx：可以支持 jsx 语法（ts）。
-- [制作可在 babel 中配置的插件。](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/README.md)
+- [制作可在 babel 中配置的插件](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/README.md)
 - stage 系列插件：它们用于解析 es6,7 等版本 js 语法的方案，包含 0-4，功能逐渐降低，对最新语法处理的程度，一般使用 stage-2。
 - transform-runtime：只用于开发环境，由于 webpack 的打包机制会将模块中导入的都打包到一起，然而一些较大的公共包也会有被打入多个 chunk 组的情况，transform-runtime 可以提取分离它们
 

@@ -14,8 +14,7 @@
 （2）$e^{\infty}$型极限，如$lim_{x\rightarrow0^-}e^{1/x}=0,lim_{x\rightarrow0^+}e^{1/x}=+\infty$#则它的极限不存在。
 （3）$arctan^{\infty}$型极限，如$lim_{x\rightarrow0^-}arctan(1/x)=-\frac{\pi}{2},lim_{x\rightarrow0^+}arctan(1/x)=\frac{\pi}{2}$#极限也不存在。
 
-**夹逼准则**：若存在N，当n>N时，$x_n<=y_n<=z_n，且lim_{n\rightarrow\infty}xn=lim_{n\rightarrow\infty}zn=a则lim_{n\rightarrow\infty}zn=a$
-**单调有界准则**：单调有界数列必有极限。<b c=r>夹逼准则一般用于数列多项求和时求极限，单调有界一般用于数列求第n项的极限，当然这些也可以用于函数求极限</b>
+**单调有界准则**：单调有界数列必有极限。
 **极限保号性**：函数极限的保号性是指满足一定条件（例如极限存在或连续）的函数在<b c=v>局部范围内函数值的符号保持恒正或恒负的性质。</b>**定义**：函数f在x->c时极限存在，则存在c的某去心领域内(c-a,c+a)，该极限任然存在。
 
 - **无穷小量**：x->x0时，极限趋于0的函数或数列。
@@ -45,12 +44,6 @@ $\lim_{x\rightarrow x_0}g(x)h(x)=\lim_{x\rightarrow x_0}\frac{g(x)}{f(x)}*\lim_{
 `1^∞`**型极限**：求解步骤一般如下：
 >（1）写标准型：$1^∞=lim(1+a)^b（2）求极限:limab=A（3）写结果:1^∞=e^A$#示例如下：<b c=gn>不能先求括号内极限</b>
 >$lim_{n\rightarrow ∞}(\frac{n-2}{n+1})^n=lim_{n\rightarrow ∞}(1+\frac{-3}{n+1})^n，按步骤（2）lim_{n\rightarrow ∞}(\frac{-3n}{n+1})=-3,所以结果=e^{-3}$
-
-**洛必达法则**：洛必达法则是在一定条件下通过**分子分母分别求导再求极限**来确定未定式值的方法  。两无穷小之比或两个无穷大之比的极限可能存在，可能不存在。因此，求这类极限时往往需要适当的变形。[参考学习地址](https://baike.baidu.com/item/%E6%B4%9B%E5%BF%85%E8%BE%BE%E6%B3%95%E5%88%99/7646700?fr=aladdin)
-- **零比零型**：若函数f(x)和g(x)满足条件：（1）$lim_{x\rightarrow a}f(x)=0,lim_{x\rightarrow a}g(x)=0$（2）a的某去心领域内两者都可导。（3）$\lim_{x\rightarrow a}\frac{f'(x)}{g'(x)}=A$。则
-有$\lim_{x\rightarrow a}\frac{f(x)}{g(x)}=\lim_{x\rightarrow a}\frac{f'(x)}{g'(x)}=A$
-- 无穷比无穷型：若函数f(x)和g(x)满足：（1）x->a时f(x)和g(x)都趋于无穷。（2）a的某去心领域内两者都可导。（3）两函数导的比，在x->a时也存在，则和上面一样的推论。
-- 其它不定式：例如0*∞型，∞-∞型等都可以化为以上两种求解。
 
 
 **多元函数极限**：由于自变量由1个增加至了多个，产生了某些新的性质，先研究二元函数再推广到多元上。
@@ -117,19 +110,15 @@ $\lim_{x\rightarrow x_0}g(x)h(x)=\lim_{x\rightarrow x_0}\frac{g(x)}{f(x)}*\lim_{
 - **注**：越是高阶可导函数曲线越是光滑。存在处处连续但处处不可导的函数。函数在某点可导的**充要条件**是在该点存在左右导数，且相等。
 
 - **基础函数求导法则**：<b c=b>分数形式求导法则和指数形式求导，最后化简得的结果是一样的，用指数形式求导一般是更简便的！</b>
-  $$
-  (1)~~(sin x)'=cos x	~(2)~(cos(x))'=-sin(x)~(3)~(tanx)'=sec^2 x~(4)~(cot x)'=-csc^2 x \\
   
-  (5)~~(sec x)'=secx*tan x~(6)~(csc x)'=-csc xcot x~(7)~(arcsin x)'=1/sqrt(1-x^2) \\
-  
-  (8)~~(arctan x)'=1/(1+x^2)~(5)~(arccot x)'=-1/(1+x^2)\\
-  (9)~~arccos'(x)=(\pi/2-arcsin)'=-\frac{1}{\sqrt{1-x^2}}~(10)~(a^x)'=a^x * lna \\
-  (11)~~(e^x) = e^x~(12)~(x^n)'=n*x^(n-1)~(13)~(log(a,x))'=1/(x*lna)\\
-  
-  (14)~~(lnx)'=1/x~(15)~[g(x)/h(x)]'=[g(x)'h(x)-h(x)'g(x)]/h(x)^2\\
-  
-  (16)~~[f(x)*g(x)]' = f(x)'g(x)+g(x)'f(x)~(17)~(f(g(x)))'=f(g(x))'*g(x)' 
-  $$
+$$(1)~~(sin x)'=cos x	~(2)~(cos(x))'=-sin(x)~(3)~(tanx)'=sec^2 x~(4)~(cot x)'=-csc^2 x \\
+(5)~~(sec x)'=secx*tan x~(6)~(csc x)'=-csc xcot x~(7)~(arcsin x)'=1/sqrt(1-x^2) \\
+(8)~~(arctan x)'=1/(1+x^2)~(5)~(arccot x)'=-1/(1+x^2)\\
+(9)~~arccos'(x)=(\pi/2-arcsin)'=-\frac{1}{\sqrt{1-x^2}}~(10)~(a^x)'=a^x * lna \\
+(11)~~(e^x) = e^x~(12)~(x^n)'=n*x^(n-1)~(13)~(log(a,x))'=1/(x*lna)\\
+(14)~~(lnx)'=1/x~(15)~[g(x)/h(x)]'=[g(x)'h(x)-h(x)'g(x)]/h(x)^2\\
+(16)~~[f(x)*g(x)]' = f(x)'g(x)+g(x)'f(x)~(17)~(f(g(x)))'=f(g(x))'*g(x)' 
+$$
   
 
 **两边同时求导**：若在区间[a,b]上每点横有f(x)=g(x)，那么该区间上两边同时求导`f'(x)=g'(x)`也是满足的。两边同时积分也是满足的！
