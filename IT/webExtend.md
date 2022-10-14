@@ -83,7 +83,7 @@ self.addEventListener('fetch', e => {
 **核心实现**：每个组件实例会有一个渲染 watcher，用于收集页面上的绑定的属性。计算属性和监听属性建立后都会各有一个 watcher 用于手机相应的依赖，并同时向 Dep 中发布订阅，添加到 Dep.subs 中，然后各 watcher 收集到的响应式对象会交给 Observe，其使用 Object 方法集为这些响应式对象添加 getter，setter 属性，当发生改动时会触发 setter，然后 setter 内根据其绑定的相关 watcher 通知 Dep，触发 Dep 的 notify()函数，去遍历 Dep.subs 中的订阅者，触发相关 watcher 的 update 方法重新计算、渲染。
 :::
 
-![v2-b94d747fd273ec8224e6349f701430fd_720w](\_v_images/20210305103536586_26904.jpg =510x)![vue](\_v_images/20210305201824661_21824.png =790x)
+![v2-b94d747fd273ec8224e6349f701430fd_720w](\_v_images/20210305103536586_26904.jpg)![vue](\_v_images/20210305201824661_21824.png)
 
 ## a1、原理:
 
@@ -1149,7 +1149,7 @@ export default loading; //导出后可在ajax拦截器，等全局使用。
 ## d1、安装
 - create-react-app安装：`npm install create-react-app -g`（使用node 14.0以上版本）
 - 创建react-app：`create-react-app react-demo`
-## d2、jsx示例
+## d2.1、class组件
 JSX 语法被 @babel/preset-react 插件编译为 createElement() 方法
 ```jsx
 import React,{useRef,useState} from 'react';
@@ -1157,6 +1157,8 @@ import Child from "./Child";
 
 // demo类
 class Demo extends React.Component{
+  // 定义队props的类型加测
+  static propTypes = {name:React.ProtoTypes.string} // string|number|func|boolean
   constructor(props){
     // props是使用该组件时传递来的参数map
     super(props);
@@ -1176,8 +1178,10 @@ class Demo extends React.Component{
     //*******供子组件调用的方法也绑定this
     this.parentFun = this.parentFun.bind(this);
   }
-  componentWillMount(){console.log('[生命周期-组件挂载之前执行]');}
+  componentWillMount(){console.log('[生命周期-组件挂载之前执行(可以使用setState)]');}
   componentDidMount() {console.log('[生命周期-创建dom后触发]');}
+  componentWillUpdate(){console.log('[生命周期-将要更新]');}
+  componentDidUpdate(){console.log('[生命周期-更新完成]');}
   componentWillReceiveProps(nextProps,nextContext){console.log('[传入的props有改变后触发（初次渲染不会执行）]');}
   componentWillUnmount() {console.log('[生命周期-卸载组件后触发]')}
   shouldComponentUpdate(nextProps,nextState){
@@ -1233,7 +1237,46 @@ class Demo extends React.Component{
 
 export default Demo;
 ```
-**组件插槽**（父组件渲染时子组件也会跟着渲染）
+## d2.2、函数式组件
+与vue的函数式组件类似，一般只显示一些静态数据，无响应式，不过可以通过一些hooks添加状态（变为右状态组件）
+```jsx
+import React,{useEffect,useState,useRef} from 'react';
+
+function Detail(props){
+  // data是状态数据，setData是用于改变其值的函数
+  const [data,setData] = useState([]);
+  const v = useRef();
+  //useEffect相当于生命周期作用
+  useEffect(()=>{
+    console.info('组件挂载时执行一次,和数组中有值发生改变时执行');
+
+    },[data]);
+
+  return (<div ref={v}>hello</div>);
+}
+```
+## d2.3、高阶组件
+将一个组件作为传入，经过处理后，返回一个React组件（桥接模式一样，在外面再包一层处理共同数据）
+```js
+//****withData.js
+const WithData = (Component,url)=>{
+  const UseComponent = ()=>{
+    const d = url + '?arg';
+    return <Component data={d}/>;
+  }
+  return UseComponent;
+}
+export default WithData;
+//*******Demo.js使用
+import WithData from './WithData';
+class Demo extends React.Component{
+  render(){...}
+}
+
+export default WithData(Demo,'/home/login');
+```
+## d2.4、组件插槽
+（父组件渲染时子组件也会跟着渲染）
 ```jsx
 import React, { Component } from 'react'
 
@@ -1264,7 +1307,61 @@ export default class Children extends Component {
 ```
 [父子组件交互](https://blog.csdn.net/qq_44472790/article/details/124994164)
 ## d3、react-route
+基本配置：
+```js
+import { Switch, Route } from 'react-router-dom';
+import Home from './pages/home/Home';
+// Switch：匹配到1个路由时即匹配停止（6版本之后已被丢弃）
+<Switch>
+  <Route path='/home' component={Home}/>
+</Switch>
 
+//************home页面，二级路由写法（包含缓存写法）
+import React from 'react';
+import  {Route,Navigate,Redirect,NavLink,Switch} from "react-router-dom";
+import About from './About';
+import Serve from './Serve';
+
+class Home extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      routes:[]
+    }
+    this.addAboutRoute = this.addAboutRoute.bind(this);
+    this.addServeRoute = this.addServeRoute.bind(this);
+  }
+  //******** 路由缓存实现**********
+  //*******需要动态的注册路由，不然会一次性执行所有路由(二级路由用Switch包裹时)
+  addAboutRoute(){
+    let routes = Array.from(this.state.routes);
+    routes.push(
+      <Route path='/home/about' key='about' children={
+        (({match,...restProps})=>{
+          return (<div style={{display:match ? 'block':'none'}}><About/></div>)
+        })
+      }/>
+    )
+    this.setState({routes:routes});
+  }
+  addServeRoute(){
+    //...
+  }
+  render(){
+    return (<div className='home-page'>
+        <button onClick={this.addAboutRoute}>添加ABOUT</button><button onClick={this.addServeRoute}>添加Serve</button>
+        {/*********这里不使用Switch包裹，不然切换时依然会卸载其它路由，还是没有缓存效果*/}
+        {this.state.routes}
+        <NavLink to='/home/about'>to about page</NavLink><i>__</i>
+        <NavLink to='/demo'>to demo page</NavLink>
+      </div>)
+  }
+}
+
+export default Home;
+```
+
+路由跳转：
 ```js
 import {NavLink,useNavigate,useParams,useSearchParams} from 'react-router-dom';
 <NavLink to="/home/help" />
@@ -1279,9 +1376,9 @@ const parmas = useParams();
 navigate.push('/single-blog?hello=rrr');
 const search = useSearchParams();
 ```
-
+[中文档](http://react-guide.github.io/react-router-cn/docs/API.html)
 [参考学习地址](https://blog.csdn.net/ZHANGYANG_1109/article/details/126022959)
-
+[页面缓存参考](https://github.com/CJY0208/react-router-cache-route/blob/master/README_CN.md)
 ## d4、redux全局状态管理
 - 有actions，和reducer构成；[官方文档](https://www.redux.org.cn/docs/basics/UsageWithReact.html)
 - actions 只是描述了有事情发生了这一事实，并没有描述应用如何更新 state。

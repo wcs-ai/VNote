@@ -29,6 +29,7 @@ mind: svg 标签及 svg 元素动态添加均不会生效，只可做静态使�
     <animateMotion path="M10,50 q60,50 100,0 q60,-50 100,0" begin="one.end" dur="10s" repeatCount="indefinite"></animateMotion>
     <!--animationTransform:transform属性类动画，additive为sum时可组合使用-->
     <animateTransform attributeName="transform" attributeType="XML" type="scale" from="1" to="3" begin="0s" dur="10s" repeatCount="indefinite" additive="sum"/>
+    <!--水平旋转可用：from:"0 0 0"  to:"360 0 0" 后面两位0与元素本身位置中心一样时达到自转效果-->
     <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 30 20" to="360 30 20" begin="0s" dur="10s" fill="freeze" repeatCount="indefinite" additive="sum"></animateTransform>
 </rect>
 //rect标签绘制矩形，x,y为位置,fill,stroke等属性可写在style外。
@@ -937,6 +938,13 @@ tel、number、email、text、radio、checkbox、image、date、color、button�
 <img alt="加载失败" src="" crossorigin="" />
 <!--只要设置了 ping 属性，用户点击此链接元素的时候，浏览器就会自动发送一个 POST 请求给 ping 属性值地址-->
 <a href="" ping="https://www.xxx.cn/notify.php">发送</a>
+<h2>消除img图片间隙</h2>
+<style>
+img {
+  -webkit-user-drag: none;
+  vertical-align: top;/*消除行内元素的间隙（仅对 img 元素有用）*/ 
+}
+</style>
 ```
 
 ### 8、MathML
@@ -1079,9 +1087,12 @@ var state = {
   （3）display 的值为 table-cell、table-caption 和 inline-block 中的任何一个；
   （4）position 的值不为 relative 和 static。
 
-- **css 选择器**：`div+p`#两个紧挨者的元素，`[attribute]`#选择带有 arrtibute 属性的元素。[attribute=value]选择等于指定值的。[attribute~=value]属性值中包含该值的。[attribute|=value]属性值中以该 value 开头的。`p:first-child`#选择 p 的父元素的第一个子元素(属于 p 元素)。p:last-child#选最后一个子元素。`p:nth-child(n)`#选择第 n 个子元素(属于 p 元素)。p:nth-last-child(2)#从最后子元素开始计数。[css 选择器全部](http://www.w3school.com.cn/cssref/css_selectors.asp)
-  > **选择器优先级**：带!important>内嵌样式>id>类名==属性选择器>标签选择器>通配符(\*)>继承(继承父元素的属性)>浏览器默认属性。子选择器用 id 选择时比 id 选择器优先级高。
-  > **选择器的解析**：解析选择器时是从右往左的（如使用`#div>.cc`时是先取.cc 再取#div 的顺序去构建树【更容易把公共样式放在一个节点】）少用一些子选择器。
+- **css 选择器**：`div+p`#两个紧挨者的元素，`[attribute]`#选择带有 arrtibute 属性的元素。[attribute=value]选择等于指定值的。[attribute~=value]属性值中包含该值的。[attribute|=value]属性值中以该 value 开头的。
+  - `p:first-child`#选择 p 的父元素的第一个子元素(属于 p 元素)。p:last-child#选最后一个子元素。
+  - `p:nth-child(n)`#选择第 n 个子元素(属于 p 元素)。
+  - `p:nth-last-child(2)`#从最后子元素开始计数。[css 选择器全部](http://www.w3school.com.cn/cssref/css_selectors.asp)
+  -**选择器优先级**：带!important>内嵌样式>id>类名==属性选择器>标签选择器>通配符(\*)>继承(继承父元素的属性)>浏览器默认属性。子选择器用 id 选择时比 id 选择器优先级高。
+  - **选择器的解析**：解析选择器时是从右往左的（如使用`#div>.cc`时是先取.cc 再取#div 的顺序去构建树【更容易把公共样式放在一个节点】）少用一些子选择器。
 - **鼠标样式**：cursor:pointer;//手指,提示可点击。hand//IE5 使用的手指样式、wait;//等待、help;//帮助、no-drop;//无法释放、text;//文字，暗示为文字内容、move;//提示可移动对象、crosshair;//十字准心、n-resize;//向上改变大小箭头、s-resize;//向下改变大小箭头、e-resize;//向右改变大小箭头、w-resize;//向左改变大小箭头、ne-resize;//向右上改变大小箭头、nw-resize;//向左上改变大小箭头、se-resize;//向右下改变大小箭头、not-allowed;//禁止、progress;//处理中、default;//提示可移动对象、url();//引入外部文件作为鼠标样式，文件格式必须为.cur 或.ani。
 - **边框样式**：
 
@@ -1171,7 +1182,7 @@ border:10px solid transparent;
 </style>
 ```
 
-- **滚动容器底部留白**：有滚动的使用一般底部使用一些留白，效果稍好；使用`margin-bottom:20px;`来实现（所有浏览器几乎可以）使用 padding 则会有兼容性问题；
+- **滚动容器底部留白**：有滚动的使用一般底部使用一些留白；使用`margin-bottom:20px;`来实现（所有浏览器几乎可以）使用 padding 则会有兼容性问题；
 - 平滑滚动：`scroll-behavior:smooth;`//发生滚动时更平滑(锚点跳转、改变 scrollTop 值)
 - **滚动锚定**：滚动时或点击加载更多，新的内容导致滚动条位置变化，
   overflow-anchor:auto;状态会保持当前观看内容处于用户视线内，用户感觉不到滚动条位置变化。
@@ -1209,6 +1220,15 @@ input::-webkit-input-placeholder {
 ```
 
 - **媒体查询器**：`@media only screen and (min-width: 300px) and (max-width: 768px) {}`
+- **box-shadow充当遮罩层**：
+```css
+div{
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 50vmax rgba(0, 0, 0, .8);
+}
+```
 
 - **文本控制**：
   （1）调整字间距：letter-spacing:5px；
@@ -1251,6 +1271,7 @@ el {
 =================*/
 img {
   -webkit-user-drag: none;
+  vertical-align: top;/*消除行内元素的间隙（仅对 img 元素有用）*/ 
 }
 /*背景图片设置*/
 background: url(" ") no-repeat;
@@ -1795,7 +1816,7 @@ $subMenuHover: #9900ff;
 
 - [less 文档。](https://less.bootcss.com/#概览)
 
-## 8. css 架构：
+## 8. css 结构：
 
 - 命令规则：一般使用 BEM 命名方式：`模块_描述--详细描述`，一套组件内的命令：`c-`。表状态：`is-或has-`。示例如下：
 
@@ -1817,7 +1838,9 @@ $subMenuHover: #9900ff;
 - 全局变量：常用到的颜色、尺寸放在一个定义变量的文件中，其它文件使用。
 - mixin：使用多的复杂样式也可以定义为 minx，然后 include 注入使用。
 - [参考学习地址](https://zhuanlan.zhihu.com/p/32952130)
-  9、元素的两个盒子：
+  
+
+9、元素的两个盒子：
   元素都有两个盒子，外面的盒子是 inline 级别，里面的盒子是 block 级别，<b c=gn>display 作用于外层，width，height 作用于内盒，所以</b>inline-block 能与文字一行又能设置尺寸。
 
 ```css
@@ -1844,29 +1867,42 @@ $subMenuHover: #9900ff;
 
 **基本操作**：
 
-- 权限：项目创建时 master 默认受保护，分支锁定：锁定后分支也是受保护状态。受保护状态的分支所有者有全部权限，其余开发人员只可拉取，不能再直接推送，只能使用发起合并请求的方式来推送。
-- **合并过程中的撤销**：git merge --abort
-- **回退到前一个版本** ：git reset --hard HEAD^ //^^回退两个 ~100 回退多个
-- 拉取代码：git pull
-- 查看远程信息：git remote -v
-- 提交：git add filename，git commit -m '备注'，git push origin second //将本地分支推送到远程，
-- **新建本地分支**：git checkout -b main origin/main //main 是本地分支，第二个是指从哪条源拉取代码，不写的话默认是 master。
-- **新建远程分支**：网站上手动新建可直接指定源与哪个分支，命令式需要新建一个本地分支，然后：`git push origin new_dev:new_dev`#推到远程。
-- 分支跟踪：git branch --set-upstream-to=origin/wcs //从 master 拉取代码，当前分支跟踪（提交时提交到该分支）远程分支 wcs。
-- 查看所有分支：git branch -a //，-r 查看远程分支。
-- 切换分支：git checkout master
+权限：项目创建时 master 默认受保护，分支锁定：锁定后分支也是受保护状态。受保护状态的分支所有者有全部权限，其余开发人员只可拉取，不能再直接推送，只能使用发起合并请求的方式来推送。
+
+1、**查看操作**：
+
 - **查看文件状态**：git status
 - **查看具体改动**：git diff (红色是改动前，绿色是改动后)
 - **查看 commit 记录**：commit 历史：`git log`#会显示 commitID、人员、时间。最新的一个 commit：`git show`。查看指定人员 id 的提交记录：`git show 32cbad...`。查看指定文件修改情况：`git show 3241abk... src/avn.vue`。
+- 查看所有分支：git branch -a //，-r 查看远程分支。
+- 查看远程信息：git remote -v
+- **查看分支关联关系**：git branch -vv
+
+2、**新建操作**：
+
+- **新建本地分支**：git checkout -b main origin/main //main 是本地分支，第二个是指从哪条源拉取代码，不写的话默认是 master。
+- **新建远程分支**：网站上手动新建可直接指定源与哪个分支，命令式需要新建一个本地分支，然后：`git push origin new_dev:new_dev`#推到远程。
+- 提交：git add filename，git commit -m '备注'，git push origin second //将本地分支推送到远程
+- 分支跟踪：git branch --set-upstream-to=origin/wcs //从 master 拉取代码，当前分支跟踪（提交时提交到该分支）远程分支 wcs
+- 切换分支：git checkout master
+- 拉取代码：git pull
+
+3、**删除/回退**：
+
 - **丢弃 commit**：[参考地址](https://blog.csdn.net/zzyy1234/article/details/92429203)。
 - 删除本地分支：git branch -D second
-- **本地与远程分支关联情况**：git branch -vv
+- 删除远程分支：git push origin --delete yc
+- **回退到前一个版本** ：git reset --hard HEAD^ //^^回退两个 ~100 回退多个
+
+4、**合并**：
+
+- **合并过程中的撤销**：git merge --abort
 - **本地分支合并**：git merge WCS //合并 WCS 分支到当前分支，再 git push origin master//更新
 - **远程分支合并**：一般在网站上申请合并到哪个分支，相关人员去审核，然后拉取到本地打包等操作。
 - **合并发生冲突**：会提示冲突的文件，找到该文件并处理标记了冲突的地方然后 add，commit 即可。
-- 查看所有分支：git branch -a
-- 删除远程分支：git push origin --delete yc
 - **合并冲突解决**：协商解决冲突的页面，然后 git add /src/...将冲突的页面加入，git commit -m 'merge'提交即可。
+
+
 
 **修改仓库地址**：如仓库被迁移到另一个服务器。
 
@@ -1938,17 +1974,17 @@ win10/控制面板/用户账户/凭据管理器/windows 凭据。最下方找到
 - 开发完成后合并到 master，然后使用 master 发布（`git merge --no-ff dev`,使用--no-ff，会执行正常合并，在 Master 分支上生成一个新节点）
 - 因为其它需要，dev 上又可以延伸出其它 3 种功能的分支：预发布分支、缺陷分支、功能分支。<b c=r>这 3 个分支使用完后应该删除</b>
 - 预发布分支：命名 release1.x，**源于 dev 分支**；开发完后合并：（dev 上）git merge --no-ff release1.x；开发完后，预发布在公司内测试。一般命名为 release-1.0 之类，。
-- 缺陷分支：命名 fixbug，**源于 master 分支**；开发完后合并：（master 上）git merge --no-ff dev，然后 git merge --no-ff master；<b c=gn>先合并到 master，再并入 dev</b>
+- **缺陷分支**：命名 fixbug，**源于 master 分支**；开发完后分别并入master和dev上。
 - 功能分支：命名 feature-x，**源于 dev 分支**；开发完后合并：（dev 上）git merge --no-ff release1.x；一个项目模块拿出来单独开发，开发完成后合并入 dev。
 - [git 分支管理学习地址](http://www.ruanyifeng.com/blog/2012/07/git.html)
 
 | 功能         | 命名       | 创建                                  | 合并                              | 完成后 |
 | :----------- | :--------- | :------------------------------------ | :-------------------------------- | ------ |
 | 测试版分支   | release1.x | git checkout -b release1.0 origin/dev | dev：git merge --no-ff release1.0 | 删除   |
-| 功能分支     | feature-x  | git checkout -b feature-x origin/dev  | dev: git merge --no-ff feature   | 删除   |
-| bug 分支     | fixbug     | git checkout -b fixbug origin/dev     |                                   | 删除   |
+| 功能分支     | feature-x  | git checkout -b feature-x origin/dev  | dev: git merge --no-ff feature    | 删除   |
+| bug 分支     | fixbug     | git checkout -b fixbug origin/master  | 开发完后分别并入master和dev上     | 删除   |
 | 开发分支     | dev        | git checkout -b dev origin/master     |                                   | --     |
-| 正式版本分支 | master     | --                                    | master:git merge --no-ff develop   | --     |
+| 正式版本分支 | master     | --                                    | master:git merge --no-ff develop  | --     |
 
 **项目资源搜索**：awesome 接想搜索的资源。[搜索技巧学习地址。](https://blog.csdn.net/csdnnews/article/details/86570635)
 git-gui 的使用：在安装目录下的 cmd/下。不过是英文的，且没 sourceTree 那样全面。
@@ -2001,6 +2037,7 @@ npm install --save lodash  #--save表示生产环境的依赖，--save-dev表示
 npm cache clean -f       //清除缓存。
 npm remove eslint        //移除包内的某个依赖。
 npm install vue@3.0      //安装指定版本写法
+npm unpdate xxx --save   //升级包的版本
 ```
 - **运行 js 文件**：node name.js
 - **使用同级文件**：`const fl = require('./index')`。 
@@ -4376,7 +4413,7 @@ modules: {
 - 使用 CopyWebpackPlugin 将 js 文件直接从 html 引入，将 js 文件放到对应的静态资源文件夹中即可。[Index.html 文件引入 js 文件。](https://blog.csdn.net/qq_15253407/article/details/89491255)
 - 使用 commonsChunkPlugin 或新版的 splitChunk 都只能分割主入口同步导入的和各页面的代码，而各页面 import 等导入的不能控制。[import()使用](https://www.cnblogs.com/dahe1989/p/11543832.html)
 
-## g、bable 插件：
+## g、bable 插件
 
 webpack 只能将一部分 es6 语法转换为 es5，而一些高级的 es6 语法，和部分 es7 语法无法转译，这就需要 bable。bable 包含：preset-env、plugin-component、polyfill 等多个子插件。
 <b class="violet">项目中的.bablelr 是 bable 的配置文件，而需要使用的话需要在 webpack 的 modules 中引入 bable-loader。</b><b class="gray">babel 中引入的分为转换插件（转换代码，编译）和语法插件（解析特定类型的语法，如果你已经使用了相应的转换插件，则不需要指定语法插件。）</b>
@@ -4436,6 +4473,69 @@ webpack 只能将一部分 es6 语法转换为 es5，而一些高级的 es6 语�
 
 - `{ test:/\.js$/, use: 'babel-loader', exclude:/node_modules/ }`#exclude 指定排除掉的文件夹。 如果不排除 node_modules， 则 Babel 会把 node_modules 中所有的 第三方 JS 文件，都打包编译，这样，会非常消耗 CPU，同时，打包速度非常慢；
   [编写 plugin 参考学习地址。](https://www.cnblogs.com/wzndkj/p/10921340.html)
+
+## H、require
+
+**原理**：其大致原理是将require的文件单独作为1个模块，挂载到变量上
+
+1、同步使用：`var a = require('./a');a.show();`
+
+2、异步加载：可以在打包的时候进行代码分片，并异步加载分片后的代码
+
+```js
+require.ensure([], function(require){
+  var list = require('./list');// 此文件会被单独打包（引入多个文件时会打包到一起）
+  list.show();
+},'filename'); // 最后1个参数可以在输出的文件上加个前缀名
+```
+
+3、**预加载懒执行**：执行到这里的时候list.js会被浏览器下载下来，但是并不会执行list.js模块中的代码
+
+```js
+// 第1个参数就是预加载的列表
+require.ensure(['./list'], function(require){
+  var list = require('./list');
+  require.include('./list2');//include方法有单独的预加载作用
+  list.show();
+});
+```
+
+4、require.context：获取1个文件夹下的多个文件
+
+```js
+// 参数说明如下
+require.context(
+  (directory: String), // 检索目录
+  (includeSubdirs: Boolean), // 是否检索子文件夹，默认 true
+  (filter: RegExp), // 匹配文件的正则表达式，默认值是 /^\.\/.*$/，所有文件
+  (mode: String), // 可选的， 'sync' | 'eager' | 'weak' | 'lazy' | 'lazy-once'，默认值是 'sync'
+)
+```
+
+​		 获取多个组件实例：
+
+```js
+const context = require("@/components", false, /\.vue$/);
+//keys()方法可以获取所有匹配到的模块 ID 的数组
+const modules = context.keys().reduce((accu, file) => {
+  accu[file] = context(file).default;
+  return accu;
+}, {});
+
+export default {
+  components: modules
+}
+// 全局注册示例
+context.keys().forEach(filename=>{
+   // 获取组件实例
+  const component = context(fileName);
+  // 获取组件名
+  const componentName = component.name;
+  Vue.component(componentName, component.default);
+});
+```
+
+
 
 ## Q、问题集：
 

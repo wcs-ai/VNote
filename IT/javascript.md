@@ -72,7 +72,9 @@ Array.from("dafl"); //[d,a,f,l]  var b = Array.from(carr); //from可实现浅拷
 [1, 2, 3].toString(); //"1,2,3"
 Array.isArray({}); //false
 // map,forEach（return返回的会放到1个新数组中，与原数组一样长）
-var ss = [1,3,5,6].map(v=>{if(v>3)return v;});
+var ss = [1, 3, 5, 6].map((v) => {
+  if (v > 3) return v;
+});
 
 k = arr.from(T); //T转换成数组，T可以是字符串、列表、set。
 var k = arr.concat([1, 2, 3]); //or concat(6)
@@ -80,11 +82,11 @@ var a = arr.some(function (item, index, arr) {
   if (item > 2) {
     return true;
   }
-}); 
+});
 //返回true时会结束遍历，arr是整个数组本身。a为布尔值。
 var a = arr.find((x) => {
   return x >= 4;
-}); 
+});
 
 list.reverse(); //将数组倒置，[1,2,3].reverse();//[3,2,1]。
 list.shift(); //移除第一个元素。
@@ -173,7 +175,7 @@ Object.getPrototypeOf(obj) == obj.prototype; //获取指定对象的原型（内
 Object.getPrototypeOf(person1).name;         //"Nicholas",但不能通过此方法来更改。
 Object.setPrototypeOf(vue,{v:2})             //设置一个指定的对象的原型
 Object.getOwnPropertyDescriptors(obj);       //返回指定对象所有自身属性【原型属性不含有】
-obj.hasOwnProperty('a');                     // 判断是否有指定属性
+
 //getOwnPropertyNames()方法可以得到所有属性，包括对象的不可枚举属性。
 Object.getOwnPropertyNames(Person.prototype);
 //将对象的某个属性设置为是否可枚举。//----缺点：无法监听到增加和删除操作，无法监听到内部数组的改变。
@@ -209,7 +211,8 @@ obj.isPrototypeOf(obj2)            //判断obj是否在obj2的原型链上。
 var res = Object.assign(obj1, obj2,...);//将obj1后的对象中的属性赋给obj1，相同的键值会覆盖。
 ```
 
-Object.defineProperty()方法可传有三个参数，第一个是要监听的对象，第二个是参数是该对象中已有的属性或未有的属性，第三个参数是对象的形式，里面可以写两个方法，set 方法在改变目标对象中指定属性(第二个参数)时触发的函数，可传入一个参数表示被修改的值，get 方法在目标对象指定属性值被获取时触发。set 方法和 get 方法都是在对应的操作前就先触发的，比如：obj.name = 'jieke',是先触发 set 方法再运行 obj.name='jieke'语句；第三个参数中也可以写访问器属性：
+- **Object.defineProperty()**
+方法可传有三个参数，第一个是要监听的对象，第二个是参数是该对象中已有的属性或未有的属性，第三个参数是对象的形式，里面可以写两个方法，set 方法在改变目标对象中指定属性(第二个参数)时触发的函数，可传入一个参数表示被修改的值，get 方法在目标对象指定属性值被获取时触发。set 方法和 get 方法都是在对应的操作前就先触发的，比如：obj.name = 'jieke',是先触发 set 方法再运行 obj.name='jieke'语句；第三个参数中也可以写访问器属性：
 
 ```js
 Object.defineProperty(obj, "name", {
@@ -235,11 +238,31 @@ Object.defineProperties(obj, {
 });
 Object.getOwnPropertyDescriptor(obj, "name"); //获取目标对象指定属性的描述
 ```
+- **检查对象上存在某属性**：
+```js
+let map = {a:1,b:2};
+/********hasOwnProperty()方法不会检查原型链********/
+const includeA = map.hasOwnProperty('a');
+/********
+ * 但对于Object.create()传入空值时
+ * cleanObj是一个空对象，但不再拥有Object的方法，使用Object下方法时报错
+*/
+const cleanObj = Object.create(null);
+console.log(typeof cleanObj,'为object');console.log(cleanObj instanceof Object,'但其为false');
+cleanObj.some = 'value';
+console.log(cleanObj.hasOwnProperty('some'));// 报错：hasOwnProperty is not a function
+/******此时可用*******/
+console.log(({}).hasOwnProperty.call(cleanObj,'some'));
+
+/*******in方法，会连原型链一起检查*******/
+const includeB = 'b' in map;
+```
 
 - [Object 方法集学习地址](https://www.cnblogs.com/mopagunda/p/8328084.html)
 - **列表，字典均属于 Object 类型**，即：`[1,2] instanceof Object`#为 true，但`{a:1,b:2} instanceof Array`#为 false。
   **undefined**：派生自 null，因此`null==undefined`#返回 true，使用全等符号才会返回 false。已声明，未赋值的变量依然是 undefined。但是没有声明的值使用，会直接报错。然而使用`typeof no(未声明值)`#得到的也是 undefined 类型，所以 undefined 不属于 Object。
-  **null**：表示一个空对象指针，因此用 typeof 检测时返回 object（但`null instanceof Object`返回 false）。如果该变量之后用于赋值一个对象，那初始赋值可以置为 null。
+  **null**：表示一个空对象指针，因此用 typeof 检测时返回 object（但`null instanceof Object`返回 false）
+  如果该变量之后用于赋值一个对象，那初始赋值可以置为 null。
   **布尔值**：`0，空字符串、null、undefined、false`都是当做 false。
   **Set**：es6 新增数据类型，集合属于数学的概念。Set 属于 Object。
 
@@ -488,7 +511,7 @@ dat.getFullYear(); // 获取年份
 dat.getMonth() + 1; // 获取月份,从0开始所以需要加1
 dat.getDate(); // 获取号数
 dat.getHours(); // 获取小时
-dat.getMinutes();// 分钟
+dat.getMinutes(); // 分钟
 dat.getTime(); //获取从1970/01/01至今过去的毫秒数。
 dat.toUTCString(); // 将日期转换为字符串
 dat.getDay(); // 获取星期
@@ -497,8 +520,8 @@ var dt1 = new Date();
 var dt2 = new Date(dt1); // 将dt1当参数传入
 dt2.setDate(dt1.getDate() + 5); //将今天的号数设置为5天之后的号数
 // 或者（获取10分钟之前的时间）
-var dy = 10*60*1000;
-let dt3 = new Date(Date.parse(new Date())-dy);
+var dy = 10 * 60 * 1000;
+let dt3 = new Date(Date.parse(new Date()) - dy);
 // 与当日差距的天数时间
 function dateScope(fromDate) {
   const _fromDate = fromDate || 0;
@@ -612,9 +635,9 @@ switch (a) {
 }
 /*******for循环多条件*******/
 // 多条件用逗号隔开时表示“或”，满足任1条件都会执行
-for(let i=1,k=20;i<10,k>10;i++,k--){}
+for (let i = 1, k = 20; i < 10, k > 10; i++, k--) {}
 // 要求同时满足，用&&即可
-for(let i=1,k=20;i<10 && k>10;i++,k--){}
+for (let i = 1, k = 20; i < 10 && k > 10; i++, k--) {}
 ```
 
 - **for in 与 for of**：<i c=r>for 循环时，多数会读取数组 length 值，**用一个局部变量缓存它**，速度更快</i>
@@ -708,13 +731,22 @@ if (a < 10) {
 ```js
 <p onclick="start()"></p>; // 原生的事件绑定。
 function start() {}
-// js动态绑定事件
+/*******直接写入的方式绑定********
+ * 会覆盖之前绑定过的同名事件；
+ * 但可以通过判断元素事件名是否为空，判断元素是否绑定了该事件；
+*/
+document.getElementById("myBtn").onclick = function(e){}
+/********js动态绑定事件********
+ * 不会覆盖之前的绑定的同名事件
+ * 但不能用其名判断元素是否绑定了该事件；
+ * 可以在绑定时在元素上添加标记，之后通过该标记判断是否已绑定了事件
+*/
 document.getElementById("myBtn").addEventListener("click", function (e) {
   // 第一个参数是事件类型，第二个参数是一个函数，会为其传入一个参数为事件对象，可以用e.target
   document.getElementById("demo").innerHTML = "Hello World";
 });
 /******文档加载完成事件*******/
-window.addEventListener("load",function(){});
+window.addEventListener("load", function () {});
 ```
 
 **事件冒泡与事件捕获**：由于老版本的浏览器不支持，因此很少有人使用事件捕获。我们也建议读者放心地使用事件冒泡，在有特殊需要时再使用事件捕获。
@@ -831,7 +863,7 @@ var k = new CustomEvent("文章勿盗", {
 document.body.dispatchEvent(k);
 ```
 
-事假兼容写入如下：
+事件兼容写入如下：
 
 ```js
 (function () {
@@ -1085,7 +1117,9 @@ js 的执行和 dom 的渲染是两个引擎执行的，所以每次交互时，
 :::
 
 ### [1]DOM 操作：
+
 1
+
 1. **获取元素尺寸相关**
 
 ```js
@@ -1115,6 +1149,13 @@ el.removeChild(ak); // 删除元素节点//只能用父元素删除子元素的�
 el.cloneNode(true); // 复制元素,true是会连其子元素一齐复制
 el.childNodes; // 返回元素的所有子元素(两种不同情况返回的长度)、
 el.childNodes[0].nodeName; //节点名,为间隙或文字则为#text为元素则为。大写的标签名,nodeValue;//节点中的文本内容(非html结构)
+/******滚动到可视区域******
+ * 第1个参数true,表示元素与视窗顶部对齐
+ */
+el.scrollIntoView(true, {
+  // smooth表示平滑滚动
+  behavior: "smooth",
+});
 ```
 
 ```html
@@ -1144,21 +1185,22 @@ var myIdElement = document.getElementById("myId");
 myIdElement.classList.add("name");
 var beforeStyle = window.getComputedStyle(myIdElement, ":before");
 ```
-6. 动态添加style标签
+
+6. 动态添加 style 标签
 
 ```js
 var style = document.createElement("style");
 style.type = "text/css";
 
-try{
-　　style.appendChild(document.createTextNode("body{background-color:red}"));
-
-}catch(ex){
-　　style.styleSheet.cssText = "body{background-color:red}";//针对IE
+try {
+  style.appendChild(document.createTextNode("body{background-color:red}"));
+} catch (ex) {
+  style.styleSheet.cssText = "body{background-color:red}"; //针对IE
 }
 var head = document.getElementsByTagName("head")[0];
 head.appendChild(style);
 ```
+
 ### [2]性能探究：
 
 - 尽量避免 DOM 修改次数；
@@ -1380,6 +1422,48 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 - 这个协议建立在 TCP 协议或者轮询 HTTP 协议之上。所以理论上可以用 js 实现 rtmp 协议，似乎也有人这么做，但没找到相关的解析 rtmp 协议的 js 库。
 - [git 地址](https://github.com/chxj1992/rtmp-streamer)
 - [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)
+
+## 9、promise
+
+```js
+//常用情况：
+function add(n) {
+  return new Promise(function (resolve, reject) {
+    if (n % 2 === 0) {
+      resolve("ok nice"); //成功时使用resolve
+    } else {
+      reject(`error ${n}`); //失败使用reject，返回参数
+    }
+  });
+}
+add(3)
+  .then((res) => {
+    console.warn(res); //res是resolve或reject中返回的。
+  })
+  .catch((res) => {
+    console.info(res);
+  });
+```
+
+- **同步使用**：只有在同一作用域才有同步效果
+
+```js
+unction pcase(){
+  return new Promise((rs,rj)=>{
+    setTimeout(()=>{
+          console.info('第3个输出');rs('fdfd');
+        },1000);
+    });
+}
+// usep内的执行是
+async function usep(){
+  console.info('第1个输出');
+  let d = await pcase();
+  console.info('第4个输出');
+}
+usep();
+console.info('第2个输出');
+```
 
 ## 10、文件&图片：
 
@@ -1634,13 +1718,15 @@ xhr.send(obj);//发送数据,必须使用
   > cros：后台直接配置 cros 即可。**浏览器将 CORS 请求分成两类**：简单请求（simple request，请求方式受限，字段受限）和非简单请求（not-so-simple request）。
   > webscoket 和 workers 的 postMessage 可以跨域。
 
-不借助input的文件选择：
+不借助 input 的文件选择：
+
 ```js
 // 打开文件
 window.showOpenFilePicker();
 // 打开文件夹
 window.showDirectoryPicker();
 ```
+
 ### 3、文件下载：
 
 ```js
@@ -1776,39 +1862,6 @@ var a = [1,2,3,4,5];
     }
 c(...a);// 将a中的每个元素拿出来放到c中。
 
-/*==============
-     promise
-================*/
-//常用情况：
-function add(n) {
-    return new Promise(function(resolve, reject) {
-         if (n % 2 === 0) {
-              resolve('ok nice');    //成功时使用resolve
-         } else {
-              reject(`error ${n}`); //失败使用reject，返回参数
-         }
-    })
-}
-add(3).then(res => {
-   console.warn(res);    //res是resolve或reject中返回的。
-}).catch(res => {
-   console.info(res);
-});
-
-var waitSecond = new Promise(function(resolve, reject)
-{
-    setTimeout(resolve, 1000);
-});
-// 异步编程串行化。
-waitSecond.then(function()
-    {
-      console.log("Hello"); // 1秒后输出"Hello"
-      return waitSecond;
-    })
-    .then(function()
-    {
-        console.log("Hi"); // 2秒后输出"Hi"
-    });
 /*=================
     async与await的使用，await一定要放在async内部，相当于是promise的两种使用方式。
 ===================*/
@@ -2059,11 +2112,12 @@ with (obj) {
 }
 ```
 
-![](\_v_images/20210303192355713_21879.png)
+![](_v_images/20210303192355713_21879.png)
 
 # B、设计模式
 
 ## 检验函数
+
 ```js
 /*==========================================================================
   **定义interface类**
@@ -2071,7 +2125,7 @@ with (obj) {
   name: 变量名；methods: 包含属性
   【数值、字符串等简单结构数据，自行用typeof检查；所以这里只实现map结构的】
 ============================================================================*/
-var Interface = function(name, methods) {
+var Interface = function (name, methods) {
   if (arguments.length != 2) {
     throw new Error("lacks argument");
   }
@@ -2093,7 +2147,7 @@ var Interface = function(name, methods) {
  * 使用ensureImplemets()来确定其正确性
  * */
 
-Interface.ensureImplements = function(object) {
+Interface.ensureImplements = function (object) {
   if (arguments.length < 2) {
     throw new Error("argument error");
   }
@@ -2124,51 +2178,51 @@ function displayRoute(map) {
   Interface.ensureImplements(map, day);
 }
 
-displayRoute({ zoom: function() {}, draw: function() {} });
+displayRoute({ zoom: function () {}, draw: function () {} });
 ```
 
-## es5类的定义方式
-```js
+## es5 类的定义方式
 
+```js
 /*==========================================================================
   **类的基本定义**
 ============================================================================*/
-var Book = function(newIsbn, newTitle, newAuthor) {
+var Book = function (newIsbn, newTitle, newAuthor) {
   // private var; [设计模式，模拟私有变量，防止外部访问]
   var isbn, title, author;
   // 常量模仿
   var constants = {
     NAME: "book-name",
-    VERSION: 1.1
+    VERSION: 1.1,
   };
 
   function checkIsbn(isbn) {
     return true;
   }
   // 常量
-  var ctor = function() {};
+  var ctor = function () {};
   // 绑定
-  ctor.getConstants = function() {
+  ctor.getConstants = function () {
     return constants;
   };
   // privileged
-  this.setIsbn = function(newIsbn) {
+  this.setIsbn = function (newIsbn) {
     if (!checkIsbn(newIsbn)) throw new Error("book: invalid isbn");
   };
 
-  this.getTitle = function() {
+  this.getTitle = function () {
     return title;
   };
 
-  this.setTitle = function(newIsbn) {
+  this.setTitle = function (newIsbn) {
     title = newTitle || "no title";
   };
 
-  this.getAuthor = function() {
+  this.getAuthor = function () {
     return author;
   };
 
-  this.setAuthor = function(newAuthor) {
+  this.setAuthor = function (newAuthor) {
     author = newAuthor || "no author";
   };
   // constructor code
@@ -2180,12 +2234,13 @@ var Book = function(newIsbn, newTitle, newAuthor) {
 };
 
 Book.prototype = {
-  display: function() {},
-  _version: 7.3
+  display: function () {},
+  _version: 7.3,
 };
 ```
 
 ## 两种继承方式
+
 ```js
 /*==========================================================================
   **继承**
@@ -2205,7 +2260,7 @@ var internet = new Book("aa", "网络安全", "wcs");
  * 继承后输出还是一个函数。原类的构造函数中this添加部分不在其中。
  */
 function extend(subClass, superClass) {
-  var F = function() {};
+  var F = function () {};
   F.prototype = superClass.prototype;
   subClass.prototype = new F();
   subClass.constructor = subClass;
@@ -2217,6 +2272,7 @@ extend(computer, Book);
 ```
 
 ## 1.单体模式
+
 ```js
 /*==========================================================================
   **单体模式**
@@ -2230,82 +2286,81 @@ extend(computer, Book);
 var Singleton = {
   _name: "Singleton", // 用“_”开头来表示私有
   attribute: true,
-  method: function(){
+  method: function () {
     return 15;
   },
-  test: function(){
+  test: function () {
     // this访问单体内的其它属性，对象
     var c = this.method();
-    console.info("c--",c);
-  }
-}
+    console.info("c--", c);
+  },
+};
 /**
  * 另一种创建私有变量方法
  * 最后加（）：声明后会立即执行。
  * */
-var ss = function(){
+var ss = (function () {
   const privateVar = "private";
   return {};
-}();
+})();
 /**
  * 添加检测实例的使用情况
  * 使用时才会运行
  * */
-var work = (function(){
+var work = (function () {
   var uniqueInstance;
 
   // 分支1
   var activeXNew = {
-    createXhrObject: function(){
-      return new ActiveXObject('Msxml2.XMLH');
-    }
-  }
+    createXhrObject: function () {
+      return new ActiveXObject("Msxml2.XMLH");
+    },
+  };
   // 分支2
   var standard = {
-    createXhrObject: function(){
-      return new XMLHttpRequest('Msxml2.XMLH');
-    }
-  }
+    createXhrObject: function () {
+      return new XMLHttpRequest("Msxml2.XMLH");
+    },
+  };
   // 单体内容放这里
-  function constructor(){
+  function constructor() {
     return {
-      draw:function(){},
+      draw: function () {},
       // 利用上面创建的分支来返回可用的rpc对象。
-      rpc:function(){
+      rpc: function () {
         var _http = null;
-        try{
+        try {
           _http = standard.createXhrObject();
           return standard;
-        }catch(e){
-          try{
+        } catch (e) {
+          try {
             _http = activeXNew.createXhrObject();
             return activeXNew;
-          }
-          catch(e2){
+          } catch (e2) {
             throw new Error("no http object");
           }
         }
       },
-
-    }
+    };
   }
-  console.info("使用时才会运行",uniqueInstance);
+  console.info("使用时才会运行", uniqueInstance);
   return {
-    getInstance: function(){
+    getInstance: function () {
       // 判断实例是否已经存在
-      if(!uniqueInstance){
+      if (!uniqueInstance) {
         uniqueInstance = constructor();
       }
 
       return uniqueInstance;
-    }
-  }
+    },
+  };
 })();
 // 使用时：先经过检测实例一步再使用
 work.getInstance().draw();
 ```
 
 ## 2.链式调用
+
 ```js
 /*==================================================
   **链式调用模式**
@@ -2315,12 +2370,12 @@ work.getInstance().draw();
   实现思想：最后用return this返回，实现链式功能；
 ====================================================*/
 
-(function(){
-  function _$(els){
+(function () {
+  function _$(els) {
     this.elements = [];
-    for(var i=0,len=els.length;i<len;++i){
+    for (var i = 0, len = els.length; i < len; ++i) {
       var element = els[i];
-      if(typeof element==="string"){
+      if (typeof element === "string") {
         element = document.getElementById(element);
       }
       this.elements.push(element);
@@ -2328,23 +2383,28 @@ work.getInstance().draw();
   }
   // prototype of _$
   _$.ptototype = {
-    each: function(fn){
-      for(var i=0,len=this.elements.length;i<len;++i){fn.call(this,this.elements[i]);}
+    each: function (fn) {
+      for (var i = 0, len = this.elements.length; i < len; ++i) {
+        fn.call(this, this.elements[i]);
+      }
       return this;
     },
-    setStyle: function(prop,val){
-      this.each(function(el){el.style[prop] = val;});
+    setStyle: function (prop, val) {
+      this.each(function (el) {
+        el.style[prop] = val;
+      });
       return this;
-    }
-  }
+    },
+  };
   // a public interface remains the same.
-  window.$ = function(){
+  window.$ = function () {
     return new _$(arguments);
   };
 })();
 ```
 
 ## 3.工厂模式
+
 ```js
 /*==================================================
   **工厂模式**
@@ -2353,22 +2413,22 @@ work.getInstance().draw();
   2、构造函数中不用太多代码；
   3、适用于下面这种类似的逻辑情况（多种类型，有部分共同方法）；
 ====================================================*/
-var Transposion = function(){}
+var Transposion = function () {};
 // 各种交通类
-var Car = function(){}
-var Bycle = function(){}
+var Car = function () {};
+var Bycle = function () {};
 // 将添加交通工具单独做一个工厂模式
-var TransFactory = function(){}
+var TransFactory = function () {};
 TransFactory.prototype = {
-  createTransp: function(model){
+  createTransp: function (model) {
     var _m = null;
-    var _transType = new Interface("_transType",['name','price']);
+    var _transType = new Interface("_transType", ["name", "price"]);
 
-    switch(model){
-      case 'car':
+    switch (model) {
+      case "car":
         _m = new Car();
         break;
-      case 'bycle':
+      case "bycle":
         _m = new Bycle();
         break;
       default:
@@ -2376,42 +2436,43 @@ TransFactory.prototype = {
         break;
     }
     // 属性检查，保证他们都有必要方法。
-    Interface.ensureImplements(_transType,_m);
+    Interface.ensureImplements(_transType, _m);
 
     return _m;
-  }
-}
+  },
+};
 // 交通工具售卖部分，只负责售卖。
 Transposion.prototype = {
-  sell: function(model){
+  sell: function (model) {
     var trans = TransFactory.createTransp(model);
     // 其它售卖相关代码...
     return trans;
-  }
-}
+  },
+};
 // ###复杂情况的工厂模式，(让各商家自动创建售卖类型)
-var Transposion2 = function(){}
+var Transposion2 = function () {};
 Transposion.prototype = {
-  sell: function(model){
+  sell: function (model) {
     var trans = TouchList.createTransp(model);
     // 其它售卖相关代码...
     return trans;
   },
-  createTransp: function(){
+  createTransp: function () {
     throw new Error("请使用继承类重写该方法");
-  }
-}
+  },
+};
 
-var GoogleFamily = function(){}
+var GoogleFamily = function () {};
 // 类式继承
-extend(GoogleFamily,Transposion2);
+extend(GoogleFamily, Transposion2);
 // 重写创建交通工具方法
-GoogleFamily.prototype.createTransp = function(){
+GoogleFamily.prototype.createTransp = function () {
   //...这里使用上面已有的 “createTransp”中方法；
-}
+};
 ```
 
 ## 4.桥接模式
+
 ```js
 /*==================================================
   **桥接模式**
@@ -2421,16 +2482,18 @@ GoogleFamily.prototype.createTransp = function(){
   1、实现API接口时好用；
   2、将抽象与实现分离（规则与机制分离）；
 ====================================================*/
-function qiao(d){
+function qiao(d) {
   //...对其进行抽象的代码
   return d + "-";
 }
-function API(data){
+function API(data) {
   let _a = qiao(data);
   //...对其进行具体实现的代码
 }
 ```
+
 ## 5.组合模式
+
 ```js
 /*==================================================
   **组合模式**
@@ -2443,79 +2506,80 @@ function API(data){
   1、这个层次体系较大时，会带来很大性能影响；
 ====================================================*/
 // --动态表单验证列子
-var Composite = new Interface('Composite',['add','getChild']);
-var FormItem = new Interface('FormItem',['save']);
+var Composite = new Interface("Composite", ["add", "getChild"]);
+var FormItem = new Interface("FormItem", ["save"]);
 // form validation
-var CompositeForm = function(id,method,action){
+var CompositeForm = function (id, method, action) {
   this.formComponents = [];
   // oping ele
-  this.element = document.createElement('form');
+  this.element = document.createElement("form");
   let _e = this.element;
   _e.id = id;
   _e.method = method || "POST";
   _e.action = action || "#";
-}
+};
 
-CompositeForm.prototype.add = function(child){
-  Interface.ensureImplements(child,Composite,FormItem);
+CompositeForm.prototype.add = function (child) {
+  Interface.ensureImplements(child, Composite, FormItem);
   // 添加配置和新元素
   this.formComponents.push(child);
   this.element.appendChild(child.getElement());
-}
+};
 
-CompositeForm.prototype.remove = function(child){
-  for(var i=0,len=this.formComponents.length;i<len;i++){
-    if(this.formComponents[i]===child){
-      this.formComponents.splice(i,1);
+CompositeForm.prototype.remove = function (child) {
+  for (var i = 0, len = this.formComponents.length; i < len; i++) {
+    if (this.formComponents[i] === child) {
+      this.formComponents.splice(i, 1);
       break;
     }
   }
-}
+};
 
-CompositeForm.prototype.save = function(child){
+CompositeForm.prototype.save = function (child) {
   // 每个元素保存操作
-  for(var i=0,len=this.formComponents.length;i<len;i++){
+  for (var i = 0, len = this.formComponents.length; i < len; i++) {
     this.formComponents[i].save();
   }
-}
+};
 // 叶对象实现（各种输入类型的一个父类）
-var Field = function(id){
+var Field = function (id) {
   this.id = id;
   this.element;
-}
+};
 // prototype
 Field.prototype = {
-  add:function(){},
-  getChild:function(){},
-  save:function(){},
-  getElement: function(){
+  add: function () {},
+  getChild: function () {},
+  save: function () {},
+  getElement: function () {
     return this.element;
-  }
-}
+  },
+};
 // input类
-var InputField = function(id,label){
-  Field.call(this,id);
+var InputField = function (id, label) {
+  Field.call(this, id);
 
-  this.input = document.createElement('input');
+  this.input = document.createElement("input");
   this.input.id = id;
-  this.label = document.createElement('label');
+  this.label = document.createElement("label");
   var labelTextNode = document.createTextNode(label);
   this.label.appendChild(labelTextNode);
 
-  this.element = document.createElement('div');
+  this.element = document.createElement("div");
   this.element.className = "input-field";
   this.element.appendChild(this.label);
   this.element.appendChild(this.input);
-}
+};
 // 类继承
-extend(InputField,Field);
+extend(InputField, Field);
 //--组合使用
-var contactForm = new CompositeForm('contact-form','POST','contact.pht');
-contactForm.add(new InputField('first-name'),'First name');
+var contactForm = new CompositeForm("contact-form", "POST", "contact.pht");
+contactForm.add(new InputField("first-name"), "First name");
 ```
 
 ## 5.门面与适配器
-```js 
+
+```js
 /*==================================================
   **门面模式**
   封装一些异同，达到简化使用目的，类似于封装重复代码
@@ -2530,15 +2594,16 @@ contactForm.add(new InputField('first-name'),'First name');
   使用情景较少！
 ====================================================*/
 //例：将arg传到旧接口用
-var arg = {a:1,b:2};
+var arg = { a: 1, b: 2 };
 
-function oldApi(a,b){}
-function newApi(obj){
-  oldApi(obj.a,obj.b);
+function oldApi(a, b) {}
+function newApi(obj) {
+  oldApi(obj.a, obj.b);
 }
 ```
 
 ## 6.装饰者模式
+
 ```js
 /*==================================================
   **装饰者模式**
@@ -2546,50 +2611,52 @@ function newApi(obj){
   装饰者可对装饰的对象，添加、修改、替换其属性，方法。
   擅长为对象增添新特性
 ====================================================*/
-var Bicycle = new Interface('Bicycle',['assemble','getprice']);
+var Bicycle = new Interface("Bicycle", ["assemble", "getprice"]);
 // 公司自行车
-var AcmeComfortCruiser = function(){
-  this.assemble = function(){},
-  this.getPrice = function(){return 499.23;}
-}
+var AcmeComfortCruiser = function () {
+  (this.assemble = function () {}),
+    (this.getPrice = function () {
+      return 499.23;
+    });
+};
 
 // 选件父类【装饰器的父类】
-var BicycleDecoratory = function(bicycle){
-  Interface.ensureImplements(bicycle,Bicycle);
+var BicycleDecoratory = function (bicycle) {
+  Interface.ensureImplements(bicycle, Bicycle);
   this.bicycle = bicycle;
-}
+};
 BicycleDecoratory.prototype = {
-  assemble: function(){
+  assemble: function () {
     return this.bicycle.assemble();
   },
-  getPrice: function(){
+  getPrice: function () {
     return this.bicycle.getPrice();
-  }
-}
+  },
+};
 //选件-灯【lightBuble当做一个装饰器功能（将装饰的对象当做参数传入其中）】
-var LightBuble = function(bicycle){
-  console.info("LightBuble.superClass--",LightBuble.superClass)
+var LightBuble = function (bicycle) {
+  console.info("LightBuble.superClass--", LightBuble.superClass);
   //LightBuble.superClass.constructor.call(this,bicycle);
-  BicycleDecoratory.call(this,bicycle);
-}
-extend(LightBuble,BicycleDecoratory);
-LightBuble.prototype.assemble = function(){
-  return this.bicycle.assemble() + '-attach';
-}
+  BicycleDecoratory.call(this, bicycle);
+};
+extend(LightBuble, BicycleDecoratory);
+LightBuble.prototype.assemble = function () {
+  return this.bicycle.assemble() + "-attach";
+};
 
-LightBuble.prototype.getPrice = function(){
+LightBuble.prototype.getPrice = function () {
   // 单车基本价+选件价格
   return this.bicycle.getPrice() + 15;
-}
+};
 var myBicycle = new AcmeComfortCruiser();
-console.info("price without light--",myBicycle);
+console.info("price without light--", myBicycle);
 myBicycle = new LightBuble(myBicycle);
-console.info("price with light--",myBicycle.getPrice())
+console.info("price with light--", myBicycle.getPrice());
 ```
 
 ## 7.享元模式
-```js
 
+```js
 /*==================================================
   **享元模式**
   将数据的内在状态（已固定，不会变化）和外在状态（可变化）分开管理。
@@ -2597,88 +2664,97 @@ console.info("price with light--",myBicycle.getPrice())
   适用场景：使用了大量资源密集型对象时
 ====================================================*/
 
-var CalendarDay = function(){}
+var CalendarDay = function () {};
 CalendarDay.prototype = {
-  display: function(date,parent){
-    var element = document.createElement('div');
+  display: function (date, parent) {
+    var element = document.createElement("div");
     parent.appendChild(element);
     element.innerHTML = date;
-  }
-}
+  },
+};
 // 创建外部状态数据
 var cDay = new CalendaryDay();
 
-var CalendarMonth = function(monthNum,numDays,parent){
+var CalendarMonth = function (monthNum, numDays, parent) {
   this.monthNum = monthNum;
-  this.element = document.createElement('div');
+  this.element = document.createElement("div");
   this.element.style.display = "none";
   parent.appendChild(this.element);
 
   this.days = [];
-  for(var i=0,len=numDays;i<len;i++){
+  for (var i = 0, len = numDays; i < len; i++) {
     // 使用外部状态数据
     this.days[i] = cDay;
   }
-}
+};
 // 只使用了一个CalendarMonth，享元
 CalendarMonth.prototype = {
-  display: function(){
+  display: function () {
     // 添加每天数据，与组合模式的结合
-    for(var i=0,len=this.days.length;i<len;i++){
-      this.days[i].display(i,this.element);
+    for (var i = 0, len = this.days.length; i < len; i++) {
+      this.days[i].display(i, this.element);
     }
-    this.element.style.display = 'block';
-  }
-}
+    this.element.style.display = "block";
+  },
+};
 ```
 
 ## 8.代理模式
+
 ```js
 /*==================================================
   **代理模式**
   用于控制那种创建开销很大的本体的访问
 ====================================================*/
-var Publication = new Interface('Publication',['getIsbn','getTitle']);
+var Publication = new Interface("Publication", ["getIsbn", "getTitle"]);
 
-var Book = function(isbn,title,author){}
-var Library = new Interface('Library',['findBooks','checkoutBook','returnBook']);
+var Book = function (isbn, title, author) {};
+var Library = new Interface("Library", [
+  "findBooks",
+  "checkoutBook",
+  "returnBook",
+]);
 // 父实例构造函数，
-var PublicLibrary = function(books){
+var PublicLibrary = function (books) {
   this.catalog = {};
-  for(var i=0,len=books.length;i<len;i++){
-    this.catalog[books[i].getIsbn()] = {book:books[i],available:true};
+  for (var i = 0, len = books.length; i < len; i++) {
+    this.catalog[books[i].getIsbn()] = { book: books[i], available: true };
   }
-}
+};
 
 PublicLibrary.prototype = {
-  findBooks:function(searchString){
+  findBooks: function (searchString) {
     var results = [];
-    for(var isbn in this.catalog){
-      if(!this.catalog.hasOwnProperty(isbn)) continue;
-      if(searchString.match(this.catalog[isbn].getTitle()) || searchString.match(this.catalog[isbn].getAuthor())){
+    for (var isbn in this.catalog) {
+      if (!this.catalog.hasOwnProperty(isbn)) continue;
+      if (
+        searchString.match(this.catalog[isbn].getTitle()) ||
+        searchString.match(this.catalog[isbn].getAuthor())
+      ) {
         results.push(this.catalog[isbn]);
       }
     }
   },
-  checkoutBook:function(){},
-  returnBook:function(){},
-}
+  checkoutBook: function () {},
+  returnBook: function () {},
+};
 // 代理部分
-var PublicLibraryProxy = function(catalog){
+var PublicLibraryProxy = function (catalog) {
   //this.library = new PublicLibrary(catalog);
-  this.library = null;      //暂不创建实例
-  this.catalog = catalog;   //先保留参数
-}
+  this.library = null; //暂不创建实例
+  this.catalog = catalog; //先保留参数
+};
 PublicLibraryProxy.prototype = {
-  findBooks:function(searchString){
+  findBooks: function (searchString) {
     return this.library.findBooks(searchString);
   },
-  checkoutBook:function(){},
-  returnBook:function(){},
-}
+  checkoutBook: function () {},
+  returnBook: function () {},
+};
 ```
 
 ## 9.观察者模式
+
 ```js
 /*==================================================
   **观察者模式（发布订阅模式）**
@@ -2686,71 +2762,72 @@ PublicLibraryProxy.prototype = {
   适合把人的行为和应用程序行为分开
 ====================================================*/
 // 一个观察者
-function Publisher(){
+function Publisher() {
   // 保存订阅者的引用
   this.subscrbers = [];
 }
 // 投送方法
-Publisher.prototype.deliver = function(data){
+Publisher.prototype.deliver = function (data) {
   // 处理每一个订阅者
-  this.subscrbers.forEach(function(fn){
+  this.subscrbers.forEach(function (fn) {
     fn(data);
   });
   // 返回this，方便其连续地发送数据
   return this;
-}
+};
 // 订阅方法；在Function上添加
-Function.prototype.subscribe = function(publisher){
+Function.prototype.subscribe = function (publisher) {
   var that = this;
   // 找到可以调用subscribe的对象
-  var alreadyExists = publisher.subscribers.some(function(el){
-    return el===that;
+  var alreadyExists = publisher.subscribers.some(function (el) {
+    return el === that;
   });
   // 还未订阅则为其添加
-  if(!alreadyExists){
+  if (!alreadyExists) {
     publisher.subscribers.push(this);
   }
   return this;
-}
+};
 // 退订方法
-Function.prototype.unsubscribe = function(publisher){
+Function.prototype.unsubscribe = function (publisher) {
   var that = this;
   // 移除了that项
-  publisher.subscribers = publisher.subscribers.filter(function(el){
-    return el !==that;
+  publisher.subscribers = publisher.subscribers.filter(function (el) {
+    return el !== that;
   });
   return this;
-}
+};
 
-var publisherObject = new Publisher;
-var observerObject = function(data){
+var publisherObject = new Publisher();
+var observerObject = function (data) {
   console.log(data);
   //【非严格模式下使用】arguments.callee指向当前arguments指向的函数。
   arguments.callee.unsubscribe(publisherObject);
-}
+};
 observerObject.subscribe(publisherObject);
 ```
 
 ## 9.命令模式
+
 ```js
 /*==================================================
   **命令模式**
 对方法调用进行参数化处理和传送
 ====================================================*/
-var AdCommand = new Interface('AdCommand',['execute']);
-var StopAd = function(adObject){
+var AdCommand = new Interface("AdCommand", ["execute"]);
+var StopAd = function (adObject) {
   this.ad = adObject;
-}
-StopAd.prototype.execute = function(){
+};
+StopAd.prototype.execute = function () {
   this.ad.stop();
-}
+};
 // 不同对象，相同接口
-var StartAd = function(adObject){
+var StartAd = function (adObject) {
   this.ad = adObject;
-}
-StartAd.prototype.execute = function(){
+};
+StartAd.prototype.execute = function () {
   this.ad.start();
-}
+};
 /*==================================================
   **职责链模式**
 用来消除请求的发送者和接收者之间的耦合（如事件的捕获和冒泡就是）
