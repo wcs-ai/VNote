@@ -1,4 +1,3 @@
-
 # 一、英语
 
 ## a、英语中的句子成分:
@@ -70,7 +69,7 @@
 （1）This is the family `which` is plaining  to move to party#这是要搬进城里的一家人。
 （2）I went to a park `where/(in which)` i saw the dog. #in which与where等效
 （3）This is the formula `how/(by which)` problems can be solved. #by which与how等效。
-1. **未明确事物**：英文讲究标记明确，但对于未明确的事物一般会用到any。<b c=b>any用在尚未发生的事上</b>，而非只是疑问/否定句。情况如下：
+1. **未明确事物**：英文讲究标记明确，但对于未明确的事物一般会用到any。<b c=b>any用在尚未发生的事上</b>，而非只是疑问/否定句。如下：
 （1）命令句：Read __any__ book you can find!
 （2）条件句：If you have __any__ question, please let me know.
 （3）未来式：I will eat __any__ food you make.
@@ -182,14 +181,13 @@
 - `disproportionately(adj-不匀称的) squeezed(挤压)`：不堪重负
 - `free mind`：什么都不想；如：half an hour's `intimacy`(亲密) with his wife and a `free mind` once a week.
 - That's very clumsy of you: 你真是笨手笨脚的
-- I could't have been more wrong (我大错特错了，这类型较常用)
+- I could't have been more wrong (我大错特错了，这类型较常用【否定+比较级=最高级】)
 - driving under the influence (酒后驾驶)
 - `this is dear diary moment`. (美秒的时刻)
 - all through the house (整栋房子)
 - `All you can do is be ready for the good.` 你唯一能做的就是期待美好的事物降临
-- `a/some semblance of sth`: 情况或性质稍微相似
 - `more power to sb`: 随..吧，想怎么样就怎么样吧
-- she hook my breath away (她把我魂都勾走了；摄人心魄)
+- she took my breath away (她把我魂都勾走了；摄人心魄)
 - you got me (你难倒我了)
 - I am getting pretty good at this (我进步神速)
 - are you with me? （你懂我的意思吗？）;We are with you（我们懂你）
@@ -202,6 +200,13 @@
 - don't give me that,I know the game. (别跟我来这一套，我知道你的把戏)
 - `What's that supposed to mean?` (这话什么意思，注意语气不同，意思有区别)
 - Here is the deal. （事情是这样的，之后叙述事情）
+- I didn't mean to 我不是故意的（后可加，如：hurt you）
+- That's it ？（就这样而已吗）
+- make a fool of sb (让某人看起来很蠢)，i don't wanna see him make a fool of himeself. （我不想看他出洋相）
+- He is a total flake. 他根本靠不住 （flake: 记性差、不诚实失信、行为举止奇怪等）
+- He's been a big help. (他帮了我很大的忙)，`You've been very helpful all the time. `（**感谢信可用**）
+- I‘ll make it up to you. （我会补偿你的）
+- Let it go. （别想了）
 - `see/look/watch`：
 （1）see是视觉上不自觉的接收到；I see a forest.
 （2）look是自主的去看；I am looking at the picture.
@@ -297,7 +302,6 @@
 （2）to badmouth sb：说某人坏话；
 （3）from hand to mouth：仅能维持生活；
 （4）born with a `silver`(银币) `spoon`(n-勺子) in one's mouth：天生富贵；
-
 - `heart`：心的延伸
 （1）the heart of the matter：事情的本质
 （2）to take heart：鼓起勇气
@@ -347,7 +351,6 @@ on a winter day表示再具体的某一天。<b c="gn">用于事物时就可以�
 - `providing that与given that`：
 （1）proviing that标记未知的假设或条件，**意为如果**：`Providing that` he has more time, he will do a better job. #如果他有更多时间，他将会做好工作。
 （2）Given that标记已知事件，可意为考虑到：`Given that` he had more time, he did awonderful job.
-
 - **by的使用**：
 （1）以...计。常接计量单位，且用the：they are paid by the month他们的报酬按月计)。Bananas are usually sold by weight#香蕉通常按重量卖。
 （2）表时间的用法。意为：“最迟在...前”，“到...时候已经”，we will have finished  the work by next month。he was very tired by the eveing#到晚上他已经很累了。
@@ -401,7 +404,7 @@ At the Sheffield arena,the speakers were magnified `then times`(10倍) on a gian
 They `left the town`(离开小镇) and `journeyed`(旅行) south.【他们离开了小镇，去南方旅行】
 i didn't like Dev,and the feeling seemed `to be mutual`(互相的).【我不喜欢德福，它好像也不喜欢我】
 the rain ceased and the sky cleared.【雨过天晴】
-- 方位词：behind(在..后面)、below(正下方)、beside(在..旁边)、next to(紧挨着)、on opposite(对面)、outside the house(房子外面)、over(在上面)、under
+- 方位词：behind(在..后面 )、below(正下方)、beside(在..旁边)、next to(紧挨着)、on opposite(对面)、outside the house(房子外面)、over(在上面)、under
 - 方向：West(n-西方)、East(n-东方)、North(n-北方)、South(n-南方)
 - **运动**：游泳：swim。run、basketball、volleyball、football。羽毛球：badminton，shuttlecock。shoot(射击)、gym(体操)、marathon(马拉松)、dive(跳水)、fencing(击剑)、
 
@@ -452,34 +455,75 @@ The museum houses `several`(几个，各自的) of his Cubist `masterpieces`（�
 1. With what `secret satisfaction`(内心的喜悦) he `anticipates`(预见、期望) that vist to the barber's in the middle of the moning!   【他内心期待上午十点多去理发的心情不知道有多高兴】
 2. Was it not he who created the machine? #【不就是他自己创造了这台机器吗？】
 3. Now I must here, in `parenthesis`(n- 插入语，间歇), `firmly state`(坚定的陈述) that i happen to be a member of the Society for the `Suppression`(n-压制) of Moral `indignation`(n-气愤).
-【这里必须插一句，我坚定地声明我是抑制道德义愤协会的会员】
+    【这里必须插一句，我坚定地声明我是抑制道德义愤协会的会员】
 4. Well, i'm of a `forgiving`(adj-宽容的，v-原谅) `disposition`(n-性格、倾向). 【好吧，我不想计较了】
 5. faced with the problem `of` existence, which is the problem `of` combining the larget possible amount `of` present satisfaction with the larget possible amount `of` security in the future.【面对生存问题，是多种问题的并存，目前最大程度的满意问题，未来最大程度的安全性问题】这种多of结构的句子，注意各of前后翻译到哪，然后分开翻译即可
+6. Moonwalkers look like a pair of futuristic roller-skates,<b c=r>but there is actually a lot more to them than that.</b> (“月球漫步者”就像一双未来主义的旱冰鞋，但实际上大有乾坤)
 ## B、作文：
+
+大概20行所有（最后空4行左右）3段式，中间段长、字迹清晰、整齐、缩进一致
+
+<h2 style="text-align:center;color:orange;">公用背诵版</h2>
+
+【描述图信息】 Here is a vivid and lively `cartoon`(n-漫画)/chart/table in which we can see that 内容.
+									From the information given in the `pie chart/line chart/histogram`,we can see ...
+【详细描述】The percentage increased `steadily` from 48.45% to 63.67% between 2010 and 2020, a rise of nearly 14%.
+								Those whose ideals are to become entrepreneurs account for 44%,the biggest among all the five categories. (饼图)
+
+【图的寓意】Clearly, the cartoon/chart data tells us a simple truth: 内容.
+【引述原因】What lead to this?   Several primary factors  could be summarized as follows.
+【原因】With the development of society, smart phones are becoming more and more popular.
+【总结】As the society further develops, the rising/declining trend is bound to continue for a couple of years in the near future.
+					As far as I am concerned, it is a positive/negative trend and should be stimulated/controlled, since it  is beneficial not merely to 	individuals but to the whole society. (随着社会的进一步发展，这种上升/下降的趋势在未来几年中将持续存在。在我看来，这是一种积极/消极的趋势，应该鼓励/控制，这样不仅对个人，对整个社会都将是有益的)
+
 ### 一、看图描述类：
-1. 第一段：描述图画内容
-The diagram above clearly reflects that ..【上幅图清楚的展示了..】
-Here is a vivid and lively `cartoon`(n-漫画)/chart/table in which we can see that + 图画内容。
-From the information given in the `pie chart/line chart/histogram`(饼图/折线图/柱状图),we can see ...【从这副饼图所提供的信息，我们能看到...】
-These pictures describe a common social phenomenon in China today that + 图内容。【这些图画描述了目前中国存在的一个非常普遍的社会现象..】
-The percentage increased `steadily`(adv-稳固地) from 48.45% to 63.67% between 2010 and 2020, a rise of nearly 14%.【从2010年到2020年数据从48.45稳步增长到63.67，增长了近14%】
-Clearly, the cartoon tells us a simple truth: + 图画的寓意。【这幅图告诉我们一个简单额道理..】
-What lead to this?【这是什么导致的呢？】
-Several primary factors that `account for`(统计) the above mentioned changes could be summarized as follows.【促成上述变化的原因可以概括如下】
-2. 第二段：现象说明
+第一段：描述图画内容
+
+  **漫画类型**：
+  The diagram above clearly reflects that ..【上幅图清楚的展示了..】
+  Here is a vivid and lively `cartoon`(n-漫画)/chart/table in which we can see that + 图画内容。
+ These pictures describe a common social phenomenon in China today that + 图内容。【这些图画描述了目前中国存在的一个非常普遍的社会现象..】
+  Clearly, the cartoon tells us a simple truth: + 图画的寓意。【这幅图告诉我们一个简单额道理..】
+
+  **报表类型**：
+
+  From the information given in the `pie chart/line chart/histogram`(饼图/折线图/柱状图),we can see ...【从这副饼图所提供的信息，我们能看到...】
+  The percentage increased `steadily`(adv-稳固地) from 48.45% to 63.67% between 2010 and 2020, a rise of nearly 14%.【从2010年到2020年数据从48.45稳步增长到63.67，增长了近14%】
+
+  What lead to this?【这是什么导致的呢？】
+  Several primary factors  could be summarized as follows.【促成上述变化的原因可以概括如下】
+
+第二段：现象说明
 `It goes without saying`(毫无疑问) that remarkable achievements have been made in China's `urbanization`(n-都市化) since the reform and opening-up in the `past few decades`(过去几十年)
 【毫无疑问，自从实行改革开十几年来，中国城市化已取得巨大成就】
-3. 第三段：总结，阐述含义
+
+第三段：总结，阐述含义
 Obviously, the purpose of the cartoon is to inform us that some severe measure have been carried out to +方面。【很明显，这幅图的目的是告诉我们，部分措施已被用于..】
-【相关词：diagram(n-线图)、population(n-人口)】
+
 ### 二、信件：
-1. **公共部分**：
-   【开头】Dear 名/职位：    Dear Sir or Madam【不知对方情况】    To Whom It May Concern【致有关人士】
-   【积累词：dinner(n-晚餐/宴会)、dissatisfaction(n-不满)、`dormitories`(n-集体宿舍)、course(n-课程)】
-   【形容类：`immeasurable`(adj-无可估量的)、`overpriced`(adj-价格过高的)、】
-   【连接类词：as you know，in addition(此外)，Although(尽管)、Anyway(无论如何)、in my opinion(在我看来)】
-                                                                            Sincerely yours,LiMing【来自你的李明<结尾写法>】
+1. **公共部分**：一般7行左右，两段式
+
+   <h2 style="text-align:center;color:orange;">公用背诵版</h2>
+
+   【开头】Dear 名/职位    Dear Sir or Madam【不知对方情况】    To Whom It May Concern【致有关人士】
+   【问候】How's everything going? 	I haven't seen you for a while.
+
+   【自我介绍】I am an undergraduate who majors in Physical education in 学校名 university.
+   【写信原因】The reason why I am writing the letter, to be honest(坦白说), is to 原因..
+   								I am writing this letter to express my 情感 with your 善意/服务
+   【详细事情】根据题目要求，1-3句描述。
+   【再次感谢】He's been a big help. 
+
+   【祝愿】I very much hope that you 祝愿内容.
+
+   【期待回信】I look forward to your reply.
+   								please feel free to contact us if you need any help via(经过) xxx@xx.com.
+   								We would be very grateful if you could `inform`us of your decision before 时间 .
+
+    【结尾】                                                                     Sincerely yours LiMing
+
    
+
 2. **感谢信**：（写出感谢事项；简述事中自己的感受，称赞对方的善良、能力等；扯些送礼，看望之类的）
     【第一段】I am writing this letter to express my `sincere`(adj-真诚的) `gratitude`(n-感谢) to you for your help and `kindness`(n-善行).
     How are your? i haven't seen you for a while.【近来可好，有段时间没看见你了】
@@ -501,14 +545,14 @@ Obviously, the purpose of the cartoon is to inform us that�
     wish you enjoy the movie.Looking forward to your reply.【希望你喜欢这部电影，期待你的答复】
 
 5. 邀请信：（邀请目的，时间等；邀请原因，对方优点等；表示希望对方到来）
-The 2018 Graduation Ceremony of our university will be held at the `auditorium`(n-礼堂) from 9:00 to 11:00 on June 28.【我校2018毕业典礼将在6-28举行】
-With your `remarkable`(adj-显著的) `expert`(n-行家，adj-专业的) knowledge,you have contributed a lot to ..。【您以非凡的专业知识对...贡献很多】
-So i,on behalf of the Office of Student Affairs,sincerely extend to you an invitation to this ceremony.【因此，我代表学校学生事务办公室，真诚地邀请您来参加典礼】
-we would like to invite you to `occupy`(v-担任) 承担的具体事务/职位。
-The schedule of the ceremony is `attached`(adj-附加的，v-贴上) for your reference.【随信附上典礼议程供您参考】
-We would be very grateful if you could `inform`(v-通知，了解) us of your decision before 时间 . 【如果你决定了...时候来，并通知我们，我们将非常感激】
-We very much hope that you would accept the invitation.【我们非常希望你能接受这次邀请】
-we look forward to your reply.【我们期待你的回复】
+    The 2018 Graduation Ceremony of our university will be held at the `auditorium`(n-礼堂) from 9:00 to 11:00 on June 28.【我校2018毕业典礼将在6-28举行】
+    With your `remarkable`(adj-显著的) `expert`(n-行家，adj-专业的) knowledge,you have contributed a lot to ..。【您以非凡的专业知识对...贡献很多】
+    So i,on behalf of the Office of Student Affairs,sincerely extend to you an invitation to this ceremony.【因此，我代表学校学生事务办公室，真诚地邀请您来参加典礼】
+    we would like to invite you to `occupy`(v-担任) 承担的具体事务/职位。
+    The schedule of the ceremony is `attached`(adj-附加的，v-贴上) for your reference.【随信附上典礼议程供您参考】
+    We would be very grateful if you could `inform`(v-通知，了解) us of your decision before 时间 . 【如果你决定了...时候来，并通知我们，我们将非常感激】
+    We very much hope that you would accept the invitation.【我们非常希望你能接受这次邀请】
+    we look forward to your reply.【我们期待你的回复】
 
 6. 探望/感谢信：（简单问候，目的；描写些周身事物、询问对方自身、周围环境等情况；祝愿对方）
     The epidemic is growing everywhere。【各地疫情日益严重】
@@ -527,14 +571,35 @@ we look forward to your reply.【我们期待你的回复】
     please feel free to contact us if you need any help via(经过) xxx@xx.com.【如果你们需要任何帮助，随时通过邮件到...联系我们】
     Li Ming                                【最后格式，名】
     December 1st,2021               【最后格式，日期】
-    [历年作文类型](https://www.sohu.com/a/436038114_120423996)
+
+8. 会议纪要
+
+    Date ：4th October, 2022
+    Time: 10:00 a.m.—11:00 a.m.
+    Duration: 1 hour
+    Venue: Room 502  （地点）
+    Present: Professor Sky and all classmates （主题）
+    		正文内容..
+
+    
+
+9. [历年作文类型](https://www.sohu.com/a/436038114_120423996)
 
 **写作词汇**：
+
 | 词意 |   单词    |  词意  |     单词      | 词意 |       单词       |
 | :--: | :-------:| :----:|:-----------: | :--: | :--------------: |
-| 宴会 |  dinner   |  愉快  |    delight    | 外卖 |  take out food   |
+| 宴会 |  dinner/feast  |  愉快  |    delight    | 外卖 |  takeout food   |
 | 假期 | vacation  | 本科的 | undergraduate | 快递 | express delivery |
 | 名人 | celebrity |  圣人  |     sage      | 博士学位  |doctorate    |
+| 硕士 | master | **讲座** | lecture | 扶贫 | poverty alleviation |
+| 大幅下降 | decrease considerably | 医疗 | healthcare | 城市化 | urbanization |
+| 外出打工人 | migrant workers | 网上购物 | e-shopping | 晚睡 | late lights |
+| 毕业 | graduation | 崇拜 | idolize | 集体宿舍 | dormitories |
+| 经济繁荣 | economic prosperity | 招生 | recruitment | 培养 | bring up |
+| 成熟的 | mature | 同比 | year-on-year | 环比 | quarter-on-quarter |
+
+
 ## C、听力
 
 1. 美式音标：
@@ -615,8 +680,24 @@ Your boss `proposes`(v:建议、计划、求婚) a new `initiative`(新方案、
 
 【2021一】
 artificial intelligence is `typically`(通常、典型地、不出所料) `depicted`(描绘) as something `sinister`(邪恶的) that will `upend`(翻到) our way of life。（gloom:忧郁、黑暗，doom:厄运，impend:即将发生的，experiments:实验，professor:教授，statistics:统计学）。A recent `survey`(调查) of `manufacturing`(制造业) and `service industries`(服务业)。 Preventing electronic security `breaches`(漏洞), which, rather than `eliminating`(清除) IT jobs。Companies are using artificial intelligence to remove some of the `unconscious`(无意识) `bias`(偏见) from `hiring`(招聘、租用) `decisions`(决定)。Protecting and maintaining `infrastructure`(基础设施)。inspect infrastructure and prevent `equipment`(设备) failure or `leaks`(泄露) before they happen。
+
 ## 5、阅读理解：
-trick：先通读首尾段，掌握大概意思。画出关键位置词语，边读边做题。不会的暂时跳过，说不定后面的帮助理解。
+
+阅读技巧：
+
+（1）先串读题干（读完所有题目）猜测文章内容，中心词等
+（2）一般题目都是按文章顺序设置，顺序读文章，遇到题目相关内容时，重点阅读做题
+（3）句子翻译技巧：抓住句子主干（主谓宾）然后能清晰找到它们的从句、修饰语等
+（4）首尾段首尾句串读法：快速获取文章中心思想
+（5）词意题：可根据词/短语所在句的，前后句与该句的==逻辑关系==（相同/相反）
+（6）主旨题：通过对文章选出的==中心词==，进行筛选（再结合上面的首尾段，首尾句方法）
+（7）正确选项都是可以在原文中找到的（容易以**同意词**出现），而不会是推理得到的
+（8）中心句法：一般开头句用？号，或独句成段的句子就是点名主题的句子
+（9）如果不知道哪个是正确选项，就选最贴近主旨内容的吧
+（10）情态动词（`would,could,should,must,can,may,might..`）之后隐藏着作者的态度
+（11）实验型文章：（文章讲解所做的实验，最后得出观点）主旨则是在后面的实验结论中
+
+（4）每篇最好不超过20分钟；
 
 text1:
 `Reskilling`(再就业) is something that `sounds like`(听起来像) a `buzzword`(流行词) but is actually a `requirement`(所需的东西) if we plan to have a future where a lot of would-be workers `do not get left behind`(不落后)。 We know we are moving into a `period`(一段时间、时期) where the jobs in `demand`(n:需要，v:强烈要求) will change rapidly, as will the `requirements of the jobs that remain{任然是、剩余}`(工作的需求也是如此)。The question of who should pay for reskilling is a `thorny`(棘手的) one。 the `temptation`(诱惑) is always to `let go of`(放弃) workers whose skills are `no longer`(不长久) in demand and `replace them`(替代他们) `with those whose skills are`(用那些有技能的人)。Other companies had also `pledged`(v:保证给予) to create their own plans。When the skills mismatch is in the `broader`(广泛的) `economy`(经济) `though`(即使)。Efforts in Canada and elsewhere have been `arguably`(可论证地，按理) `languid`(懒惰的) `at best`(充其量)。With the `pandemic`(流行), `unemployment`(失业) is very high `indeed`(adv:真正地，用于强调陈述)。at 3.5 per cent and 5.5 per cent `respectively`(各自地), unemployment rates in Canada and the United States were `at generational[一代的] lows`(代际低点) and worker `shortages`(缺少) were everywhere。In the `medical field`(医疗领域), to take an `obvious`(明显的、公认的) example, the pandemic `meant`(本应的、表示...的意思) that there were still `clear`(明显的) shortages of doctors, `nurses`(护士) and other medical personnel。it is not like you can `take`(携带、使达到) an `unemployed waiter`(失业的服务员)。When `forced`(被迫的) to `furlough`(休假) 90 per cent of their `cabin`(座舱 、小屋) staff。The `effort`(有组织的活动、努力、试图) was a `collective`(集体的) one and `involved`(参与、有关联) other companies as well as a `Swedish`(瑞典语) university.

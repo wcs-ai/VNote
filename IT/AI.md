@@ -1,7 +1,3 @@
-:::alert-info
-想做的项目：一个能与人智能对弈五子棋或象棋的智能程序、机器与机器的博弈、一个集成了图像识别(识别常见事物)，智能聊天，能和人互动的 3D 美女、撩妹神器、输入联想词、图片文字互转、智能聊天、语音识别、中英互译、根据题目写一篇简短文章。
-:::
-
 # 10、业务分析：
 
 <div class="introduce">无论是开发岗还是算法岗，最终都是要解决业务上的问题，而且人生与社会，不能只着重于技术本身，这是改变自己的一个转折点。这里收集一些看过的，自己做过的项目分析，记录一些很实用且重要的分析方法。具体的业务知识查看life笔记中的业务知识。</div>
@@ -4156,8 +4152,8 @@ https://www.jianshu.com/p/e40dad747651
 2018.10.11 日 google 发表
 
 bert 的内部结构其实就是多个 transformer 的 encoder，bert 其实并没有过多的结构方面的创新点。官方给出了两个参数配置版本：L 表示的是 transformer 的层数，H 表示输出的维度，A 表示 mutil-head attention 的个数。(有论点认为低层偏向于语法特征学习，高层偏向于语义特征学习。)
-BERTBASE​:L=12,H=768,A=12,TotalParameters=110M
-BERTLARGE​:L=24,H=1024,A=16,TotalParameters=340M
+BERTBASE:L=12,H=768,A=12,TotalParameters=110M
+BERTLARGE:L=24,H=1024,A=16,TotalParameters=340M
 BERT 使用 transformer 的 encode 结构(双向结构？)，这样可以学习语句的正反序列。模型分为两个过程，如图：
 ![](_v_images/20200306104505809_1655576458.png)
 左边的预训练过程和右边的微调过程，而预训练模型又可以分为 Masked 语言模型和预测下一个句子

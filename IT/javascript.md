@@ -1,12 +1,19 @@
 # A、javascript
 
-:::alert-info
+
 **简介**：JavaScript 由 3 部分组成：**ECMAScript**：解释器。翻译兼容性：完全兼容。**DOM**：Document Object Model （文本对象）兼容性：部分不兼容。**BOM**：Browser Object Model （浏览器对象）兼容性：不兼容（例如 IE，谷歌，火狐，不可能兼容），核心是 window，全局对象。dom 针对的是标准的客户端控件，html 标记的这些浏览器展现的内容。bom 针对的是浏览器，BOM 是浏览器对象模型，DOM 是文档对象模型，前者是对浏览器本身进行操作，而后者是对浏览器（可看成容器）内的内容进行操作。js 是**脚本语言**、**单线程**语言。
-:::
+**为什么是单线程**：加入它是1个多线程，那肯定会出现两个线程同时操作1个dom的复杂情况（因此workers中就是不允许操作dom的）
+
+## 0、js中的堆栈
+
+js的数据分为两种， 一种是**原始类型**（Boolean,Null,Undefined,Number,BigInt,String,Symbol）， 一种是**对象**（Object）==原始类型的数据放在栈中，对象的数据放在堆中==。
+**堆（heap）**是不连续的内存区域，即数据可以任意存放， 主要存放的是对象等（==数组与对象都是链式结构的存储==，并非散列）
+
+**栈（stack）**是一块连续的内存区域，每个区块按照一定次序存放（后进先出），栈中主要存放的是基本类型的变量的值以及指向堆中的数组或者对象的地址。
 
 ## 1、数据类型：
 
-数据类型包括：数值、字符串、布尔、null(表示尚未存在的对象)、undefined(当声明的变量还未被初始化时，变量的默认值为 undefined。)、对象(对象又包括列表、函数、字典)，6 种。#alert(null == undefined); //output "true" 。ert(null === undefined); //output "false"
+数据类型包括：数值、字符串、布尔、null(表示尚未存在的对象)、undefined(当声明的变量还未被初始化时，变量的默认值为 undefined)、对象(对象又包括列表、函数、字典)6 种。
 
 ### 一、数值：
 
@@ -17,8 +24,7 @@
 **转为字符串**：num.toString();
 
 - **含 e 的数**：一般表示极大极小值`var m = 3.125e7`#等价于`3.125 * 10^7`。`var c = 3e - 7`#0.00....03。
-- **浮点数计算精度丢失问题**：`console.log(24314310.3412 / 100000)>>243.14310341200002`。
-  所有编程语言都存在的问题，这是由于计算机本身特性导致的。小数位数过长，或有时计算中小数点参与移动。所以前端尽量不要使用浮点数的计算。
+- **浮点数计算精度丢失问题**：`console.log(24314310.3412 / 100000)>>243.14310341200002`。 `javascript`==以64位双精度浮点数存储==所有Number类型值，再浮点数在计算机中是用科学计数法表示（转为二进制时是`符号位+阶码+尾数`）一般导致阶码数很大（因为以64位表示的缘故），再加上计算时还要进行左规、舍入等处理，所以一般会导致精度丢失（结合计算机组成原理笔记理解）[参考学习地址](https://juejin.cn/post/6897870218002399246)
   **解决思路**：将小数转为整数，按特别方法计算后再移动小数点。
   数值与字符串的运算：`1 + "1" == "1" + "1" = '11'`#除了+是字符串连接，其它运算操作符情况会被先当做数值计算。
 - **NaN**：用于表示一个本应该是数值，返回却是非数值的情况，如数值比上 0，NaN 与其它数值操作同为 NaN，`NaN == NaN返回false`。用 isNaN()可检测。
@@ -61,6 +67,8 @@ console.log(a.exec("kke,mme")); //只能找到第一个匹配项，放回一个�
 
 ### 三、数组：
 
+map与`forEach`区别：map会返回1个操作完后的数组，`forEach`则不会。
+
 ```js
 list.indexOf(1); //找到第一个1在列表中的位置，不在则返回-1。
 list.includes(1); //是否包含1，返回布尔值。
@@ -68,35 +76,38 @@ list.join("-"); //将各元素用字符链接。
 list.push(1); //在列表最后添加值。
 list.pop(); //删除最后一个元素。
 list.unshift(); //在数组最前端添加一个新的值。
+list.shift(); //移除第一个元素。
 Array.from("dafl"); //[d,a,f,l]  var b = Array.from(carr); //from可实现浅拷贝
 [1, 2, 3].toString(); //"1,2,3"
 Array.isArray({}); //false
-// map,forEach（return返回的会放到1个新数组中，与原数组一样长）
-var ss = [1, 3, 5, 6].map((v) => {
-  if (v > 3) return v;
-});
+list.reverse(); //将数组倒置，[1,2,3].reverse();//[3,2,1]。
 
 k = arr.from(T); //T转换成数组，T可以是字符串、列表、set。
+/************数组迭代器************/
+var arr = [1, 8, 2, 4, 3, 9, 0];
+var e = ["a", "b", "c"].entries();
+e.next().value; //[0, 'a'];
+/*=====================================================
+	map,find,filter等方法都是在原数据上做1个浅拷贝
+	即：深层的对象元素，新列表中修改会引用旧列表中对应元素
+=======================================================*/
+/****map：将return的值放到新列表中（与原列表同长）*****/
+var ss = [1, 3, 5, 6].map((v,i) => {
+  if (v > 3) return v;
+});
+arr.forEach((v,i)=>{});
 var k = arr.concat([1, 2, 3]); //or concat(6)
+/*******返回true时会结束遍历。a为布尔值********/
 var a = arr.some(function (item, index, arr) {
   if (item > 2) {
     return true;
   }
 });
-//返回true时会结束遍历，arr是整个数组本身。a为布尔值。
+/*****返回true时会结束遍历，返回的a是满足true的那一项**********/
 var a = arr.find((x) => {
   return x >= 4;
 });
-
-list.reverse(); //将数组倒置，[1,2,3].reverse();//[3,2,1]。
-list.shift(); //移除第一个元素。
-//instanceof//检查一个对象是否为了一个对象中的实例，Console.log(p1 instanceof p2);//p1是否为p2中的实例；
-/************数组迭代器************/
-var e = ["a", "b", "c"].entries();
-e.next().value; //[0, 'a'];
-/*===============
-    全条件满足（全满足时为true）
-=================*/
+/*********全条件满足（全满足时为true）***********/
 const _all = [1, 2, 3].every((v) => {
   if (v < 4) {
     return true;
@@ -104,9 +115,7 @@ const _all = [1, 2, 3].every((v) => {
     return false;
   }
 });
-
-var arr = [1, 8, 2, 4, 3, 9, 0];
-// filter函数接收一个函数，这个函数作用于每一个值，返回true或false决定是否丢弃该值。
+/********返回为true时的选项，它们放到一个新列表中********/
 var r = arr.filter(function (s) {
   return s == 2; // 注意：IE9以下的版本没有trim()方法
 });
@@ -151,9 +160,29 @@ arr.splice(1, 1, 7); //[1,7,3,4,5,6]
 arr.forEach(function (value, index, data) {});
 ```
 
-### 四、map：
+### 四、普通对象
 
-从对象中取出多个属性然后上传时的场景，如果用 obj.property 的方式取值，若缺少该值时程序可能会**不执行也不报错**。
+**强引用与弱引用**：直接指向对象的**强引用**，通过另一个变量来指向已有对象的称**弱引用**。
+
+```js
+const uu = {name:'ccc'}; // 强引用
+const dd = uu; // 弱引用（更容易被回收）
+```
+
+**浅拷贝**：两种形式（1）直接弱引用指向另一个已存在对象（2）新建1个对象，将另一个对象第一层值复制进来。
+**深拷贝**：完完全全的将另一方数据复制，两者之间不存在应用。
+
+```js
+var obj = {a:2,b:[4,5,6]};
+// 浅拷贝1
+var obj2 = obj;
+// 浅拷贝2
+var obj3 = {};obj3.a = obj.a;obj3.b = obj.b;
+// 深拷贝(用JSON,或循环复制)
+var obj4 = JSON.parse(JSON.stringify(obj));
+```
+
+Object常用方法：
 
 ```js
 var obj = {a:1,b:3};
@@ -212,7 +241,7 @@ var res = Object.assign(obj1, obj2,...);//将obj1后的对象中的属性赋给o
 ```
 
 - **Object.defineProperty()**
-方法可传有三个参数，第一个是要监听的对象，第二个是参数是该对象中已有的属性或未有的属性，第三个参数是对象的形式，里面可以写两个方法，set 方法在改变目标对象中指定属性(第二个参数)时触发的函数，可传入一个参数表示被修改的值，get 方法在目标对象指定属性值被获取时触发。set 方法和 get 方法都是在对应的操作前就先触发的，比如：obj.name = 'jieke',是先触发 set 方法再运行 obj.name='jieke'语句；第三个参数中也可以写访问器属性：
+  监听目标对象：三个参数（要监听的对象、要监听的key值，监听的操作对象）普通对象，数组均可代理，且get，set操作也能触发，如下：
 
 ```js
 Object.defineProperty(obj, "name", {
@@ -221,6 +250,13 @@ Object.defineProperty(obj, "name", {
   enumerable: false, //表示该属性能否被for in等方法枚举，默认true
   value: "wcs", //直接为该属性赋值
 });
+/***代理数组写法***/
+let arr = [1,2,3];
+var apx = Object.defineProperty(arr,0,{
+    get:function(){}, //get操作触发
+  	set:function(){} //set操作触发
+});
+apx[0] = 99; // 可以触发，但数组包裹对象类（[{a:1,b:2},1,2]）会报错
 ```
 
 在第三个参数中写以上属性都不能与 get,set 一起使用。
@@ -264,7 +300,6 @@ const includeB = 'b' in map;
   **null**：表示一个空对象指针，因此用 typeof 检测时返回 object（但`null instanceof Object`返回 false）
   如果该变量之后用于赋值一个对象，那初始赋值可以置为 null。
   **布尔值**：`0，空字符串、null、undefined、false`都是当做 false。
-  **Set**：es6 新增数据类型，集合属于数学的概念。Set 属于 Object。
 
 ```js
 // set转数组
@@ -272,21 +307,12 @@ const items = new Set([1, 2, 3, 4, 5]);
 const array = Array.from(items);
 ```
 
-**symbol**：es6 新加的数据类型，用于做唯一性标识。
-
-```js
-let id = Symbol("id"); //typeof id = symbol;
-let obj = {
-  [id]: "symbol", //普通枚举获取不到。
-};
-```
-
 ### 五、隐式转换：
 
 在进行变量比较时，js 内部会对数据进行相应变换如下：（全等条件下回进行类型的比较，所以这些在**全等下不成立**）
 
 - [] == true; //false []转换为字符串'',然后转换为数字 0,true 转换为数字 1，所以为 false
-- [1,2,3] == '1,2,3' // true [1,2,3]转化为'1,2,3'，然后和'1,2,3'， so 结果为 true;
+- [1,2,3] == '1,2,3' // true [1,2,3]转化为`'1,2,3'`，然后和'1,2,3'， so 结果为 true;
 - [1] == 1; // true `对象先转换为字符串再转换为数字，二者再比较 [1] => '1' => 1 所以结果为 true
 - **~~符号的使用**：对变量进行隐式转换。
 
@@ -297,7 +323,7 @@ let obj = {
 ```
 
 **数据类型检测**：`console.log(typeof val)`#有 string、number、undefined、boolean、function、object（字典和 null 都显示这个）。
-<b c=r>非引用类型（字符串、数值、布尔等）推荐使用 typeof 检测。</b><b c=r>引用类型（数组、object、自带对象 Date 等）推荐使用 instanceof 检测。</b>
+<b c=r>非引用类型（字符串、数值、布尔等）推荐使用 typeof 检测。</b>引用类型（数组、object、自带对象 Date 等）推荐使用 instanceof 检测。
 
 ```js
 const a = [];
@@ -318,6 +344,42 @@ if (typeof a === "object") {
 }
 console.info(_typ);
 ```
+
+### 六、Set与Map
+
+```js
+/******Set*****
+1.成员不能重复
+2.只有健值，没有健名，有点类似数组。
+3.可以遍历，方法有add, delete,has
+*/
+var st = new Set();
+/*****WeakSet*****
+1. 成员都是对象
+2. 成员都是弱引用，随时可以消失。 可以用来保存DOM节点，不容易造成内存泄漏
+3. 不能遍历，方法有add, delete,has
+*/
+var wst = new WeakSet();
+function qq(){return 0;}
+st.add(qq);
+wst.add(qq);
+/*****Map******
+1. 本质上是健值对的集合，类似集合
+2. 可以遍历，方法很多，可以干跟各种数据格式转换
+*/
+var uu = new Map();
+/******WeakMap******
+1. 直接受对象作为健名（null除外），不接受其他类型的值作为健名
+2. 健名所指向的对象，不计入垃圾回收机制
+3. 不能遍历，方法同get,set,has,delete
+*/
+var tt = new WeakMap();
+uu.set('vv',34);
+tt.set(qq,'ff');
+console.info(st,wst,uu.get('vv'),tt.has(qq));
+```
+
+
 
 ## 2、编码相关：
 
@@ -445,33 +507,7 @@ function start() {
 
 - **三元运算符**：三元运算符与 if 语句同样的作用，例：if(x>10 && x<50){alert("hello");}替为 `x>10 && x<50?alert("hello"):alert("flase")`。(两者等价问号前为判断条件，问号后为执行语句，冒号后为 else 时的语句)。
   三元运算符用于赋值：val = val>20 ? 20 : 10;//表示如果 val 大于 20val 值就为 20，否则为 10；
-  三元运算符中写多条语句：a == 20 ? (a=15,alert(a)) : (a = 21,alert(a));
-
-### c、 js 的异步原理：
-
-浏览器每开一个窗口就是启动一个进程，js 代码的运行只使用了一个线程，所以 js 异步并不是真正的启动线程的异步。js 中的任务分为宏任务和微任务，<b c=r>js 会先运行主栈中的任务，然后取事件队列先运行微任务，然后运行宏任务</b>。<b c=b>DOM 的渲染本身是同步的操作</b>。渲染引擎是另一个线程在执行，为了 js 线程能控制渲染引擎的动作，<b c=v>每次 js 微任务执行完后会去检查一下是否需要渲染，所以每帧的渲染间 js 的计算不要太多</b>，不然会掉帧。
-
-- [参考学习地址。](https://www.cnblogs.com/liangye/p/13461924.html)
-  > **宏任务**：setTimeout，setInterval，Ajax，DOM 事件。**DOM 渲染后触发**。
-  > **微任务**：async/await，then,catch,finally。**DOM 渲染前触发**。
-
-```js
-//promise中的代码则是一个主线程的执行。
-let cc = new Promise((rs, rj) => {
-  console.info("a");
-  rs();
-  console.info("b");
-});
-console.info("c");
-setTimeout(() => {
-  console.info("d");
-}, 0);
-cc.then(() => {
-  console.info("e");
-});
-console.log("f");
-//输出顺序：a,b,c,f,e,d
-```
+  三元运算符中写多条语句：a == 20 ? (a=15,alert(a)) : (a = 21,alert(a))
 
 ### c2、页面间传值：
 
@@ -538,9 +574,9 @@ function dateScope(fromDate) {
 }
 ```
 
-### f1、call()和 apply()的使用：
+### f1、call&apply&bind
 
-apply 和 call 的作用是回调，es6 之前很多回调都是使用它们；**Function.apply(obj,args)方法能接收两个参数**obj：这个对象将代替 Function 类里 this 对象。args：这个是数组，它将作为参数传给 Function（args-->arguments。call:和 apply 的意思一样,只不过是参数列表不一样。
+**3者的作用**：使用`call/apply`时即会==执行目标函数，用于改变函数的执行作用域==，传入的**第一个参数相当于目标函数的this指针**；如果这个目标函数作为回调函数传入，我们可以利用`call/apply`**可易于改变它们的this指针**。
 
 ```js
 /*定义一个Person类*/
@@ -550,25 +586,21 @@ function Person(name, age) {
 }
 /*定义一个学生类*/
 function Student(name, age, grade) {
-  //Person.apply(this,arguments);//特点：this指代student对象，只接收2个参数，arguments为隐式类数组对象，用来接收传入的参数；
   Person.call(this, name, age); //特点：this指代student对象，可以接收任意多个参数
   this.grade = grade;
 }
 var student = new Student("zhangsan", 22, "二年级"); //方法Student()也是object的一个实例
-//测试，相当于是借用apply()或call()方法来实现一个简单的继承。
-alert(
-  "name:" +
-    student.name +
-    "\n" +
-    "age:" +
-    student.age +
-    "\n" +
-    "grade:" +
-    student.grade
-);
+/***apply的使用***/
+function hhh(){
+    Person.apply(this,['name','age']);// 第二个参数作为Person的参数列表
+}
+/****bind****/
+function a(h){
+   console.info(h,this.k);
+}
+var t = a.bind({k:22},11);
+t();
 ```
-
-//学生类里面我没有给 name 和 age 属性赋值啊,为什么又存在这两个属性的值呢,这个就是 apply 的神奇之处.
 
 ### f2、console：
 
@@ -604,18 +636,32 @@ new 关键字就意味着一次内存分配，例如 new Foo()。最好的处理
 为了最大限度的实现对象的重用，应该像避使用 new 语句一样避免使用{}来新建对象。
 使用 delete x;手动删除一个变量。
 
-### h、节流和防抖动：
+## 3.1、严格模式
 
-所谓的节流就是指用户频繁操作同一个事件，但都是相同的请求，如重复提交表单中的数据，重复下拉刷新请求数据，这会频繁的消耗用户的流量但是无意义的，遇到这种情况做法：写一个定时器，规定时间内只允许操作一次。
-而防抖动是指类似搜索框中要监听用户的输入实时获取将值传给后台获取相应的匹配项，但返回的候选项个数不一样会导致下拉展示条频繁变化抖动。解决：监听到用户输入后设定一个定义器，时间过后执行操作，如果期间接收到监听变化就取消前一个定是器，再重新创建一个，相当与只取最后一次操作，因为此时是最有效的操作。
-这两种思想都类似，不过一个取第一次操作，一个取最后一次操作。[参考地址。](https://www.jianshu.com/p/11b206794dca)
+严格模式下部分语法被禁用；与非严格模式比具体如下：
+
+1、变量必须先声明后才能赋值。
+2、禁止使用with语句。（由于其会改变执行的作用域）
+3、创建eval作用域：严格模式使用eval会单独创建一个作用域（像函数一样），其中新建的变量等都只在该作用域
+4、禁止this指向window。否则打印出来的this是undefined。
+5、函数参数不能重名。
+
+```js
+// 在其所在作用域生效
+'use strict'
+// 函数中使用
+function ss(){
+    'use strict'
+    let cc = 0;
+}
+```
+
+
 
 ## 4、循环和分支：
 
-:::alert-primary
 for in 循环会遍历原型上的属性，耗时更长，尽量避免使用。for 循环时，多数会读取数组 length 值，**用一个局部变量缓存它**，速度更快。
 **基于函数**的循环迭代（map(),some(),...等）性能**比 for 循环要稍差**，尽量减少这一类的使用！
-:::
 
 **循环**：（for, while, do -while, for-in, for-of, map(),..）
 
@@ -719,14 +765,98 @@ if (a < 10) {
 }
 ```
 
+## 5、函数：
+
+**简介**：每个函数会在内存中为其创建一个空间，存储其所用变量（下图所示，顺序和链式存储结合）。**全局变量（window,document）等会被注入到该空间中**。
+
+- map，Array 等较深的结构按链式方法查找，<b c=r>使用的数据结构越深，速度越慢！</b>
+
+- 局部变量存储顺序靠前，其查找使用起来速度最快。
+
+- 全局变量存储到最后，查找使用起来较慢，_因此性能最差，尽量避免使用！_
+
+- 执行完毕后执行环境被销毁。
+
+- 动态作用域：使用了 with、catch(){}子句、eval()函数的可以看做时动态作用域情况
+
+
+**性能优化方法**：
+（1）将对应全局变量赋值给一个局部变量，这样在查找时就只是查找该局部变量（按标识符查找的）。
+（2）避免使用 with 语句。<i c=gn>with 创建的作用域会被推到函数作用域首位，局部变量位置反而落于其后</i>
+（3）适当使用`try{}catch(e){}`：执行 catch 时，对象 e 会被推到作用域首位！一般在 catch 中专门将 e 交给一个函数来处理最好。
+
+**闭包**：是语言的一个特性，指函数可作为1个对象在其它函数中创建，它可以使用父级作用域的变量，==且使用其值，不会销毁其父级作用域的现象==
+在另一个函数内部定义的函数会将包含函数（即外部函数）的活动对象添加到它的作用域链中。也教耗性能
+
+```js
+// 闭包
+function abc(){
+    /**arguments为当前函数的所有参数列表，callee则是当前函数**/
+    console.info(arguments.callee);
+    var a = 10;
+    function vv(){return a;}
+    return vv;
+}
+```
+
+**全局与局部变量覆盖问题**：
+
+```js
+/***
+1、函数内同名的局部变量会覆盖全局变量；
+2、传入的同名参数也会覆盖全局变量；
+3、函数内定义的局部变量可以覆盖同名参数；（let，const不行，var可以）
+***/
+var qq = 99;
+function tt(){
+  let qq = 88;console.info(qq);
+}
+tt();
+/***创建先后与运行机制***/
+var a = 15;
+function cc() {
+  console.info("a>>", a);
+}
+(function () {
+  var a = 20;
+  cc(); //得到15，cc的创建并不在当前函数中，所以cc的输出还是全局变量a。
+})();
+// 改变作用域情况
+var obj = { a: 1, b: 2 };
+with (obj) {
+  //为obj创建一个作用域，内部的变量都是从obj中查找。
+  a = 1;
+  b = 2;
+}
+```
+
+![](_v_images/20210303192355713_21879.png)
+
+**函数柯里化**：只传递给函数一部分参数来调用它，让它返回一个新函数去处理剩下的参数。
+
+```js
+function klh(a){
+    let aa = a+1;
+    return (b)=>{
+        let qq = aa*b;
+        return (c)=> qq-c;
+    }
+}
+var p = klh(1)(2)(3);
+```
+
+**纯函数**：满足以下两个条件即可称为纯函数，否则可以称为**副作用函数**。
+（1）相同的输入始终获得相同的输出（即：函数中不使用全局变量，不受外部环境数据变化等影响）
+（2）不会修改程序的状态或引起副作用（即：不修改引用型参数、不修改全局变量等涉及外部程序等操作）
+
 ## 6、BOM：
 
-### [1]事件：
+### a、事件流向：
 
-**事件流**：事件流描述的是从页面中接收事件的顺序。事件发生时会在元素节点与根节点之间按照特定的顺序传播，路径所经过的所有节点都会收到该事件，这个传播过程即 DOM 事件流。事件传播的顺序对应浏览器的两种事件流模型：捕获型事件流和冒泡型事件流。
+**事件流**：dom事件触发会导致其触发其它dom的相同事件，有==捕获型事件流和冒泡型事件流==（以前的两种设计理念，即：先触发父元素事件还是子元素的）
 冒泡型事件流：事件的传播是从最特定的事件目标到最不特定的事件目标。即从 DOM 树的叶子到根、到 window 对象。
 捕获型事件流：事件的传播是从最不特定的事件目标到最特定的事件目标。即从 DOM 树的根到叶子。
-**事件绑定**：
+**事件绑定**：w3c保留两者，==先触发事件捕获，再触发事件冒泡==，可在`addEventListener`第3个参数控制
 
 ```js
 <p onclick="start()"></p>; // 原生的事件绑定。
@@ -745,28 +875,17 @@ document.getElementById("myBtn").addEventListener("click", function (e) {
   // 第一个参数是事件类型，第二个参数是一个函数，会为其传入一个参数为事件对象，可以用e.target
   document.getElementById("demo").innerHTML = "Hello World";
 });
-/******文档加载完成事件*******/
-window.addEventListener("load", function () {});
+/******文档加载完成事件******
+第3个参数为true时则是捕获阶段才触发；
+第3个参数为false时则冒泡阶段才触发；
+*/
+window.addEventListener("load", function () {},true);
 ```
 
 **事件冒泡与事件捕获**：由于老版本的浏览器不支持，因此很少有人使用事件捕获。我们也建议读者放心地使用事件冒泡，在有特殊需要时再使用事件捕获。
-![paopao](\_v_images/20200424091838620_274839134.png =270x)
-**DOM 事件流**：**先发生事件捕获再发生事件冒泡**，父元素捕获事件流（捕获阶段不会接收到事件），具体绑定事件的元素接收到事件后再发生事件冒泡。
-在不同浏览器中，冒泡的程度不同：IE 6.0:div -> body -> html -> document。其他浏览器:div -> body -> html -> document -> window。
-并不是所有的事件都能冒泡，以下事件不冒泡：blur、focus、load、unload。解决办法：
+<img src="_v_images/20200424091838620_274839134.png"/>
 
-```js
-if (event && event.stopPropagation) {
-  // w3c标准
-  //event.preventDefault():阻止默认行为；
-  event.stopPropagation(); //阻止冒泡1.
-} else {
-  // IE系列 IE 678
-  event.cancelBubble = true;
-}
-```
-
-**鼠标事件**：
+### b、鼠标事件类型
 
 ```js
 var el = document.getElementById("el");
@@ -820,6 +939,8 @@ el.addEventListener("click", function (e) {
 ```
 
 **事件委托/代理**：利用事件冒泡，我们想让用户点击一个块的每个子元素都触发一个事件，可以将该事件绑定再这些子元素的父元素上就可以不用每个子元素都去绑定了。
+**移除事件监听**：`window.removeEventListener(元素,事件名,fun)`；fun为监听时的函数
+
 **获取鼠标事件目标的属性**：
 
 ```js
@@ -848,7 +969,7 @@ event.touches[0].pageX, event.touches[0].pageY; //手指坐标，touchend事件�
 event.changedTouches[0].pageX, event.changedTouches[0].pageY; //都可用支持多指触摸事件？？？
 ```
 
-**自定义事件**：
+### c、自定义事件：
 
 ```js
 // 一个元素设置监听事件名可随意。
@@ -919,7 +1040,8 @@ window.addEventListener("blur", function () {
 }); // 切到其它网站页面时触发。
 ```
 
-**判断三方资源加载**:
+### d、资源加载事件:
+
 凡带加载性质的元素均有 onreadyStateChange 事件，不过不同浏览器的支持不同，一些浏览器可能会失效。
 img.onload 事件(最好用的判断加载的方法)：
 
@@ -940,13 +1062,14 @@ img.onload 事件(最好用的判断加载的方法)：
       if(img.readyState=="complete"||img.readyState=="loaded"){
           document.getElementById("img").innerHTML="ok";
       }
-  }
+  	  }
+      window.onload=function(){}//用于在网页加载完毕后立刻执行的操作
 </script>
 ```
 
 https://www.cnblogs.com/snandy/p/3704938.html
 
-### [2]打印功能：
+### e、打印功能：
 
 ```js
 // 打印print_content元素内容
@@ -979,7 +1102,7 @@ function printExample() {
 
 - [参考学习地址](https://www.cnblogs.com/weiyu11/p/7574726.html)
 
-### [3]运行环境检测
+### f、运行环境检测
 
 ```js
 var browser = {
@@ -1027,9 +1150,9 @@ if (browser.versions.mobile) {
 }
 ```
 
-### 路由控制
+### g、路由事件
 
-**hash 模式**：hash 模式 url 中会带有#号，不会导致刷新，不过依然可以添加浏览器历史记录
+**hash 模式**：hash 模式 url 中会带有#号，#后值的变化**不会导致刷新**，不过依然可以添加浏览器历史记录
 
 ```js
 window.onhashchange = function (event) {
@@ -1041,7 +1164,7 @@ window.onhashchange = function (event) {
 };
 ```
 
-**history 使用**：
+**history 使用**：history 在修改 url 后，虽然页面并不会刷新，但我们在**手动刷新，或通过 url 直接进入应用的时候， 服务端是无法识别这个 url** （因为这是前端定义的路径，==后端可能并未配置识别==）
 
 ```js
 // 页面回退
@@ -1075,7 +1198,7 @@ function c() {
 window.onhashchange = c; //onhashchange可以今天hash模式的变化，触发函数c。
 ```
 
-### 拖拽文件
+### h、拖拽文件
 
 ```html
 <p id="box" class="box" style="width:100px;height:100px;"></p>
@@ -1108,6 +1231,28 @@ window.onhashchange = c; //onhashchange可以今天hash模式的变化，触发�
 </script>
 ```
 
+### i、错误事件
+
+可使用全局监听错误事件来实现**错误日志收集系统**；
+img,ifram等加载标签也有加载错误事件；不过此类事件不会冒泡到`window.onerror`
+属于跨域的脚本执行出错时为了避免信息泄露会简略写为`script error.`
+
+```js
+/**
+- message:string 错误信息
+- source:string 发生错误时的当前url
+- lineno:number 发生错误的行号
+- colno:number 发生错误的例号
+- error:object Error对象
+*/
+window.onerror = function(message,source,lineno,colno,error){
+    if(message.indexOf('script error.')!=-1) alert('请打开浏览器查看详细错误');
+    rpc.post(url,data); // 将错误信息上传至后台
+}
+```
+
+
+
 ## 7、DOM：
 
 :::alert-primary
@@ -1117,8 +1262,6 @@ js 的执行和 dom 的渲染是两个引擎执行的，所以每次交互时，
 :::
 
 ### [1]DOM 操作：
-
-1
 
 1. **获取元素尺寸相关**
 
@@ -1203,6 +1346,7 @@ head.appendChild(style);
 
 ### [2]性能探究：
 
+- `js`执行线程与**渲染线程**是互斥的，==一个执行时，另一个线程会挂起==，所以添加1个`dom`元素后，下文`js`代码中可获取其实例
 - 尽量避免 DOM 修改次数；
 - innerHtml 稍慢于 createElement()；
 - createElement()稍慢于克隆节点；
@@ -1412,9 +1556,7 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 }
 ```
 
-**flv.js**：解析 flv 文件的拉流实现。flv.js 这个项目解决了 HTML5 支持 flash 协议的问题，这就是 flv.js 应运而生短期爆红的历史背景。flv.js 中的 demux 就是一套 FLV 媒体数据格式的解析器，
-
-> [原理讲解地址](https://www.cnblogs.com/saysmy/p/10209581.html)
+**flv.js**：解析 flv 文件的拉流实现。flv.js 这个项目解决了 HTML5 支持 flash 协议的问题，这就是 flv.js 应运而生短期爆红的历史背景。flv.js 中的 demux 就是一套 FLV 媒体数据格式的解析器，[原理讲解地址](https://www.cnblogs.com/saysmy/p/10209581.html)
 
 **rtmp 推拉流**：
 
@@ -1424,6 +1566,8 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 - [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)
 
 ## 9、promise
+
+回调地狱：当许多功能需要连续调用,环环相扣依赖时,它就类似下面的代码,代码全部一层一层的嵌套,看起来就很庞大,很恶心,就产生了回调地狱.
 
 ```js
 //常用情况：
@@ -1442,19 +1586,22 @@ add(3)
   })
   .catch((res) => {
     console.info(res);
-  });
+  }).finally(()=>{});
 ```
 
 - **同步使用**：只有在同一作用域才有同步效果
 
 ```js
-unction pcase(){
+function pcase(){
   return new Promise((rs,rj)=>{
     setTimeout(()=>{
           console.info('第3个输出');rs('fdfd');
         },1000);
     });
 }
+/*******async******
+async 函数返回一个 Promise 对象
+*/
 // usep内的执行是
 async function usep(){
   console.info('第1个输出');
@@ -1465,10 +1612,168 @@ usep();
 console.info('第2个输出');
 ```
 
+`promise.all`使用：需要多个异步完成后执行逻辑
+
+```js
+const p1 = new Promise((resolve,reject)=>{
+    resolve('请求成功')
+});
+const p2 = new Promise((resolve,reject)=>{
+    resolve('上传成功')
+});
+const p3 = Promise.reject('error');
+
+Promise.all([p1,p2]).then(data=>{
+    console.log(data)  // data为一个数组  ['请求成功','上传成功']
+}).catch(err=>{
+    console.log(err)
+})
+ 
+Promise.all([p1,p2,p3]).then(data=>{
+    console.log(data)
+}).catch(err=>{
+    console.log(err) // 失败打印结果为 'error'
+})
+```
+
+**promise的模仿实现**：
+
+```js
+/**
+ * Promise 实现 遵循promise/A+规范
+ * 官方站: https://promisesaplus.com/
+ * Promise/A+规范译文:
+ * https://malcolmyu.github.io/2015/06/12/Promises-A-Plus/#note-4
+ */
+
+// promise 三个状态
+const PENDING = "pending";
+const FULFILLED = "fulfilled";
+const REJECTED = "rejected";
+
+function Promise(excutor) {
+    let self = this; // 缓存当前promise实例对象
+    self.status = PENDING; // 初始状态
+    self.value = undefined; // fulfilled状态时 返回的信息
+    self.reason = undefined; // rejected状态时 拒绝的原因
+    self.onFulfilledCallbacks = []; // 存储fulfilled状态对应的onFulfilled函数
+    self.onRejectedCallbacks = []; // 存储rejected状态对应的onRejected函数
+
+    function resolve(value) { // value成功态时接收的终值
+        if(value instanceof Promise) {
+            return value.then(resolve, reject);
+        }
+
+        // 为什么resolve 加setTimeout?
+        // 2.2.4规范 onFulfilled 和 onRejected 只允许在 execution context 栈仅包含平台代码时运行.
+        // 这里的平台代码指的是引擎、环境以及 promise 的实施代码。实践中要确保 onFulfilled 和 onRejected 方法异步执行，且应该在 then 方法被调用的那一轮事件循环之后的新执行栈中执行。
+        setTimeout(() => {
+            // 调用resolve 回调对应onFulfilled函数
+            if (self.status === PENDING) {
+                // 只能由pedning状态 => fulfilled状态 (避免调用多次resolve reject)
+                self.status = FULFILLED;
+                self.value = value;
+                self.onFulfilledCallbacks.forEach(cb => cb(self.value));
+            }
+        });
+    }
+
+    function reject(reason) { // reason为失败态时接收的原因
+        setTimeout(() => {
+            // 调用reject 回调对应onRejected函数
+            if (self.status === PENDING) {
+                // 只能由pedning状态 => rejected状态 (避免调用多次resolve reject)
+                self.status = REJECTED;
+                self.reason = reason;
+                self.onRejectedCallbacks.forEach(cb => cb(self.reason));
+            }
+        });
+    }
+
+    // 捕获在excutor执行器中抛出的异常
+    // new Promise((resolve, reject) => {
+    //     throw new Error('error in excutor')
+    // })
+    try {
+        excutor(resolve, reject);
+    } catch (e) {
+        reject(e);
+    } finally(r){}
+}
+
+/**
+ * [注册fulfilled状态/rejected状态对应的回调函数]
+ * @param  {function} onFulfilled fulfilled状态时 执行的函数
+ * @param  {function} onRejected  rejected状态时 执行的函数
+ * @return {function} promise2  返回一个新的promise对象
+ */
+Promise.prototype.then = function (onFulfilled, onRejected) {
+    // 成功和失败的回调 是可选参数
+    
+    // onFulfilled成功的回调 onRejected失败的回调
+    let self = this;
+    let promise2;
+    // 需要每次调用then时都返回一个新的promise
+    promise2 = new Promise((resolve, reject) => {
+    // 成功态
+        if (self.status === 'resolved') {
+            setTimeout(()=>{
+                try {
+                    // 当执行成功回调的时候 可能会出现异常，那就用这个异常作为promise2的错误的结果
+                    let x = onFulfilled(self.value);
+                    //执行完当前成功回调后返回结果可能是promise
+                    resolvePromise(promise2,x,resolve,reject);
+                } catch (e) {
+                    reject(e);
+                }
+            },0)
+        }
+        // 失败态
+        if (self.status === 'rejected') {
+            setTimeout(()=>{
+                try {
+                    let x = onRejected(self.reason);
+                    resolvePromise(promise2,x,resolve,reject);
+                } catch (e) {
+                    reject(e);
+                }
+            },0)
+        }
+        if (self.status === 'pending') {
+           // 等待态时，当一部调用resolve/reject时，将onFullfilled/onReject收集暂存到集合中
+           self.onResolvedCallbacks.push(() => {
+                setTimeout(()=>{
+                    try {
+                        let x = onFulfilled(self.value);
+                        resolvePromise(promise2,x,resolve,reject);
+                    } catch (e) {
+                        reject(e);
+                    }
+                },0)
+            });
+            self.onRejectedCallbacks.push(() => {
+                setTimeout(()=>{
+                    try {
+                        let x = onRejected(self.reason);
+                        resolvePromise(promise2,x,resolve,reject);
+                    } catch (e) {
+                        reject(e);
+                    }
+                },0)
+            });
+        }
+    });
+    return promise2
+}
+// 其中规范要求对回调中增加setTimeout处理
+
+```
+
+
+
 ## 10、文件&图片：
 
-input 中的 file 属性提供了一个从本地图库选择图片文件的功能,以下代码将选中的图
-片显示在页面上：
+input 中的 file 属性提供了一个从本地图库选择图片文件的功能,以下代码将选中的图片显示在页面上：
 
 ```html
 <img id="img" />
@@ -1618,7 +1923,7 @@ function file2base64() {
 }
 ```
 
-## 15、兼容性问题：
+## 11、兼容性问题：
 
 事件的兼容性处理：
 
@@ -1653,7 +1958,7 @@ ela.compareDocumentPosition(elb); //是则返回20，否为10,低版本的firefo
 https://www.jb51.net/article/81704.htm
 https://www.jb51.net/article/84596.htm
 
-## 16、网络相关：
+## 12、网络相关：
 
 ### 1、ajax:
 
@@ -1679,8 +1984,9 @@ xhr.send(obj);//发送数据,必须使用
 ```
 
 - **两种数据类型**：向服务端发送的数据有 Form Data 和 Request Payload 两种，这两种数据类型可以由请求头的 Content-Type 控制。
+  
   > Form Data 类型：`Content-Type:"application/x-www-form-urlencoded"`#默认使用的类型，使用 POST，但数据不是 json 格式而是：`rpc.post(url,"key=234&v=9fdf0")`#的类型，在浏览器/netWork/Headers/最下方可以看到。
-  > Request Payload：`Content-Type:"application/json"`#现在几乎使用这种数据类型，发送一个字典的话会默认将每个键值队拼在 url 后请求。使用 JSON.stringify()将数据转为 json 在发送是常用的形式。
+  > Request Payload：`Content-Type:"application/json"`#现在几乎使用这种数据类型。使用 JSON.stringify()将数据转为 json 在发送是常用的形式。
   > Raw：将 json 格式数据用字符串表示，如：`'{"name":"www","age":"15"}'`#注意，里面的引号是需要的。
 
 ### 2、ajax 上传文件
@@ -1707,13 +2013,9 @@ xhr.send(obj);//发送数据,必须使用
 ```
 
 - **404 问题**：404 不完全是接口路径的原因，如果后台有请求日志情况的 404，可能是传输的数据类型与后台接收类型不一致。<b c=r>若后台没有请求日志，则是前端路径、接口、代理等问题。</b>
-- **ajax 注入分页**：使用 document.write(data)的方法要求分页里只有元素结构（没有 meta,html,body 等在主页中重复的标签）,可是这样仍会把主页<head></head>标签中的外链样式覆盖为无,我们可以再写一个分页专门用于装效 head 标签及其里面的外联样式（link,script 等）;可是外联的 js 语句只执行一次就 无效了!!（弃）;若注入分页的 js
-  代码用引入的方式则`<script async='async' src=''></script>`或在注入的 ajax 代码中将 async 改为 false 或 ajax 代码后加一个延时器延时绑定事件。(一些坑爹的后台框架会劫持所有 ajax 请求导致报错所以使用需谨慎,本地打开带有使用 ajax 的文件会产生跨域问题);
-  **ajax 中地址为空情况**：ajax 中如果 url 地址为空在提交时会变成提交到当前页 url 路径。jquery 的 ajax 中不填写 dataType 值时 jquery 会自动判断返回值的类型(所填写的 data 中的格式不能是 json 格式)。
-  <i class="label2">ajax 中添加加载动画</i>使用 jquery 的 Ajax 是在 beforeSend:function(){}中添加动画，在 complete:function(){}中取消加载动画。在原生 js 的 ajax 中也可以自行在 onreadystatechange = function(){}前后添加两个函数也可实现。但 beforeSend 函数只在第一次请求时触发,所以显示加载动画最好是在调用 ajax 之前,complete 中隐藏加载动画可以加一个延时取消这样交互效果更好。
-  <i class="label1">ajax 接口的处理</i>做项目中在使用到 ajax 或其它方式对接数据时对接的接口需要用"http://"+获取的本地域名+接口来充当请求数据的接口，这样更换域名后也不会出错。(也可直接写域名后的接口名，在运行时会被自动添加上当前域名)。
-- GET 与 POST 的区别：规范中 GET 是将参数放在 url 中，POST 是将数据放在请求体中，当然也可以反过来。
+
 - **跨域问题**：解决方法如下
+  
   > jsonp：使用`<script src="http://a.com?id=15">`标签能跨域的特性，发起 get 请求让后台返回想要的数据，甚至在里面写上触发前端函数的方法。
   > cros：后台直接配置 cros 即可。**浏览器将 CORS 请求分成两类**：简单请求（simple request，请求方式受限，字段受限）和非简单请求（not-so-simple request）。
   > webscoket 和 workers 的 postMessage 可以跨域。
@@ -1806,21 +2108,130 @@ export function downloadFileByBlob(config, fileName) {
 
 [Blob 的使用](https://www.cnblogs.com/cheng825/p/11694348.html)
 
-## 23、es6 语法：
+### 4、缓存控制
 
-因为是在 2015 发布的，所以又用 ES2015+来代替。
+分为**强制缓存和协商缓存**，通过头部配置控制，如下：（浏览器文件时请求没有`requestHead`）
 
 ```js
+Accept:text/html,application/json,...    //接收的数据类型
+Accept-Encoding:gzip,deflate,br          //接收的压缩方式
+Cache-Control:no-cache                   //缓存控制
+/*
+no-cache:请求或响应的信息都不能缓存
+no-store:每次都是新的从服务器请求
+max-age:获取到的资源可允许被重复使用多久，`max-age=90`表示缓存90s
+must-revalidate：对于客户机的每次请求，代理服务器必须向服务器验证缓存是否过时
+public:任一个人请求产生的缓存其它人也可以使用，private：只使用自己访问产生的缓存
+*/
+Content-Type:text/html                   //发送的数据类型
+User-Agent:Mozilla/5.0 ..                //浏览器信息
+Cookie:34lj324-xx                        //浏览器cookie内容
+/****Last-Modified（协商缓存属性）
+服务器在响应头中添加 Last-Modified 属性来指出资源最后一次修改的时间;
+当浏览器下一次发起请求时，会在请求头中添加一个 If-Modified-Since 的属性，属性值为上一次资源返回时的 Last-Modified 的值。
+当请求发送到服务器后，服务器会通过这个属性来和资源的最后一次的修改时间来进行比较，以此来判断资源是否做了修改。
+如果资源没有修改，那么返回 304 状态，让客户端使用本地的缓存;
+*/
+Last-Modified:2022-xx-xx
+/****Etag（协商缓存属性）
+资源生成的唯一标识符，当资源发生改变的时候，这个值也会发生改变。
+在下一次资源请求时，浏览器会在请求头中添加一个 If-None-Match 属性，这个属性的值就是上次返回的资源的 Etag 的值。
+服务接收到请求后会根据这个值来和资源当前的 Etag 的值来进行比较，以此来判断资源是否发生改变，是否需要返回资源。
+通过这种方式，比 Last-Modified 的方式更加精确。与Last-Modified同时出现时Etag优先
+*/
+Etag:xxx
+```
+
+==强制缓存==：根据有效时间直接使用本地缓存。后端需要设置`res.setHeader('Cache-Control', 'public, max-age=xxx');`
+
+==协商缓存==：每次都要向服务器验证一下缓存的有效性。后端设置`'Cache-Control':'public, max-age=0'`和上面的两个协商缓存属性
+配置成功后：response响应头会有如下类似属性：
+
+```
+Cache-control: max-age=324
+ETag: "5efc34"
+Expires: Tue,11 May 2021 02:38:34 GMT
+```
+
+**最佳缓存实现**：html文件使用协商缓存，`js/css/img`使用==强制缓存==（这些文件可加上`contenthash`【文件内容改变时只改变相关文件的hash】），这样这部分文件有更新时由于之前用户本地没有这些文件，所以会==重新拉取==。[学习地址](https://juejin.cn/post/6844903737538920462)
+
+## 13、js异步机制
+
+js是单线程运行，其异步机制（也叫事件循环）是通过3个队列（同步队列、微任务队列、宏任务队列）3者轮流运行实现。
+
+**3者运行流程如下**：（异步任务包含微任务和宏任务）
+
+1. 先执行所有同步任务，碰到异步任务放到任务队列中
+2. 同步任务执行完毕，开始执行当前所有的异步任务
+3. 先执行异步任务队列里面所有的微任务
+4. 然后执行一个宏任务
+5. 然后再执行所有的微任务
+6. 再执行一个宏任务，再执行所有的微任务·······依次类推到执行结束
+
+**宏任务**：setTimeout，setInterval，Ajax，DOM 事件。**DOM 渲染后触发**。
+**微任务**：async/await，then,catch,finally，promise。**DOM 渲染前触发**。
+
+## 14、es6 语法
+
+因为是在 2015 发布的，所以又用 ES2015+来代替。
+1、**解构赋值**：
+
+```js
+var [a,b,c] = [1,2,3]//a=1,b=2,c=3;
+var {a,b} = {a:1,b:2}//a=1,b=2;
+// 带默认值的结构
+const {a=0,b=''} = obj; // 等价于const a = obj.a || 0;
+// 改变变量名
+const {a:name,b} = obj;console.info(name);// a转变为了name
+```
+
+2、常用：
+
+`let`：块级的，定义的变量如果在{}中，则只能在{}中被执行调用，其他位置都不可以；不能重复定义变量名称；不存在变量提升。
+`const`：不能重复定义变量名称；不存在变量提升；定义常量时不可修改；
+
+```js
+/********let & const *********
+但 let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性（被放在一个块级作用域中）
+*/
 let a = 10;//###块级作用域let定义变量,只在定义的块或附近的块有用，如for循环中
 let a = () => 1;
 alert(a);// 报错 a已被清除。
 const a = 20;//const定义常量，第一次赋值后不能被改变。但如果是用来定义一个对象的话是可以改变其值的。
-/*###箭头函数，this*/
+
+/********模板字符串********/
+var name = 'your name is' + f_name + l_name;
+var name = `your name is ${f_name} ${5>0 ? l_name:'dfd'}`;// 变量写在${}中
+// 可在${}用js语法
+
+//------- 对象属性简写：{name,age,pos}
+/*********延展操作符：************/
+var a = [1,2,3,4,5];
+    function c(v){
+        console.log(arguments);
+    }
+c(...a);// 将a中的每个元素拿出来放到c中。
+/*********对象可选链操作符***********/
+const cc = obj?.name; // 同es5的 const name = obj && obj.name;
+/*********对象属性表达式**********/
+var obj = {[cc]:'属性写法'};
+obj[`name${i}`] = 1234;
+
+```
+
+3、箭头函数：
+
+```js
 let foo = () => 1;//建立一个名为foo的函数返回值1，传参数时就等号后就写括号，
 // var f = (1,2) =>{};多个参数时的写法，单个参数可不写括号，箭头指向执行语句
 ()=>{};// 将无名函数作为一个参数时的写法
 v => {this.a = 20};// 将一个有名函数作为参数传入时的写法。箭头函数中的this
 //不是指向他的上一级而是指向它本身
+```
+
+4、**类**（<a id="es6-class">跳转标记</a>）
+
+```js
 /**************类**************/
 class animal{// 父类
     // static修饰的变量或方法不能被继承，但可用父类直接调用(animal.AS)
@@ -1839,84 +2250,26 @@ var pig = new dog('av');dog.run();// here run
 dog.say();// here say
 /*construct为构造函数为该类私有方法被继承时无需调用直接运行，extends继承的
 /*子类中需要先调用super()方法才能用this添加实例对象因为子类中没有this对象只能/*继承父类中的*/
+console.dir(pig);
+/***打印结果***/
+dog:
+	x:23
+	[[Prototype]]: animal
+    	say: f say()
+		constructor: class dog
+         [[Prototype]]: Object
+         	 constructor: class animal
+             eat: f eat()
+			[[Prototype]]: Object
+             	 constructor: f Object()
+				hasOwnProperty: f Object()
+				__proto__: animal
+                 ...
+```
 
-//#------------------解构
-var [a,b,c] = [1,2,3]//a=1,b=2,c=3;
-var {a,b} = {a:1,b:2}//a=1,b=2;
-for(var i of obj){console.log(i);}//for of方法与for in方法不同，for of是
-//迭代对象，它循环中的of表示对象中的每一项。
-// 模板字符串
-var name = 'your name is' + f_name + l_name;
-var name = 'your name is ${f_name} ${l_name}';// 变量写在${}中
-//###模块的使用
-import {a,b} from 'pages/home'
-import a from 'pages/home/index'
-export default{
-    a
-}
-//---------------- 对象属性简写：{name,age,pos}
-//----------------------- 延展操作符：
-var a = [1,2,3,4,5];
-    function c(v){
-        console.log(arguments);
-    }
-c(...a);// 将a中的每个元素拿出来放到c中。
+5、模块化：
 
-/*=================
-    async与await的使用，await一定要放在async内部，相当于是promise的两种使用方式。
-===================*/
-
-async function funAsy() {
-     const a = 1;
-     // 使用await可以直接拿到resolve()或reject()的结果赋值给b，否则b就只能是一个promise对象。
-     const b = await new Promise((resolve, reject) => {
-           setTimeout(function() {
-               resolve('time');//如果resolve()在定时器外使用的话，会先与定时器执行。
-           }, 3000)
-     })
-     // 直接输出b的话得到：time
-     console.log(b,a);//定时器中的resolve()运行后才会执行这里。
-     return b;
-}
-// 而将b返回使用的话则是一个promise对象。
-funAsy().then(res => {console.log(res)});//3s后才会输出。
-//！！！    async无法配合使用回调的函数使用，如下：
-function a(arr){await c = new Promise...}
-async a.call([1,2,3]); //不会报错，但并不会变成同步。所以forEach,map()方法中使用也是无效的。
-
-//---等待所有结果返回：
-new Promise.all([pr1,pr2]).then().catch();//任何一个出行catch时触发catch
-
-//-----------------代理proxgy。与就的object方法集一样的作用，都用于监听对象的变化。
-//还有其它方法，能监听到一些Object.defineProperty监听不到的东西。
-  let test = {
-    name: "小红"
-  };
-  test = new Proxy(test, {
-    get(target, key) {
-      console.log('获取了getter属性');
-      return target[key];
-    }
-  });
-  console.log(test.name);
-/*===================
-       迭代器与生成器
-=====================*/
-var a = {
-  x: 10,
-  y: 20,
-};
-var iter = Iterator(a);//迭代器
-console.log(iter.next()); //使用next()获取下一个值，
-function* f() {
- for (let i=0; i<5; i++){
-  yield i // 返回并记录函数状态
- }
-}
-var f = f();//使用yield提供的一个生成器。f.next()调用。
-/*=================
-    模块化
-===================*/
+```js
 //js文件中用export分别导出，可以是任意数据类型。
 export const av = {
     a: 1,
@@ -1936,51 +2289,118 @@ import * as allModule from "./jquery.js";
 const moules = allModule.default; //从defalut中获取使用
 ```
 
-## 27、原型：
+6、**Symbol使用**：可创建一个唯一值
+
+```js
+let obj = {name:'aa'};
+/****变量bb相当于Symbol值‘name’对应的键******
+不传入参数也可获得一个Symbol值
+*/ 
+const bb = Symbol('name'); 
+obj[name] = 'cc';
+console.info(obj.name); // aa 
+// （用Symbol值创建的对象属性只能用Object.getOwnPropertySymbols方法才能获取）
+console.info(Object.getOwnPropertySymbols(obj)); // [Symbol(name)]
+/******Symbol方法******/
+const nn = Symbol.for('name'); // 使用for()方法可创建一个全局的Symbol，否则创建的是本地值
+console.info(Symbol.keyFor(nn)); //name ；传入变量，可查找全局创建的Symbol值
+Symbol.iterator // 迭代器属性，拥有该属性才能被for of循环遍历
+Symbol.length // 注册了的数量
+```
+
+**作用**：可用于模拟私有变量，私有属性；可用于标记类的作用；
+
+7、**代理**
+
+比起旧版本的`Object.defineProperty()`更为强大，注意是创建代理对象后在代理对象上操作，而不是在原对象上操作。
+与`defineProperty`的主要区别：`defineProperty`每次只能设置1个key值的代理，**proxy则一次代理整个对象**，这一点节省很多代码。
+
+```js
+let test = {
+   name: "小红"
+};
+let testProxy = new Proxy(test, {
+    get(target, key) {
+      console.log('获取了getter属性');
+      return target[key];
+    },
+    set(){},
+    has(){}
+});
+console.log(testProxy.name);
+/*数组的代理*/
+let arr = [1,2,3,5];
+let arrProxy = new Proxy(arr,{
+    get(){},
+    set(){}
+});
+arrProxy[1] = 99; /***可触发get和set操作***/
+```
+
+8、**Reflect**：拥有与Proxy相同的方法，用于实现对象的取值、设值、调用普通函数等。
+
+```js
+var obj = {a:1,b:2};
+Reflect.get(obj,'a');
+Reflect.set(obj,'c',9);
+Reflect.deleteProperty(obj, a);
+...
+```
+
+
+
+## 15、原型：
 
 - **js 中无类的概念**：类意味着复制，传统的类被实例化时，它的行为会被复制到实例中。类被继承时，行为也会被复制到子类中。而 js 并不会像类那样自动创建对象的副本。
-- **封装**：将一些 js 语句写到一个方法里面，只留下一些特定的借口供外部访问。
-- **继承**：每个函数中都有一个 prototype 属性，而这个 prototype 属性被称为函数 的原型，原型中的所有方法都是可以被外部继承的，而函数方法内（原型外 部）的对象是该函数的私有对象，不能被继承。继承的方法可以使用 new 关 键字继承，继承的那个变量就变成了一个对象（是对象而不是函数），继承 之后我们可以使用 el[‘name’]=’pro’的方法向其中添加新的属性名属 性值，在原型方法中也可以继承自己的父函数中的原型，这样就可以实现重 复循环的自调用了；也 可以使用 call(),applay()方法来继承。
-- **多态**：传入不同的参数或者配合不同的函数使用可以得到不同的结果。
+- **多态**：指传入不同的参数或者配合不同的函数使用可以得到不同的结果。
 
-- 网页端 js 开发在相当一段时间 bai，由于浏览器的 js 解释引擎性能并不高，而且网络带宽也比较小，因此绝大多数站点的代码规模并不大，主要针对页面一些简单交互逻辑，在此前提下，浏览器厂商以及工业界都没有强大的动力去实现面向对象版本的 js。<b c=gy>考虑到到网页环境的特殊性，使用原型继承而不是类继承的方式，更节约内存空间，而且解释器的实现更为简单。</b>
-- **工厂模式**：没有解决对象识别的问题（即怎样知道一个对象的类型）。
+- **js对象**：js中把一切都当做对象看待，所有对象打印（`console.dir(obj)`）出来都可看到其结构大致如下：
 
-```js
-function createPerson(name, age, job) {
-  var o = new Object();
-  o.name = name;
-  o.age = age;
-  o.job = job;
-  o.sayName = function () {
-    alert(this.name);
-  };
-  return o;
-}
-var person1 = createPerson("Nicholas", 29, "Software Engineer");
-var person2 = createPerson("Greg", 27, "Doctor");
-```
+  - ==最底层都是指向==`Object`，此原生对象包含`__proto__,constructor`等众多属性。
+  - js对象最底层原型**几乎都有**`[[Prototype]]，constructor，__proto__，set，get`等少数属性，其它上层是看不到这些属性的；
+  - `__proto__`指向当前对象（所打印的对象）所继承的原型。
+  - `constructor`指向拥有这个原型的**函数/对象**。
+  - es6中的类语法则为每层添加了一个constructor指向，更加趋于合理，详细打印结果查看【[es6类](#es6-class)】
 
-- **构造函数方式**：没有显式地创建对象、直接将属性和方法赋给了 this 对象、没有 return 语句。使用 new 继承后会有一个 construct 属性指向，以此知道他们的类型。
-  构造函数的主要问题：就是每个方法都要在每个实例上重新创建一遍。
+  ```js
+  const map = {name:'cc',sex:'man'};
+  // 字符和数值型需要使用 new String()和new Number()创建的才能看到
+  console.dir(map);
+  /****普通对象打印结果****/
+  Object:
+  	name:'cc'
+  	sex:'man'
+  	[[Prototype]]: Object	// 指向其所继承的原型
+      	 constructor: f Object()
+           isPrototypeOf: f hasOwnProperty()
+           toString: f toString()
+           valueOf: f valueOf()
+  		__proto__: Object
+  		constructor: f Object()
+  		isPrototypeOf: f hasOwnProperty()
+  		... 
+  /***使用了原型和new继承情况***/
+  function rrr(a){this.name = a;}
+  rrr.prototype = {yes:()=>{console.info('hello');}}
+  var bb = new rrr('gg');
+  console.dir(bb);
+  /***控制台打印结果***/
+  rrr:
+  	name:'gg'
+  	[[Prototype]]: Object	// 指向其所继承的原型
+      	yes: ()=>{console.info('hello');}
+          [[Prototype]]: Object
+          	constructor: f Object() // 指向拥有整个原型的那个函数，或对象
+           	isPrototypeOf: f hasOwnProperty()
+  		    __proto__: // 指向当前对象所继承的原型
+  			yes: ()=>{console.info('hello');}
+          	[[Prototype]]: Object
+              ...
+  ```
 
-```js
-//如果不用new来继承函数的原型而是直接运行函数，那么构造函数中用this添加的变量就会添加到window对象下成全局变量，解决如下：
-function person(name, age) {
-  if (this instanceof person) {
-    // 使用this添加的属性在new之后是直接在实例中，而不在__proto__中。
-    this.name = name;
-    this.age = age;
-  } else {
-    return new person(name, age);
-  }
-}
-```
+  
 
-- **原型模式**：使用原型对象的好处是可以让所有对象实例共享它所包含的属性和方法。换句话说，不必在构造函数中定义对象实例的信息，而是可以将这些信息直接添加到原型对象中。在默认情况下，所有原型对象都会自动获得一个 constructor（构造函数）属性，这个属性包含一个指向 prototype 属性所在函数的指针。
-  <b c=r>创建了自定义的构造函数之后，其原型对象默认只会取得 constructor 属性</b>；
-  <b c=gn>至于其他方法，则都是从 Object 继承而来的</b>。
-  <b c=r>Object 的原型指向是 null，不过对于访问不到的属性返回则是 undefined。</b>
+- **原型模式**：`prototype`中定义的对象是共用的（继承时只是指向原型来使用，而非复制）`this`添加的对象是在新创建的对象上添加属性，继承时相当于复制
 
 ```js
 function Person() {}
@@ -2041,7 +2461,6 @@ let newSon = New(Parent, 18, "lining");
 console.warn(">>", newSon.name);
 ```
 
-- 构造函数模式与原型模式组合：原型中写可以共用的方法和变量，构造函数中写经常会涉及改动的、各场景使用值不同的情况。还能让函数接收传参，及决定是否在原型上添加某个方法（这叫动态原型）。
 - **稳妥创建**：构造函数内部不使用 this，继承不使用 new。在要求环境安全时可以这么写。
 
 ```js
@@ -2059,64 +2478,26 @@ function Person(name, age, job) {
 const cc = Person("w", 23, "web");
 ```
 
-- **继承父类私有属性**：
-
-```js
-function SuperType() {
-  this.colors = ["red", "blue", "green"]; //私有，直接使用new是无法继承的。
-}
-function SubType() {
-  //继承了 SuperType
-  SuperType.call(this); //使用call()将父类属性添加进来。
-}
-var instance1 = new SubType();
-instance1.colors.push("black");
-alert(instance1.colors); //"red,blue,green,black"
-var instance2 = new SubType();
-alert(instance2.colors); //"red,blue,green"
-```
-
-## 28、函数：
-
-:::alert-info
-每个函数会在内存中为其创建一个空间，存储其所用变量（下图所示，顺序和链式存储结合）。**全局变量（window,document）等会被注入到该空间中**。
-:::
-
-- map，Array 等较深的结构按链式方法查找，<b c=r>使用的数据结构越深，速度越慢！</b>
-- 局部变量存储顺序靠前，其查找使用起来速度最快。
-- 全局变量存储到最后，查找使用起来较慢，_因此性能最差，尽量避免使用！_
-- 执行完毕后执行环境被销毁。
-- 动态作用域：使用了 with、catch(){}子句、eval()函数的可以看做时动态作用域情况
-- **性能优化方法**：
-  （1）将对应全局变量赋值给一个局部变量，这样在查找时就只是查找该局部变量（按标识符查找的）。
-  （2）避免使用 with 语句。<i c=gn>with 创建的作用域会被推到函数作用域首位，局部变量位置反而落于其后</i>
-  （3）适当使用`try{}catch(e){}`：执行 catch 时，对象 e 会被推到作用域首位！一般在 catch 中专门将 e 交给一个函数来处理最好。
-- **闭包**：一般来讲，当函数执行完毕后，局部活动对象就会被销毁，内存中仅保存全局作用域。
-  在另一个函数内部定义的函数会将包含函数（即外部函数）的活动对象添加到它的作用域链中。<i c=gn>也教耗性能</i>
-
-```js
-var a = 15;
-function cc() {
-  console.info("a>>", a);
-}
-(function () {
-  var a = 20;
-  cc(); //得到15，cc的创建并不在当前函数中，所以cc的输出还是全局变量a。
-})();
-// 改变作用域情况
-var obj = { a: 1, b: 2 };
-with (obj) {
-  //为obj创建一个作用域，内部的变量都是从obj中查找。
-  a = 1;
-  b = 2;
-}
-```
-
-![](_v_images/20210303192355713_21879.png)
-
 # B、设计模式
 
-## 检验函数
+## v、总览
+
+- 链式调用：连续的执行，避免多次重复使用一个对象变量；
+- 单体模式：（**解决全局变量过多问题**），全局变量都放到一个对象中管理；
+- 工厂模式：（**解决同种作用类太多，导致使用麻烦的问题**），用一个类包裹它们，依据传入的参数，在内部做选择使用；
+- 桥接模式：在原有方法上包裹一层函数，处理两个块接口间数据的差异性，把他们连接起来；
+- 代理模式：在原有原型对象上包裹一层新的原型，新的原型上添加与旧原型相同属性，做拦截处理使用；
+- 装饰器模式：使用一个函数为传入的对象添加新的属性；
+- 组合模式：一个父对象中放置多个子对象，父对象执行一条命令可在多个对象上激发复杂的或递归行为（**解决循环递归嵌套多，难以替换修改的问题**）
+- 享元模式：大量数据时，将固定不变的数据放一层原型，常变化的放另一层原型管理；（管理大量数据的方法）
+- 发布订阅模式：订阅者向发布者订阅指定信息，发布者拥有的信息改变时，检测订阅了该信息的订阅者函数，执行它们。适合把人的行为和应用程序行为分开
+- 状态和策略模式：分支过多，且各分支逻辑较多时，将各分支逻辑封装为方法，移除分支的使用（**方法选择代替分支使用**）
+- 备忘录模式：缓存各次请求的数据，已经请求过得则使用缓存了的数据，这种功能的一个封装
+- 迭代器模式：类似根据一个数组/可迭代对象，来生成另一个数组使用的情况，迭代器不用一次性就全部生成目标数组，而是在**使用时才去生成使用**
+- 参与者模式：改变回调函数执行作用域的一个封装功能。
+- MVC与MVP：用原生js写一些轮播图、树之类的插件功能，可以考虑这些思想
+
+## a、检验函数
 
 ```js
 /*==========================================================================
@@ -2181,7 +2562,7 @@ function displayRoute(map) {
 displayRoute({ zoom: function () {}, draw: function () {} });
 ```
 
-## es5 类的定义方式
+## b、es5 类的定义方式
 
 ```js
 /*==========================================================================
@@ -2239,7 +2620,7 @@ Book.prototype = {
 };
 ```
 
-## 两种继承方式
+## c、两种继承方式
 
 ```js
 /*==========================================================================
@@ -2577,7 +2958,7 @@ var contactForm = new CompositeForm("contact-form", "POST", "contact.pht");
 contactForm.add(new InputField("first-name"), "First name");
 ```
 
-## 5.门面与适配器
+## 5.1、门面与适配器
 
 ```js
 /*==================================================
@@ -2637,7 +3018,7 @@ BicycleDecoratory.prototype = {
 var LightBuble = function (bicycle) {
   console.info("LightBuble.superClass--", LightBuble.superClass);
   //LightBuble.superClass.constructor.call(this,bicycle);
-  BicycleDecoratory.call(this, bicycle);
+  BicycleDecoratory.call(this,  );
 };
 extend(LightBuble, BicycleDecoratory);
 LightBuble.prototype.assemble = function () {
@@ -2753,13 +3134,13 @@ PublicLibraryProxy.prototype = {
 };
 ```
 
-## 9.观察者模式
+## 9.观察者/订阅发布模式
 
 ```js
 /*==================================================
-  **观察者模式（发布订阅模式）**
-  对许多程序员合作开发的大型程序有用，浏览器的事件监听就是一种观察者模式
-  适合把人的行为和应用程序行为分开
+  **观察者模式**：发现观察对象依赖有所改变就会触发更新。
+  **订阅发布模式**：手动触发更新
+  对许多程序员合作开发的大型程序有用，浏览器的事件监听就是一种观察者模式 适合把人的行为和应用程序行为分开
 ====================================================*/
 // 一个观察者
 function Publisher() {
@@ -2779,7 +3160,7 @@ Publisher.prototype.deliver = function (data) {
 Function.prototype.subscribe = function (publisher) {
   var that = this;
   // 找到可以调用subscribe的对象
-  var alreadyExists = publisher.subscribers.some(function (el) {
+  var alreadyExists = Publisher.subscribers.some(function (el) {
     return el === that;
   });
   // 还未订阅则为其添加
@@ -2807,7 +3188,9 @@ var observerObject = function (data) {
 observerObject.subscribe(publisherObject);
 ```
 
-## 9.命令模式
+## 10、命令模式
+
+根据传入执行器的参数不同，调用不同的方法
 
 ```js
 /*==================================================
@@ -2815,21 +3198,542 @@ observerObject.subscribe(publisherObject);
 对方法调用进行参数化处理和传送
 ====================================================*/
 var AdCommand = new Interface("AdCommand", ["execute"]);
-var StopAd = function (adObject) {
-  this.ad = adObject;
-};
-StopAd.prototype.execute = function () {
-  this.ad.stop();
-};
-// 不同对象，相同接口
-var StartAd = function (adObject) {
-  this.ad = adObject;
-};
-StartAd.prototype.execute = function () {
-  this.ad.start();
+// 不同对象，相同接口（通过部分参数的不同调用不同方法）
+var StartAd = function () {};
+StartAd.prototype.start = function(){}
+StartAd.prototype.stop = function(){}
+StartAd.prototype.execute = function (param) {
+  this[params.command]();
 };
 /*==================================================
   **职责链模式**
-用来消除请求的发送者和接收者之间的耦合（如事件的捕获和冒泡就是）
+对于同一任务，各执行器将自己的任务部分执行完，然后传递给下一个执行器。用来消除请求的发送者和接收者之间的耦合（如事件的捕获和冒泡就是）
 ====================================================*/
 ```
+
+## 11、建造者模式
+
+在需要创建一个灵活多变的类时，将方法单独提取出来，按需要添加如原型
+
+```js
+/*******创建求职者对象*****/
+function Human(param){
+    this.skill = param && param.skill || '保密';
+}
+Human.prototype = {
+    getSkill:function(){return this.skill;}
+}
+// 实例化姓名
+var Named = function(name){
+    var _s = this;
+    (function(name,that){
+        that.wholdName = name;
+        // ...
+    })(name,_s);
+}
+var Work = function(work){
+    swtich(work){
+        case 'UI':
+        	this.work = '设计师';
+        	this.workDesc = '...';
+        //...
+    }
+}
+Work.prototype = {
+    changeWork(work){this.work = work;}
+}
+// 创建应聘者
+var Person = function(name,work){
+    var _p = new Human();
+    _p.name = new Named(name);
+    _p.work = new Work(work);
+    return _p;
+}
+var pp = Person('www','UI');
+console.info(pp.name.wholdName);
+```
+
+## 12、状态和策略模式
+
+分支过多，且各分支逻辑较多时，将各分支逻辑封装为方法，移除分支的使用
+
+```js
+var ResultState = function(){
+    var states = {
+        jump:(p)=>p+1,
+        move:(p)=>p+2,
+        ...
+    }
+    return (fn,price)=>{
+        return states[fn] && states[fn](price);
+    }
+}
+```
+
+## 13、备忘录模式
+
+对于类似分页器，每点击一次要一次请求的情况，备忘录模式缓存之前的请求数据，再次回反点击时，从缓存中拿取。
+
+```js
+var Page = function (rpcFn) {
+  var cache = {}; // 缓存请求过的数据
+
+  return {
+    cache: cache,
+    get: (page) => {
+      console.info("param", cache, rpcFn);
+      return new Promise((resolve, reject) => {
+        if (cache[page]) {
+          resolve(cache[page]);
+        } else {
+          // 未缓存过，执行传入的请求函数
+          new Promise((rs, rj) => {rpcFn(rs, rj);}).then((res) => {
+            cache[page] = res;
+            resolve(res);
+          }).catch(er=>reject(er));
+        }
+      });
+    },
+  };
+};
+/*****测试效果*****/
+function rpc(resolve, reject) {
+  setTimeout(() => {
+    resolve(333);
+  }, 1000);
+}
+async function aa() {
+  const ff = Page(rpc);
+  await ff.get("uu").then((res) => {
+    console.info(res);
+  });
+  // 同一个缓存器才有缓存效果
+  ff.get("uu").then((res) => {
+    console.info("val", res);
+  });
+}
+aa();
+
+```
+
+## 14、迭代器模式
+
+类似根据一个数组/可迭代对象，来生成另一个数组使用的情况，迭代器模式不用一次性就全部生成目标数组，而是在使用时才去生成使用。
+
+```js
+function Iterator(dataList,yieldFn){
+    let index = -1; // 当前索引
+    return {
+        index,
+        pre(){
+            if(index<=0) return undefined;
+            const val = yieldFn(dataList[--index]);
+            return val;
+        }
+        next(){
+            if(index>=dataList.length) return undefined;
+            const val = yieldFn(dataList[++index]);
+            return val;
+        }
+    }
+}
+```
+
+## 15、节流模式
+
+多次重复的操作取最后一次结果执行即可
+
+## 16、参与者模式
+
+目标函数作为参数传入的情形，利用`call/apply`来改变这个函数的执行作用域
+
+```js
+var btn = document.getElementById("btn");
+var scope = { title: "例子" }; // 模拟目标函数想要的作用域
+function bind(fn, event) {
+  return function () {
+    console.info("hello");
+    return fn.call(scope, event);// 执行回调函数
+  };
+}
+// 传入的回调函数
+function demoFn(e) {
+  // e即为传入的事件对象
+  console.log(this, e);// { title: "例子" },Event
+}
+btn.addEventListener("click", function (e) {
+  var bindFn = bind(demoFn, e); // 进行绑定；
+  bindFn();
+});
+
+```
+
+## 17、MVC与MVP
+
+数据层、控制层、视图层分离处理，一些没有使用框架的插件/项目中可参考如下设计；
+MVC中视图层可直接使用数据层数据，这造成一些耦合；MVP中改进为视图层只使用控制器中得到的数据。
+
+```js
+var MVC = {};
+// 层
+MVC.model = function () {
+  var M = {};
+  M.data = {};
+  M.conf = {}; // 配置数据，页面加载时提供
+  return {
+    getData: function (m) {
+      return M.data[m];
+    },
+    getConf: () => M.conf,
+    setData: (m, v) => {
+      M.data[m] = v;
+      return this;
+    },
+    setConf: function (c, v) {
+      M.conf[c] = v;
+      return this;
+    },
+  };
+};
+// 视图层
+MVC.view = function () {
+  var M = MVC.model;
+  var V = {
+    createSlide: () => {},
+  };
+  return function (key) {
+    return V[key]();
+  };
+};
+// 控制层（事件添加、动画控制等）
+MVC.ctrl = function () {
+  var M = MVC.model;
+  var V = MVC.view;
+  // 各控制数据到视图层的方法
+  var C = {
+    initSlideBar: function () {},
+  };
+};
+```
+
+## 18、MVVM
+
+MVP中，**主要逻辑都在控制器**，添加新功能也是在控制器进行，MVVM则是==根据直观的视图层代码来添加一些功能==的策略
+
+# C、数据结构运用
+
+1、栈消除递归：
+前端代码中，递归使用也很频繁，若函数体代码较多时，可以考虑使用自定义栈消除递归，更节省运行时间；
+
+2、模糊匹配：
+进行模糊匹配时，使用**动态规划**实现的查找**最长公共子序列**是1个不错的方法；文本较短时可以考虑`ngram`匹配
+
+3、找前n个值：
+对于从1堆数据中，只想排出前k个数时，**冒泡排序和堆排序**是最快的（数据少时使用冒泡，多时用堆）
+
+4、求1个数的排序位：
+如果只想找到这1个值所在序列的最终序号，而不想全部排序时，可以使用**快速排序**（以该值为基准）
+
+5、分治贪心：
+常用递归实现，比较常用的方法
+
+# D、typescript
+
+## 1、基础类型
+
+在变量名后声明其类型。<b c=r>声明的变量类型是用小写的，不然某些情况编译不通过。</b>
+`unknown`：类型会更加严格，会进行某种检查？，不允许赋值给其他有明确类型的变量。
+`any`： 类型的值执行操作之前，我们不必进行任何检查。
+`void`：表示没有任何类型（可以被赋值为 null 和 undefined）
+`never`： 表示一个不包含值的类型，即表示永远不存在值。
+`null & undefined`: 默认情况下 null 和 undefined 是所有类型的子类型。 就是说你可以把 null 和 undefined 赋值给 number 类型的变量。
+`const 和 readonly`: const可以防止变量的值被修改，readonly可以防止变量的属性被修改。
+`type`：与interface类似，可以声明基本类型，联合类型，元组，可以使用 typeof 获取实例的类型进行赋值。
+`interface`：自定义1个类型使用，**同名的interface会自动合并**，同名的interface和class会自动聚合。
+
+`declare` ：是用来定义全局变量、全局函数、全局命名空间、js modules、class等
+`declare global` ：为全局对象 `window` 增加新的属性
+
+```ts
+let x: [string, number];//声明一个可以有多种类型的元组变量。(元组各元素类型不必相同)
+let decLiteral: number = 6;
+let isDone: boolean = false;
+let list: number[] = [1, 2, 3];//数组写法
+let list: Array<number> = [1, 2, 3];
+let notSure: any = 4;//any表示可以是任意类型。
+//默认情况下null和undefined是所有类型的子类型。 就是说你可以把null和undefined赋值给number类型的变量。
+let u: undefined = undefined;
+let n: null = null;
+//用枚举，可作为变量的类型。
+enum Color {Red, Green, Blue}
+let c: Color = Color.Green;
+//>>>>>>>>>>>>!使用
+let y:number
+y = null! //用在值后可以让不符合的类型编译通过。
+/*========================
+    未知对象类型使用,不要使用object
+==========================*/
+var cc:Record<string:unknow>;
+//-----------数值连接字符串：直接使用+或模板字符串连接会报错。
+let res:string = decLiteral.toString().concat(str);
+//interface用于创建一个类型要求例子，可以公共调用。
+/*==================
+        自定义类型
+====================*/
+interface LabelledValue {
+  readonly label: string;//对象必须含有该键值。readonly表示该属性只读。
+  color?: string;//带?号表示可选，在判断使用时会有一些友好的提示。
+}
+declare global { 
+   interface Window { 
+        csrf: string; 
+   }
+}
+/*==================
+        map方法
+====================*/
+let myMap = new Map();
+myMap.set("key",value); //set(),clear(),delete(),size()等方法
+```
+
+## 2、函数
+
+```ts
+//参数是函数时，参数函数也要定义类型
+interface fn1 {
+  (): void;
+}
+//有返回值的函数也是如此
+function warnUser(): string {
+  return "hello";
+}
+//void类型像是与any类型相反，它表示没有任何类型。
+function warnUser(a: number | string): void {
+  //参数也需要定义类型。
+  alert(a);
+}
+//never类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
+function error(message: string): never {
+  throw new Error(message);
+}
+
+function printLabel(labelledObj: LabelledValue) {
+  console.log(labelledObj.label);
+}
+//泛型变量：传给函数什么类型，函数就返回什么类型。
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+function test(fn: fn1): void {
+  fn();
+}
+```
+
+## 3、枚举
+
+可支持放入不同的数据类型。
+
+```ts
+enum FileAccess {
+  // constant members
+  None,
+  Read = 1 << 1,
+  Write = 1 << 2,
+  ReadWrite = Read | Write,
+  // computed member
+  G = "123".length,
+}
+//常数枚举写法
+const enum Enum {
+  A = 1,
+  B = A * 2,
+}
+```
+
+## 4、类
+
+```ts
+class Animal {
+  public a: string = "11"; //默认都是public
+  private name: string; //private将变量设为私有
+  //这是构造函数，这些参数能在继承时作为接收参数使用。使用的protected表示被保护，不能直接用new继承这个类。
+  protected constructor(theName: string) {
+    this.name = "hh";
+  }
+}
+
+class dog extends Animal {
+  //构造函数内调用super()这样，子类中也可以使用this指针。
+  constructor(name: string) {
+    super(name);
+  }
+  move(distanceInMeters = 45) {
+    console.log("Galloping...");
+    super.move(distanceInMeters);
+  }
+}
+```
+
+## 5、装饰器
+
+是一个方法，可以注入到类或类的方法、属性参数上来扩展类、属性、方法、参数的功能。<b c=r>只用于类或其中</b>。[更多学习地址。](https://blog.csdn.net/weixin_33928467/article/details/87963596)
+
+```ts
+//>>>>>>>>>>>>>>>>>>普通装饰器，无法传参。
+function logClass(params: any) {
+  //params就是当前类
+  console.log(params); //f HttpClient() {}
+  params.prototype.apiUrl = "xxxx"; //相当于动态扩展的属性
+  params.prototype.run = function () {
+    console.log("run");
+  };
+}
+@logClass
+class HttpClient {
+  //将该类作为上面的params参数
+  constructor(name: string) {
+    console.info(name);
+  }
+}
+//>>>>>>>>>>>>>>可传参的装饰器，装饰器传的参数是params，而修饰的类时target参数
+function logClass2(params: string) {
+  return function (target: any) {
+    //需要返回一个函数用于接收装饰的类。
+    target.prototype.apiUrl = params; //相当于动态扩展的属性
+  };
+}
+@logClass2("http://www.abc.com")
+class HttpClient {
+  constructor(name: string) {
+    console.info(name);
+  }
+}
+const cc = new HttpClient("wcs");
+//>>>>>>>>>>>>>>>属性装饰器，用于类内部的变量装饰。
+function logProperty(params: any) {
+  //params是装饰器传入的参数，target是所在类，attr是修饰的对象。
+  return function (target: any, attr: any) {
+    console.log(target); //{getData:f,constructor:f}
+    console.log(attr); //url
+    target[attr] = params;
+  };
+}
+class HttpClient {
+  @logProperty("http://www.abc.com") //属性装饰器后面不能加分号，该值赋给url。
+  public url: any | undefined;
+  constructor() {
+    console.log(134);
+  }
+  getData() {
+    console.log(this.url);
+  }
+}
+let cn = new HttpClient();
+cn.getData(); //http://www.abc.com
+//>>>>>>>>>>>>>>>>>类方法装饰器
+function get(params: any) {
+  return function (target: any, methodName: any, desc: any) {
+    //params是装饰器传入的参数，target是所在原型，methodName是修饰的方法名，desc是修饰的方法的描述。
+    target.apiUrl = params;
+  };
+}
+class HttpClient {
+  public url: any | undefined;
+  constructor() {
+    console.info("init");
+  }
+  @get("http://www.abc.com")
+  getData() {
+    console.log(this.url);
+  }
+}
+let http = new HttpClient();
+```
+
+## 6、ts 中使用 js 库
+
+- 安装第三方 js 库，如 jquery：[安装 jquery](https://www.cnblogs.com/juliazhang/p/10103985.html)
+
+```js
+npm install jquery --save; //安装jquery
+npm install @types/jquery --save-dev; //jquery的类型定义文件，node_modules/@types/jquery下。
+// tsconfig.js的types中加入jquery，可全局使用。
+"types": ["jquery"];
+// 使用：
+<script lang="ts">
+import jquery from "jquery";
+jquery("#id");
+</script>
+```
+
+- **自定义 js 导入**：编写对应 js 文件的类型定义文件（.d.ts），使用处导入定义文件，html 文件导入对应 js 文件。
+
+```js
+//env.d.ts 类型声明文件：
+/// <reference types="vite/client" />
+/****导入vue文件的识别，可去除导入vue时的红色提示***/ 
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}
+/****其它一些全局库、变量等的声明****/
+// declare module 'vue-schart';
+declare module Runoob {
+  export class Calc {
+     doSum(limit:number) : number;
+  }
+}
+//home.vue页面引入：
+<script lang="ts">
+//js部分引入类型定义文件，【注意前面3个斜杆！】
+/// <reference path="../assets/cool.d.ts" />
+var obj = new Runoob.Calc();    //使用,【重运行服务后，报错提示可去除】
+</script>
+//index.html文件,引入使用
+<script src="/assets/cool.js"></script>
+```
+
+## 7、模块
+
+模块是相关变量、函数、类和接口的集合。 你可以将模块视为包含执行任务所需的一切的容器。可以导入模块以轻松地在项目之间共享代码
+
+```ts
+export cosnt ak: number = 3489;
+export * from "./StringValidator";
+//一个文件只能有一个default
+declare let $:JQuery;
+export default $;//另一个文件import $ from "JQuery";使用。
+
+module module_name{
+  class xyz{
+    export sum(x, y){
+      return x+y;
+    }
+  }
+}
+```
+
+## 10、tsconfig配置
+
+配置ts的检测、类型等。
+
+```js
+{
+  "extends": "@vue/tsconfig/tsconfig.node.json",
+  "include": ["vite.config.*", "vitest.config.*", "cypress.config.*", "playwright.config.*"],
+  "compilerOptions": {
+    "composite": true,
+    "types": ["node"],
+    // paths与baseUrl一起配置，可支持项目中使用别名。
+    "baseUrl": "./",
+    "paths": {
+      "@/*":["src/*"]
+    }
+  }
+}
+
+```
+
+[typescript 中文档](https://www.tslang.cn/docs/handbook/decorators.html)。[菜鸟教程](https://www.runoob.com/typescript/ts-ambient.html)。[tsconfig.js](https://segmentfault.com/a/1190000021749847)

@@ -42,6 +42,7 @@ $\lim_{x\rightarrow x_0}g(x)h(x)=\lim_{x\rightarrow x_0}\frac{g(x)}{f(x)}*\lim_{
 
 `∞^0`型极限：将其化为$e^{alnx}型求解，如：(1/x)^{tanx}=e^{tanx*ln1/x}$然后用等价无穷小替换，洛必达法则等计算。
 `1^∞`**型极限**：求解步骤一般如下：
+
 >（1）写标准型：$1^∞=lim(1+a)^b（2）求极限:limab=A（3）写结果:1^∞=e^A$#示例如下：<b c=gn>不能先求括号内极限</b>
 >$lim_{n\rightarrow ∞}(\frac{n-2}{n+1})^n=lim_{n\rightarrow ∞}(1+\frac{-3}{n+1})^n，按步骤（2）lim_{n\rightarrow ∞}(\frac{-3n}{n+1})=-3,所以结果=e^{-3}$
 
@@ -60,7 +61,8 @@ $\lim_{x\rightarrow x_0}g(x)h(x)=\lim_{x\rightarrow x_0}\frac{g(x)}{f(x)}*\lim_{
 - **定理1**：p∈D，lim(p->p0)f(p)=A的充要条件是：对于D的任一子集E，只要p0是E的聚点，就有p∈E,lim(p->p0)f(p)=A。
 >推论1：设E1含于D，p0是E1的聚点，若p∈E1,lim(p->p0)f(p)不存在，则p∈D,,lim(p->p0)f(p)也不存在。
 >推论2：设E1,E2都含于D，p0是它们的聚点，若存在极限p∈E1,lim(p->p0)f(p)=A1和p∈E2,lim(p->p0)f(p)=A2，但A1!=A2则p∈D,lim(p->p0)f(p)不存在。
-## 2、函数连续性：
+## 2、连续性
+
 **一元函数连续性**：
 - **定义**：设函数f在某U(x0)上有定义，若`lim(x->x0)f(x)=f(x0)`则称f在点x0连续。
 另一种表述：记sx=x-x0，称为自变量x在点x0的增量或改变量，设y0=f(x0)相应的函数y在点x0的增量记为：`△y=f(x)-f(x0)=f(x0+△x)-f(x0)=y-y0`即为：lim(△x->0)△y=0
@@ -109,9 +111,21 @@ $\lim_{x\rightarrow x_0}g(x)h(x)=\lim_{x\rightarrow x_0}\frac{g(x)}{f(x)}*\lim_{
 
 - **注**：越是高阶可导函数曲线越是光滑。存在处处连续但处处不可导的函数。函数在某点可导的**充要条件**是在该点存在左右导数，且相等。
 
-- **基础函数求导法则**：<b c=b>分数形式求导法则和指数形式求导，最后化简得的结果是一样的，用指数形式求导一般是更简便的！</b>
-  
-$$(1)~~(sin x)'=cos x	~(2)~(cos(x))'=-sin(x)~(3)~(tanx)'=sec^2 x~(4)~(cot x)'=-csc^2 x \\
+- **基础函数求导法则**：分数形式求导法则和指数形式求导，最后化简得的结果是一样的，用指数形式求导一般是更简便的！
+
+$$
+  (1)\int a^x dx=\frac{a^x}{ln a} + C~~~(2)~\int sec^2x dx=tanx+C~(3)~\int csc^2 dx=-cotx + C\\
+  (4)\int secx*tanx dx=sec x+C~(5)~\int \frac{dx}{1+x^2}=arctanx+C=-arccotx+C1 \\
+  (6)\int cscx*cotx dx=-csc x+C ~~(7)\int \frac{dx}{\sqrt{1-x^2}}=arcsin x+C=-arcos x+C1 \\
+  (8) \int \frac{1}{cosx}dx=ln|secx+tanx|+c~~(9)\int \frac{1}{sinx}dx=ln|cscx-cotx|+c \\
+  (10)\int sin^2xdx = \int \frac{1-cos2x}{2}dx=\frac{x}{2}-\frac{1}{4}sin2x+C \\
+  (11)\int cos^2xdx=\frac{x}{2}+\frac{1}{4}sin2x+C \\
+  (sinx)^4=(sin²x)²=[(1-cos2x)/2]²=(1+cos²2x-2cos2x)/4=[1+(cos4x)/2-1/2-2cos2x]/4
+$$
+
+
+$$
+(1)~~(sin x)'=cos x	~(2)~(cos(x))'=-sin(x)~(3)~(tanx)'=sec^2 x~(4)~(cot x)'=-csc^2 x \\
 (5)~~(sec x)'=secx*tan x~(6)~(csc x)'=-csc xcot x~(7)~(arcsin x)'=1/sqrt(1-x^2) \\
 (8)~~(arctan x)'=1/(1+x^2)~(5)~(arccot x)'=-1/(1+x^2)\\
 (9)~~arccos'(x)=(\pi/2-arcsin)'=-\frac{1}{\sqrt{1-x^2}}~(10)~(a^x)'=a^x * lna \\
@@ -119,7 +133,6 @@ $$(1)~~(sin x)'=cos x	~(2)~(cos(x))'=-sin(x)~(3)~(tanx)'=sec^2 x~(4)~(cot x)'=-c
 (14)~~(lnx)'=1/x~(15)~[g(x)/h(x)]'=[g(x)'h(x)-h(x)'g(x)]/h(x)^2\\
 (16)~~[f(x)*g(x)]' = f(x)'g(x)+g(x)'f(x)~(17)~(f(g(x)))'=f(g(x))'*g(x)' 
 $$
-  
 
 **两边同时求导**：若在区间[a,b]上每点横有f(x)=g(x)，那么该区间上两边同时求导`f'(x)=g'(x)`也是满足的。两边同时积分也是满足的！
 
@@ -241,16 +254,9 @@ $\begin{cases} L'_x=f'x(x,y)+t*r'_x(x,y)=0，\\	L'_y=f'y(x,y)+t*r_y(x,y)=0，\\L
 - **定理1**：若函数f在区间I上连续，则f在I上存在原函数F，即F'=f(x)，称f在I上可积。
 
 - **基本积分表**：记录了一部分难推测的积分
-  $$
-  (1)\int a^x dx=\frac{a^x}{ln a} + C~~~(2)~\int sec^2x dx=tanx+C~(3)~\int csc^2 dx=-cotx + C\\
-  (4)\int secx*tanx dx=sec x+C~(5)~\int \frac{dx}{1+x^2}=arctanx+C=-arccotx+C1 \\
-  (6)\int cscx*cotx dx=-csc x+C ~~(7)\int \frac{dx}{\sqrt{1-x^2}}=arcsin x+C=-arcos x+C1 \\
-  (8) \int \frac{1}{cosx}dx=ln|secx+tanx|+c~~(9)\int \frac{1}{sinx}dx=ln|cscx-cotx|+c \\
-  (10)\int sin^2xdx = \int \frac{1-cos2x}{2}dx=\frac{x}{2}-\frac{1}{4}sin2x+C \\
-  (11)\int cos^2xdx=\frac{x}{2}+\frac{1}{4}sin2x+C \\
-  (sinx)^4=(sin²x)²=[(1-cos2x)/2]²=(1+cos²2x-2cos2x)/4=[1+(cos4x)/2-1/2-2cos2x]/4
-  $$
-  
+
+
+
 - **定理2**：若函数f与g在区间I上都存在原函数，k1,k2为两个任意常数，则**k1f+k2g在I上也存在原函数**，且k1,k2不同时为零时可以拿到积分号外部来。
 
 - **换元积分**：由复合函数求导法可以导出换元积分法。设函数f(x)在区间I上有定义，<b c=gy>Œ(t)在区间J上可导，且Œ(J)值域含于I</b>。
@@ -357,421 +363,6 @@ $\int\int ^{}_D \frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y} d\pa
   **计算重积分**：可以尝试用格林公式转为曲线积分计算，直接计算的话，<b c=r>不能像曲线积分那样将函数公式代入积分中</b>，不过遇到曲面公式中有$x^2,y^2$类型的重积分，可以尝试将$x=ρcosa,y=ρsina$相关的替换式（能还原原曲线函数）<b c=v>记得按照上面第一曲线积分转换证明的方式！</b>
 
   
-
-# 三、习题：
-
-## a、几何相关：
-题1：$求y=\frac{x^2+x}{x^2-1}渐近线$
->**解析**：化简得`x / (x-1)`#x→∞时得1是一条水平渐近线。x→1时得∞是一条垂直渐近线。无斜渐近线。
-
-题1.1：曲线$y=\frac{x+4sinx}{5x-2cosx}$的水平渐进线方程？
->解析：$\lim_{x\rightarrow\infty} \frac{1+4sinx/x}{5-2cosx/2}=1/5$#还是水平太菜！
-
-**题2**、 位于第一象限的曲线 y=f(x)过点$(\sqrt{2}/2,1/2)$其上任一点 P(x,y)处的法线与 y 轴交点为Q，PQ 被 x 轴平分。(1)求 y=f(x)的方程。(2)已知曲线 y=sinx 在[0,\pi]上的弧长为 l，用 l 表示曲线 y=f(x)的弧长 s。
-
-- 注：<b c=v>注意将式中得导数形式转化为微分形式，形式为 y=f(x)但不代表 f(x)只有关于 y 的 x 表达式，f(x)就是整个函数表达式</b>
-> (1)解析：P 处的法线斜率为 `1/y'`写法线方程得 Q(0,y+x/y')，由$(y+y+x/y')/2=0<=>2y+x\frac{dx}{dy}<=>2ydy+xdx=0两边同时积分得x^2+2y^2=C$#将所过点带入方程得$x^2+2y^2=1$
-- 思路：可以使用傅里叶变换来近似表示曲线的弧，但这里将曲线方程用其参数方程代替可以更容易
-> (2)解析：y=sinx 的弧长：$\int ^{\pi}_0 \sqrt{1+cos^2t}dt$。y=f(x)的参数方程：$\begin{cases}x=cost,\\ y=\frac{\sqrt{2}}{2}sint \end{cases}$
-> 则 y 的弧长：$s=\int ^{\pi}_0 \sqrt{x'^2+y'^2}dt=\sqrt{2}/2\int \sqrt{1+sin^2t}dt$
-
-题3：设p=p(x)是抛物线$y=\sqrt{x}$上任一点M(x,y)(x>=1)处的曲率半径，s=s(x)是该抛物线上介于点A(1,1)与M之间的弧长，计算$3p=\frac{d^2p}{ds^2}-(\frac{dp}{ds})$的值。
-- 思路：<b c=gn>根据曲率公式，定积分应用中的弧长公式，求出p,s表达式，然后按隐函数微分计算结果。</b>
-> 解析：曲率半径=1/曲率=$\frac{(1+y'^2)^{3/2}}{|y''|}=\frac{(4x+1)^{3/2}}{2}$，弧长s=$s(x)=\int ^x_1 \sqrt{1+y'^2}dx$
->$\frac{dp}{ds}=\frac{dp/dx}{ds/dx},\frac{d^2p}{ds^2}=\frac{d(dp/dx)}{dx}\frac{dx}{ds}$<b c=b>这里与题3中的微分计算方法一样</b>
-
-题4：一容器是由一曲线绕y轴旋转而成的，曲线由`x^2+y^2=2y(y>=1/2)与x^2+y^2=1(y<=1/2)`两个缺圆连接而成，相交于y=1/2处。求该容器容积。
->解析：计算其下半曲线旋转得的体积x2即可，**变化为用y表示**：$x=\sqrt{1-y^2},y1=-1,y2=1/2,\space V_x=2\pi\int ^{1/2}_{-1}1-y^2dy=\frac{9\pi}{4}$
-
-题4.1：曲线f(x,y)=0的方程为：$(y+1)^2=(2-x)lnx,\space (1\leq x\leq 2)$求其绕`y=-1`旋转得的体积。<b c=b>绕非x,y轴旋转情况</b>
->解析：y=-1时只剩右侧，所以$V_{y=-1}=\pi\int^2_1 (2-x)lnxdx$
-
-## b、求极限部分：
-**题1**：如果f(x,y)在(0,0)连续，求证若极限：`lim(x->0,y->0)f(x,y)/(x^2+y^2)`存在，则f在(0,0)处可微。
->**解析**：因为`lim(x->0,y->0)f(x,y)/(x^2+y^2)`存在，f在(0,0)连续，所以lim(x->0,y->0)f(0,0)/(x^2+y^2)也存在。
->由极限的四则运算可知：`lim(x->0,y->0)(f(x,y)-f(0,0))/(x^2+y^2)`存在，即`lim(△x->0,△y->0)(f(x,y)-f(0,0))/(△x^2+△y^2)`存在，所以可导。
->$\lim_{x\rightarrow 0,y\rightarrow 0}\frac{f(x,y)-f(0,0)}{x^2+y^2}=\lim_{x\rightarrow 0,y\rightarrow 0}\frac{f(x,y)}{x^2+y^2} - \lim_{x\rightarrow 0,y\rightarrow 0}\frac{f(0,0)}{x^2+y^2} = 0$
->所以`lim(△x->0,△y->0)(f(x,y)-f(0,0))/sqrt(△x^2+△y^2)=0`得出`f(x,y)-f(0,0)=0*△x+0*△y+o(sqrt(△x^2+△y^2))`#可微的充要条件。
-
-题1.1：函数$f(x)=\lim_{n\rightarrow\infty}\frac{1+x}{1+x^{2n}}$#讨论其间断点。<b c=gn>求左右极限时像为值大一点或小一点引起的变化</b>
->解析：特殊点有：$f(x)=\begin{cases}(1)\space1+x& |x|<1\\(2)\space0&|x|>1\\(3)\space0&x=-1\\(4)\space1&x=1\end{cases}$
->$x\rightarrow -1^-$时，明显是(2)情况，$\lim_{x\rightarrow -1^-}f(x)=0,同理\lim_{x\rightarrow -1^+}1+x=0$，
->而$\lim_{x\rightarrow 1^-}1+x=2,\lim_{x\rightarrow 1^+}f(x)=0$#所以x在-1是连续，在1是跳跃间断点，没有可去间断点和第二类间断点。
-
-题1.2：$f(x)=\begin{cases}\frac{2}{3}x^3 & x\leq 1\\x^2 &x>1\end{cases}$则f在x=1处的左右导数情况？
->解析：直接求其左右导数，$\lim_{x\rightarrow 1^-}\frac{2x^3/3-2/3}{x-1}=2,\space \lim_{x\rightarrow 1^+}\frac{x^2-2/3}{x-1}=\infty$#
-><b c=r>虽然求1+时是使用第2个函数式，但代入计算时还是x=1，而x=1是第1个函数式情况，所以是2/3！</b>
-
-**题1.3**：an=1+1/2+1/3+..+1/n-ln(n)，n=1,2,..，证明数列{an}收敛。
->解析：$a_{n+1}-a_n=1/(n+1)-ln(1+1/n)<0$#所以数列{an}单减。
-$a_n>ln(1+1)+ln(1+1/2)+..+ln(1+1/n)-ln(n)=ln2+ln3-ln2+ln4-ln3+..+ln(n+1)-ln(n)-ln(n)=ln(n+1)-ln(n)>0$#有界，所以收敛。
-
-题1.4：函数$f(x)=\frac{e^{1/(x-1)}ln|1+x|}{(e^x-1)(x-2)}$的第二类间断点个数？
->解析：间断点为0,-1,1,2，第二类间断点为至少有一侧极限不存在的点。计算这几点处的极限
->$\lim_{x->-1}f(x)=\lim_{x->-1}\frac{e^{1/-2}ln|1+x|}{-3(e^{-1}-1)}=\infty ,\space \lim_{x->2}f(x)=\lim_{x->2}\frac{eln|3|}{(e^2-1)(x-2)}=\infty$
->$\lim_{x->1^+}f(x)=\lim_{x->1^+}\frac{e^{1/(x-1)}ln|2|}{-(e-1)}=\infty,\space \lim_{x->1^-}f(x)=\lim_{x->1^-}\frac{e^{1/(x-1)}ln|2|}{-(e-1)}=0$
->$\lim_{x->0}f(x)=-1/2e$#等价替换。所以有3个第二类间断点。
-
-**题2**：<b tag>无穷小量与无穷小量比值求极限</b>：求`lim(x->0)(tanx-sinx)/sin(x^3)`的极限。
->**解析**：分子分母均是->0的无穷小量，由极限中定理1得知，可以使用等价无穷小量函数来替代式中的分子、分母。
->tanx-sinx = (sinx/cosx)(1-cosx)。`sinx~x（x->0）`，`1-cosx~x^2 / 2（x->0）`，`sin x^3~x^3（x->0）`，将这些带入式中如下：
->$\lim_{x\rightarrow 0}\frac{tanx-sinx}{sin x^3}=\lim_{x\rightarrow 0}\frac{x*\frac{x^2}{2}}{cos x}*\frac{1}{x^3}=\frac{1}{2}$
-
-<b c=r>注</b>：要使用无穷小量函数替换得替换式中的因式部分，这个因式与其它因式**需要是乘/除关系**，而不能是加/减关系。
-<b c=b>常用的等价无穷小替换</b>x->0时。`sinx~x`、`tanx~x`、`arcsinx~x`、`arctanx~x`、`1-cosx~x^du2/2`、`a^x-1~xlna`、`e^x-1~x`、`ln(1+x)~x`、`(1+Bx)^a-1~aBx`、`[(1+x)^1/n]-1~1/nx`、`loga(1+x)~x/lna`
-
-题3：若g(x)在x=c处二阶导数存在，且g'(c)=0,g''(c)<0，证明g(c)为g(x)的一个极大值。<b c=r>求导极限证明相关</b>
->解析：因为g(x)存在二阶导，所以$\lim_{x\rightarrow c}\frac{f'(x)-f'(c)}{x-c}<=>\lim_{x\rightarrow c}\frac{f'(x)}{x-c}$极限存在，则根据**极限保号性**知：存在c的某去心领域(c-a,c+a)，当c-a<x<c时f'(x)>0，f(x)在c左侧单增，当c<x<c+a时f'(x)<0，f(x)在c点右侧单减，所以f(c)是f(x)的一个极大值。
-
-**题 4**：设函数 f(x),g(x)时恒大于 0 的可到函数，且 f'(x)g(x)-f(x)g'(x)<0,则当`a<x<b`时，有：<b c=r>构造关系式来比对大小</b>
-
-> 解析：令$F(x)=\frac{f(x)}{g(x)},则F'(x)=\frac{f'(x)g(x)-g'(x)f(x)}{g^2(x)}<0$
-> 所以 F(x)在(a,b)上单调递减，所以$\frac{f(b)}{g(b)}<\frac{f(x)}{g(x)}$
-
-题5：若$lim_{x\rightarrow 0}\frac{sin6x+xf(x)}{x^3}=0,求lim_{x\rightarrow 0}\frac{6+xf(x)}{x^2}$
-
-> 解析：原式=$lim_{x\rightarrow 0}\frac{sin6x+xf(x)-6x}{x^3}+lim_{x\rightarrow 0}\frac{6+f(x)}{x^2}$
-
-题6：f(x)是周期为5的连续函数，它在x=0的某领域满足：f(1+sinx)-3f(1-sinx)=8x+a(x)。a(x)是x趋于0时比x高阶的无穷小，且f(x)在x=1处可导，求曲线y=f(x)在(6,f(6))的切线方程。
-- 思路：<b c=b>利用x趋于0，f在1处可导在式子中变化，利用周期性计算f(6)。</b>
->解析：$\lim_{x\rightarrow 0}f(1+sinx)-3f(1-sinx)=f(1)-3f(1)=8*0+0=0$得出f(1)=0，#a(x)是x的高阶无穷小，所以也趋于0。
->$\lim_{x\rightarrow 0}\frac{f(1+sinx)-1}{sinx}+3\frac{f(1-sinx)-f(1)}{sinx}=\lim_{x\rightarrow 0}\frac{8x}{sinx}+a(x)/sinx=8=4f'(1)$#用x~sinx替换。
->f(x+5)=f(x)得f(6)=f(1)=0，在利用上面的f'(1)=f'(6)得出切线方程。
-
-题7：已知函数f(x)在(0,+∞)内可导，f(x)>0，$\lim_{x\rightarrow\infty}f(x)=1,\lim_{h\rightarrow 0}(\frac{f(x+hx)}{f(x)})^{1/h}=e^{1/x}$，求f(x)。
-- 思路：<b c=r>原式中类似`1^∞`型极限，尝试写出它的形式，然后配合可导的定义式求解</b>
->解析：原式=$\lim_{h\rightarrow 0}[1+\frac{f(x+hx)-f(x)}{f(x)}]^{1/h}按该类型极限的求法得：\frac{f(x+hx)-f(x)}{f(x)}*1/h=\frac{x}{f(x)}*\frac{f(x+hx)-f(x)}{hx}$
->$原式=\frac{xf'(x)}{f(x)}得其极限后：e^{1/x}=e^{xf'(x)/f(x)}=>1/x=xf'(x)/f(x)$变换后两边求积分可得f(x)表达式。
-
-
-**题8**：设函数f(x)连续，且f(0)!=0,求极限$\lim_{x\rightarrow 0}\frac{\int ^x_0 (x-t)f(t)dt}{x\int ^x_0 f(x-t)dt}$
->解析：原式=$\frac{\int ^x_0 f(t)dt}{\int ^x_0 f(x-t)dt}-\frac{\int ^x_0 tf(t)dt}{x\int ^x_0 f(x-t)dt}$#因为f(x)连续，所以可使用积分中值定理得：分子分母趋于0，用洛必达法则：
->这里虽然可以使用洛必达法则，但由于x->0，所以可完全用**积分中值定理变换**，能更快得到结果。
->原式=$1-\frac{xf(x)}{-xf(x)+\int ^x_0 f(x-t)}<继续洛必达法则=>\frac{1}{2}$#<b c=r>注意是对x求导，积分上下限中常数项因为积分过程中对应已经变为常数项，所以导之后是0！</b>
-
-**题9**：数列$\lbrace x_n \rbrace满足0<x_1<\pi,x_{n+1}=sinx_n(n=1,2,..)$（1）证明$\lim_{n\rightarrow\infty}x_n$存在，并求极限。
-- 思路：查看xn的变化，<b c=gn>用数学归纳法证明其特性，用单调有界证明其极限存在</b>。
->(1)解析：归纳法：由于sinx<x，0<x1<π知，0<x2=sinx1<x1<π，设0<xn<π则0<xn+1=sinxn<xn<π。所以{xn}单调减少且有下界，$\lim_{n\rightarrow\infty}xn=0$
->(2)计算$\lim_{n\rightarrow\infty}(\frac{x_{n+1}}{x_n})^{1/x^2_n}=\lim_{n\rightarrow\infty}(1+\frac{x_{n+1}-x_n}{x_n})^{1/x^2_n}$
->$\lim_{n\rightarrow\infty}\frac{x_{n+1}-x_n}{x^3_n}=\lim_{n\rightarrow\infty}\frac{sinx_n-x_n}{x^3_n}=\lim_{n\rightarrow\infty}\frac{-x^3_n/6}{x^3_n}=-1/6$
->原式极限=$e^{-1/6}$#<b c=r>以上分式虽然可以拆开，但若要使用等价替换则不能拆开他们，否则计算不一样。有争议！！！！！！！！！！</b>
-
-题10：求极限$\lim_{x\rightarrow 0}\frac{[sinx-sin(sinx)]sinx}{x^4}=\lim_{x\rightarrow 0} \frac{sinx-sin(sinx)}{x^3}$
->法一$\lim_{x\rightarrow 0}\frac{cosx(1-cos(sinx))}{3x^2}=\lim_{x\rightarrow 0}cosx(1-cos(sinx))\frac{sin^2x/2}{3x^2}=1/6$
->法二$\lim_{x\rightarrow 0}\frac{t-sint}{t}=\lim_{x\rightarrow 0}\frac{1-cost}{3t^2}=1/6$#变量代换six=t，等价无穷小替换。
->法三$sinx=x-x^3/3!+o(x^2),sin(sinx)=sinx-sin^3x/3!+o(sin^2x)$这里是0处3阶展开，代入式中得。<b c=r>适当的将部分式子用泰勒展开，一般1~3阶</b>
->$\lim_{x\rightarrow 0}\frac{sinx-[sinx-sin^2x/6+o(x^2)]}{x^3}=1/6$#其中`o(x^2)`可忽略掉。
-
-**题11**：（1）证明方程$x^n+x^{n-1}+..+x=1,\space(n>1)$在区间(1/2,1)内有且仅仅有一个实根。（2）求（1）中实根xn，证明$\lim_{n\rightarrow\infty}x_n$存在和极限。
->(1)解析：用等比数列求和公式求$f(1/2)=\frac{\frac{1}{2}(1-1/2^n)}{1-1/2}-1<0,f(1)=n-1>0$#有连续函数介质定理知，至少存在一个x∈(1/2,1)使f(x)=0。
->f'(x)>0所以在(1/2,1)单增，因此该区间内只有一个f(x)=0
->(2)解析：因为$x^n_n+x^{n-1}_n+..+x_n=1,\space x^{n+1}_{n+1}+x^{n}_{n+1}+..+x_{n+1}=1,\space 所以\{x_n\}$在单调减少，又xn>1/2，所以lim(xn)=1/2.
-
-
-## c1、积分相关：
-**题1**：$\int tanx dx=\int \frac{sin x}{cos x}dx=-\int \frac{(cos x)'}{cos x}dx=-\int \frac{1}{cos x} dcosx$#令u=cosx，g(u)=1/u则得`-ln|cos x|+C`。
-题1.2：$\int \frac{x+5}{x^2-6x+13}dx=\frac{1}{2}\int \frac{d(x^2-6x+13)}{x^2-6x+13}+\int \frac{d(x-3)}{(x-3)^2+4}$
-题1.3：$\int \frac{1}{1-sinx}dx=\int \frac{1+sinx}{cos^2x}dx=\int sec^2xdx+\int tanx*secxdx$#上下同时乘1+sinx。
-题1.4：$\int \frac{1}{x}\sqrt{\frac{x+1}{x}}dx=>令\sqrt{\frac{x+1}{x}}=t得：\int (t^2-1)t\frac{-2t}{(t^2-1)^2}dt$
-题1.5：求$\int ^{+\infty}_1 \frac{lnx}{(1+x)^2}dx$，<b c=r>思路：看到lnx想到用分部积分</b>
->解析：$原式=-\frac{lnx}{1+x}+\int ^{+\infty}_1 \frac{1}{x(1+x)}dx$#前一个式子为∞/∞型，用洛必达法则发现其趋于0，后一个式子可直接求出其不定积分
->$=0+ln\frac{x}{1+x}| ^{+\infty}_1=ln2$
-
-题1.6：$\int \frac{1}{cosx}dx=\int \frac{1}{1-sin^2x}dsinx<=令t=sinx=>[\int \frac{1}{1+t}dt+\int \frac{1}{1-t}dt]/2=ln\frac{1+t}{1-t}*1/2$
-题1.7：$\int ^x_0 \frac{te^t}{(e^t-1)^2}dt=\int \frac{te^t+e^t+1}{(e^t+1)^2}dt-\int \frac{1}{e^t+1}dt=\frac{t}{e^t+1}|^x_0-F$
->$F=\int \frac{e^t}{e^t(e^t+1)}dt=\int \frac{1}{e^t} det-\int \frac{1}{e^t+1} de^t$<b c=r>分子是乘积/平方的形式，多半都会用到这种拆开的因式分解。</b>
-
-题1.8：$\int \frac{xe^{arctanx}}{(1+x^2)^{3/2}}dx<令x=tant>\int\frac{tante^t}{(1+tan^2t)\sqrt{1+tan^2t}}sec^2tdt=\int\frac{tante^t}{\sqrt{sec^2t}}dt$#【法一】
->$=\int e^tsintdt=e^t(sint-cost)/2 + C=e^t(\frac{x}{\sqrt{1+x^2}}-\frac{1}{\sqrt{1+x^2}})/2+C$
->【法2】连续对$式中\frac{e^{arctanx}}{1+x^2}做分部积分，可得:\int\frac{xe^{arctanx}}{(1+x^2)^{3/2}}dx=\frac{xe^{arctanx}}{\sqrt{1+x^2}}-\frac{e^{arctanx}}{\sqrt{1+x^2}}-\int\frac{xe^{arctanx}}{(1+x^2)^{3/2}}dx$左右两式合并可整理得结果。
-<b c=r>法2这种右侧一直分部积分，得到和原式相同的情况很少，有可一直分部积分性质的式子，可这样尝试一番。</b>
-
-题1.9：设$f(lnx)=\frac{ln(1+x)}{x},计算\int f(x)dx$。<b c=v>犯了dx替换为d(lnx)的思想错误！</b>
->解析：令t=lnx，则x=e^t，则：$\int ln(1+e^t)/e^tdt$计算不定积分。
-
-题2.0：计算1. $\int ^{\pi}_0f(x)dx=0,\int ^{\pi}_0 f(x)cosx dx=0,求(0,\pi)内有f(a_1)=f(a_2)=0$
-
-> 解析：$f(a_1)(\pi-0)=0,f(a_2)cos a_2(\pi-0)=0则>>f(a_1)=f(a_2)cosa_2=0$
-
-题2.1：求$\int \frac{arcsin(e^x)}{e^x}dx$
->解析：这种有反三角函数的一般转化为正常三角函数是一个好方法。令`e^x=t`也是一种方法。
->$令arcsin(e^x)=t，x=lnsin[t]$得原式=$\int \frac{t}{sint}\frac{cost}{sint}dt=<分部积分>=-\frac{arcsin(e^x)}{e^x}+ln|1/e^x+\frac{\sqrt{1-e^{2x}}}{e^x}|+C$
-
-题2.2：已知f(x)在[0,3π/2]上连续，在(0,3π/2)内是cosx / (2x-3π)的一个原函数，f(0)=0，求f(x)在区间[0,3π/2]的平均值。
->解析：该区域上的均值就是它的积分 / 区域长。直接求f(x)的原式颇有困难,交换积分次序易于计算。<b c=gn>注意，t和0范围都是[0,3π/2]，交换积分次序后，x范围自然就变成了`[t,3π/2]`</b>
->$T=\int^{3\pi/2}_0 f(x)dx=\int^{3\pi/2}_0\int^x_0 \frac{cost}{2t-3\pi}dt=\int^{3\pi/2}_0dt\int^{3\pi/2}_t \frac{cost}{2t-3\pi}dx=1/2$
-
-**曲线&二重积分**：
-**题3**：已知曲线L:{x=f(t),y=cost}，(0<=t<π/2)，f(t)具有连续导数，f(0)=0,f(t)>0,{0<t<π/2}，若曲线L的切线与x轴的交点到切点的距离恒为1，求f(t)的表达式，和曲线L与x轴y轴所围面积。<b c=v>由于f(0)=0，f(t)>0,{0<t<π/2}所以下面f'(t)取正</b>
->**解析**：因为f(t)的导数在[0,π/2)上连续，所以在该区间都可积，即原函数在该区间可微，所以f(t)在[0,π/2)都可导。
->$切线斜率：k=\frac{dy}{dx}=\frac{f'(t)}{-sint}，与L切点为(f(t),cost),则由点斜式得切线方程：y-cost=\frac{f'(t)}{-sint}(x-f(t))$
->$切线与x轴交点：(f'(t)cost+f(t),0)，交点与切点距离得：\sqrt{(f(t)-f'(t)cott-f(t))^2+sin^2t}=1得：f'(t)=\frac{sint}{cott}$
->$f(t)=\int \frac{sint}{cott}dt=\int \frac{1-cos^2t}{cost}dt=ln|sect+tant|-sint$
->$求定积分：\int ^{\frac{π}{2}}_0 f(t)dt=\frac{π}{4}为与坐标轴的面积$
-
-题3.1：计算二重积分$\int\int^{}_D xyds$,区域D由曲线`r=1+cost(0<=t<=\pi)`与极轴围成。
->解析：直接将x=rcost,y=rsint替换xy计算。
-
-**题4**：已知L是从第一象限中从点(0,0)沿圆周x^2+y^2=2x到点(2,0)，在沿圆周x^2+y^2=4到点(0,2)的曲线段，计算曲线积分：<b tag>曲线积分</b>
-$J=\int ^{}_L 3x^2ydx+(x^2+x-2y)dy$
->**解析**：这里利用格林公式，补一个直线L1：x=0，与之前两个圆周围成区域D，用计算区域D的二重积分减去x=0的曲线积分得到J。方向取逆时针。
->由题中积分式子可知，P=3x^2y，Q=x^2+x-2y按照格林公式还原如下：
->$J=\int ^{}_{L+L1} 3x^2ydx+(x^2+x-2y)dy-\int ^{}_{L1} 3x^2ydx+(x^2+x-2y)dy$
->$\int\int ^{}_{D}(3x^2+1-3x^2)dxdy-\int ^0_2 -2ydy=\frac{π}{2}-4$
-
-题5：计算二重积分$\int\int ^{}_D |x^2+y^2-1|d\partial,其中D=\lbrace (x,y)|0\leq x\leq 1,0\leq y\leq 1 \rbrace$
->解析：这是个简单正常的二重积分，但要注意x，y的取值范围会有影响，要分`x^2+y^2<=1`和>1情况积分。
-><b c=v>形如$\int|f(x,y)|dq,\int max/min\lbrace f,g\rbrace dq$的都要分情况积分，式中有`x^2+y^2`的也一般要用三角函数形式替换</b>
->$D_1=\lbrace (x,y)|x^2+y^2\leq 1 \rbrace，D_2=\lbrace (x,y)|x^2+y^2>1 \rbrace$#再利用积分可加性分开：
->原式=$-\int\int ^{}_{D_1} x^2+y^2-1d\partial+\int\int ^{}_{D_2} x^2+y^2-1d\partial，用替换x=rsin\Theta,y=rcos\Theta$代入。
->$=\frac{\pi}{8}+\int\int ^{}_{D} x^2+y^2-1dxdy-\int\int ^{}_{D_1} x^2+y^2-1dxdy$#因为D2区域积分再用替换直接计算的话，其上限会出现两个不确定值，所以这里用**区域相减方法**
-
-**题6**：平面$D=\lbrace (x,y)|x^2+y^2\leq 2y\rbrace$计算二重积分$I=\int\int ^{}_D (x+1)^2dxdy$
->解析：原式=$\int\int ^{}_D x^2+1+2xdxdy$用极坐标表示积分区域D：$\begin{cases}x=ρcos\theta \\y=ρsin\theta \end{cases}代入得:$
->$距离ρ\leq 2sin\theta，整个圆紧在坐标上方，所以\theta ∈[0,\pi]$
->原式=$2\int ^{\pi/2}_0d\theta\int ^{2sin\theta}_0ρ^2cos^2\theta dρ+0+\pi=\frac{5\pi}{4}$#2x是奇函数，而整个D区域关于y轴对称，所以为0。
-
-题7：设平面区域$D=\lbrace (x,y)|1\leq x^2+y^2\leq 4,x\geq 0,y\geq 0 \rbrace,计算\int\int ^{}_D \frac{xsin(\pi\sqrt{x^2+y^2})}{x+y}dxdy$
->积分区域很明显关于y=x对称，可以利用轮换对称特性来减轻计算难度<b c=b>指（f(x,y)=f(y,x)）不是随便更换x，y</b>。
->原式=$\frac{1}{2}[\int\int ^{}_D \frac{xsin(\pi\sqrt{x^2+y^2})}{x+y}dxdy+\int\int ^{}_D \frac{ysin(\pi\sqrt{x^2+y^2})}{x+y}dxdy]$
->$=\frac{1}{2}\int\int ^{}_D sin(\pi\sqrt{x^2+y^2})dxdy=\frac{1}{2}\int ^{\pi/2}_0d\theta\int ^2_1 sin(\pi ρ)\sqrt{(ρcos\theta)'^2+(ρsin\theta)'^2}dρ$
->=$\frac{1}{2}\int ^{\pi/2}_0d\theta\int ^2_1 sin(\pi ρ)\sqrt{ρ^2sin^2\theta+ρ^2cos^2\theta}dρ=-\frac{3}{4}$<b c=r>角度取值范围还有疑问！</b>
-
-题8：二元函数$f(x,y)=\begin{cases}x^2 & |x|+|y|\leq 1 \\ \frac{1}{\sqrt{x^2+y^2}}& 1<|x|+|y|\leq 2 \end{cases}$，
-计算二重积分$\int\int ^{}_D f(x,y)dp,D=\lbrace (x,y)||x|+|y|\leq 2 \rbrace$
->解析：D区域包含分段函数的两种情况，需要分开积分，积分区域是一个角在坐标轴上的正方形环。f(x,y)=f(y,x)但表达式没变，所以这里用不上轮换对称了。
->$\int\int ^{}_D f(x,y)dp=4\int\int ^{}_{D_1}f(x,y)dp=4T$。$T=\int\int ^{}_{D_1}x^2dxdy+\int\int ^{}_{D_1} \frac{1}{\sqrt{x^2+y^2}}dp$#D1为第一象限部分。
->$T=\int\int ^{}_{D_1}x^2dxdy+\int ^1_0\int ^{2-x}_{1-x} \frac{1}{\sqrt{x^2+y^2}}dy+\int ^2_1\int ^{2-x}_{0} \frac{1}{\sqrt{x^2+y^2}}dy$
->$T=1/12+\sqrt{2}ln(1+\sqrt{2})$#注意在x=1处积分上下限发生变化。<b c=v>在直角坐标积分计算比较麻烦，但用极坐标ρ的范围又很难表示！！</b>
-
-## c2、导数相关：
-
-**题1**：设Ik=\int ^k_e e^(x^2) sinx dx，比较k=1,2,3时它们的大小。
->**解析**：`e^(x^2)`和sinx在(0,π)都大于0，所以e^(x^2) sinx在(0,π)上是单调函数，所以积分大小为：I1<I2<I3。
-
-题1.1：函数$u(x,y)=p(x+y)+p(x-y)+\int ^{x+y}_{x-y} p(t)dt证\partial ^2u/\partial x^2=\partial ^u/\partial y^2$
->解析：$\frac{\partial u}{\partial x}=p'(x+y)+p'(x-y)+p(x+y)-p(x-y)，\frac{\partial u}{\partial y}=p'(x+y)-p'(x-y)+p(x+y)+p(x-y)$#<b c=r>注意这个积分求导</b>
-
-题1.2：奇函数f(x)在[-1,1]上有二阶导数，f(1)=1，证明存在a∈(-1,1)使得：`f''(a)+f'(a)=1`。
->解析：奇函数的导数必是偶函数。f(-1)=-1，存在$f'(-b)=f'(b)=1令F(x)=(f'(x)-1)e^x$#F(b)=F(-b)=0，据罗尔定理知，有a∈(-b,b)使得`F'(b)=0=(f''(a)+f'(a)-1)=0`
-
-题1.3：函数$f(x)=x^2ln(1-x),当n>=3时, \space f^{(n)}(0)=?$
->解析：看似求规律的情况，不过这里可用麦克劳林公式展开
->$ln(1+x)=x-x^2/2+x^3/3+..+(-1)^{n-1}x^n/n+o(x^n),\space 则ln(1-x)=1(x+x^2/2+..+x^n/n)+o(x^n)$
->$f(x)=x^2ln(1-x)=-(x^3+x^4/2+..+x^{n+2}/n)+o(x^{n+2})),\space f^{(n)}(0)=-n!/(n-2)$
-
-**题2**：证明xln(1+x)/(1-x) + cosx>=1+x^2/2，-1<x<1。<b tag>函数式大小比对</b>
->$解析：令f(x)=x\ln\frac{1+x}{1-x}+cosx-1-\frac{x^2}{2}$
->$f'(x)=\ln\frac{1+x}{1-x}-sinx+\frac{2x}{1-x^2}-x，令f'(x)=0得x=0处是一个极值点。$
->$f''(x)=\frac{4}{(1-x^2)^2}>0，所以f'(x)在(-1,1)是单调递增的$
->所以在(-1,0)f'(x)<0，(0,1)上f'(x)>0，点x=0处是极小值点是(-1,1)上的最小值点。
->又f(0)>0，所以xln(1+x)/(1-x) + cosx>=1+x^2/2成立。
-
-**题3**：设f(x)在(-∞,+∞)上有连续导数，且m<=f(x)<=M。求$\lim_{a\rightarrow 0^+}\frac{1}{4a^2}\int ^a_{-a}[f(t+a)-f(t-a)]dt$
->解析：该函数的条件，和题中的情形可以**尝试用积分中值定理**：$原式=\lim_{a\rightarrow 0^+}\frac{1}{4a^2}[f(c+a)-f(c-a)]*(a+a)$
->再对式中f使用拉个郎日中值定理：$原式=\lim_{a\rightarrow 0^+}\frac{1}{4a^2}*4a^2f'(q)=f'(0)$
-
-**题4**：函数f(x)在[0,+∞)上可导，f(0)=1且满足等式：$f'(x)+f(x)-1/(x+1) \int ^x_0 f(t)dt=0$#求f'(x)。
-- 思路：<b c=r>看着类似于微分方程，但别总想着用微分方程方法求解！</b>
->解析：乘(x+1)，然后两边求导，得：`(x+1)f''(x)+(2+x)f'(x)=0`#因为`\int ^x_0 f(t)dt=F(x)-F(0)`#后一个求导后为0，前一个导为f(x)与式中-f(x)和为0。
->`f''(x)=-(x+1)/(x+2) * f'(x)`#结合f'(0)=1推出`f'(x)=-e^-x/(x+1)`。
-- 证明：当x>=0时,e^-x<=f(x)<=1。
->$\int -\frac{e^{-x}}{x+1}dx<=\int -e^{-x}dx=e^{-x}<=1$
-
-**题5**：函数f(x)在闭区间[a,b]上连续，(a,b)上可导，且f'(x)>0，若极限$\lim_{x\rightarrow a^+}\frac{f(2x-a)}{x-a}$存在，证明：
-- (1)在(a,b)内f(x)>0。<b c=r>洛必达法则是满足条件才能使用，这里是需要满足洛必达条件才能有极限，这个解法是可行的</b>
->解析：因为$\lim_{x\rightarrow a^+}x-a=0，所以\lim_{x\rightarrow a^+}f(2x-a)=0$才可能存在极限，不然会趋于无穷大。如此就可使用洛必达法则：$原式<=>2f'(2x-a)/1>0=>f(a^+)>0$
-- (2)在(a,b)内存在点c，使$\frac{b^2-a^2}{\int ^b_a f(x)dx}=2c/f(c)$。<b c=gn>这种分式的形式类似于柯西中值定理形式，尝试使用</b>
->解析：令$F(x)=x^2，g(x)=\int ^x_a f(x)dx,(a\leq x\leq b)$#x代替b才能是一个函数。F(x)，g(x)自然满足[a,b]上连续，(a,b)内可导，则可以使用**柯西中值定理**。
->所以(a,b)内存在c使：$\frac{F(b)-f(a)}{g(b)-g(a)}=\frac{b^2-a^2}{\int ^b_a f(x)dx}=2c/f(c)$
-- (3)在(a,b)内存在与(2)中与c相异的点q，使：$f'(q)(b^2-a^2)=\frac{2c}{c-a}\int ^b_a f(x)dx$#<b c=gn>任何时候思考都最好想想题中已有条件</b>
->解析：对(a,c)使用拉格朗日中值定理，`存在q属于(a,c)有f(c)-f(a)=(c-a)f'(q)`，因为（1）中证得$\lim_{x\rightarrow a^+}f(x)=0,所以f(c)-f(a)=f(c)$再根据（2）中所证关系有：
->$\frac{b^2-a^2}{\int ^b_a f(x)dx}=2c/f(c)=\frac{2c}{(c-a)f'(q)}=f'(q)(b^2-a^2)=\frac{2c}{c-a}\int ^b_a f(x)dx$
-
-**题6**、设$f(x)=\int ^{x+\pi/2}_x |sint|dt$，（1）证明f(x)是以π为周期的函数。（2）求f(x)的值域。
-- 注：<b c=r>这里的t与x没有关系，不要混在一起</b>。<b c=b>先积分再证也可行，但要分多种情况较麻烦。直接在积分区域上变化求证是可以的。</b>
->(1)解析：$f(x+\pi)=\int ^{x+3\pi/2}_{x+\pi}|sint|dt<令u=t+\pi>f(x+\pi)=f(x)=\int ^{x+\pi/2}_x |sinu|du$#利用微分性质，巧妙变换。
->(2)解析：在[0，π]上求值域即可。$f(x)=|sin(x+\pi/2)|-|sinx|=|cosx|-|sinx|$#求该区间内极值，最值。<b c=gn>保留与去除绝对值，效果一致，可以保留处理</b>
-
-题7：函数$f(x)=\lim_{x\rightarrow\infty}\sqrt[n]{1+|x|^{3n}}$有几个不可导点？
->解析：2个，x在(-1,1)内$\lim_{x\rightarrow\infty}|x|^3n=0$明显在-1,1两点处左右极限不等，故不可导。<b c=r>小题虽整体不难，但有些小陷阱！</b>
-
-题8：函数$y=\frac{1}{2x+3},则y^{(n)}(0)=?$
-- 思路：这类似有规律的题可优先尝试归纳法，使用更简便的指数形式求导，更容易看出规律！
->解析：$n=1时：y'=-2(2x+3)^{-2}，n=2时：y''=(-2)^2*2*(2x+3)^{-3}$则n时$y^{(n)}=(-2)^nn(2x+3)^{-(n+1)},y^{(n)}(0)=..$
-
-题9：函数z=f(x,y)的全微分dz=2xdx-2ydy，并且f(1,1)=2求f(x,y)在椭圆`D={(x,y)|x^2+y^2/4 <=1}`上的最大值和最小值。
->解析：从全微分知$\frac{∂z}{∂x}=2x,\frac{∂z}{∂y}=-2y$结合f(1,1)=2得原式：$f(x,y)=x^2-y^2+2$。
->令偏导为0，得到可能得极值点(0,0)，再计算：$A=\frac{∂^2z}{∂x^2}|^{}_{(0,0)}=2,B=\frac{∂^2z}{∂x∂y}|^{}_{(0,0)}=0,C=\frac{∂^2z}{∂y^2}|^{}_{(0,0)}=-2$
->AC-B^2<0所以点(0,0)不是极值点，这样就只能考虑边界情况，将`x^2+y^2/4=1`也加入用拉格朗日数乘法计算。
-
-$$
-F(x,y,λ)=f(x,y)+λ(x^2+y^2/4-1),\begin{cases}
-F'_x=\frac{∂f}{∂x}+2λx=2(1+λ)x=0 \\
-F'_y=\frac{∂f}{∂y}+λy/2=-2y+λy/2=0 \\
-F'_λ=x^2+y^2/4-1=0
-\end{cases}，\\计算出几对x,y,λ值，带入选出最大值3最小值-2。
-$$
-
-题10：f(x)是区间[0,π/4]上的单调，可导函数，满足：$\int ^{f(x)}_0 f^{-1}(t)dt=\int ^x_0 t\frac{cost-sint}{sint+cost}dt，f^{-1}是f的反函数$
->解析：两边同时求导$f'(x)f^{-1}(f(x))=x\frac{cosx-sinx}{sinx+cosx}$#由反函数定义知$f(x)=Q(x),f^{-1}(Q(x))=x，所以f^{-1}(f(x))=x$<b c=r>不要受其中的f(x)和右侧式子影响！</b>
->得：$f(x)=ln(sinx+cosx)+C$其反函数值域为[0,π/4]且也单调增加，所以x=0,y=0时都为0，有f(0)=0求出C=0（画出两者的图很容易理解！）。
-
-**题11**：设函数$f(x)=\int ^1_0 |t^2-x^2|dt,(x>0)$,求f'(x)并求f(x)的最小值。<i tag=l1>带绝对值的积分求导情况</i>
->解析：积分中有绝对值情况，且有未知数t，<b c=gn>应该分情况去除绝对值</b>，<b c=r>且求定积分求出t值，才能求后面的极值。</b>
-
-```mathjax
-$$
-f(x)=\begin{cases}\int^x_0 (x^2-t^2)dt+\int^1_x (t^2-x^2)dt=1/3-x^2+4x^3/3 & 0<x<1 \\ \int^1_0 x^2-t^2dt=x^2-1/3 &x\ge 1 \end{cases}
-,\space f'(x)=\begin{cases}-2x+4x^2 &0<x<1 \\ 2x &x\ge 1\end{cases}
-$$
-```
-
-## d、级数相关：
-**题1**：求(n=1,∞)∑(x^n / n) * (-1)^{n-1}的收敛半径与收敛域。<b c=r>注意收敛域区间两端是否也收敛</b>
->**解析**：an=-1^(n-1)/n。|an|=1/n，|an+1|=1/(n+1)
->$\lim_{n\rightarrow\infty}\frac{|a_{n+1}|}{|an|}=\frac{n}{n+1}=p$
->R=1/p=1则收敛区间为(-1,1)，又x=-1时该级数发散，x=1时级数收敛，所以收敛域为：(-1,1]
-
-**题2**：求(n=1,∞)∑(x-1)^n / n2^n。<b c=gy>注意这里将x-1作为一个整体</b>
->$解析：令x-1=t，\lim_{n\rightarrow\infty}\frac{a_{n+1}}{a_n}=1/2=p$
->得R=1/p=2，因为-2<t<2，所以-1<x<3。
-
-**题3**：求幂级数(n=1,∞)∑(4n^2+4n+3)*x^2n/(2n+1)的收敛域及和函数。<b c=v>这种x的指数项不是n的属于缺项级数，可用柯西马达定理求收敛域。用逐项求积分的方法来求和函数，有时可以将求和符号化无，如p54例7</b>
->$解析：an=\frac{4n^2+4n+3}{2n+1},\lim_{n\rightarrow\infty}\frac{|a_{n+1}|}{a_n}=1=p$
->所以R=1/p=1，但x在1和-1处都是发散的，所以收敛域为(-1,1)。
->$用逐项求积分的方法来求和函数。S(x)=\sum_{n=1}^{\infty}\frac{4n^2+4n+3}{2n+1}\int ^x_0 x^{2n}dx=\sum_{n=1}^{\infty}\frac{4n^2+4n+3}{2n+1}x^{2n+1}$
-
-题4：$\lim_{n\rightarrow \infty}\frac{1}{n^2+n+1}+\frac{2}{n^2+n+2}+...+\frac{n}{n^2+n+n}$
->解析：原式$>=\lim_{n\rightarrow \infty}\frac{1}{n^2+n+n}+...+\frac{n}{n^2+n+n}=\frac{n(n+1)/2}{n^2+n+n}=T$
->原式$<=\lim_{n\rightarrow \infty}\frac{1}{n^2+n+1}+...+\frac{n}{n^2+n+1}=\frac{n(n+1)/2}{n^2+n+1}=F$#T=F=1/2
-
-## e、微分相关：
-题1：设函$F(x,y)=\int ^{xy}_0 \frac{sint}{1+t^2}dt,则\frac{∂^2F}{∂x^2}| ^{x=0}_{y=z}=?$
->解析：$x的偏导:F'_x=\frac{∂F}{∂x}=\frac{ysinxy}{1+x^2y^2}$#被积函数直接是F的导，所以直接使用。
->$∂^2F是x的二阶偏导:F''_{xx}(x,y)=∂^2F=∂\frac{\frac{∂F}{∂x}}{∂x}=\frac{∂^2F}{∂x^2}=\frac{y^2cos(xy)(1+x^2y^2)-2xy^3sin(xy)}{(1+x^2y^2)^2}$#代入值求解即可。
-
-
-题1.2：设f(u,v)为二元可微函数，`z=f(x^y,y^x)`则∂z/∂x=?
->解析：$u=x^y,v=y^x，∂z/∂x=\frac{∂z}{∂u}*\frac{∂u}{∂x}+\frac{∂z}{∂v}*\frac{∂v}{∂x}=yx^{y-1}f'_1+y^xlnyf'_2$#用f'1表示∂z/∂u，f'2表示
-
-题1.3：已知$y=\frac{x}{lnx}$是微分方程$y'=y/x+p(x/y)$的解，求p(x/y)的表达式。
->解析：将y代入计算，p(x/y)中的y也要代入。<b c=gy>要求的就是p(x/y)所以没有想到替换p(x/y)中的y，导致思维卡住！！！</b>
->$\frac{lnx-1}{ln^2x}=1/lnx+p(lnx)得:p(lnx)=-1/ln^2x,令lnx=u代入：p(u)=-1/u^2,再讲u=x/y代入即可$
-
-**题2**：函数y=y(x)满足微分方程`x^2+y^2y'=1-y'`且y(2)=0，求y(x)的极大值和极小值。
->解析：$y'(y^2+1)=1+x^2=>(y^2+1)dy=(1+x^2)dx$#两边求积分得$y^3+3y=3x+x^3+C$#代入y(2)的C，<b c=r>记得加常数C，常数1要放在dx一侧</b>
-
-题3：设$\begin{cases}x=5(t-sint) \\ y=5(1-cost) \end{cases}求\frac{dy}{dx}和\frac{d^2y}{dx^2}$
->解析：$\frac{dy}{dx}=\frac{dy/dt}{dx/dt}=\frac{sint}{1-cost}而d^2y$是要求其关于x的二次微分，<b c=r>但dy/dx后式中只剩下t参数，所以要把t看成是关于x的复合函数来求</b>，于是：
-$t=F(t)，\frac{d^y}{dx^2}=d\frac{dy/dx}{dt}*\frac{dt}{dx}隐函数微分法得dt/dx=x'/t'=\frac{1}{5(1-cost)}=>\frac{d^y}{dx^2} =\frac{1}{5(1-cost)^2}$
-
-**题:5**：求微分方程$x\frac{dy}{dx}=x-y满足条件y| ^{}_{x=\sqrt{2}}=0$的特解。
->解析：化为复合一阶线性方程求通解公式形式：原式=>$\frac{dy}{dx}+\frac{1}{x}y=1$据公式得:$y=e^{-\int 1/xdx}[\int 1*e^{\int 1/xdx}+C]$
->=>$x^{-1}(\int xdx+C)$因为x=sqrt{2}时y=0，得出C=-1,得出特解：`y=x/2-1/x`
-
-**题6**：函数y=y(x)满足微分方程y''-3y'+2y=2e^x，且其图形在(0,1)处的切线与曲线y=x^2-x+1在该点的切线重合，求该函数y=y(x)具体表达式。
->解析：微分方程对应的齐次微分方程为`y''-ey'+2y=0`，其对应的特征方程为：`λ^2-3λ+2=0`得 λ1=1, λ2=2。
->所以其通解为：$y_通=C_1e^x+C_2e^{2x}$按公式f(x)=2e^x所以，$y_特=Ae^{ax}x^k$#a=1,k=1，代入原方程计算$y_特''-3y_特'+2y_特=2e^x$得出A=-2
->又因为与曲线y=x^2-x+1在点(0,1)切线重合，计算y(0),y'(0)代入得出C1=1,C2-0得出y=(1-2x)e^x
-
-**题7**：设f(x)在区间`[-a,a](a>0)`上具有二阶连续导数，f(0)=0，求如下：<b c=r>一个挺有难度的题</b>
-- （1）写出f(x)的**带拉个郎日余项**的一阶麦克劳林公式：解析：`f(x)=f(0)+f'(0)x+f''(c)x^2/2!`，c在(0,x)之间。`f''(c)x^2`就是拉格朗日余项。
-- （2）证明在(-a,a)上至少存在一点b，使$a^3f''(b)=3\int ^a_{-a}f(x)dx$
->解析：由（1）问中的麦克老林公式可以得到：$\int ^a_{-a} f(x)dx=\int ^a_{-a} f'(0)xdx+\int ^a_{-a}f''(x)x^2/2dx=\frac{1}{2}\int ^a_{-a}f''(x)x^2dx$
->f''(x)满足[-a,a]内：(s)`m<=f''(x)<=M`，可写成`m/3<=f''(x)<=M/3`#两边都积分，满足上面的形式：$m\int ^a_{-a} x^2dx<=3\int ^a_{-a}f(x)dx<=M\int ^a_{-a} x^2dx$#中间的式子是用上面的等价替换的。
->两边都用积分中值定理：$m<=\frac{3}{a^3}\int ^a_{-a}f(x)dx<=M$（任意值取a一样满足不等式）,再根据(s)就能有最后结果。
-
-题8：函数f(x)在x=0的某领域内具有二阶连续导数，且f(0)!=0，f'(0)!=0,f''(0)!=0,f'''(0)!=0，证存在唯一一组实数，r1,r2,r3使`r1f(h)+r2f(2h)+r3f(3h)-f(0)是h^2`的高阶无穷小。
-- 思路：<i tag=l2>利用泰勒展开</i>
->解析：因为f(x)在0某领域内二阶可导，所以对h趋于0，在0处进行二阶泰勒展开，如下：
-
-```mathjax
-$$\begin{cases}
-f(h)=f(0)+f'(0)h+f''(0)(h-0)^2/2!+o(h^2) \\
-f(2h)=f(0)+f'(0)2h+f''(0)(2h-0)^2/2!+o(h^2) \\
-f(3h)=f(0)+f'(0)3h+f''(0)(3h-0)^2/2!+o(h^2) \\
-\end{cases}
-$$
-```
->若要满足高阶无穷小，h趋于0时，原式趋于0。代入原式计算：$(r_1+r_2+r_3-1)f(0)+(r_1+2r_2+3r_3)f'(0)h+1/2 *(r_1+4r_2+9r_3)f''(0)h^2+o(h^2)$
->各项要为0，这可以组成关于r1,r2,r3的一个线性方程组，其系数行列式为满秩，且与增广矩阵秩相同，所以解唯一，证明r1,r2,r3的唯一性。
-
-**题9**、设函数y=y(x)在(-∞,+∞)上具有二阶连续导数，y'!=0，x=x(y)是y=y(x)的反函数，（1）试将x=x(y)所满足的微分方程$d^2x/dy^2+(y+sinx)(dx/dy)^3=0$变换为满足y=y(x)满足的微分方程。
-- 注：<b c=b>这种看似非复合函数得二阶微分，实际上x=x(y)就是一个特殊点的复合函数，按照平时的微分法即可</b>
->解析：据反函数求导知：$\frac{dx}{dy}=\frac{1}{y'},\frac{d^2x}{dy^2}=\frac{d(dx/dy)}{dy}=\frac{d(1/y')}{dx}\frac{dx}{dy}=\frac{-y''}{y'^2}*\frac{1}{y'}$
->带入原方程得到$y''-y=sinx$。#上面$\frac{d(1/y')}{dx}$就是再对`1/y'`求导（<b c=r>可根据求导定义得知</b>）
-
-题10：$y=(1+sinx)^x,则dy|^{}_{x=\pi}=A\Delta x+o(x^2)=y'dx+o(x^2)=-\pi dx$#<b c=v>注意将△x用dx表示，这也是微分的表示形式！</b>
-
-**题11**：用变量代换x=cost(0<t<π)，化简微分方程$(1-x^2)y''-xy'+y=0$，并求其满足$y|^{}_{x=0}=1,y'|^{}_{x=0}=2$时的特解。
->思路：<b c=r>微分方程中对x进行了代换，相当于加了复合函数，而y'等则是关于x的导，直接带入解除的话却变成了关于t的方程，显然是不对的</b>
->注：<b c=gn>下面的转微分表示每一步都需要结合微分定义式来理解，不然理解困难。</b>
->解析：$y'=\frac{dy}{dt}\frac{dt}{dx}=-\frac{1}{sint}\frac{dy}{dt}$#将x=cost用隐函数微分法求出，因为最后是求关于x的方程，所以不是$\frac{dy}{dx}\frac{dx}{dt}$。
->$y''=\frac{dy'}{dt}\frac{dt}{dx}=[-\frac{1}{sint}\frac{dy}{dt}]'\frac{dt}{dx}=[-\frac{-cost}{sin^2t}\frac{dy}{dt}-\frac{1}{sint}\frac{d^2y}{dt^2}]\frac{1}{sint}$
->代入原式得$\frac{d^2y}{dt^2}+y=0<变为正常微分方程>y''+y=0$#二次齐次方程求解得通解：$y=e^{0x}[C_1cos(1*x)+C_2sin(1*x)]$#再代入题中条件得$y=2x+\sqrt{1-x^2}$。
-
-**题12**：求微分方程$y''(x+y'^2)$满足初始条件$y(1)=y'(1)=1$的特解。
-- 思路：这种不含y的二阶微分方方程，<b c=v>将一阶导变换为一个变量p表示，将整个公式变为一个关于p的一阶微分来解</b>,将式子看成是x关于y的，**反过来求**，这样容易很多。
->设$y'=p,y''=p'$则原方程变为：$p'(x+p^2)=p<=>\frac{dx}{dp}=\frac{x}{p}+p<=>x'-x/p=p$#<b c=r>看成p关于x的比较难处理，看成x关于p的则变得容易</b>
->按一阶非其次微分公式得$x=p(p+c),p(1)=1带入：1=1(1+c)$得c=0所以$x=p^2=>y'=\sqrt{x}=>y=\frac{2}{3}x^{3/2}+C,y(1)=1带入得C=1/3$
-
-题13：函数y(x)具有二阶导数，曲线L：y=y(x)与直线y=x相切于原点，记a为曲线l在点(x,y)处切线的倾角（x正半轴与上方直线方向夹角）若：`da/dx=dy/dx`，求y(x)表达式。
->解析：与y=x在原点相切，所以y(0)=0，y'(0)=1。且有`tana=dy/dx`。a看成是关于x的关系式。$y'=tana，所以a=arctan(y')，求导a'=\frac{y''}{1+y'^2}=y'$#因为y是关于x的关系式。
->右侧构成微分方程。$令p=y'，\frac{p'}{(1+p^2)p}=1=>\frac{p'}{(1+p^2)p}dy=dx两边积分：ln\frac{p^2}{1+p^2}=2x+lnc$#再代入上面的条件，可解。
-
-
-## f、应用题：
-题1、一质量为9000kg飞机在机场降落，着落时水平速度为700km/h，飞机所受总阻力与飞机速度成正比（比列系数`k=6x10^6`）从着陆点算，飞机滑行最长距离为多少？
-- <b c=r>应用题，需要多联系实际，物理来考虑数学式中这些值的表述。</b>
->解析：设滑行距离x，速度v，所用时间t，总阻力F，加速度a。
->据牛顿第二定律知：$a=\frac{dv}{dt}，F=kv=-m\frac{dv}{dt}$#力与加速度方向相反，所以这里取负。
->$\frac{dv}{dt}=\frac{dv}{dx}\frac{dx}{dt}=v\frac{dv}{dx}$#这里的v是匀速$dx=-\frac{m}{k}dv$两边同时积分得$x(t)=-\frac{m}{k}v+C$
->变速运动，距离x，v都应该是关于t的，所以：$x(t)=\frac{-m}{k}v(t)+C$而$x(t)=0,v(t)=v_0代入得:C=\frac{m}{k}v_0$
->$v(t)\rightarrow 0时得到x(t)\rightarrow \frac{mv_0}{k}=1.05km$
-
-**题2**：一平底容器，内侧壁是由曲线`x=g(y)`绕y轴旋转而成（由下向上逐渐变粗），容器底面半径为2m，当以`3m^2/min`速度注入液体时，液面面积以$\pi m^2/min$速度均匀增加。求：
- （1）求时间t与g(y)的关系。（2）求曲线`x=g(y)`的方程。
->(1)解析：$ds=V_sdt=>\pi g^2(y)-2^2\pi=\pi t$#绕y轴旋转，x自然就是其圆的半径。
->(2)解析：$V_y=\pi\int ^y_0 g^2(u)du，dv=V_vdt，则得：\pi\int ^y_0 g^2(u)du=3t=3g^2(y)-12$#因为这是定义域在y的方程，所以旋转体体积公式反过来。
-<b c=r>这种只有一边有积分得等式，两边都求导来解。</b>
->$\pi g^2(y)=6g(y)g'(y)$解微分方程得：$g(y)=e^{\pi y/6}+C，g(y)=x=2得：g(y)=e^{\pi y/6}+1$
-<b c=r>这种方程，函数式一般都是e指数次型得，可先从这方面尝试</b>
-
-题3：某闸门上半部分由矩形构成，下半部分由二次抛物线和就行下边围成，水面到矩形上端时。要使矩形部分所受压力比下端部分所受压力为5:4，则矩形高h应为多少？
-- 思考：大致的计算，高度只用取h/2即可，但这里是精确计算，得使用微分法。<b c=gn>各高度x处计算压力P=qgx，面积为当前高度物体宽（面积高取1）</b>
->解析：物理公式$F_{压力}=P_{压强}S_{面积}，P=qgh$#q是水密度。矩形受力面积有多处，使用微分形式表述：$F_{矩}=\int ^{h+1}_1 2qg[h+1-y]dy=qgh^2$#y表述受力点位置。2是边宽
->同样计算下半部分的：$F_{下}=\int ^1_0 2qg[h+1-y]\sqrt{y}dy=4qg[h/3+2/15]，\sqrt{y}$抛物线所围面积，<b c=r>不知怎么计算来的！</b>
-
-题4：一半球体状雪堆，体积融化速率与半球面积S成正比，比列常数k>0，融化过程中雪堆始终保持半球体状，半径r0的雪堆开始融化的3h内，融化了其体积的7/8，雪堆全部融化需多少小时？
->解析：雪堆融化不是匀速的，所以不能按3h计算出的速度去推算，需得到一个相关方程。
->$\frac{V_速}{ds}=\frac{dv/dt}{ds}=\frac{2\pi r^3/3t}{2\pi r^2}=r/3t=-k=>rd=-kdt=>r=-kt+C$#3与k都是常数，干脆合并。dv是负数。
->$r(0)=r_0$体积变化7/8时r变化1/2, $r(3)=r_0/2得r=-r_0t/6+r_0$#6h可融化完。
-
-题5：已知高温物体置于低温介质中，任一时刻该物体温度对时间的变化率与该时刻物体和介质的温差成正比，现将一初始温度为120度的物体，放在20度恒温介质中，30min后物体温度降至30度，若要继续降到21度，问还要多少时间？
->解析：根据所述关系来列出方程，T为温度，t为时间，k为比列，则：
->$\frac{dT}{dt}=k(T-20)=>T'=kT-20k$#按一阶非齐次微分公式求通解，再根据t=0时，T=120求常数，得最终表达式T(t)。
-
-## g、证明题：
-**题1**：函数f(x)在[0,1]上连续，在(0,1)可导，且f(0)=0,f(1)=1，证明：（1）存在a∈(0,1)使f(a)=1-a；（2）存在两个不同的点c,b使得`f'(c)f'(b)=1`。
-- 思路：重新制造一个函数来辅助证明，这是不容易的事！
->（1）解析：令F(x)=f(x)-1+x，a∈(0,1)，可知F(0)=-1,F(1)=1，F(x)在[0,1]也是连续的。
->由连续函数零点定理可知，存在a∈(0,1),使得F(a)=0。代入得：`F(a)=f(a)-1+a=>f(a)=1-a`。
->（2）解析：利用1的证明，在[0,a],[a,1]上分别用拉格朗日中值定理：
-$\begin{cases}\frac{f(a)-f(0)}{a-0}=f'(a)&c∈[0,a]\\ \frac{f(1)-f(a)}{1-a}=f'(b)&b∈[a,1] \end{cases}，f'(b)f'(c)=1*\frac{1-(1-a)}{a}=1$
-
-题2：函数f(x)，g(x)在[a,b]上连续，在(a,b)内二阶内具有二阶导数且它们最大值相等，f(a)=g(a),f(b)=g(b)。证明存在c∈(a,b)使得f''(c)=g''(c)。
->解析：由拉格朗日中值定理知：存在d∈(a,b)使`f(b)-f(a)=f'(d)(b-a)，g(b)-g(a)=g'(d)(b-a)`#所以g(d)=f(d)。
-><b c=b>函数在(a,b)内二阶可导，但在a,b点不一定连续，不能直接用拉格朗日中值定理。</b>
->存在e∈(a,d)，k∈(d,b)使得：`f(d)-f(a)=(d-a)f'(e)，f(b)-f(d)=(b-d)f'(k)`#g(x)也满足，所以有g'(e)=f'(e),f'(k)=g'(k)。
->在点e,和k显然是连续的，可再次使用拉格朗日中值定理，得出结论。
-## S、题型总结：
-1. **求积分**：<i tag=l1>分式拆开、化简</i><i tag=l2>怪异复杂的多考虑第一换元</i><i tag=l2>能无限分布积分的考虑是否能与左侧原式合并</i><i tag=l2>按形式相同的积分公式化简式子</i>
-2. **求极限**：<i tag=l2>因式分解，化简</i><i tag=l1>`1^∞`型极限求法</i><i tag=l2>0/0型优先尝试等价无穷小替换</i><i tag=l2>∞，0单个或多个组合的考虑洛必达法则</i><i tag=l2>数列和情况多用夹逼定理</i><i tag=l2>极限非0常数可先求出极限</i><i tag=l2>数列值情况多用到单调性，结合最值决定</i><i tag=l1>泰勒展开替代部分因式</i><i tag=l1>其它</i>
-3. 证明等式/不等式：<i tag=l2>两式相减，求导求极值</i><i tag=l2>拉格朗日中值定理，折半区间连续使用</i><i tag=l1>积分中值定理</i><i tag=l1>柯西中值定理</i><i tag=l2>构造一个新的函数包含该函数，更利于证明 </i>
-4. 应用题：<i tag=l2>根据题目描述的关系，列出方程。需要用到物理知识的要运用相关物理公式才能构建好</i><i tag=l2>化简转为某变量的微分方程，按计算微分方程方法计算通解</i><i tag=l1>根据t=0，等初始状态的值，来求出常数C，得到最后的方程</i>
-5. 求函数表达式：<i tag=l1>泰勒展开</i><i tag=l1>微分方程</i><i tag=l1>两边同时求积分、求导</i>
-6. **求微分方程**：<i tag=l2>`y'换为dy/dx`表示，特别是简单的微分方程或有变量代换的</i><i tag=l1>高阶且无y时，用变量替换p=y'降为低阶来求</i><i tag=l1>如`y(y'-y)=x`这种难以拆开为正常形式的可反过来求`dx/dy=x'`而不是`dy/dx=y'`，或dx,dy放在两侧同时积分（注意常数反在dx一侧，最后+C）</i><i tag=l2>y'有n次方情况，可直接尝试求积分</i>
 
 
 [^a]: 弱点：重要记忆部分；

@@ -108,7 +108,7 @@ mysql> update user set password=password('123') where user='root' and host='loca
 - 连接数据库时错误 password not be loaded：进入 mysql>，输入：`ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';`再连接即可
   [null 值相关控制。](https://blog.csdn.net/duckyamd/article/details/53143639)[mysql 数据表与 csv 文件互导。](https://www.cnblogs.com/luruiyuan/p/5713273.html)
 
-#### c、python 连接 mysql 使用：
+#### c、连接 mysql 
 
 ```py
 from mysql import connector #pip install mysql-connector    和pymysql库一样的使用方法。
@@ -435,7 +435,7 @@ show global variables like "%log_bin%";
 show binlog events in 'mysql-bin.000002';
 ```
 
-### 3、python 的面向对象：
+### 3、面向对象：
 
 **类的内置函数**：双下划线开头，双下划线结尾，一部分是构建类时就会运行，这些内置函数用于管理类，是设计模式常用的手段。介绍如下：[类中各内置函数作用。](https://www.cnblogs.com/jinqi520/p/9814718.html)
 
@@ -707,7 +707,7 @@ def main(inc=60):
 main(10)
 ```
 
-### 8、python 读取 pdf、excel 表格和 word 文档：
+### 8、python 读取文档：
 
 csv 文件读取与存储:
 
@@ -856,7 +856,7 @@ book.close()# 关闭文件。
 [官方文档](https://docs.panda3d.org/1.10/python/index)
 [学习地址 1](https://zhuanlan.zhihu.com/p/268163358)
 
-### 12、python 文件 IO：
+### 12、文件 IO：
 
 假设当前路径为 E:\mypython\test\文件 IO.py。文件分为文本型和二进制型，所以读取的模式也只分为两种。(写入文件时需要保证写入的类型是字符串类型或 byte 型，不然非字符型会出现 output Decode utf-8 错误，不易查找)。部分特别的符号需要使用特别的编码才能实现，所以文件中有不同编码格式的字符时需要使用 rb 模式来读后再解码，不过解码后每个字符后还会有\r 符。
 读取二进制型文件时需要对读取的结果解码，用如下方法查看文件的编码方式：
@@ -963,7 +963,7 @@ dats = ndimage.imread('av.jpg')
 https://blog.csdn.net/qq_38255689/article/details/78461398
 https://blog.csdn.net/u014061630/article/details/80712635
 
-### 19、数组、字典、元组、集合常用方法：
+### 19、对象类常用方法：
 
 list = [];obj = {},arr = (),st = set()
 **集合的使用**：若创建时有重复的元素则只会保留一个，可使用 len(),in,pop(),clear()方法
@@ -1295,7 +1295,7 @@ dog.weight = 15#其实改变的是aw的值。若是改变一个列表or字典的
 #改为dog.list=('a',12);修饰符内:self._val[arg[0]]=arg[1]形式
 ```
 
-#### a8、json 与 python 字典互转
+#### a8、json 与 字典互转
 
 ```py
 import json
@@ -1390,7 +1390,7 @@ s1=re.sub(reg,'替换值','qq26号string')#替换符合规则的字符串
 s2=re.match(reg,'string')#只匹配字符串的开头，没有则失败。
 ```
 
-#### b4、python 程序调试方法
+#### b4、程序调试方法
 
 1、断点打印：怀疑会出错的地方用 print()输出，太 low！
 2、assert 断言：assert a==0,'a 不等于 0' //不满足 a==0 的话就会在控制台打印逗号后的字符串，且中断后面的代码。(与 print 一样，程序太大时也不建议使用)。
@@ -1444,7 +1444,7 @@ print(r1.text,r1.json,r1.content)#text是网页结构内容，json是解析后�
 
 [requests 模块的使用。](https://blog.csdn.net/lmz_lmz/article/details/83864863)
 
-#### b7、python 的深浅拷贝：
+#### b7、深浅拷贝：
 
 浅拷贝：数据完全共享
 
@@ -1646,6 +1646,131 @@ public class test{
 */
 ```
 
+1、字符串：
+
+```java
+String str = "con";
+str.length();
+str.charAt(1);	// 返回指定位置字符
+/*******获取指定范围的字符串******/
+str.substring(开始位置,结束位置);
+String s1 = str.concat("new");// 链接两个字符，返回结果
+String s2 = str.toUpperCase();// 返回大写
+String s3 = str.toLowerCase();// 返回小写
+String s4 = str.trim(); // 去掉两侧空格字符
+s1.equal(s2); // 比较s1和s2
+s1.contains(s2); // 检测s1是否包含s2
+// 检测是否以指定字符串开头/结尾
+s1.startWith("pre");
+s1.endWith("tail");
+// 获取子字符串位置
+s1.indexOf("c",开始位置);
+s2.lastIndexOf("b",开始位置);
+
+```
+
+​		**正则匹配**：
+
+```java
+/********正则匹配********/
+str.matches("^[c]"); // 返回布尔值
+str.replaceAll("c","bbv"); // 替换全部匹配到的
+str.replaceFirst("c","aaf"); // 替换第1个匹配的
+str.split("o",匹配次数); // 字符串分割
+/*****创建正则表达式*****/
+Pattern p = Pattern.compile("^jav");
+Matcher m = p.matcher(s1);
+if(m.find()){
+	System.out.println(m.groupCount()); // 匹配到的组数
+    System.out.println(m.group(0)); // 读取第1组匹配值
+    System.out.println(m.matches());// 布尔值
+    System.out.println(m.start());// 开始位置
+    System.out.println(m.end());// 结束位置
+}
+```
+
+​		**stringBuffer**：
+
+```java
+// 方便字符串拼接处理
+StringBuffer buffer = new StringBuffer();
+buffer.append("{"); // 向后拼接字符
+buffer.length(); // 长度
+buffer.deleteCharAt(3); // 删除指定位置的字符
+buffer.toString(); // 转为string类型
+```
+
+2、Map
+
+类做Map使用：
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class Word {
+    private final String type = "word";
+
+    // 单词的最后一个字母
+    public String word;
+    // 词性
+    public String property;
+    // 词意
+    public String definition = "";
+    // 父节点位置
+    public int pre;
+}
+```
+
+使用util.Map
+
+```java
+import java.util.Map;
+
+Map<String,Integer> nexts;
+// TreeMap是以搜索树类型创建
+Map<String,Integer> mps = new TreeMap<>();
+// 散列表方法实现的map
+Map<String,Integer> mps2 = new HashMap<>();
+mps2.size(); //大小
+mps.put("key","val"); // 存值
+mps.get("key"); // 获取值
+mps.getOrDefault("bbc","default value");
+mps.remove("key"); // 移除key
+/*****Map遍历*****/
+Set<Map.Entry<String,String>> entrySet = mps.entrySet();
+for(Map.Entry<String,String> entry:entrySet){
+    System.out.println(entry.getKey()+entry.getValue());
+}
+// 或者
+for(String key:jsonMap.keySet()){
+	System.out.println(key);
+}
+```
+
+**Map转json**：一般使用第3方库；实现思路：遍历Map，拼接为json字符串；
+
+```java
+public class MapToJson {
+    public static String map2json(Map<String,String> jsonMap){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("{");
+        if(jsonMap.size()>0){
+            for(String key:jsonMap.keySet()){
+                buffer.append('"'+key+'"'+":"+'"'+jsonMap.get(key)+'"'+',');
+                //System.out.println(key);
+            }
+            // 去掉最后1个，号
+            buffer.deleteCharAt(buffer.length()-1);
+        }
+        buffer.append("}");
+        return buffer.toString();
+    }
+}
+```
+
+
+
 ### a2、修饰符：
 
 有访问控制修饰符：public、default、private、protected。
@@ -1660,48 +1785,121 @@ public class test{
 - void 的使用：
 
 ```java
-public class wcs{
+public class Wcs{
+    public static String name = "name";
     // 不使用void修饰符的函数需要定义类型，并返回值。
     private String vv(){
         return "vv";
     }
     public static void main(String[] args){
-        name = "aa";
+        name = "aa"; // staic类型可互相直接调用
         // 不需要返回值。
     }
 }
+// 外部可直接调用static修饰部分
+Wcs.name;
 ```
 
-### a3、类内部变量的访问：
+### a3、文件IO
+
+1、读取文件
 
 ```java
-public class xsww{
-    public int a = 10;
-    public static void change(){
-        // 静态方法访问非静态变量需要继承的方式使用。
-        b = new xsww();
-        System.out.println(b.a);
-    }
-    public static void main(){
-        ak = 5;
-        cv = vv(ak);    //同时静态类方法可直接调用。
-        System.out.print(cv);
-    }
-    public static String vv(short val){
-        return val + 1;
+import java.io.*;
+import java.util.*;
+
+public class App {
+    private static String FINE_PATH = "F:\\webPritice\\test.txt";
+
+    public static void main(String[] args) {
+        File file = new File(FINE_PATH);
+        System.out.println("文件存在？"+file.exists());
+        System.out.println("文件长-"+file.length());
+
+        // 对文件的操作必须使用，异常捕获包裹
+        try{
+            /*****第1种方法*******/
+            FileInputStream inputStream = new FileInputStream(file);
+            List<Byte> bs = new ArrayList<>();
+            int b;
+            
+            while((b=inputStream.read())!=-1){
+                bs.add((byte) b);
+            }
+            byte[] bytes = new byte[bs.size()];
+            for(int i=0;i<bs.size();i++){
+                bytes[i] = bs.get(i);
+            }
+            // print
+            System.out.println(new String(bytes));
+
+            /*****第2种读取方式*****/
+            Scanner input = new Scanner(file);
+            while(input.hasNext()){
+                System.out.println(input.next());
+            }
+            
+            /******覆盖的方式写入文件******/
+            FileOutputStream outputStream = new FileOutputStream(file);
+            String str = "hello world";
+            outputStream.write(str.getBytes());
+        }catch(IOException e){
+            throw new RuntimeException(e);
+        }
+
     }
 }
+
 ```
 
-### a7、maven 仓库
+
+
+### a4、maven 仓库
 
 - 项目依赖可放在 targed/dependency
+
 - 查看本地 mvn 仓库位置：`mvn help:effective-settings`
+
 - 按 pom.xml 文件下载依赖：pom.xml 所在目录 cmd 命令：`mvn dependency:copy-dependencies`
+
+- pom.xml(Project Object Model)用于管理：源代码、配置文件、开发者的信息和角色、问题追踪系统、组织信息、项目授权、项目的url、项目的依赖关系等等；结构：
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!--根元素-->
+  <project xmlns="http://maven.apache.org/POM/4.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+      <modelVersion>4.0.0</modelVersion><!--当前POM模型的版本-->
+      <groupId>org.example</groupId><!--项目组的标识-->
+      <artifactId>English</artifactId><!--工程的名称-->
+      <version>1.0-SNAPSHOT</version><!--区分同一个artifact的不同版本-->
+      <properties>
+          <maven.compiler.source>8</maven.compiler.source>
+          <maven.compiler.target>8</maven.compiler.target>
+      </properties>
+  </project>
+  ```
+
+  
+
 - 创建一个 maven 项目：mvn archetype:generate -DgroupId={project-packaging} #或 ide 手动选择类型 - DgroupId：包名，如：com.google - DartifactId: 项目名称，如：NumberGenerator - DarchetypeArtifactId: 项目的类型，Maven 提供了很多模板，如果你没写这个，创建的时候就会列出一大堆模板让你选择 - DinteractiveMode: 是否使用交互模式，如果是 true，那么在创建过程中就要手动输入一些参数
   redis：
+  
 - 启动：redis 目录，`redis-server.exe redis.windows.conf`
 
 javaFx：
 [javaFx 下载地址](https://gluonhq.com/products/javafx/)
 [javaFx 文档](http://www.javafxchina.net/blog/docs/)、[3d 模型文件导入](https://blog.csdn.net/weixin_38581615/article/details/70946391)
+
+a5、gradle
+
+[安装](https://blog.csdn.net/Leoon123/article/details/125717416)
+
+### a6、框架简述
+
+Spring 框架是通过 IOC 机制来管理 Bean Spring Boot 依赖 Spring 框架来管理对象的依赖，**Spring Boot** 并不是 Spring 的精简版本，而是为使用 Spring 做好各种产品级准备。
+
+**Spring MVC** 实现了 We 项目中的 MVC 模式 如果 Spring Boot Web 项目，就可以选择采用 Spring MVC MVC 模式 当然也可以选择 似的框架来实现。
+
+**Spring Cloud** 框架可以实现一整套分布式系统的解决方案（当然其中也包括微服务架构的方案），包括服务注册 服务发现 监控等， Spring Boot 作为开发单 服务的框架的基础

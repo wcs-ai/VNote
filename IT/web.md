@@ -4,8 +4,6 @@
 
 ### a、svg 标签使用
 
-mind: svg 标签及 svg 元素动态添加均不会生效，只可做静态使用
-
 ```html
 <!--viewbox属性控制视图区域-->
 <!--xmlns：xlink表示前缀为xlink的元素应该由理解该规范的UA使用xlink规范来解释.xmlns定义了默认命名空间,因此不需要前缀,-->
@@ -62,9 +60,9 @@ mind: svg 标签及 svg 元素动态添加均不会生效，只可做静态使�
       <rect x="0" y="0" width="200" height="200" fill="url(#Gradient)"  />
     </mask>
     <path id="a1" d="M0 50 C150 150 100 -50 300 50" stroke="#000" fill="none"/>
-    <!--linearGradient定义一组线性渐变，(x1,y1)和(x2,y2)两点构成的方向即是渐变的方向-->
-    <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="green" />
+    <!--linearGradient定义一组线性渐变，(x1,y1)和(x2,y2)两点构成的方向即是渐变的方向（用%）-->
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="80%" y2="100%">
+        <stop offset="0%" stop-color="green" stop-opacity="0.8"/>
         <stop offset="100%" stop-color="red" />
     </linearGradient>
     <!--
@@ -85,12 +83,12 @@ mind: svg 标签及 svg 元素动态添加均不会生效，只可做静态使�
 </text>
 <!--一系列坐标点时，每个坐标对应的1个字符-->
 <text x="0,20,40,60,70" y="0,20,40,60,70">This is some SVG</text>
-<!--foreignObject可用于放置html元素，
-且显示其渲染效果，可利用其将dom转为图片
-（不过图片需用base64数据）
+<!--foreignObject可用于放置html元素，（只能放到g元素内和外层）
+且显示其渲染效果，可利用其将dom转为图片（不过图片需用base64数据）
 背景图也需要转为base64数据，且用单引号，使用；
+【样式写在外面也能生效】
 -->
-<foreignObject><div class="aa" xmlns="http://www.w3.org/1999/svg">contend:声称</div><style>.aa{color:red;background:url('data:image/svg+..');}</style></foreignObject>
+<foreignObject width="200" height="300" x="100" y="200"><div class="aa" xmlns="http://www.w3.org/1999/svg">contend:声称</div><style>.aa{color:red;background:url('data:image/svg+..');}</style></foreignObject>
 
 <!--强大特效，滤镜部分-->
 <filter id="filter"><!--定义一组滤镜-->
@@ -126,12 +124,16 @@ mind: svg 标签及 svg 元素动态添加均不会生效，只可做静态使�
 </feDiffuseLighting>
 <!--高斯模糊滤镜：-in:输入的基础图像；-stdDeviation:控制模糊程度；-->
 <feGaussianBlur in="sourceGraphic" stdDeviation="4" />
-<!--该滤镜执行两个输入图像的智能像素组合-->
-<feComposite/>
+<!--fecomposite滤镜执行两个输入图像的智能像素组合
+在图像空间中使用以下 Porter-Duff 合成操作之一：over、in、atop、xor
+arithmetic 操作对组合来自<feDiffuseLighting>滤镜和来自<feSpecularLighting> 滤镜的输出以及组合纹理数据很有用。
+arithmetic操作，每个结果像素都要经过下面的方程式的计算：result = k1*i1*i2 + k2*i1 + k3*i2 + k4
+-->
+<fecomposite in="light" in2="SourceGraphic" operator="arithmetic" k1="1" k2="0" k3="0" k4="0"></fecomposite>
 <!--图片滤镜
 - externalResourcesRequired：表示当前文档中是否需要外部资源。默认值为假
 -->
-<feImage x="" y="" width="" height="" externalResourcesRequired ="" preserveAspectRatio="" xlink:href="http://cc.jpg"/>
+<feImage x="" y="" width="" height="" externalResourcesRequired="" preserveAspectRatio="" xlink:href="http://cc.jpg"/>
 <!--用于组合两个图像，mode为指定模式-->
 <feBlend in="" in2="BackgroundImage" mode="screen"/>
 <feMerge>
@@ -258,6 +260,29 @@ document.getElementById("img").src = tt;
   </svg>
 </template>
 ```
+2. js 文件中用 require.context()返回所有 svg 文件
+
+```js
+/**svg文件示例：code.svg
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg class="icon" xmlns="..."><defs><style type="text/css"></style></defs>
+<path d="..."/>
+</svg>
+*/
+import Vue from "vue";
+import SvgIcon from "@cmp/private/SvgIcon"; // svg component
+// register globally
+Vue.component("svg-icon", SvgIcon);
+
+const req = require.context("./svg", false, /\.svg$/); //返回一个webpack环境上下文（函数），包含文件id，keys等属性。
+const requireAll = (requireContext) =>
+  requireContext.keys().map(requireContext);
+requireAll(req); //全部遍历出来。
+```
+
+3. 入口引入，并在 webpack 中使用`svg-sprite-loader`，然后配置，处理这些 svg 文件。
+
 ### e、动态添加svg元素
 
 SVG是基于XML格式定义图像的一种技术，因此创建节点的时候，需要指定命名空间（Namespace），也就是用createElementNS来代替createElement创建节点
@@ -290,28 +315,7 @@ window.addEventListener('load', function(){
 });
 ```
 
-2. js 文件中用 require.context()返回所有 svg 文件
 
-```js
-/**svg文件示例：code.svg
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg class="icon" xmlns="..."><defs><style type="text/css"></style></defs>
-<path d="..."/>
-</svg>
-*/
-import Vue from "vue";
-import SvgIcon from "@cmp/private/SvgIcon"; // svg component
-// register globally
-Vue.component("svg-icon", SvgIcon);
-
-const req = require.context("./svg", false, /\.svg$/); //返回一个webpack环境上下文（函数），包含文件id，keys等属性。
-const requireAll = (requireContext) =>
-  requireContext.keys().map(requireContext);
-requireAll(req); //全部遍历出来。
-```
-
-3. 入口引入，并在 webpack 中使用`svg-sprite-loader`，然后配置，处理这些 svg 文件。
 
 ## 2、页面渲染过程：
 
@@ -327,7 +331,7 @@ requireAll(req); //全部遍历出来。
 ## 3、第三方资源的加载：
 
 很多加载资源的标签：iframe,video,audio,img,script,link 等是用 src 属性或是用 href 属性，一些标签不能跨域加载资源多数标签允许跨域加载资源。除了 link 和 script 外其它标签几乎都有 onload 事件和 onerror 事件可在元素上添加这两个事件做加载成功和加载失败后的处理。js 代码中的函数块语句需要达到相应的条件才能触发（body，head 中添加的 onload 和`<script></script>`中的 window.onload=“”除外)就算是 onmouseout 指定的函数也不行，因为它运行的前提就是有 onmouseover 被触发。
-**link 标签**：
+**link 标签**：link的加载是同步的，会阻塞渲染。
 
 ```html
 <link href="http://a...pp.jpg" rel="prefetch" /><!--prefetch表示预加载-->
@@ -595,7 +599,9 @@ window.onkeydown = function () {
 第一个条语句用 globalCompositeOperation 可用 for 循环配合动态变量，绘制多个图形，放在动画代码中依然可用。
 ctx.isPointInPath(x,y);ctx.isPointInStroke(x,y);//检测坐标点 x,y 是否在画笔对象 ctx 所绘制的图形中和边框上，canvas 上绘制的图形与 html 元素在生成的方式、操作上不一样所以 canvas 绘制的图形不能用 addEventLisener()来添加鼠标事件，所以可以借用以上这两个方法来添加鼠标事件效果。(不过这两个方法只支持使用 begInPath()方法绘制出来的图形对象。)
 
-### e、动画
+### e、canvas与svg
+
+<img src="./_v_images/canvas-svg.PNG" style="height:260px;"/>
 
 
 ## 5、概念
@@ -622,9 +628,9 @@ ctx.isPointInPath(x,y);ctx.isPointInStroke(x,y);//检测坐标点 x,y 是否在�
 - AccessKey：AccessKey，简称 AK，指的是访问身份验证中用到的 AccessKeyId 和 AccessKeySecret。OSS 通过使用 AccessKeyId 和 AccessKeySecret 对称加密的方法来验证某个请求的发送者身份。AccessKeyId 用于标识用户，AccessKeySecret 是用户用于加密签名字符串和 OSS 用来验证签名字符串的密钥。
 - [学习地址。](http://www.360doc.com/content/18/0823/22/49604565_780716594.shtml)
 
-## 6、web 中的安全措施：
+## 6、web 安全
 
-1. **sql 注入**：通过输入框中输入一些 sql 的插入、删除等语句，在传到后台时被运行，然后操作数据库。防御：做一些正则匹配，替换输入中的特殊字符等，后台做一些站位等措施。
+1. **sql 注入**：通过输入框中输入一些 sql 的插入、删除等语句，在传到后台时被运行，然后操作数据库。**防御**：做一些正则匹配，替换输入中的特殊字符等，后台做一些站位等措施。
 2. **XSS**： (Cross-Site Scripting)，跨站脚本攻击,因为缩写和 CSS 重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的 Web 网站注册用户的浏览器内运行非法的 HTML 标签或 JavaScript 进行的一种攻击。
 
 - 可能造成以下影响：利用虚假输入表单骗取用户个人信息。利用脚本窃取用户的 Cookie 值，被害者在不知情的情况下，帮助攻击者发送恶意请求。显示伪造的文章或图片。
@@ -642,6 +648,23 @@ console.info(
 ```
 
 - **防御**：Web 页面渲染的所有内容或者渲染的数据都必须来自于服务端。尽量不要从 URL，document.referrer，document.forms 等这种 DOM API 中获取数据直接渲染。尽量不要使用 eval, new Function()，document.write()，document.writeln()，window.setInterval()，innerHTML，document.createElement() 等可执行字符串的方法。<b c=gy>前后端都对输入做检查，检查是否有`<script>`等和一些特殊字符。对于混合开发类的 web 应用对放置页面的数据进行编码。</b>
+
+  ```js
+  // 对所怀疑数据用encodeURIComponent 进行过滤
+  var arg = encodeURIComponent(req.query.q);
+  // 或者替换掉那些 <、& 等特殊字符
+  function encodeHTML(str) {
+    return str
+    .replace(/&/g,'&amp;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&apos;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+  }
+  ```
+
+  
+
 - **禁止用户 js 代码中操作 DOM**：
 
 ```js
@@ -697,21 +720,32 @@ init();
 addTask("task1");
 ```
 
-4. CSRF：CSRF(Cross Site Request Forgery)，即跨站请求伪造，是一种常见的 Web 攻击，它利用用户已登录的身份，在用户毫不知情的情况下，以用户的名义完成非法操作。
-   完成 CSRF 攻击必须要有三个条件：用户已经登录了站点 A，并在本地记录了 cookie。在用户没有登出站点 A 的情况下（也就是 cookie 生效的情况下），访问了恶意攻击者提供的引诱危险站点 B (B 站点要求访问站点 A)。站点 A 没有做任何 CSRF 防御。
-   防御：防范 CSRF 攻击可以遵循以下几种规则：Get 请求不对数据进行修改。不让第三方网站访问到用户 Cookie。阻止第三方网站请求接口。请求时附带验证信息，比如验证码或者 Token
-5. 点击劫持：是一种视觉欺骗的攻击手段。攻击者将需要攻击的网站通过 iframe 嵌套的方式嵌入自己的网页中，并将 iframe 设置为透明，在页面中透出一个按钮诱导用户点击。
-   X-FRAME-OPTIONS 是一个 HTTP 响应头，在现代浏览器有一个很好的支持。这个 HTTP 响应头 就是为了防御用 iframe 嵌套的点击劫持攻击。
-   该响应头有三个值可选，分别是：DENY，表示页面不允许通过 iframe 的方式展示。SAMEORIGIN，表示页面可以在相同域名下通过 iframe 的方式展示。ALLOW-FROM，表示页面可以在指定来源的 iframe 中展示。
+4. **CSRF**：CSRF(Cross Site Request Forgery)，即跨站请求伪造，是一种常见的 Web 攻击，它利用用户已登录的身份，在用户毫不知情的情况下，以用户的名义完成非法操作。
+   完成 CSRF 攻击必须要有三个条件：用户已经登录了站点 A，并在本地记录了 cookie。在用户没有登出站点 A 的情况下（也就是 cookie 生效的情况下），访问了恶意攻击者提供的引诱危险站点 B (B 站点要求访问站点 A)。站点 A 没有做任何 CSRF 防御
+   **防御**：防范 CSRF 攻击可以遵循以下几种规则：Get 请求不对数据进行修改。不让第三方网站访问到用户 Cookie。==阻止第三方网站请求接口==。请求时附带验证信息，比如验证码或者 Token
+5. **点击劫持**：是一种视觉欺骗的攻击手段。攻击者将需要攻击的网站通过 iframe 嵌套的方式嵌入自己的网页中，并将 iframe 设置为透明，在页面中透出一个按钮诱导用户点击。（解决如下：禁止嵌套，或指定部分域名使用）
+   
+   ```html
+   <!--content项：
+   DENY 禁止，SAMEORIGIN：相同域名页面的 frame 中展示，ALLOW-FROM uri：指定来源的 frame
+   -->
+   <meta http-equiv="X-Frame-Options" content="DENY" />
+   ```
+   
    [web 端安全问题及应对方法。](https://www.cnblogs.com/pretty-sunshine/p/11442326.html)
 
-## 7、HTML 规范&标签
+## 7、HTML
 
-`<!DOCTYPE>` 声明不是 HTML 标签；它是指示 web 浏览器关于页面使用哪个 HTML 版本进行编写的指令。在 HTML 4.01 中，<!DOCTYPE> 声明引用 DTD，因为 - HTML 4.01 基于 SGML。DTD 规定了标记语言的规则，这样浏览器才能正确地呈现内容。
+### V、H5规范：
+
+H5是新一代HTML规范，也是现代==富web内容的相关技术总称==。
+
+- `<!DOCTYPE>` ：是指示 web 浏览器关于页面使用哪个 HTML 版本进行编写的指令。在 HTML 4.01 中，<!DOCTYPE> 声明引用 DTD，因为 - HTML 4.01 基于 SGML。DTD 规定了标记语言的规则，这样浏览器才能正确地呈现内容。
 
 - HTML5 不基于 SGML，所以不需要引用 DTD。[doctype 类型参考学习地址。](https://blog.csdn.net/Whisper_a/article/details/38706901)
 - html5 中加了一些新的规范，如下示例：[H5 的一些新标签的使用学习地址。](https://www.cnblogs.com/nuanai/p/8856814.html)
 - 带有 id 的元素其 id 名，在 js 中可直接使用（等同于选择了元素）
+- 引入原生多媒体支持。
 - 元素拥有 name 属性，且是`a,form,frame,img,iframe,..`等标签中的一个，则 js 中其 name 名可直接使用
 
 ```html
@@ -736,9 +770,7 @@ addTask("task1");
 </html>
 ```
 
-**规范文档地址**：[HTML5 规范文档](https://html.spec.whatwg.org/)
 
-**好用标签**：
 
 ### 1、meta 标签
 
@@ -771,7 +803,7 @@ addTask("task1");
 
 注释常用语：`//TODO`(待实现的功能)、`//FIXME`(需要修正的功能)、`//XXX`(需要改进的功能)
 
-### 2、**hr 标签**：
+### 2、hr 标签
 
 ```html
 <hr class="hr" data-content="分隔线" />
@@ -811,7 +843,7 @@ addTask("task1");
 </style>
 ```
 
-### 3、**marquee 标签**：
+### 3、marquee 标签
 
 ◎direction 表示滚动的方向，值可以是 left，right，up，down，默认为 left
 ◎behavior 表示滚动的方式，值可以是 scroll（连续滚动）slide（滑动一次）alternate（往返滚动）
@@ -824,7 +856,7 @@ addTask("task1");
 ◎hspace、vspace 表示元素到区域边界的水平距离和垂直距离，值是正整数，单位是像素。
 ◎onmouseover=this.stop() onmouseout=this.start()表示当鼠标以上区域的时候滚动停止，当鼠标移开的时候又继续滚动。
 
-### 4、**input 标签**：
+### 4、input 标签
 
 ```html
 <input
@@ -864,9 +896,9 @@ addTask("task1");
 appearence:button;//设置单选框或复选框为正常状态。为none时无法使用 }
 ```
 
-改变复选框状态：
-`<input type="checkbox" checked='checked' value='1' id="ele"/>`
-写上 checked 表示默认为选中这与 value 值无关，动态改变复选框或单选框状态需要用 js 控制：
+**textarea 标签**：resize 属性的的各个取值:none：用户不能操纵机制调节元素的尺寸、both：用户可以调节元素的宽度和高度、horizontal：用户可以调节元素的宽度、vertical：让用户可调节元素的高度;
+
+改变复选框状态：`<input type="checkbox" checked='checked' value='1' id="ele"/>`写上 checked 表示默认为选中这与 value 值无关，动态改变复选框或单选框状态需要用 js 控制：
 
 ```js
 ele = document.getElementById("ele");
@@ -877,7 +909,7 @@ ele.checked; //获取复选框状态返回true/false(布尔值，非字符串)�
 **input 所有 type 类型**：
 tel、number、email、text、radio、checkbox、image、date、color、button、submit、hidden、month、password、range、reset、search、time、url、week、file、month、datetime-local
 
-### 5、**table 的使用**：
+### 5、table 的使用
 
 其直接属性控制的样式与 css 样式不同一。
 
@@ -912,7 +944,9 @@ tel、number、email、text、radio、checkbox、image、date、color、button�
 
 - [table 属性大全](https://www.w3school.com.cn/tags/tag_table.asp)
 
-### 6、**script 标签**：
+### 6、资源加载标签
+
+`<script>`标签：
 
 **阻塞行为**：<i c=gn>遇到脚本时，浏览器会先**下载**（非内嵌情况）脚本，然后执行。**执行结束后才会继续渲染下方元素**。</i>
 **defer 属性**：带有 defer 属性的脚本表示内部没有 DOM 操作，可与其它资源`并行下载`，页面加载完成后（onload）才会执行这个脚本
@@ -926,7 +960,9 @@ tel、number、email、text、radio、checkbox、image、date、color、button�
 <script type="text/javascript" src="acb.js" defer></script>
 ```
 
-### 7、img\a
+`<link rel="" href=""/>`标签：加载资源时==会阻塞后面的加载或执行==。（为prefetch时未知）
+
+`img\a`：图片的加载**为异步**
 
 ```html
 <!--
@@ -977,7 +1013,7 @@ MathML 是数学标记语言，是一种基于 XML（标准通用标记语言的
 </math>
 ```
 
-## 11、拖拽：
+### 9、拖拽：
 
 将一个元素拖拽到另一个元素。
 
@@ -1004,74 +1040,14 @@ MathML 是数学标记语言，是一种基于 XML（标准通用标记语言的
 </script>
 ```
 
-## 12、问题及解决：
-
-1. 单个页面多场景问题：逻辑复杂的地方解耦开，分页处理。两个页面公共组件多考虑细分，逻辑部分用 mixins 抽离较合理。
-2. 大页海报绘制问题：使用 canvas 绘制，计算数据使用 workers 计算，提高性能。
-3. 登录页安全策略：使用 md5+非对称加密，使用安全键盘（前端绘制）。加密后的内容如果使用 url 传参的方式上送，会被浏览器转义部分内容，可以用 encodeURIcomponent()编码再传，java 用 URLDecode
-4. **vuex 问题**：页面刷新会导致 vuex 数据丢失，解决的办法是存储时顺便存到缓存，在 vuex 文件中值的默认值，就使用从缓存恢复或请求的方法，这样其它页面不用做恢复操作。
-
-```js
-//===其它页面存储
-window.sessionStorage.setItem("data",JSON.stringify(data));
-//===vuex配置
-var a = window.sessionStorage.getItem("data");
-var state = {
-    userInfo: JSON.parse(a);//解析使用
-}
-```
-
-5. **props 问题**：props 中的值是单向的，子组件改变 props 中的值时会触发 error，可以将 props 中的值赋值到 data 中去（若是接口请求的数据在子组件 created 阶段），然后修改 data 中的该值。
-
-```html
-// 父组件
-<child :cas="cases" />
-<!--父组件获取值较慢，子组件created()中得到的是赋值前的状态。-->
-<script>
-  rpc(url, {}).then((res) => {
-    this.cases = res.data;
-    this.$refs.child.caval = this.cases; // 可以主动更新子组件中的值。
-  });
-</script>
-// 子组件
-<input v-model="caval" />
-<script>
-  export default {
-    watch: {
-      cas(nv) {
-        if (this.cas.length === this.caval.length) {
-          this.vaval = nv; //nv是深拷贝来的,注意条件判断，不然可能值接收不全或死循环。
-        }
-      },
-    },
-    created() {
-      // 每次组件用完不销毁的话，只触发一次
-      this.vaval = Object.create(this.cas);
-    },
-  };
-</script>
-```
-
-6. vue 自定义组件最大复用问题：ui 样式一致，但内部逻辑变化差距过大的情况不再适合作为同一个组件，但 ui 样式可以抽离出来，其它部分不共用。
-
-```html
-/*=======将公共样式放在一个总类中。 .common-css{...} */
-<template></template>
-<script>
-  export default {mixins:[mixin...]}//将一些公用的js方法以mixin注入，达到最大复用。
-</script>
-```
-
 # 二、CSS
 
-:::alert-info
 简介：css(Cascading Style Sheets)层叠样式表，1996-12-17css1 诞生，2003 年 1 月 svg 被定为 w3c 规范，但当时的网页只是图文内容，css 更受偏爱。
-:::
 
 ## 1、基础：
 
 - **流**：俗称文档流，指的是 css 中的基本的定位和布局机制，css 中的布局规则。所以从上而下从左至右的描述只是 css 的一个默认流而已。
-- **自适应布局**：对凡是具有自适应布局的一类统称，流体布局是自适应布局的一部分，但**流体布局**狭窄的多，<b class="violet">如 div+css 就是流布局，而 table 布局则不属于流布局，因为 css 真正是从 css2.1 开始的，IE8 开始支持它，在这之前 table 就已经存在，所以 ie8 前的浏览器多数使用 table 布局。</b>
+- **自适应布局**：对凡是具有自适应布局的一类统称，流体布局是自适应布局的一部分，但**流体布局**狭窄的多，如 div+css 就是流布局，而 table 布局则不属于流布局，因为 css 真正是从 css2.1 开始的，IE8 开始支持它，在这之前 table 就已经存在，所以 ie8 前的浏览器多数使用 table 布局。
 - **元素的 4 个盒子**（盒模型）：content-box、border-box、padding-box(`padding`的百分比值是根据**元素宽来计算**的)、margin-box;
   元素的两个元素：每个标签有两个元素组成，内部元素控制宽，高、尺寸等；因此有“行内快”属性（`display:inline-block;`）
   Box-sizing:`border-box`;可以将宽度作用到哪一个盒子，无法作用到 margin-box；
@@ -1079,20 +1055,21 @@ var state = {
 
 - FOUC(无样式内容闪烁)：Flash Of Unstyled Content ，`<style type="text/css" media="all">@import "../fouc.css";</style> `而引用 CSS 文件的@import 就是造成这个问题的罪魁祸首。IE 会先加载整个 HTML 文档的 DOM，然后再去导入外部的 CSS 文件，使用`<link/>`标签代替即可。<b c=gy>link 属于 HTML 标签，而@import 是 CSS 提供的、页面被加载的时，link 会同时被加载，而@import 引用的 CSS 会等到页面被加载完再加载。</b>
 - **BFC**：（块级格式化上下文），是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。
-  > **BFC 的特性**：bfc 就是页面上的一个独立容器，容器里面的子元素不会影响外面元素。
-  > **形成 BFC 的条件**
-- `<html>`根元素；
+  
+  **BFC 的特性**：bfc 就是页面上的一个独立容器，容器里面的子元素不会影响外面元素。
+- **形成 BFC 的条件**：`<html>`根元素；
   （1）float 的值不为 none；
   （2）overflow 的值为 auto、scroll 或 hidden；
   （3）display 的值为 table-cell、table-caption 和 inline-block 中的任何一个；
-  （4）position 的值不为 relative 和 static。
+  （4）position 的值不为 relative 和 static
 
 - **css 选择器**：`div+p`#两个紧挨者的元素，`[attribute]`#选择带有 arrtibute 属性的元素。[attribute=value]选择等于指定值的。[attribute~=value]属性值中包含该值的。[attribute|=value]属性值中以该 value 开头的。
+  
   - `p:first-child`#选择 p 的父元素的第一个子元素(属于 p 元素)。p:last-child#选最后一个子元素。
   - `p:nth-child(n)`#选择第 n 个子元素(属于 p 元素)。
   - `p:nth-last-child(2)`#从最后子元素开始计数。[css 选择器全部](http://www.w3school.com.cn/cssref/css_selectors.asp)
-  -**选择器优先级**：带!important>内嵌样式>id>类名==属性选择器>标签选择器>通配符(\*)>继承(继承父元素的属性)>浏览器默认属性。子选择器用 id 选择时比 id 选择器优先级高。
-  - **选择器的解析**：解析选择器时是从右往左的（如使用`#div>.cc`时是先取.cc 再取#div 的顺序去构建树【更容易把公共样式放在一个节点】）少用一些子选择器。
+  **选择器优先级**：带`!important>内嵌样式>id>类名==属性选择器>标签选择器>通配符(\*)>继承(继承父元素的属性)>浏览器默认属性`。子选择器用 id 选择时比 id 选择器优先级高。
+  - **选择器的解析**：解析选择器时是==从右往左==的（如使用`#div>.cc`时是先取.cc 再取#div 的顺序去构建树【更容易把公共样式放在一个节点】）少用一些子选择器。
 - **鼠标样式**：cursor:pointer;//手指,提示可点击。hand//IE5 使用的手指样式、wait;//等待、help;//帮助、no-drop;//无法释放、text;//文字，暗示为文字内容、move;//提示可移动对象、crosshair;//十字准心、n-resize;//向上改变大小箭头、s-resize;//向下改变大小箭头、e-resize;//向右改变大小箭头、w-resize;//向左改变大小箭头、ne-resize;//向右上改变大小箭头、nw-resize;//向左上改变大小箭头、se-resize;//向右下改变大小箭头、not-allowed;//禁止、progress;//处理中、default;//提示可移动对象、url();//引入外部文件作为鼠标样式，文件格式必须为.cur 或.ani。
 - **边框样式**：
 
@@ -1105,8 +1082,6 @@ border:10px solid transparent;
 ```
 
 - 外边框：`outline:#00FF00 solid thick;`#样式，样式，宽度。
-
-- textarea 标签：resize 属性的的各个取值:none：用户不能操纵机制调节元素的尺寸、both：用户可以调节元素的宽度和高度、horizontal：用户可以调节元素的宽度、vertical：让用户可调节元素的高度、
 - **布局准则**：
   （1）无浮动：浮动容错性差；
   （2）无宽度：设置了宽度之后容器的“流动性”【width，padding 等尺寸上的自适应性】会丢失，元素宽发生改变后也会导致重绘；position:absolute;下的尺寸也具有流动性
@@ -1128,7 +1103,12 @@ border:10px solid transparent;
 ```
 
 - **height:100%;**：父元素有具体高度时，所有定位，使用 height:100%；均可生效；
-- **块级元素控制**：
+- **居中控制**：
+  （1）absolute定位+负margin实现（需要固定宽高）；
+  （2）absolute定位+translate实现（**无须固定宽高**）；
+  （3）absolute定位（上下左右值为0）+margin实现（需要固定宽高）；
+  （4）`calc`实现；
+  （5）flex实现；
 
 ```html
 <div id="farther"><div id="son"></div></div>
@@ -1168,8 +1148,7 @@ border:10px solid transparent;
     left: 0;
   }
   /*===============
-浮动实现块级元素同行布局
-（右侧或左侧不出现空白）
+浮动实现块级元素同行布局（右侧或左侧不出现空白）
 =================*/
   ul {
     margin-right: -20px;
@@ -1179,6 +1158,13 @@ border:10px solid transparent;
     width: 100px;
     margin-right: 20px;
   }
+/***absolute+translate实现*****/
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 </style>
 ```
 
@@ -1188,7 +1174,7 @@ border:10px solid transparent;
   overflow-anchor:auto;状态会保持当前观看内容处于用户视线内，用户感觉不到滚动条位置变化。
   overflow-anchor:none;关闭时则会优先显示加载的内容。
 
-- 滚动条样式：
+- **滚动条样式**：
 ```css
 .scrollbar ::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
@@ -1201,6 +1187,21 @@ border:10px solid transparent;
   border-radius: 8px;
 }
 .scrollbar ::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 8px;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  background: #c1c1c1;
+  border-radius: 8px;
+}
+.scrollbar::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  background: #f4f4f4;
+  border-radius: 8px;
+}
+.scrollbar::-webkit-scrollbar {
   /*滚动条整体样式*/
   width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
   height: 8px;
@@ -1383,7 +1384,7 @@ p::hover {
 }
 ```
 
-## 1.1：无 js 的选项卡实现
+## 1.1：无 js 的选项卡
 
 ```html
 <div class="box">
@@ -1422,7 +1423,7 @@ p::hover {
 </style>
 ```
 
-## 2、尺寸单位：
+## 2、尺寸单位
 
 - **em**：是根据当前元素字体大小而变化的,列入当前元素 font-size:14px;width:10em,此时 width 为 140px(每 1em 为字体大小)。
 - **rem**：是继承根部元素(html)的字体大小的,例:html{font-size:16px;}.div{width:10rem;}//width 为 160px。用以下代码修改根元素大小。
@@ -1445,9 +1446,9 @@ transfer();
 - **vh**：视窗高度，1vh 相对于视窗高度的 1%。
 - vmin 和 vmax：vw 和 vh 中选择最小/最大那个。
 
-## 3、css3：
+## 3、css3
 
-- css3 倒影：
+- **css3 倒影**
 
 ```css
 el {
@@ -1460,7 +1461,7 @@ el {
 }
 ```
 
-- css3 剪切：
+- **css3 剪切**
 
 ```css
 el {
@@ -1479,7 +1480,7 @@ el {
 }
 ```
 
-- css3 贝塞尔速度曲线：
+- **css3 贝塞尔速度曲线**
 
 ```css
 el {
@@ -1495,20 +1496,22 @@ path{
 }
 ```
 
-- 阴影：
+- **阴影**
 
 ```css
 div {
   /*x轴偏移度，y轴偏移度，阴影模糊度，阴影范围*/
   box-shadow: 1px 2px 10px 5px black;
-  /*常用写法*/
+  /*常用写法（4边相同）*/
   box-shadow: 1px 2px 15px black;
   /*实现内边框原角*/
   box-shadow: 0 0 0 5px black;
   border-radius: 10px; /*可以作用在阴影上，结合实现边框效果*/
+  /*各边分开写法*/
+  box-shadow: inset 15px 0 5px -10px rgba(0, 0, 0, .2), inset 13px 0 2px -10px rgba(0, 0, 0, .2), inset 0 -3px 5px 0 rgba(250, 241, 220, .5), inset 0 -20px 10px 1px rgba(255, 255, 255, .3), inset -23px 10px 5px -20px rgba(0, 0, 0, .3), inset -20px 15px 10px -20px rgba(0, 0, 0, .2), inset 0 25px 20px -5px rgba(0, 0, 0, .3), 0 2px 1px -1px rgba(245, 227, 183, .8), -17px 10px 5px -20px black, 14px 20px 5px -20px black, 16px 14px 5px -20px black, -2px 27px 5px -20px rgba(255, 255, 255, .3), -1px 14px 3px -5px rgba(0, 0, 0, .5), -1px 18px 3px -5px rgba(0, 0, 0, .4), 0 -1px 5px 0 rgba(85, 85, 85, .5);
 }
 ```
-- 变换&过渡&动画：
+- 变换&过渡
 ```css
 div{
   transition: height 2s;
@@ -1530,13 +1533,13 @@ div{
   transform:matrix(1,0,0,1,x,y);
 }
 ```
-==缩放情况==：修改第a，d值即是缩放；
+​		==缩放情况==：修改第a，d值即是缩放；
 ```css
 div{
   transform:matrix(sx,0,0,sy,0,0);
 }
 ```
-- 动画：
+- **动画**：
 ```css
 /******动画填充模式*****
 none	默认值。动画在动画执行之前和之后不会应用任何样式到目标元素。
@@ -1548,10 +1551,32 @@ both	动画遵循 forwards 和 backwards 的规则。也就是说，动画会在
 div{
   animation: fadeShow 0.3s forwards;
 }
+@keyframes fadeShow {
+    0%{
+      transform: translate(100px,0);
+    }
+    100%{transform: translate(0,0);}
+  }
 ```
 
+- **禁止重复点击实现**：
+
+  ```css
+  button{
+      animation: forbide 1s step-end forwards;
+  }
+  /*利用动画的变化，实现禁止点击的过渡*/
+  button:active{animation:none;}
+  @keyframes forbide {
+      from{pointer-events:none;}
+      to{pointer-events:all;}
+  }
+  ```
+
+  
+
 - **图片遮罩**：mask-image 优化 png 图片加载。如果是不需要透明属性的 png 图片我们可以直接转为 jpg，但如果有透明要求转为 jpg 后就会透明部分变成白色。
-所以使用 css 的 mask-image 属性有一张纯色 png 图(轮廓与原 png 一样，纯色填充后是以前的 1/100 大小)遮在 jpg 图上(png 转化后的)，这样使用 jpg 图片就能代替 png 了。
+  所以使用 css 的 mask-image 属性有一张纯色 png 图(轮廓与原 png 一样，纯色填充后是以前的 1/100 大小)遮在 jpg 图上(png 转化后的)，这样使用 jpg 图片就能代替 png 了。
 
 ```css
 img {
@@ -1590,7 +1615,15 @@ i {
 }
 ```
 
-## 4、未知大小元素居中：
+- **灰度**：
+
+  ```css
+  html{filter:grayscale(1);}
+  ```
+
+  
+
+## 4、元素居中
 
 - 使用 table 布局：
 
@@ -1650,7 +1683,7 @@ i {
 
 - 使用弹性布局的：justify-content:center;align-items:center;
 
-## 5、弹性布局：
+## 5、弹性布局
 
 ```less
 .box {
@@ -1676,9 +1709,9 @@ i {
 ```
 
 [flex 布局学习地址。](https://www.runoob.com/w3cnote/flex-grammar.html)
-**一排固定几个元素**：使用 justify-content:space-between 且给子元素宽度时，这时宽度不起用，需要加上：flex-direction: row;flex-wrap: wrap;这样每行就能像想象的个数显示。
+**一排固定几个元素**：使用 `justify-content:space-between` 且给子元素宽度时，这时宽度不起用，需要加上：`flex-direction: row;flex-wrap: wrap;`这样每行就能像想象的个数显示。
 
-## 6、栅栏布局：
+## 6、栅栏布局
 
 :::alert-info
 **简介**：栅栏布局也是 css3 的内容，是一种将元素分割为模块组合形式的布局方式。兼容性也还不错，ie9 中需要对父元素做清除浮动操作才能正常显示。
@@ -1721,7 +1754,110 @@ i {
 
 - [学习地址。](http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html)
 
-## 7、预编译的 css：
+## 6.3、常用布局
+
+两列布局：一列用浮动，另一列用margin。（一列定/不定宽，一列自适应）
+
+```html
+<body>
+<div id="left">左列定宽</div>
+<div id="right">右列自适应</div>
+</body>
+<style>
+#left {
+    background-color: #f00;
+    float: left;
+    width: 100px;
+    height: 500px;
+}
+#right {
+    background-color: #0f0;
+    height: 500px;
+    margin-left: 100px; /*大于等于#left的宽度*/
+    /*overflow:hidden; 或margin-left换成该属性，触发BFC机制实现自适应宽*/
+}
+</style>
+```
+
+**圣杯布局**：两边固定宽、中间自适应的3列布局（但中间列内容其实代码上放到最左边，优先渲染）
+
+```html
+<div class="container">
+    <p class="center"></p><p class="left"></p><p class="right"></p>
+</div>
+<style>
+/***浮动实现（利用负边距让浮动的左右盒子与中间盒子同一行）***/
+    .container{padding:0 300px;} /*让中间盒子安全显示*/
+			.center,.left,.right{
+				height: 200px;
+				float: left;
+			}
+			.left,.right{width: 300px;}
+			.center{
+				width: 100%;
+				background-color: red;
+			}
+			/* 通过margin+相对定位设置位置 */
+			.left{
+				background-color: pink;
+				margin-left: -100%;
+				position: relative;
+				left: -300px;
+			}
+			.right{
+				background-color: grey;
+				margin-left: -300px;
+				position: relative;
+				right: -300px;
+			}
+/***flex实现，用order重排顺序，自适应例用flex-grwo:1;即可***/
+ 	    .container {
+            display: flex;
+        }
+        .main,.left,.right {
+            min-height:200px;
+            height: 47vw;
+        }
+        .main {
+            order: 0;/*用来确定左中右的位置 数小在前*/
+            background-color: red;
+            flex-grow: 1;/*主轴剩余宽度全部给到，默认为0，不放大元素*/
+            height: 100vw;
+        }
+        .left {
+            order:-1;
+            flex-basis: 200px;/*主轴左边固定宽度200px*/
+            background-color: blue;
+        }
+        .right {
+            order:1;
+            flex-basis: 300px;/*主轴右边固定宽度300px*/
+            background-color: green;
+        }
+</style>
+```
+
+**双飞翼布局**：与圣杯布局相似，在其上的优化；只是在center元素里面添加了一个inner子级元素，解决了，center元素被left和right元素覆盖的内容。
+因此，给inner元素添加一个`margin-left和margin-right`就可以将内容显示在中间，==而不会被左右元素覆盖部分内容==；
+
+```html
+<div class="container">
+    ...<div class="center"><div class="inner"></div></div>...
+</div>
+<style>
+/*其它代码与圣杯布局相同*/
+.inner{
+            height: 300px;
+            background-color: skyblue;
+            margin-left: 300px;
+            margin-right: 300px;
+        }
+</style>
+```
+
+
+
+## 7、预编译的 css
 
 - **sass 与 scss**：scss 是 sass 的升级版。
 
@@ -1811,36 +1947,16 @@ $subMenuHover: #9900ff;
 .button {
   color: #colors[primary];
   border: 1px solid #colors[secondary];
+  width: @width + 20px;
 }
 ```
 
 - [less 文档。](https://less.bootcss.com/#概览)
 
-## 8. css 结构：
 
-- 命令规则：一般使用 BEM 命名方式：`模块_描述--详细描述`，一套组件内的命令：`c-`。表状态：`is-或has-`。示例如下：
 
-```html
-<!--最外层是模块名-->
-<div class="comment-area">
-  <!--
-    里层元素，名称前都加此模块名;
-    子名称：用_连接;
-    带功能描述的：可使用--连接
-  -->
-  <p class="comment-area_title">title</p>
-  <button class="comment-area_title--modify">修改标题</button>
-</div>
-```
+## 8、元素的两个盒子
 
-- 基本样式：网站想设置的全局默认样式（大小、边距、颜色等），包括更改组件库样式。将它们在主入口文件处导入。
-- 对象：只关注布局的 css，将它们与基本样式分开放置。
-- 全局变量：常用到的颜色、尺寸放在一个定义变量的文件中，其它文件使用。
-- mixin：使用多的复杂样式也可以定义为 minx，然后 include 注入使用。
-- [参考学习地址](https://zhuanlan.zhihu.com/p/32952130)
-  
-
-9、元素的两个盒子：
   元素都有两个盒子，外面的盒子是 inline 级别，里面的盒子是 block 级别，<b c=gn>display 作用于外层，width，height 作用于内盒，所以</b>inline-block 能与文字一行又能设置尺寸。
 
 ```css
@@ -1852,20 +1968,58 @@ $subMenuHover: #9900ff;
 }
 ```
 
-# 四、库&工具
+## 9、滚动进度条
 
-## 1、gitHub 的使用：
+```html
+<body>
+    <h1>标题</h1><p>文本内容...</p>
+</body>
+<style>
+/***渐变背景做进度条***/
+body {
+    position: relative;
+    padding: 50px;
+    font-size: 24px;
+    line-height: 30px;
+    background-image: linear-gradient(to right top, #ffcc00 50%, #eee 50%);
+    background-size: 100% calc(100% - 100vh + 5px);
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+/*****用作背景****/
+body::after {
+    content: "";
+    position: fixed;
+    top: 5px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #fff;
+    z-index: -1;
+}
+</style>
+```
 
-**安装**：
+## 10、css reset和normalize
 
-1. 进入 gitHub 官网先注册一个账号,进入菜鸟教程点击 git 本地命令工具下载链接下载。git Barsh 安装成功后打开(是一个命令行工具)；
+- 两者都是通过重置样式，保持浏览器样式的一致性
+- 前者几乎为所有标签添加了样式，后者保持了许多浏览器样式，保持尽可能的一致
+- 后者修复了常见的桌面端和移动端浏览器的bug：包含了HTML5元素的显示设置、预格式化文字的font-size问题、在IE9中SVG的溢出、许多出现在各浏览器和操作系统中的与表单相关的bug。
+- 前者中含有大段的继承链
+- 后者模块化，文档较前者来说丰富
+
+# 三、gitHub
+
+## a、安装
+
+1. 进入 gitHub 官网先注册一个账号,进入菜鸟教程点击 git 本地命令工具下载[链接下载](https://git-scm.com/download/win)。git Barsh 安装成功后打开(是一个命令行工具)；
 2. **生成 SSH 公钥**：输入`ssh-keygen -t rsa -C "1815161966@qq.com"`回车会提示要在/c/Users/Administrator/.ssh/id_rsa 生成秘钥，之后一直回车到生成为止,此时在该路径下找到`id_rsa.pub`(公钥)文件用记事本打开复制里面的所有内容;
 3. 再在 gitHub 官网用户设置中找到 SSH 和 GPG 项将复制内容粘到键文本域中(title 随意),回到命令行工具输入`SSH -T git@github.com`若成功会有提示成功信息。
 4. 把本地项目上传到 github 在 github 上创建一个仓库(点击加号选择第一个 New repository),复制第一项中的 url 地址,然后打开 Git Bush 进入一个想放项目的文件目录中使用 cd 进入(cd G:/web)
 5. 使用语句：git clone https://github.com/master,之后会在该目录下生产一个与你的仓库名同名的一个文件夹,将代码文件复制到该文件夹中;
 6. 然后命令进入该文件夹(cd GanMa)再输入 git add .(把文件添加进来)再输入 git commit -m"xiaoswuwei"读入完文件后输入 git push -u origin master（传入到仓库中）.使用 git clone +地址，也能下载别人仓库中的文件。http://www.runoob.com/w3cnote/git-guide.html
 
-**基本操作**：
+## b、基本操作
 
 权限：项目创建时 master 默认受保护，分支锁定：锁定后分支也是受保护状态。受保护状态的分支所有者有全部权限，其余开发人员只可拉取，不能再直接推送，只能使用发起合并请求的方式来推送。
 
@@ -1874,6 +2028,7 @@ $subMenuHover: #9900ff;
 - **查看文件状态**：git status
 - **查看具体改动**：git diff (红色是改动前，绿色是改动后)
 - **查看 commit 记录**：commit 历史：`git log`#会显示 commitID、人员、时间。最新的一个 commit：`git show`。查看指定人员 id 的提交记录：`git show 32cbad...`。查看指定文件修改情况：`git show 3241abk... src/avn.vue`。
+- **查看指定日期的日志**：`git log --since="2022-10-01"`；=2.months（近两月）=2.days（近两天）
 - 查看所有分支：git branch -a //，-r 查看远程分支。
 - 查看远程信息：git remote -v
 - **查看分支关联关系**：git branch -vv
@@ -1902,35 +2057,45 @@ $subMenuHover: #9900ff;
 - **合并发生冲突**：会提示冲突的文件，找到该文件并处理标记了冲突的地方然后 add，commit 即可。
 - **合并冲突解决**：协商解决冲突的页面，然后 git add /src/...将冲突的页面加入，git commit -m 'merge'提交即可。
 
+## c、tag使用
 
+tag是一个记录点,可以用于对某个commit点或分支进行标记
 
-**修改仓库地址**：如仓库被迁移到另一个服务器。
-
-1. .git/config 文件修改 url 即可。url 格式：`ssh://git@119..123/path1/project.git`
-2. `git remote set-url origin xxxxxxx` #命令修改。
-
-**tag使用**：tag是一个记录点,可以用于对某个commit点或分支进行标记
 - 创建tag
+
 ```
 git tag <tag名字> // 创建 tag
 git tag -a <tag名字> -m <注释文字> //创建带注释的tag
 ```
+
 - 查看tag
+
 ```
 git tag //查看本地所有tag
 git ls-remote --tags origin //查看远程所有tag
 git show <tag名字> //查看 tag 详细信息
 ```
+
 - 提交tag
+
 ```
 git push origin <tag名字> // 推送单个tag到远程
 git push origin --tags // 推送所有本地tag到远程
 ```
+
 - 删除tag
+
 ```
 git tag -d <tag名字> //删除本地tag
 git push origin :<tag名字> //删除远程tag
 ```
+
+## d、其它
+
+**修改仓库地址**：如仓库被迁移到另一个服务器。
+
+1. .git/config 文件修改 url 即可。url 格式：`ssh://git@119..123/path1/project.git`
+2. `git remote set-url origin xxxxxxx` #命令修改。
 
 **全局配置用户名和密码**：如果没使用 sshKey 或使用了但不生效，那么每次 push 时都要求输密码和用户名，使用全局配置，一次性搞定。
 
@@ -1939,6 +2104,20 @@ git push origin :<tag名字> //删除远程tag
 git config --global user.name "wcs-ai"
 git config --global user.password "34342"
 ```
+
+**非克隆项目关联到 git 仓库**：本地没有修改、连接等设置，步骤如下：
+`git init` #先将本地项目变为一个 git 仓库。
+`git remote add origin https://xxxx.com`#关联远程仓库，
+`git add .`>`git commit -m 'new'`>`git pull`#合并到本地。
+此时会提示输入账号、密码，若输入错误，第二次可能不会再提示错误，而是直接报错(使用了第一次的缓存)。解决如下：
+win10/控制面板/用户账户/凭据管理器/windows 凭据。最下方找到 git 的缓存，删除。
+**内网中使用 git**：单独搭建一个 git 平台。封闭的内网环境内无法访问到外部网络，这需要自己在内网内指定一个 git 服务，做远程仓库用于存放代码。这也是众多代码托管平台，但多数是基于 git 或 svn 的原因。
+
+**项目资源搜索**：awesome 接想搜索的资源。[搜索技巧学习地址。](https://blog.csdn.net/csdnnews/article/details/86570635)
+git-gui 的使用：在安装目录下的 cmd/下。不过是英文的，且没 sourceTree 那样全面。
+[merge 时提示：refusing to merge unrelated histories 解决](https://blog.csdn.net/lindexi_gd/article/details/52554159)
+
+## e、gitignore
 
 **手动添加.gitignore 并使其生效**：git rm -r --cached . // 删除本地缓存，然后 add,commit。
 **.ignore 文件格式**：
@@ -1959,296 +2138,49 @@ index.html //忽略文件
 /dist/   //忽略整个dist文件夹
 front/dist/  //忽略front文件夹下的整个dist文件夹
 front/index.html  //忽略front文件夹下的Index.html文件
+**git 分支管理策略**
 ```
 
-**非克隆项目关联到 git 仓库**：本地没有修改、连接等设置，步骤如下：
-`git init` #先将本地项目变为一个 git 仓库。
-`git remote add origin https://xxxx.com`#关联远程仓库，
-`git add .`>`git commit -m 'new'`>`git pull`#合并到本地。
-此时会提示输入账号、密码，若输入错误，第二次可能不会再提示错误，而是直接报错(使用了第一次的缓存)。解决如下：
-win10/控制面板/用户账户/凭据管理器/windows 凭据。最下方找到 git 的缓存，删除。
-**内网中使用 git**：单独搭建一个 git 平台。封闭的内网环境内无法访问到外部网络，这需要自己在内网内指定一个 git 服务，做远程仓库用于存放代码。这也是众多代码托管平台，但多数是基于 git 或 svn 的原因。
-**git 分支管理策略**：git 官网给出的一个管理分支的规则，几乎多数开发者都会使用。策略如下：
+## f、分支管理
+
+git 官网给出的一个管理分支的规则，几乎多数开发者都会使用。策略如下：
 
 - 将 master 作为正式发布的分支，开一个 devl 作为开发使用的分支；
 - 开发完成后合并到 master，然后使用 master 发布（`git merge --no-ff dev`,使用--no-ff，会执行正常合并，在 Master 分支上生成一个新节点）
 - 因为其它需要，dev 上又可以延伸出其它 3 种功能的分支：预发布分支、缺陷分支、功能分支。<b c=r>这 3 个分支使用完后应该删除</b>
 - 预发布分支：命名 release1.x，**源于 dev 分支**；开发完后合并：（dev 上）git merge --no-ff release1.x；开发完后，预发布在公司内测试。一般命名为 release-1.0 之类，。
 - **缺陷分支**：命名 fixbug，**源于 master 分支**；开发完后分别并入master和dev上。
-- 功能分支：命名 feature-x，**源于 dev 分支**；开发完后合并：（dev 上）git merge --no-ff release1.x；一个项目模块拿出来单独开发，开发完成后合并入 dev。
+- 功能分支：命名 feature-x，**源于 dev 分支**；开发完后合并：（dev 上）git merge --no-ff release1.x；一个项目模块拿出来单独开发，开发完成后合并入 dev
 - [git 分支管理学习地址](http://www.ruanyifeng.com/blog/2012/07/git.html)
 
-| 功能         | 命名       | 创建                                  | 合并                              | 完成后 |
-| :----------- | :--------- | :------------------------------------ | :-------------------------------- | ------ |
-| 测试版分支   | release1.x | git checkout -b release1.0 origin/dev | dev：git merge --no-ff release1.0 | 删除   |
-| 功能分支     | feature-x  | git checkout -b feature-x origin/dev  | dev: git merge --no-ff feature    | 删除   |
-| bug 分支     | fixbug     | git checkout -b fixbug origin/master  | 开发完后分别并入master和dev上     | 删除   |
-| 开发分支     | dev        | git checkout -b dev origin/master     |                                   | --     |
-| 正式版本分支 | master     | --                                    | master:git merge --no-ff develop  | --     |
+| 功能         | 命名       | 创建                                  | 合并                             | 完成后 |
+| :----------- | :--------- | :------------------------------------ | :------------------------------- | ------ |
+| 测试版分支   | release1.x | git checkout -b release1.0 origin/dev | dev:git merge --no-ff release1.0 | 删除   |
+| 功能分支     | feature-x  | git checkout -b feature-x origin/dev  | dev: git merge --no-ff feature   | 删除   |
+| bug 分支     | fixbug     | git checkout -b fixbug origin/master  | 开发完后分别并入master和dev上    | 删除   |
+| 开发分支     | dev        | git checkout -b dev origin/master     |                                  | --     |
+| 正式版本分支 | master     | --                                    | master:git merge --no-ff develop | --     |
 
-**项目资源搜索**：awesome 接想搜索的资源。[搜索技巧学习地址。](https://blog.csdn.net/csdnnews/article/details/86570635)
-git-gui 的使用：在安装目录下的 cmd/下。不过是英文的，且没 sourceTree 那样全面。
-[merge 时提示：refusing to merge unrelated histories 解决](https://blog.csdn.net/lindexi_gd/article/details/52554159)
 
-## 3、nodejs：
 
-:::alert-info
-**简介**：js 只能运行在浏览器内，相比于其它 python，java 之类的编程语言可以运行在桌面环境，js 弱了很多，而 node 提供了 js 可在系统运行的环境，内部加了一些内置 api，提供文件 io 等功能。node.js 的最大优点是处理并行访问，如果一个 web 应用程序同时会有很多访问连接，就能体现使用 node.js 的优势。另一个好处是，使用 javascript 作为服务器端脚本语言，可以消除答一些与浏览器端 js 脚本的冲突。甚至发挥 javascript 动态编程的特性，在服务器与浏览器之间建立直接的动态程序。而 npm 是其自带的一个包管理工具。
-:::
-**windows 上安装**：官网下载 node 的 zip 包，解压后将路径添加到 path 路径即可。
-**linux 上安装**：官网上下载 nodejs 的 linux 压缩包，解压进入，将 node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin 下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后 node -v 安装成功。
-**脚本语言**：又被称为扩建的语言，或者动态语言，是一种编程语言，用来控制软件应用程序，脚本通常以文本（如 ASCII)保存，只在被调用时进行解释或编译。
+# 四、库&工具
 
-**包管理工具**：如果是 windows 系统的话，尽量使用管理员身份来运行 cmd，然后进行 npm 操作
 
-1. cnpm：
-   **配置淘宝安装源**：npm 本身指定的安装源是外国的，`npm install -g cnpm --registry=https://registry.npm.taobao.org`#安装淘宝镜像,使用时直接 cnpm install 即可.
-   [参考学习地址.](https://www.cnblogs.com/onew/p/11330439.html)
-
-- 错误集：
-  - 打包 vue 项目报错：javascript heap out of memory。node 打包 vue 项目提示该 javascript 运行导致内存溢出，这是 node 封装的 v8 引擎运行的 javascript 其限制了 js 能使用的内存，解决如下：
-
-```js
-//在package.json文件加入：
-{
-    ...
-    "scripts":{
-        ...
-        "fix-memory-limit":"cross-env LIMIT-4096 increate-memory-limit"
-    },
-    "devDependencies":{
-        ...
-        "increase-memory-limit": "^1.0.6"
-    }
-}
-```
-
-- 删除 node_module 文件夹，重新 npm install 安装依赖，然后项目下：npm run fix-memory-limit
-  //然后安装：`npm install -g increase-memory-limit`#接着进入项目目录执行：`increase-memory-limit`#结束后再试试运行项目。
-- [参考学习地址(先尝试 3，4)](https://www.jianshu.com/p/410e826506be)。
-- [npm 安装包失败的问题(设置一下安装源，npm 安装即可)。](https://blog.csdn.net/moxiong3212/article/details/79756553)
-
-2. **npm**：
-   临时设置安装源：`npm config set registry https://registry.npm.taobao.org `。
-   npm 指令管理包的指令：
-
-```cmd
-npm install --save lodash  #--save表示生产环境的依赖，--save-dev表示开发环境的依赖。
-npm cache clean -f       //清除缓存。
-npm remove eslint        //移除包内的某个依赖。
-npm install vue@3.0      //安装指定版本写法
-npm unpdate xxx --save   //升级包的版本
-```
-- **运行 js 文件**：node name.js
-- **使用同级文件**：`const fl = require('./index')`。 
-- **使用同级目录下的文件**：`const fl = require('./config/multi')`
-
-**nvm**：[windows 版 nvm 下载地址，下载 nvm-setup.zip 包](https://github.com/coreybutler/nvm-windows/releases)。安装后 cmd 使用 nvm 命令
-- 查看可安装的NodeJS版本: nvm list available（LTS项为长期支持版本）
-- 安装node版本：`nvm install 8.16.0`
-- 切换 node 版本：`nvm use 8.16.0`
-- 卸载指定版本：`nvm uninstall 8.16.0`
-
-**编写npm包**：可以自己按照 npm 包的规则来写一个包，然后发布到 npm 平台使用。步骤如下：
-
-- [先到 npm 官网注册一个人账号。](https://www.npmjs.com/signup)
-- 进入一个人文件夹，使用 npm init，填写一些信息（会生成 package.json 文件），初始化一个 npm 包。其中**main 指定入口文件**如：`./moment.js`。
-- 安装依赖：如果自己的这个 npm 包需要其它依赖，直接该目录下 npm i ... --save 即可。
-- 登录：npm login 登录账号。
-- 指定的入口 js 文件最后需要用：`module.exports = obj`//的形式导出一个模块。
-- 发布：npm publish。撤销发布：npm unpublish
-
-**yarn**：并行安装、离线模式、安装版本统一、多注册来源处理。
-- 安装：`npm install yarn -g`
-- yarn 安装：yarn install
-
-### b、文件操作：
-
-读写操作：
-
-```js
-var fs = require("fs");
-// 读取指定目录下的所有一级目录或文件。
-fs.readdir(MODULE_PATH, function (err, files) {
-  if (err) {
-    console.error(err);
-  } else {
-    pages = files;
-  }
-});
-/*几乎所有的这类放发都有Sync，为同步读取*/
-var pages = fs.readdirSync(MODULE_PATH);
-
-const option = { flag: "w", encoding: "utf-8", mode: "0666" }; //flag指定使用的模式。
-// 写
-fs.writeFile("test.text", "内容", option, function (err) {
-  if (err) {
-    console.log("写入错误" + err);
-  } else {
-    console.log("写入成功" + err);
-  }
-});
-// 一般使用writeFileSync()完成文件复制操作。
-// 读，readFileSync为同步读取。
-fs.readFile(
-  "test.text",
-  { flag: "r", encoding: "utf-8" },
-  function (err, data) {
-    if (!err) {
-      console.log("文件数据" + data);
-    }
-  }
-);
-```
-
-### c1、chalk 的使用：
-
-一个给字体添加样式的包，支持模板使用：
-
-```js
-const chalk = require("chalk");
-//字体颜色、粗体、背景色。
-console.log(chalk.red.bold.bgWhite("内容"));
-//模板写法
-console.info(chalk`{blue.bold 内容}`);
-```
-
-### c2、输入，输出：
-
-```js
-//方法一
-process.stdin.resume();
-process.stdin.setEncoding("utf-8"); //设置字符集
-process.stdout.write("请输入:"); //标准输出
-process.stdin.on("data", function (data) {
-  var str = data.slice(0, -2); //slice选取字符。不使用也可
-  process.stdin.emit("end"); //输入结束，触发
-  process.stdout.write("输入的:" + str);
-});
-process.stdin.on("end", function () {
-  //    监听上面的end事件。
-  process.stdin.pause();
-});
-//------- 方法二
-const readline = require("readline");
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-//获取输入
-read.on("line", (line) => {
-  inputArray.push(line);
-  console.warn(">", inputArray);
-  if (inputArray.length === 2) read.close();
-});
-rl.question("你认为 Node.js 中文网怎么样？", (answer) => {
-  // 对答案进行处理
-  console.log(`多谢你的反馈：${answer}`);
-  rl.close();
-});
-rl.on("close", function () {
-  process.exit(); //退出命令行。
-});
-```
 
 ## 4、第三方平台：
 
 1. **postman 的使用**：
    (百度搜索下载 postman 安装)输入框左边选择请求方式，输入框中输入请求接口，下方 Params 项中输入要传的键值和 value 值，键值和 value 值的输入不需用单引号或双引号不然会出错,若报错可以在 body 项中选择 form-data 然后输入 Params 项中的键值和 value 值再点 Send。
-2. **微信公众号**：
-   先用超级管理员账号登录微信公众号平台，开发>开发者工具>微信开发者工具>绑定开发者(将自己的微信号绑定为开发者账号)。
-   开发>接口权限>网页服务>网页授权>修改下把目标网站域名添加为公众号授权网页(先上传那个 txt 文件到服务器项目根目录)。
-   **授权登录步骤**：
-   > 跳转文档中指定的地址（地址中加上 appid 之类的参数）。分静默和非静默两种。
-   > 对应页面用户手动点击授权登录后会将 code 放到 url 中返回，且会刷新刚才那个页面。
-   > 获取到 code（为 openId）上传给后台，后台会与微信服务器换取信息，返回 token 给前端。
-   > 用该 token 作为用户已登录的凭证，存于本地。注意跳转页面时判断 token 是否过期。
 
-**微信支付**：
-
-- 微信小程序内：向后台获取时间戳、签名串等，然后：
-
-```js
-wx.requestOrderPayment({
-  timeStamp: "",
-  nonceStr: "",
-  package: "",
-  signType: "MD5",
-  paySign: "",
-  success(res) {}, //拉起微信支付，支付成功后调用。
-  fail(res) {},
-});
-```
-
-- 公众号内：使用 H5 支付需要先在商户号开通 H5 支付，还需要填写支付域名。前端调用自己后台的下单接口成功后跳转到后台返回的支付页 url 即可。
-- 普通 H5 页面：与公众号类型。
-- **注意**：url 地址处理使用 encodeURIComponent(url)函数处理,这个 url 中不能加端口号，所以只能是刚才配置的授权网页域名。
-- [配置、获取 openid、授权登录。](https://www.jianshu.com/p/b7e2100b56e4)
-
-3. **集成网易云信 IM**：
+2. **集成网易云信 IM**：
    下载 demo(下载后先 npm i 安装必要插件)
    在 login.js 文件中，先将对应的 appkey 换成自己的。然后在获取到登录界面输入的账号，密码后添加一个网络请求，向自己的服务器获取用户在本应用下(对应的 appkey 应用下)的 im 用户 id 和云信服务器反给后台的云信 token,然后调用 cookie.setCookie()按格式放入到 cookie 中。
    每次更改调试需要先 npm run dev 打包再 node server 启动本地服务。
    要放到服务器使用的话直接将打包后的 dist 文件夹、regist.html,login.html,index.html 文件放到服务器即可，主入口是 index.html 文件，在自己的项目中直接访问该路径+路由，然后带上 uid,yxtoken 两个参数(在指定 im 页面获取参数调用 setCookie()登录，不然会报错)。
 
-4. **微信小程序**：
+3. **禅道**：文档、任务、bug的管理，[文档地址](https://www.zentao.net/book/zentaopmshelp/40.html)
 
-- **获取 openId**：
-
-```js
-wx.login({
-  success(res) {
-    if (res.code) {
-      // 这里调用自己后台接口，用code交换openId。
-    } else {
-      console.log("登录失败！" + res.errMsg);
-    }
-  },
-});
-```
-
-- 调起微信小程序：小程序需要已正式上线发布。
-
-  - 通过 url scheme 跳转进来（公众平台/工具，生成类似 weixin://dl/business?t=Ljf-...），ios，网页中可直接 location.href 打开。
-  - android App 调用：android 无法通过 scheme 调起小程序，不过可以提供**小程序原始 id**（公众平台/设置，查看。非小程序 id）、线上版本号、页面路径，供其 app 打开。
-
-- **文件 formData 上传**：小程序无有 formData 对象，使用以下方式与 formData 对象上传文件对象
-
-```js
-wx.chooseImage({
-  count: 1, //默认9
-  sizeType: ["original"], //可以指定是原图还是压缩图，默认二者都有
-  sourceType: ["album"], //从相册选择
-  success: function (res) {
-    //console.log(JSON.stringify(res.tempFilePaths),config.baseUrl + "/system/user/profile/avatar");
-    wx.uploadFile({
-      url: "http://xxx.com/system/user/profile/avatar",
-      filePath: res.tempFilePaths[0],
-      header: {
-        "content-type": "multipart/form-data", //'application/json',
-        token: uni.getStorageSync("token"),
-        Authorization: uni.getStorageSync("token"),
-      },
-      name: "avatarfile",
-      formData: {
-        id: 11, //TODO:放置额外的参数
-      },
-      success(rq) {
-        let data = JSON.parse(rq.data); // TODO:返回的是JSON
-        if (data.respCode === "00") {
-          _s.userInfo.avatar = data.imgUrl;
-          uni.showToast({
-            title: "修改成功",
-            icon: "none",
-          });
-        }
-      },
-    });
-  },
-});
-```
-
-5、动画开发：
+## 5、动画开发
 
 - [anime.js 文档](https://www.animejs.cn/documentation/#direction)
 
@@ -2268,9 +2200,9 @@ wx.chooseImage({
 
 ### a、vscode：
 
-:::alert-info
 支持各种语言的开发,但需要对应的插件来支持,所以会有一定缺陷。打开 vscode 点击第四个图标(方形)，安装 python 在点右边的安装。
-:::
+**快速打开**`settings.json`：左下角齿轮/设置/右上角文本按钮。
+`.vscode`作用：统一团队的 vscode 配置，可放入`settings.json`配置文件，`ftp.json`等。
 
 - **快捷键**: 参考地址:https://www.cnblogs.com/pleiades/p/8146658.html
   首先是 F1/Ctrl+Shit+P 万能键。Ctrl+P：文件切换。Ctrl+空格：自动提示。
@@ -2284,17 +2216,35 @@ wx.chooseImage({
   vscode 下载项输入框搜索 Live Serve 点击下载安装后右界面点击 Reload to Active 后在 html 文件页面点击最下方(软件脚部)的 Go Live(也可能是@go live)会在浏览器打开页面此时浏览器地址栏就变成了 ip 地址而不是本地路径地址，(使用默认浏览器时有效)。
   **好用的插件**：Dracula(颜色样式插件)、city Lights icon package(icon 插件)、vue、Anaconda。
   **插件使用**：左侧栏最后一个功能搜索下载，下载好后右边界面上方有设置使用按钮。
+  
 - Markdown 插件：Markdown Preview 插件，支持全屏预览，目录和一些附加功能（ctrl+shift+v 预览）；还有一些其它 md 插件，自己搜索探索；（源码页，上方状态栏可点目录）
+
 - **Powern Model 插件**：在选择颜色主题栏最下方选择安装其它主题，下载 Power Model 插件然后在左下角点击设置打开 user settings 文件或按 F1 输入 user settings，界面右半部分大括号中加上"powermode.enabled":true,就能使用该插件了,"powermode.enableShake":false//桌面是否震动
   ，"powermode.presets":"particles"/"fireworks"/"magic"/"flames"/样式。
   (配置的文件是 json 文件一定要用双引号)然后点击 Reload to Active 载入即可使用。
+  
 - **vscode-icons**：颜色主题安装列表中安装 vscode-icoons，点击 Reload to Active 然后按 F1 输入 icon 在弹出的列表中点击激活 vscode icons 即可使用该插件。[同时选中多个相同的字符]ctrl+shift+L 选中该页中所有相同的字符。ctrl+D 选择下一个相同的字符
-- markdown+math：支持 markdown 中书写数学公式，右上角预览按钮查看效果。上班偷学数学使用。
 
-**格式化**：
+- markdown+math：支持 markdown 中书写数学公式，右上角预览按钮查看效果。上班偷学数学使用
 
-- **python 代码格式化**：先安装 yapf 库，pip install yapf 然后在 cscode 设置搜索框中搜 python.formatting.provider 右边下拉框中选择 yapf。设置好后选中要整理的代码块，右键点 format selection 整理，但对缩进无效。空格只有半字符长问题：设置>搜索框输入 font，FontFamily 项输入'monospace'
-- **prettier 格式化**：主要 web 代码时使用，部分配置如下（setting.js）：其它详细的可以搜索 prettier 设置。[prettier 相关设置。](https://blog.csdn.net/hbiao68/article/details/107176795/)
+- GIT HISTORY插件使用：
+
+  （1）编辑时右键可查看该**文件历史改动**，或某1行的历史改动
+
+  <img src="./_v_images\git-history1.png"/>
+
+​				（2）右上角两个按钮作用
+
+​									<img src="./_v_images\git-history2.png" />
+
+​				（3）左侧工具栏点击分支按钮：可查看此次commit改动的文件；以前的commit记录；分支等。
+
+​				（4）左下角分支按钮：可切换分支
+
+​				（5）左下角同步按钮可提交并pull代码
+
+**格式化**：默认格式化设置（右键/Format with/default Format选择prettier即可）
+
 - **editor 格式化配置**（setting.js）：
 
 ```js
@@ -2337,16 +2287,20 @@ root = true    　　　#表示是最顶层的配置文件，发现设为true时
 {num1..num2}  　匹配num1到num2之间的任意一个整数, 这里的num1和num2可以为正整数也可以为负整数
 ```
 
-- **使用 prettier 格式化**：可在根目录下建立 prettier.config.js 用于配置，其它类型参考：[prettier 官网](https://prettier.io/docs/en/configuration.html)。[prettier 配置大全](https://segmentfault.com/a/1190000012909159)。
+- **使用 prettier 格式化**：主要格式化js代码，其它类型参考：[prettier 官网](https://prettier.io/docs/en/configuration.html)。[prettier 配置大全](https://segmentfault.com/a/1190000012909159)。
 
 ```js
-//prettier.config.js or .prettierrc.js
+//prettier.config.js or .prettierrc
 module.exports = {
-  trailingComma: "none", //对象最尾无逗号。
-  tabWidth: 4,
-  semi: true,
+  trailingComma: "none", // 对象最尾无逗号。
+  tabWidth: 2,
+  semi: true, // 句尾分号
   singleQuote: false,
-  useTabs: false,
+  useTabs: false, // 空格缩进
+  printWidth: 160, // 每行最大长度
+  arrowParens: "avoid", // 箭头函数参数只有一个时是否要有小括号。avoid：省略括号
+  bracketSpacing: true, // 在对象，数组括号与文字之间加空格 "{ foo: bar }"
+  eslintIntegration: false, // 不让prettier使用eslint的代码格式进行校验
 };
 ```
 
@@ -2361,7 +2315,7 @@ module.exports = {
 var c=89;
 ```
 
-- **vetur 格式化**：支持 vue 文件语法高亮，使用 eslint-plugin-vue@beta 检测，可配置对 vue 页面代码的格式化（多数情况下会关闭 vetur 的检测和 js 部分的格式化）。[vetur 官网](https://vuejs.github.io/vetur/guide/highlighting.html#custom-block)
+- **vetur 格式化**：支持 vue 文件语法高亮，主要格式化vue代码。[vetur 官网](https://vuejs.github.io/vetur/guide/highlighting.html#custom-block)
 
 ```js
 {
@@ -2387,82 +2341,9 @@ var c=89;
 }
 ```
 
-**我的 vscode/setting.json**：
 
-```json
-{
-  "workbench.iconTheme": "city-lights-icons-vsc",
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-  "workbench.colorTheme": "Shades of Purple",
-  "gitHistory.alwaysPromptRepositoryPicker": true,
-  "iceworks.materialSources": [],
-  "editor.suggestSelection": "first",
-  "editor.formatOnSave": true, //保存时触发格式化
-  "eslint.run": "onSave",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "editor.tabSize": 2,
-  "git.ignoreWindowsGit27Warning": true,
-  "vetur.validation.template": false, //关闭vetur的检测。
-  "vetur.format.defaultFormatter.js": "none", //关闭vetur对js的格式化。
-  "vetur.format.defaultFormatter.html": "prettier",
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "files.exclude": {
-    "**/.classpath": true,
-    "**/.project": true,
-    "**/.settings": true,
-    "**/.factorypath": true
-  }
-}
-```
 
-配置 2：
-
-```json
-{
-    // 整个窗口缩放比例
-    "window.zoomLevel": 1,
-    // lint 配置
-    "eslint.validate": [
-        "javascript",
-        "javascriptreact",
-        {
-            "language": "vue",
-            "autoFix": true
-        }
-    ],
-    // save 后自动 fixed 代码
-    "eslint.autoFixOnSave": true,
-    "tslint.autoFixOnSave": true,
-    // prettier 配置
-    "prettier.singleQuote": true,
-    "prettier.stylelintIntegration": true,
-    "prettier.eslintIntegration": true,
-    "prettier.tslintIntegration": true,
-    "prettier.jsxSingleQuote": true,
-    "prettier.useTabs": true,
-    // vetur 配置
-    "vetur.format.options.useTabs": true,
-    "vetur.format.defaultFormatter.html": "js-beautify-html",
-    // 编辑器配置（默认tab、字体修改）
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2,
-    "editor.fontFamily": "Fira Code",
-    "editor.fontLigatures": true,
-    // git 配置
-    "git.enableSmartCommit": true,
-    "git.autofetch": true
-    // go 配置
-    "go.gopath": "/Users/xx/xx",
-    "go.autocompleteUnimportedPackages": true,
-    "go.gocodeAutoBuild": true,
-}
-```
-
-修改 python 环境：设置中搜索 python.python path 将框内的路径修改为自己想要的(worker pace 和 user 项都修改)，如果不成功则参考 35 中的注意事项。
+**修改 python 环境**：设置中搜索 python.python path 将框内的路径修改为自己想要的(worker pace 和 user 项都修改)，如果不成功则参考 35 中的注意事项。
 控制台打印中文乱码问题：点击左侧工具栏第四个按钮，左上角点击生成 launch.json 文件，选择 python 环境，然后在生成的文件中以下位置填入：
 
 ```
@@ -2535,7 +2416,9 @@ https://www.jianshu.com/p/0ad5625e9717
   下载安装：到官网下载社区版，社区版可免费使用。选中安装位置、下载位置、工具位置。
   新建项目：左上角新建项目。源文件下新建 c++文件。
 
-## 9、真机调试：(使用谷歌浏览器)
+## 9、调试
+
+**真机调试**：
 
 **方法一**：同一局域网内，用手机直接访问 node 开启的 web 服务地址(ip 地址使用电脑 ipv4 地址，而不是 localhost)。
 **方法二**：使用 google 浏览器。
@@ -2546,10 +2429,13 @@ pc 端和手机端都下载 google 浏览器，手机上打开开发者选项并
 **问题**：如果方法一无法打开页面，那么可以尝试设置防火墙，设置里有控制各服务允许通过防火墙的设置，找到 node,javascript 相关字样的，勾选允许即可。
 [解决该问题参考地址。](https://www.cnblogs.com/AwenJS/p/12840924.html)
 
-google 浏览器控制台使用：
+**浏览器调试**：（google ）
 
-- netWork/wifi 形状左侧，可选择 slow3G，模拟弱网环境；
-- 右上角设置/右下角 Disable javascript，可禁用 js；
+- 模拟弱网环境：netWork/wifi 形状左侧，可选择 slow3G；
+- 禁用 js：右上角设置/右下角 Disable javascript；
+- 打断点：source栏，点击调试的文件，点击行号，再刷新页面；
+- 日志类型：console栏，点击几种类型的输出，更精准查看；
+- 请求记录：network栏，点击all/fetch/XHR/JS/CSS，查看各种类型，网络请求记录
 
 ## 11、uni-app 的使用：
 
@@ -2645,7 +2531,7 @@ onShareAppMessage(){}//用户点击右上角分享
 **尺寸单位**：uni-app 中使用 upx 为自适应单位，与小程序一样，750upx 占满屏宽，设计稿不是 750 大小的需要与 750 算一个比例，然后在量一个元素大小时乘以该比例转化为 upx 大小即可。
 
 - H5 端的 rpx 被转为 px，但随机型变化也会变化（所以不用使用 rem 做适应）！暂时不知道怎么实现的。
-- **转换 upx**：只要在 manifest.json 里配置下面"transformPx" : true。
+- **转换 upx**：只要  在 manifest.json 里配置下面"transformPx" : true。
 - H5 端 rem 使用：[rem 使用的特别解决方案](https://www.jianshu.com/p/62e399f4aa2e)
 - [uni-app 中的跨域解决。](https://blog.csdn.net/paopao79085/article/details/91948809)、[全局可用的 api](https://uniapp.dcloud.io/api/README)
 
@@ -2845,182 +2731,9 @@ axios.request({
 
 [axios 配置，学习地址。](https://www.cnblogs.com/mica/p/10795242.html)
 
-## 14、NUXTJS：
 
-:::alert-info
-**ssr 实现原理**：ssr 有两个入口文件，client.js 和 server.js 。webpack 通过两个入口文件分别打包成给服务端用的 server bundle 和给客户端用的 client bundle。当服务端接受到来自客户端的请求后，会创建一个渲染器 bundleRender, 这个 bundleRenderer 会读取上面生成的 server bundle 文件，并且执行它的代码，然后发送一个生成好的 html 到浏览器，等客户端加载了 client bundle 之后，会和服务端生成的 DOM 进行 Hydration (判断这个 DOM 和自己即将生成的 DOM 是否相同，如果相同就是将客户端的 vue 实例挂载到这个 DOM 上，否则会提示警告)。一般只做首屏渲染。
-:::
-模板：在项目跟目录新建一个 app.html 模板，可被用于最后生成的 html 文件。默认模板如下：
 
-```html
-<!DOCTYPE html>
-<html {{ HTML_ATTRS }}>
-  <head {{ HEAD_ATTRS }}>
-    {{ HEAD }}
-  </head>
-  <body {{ BODY_ATTRS }}>
-    {{ APP }}
-  </body>
-</html>
-```
-
-**layouts**：该目录下的页面相当于普通 vue 项目中的 APP.vue 最外层 vue 页面，所以需要在页面中放置一个<Nuxt/>加载其它页面的标签。当然在 layouts 中放置 error 页面之类的可不用
-components：该目录下的为组件，各页面中不用导入，注册，直接按照组件文件名称使用即可。
-**plugins**：对应的是 vue 中使用的 plugin，无论是自定义的还是第三方的都可以放置在 plugins 目录下，然后 nuxt.config 中配置使用。例如：plugins 下建立一个 axios 全局配置的 js 文件，其它文件直接引用即可。
-
-```js
-//-----plugins/element-ui.js内容如下：
-import Vue from "vue";
-import Element from "element-ui";
-Vue.use(Element);
-
-//-----nuxt.js内容如下：
-module.exports = {
-  plugins: [
-    {
-      src: "@/plugins/element-ui", //src指定文件地址。
-      ssr: true, //若为false时则只会在客户端被打包引入，为true则会直接在服务端渲染。
-    },
-  ],
-};
-```
-
-**路由**：nuxt 会自动根据 pages 下的结构转为路由，示例如下：！路由的跳转方法不变。
-
-- pages/index.vue =>变为`{name:"index",path:"/"}`。
-- pages/user/index.vue =>变为`{name:"user",path:"/user"}`#index 文件名不计。
-- pages/user/cord.vue =>变为`{name:"user-cord",path:"/user/cord"}`。
-- pages/user/\_id.vue =>变为`{name:"user-id",path:"user/:id"}`#下划线会变为动态路由标志。且文件名变为参数名。
-  loading：有一个默认的顶部进度条加载动画，在 nuxt.config.js 中设置 loading:false 可以将其关闭，当然也可以是一个字典定义进度条的一些外观。也可以自己定制一个加载动画页面，然后`loading:'~/components/loading.vue'`使用。
-
-```js
-export default {
-  mounted() {
-    //使用$nextTick()函数<用于延迟执行一段代码>，确保loading被调用。
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start();
-    });
-
-    setTimeout(() => {
-      this.$nuxt.$loading.finish();
-    }, 1000);
-  },
-};
-```
-
-**middleware**：该目录用于存放中间件，中间件允许您定义一个自定义函数运行在一个页面或一组页面渲染之前。
-
-```js
-//middleware/state.js内容：
-export default function ({ req, redirect, route }) {
-  if (req.adfgasd) {
-    if (req.url === "/") {
-      return redirect("/homepage"); //重定向路径。
-    }
-  }
-}
-
-//nuxt.config.js内容：
-module.exports = {
-  //...,路由变化时使用中间件。
-  router: {
-    middleware: "stats", //stats对应文件名。
-  },
-};
-```
-
-store：该目录下存放 vuex 文件，像平常一样建立，使用即可。
-**额外的键**：nuxt 提供的一些 vue 框架之外的键，如下：
-
-```js
-export default {
-  //asyncData在组件化之前调用，可在这里做数据请求，return或callback返回的值会与data中的合并。
-  asyncData({ params, req, res, error }, callback) {
-    //params可获取上个页面传来的参数。
-    if (params.name) {
-      callback(null, { message: "success" });
-    } // 或者return {message:"success"}也是一样的。
-    else {
-      // 显示错误页面（layouts目录下的error.vue页面）。
-      error({ statusCode: 404, message: "Post not found" }); //或者callback({ statusCode: 404, message: 'Post not found' })
-    }
-  },
-  //用于在渲染页面之前获取数据填充应用的状态树,不会设置组件的数据。
-  async fetch({ store, params }) {
-    //store为vuex中的对象。
-    await store.dispatch("GET_STARS");
-  },
-  //	配置当前页面的 Meta 标签等。
-  head() {
-    return {
-      title: this.title,
-      meta: [{ hid: "description" }],
-    };
-  },
-};
-```
-
-[参考学习地址。](https://segmentfault.com/a/1190000021050814?utm_source=tag-newest)、[NUXTJS 中文网。](https://www.nuxtjs.cn/guide/configuration)、[nuxt 部署](https://www.jianshu.com/p/bbe874c32f90)
-
-## 16、提交代码时检查：
-
-- 简介：husky 是 git 的一个钩子，可以在 git 的 hook 中执行一些命令。使用的是 eslint 检查。prettier 可配置 vscode 格式化方式。lint-staged 对 git 暂存的文件进行 lint 检查。提交时对暂存的代码用 eslint 规则检查，出现 error 的话会禁止提交。
-- 安装：cnpm install --save-dev prettier husky lint-staged eslint
-- [学习地址](https://blog.csdn.net/Jsoning/article/details/103577402)。[prettierpeiz 官网](https://prettier.io/docs/en/options.html)。
-
-package.json 配置如下：可在 scripts 中添加：`"lint": "eslint --ext .js,.vue src"`#这样来单独运行检查文件。
-
-```json
-{
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**": [
-      "prettier --config prettier.config.js --write",
-      "eslint --fix",
-      "git add"
-    ]
-  }
-}
-```
-
-**eslint 配置**：常用如下
-
-```js
-module.exports = {
-  rules: {
-    indent: [1, "tab"], //缩进，等价于[1,2]#2表示缩进字符个数。
-    quotes: [1, "double"], //引号使用：2表示error，1表示warning。单引号single
-    semi: [1, "always"], //分号结尾，/nenver。
-    "vue/html-indent": [
-      "error",
-      "tab", //vue页html元素的缩进，默认使用2个空格。
-      {
-        attribute: 1,
-        baseIndent: 1,
-        closeBracket: 0,
-        alignAttributesVertically: true,
-        ignores: [],
-      },
-    ],
-  },
-  //一些定义了全局的变量，这样这些变量不会被检测为未定义。
-  globals: {
-    app: true,
-    AlipayJSBridge: true,
-    process: true,
-  },
-};
-```
-
-- **问题集**：可以鼠标放在提示错误的地方，点击`Peek Problem`，然后点击规则`eslint(...)`，跳到该规则相应的配置介绍，去学习它的使用。
-- 提示一些规则没有找到（顶部红色波浪线）：该版本没有对应的规则支持，尝试升级版本。
-- [eslint 配置大全。](https://blog.csdn.net/p358278505/article/details/77429251)
-
-## 18、html2canvas 使用：
+## 14、html2canvas 使用：
 
 用于将页面的 html 节点转化为图片，注意若其中包含图片，使用 img 标签而不要使用背景图。否则生成的图片不清晰。
 
@@ -3043,66 +2756,9 @@ new html2canvas(_el, {
 });
 ```
 
-## 19、nginx：
+# 五、移动端开发
 
-:::alert-info
-**简介**：是一个高性能的 HTTP 和反向代理 web 服务器，同时也提供了 IMAP/POP3/SMTP 服务。Nginx 是一款轻量级的 Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，在 BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上 nginx 的并发能力在同类型的网页服务器中表现较好。
-:::
-
-- 安装：解压后进入目录，sudo ./configure 运行配置生成 Makefile 文件，当前目录下再 make,make install 编译安装，在/usr/local 下会出现 nginx 目录。
-- 配置如下：似乎新版 nginx 默认支持
-
-```js
-#工作模式及连接数上限
-events {
-    worker_connections 1024;    #单个后台worker process进程的最大并发链接数
-}
-
-#设定http服务器，利用它的反向代理功能提供负载均衡支持
-http {
-    # 可配置多个server
-    server {
-        listen 443;     # 监听本机所有ip上的 443 端口
-        listen 80;      # 可设置监听多个端口
-        server_name  aa.xx.com; # 域名地址
-
-        #反向代理的路径（和upstream绑定），location 后面设置映射的路径
-        location / {
-            proxy_pass http://zp_server1;
-        }
-        # -----root作用：使用了root时，实际路径是：访问路径/root路径。如：http://localhost/bank,->http://localhost/bank/html->访问D:/.../bank/html下文件。
-        location /bank/page/ {
-            root html;//实际寻找路径：http://localhost/bank/page/html
-            #alias D:\WEB\dist; #别名使用的路径,不与root使用。
-            try_files $uri $uri/ /bank;
-        },
-        #文件服务写法：
-        #-----alias作用：url路径与本地寻文件路径不影响。
-        location /download {
-            autoindex on;# 显示目录
-            autoindex_exact_size on;# 显示文件大小
-            autoindex_localtime on;# 显示文件时间
-            alias D:\\download;//访问路径变化：http://localhost/download->访问D:\Download
-        }
-        # 配置多个webapp时location后面的路径与前端配置的history的base路径一致。
-        location /bank2/page/ {
-            try_files $uri $uri/ /bank2;
-        }
-
-        error_page  500 502 503 504  /502.html;
-        location = /50x.html {
-            root   html;
-        }
-    }
-}
-```
-
-- [windows 端下载地址](http://nginx.org/en/download.html)
-- [参考地址 1](https://www.cnblogs.com/goloving/p/13501265.html)、[配置学习地址](https://www.cnblogs.com/jingmoxukong/p/5945200.html)
-
-# 五、android 和 ios：
-
-**h5 在两端的兼容性问题**：
+1、**移动H5开发**：手机浏览器显示的前端项目。一般也要求在app打开正常使用，一些兼容性问题如下：
 
 1. **时间兼容性**：将时间转换为时间戳时，ios 端得到 NaN 问题。解决：安卓用 Date.parse(new Date('2018-03-30 12:00:00'))，iosDate.parse(new Date('2018/03/30 12:00:00'))。
 2. **input 框聚焦**：有时候，ios 有时候会出现 outline 或者阴影，安卓则是显示正常的。解决：`input:focus{outline:none} input:{-webkit-appearance: none;}`
@@ -3112,245 +2768,426 @@ http {
 
 - [参考地址 1](https://zhuanlan.zhihu.com/p/83969781)。[参考地址 2](https://zhuanlan.zhihu.com/p/47584892)。
 
-**java/ios与js的交互原理**：Android的webview是基于webkit内核的,**webview中集成了js与java互调的接口函数**,通过addJavas criptInterface方法,==可以将Java的类注册进webkit==,给网页上的js进行调用,而且还可以通过loadUrl方法是给webkit传递一个URL,供浏览器来进行解析,实现Java和js交互
-# 六、typescript：
+- **java/ios与js的交互原理**：Android的webview是基于webkit内核的,**webview中集成了js与java互调的接口函数**,通过`addJavas criptInterface`方法,==可以将Java的类注册进webkit==,给网页上的js进行调用,而且还可以通过loadUrl方法是给webkit传递一个URL,供浏览器来进行解析,实现Java和js交互
 
-1. **基础类型**：在变量名后声明其类型。<b c=r>声明的变量类型是用小写的，不然某些情况编译不通过。</b>
+2、**微信公众号**：
 
-```ts
-let x: [string, number];//声明一个可以有多种类型的元组变量。(元组各元素类型不必相同)
-let decLiteral: number = 6;
-let isDone: boolean = false;
-let list: number[] = [1, 2, 3];//数组写法
-let list: Array<number> = [1, 2, 3];
-let notSure: any = 4;//any表示可以是任意类型。
-//默认情况下null和undefined是所有类型的子类型。 就是说你可以把null和undefined赋值给number类型的变量。
-let u: undefined = undefined;
-let n: null = null;
-//用枚举，可作为变量的类型。
-enum Color {Red, Green, Blue}
-let c: Color = Color.Green;
-//>>>>>>>>>>>>!使用
-let y:number
-y = null! //用在值后可以让不符合的类型编译通过。
-/*========================
-    未知对象类型使用,不要使用object
-==========================*/
-var cc:Record<string:unknow>;
-//-----------数值连接字符串：直接使用+或模板字符串连接会报错。
-let res:string = decLiteral.toString().concat(str);
-//interface用于创建一个类型要求例子，可以公共调用。
-/*==================
-        自定义类型
-====================*/
-interface LabelledValue {
-  readonly label: string;//对象必须含有该键值。readonly表示该属性只读。
-  color?: string;//带?号表示可选，在判断使用时会有一些友好的提示。
-}
-/*==================
-        map方法
-====================*/
-let myMap = new Map();
-myMap.set("key",value); //set(),clear(),delete(),size()等方法
-```
+- 准备：先用超级管理员账号登录微信公众号平台，开发>开发者工具>微信开发者工具>绑定开发者(将自己的微信号绑定为开发者账号)。
+  开发>接口权限>网页服务>网页授权>修改下把目标网站域名添加为公众号授权网页(先上传那个 txt 文件到服务器项目根目录)。
+- **授权登录步骤**：
 
-2. **函数**：
+> 跳转文档中指定的地址（地址中加上 appid 之类的参数）。分静默和非静默两种。
+> 对应页面用户手动点击授权登录后会将 code 放到 url 中返回，且会刷新刚才那个页面。
+> 获取到 code（为 openId）上传给后台，后台会与微信服务器换取信息，返回 token 给前端。
+> 用该 token 作为用户已登录的凭证，存于本地。注意跳转页面时判断 token 是否过期。
 
-```ts
-//参数是函数时，参数函数也要定义类型
-interface fn1 {
-  (): void;
-}
-//有返回值的函数也是如此
-function warnUser(): string {
-  return "hello";
-}
-//void类型像是与any类型相反，它表示没有任何类型。
-function warnUser(a: number | string): void {
-  //参数也需要定义类型。
-  alert(a);
-}
-//never类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
-function error(message: string): never {
-  throw new Error(message);
-}
+- **微信支付**：使用 H5 支付需要先在商户号开通 H5 支付，还需要填写支付域名。前端调用自己后台的下单接口成功后跳转到后台返回的支付页 url 即可。
+  **注意**：url 地址处理使用 encodeURIComponent(url)函数处理,这个 url 中不能加端口号，所以只能是刚才配置的授权网页域名。
+- [配置、获取 openid、授权登录。](https://www.jianshu.com/p/b7e2100b56e4)
 
-function printLabel(labelledObj: LabelledValue) {
-  console.log(labelledObj.label);
-}
-//泛型变量：传给函数什么类型，函数就返回什么类型。
-function identity<T>(arg: T): T {
-  return arg;
-}
+3、**微信小程序**：[微信开放平台](https://developers.weixin.qq.com/miniprogram/dev/framework/)
 
-function test(fn: fn1): void {
-  fn();
-}
-```
+- **大致原理**：视图层和逻辑层是分开的，**双线程同时运行**，视图层的界面使用 `WebView` 进行渲染，逻辑层运行在 `JSCore` 中。
+  视图层和逻辑层之间的沟通则需要借助 `系统层(WeixinJsBridage)` 进行通信，逻辑层把数据变化通知到视图层，触发视图层页面更新，视图层把触发的事件通知到逻辑层进行业务逻辑处理。[参考学习地址](https://juejin.cn/post/6976805521407868958)
+  
+- 创建：先下载微信开发者工具，用其创建1个模板项目。
 
-3. **枚举**：
+- **配置**：`app.json`为整个应用的配置，`page.json`每个页面目录下有1个页面配置文件。
 
-```ts
-enum FileAccess {
-  // constant members
-  None,
-  Read = 1 << 1,
-  Write = 1 << 2,
-  ReadWrite = Read | Write,
-  // computed member
-  G = "123".length,
-}
-//常数枚举写法
-const enum Enum {
-  A = 1,
-  B = A * 2,
-}
-```
-
-4. **类**：与 es6 的写法大致一致
-
-```ts
-class Animal {
-  public a: string = "11"; //默认都是public
-  private name: string; //private将变量设为私有
-  //这是构造函数，这些参数能在继承时作为接收参数使用。使用的protected表示被保护，不能直接用new继承这个类。
-  protected constructor(theName: string) {
-    this.name = "hh";
+  ```js
+  // app.json
+  {
+    "pages":[
+      "pages/index/index",
+      "pages/logs/logs"
+    ],
+    "window":{
+      "backgroundTextStyle":"light",
+      "navigationBarBackgroundColor": "#fff",
+      "navigationBarTitleText": "Weixin",
+      "navigationBarTextStyle":"black"
+    },
+    // 底部导航栏
+    "tabBar": {
+      "list": [{
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      }, {
+        "pagePath": "pages/logs/index",
+        "text": "日志"
+      }]
+    },
+    "networkTimeout": {
+      "request": 10000,
+      "downloadFile": 10000
+    },
   }
-}
+  // page.json
+  {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "微信接口功能演示",
+    "backgroundColor": "#eeeeee",
+    "backgroundTextStyle": "light"
+  }
+  ```
 
-class dog extends Animal {
-  //构造函数内调用super()这样，子类中也可以使用this指针。
-  constructor(name: string) {
-    super(name);
-  }
-  move(distanceInMeters = 45) {
-    console.log("Galloping...");
-    super.move(distanceInMeters);
-  }
-}
-```
+- **页面示例**：
 
-5. **装饰器**：是一个方法，可以注入到类或类的方法、属性参数上来扩展类、属性、方法、参数的功能。<b c=r>只用于类或其中</b>。[更多学习地址。](https://blog.csdn.net/weixin_33928467/article/details/87963596)
-
-```ts
-//>>>>>>>>>>>>>>>>>>普通装饰器，无法传参。
-function logClass(params: any) {
-  //params就是当前类
-  console.log(params); //f HttpClient() {}
-  params.prototype.apiUrl = "xxxx"; //相当于动态扩展的属性
-  params.prototype.run = function () {
-    console.log("run");
-  };
-}
-@logClass
-class HttpClient {
-  //将该类作为上面的params参数
-  constructor(name: string) {
-    console.info(name);
+```html
+<view class="container">
+  <view class="userinfo">
+    <!--if,else的使用；事件绑定-->
+    <button wx:if="{{!hasUserInfo && canIUse}}" bindtap="clickMe"> 获取头像昵称 </button>
+    <block wx:else>
+      <image src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+    <!--用model绑定的value是双向的，普通的value绑定则只是单向-->
+    <input model:value="{{value}}" /><input value="{{value}}" />
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+</view>
+<script>// 这里用script标签方便展示
+Page({
+  data: { // 参与页面渲染的数据
+    logs: []
+  },
+  onLoad: function () {
+    // 页面渲染后 执行
+	var appInstance = getApp();// 全局方法，globalData是其中用于存储全局变量的
+	console.log(appInstance.globalData)
+  },
+  clickMe: function() {
+    // 使用setData改变数据
+    this.setData({ msg: "Hello World" });
+    // 使用pageRouter代替wx下的同名路由操作较好
+    this.pageRouter.navigateTo({
+      url: './new-page'
+    })
   }
-}
-//>>>>>>>>>>>>>>可传参的装饰器，装饰器传的参数是params，而修饰的类时target参数
-function logClass2(params: string) {
-  return function (target: any) {
-    //需要返回一个函数用于接收装饰的类。
-    target.prototype.apiUrl = params; //相当于动态扩展的属性
-  };
-}
-@logClass2("http://www.abc.com")
-class HttpClient {
-  constructor(name: string) {
-    console.info(name);
-  }
-}
-const cc = new HttpClient("wcs");
-//>>>>>>>>>>>>>>>属性装饰器，用于类内部的变量装饰。
-function logProperty(params: any) {
-  //params是装饰器传入的参数，target是所在类，attr是修饰的对象。
-  return function (target: any, attr: any) {
-    console.log(target); //{getData:f,constructor:f}
-    console.log(attr); //url
-    target[attr] = params;
-  };
-}
-class HttpClient {
-  @logProperty("http://www.abc.com") //属性装饰器后面不能加分号，该值赋给url。
-  public url: any | undefined;
-  constructor() {
-    console.log(134);
-  }
-  getData() {
-    console.log(this.url);
-  }
-}
-let cn = new HttpClient();
-cn.getData(); //http://www.abc.com
-//>>>>>>>>>>>>>>>>>类方法装饰器
-function get(params: any) {
-  return function (target: any, methodName: any, desc: any) {
-    //params是装饰器传入的参数，target是所在原型，methodName是修饰的方法名，desc是修饰的方法的描述。
-    target.apiUrl = params;
-  };
-}
-class HttpClient {
-  public url: any | undefined;
-  constructor() {
-    console.info("init");
-  }
-  @get("http://www.abc.com")
-  getData() {
-    console.log(this.url);
-  }
-}
-let http = new HttpClient();
-```
-
-6. **ts 中使用 js 库**：
-
-- 安装第三方 js 库，如 jquery：[安装 jquery](https://www.cnblogs.com/juliazhang/p/10103985.html)
-
-```js
-npm install jquery --save; //安装jquery
-npm install @types/jquery --save-dev; //jquery的类型定义文件，node_modules/@types/jquery下。
-// tsconfig.js的types中加入jquery，可全局使用。
-"types": ["jquery"];
-// 使用：
-<script lang="ts">
-import jquery from "jquery";
-jquery("#id");
+})
 </script>
 ```
 
-- **自定义 js 导入**：编写对应 js 文件的类型定义文件（.d.ts），使用处导入定义文件，html 文件导入对应 js 文件。
+- **组件**：
 
 ```js
-//cool.d.ts 类型声明文件：
-declare module Runoob {
-  export class Calc {
-     doSum(limit:number) : number;
+Component({
+  behaviors: [],
+  // 属性定义（接收父组件的传参）
+  properties: {
+    myProperty: { // 属性名
+      type: String,
+      value: '',
+      observer: function(newVal, oldVal) {
+        // 属性值变化时执行
+      }
+    },
+    myProperty2: String // 简化的定义方式
+  },
+  data: {}, // 私有数据，可用于模板渲染
+  lifetimes: {
+    // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
+    attached: function () { },
+    moved: function () { },
+    detached: function () { },
+  },
+  // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
+  attached: function () { }, // 此处attached的声明会被lifetimes字段中的声明覆盖
+  ready: function() { },
+  pageLifetimes: {
+    // 组件所在页面的生命周期函数
+    show: function () { },
+    hide: function () { },
+    resize: function () { },
+  },
+  methods: {
+    onMyButtonTap: function(){
+      this.setData({
+        // 更新属性和数据的方法与更新页面数据的方法类似
+      })
+    },
+    // 内部方法建议以下划线开头
+    _myPrivateMethod: function(){
+      // 这里将 data.A[0].B 设为 'myPrivateData'
+      this.setData({
+        'A[0].B': 'myPrivateData'
+      })
+    },
+    _propertyChange: function(newVal, oldVal) {}
   }
+})
+```
+
+
+
+- 微信支付：向后台获取时间戳、签名串等，然后：
+
+```js
+wx.requestOrderPayment({
+  timeStamp: "",
+  nonceStr: "",
+  package: "",
+  signType: "MD5",
+  paySign: "",
+  success(res) {}, //拉起微信支付，支付成功后调用。
+  fail(res) {},
+});
+```
+
+- **获取 openId**：
+
+```js
+wx.login({
+  success(res) {
+    if (res.code) {
+      // 这里调用自己后台接口，用code交换openId。
+    } else {
+      console.log("登录失败！" + res.errMsg);
+    }
+  },
+});
+```
+
+- **调起微信小程序**：小程序需要已正式上线发布。
+  - 通过 url scheme 跳转进来（公众平台/工具，生成类似 weixin://dl/business?t=Ljf-...），ios，网页中可直接 location.href 打开。
+  - android App 调用：android 无法通过 scheme 调起小程序，不过可以提供**小程序原始 id**（公众平台/设置，查看。非小程序 id）、线上版本号、页面路径，供其 app 打开。
+
+- **文件 formData 上传**：小程序无有 formData 对象，使用以下方式与 formData 对象上传文件对象
+
+```js
+wx.chooseImage({
+  count: 1, //默认9
+  sizeType: ["original"], //可以指定是原图还是压缩图，默认二者都有
+  sourceType: ["album"], //从相册选择
+  success: function (res) {
+    //console.log(JSON.stringify(res.tempFilePaths),config.baseUrl + "/system/user/profile/avatar");
+    wx.uploadFile({
+      url: "http://xxx.com/system/user/profile/avatar",
+      filePath: res.tempFilePaths[0],
+      header: {
+        "content-type": "multipart/form-data", //'application/json',
+        token: uni.getStorageSync("token"),
+        Authorization: uni.getStorageSync("token"),
+      },
+      name: "avatarfile",
+      formData: {
+        id: 11, //TODO:放置额外的参数
+      },
+      success(rq) {
+        let data = JSON.parse(rq.data); // TODO:返回的是JSON
+        if (data.respCode === "00") {
+          _s.userInfo.avatar = data.imgUrl;
+          uni.showToast({
+            title: "修改成功",
+            icon: "none",
+          });
+        }
+      },
+    });
+  },
+});
+```
+
+4、**混合式app开发**
+
+简介：app主体使用原生开发（android，ios），H5开发部分使用全多页面应用的开发（每一个模块按照一个页面应用来打包），每个模块开发完成后单独打包压缩放置到服务器，原生app点入某个模块时通过下载对应H5离线包的方式在app内使用。
+
+5、H5+app开发：
+
+基于 **WebView UI** 的基础方案，市面上大部分主流 App 都有采用，例如微信JS-SDK，通过 JSBridge 完成 H5 与 Native 的双向通讯，从而赋予H5一定程度的原生能力，**页面渲染使用的web**（一般不做处理的话用手指长按可以直接选中复制）
+
+6、uni-app开发app：
+
+7、reactNative 开发app：
+
+基于 **Native UI** 的方案，例如 React-Native、Weex。在赋予 H5 原生API能力的基础上，进一步通过 JSBridge 将js解析成的虚拟节点树(Virtual DOM)传递到 Native 并使用**原生渲染**。
+
+页面渲染过程：react框架》虚拟dom》native层映射渲染到原生app页面。
+**与原生交互**：react框架层调用》native层》`JavaScriptCore`》bridge调用原生api（即js与native层交互，具体如下：）
+
+- **API注入**，原理其实就是 Native 获取 JavaScript环境上下文，并直接在上面挂载对象或者方法，使 js 可以直接调用，Android 与 IOS 分别拥有对应的挂载方式。
+- **WebView 中的 prompt/console/alert 拦截**，通常使用 prompt，因为这个方法在前端中使用频率低，比较不会出现冲突；
+- WebView URL Scheme 跳转拦截；
+
+
+
+8、Flutter开发app
+
+是Google开发的一套全新的跨平台、开源UI框架，支持iOS、Android系统开发，并且是未来新操作系统Fuchsia的默认开发套件。
+渲染引擎依靠**跨平台的Skia图形库**来实现，依赖系统的只有图形绘制相关的接口，可以在最大程度上保证不同平台、不同设备的体验一致性，逻辑处理使用支持AOT的Dart语言，执行效率也比JavaScript高得多。
+在Android Studio和VS Code两个IDE上都提供了全功能的支持。Flutter所使用的Dart语言同时支持AOT和JIT运行方式
+
+# 六、nodejs
+
+:::alert-info
+**简介**：js 只能运行在浏览器内，相比于其它 python，java 之类的编程语言可以运行在桌面环境，js 弱了很多，而 node 提供了 js 可在系统运行的环境，内部加了一些内置 api，提供文件 io 等功能。node.js 的最大优点是处理并行访问，如果一个 web 应用程序同时会有很多访问连接，就能体现使用 node.js 的优势。另一个好处是，使用 javascript 作为服务器端脚本语言，可以消除答一些与浏览器端 js 脚本的冲突。甚至发挥 javascript 动态编程的特性，在服务器与浏览器之间建立直接的动态程序。而 npm 是其自带的一个包管理工具。
+:::
+**windows 上安装**：官网下载 node 的 zip 包，解压后将路径添加到 path 路径即可。
+**linux 上安装**：官网上下载 nodejs 的 linux 压缩包，解压进入，将 node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin 下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后 node -v 安装成功。
+**脚本语言**：又被称为扩建的语言，或者动态语言，是一种编程语言，用来控制软件应用程序，脚本通常以文本（如 ASCII)保存，只在被调用时进行解释或编译。
+
+## a、包管理工具
+
+如果是 windows 系统的话，尽量使用管理员身份来运行 cmd，然后进行 npm 操作
+
+1. cnpm：
+   **配置淘宝安装源**：npm 本身指定的安装源是外国的，`npm install -g cnpm --registry=https://registry.npm.taobao.org`#安装淘宝镜像,使用时直接 cnpm install 即可。[参考学习地址.](https://www.cnblogs.com/onew/p/11330439.html)
+
+- 错误集：
+  - 打包 vue 项目报错：javascript heap out of memory。node 打包 vue 项目提示该 javascript 运行导致内存溢出，这是 node 封装的 v8 引擎运行的 javascript 其限制了 js 能使用的内存，解决如下：
+
+```js
+//在package.json文件加入：
+{
+    ...
+    "scripts":{
+        ...
+        "fix-memory-limit":"cross-env LIMIT-4096 increate-memory-limit"
+    },
+    "devDependencies":{
+        ...
+        "increase-memory-limit": "^1.0.6"
+    }
 }
-//home.vue页面引入：
-<script lang="ts">
-//js部分引入类型定义文件，【注意前面3个斜杆！】
-/// <reference path="../assets/cool.d.ts" />
-var obj = new Runoob.Calc();    //使用,【重运行服务后，报错提示可去除】
-</script>
-//index.html文件,引入使用
-<script src="/assets/cool.js"></script>
 ```
 
-7. **模块**：与 es6 的几乎一致
+- 删除 node_module 文件夹，重新 npm install 安装依赖，然后项目下：npm run fix-memory-limit
+  //然后安装：`npm install -g increase-memory-limit`#接着进入项目目录执行：`increase-memory-limit`#结束后再试试运行项目。
+- [参考学习地址(先尝试 3，4)](https://www.jianshu.com/p/410e826506be)。
+- [npm 安装包失败的问题(设置一下安装源，npm 安装即可)。](https://blog.csdn.net/moxiong3212/article/details/79756553)
 
-```ts
-export cosnt ak: number = 3489;
-export * from "./StringValidator";
-//一个文件只能有一个default
-declare let $:JQuery;
-export default $;//另一个文件import $ from "JQuery";使用。
+2. **npm**：
+   临时设置安装源：`npm config set registry https://registry.npm.taobao.org `。
+   npm 指令管理包的指令：
+
+```cmd
+npm install --save lodash  #--save表示生产环境的依赖，--save-dev表示开发环境的依赖。
+npm cache clean -f       //清除缓存。
+npm remove eslint        //移除包内的某个依赖。
+npm install vue@3.0      //安装指定版本写法
+npm unpdate xxx --save   //升级包的版本
+npm list -g --depth 0 	//查看全局安装的依赖
 ```
 
-[typescript 中文档](https://www.tslang.cn/docs/handbook/decorators.html)。[菜鸟教程](https://www.runoob.com/typescript/ts-ambient.html)。[tsconfig.js](https://segmentfault.com/a/1190000021749847)
+- **运行 js 文件**：node name.js
+- **使用同级文件**：`const fl = require('./index')`。 
+- **使用同级目录下的文件**：`const fl = require('./config/multi')`
+
+3. **nvm**：[windows 版 nvm 下载地址，下载 nvm-setup.zip 包](https://github.com/coreybutler/nvm-windows/releases)。安装后 cmd 使用 nvm 命令
+
+- 查看可安装的NodeJS版本: nvm list available（LTS项为长期支持版本）
+- 安装node版本：`nvm install 8.16.0`
+- 切换 node 版本：`nvm use 8.16.0`
+- 卸载指定版本：`nvm uninstall 8.16.0`
+
+4. **编写npm包**：可以自己按照 npm 包的规则来写一个包，然后发布到 npm 平台使用。步骤如下：
+
+- [先到 npm 官网注册一个人账号。](https://www.npmjs.com/signup)
+- 进入一个人文件夹，使用 npm init，填写一些信息（会生成 package.json 文件），初始化一个 npm 包。其中**main 指定入口文件**如：`./moment.js`。
+- 安装依赖：如果自己的这个 npm 包需要其它依赖，直接该目录下 npm i ... --save 即可。
+- 登录：npm login 登录账号。
+- 指定的入口 js 文件最后需要用：`module.exports = obj`//的形式导出一个模块。
+- 发布：npm publish。撤销发布：npm unpublish
+
+5. **yarn**：并行安装、离线模式、安装版本统一、多注册来源处理。
+
+- 安装：`npm install yarn -g`
+- yarn 安装：yarn install
+
+6. npm私服搭建：[参考地址](https://www.jianshu.com/p/bb4e90b2f7b7)
+
+## b、文件操作
+
+读写操作：
+
+```js
+var fs = require("fs");
+// 读取指定目录下的所有一级目录或文件。
+fs.readdir(MODULE_PATH, function (err, files) {
+  if (err) {
+    console.error(err);
+  } else {
+    pages = files;
+  }
+});
+/*几乎所有的这类放发都有Sync，为同步读取*/
+var pages = fs.readdirSync(MODULE_PATH);
+
+const option = { flag: "w", encoding: "utf-8", mode: "0666" }; //flag指定使用的模式。
+// 写
+fs.writeFile("test.text", "内容", option, function (err) {
+  if (err) {
+    console.log("写入错误" + err);
+  } else {
+    console.log("写入成功" + err);
+  }
+});
+// 一般使用writeFileSync()完成文件复制操作。
+// 读，readFileSync为同步读取。
+fs.readFile(
+  "test.text",
+  { flag: "r", encoding: "utf-8" },
+  function (err, data) {
+    if (!err) {
+      console.log("文件数据" + data);
+    }
+  }
+);
+```
+
+## c1、chalk 的使用
+
+一个给字体添加样式的包，支持模板使用：
+
+```js
+const chalk = require("chalk");
+//字体颜色、粗体、背景色。
+console.log(chalk.red.bold.bgWhite("内容"));
+//模板写法
+console.info(chalk`{blue.bold 内容}`);
+```
+
+## c2、输入，输出
+
+```js
+//方法一
+process.stdin.resume();
+process.stdin.setEncoding("utf-8"); //设置字符集
+process.stdout.write("请输入:"); //标准输出
+process.stdin.on("data", function (data) {
+  var str = data.slice(0, -2); //slice选取字符。不使用也可
+  process.stdin.emit("end"); //输入结束，触发
+  process.stdout.write("输入的:" + str);
+});
+process.stdin.on("end", function () {
+  //    监听上面的end事件。
+  process.stdin.pause();
+});
+//------- 方法二
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+//获取输入
+read.on("line", (line) => {
+  inputArray.push(line);
+  console.warn(">", inputArray);
+  if (inputArray.length === 2) read.close();
+});
+rl.question("你认为 Node.js 中文网怎么样？", (answer) => {
+  // 对答案进行处理
+  console.log(`多谢你的反馈：${answer}`);
+  rl.close();
+});
+rl.on("close", function () {
+  process.exit(); //退出命令行。
+});
+```
 
 # 七、测试：
 
@@ -3362,31 +3199,24 @@ export default $;//另一个文件import $ from "JQuery";使用。
 
 - 安装：
   （1）全局安装：`npm install jest -g`
-  （2）初始化一个配置：`jest --init` #项目下会生成一个 Jest.config.js 配置文件。
+  （2）初始化一个配置：`jest --init` #项目下会生成一个 `Jest.config.js` 配置文件。
   （3）命令指定配置：自定义配置文件使用。需要注意与 babel 版本有关，一下是一个合适版本的组合。
-
-```json
-{
-  "scripts": {
-    "test": "jest --config test/config.js"
-  },
-  "devDependencies": {
-    "babel-core": "^6.22.1",
-    "babel-helper-vue-jsx-merge-props": "^2.0.3",
-    "babel-jest": "^21.0.2",
-    "babel-loader": "^7.1.1",
-    "babel-preset-env": "^1.3.2",
-    "babel-preset-stage-2": "^6.22.0",
-    "babel-register": "^6.22.0",
-    "jest": "^22.0.4",
-    "jest-serializer-vue": "^0.3.0"
+  （4）项目也安装：`npm install -D jest`。
+  
+  ```
+  {
+    "scripts": {
+      "test": "jest --config test/config.js"
+    },
+    "devDependencies": {
+      "babel-jest": "^21.0.2",
+      "jest": "^22.0.4",
+      "jest-serializer-vue": "^0.3.0"
+    }
   }
-}
-```
+  ```
 
-（4）项目也安装：`npm install -D jest`。
-
-- 配置文件：[配置文档地址](https://jestjs.io/docs/expect#expectvalue)
+- 配置文件：`Jest.config.js`，[配置文档地址](https://jestjs.io/docs/expect#expectvalue)
 
 ```js
 module.exports = {
@@ -3403,8 +3233,89 @@ module.exports = {
 };
 ```
 
+- **测试编写**：一些常用的
+
+```js
+// 将项目中的函数导入进来测试
+import { varType } from "../examples/utils/jsCool";
+// 比较两个map的数据
+const { diff } = require('jest-diff');
+const a = {a: {b: {c: 5}}};
+const b = {a: {b: {c: 6}}};
+const result = diff(a, b);
+// 测试钩子
+beforeEach(()=>{
+  // TODO:每个test实例运行前的操作
+});
+afterEach(()=>{
+  // TODO:每个test实例运行后执行的操作
+});
+// 所有测试模块，运行前或都运行结束后（只执行一遍）
+beforeAll(() => {
+  return initializeCityDatabase();
+});
+afterAll(() => {
+  return clearCityDatabase();
+});
+// 一个测试模块
+test('测试模块名', () => {
+  const data = {one: 1};
+  data['two'] = 2;
+  // expect(数据).toEqual(期望得到的结果)
+  expect(data).toEqual({one: 1, two: 2});
+  const n = null;
+  expect(varType(n)).toBeNull();
+  expect(n).toBeDefined();
+  expect(n).not.toBeUndefined();
+  expect(n).not.toBeTruthy();
+  expect(n).toBeFalsy();
+  // it用于断言
+  it('1 is true', ()=>{
+    expect(1).toBeTruthy()
+  })
+  //包含检测
+  expect(['a','link','pre','spect','ive']).toContain('spect');
+  // 检测抛错
+  expect(()=>{throw new Error('fff')}).toThrow(Error);
+  /***异步测试***/
+  expect((function(){
+    return Promise.resolve(true);
+  })()).resolves.toBe(true);
+  done(); // 有异步操作时，可能异步代码每运行完该测试块就结束了，使用done()可以告诉什么时候结束
+});
+/***describe中的钩子函数只会在该模块中运行，更是测试模块的分组作用***/
+describe('matching cities to foods', () => {
+  // Applies only to tests in this describe block
+  beforeEach(() => {
+    return initializeFoodDatabase();
+  });
+
+  test('Vienna <3 veal', () => {
+    expect(isValidCityFoodPair('Vienna', 'Wiener Schnitzel')).toBe(true);
+  });
+
+  test('San Juan <3 plantains', () => {
+    expect(isValidCityFoodPair('San Juan', 'Mofongo')).toBe(true);
+  });
+});
+/***检测回调函数的次数，回调结果（常用于模拟接口请求逻辑）****/
+function forEach(items, callback) {
+  for (let index = 0; index < items.length; index++) {
+    callback(items[index]);
+  }
+}
+test('回调检测',()=>{
+    const mockCallback = jest.fn(x => 42 + x); // 创建可用于监听的回调（42+x是回调函数的返回结果值）
+	forEach([0, 1], mockCallback); // 运行
+	expect(mockCallback.mock.calls.length).toBe(2); // 回调的次数
+	expect(mockCallback.mock.calls[0][0]).toBe(0); // 第0次回调结果
+})
+```
+
+
+
 - **错误集**：
-  > jest SecurityError: localStorage is not available..：配置文件中将环境改为 node 即可，`testEnvironment: "node"`。
+  jest SecurityError: localStorage is not available..：配置文件中将环境改为 node 即可，`testEnvironment: "node"`。
 
 **2、mock 数据做测试**：mock 也可用作直观的测试使用。
 
@@ -3473,7 +3384,159 @@ module.exports = {
 - 运行：script 添加运行命令："test:view": "cypress open"，npm run test:view 打开 cypress 测试界面。
 - [cypress 英文档](https://docs.cypress.io/guides/overview/why-cypress)
 
-# 八、华为鸿蒙：
+# 八、性能检测
+
+1、**加载时间获取**
+
+```js
+// 包含从请求页面，到页面加载完成各个环节的时间明细。
+const navTimes = performance.getEntriesByType('navigation');// 1个数组
+// 资源加载耗时情况
+const [{ startTime, responseEnd }] = performance.getEntriesByType('resource');// 1个数组，每条资源的加载信息
+const loadTime = responseEnd - startTime;
+// 筛选加载太久的资源
+const SEC = 1000
+const TIMEOUT = 10 * SEC
+const setTime = (limit = TIMEOUT) => time => time >= limit
+const getLoadTime = ({ requestStart, responseEnd }) => responseEnd - requestStart;
+const getName = ({ name }) => name;
+pMonitor.getTimeoutRes = (limit = TIMEOUT) => {
+  const isTimeout = setTime(limit)
+  const resourceTimes = performance.getEntriesByType('resource')
+  return resourceTimes.filter(item => isTimeout(getLoadTime(item))).map(getName)
+}
+```
+
+2、**检测白屏**：白屏是资源未加载完全造成的，可以通过定时获取app内的某一元素来判断，如果未获取到，说明还未加载出来，属于白屏。
+
+# 玖、格式化与检查
+
+- **简介**：husky 是 git 的一个钩子，可以在 git 的 hook 中执行一些命令。使用的是 eslint 检查。**lint-staged 对 git 暂存的文件进行 lint 检查**。提交时对暂存的代码用 eslint 规则检查，出现 error 的话会禁止提交。
+- 安装：`npm install --save-dev husky lint-staged eslint`，然后`./node_modules/.bin/eslint --init`生成.eslintrc.js文件。
+- **使用**：单独使用eslint即可，同prettier一起使用有较多冲突，不容易解决。
+- [学习地址](https://blog.csdn.net/Jsoning/article/details/103577402)。[prettierpeiz 官网](https://prettier.io/docs/en/options.html)。[prettier与eslint冲突相关](https://zhuanlan.zhihu.com/p/347339865)、[eslint中文网](http://eslint.cn/docs/user-guide/configuring)
+
+ `package.json`配置如下：可在 scripts 中添加：`"lint": "eslint --ext .js,.vue src"`#这样来单独运行检查文件。
+
+```js
+{
+  "script":{
+    "prettier": "prettier --write .",
+    "lint": "eslint --ext .js,.vue src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**": [
+      "prettier --config prettier.config.js --write",
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
+```
+
+**eslint 配置**：常用如下`.eslintrc.js`（以下这些配置也可在package.json中的`eslintConfig`下写）
+
+```js
+/***数值1表示警告色，2为红色，0则不标记颜色***/
+module.exports = {
+  // env指定环境后，这些环境自带的全局变量是可被eslint识别的（其它还有commonjs,es6,jquery等）
+  env:{"browser":true,"node":true},
+  // ts项目时加上parser,parserOptions配置，且npm i vue-eslint-parser @typescript-eslint -D
+  parser: 'vue-eslint-parser', // 指定使用的解析器（解析代码的eslint规则）默认是'espree'
+  parserOptions: {
+      "ecmaVersion": 6, // 指定你想要使用的 ECMAScript 版本
+      "ecmaFeatures":{jsx:true}, // 表示你想使用的额外的语言特性
+      'parser':'@typescript-eslint/parser', // 将 TypeScript 转换成与 estree 兼容的形式，以便在ESLint中使用
+  },
+  // 为特定文件指定其它解析器
+  "overrides": [
+        {
+            "files": ["*.md"],
+            "processor": "a-plugin/markdown", // 解析器名称
+        }
+  ],
+  // 第三方插件，辅助解析
+  plugins: ['vue', '@typescript-eslint'],
+  // extends中可添加一些第3方配置的规则，"eslint:recommended"则是一些常用规则
+  "extends": ["eslint:recommended","prettier"],
+  rules: {
+    indent: [1, "tab"], //缩进，等价于[1,2]#2表示缩进字符个数。
+    quotes: [1, "double"], //引号使用：2表示error，1表示warning。单引号single
+    semi: [1, "always"], //分号结尾，/nenver。
+    // 控制html部分的缩进
+    "vue/html-indent": [
+      "error",
+      "tab", //vue页html元素的缩进，默认使用2个空格。
+      {
+        attribute: 1,
+        baseIndent: 1,
+        closeBracket: 0,
+        alignAttributesVertically: true,
+        ignores: [],
+      },
+    ],
+    "plugin1/rule1": 0, // 对插件项中的某个规则
+    "eqeqeq": 1, // 使用全等
+    no-alert: 0,// 禁止使用alert 
+    no-constant-condition: 2,// 禁止在条件中使用常量表达式 if(true) if(1)
+    no-implicit-coercion: 1,// 禁止隐式转换
+    "max-depth": [0, 4],//嵌套块深度
+    "max-nested-callbacks": [0, 2],//回调嵌套深度
+    "max-params": [0, 3],//函数最多只能有3个参数
+    "max-statements": [0, 10],//函数内最多有几个声明
+    "no-with": 2,//禁用with
+    "no-use-before-define": 2,//未定义前不能使用
+    "space-after-keywords": [0, "always"],//关键字后面是否要空一格
+    "space-before-blocks": [0, "always"],//不以新行开始的块{前面要不要有空格
+    "no-spaced-func": 1,// 函数名与()之间不能有空格
+    "no-debugger": 2,// 禁止使用debugger
+    "no-dupe-args": 2,// 禁止 function 定义中出现重名参数
+    "no-dupe-keys": 2,// 禁止对象字面量中出现重复的 key
+    "no-empty": 1,// 禁止出现空语句块
+    "use-isnan": 2, // 使用isNAN()检查NAN
+    "no-unmodified-loop-condition": 2, // 禁用一成不变的循环条件
+    "no-empty-function": 1, // 禁止空函数
+    "no-new-wrappers": 2, // 禁止对 String，Number 和 Boolean 使用 new 操作符
+    "curly":[1,"multi"],// 括号风格，multi表示1行代码时不用括号，多行时才用
+  },
+  //一些定义了全局的变量，这样这些变量不会被检测为未定义。
+  globals: {
+    app: true,
+    AlipayJSBridge: true,
+    process: true,
+  },
+};
+```
+
+**文件忽略**：`.eslintignore`（指定部分文件不使用eslint检测）
+
+```
+# Valid
+/root/src/*.js
+# Invalid
+\root\src\*.js
+```
+
+**保存修复**：可在项目`.vscode/settings.json`或自己的设置中配置如下（保存时使用eslint规则修复）
+
+```json
+{
+	"editor.codeActionsOnSave": {
+    	"source.fixAll.eslint": true
+  	},
+}
+```
+
+**问题集**：可以鼠标放在提示错误的地方，点击`Peek Problem`，然后点击规则`eslint(...)`，跳到该规则相应的配置介绍，去学习它的使用。
+
+- 提示一些规则没有找到（顶部红色波浪线）：该版本没有对应的规则支持，尝试升级版本。
+
+# 九、华为鸿蒙
 
 1. 系统层次：[文档学习地址](https://developer.harmonyos.com/cn/docs/documentation/doc-guides/ability-service-lifecycle-0000000000044472)
 
@@ -3829,16 +3892,95 @@ HiLog.warn("warn");//输出一条日志
 2. 编译构建 APP：配置签名信息、编译构建 App、
 3. 上架应用市场
 
+# 十、nginx
+
+**正向代理**：代理服务器模仿客户端，转发客户端请求到原服务器，获取到资源后返回给客户端（**如资源文件还是从原服务器拿取**）。
+**反向代理**：代理服务器模仿服务端，处理客户端的请求（==如资源文件从代理服务器拿取==）
+
+**简介**：是一个高性能的 HTTP 和反向代理 web 服务器，同时也提供了 IMAP/POP3/SMTP 服务。Nginx 是一款轻量级的 Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，在 BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上 nginx 的并发能力在同类型的网页服务器中表现较好。
+
+- 安装：解压后进入目录，sudo ./configure 运行配置生成 Makefile 文件，当前目录下再 make,make install 编译安装，在/usr/local 下会出现 nginx 目录。
+- 配置如下：似乎新版 nginx 默认支持
+
+```bash
+#工作模式及连接数上限
+events {
+    worker_connections 1024;    #单个后台worker process进程的最大并发链接数
+}
+
+#设定http服务器，利用它的反向代理功能提供负载均衡支持
+http {
+    # 可配置多个server
+    server {
+        listen 443;     # 监听本机所有ip上的 443 端口
+        listen 80;      # 可设置监听多个端口
+        server_name  aa.xx.com; # 域名地址
+
+        #反向代理的路径（和upstream绑定），location 后面设置映射的路径
+        location / {
+            proxy_pass http://zp_server1;
+        }
+        # -----root作用：使用了root时，实际路径是：访问路径/root路径。如：http://localhost/bank,->http://localhost/bank/html->访问D:/.../bank/html下文件。
+        location /bank/page/ {
+            root html;//实际寻找路径：http://localhost/bank/page/html
+            #alias D:\WEB\dist; #别名使用的路径,不与root使用。
+            try_files $uri $uri/ /bank;
+        },
+        #文件服务写法：
+        #-----alias作用：url路径与本地寻文件路径不影响。
+        location /download {
+            autoindex on;# 显示目录
+            autoindex_exact_size on;# 显示文件大小
+            autoindex_localtime on;# 显示文件时间
+            alias D:\\download;//访问路径变化：http://localhost/download->访问D:\Download
+        }
+        # 配置多个webapp时location后面的路径与前端配置的history的base路径一致。
+        location /bank2/page/ {
+            try_files $uri $uri/ /bank2;
+        }
+
+        error_page  500 502 503 504  /502.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+}
+```
+
+- [windows 端下载地址](http://nginx.org/en/download.html)
+- [参考地址 1](https://www.cnblogs.com/goloving/p/13501265.html)、[配置学习地址](https://www.cnblogs.com/jingmoxukong/p/5945200.html)、[缓存配置参考地址](https://juejin.cn/post/6945797654458662919)
+
+**缓存配置**：强制缓存一般对几乎不怎么变动的文件使用，html、部分页面js、css等可考虑使用协商缓存。
+
+```bash
+location /test/ {
+  ...
+  #其他配置
+  ...
+  #【强制缓存配置】
+  if ($request_uri ~* .*[.](js|css|map|jpg|png|svg|ico)$) {
+    add_header Cache-Control "public, max-age=2592000";#非html缓存1个月
+  }
+  #【协商缓存配置，配置no-cache后nginx默认使用协商缓存，完全无缓存可配置no-store】
+  if ($request_filename ~* ^.*[.](html|htm)$) {
+    add_header Cache-Control "public, no-cache";
+    #html文件协商缓存，也就是每次都询问服务器，浏览器本地是是否是最新的，是最新的就直接用，非最新的服务器就会返回最新
+  }
+}
+```
+
 # 十一、webpack：
 
-:::alert-info
+
 **简介**：当项目变得很大之后再按照之前的资源引入方法会很难管理项目，不容易理清其依赖、加载顺序。webpack 能自动找到所有依赖，将它们按顺序都打到一个 js 包中，最后引入。用 Loader 转换文件、plugin 注入钩子。
 **模块化规范**：commonJS：需要通过转换位 es5 才能在浏览器环境运行。AMD：异步方法加载依赖模块，用于解决浏览器环境模块化问题。现在使用 es6 也有模块化(但大部分浏览器还不支持)，也需要转换为 es5。
-:::
-**require 与 import 区别**：require 是赋值过程并且是运行时才执行，也就是异步加载。import 是解构过程并且是编译时执行，性能稍好。两者在 webpack 中都算是异步方案。
+
+**require 与 import 区别**：require 是赋值过程并且是==运行时才执行，但是同步加载==。`import` 是解构过程并且是==编译时执行，但是异步的==。
 
 - require 属于 commonjs 规范的东西社区方案，提供了服务器/浏览器的模块加载方案。只能在**运行时确定模块的依赖关系**及输入/输出的变量，无法进行静态优化。
-- import 是 es6 语法规范，可以解构，语言规格层面支持模块功能。支持编译时静态分析，便于 JS 引入宏和类型检验。动态绑定。
+- import 是 es6 语法规范，可以解构，语言规格层面支持模块功能。支持编译时静态分析，便于 JS 引入宏和类型检验。
+
+==与vite对比==：**webpack是先打包再启动开发服务器，vite是直接启动开发服务器，然后按需编译依赖文件**，在==HRM方面==，当某个模块内容改变时，让浏览器去重新请求该模块即可，而不是像webpack重新将该模块的所有依赖重新编译
 
 ## a0、package.json
 
@@ -3853,12 +3995,14 @@ HiLog.warn("warn");//输出一条日志
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
   },
-  "dependencies": {},
-  "devDependencies": {},
+  // npm安装1个依赖时，会安装依赖包的package.json中的dependencies项所列依赖
+  // 所以项目当做1个npm包使用时才体现出两者区别（前者的包放入后者则依赖下载不全，后者的包放入前者则是不必要的）
+  "dependencies": {}, // 放置生产环境必须使用的依赖
+  "devDependencies": {}, // 只放置开发环境使用的依赖
 }
 ```
 
-## a1、原理：
+## a1、原理
 
 Webpack 的构建流程可以分为以下三大阶段：在每个大阶段中又会发生很多事件，Webpack 会把这些事件广播出来供给 Plugin 使用。
 
@@ -3882,21 +4026,15 @@ require(["module"], function (module) {});
 ```
 
 **安装**：npm install webpack -g#全局安装。目录下使用：npm init#会在当前路径下生成一个 mypackage 文件夹，里面有 package.json 文件、webpack.config.js 文件和 src 文件夹。
-**项目中使用别名**：可以在 build 目录下的配置文件中使用
 
-```js
-//例如/build/webpack.dev.conf.js配置如下
-const merge = require("webpack-merge");
-const baseWebpackConfig = require("./webpack.base.conf");
-// merge将其它文件的配置合并过来。
-const devWebpackConfig = merge(baseWebpackConfig, {
-  resolve: {
-    alias: { "@c": "src/common/tools" }, //别名对应路径。
-  },
-});
-```
+**配置**：[webpack 详细配置学习地址](https://blog.csdn.net/c_kite/article/details/71279853)。[devserver 属性学习地址。](https://blog.csdn.net/franktaoge/article/details/80083317)
 
-**配置**：[webpack 详细配置学习地址。](https://blog.csdn.net/c_kite/article/details/71279853)。[devserver 属性学习地址。](https://blog.csdn.net/franktaoge/article/details/80083317)
+**热更新过程**：
+1、当修改了一个或多个文件；
+2、文件系统接收更改并通知`webpack`；
+3、`webpack`重新编译构建一个或多个模块，并通知HMR服务器进行更新；
+4、HMR Server 使用`webSocket`通知HMR runtime 需要更新，HMR运行时通过HTTP请求更新jsonp；
+5、HMR运行时替换更新中的模块，如果确定这些模块无法更新，则触发整个页面刷新
 
 ## a2、常用 loader：
 
@@ -3904,9 +4042,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 - css-loader：一般 vue-loader 解析过后结果 css-loader,处理过后会把样式都变成 module 形式，然后直接导出这个模块，模块中包含了 css 的源码跟模块的 id。
 - style-loader：会引用 css-loader 生成的模块，然后在 Html 的 head 中加入 style 标签，当然也支持 link 引入等其它方式。
 - vue-style-loader：在 style-loader 上的一层封装，不过还加了一些支持服务端的渲染。
-- postcss-loader：把 CSS 解析成 JavaScript 可以操作的 AST，第二个就是调用插件来处理 AST 并得到结果，还能自动添加 css 前缀，如果要与 MiniCssExtractPlugin 的 loader 一起使用还要配置其它选项！。所以一般是放在 css-loader 之后，less-loader 等之前。
+- postcss-loader：把 CSS 解析成 JavaScript 可以操作的 AST，第二个就是调用插件来处理 AST 并得到结果，还能自动添加 css 前缀，如果要与 MiniCssExtractPlugin 的 loader 一起使用还要配置其它选项。所以一般是放在 css-loader 之后，less-loader 等之前。
 - less-loader,sass-loader,scss-loader：css 的预处理使用。scss 是 sass 的 3.0 版本引入的语法，去除了之前的一些严格规则，且规则与 css 一致。
-- style-resource-loader：向样式文件中添加全局的样式属性。
+- `style-resource-loader`：向样式文件中添加全局的样式属性。
 - url-loader：用来为资源文件生成路径的。允许你有条件地将文件转换为内联的 base-64 URL。
 - file-loader：可以指定要复制和放置资源文件的位置
 
@@ -3987,7 +4125,7 @@ lang指定使用的语言，不写时为普通css。*/
 </style>
 ```
 
-## a21、自己编写 webpack-loader
+## a21、编写 loader
 
 loader文件：hello-loader.js （最后只使用此文件）
 
@@ -4017,7 +4155,7 @@ test();
 webpack.config.js
 
 ```js
-const path = require("path"); // node的方法
+const path = requ ire("path"); // node的方法
 
 module.exports = {
   entry: "./src/main.js",
@@ -4044,16 +4182,16 @@ module.exports = {
 
 ## a3、常用的 Plugin：
 
-<b c=b>plugin 在 loader 之后执行，目的在于解决 loader 无法实现的其他事。</b>。这些 plugin 除了 webpack 自带的，其它插件还是需要 npm 安装的。
+<b c=b>plugin 在 loader 之后执行，目的在于解决 loader 无法实现的其他事。</b>这些 plugin 除了 webpack 自带的，其它插件还是需要 npm 安装的。
 
-- **DefinePlugin**：用于配置可用的全局变量。也可以额外 npm install -D dotenv 然后根目录下创建.env 文件编写，配置中使用 require('dotenv').config()，然后一样插件中配置。
-- **HtmlWebpackPlugin**：根据原 html 文件配置，打包后生成一个 html 文件，里面可以配置一些生成明细相关。[详细参数](https://www.cnblogs.com/wonyun/p/6030090.html)。
-- **CopyWebpackPlugin**：用于将指定文件放到编译或打包后的文件中去，然后 html 页面可以引入使用：`<script src="<%=htmlWebpackPlugin.options.prefix %>static/jquery.min.js"></script>`。然后单页内可直接使用$()方法。
-- FriendlyErrorsPlugin：友好提示插件，允许 webpack 编译成功和失败后输出的信息。
+- **DefinePlugin**：用于配置可用的==全局变量==。也可以额外 npm install -D dotenv 然后根目录下创建.env 文件编写，配置中使用 require('dotenv').config()，然后一样插件中配置。
+- **HtmlWebpackPlugin**：根据原 html 文件配置，打包后==生成一个 html 文件==，里面可以配置一些生成明细相关。[详细参数](https://www.cnblogs.com/wonyun/p/6030090.html)。
+- **CopyWebpackPlugin**：（==转移文件==）用于将指定文件放到编译或打包后的文件中去，然后 html 页面可以引入使用：`<script src="<%=htmlWebpackPlugin.options.prefix %>static/jquery.min.js"></script>`。然后单页内可直接使用$()方法。
+- FriendlyErrorsPlugin：友好**提示插件**，允许 webpack 编译成功和失败后输出的信息。
 - HotModuleReplacementPlugin：热更新使用插件。
 - CommonsChunkPlugin：分离公共模块使用的插件，具体见 f。
-- UglifyJsPlugin：用于压缩 js 代码。会拖慢编译速度，建议打包时使用。`npm install uglifyjs-webpack-plugin --save-dev`#需要安装
-- ExtractTextPlugin：主要是为了抽离 css 样式,防止将样式打包在 js 中引起页面样式加载错乱的现象。
+- UglifyJsPlugin：用于**压缩 js 代码**。会拖慢编译速度，建议打包时使用。`npm install uglifyjs-webpack-plugin --save-dev`#需要安装
+- ExtractTextPlugin：主要是为了**抽离 css** 样式,防止将样式打包在 js 中引起页面样式加载错乱的现象。
 
 ```js
 const webpack = require('webpack')
@@ -4148,16 +4286,15 @@ class CopyrightWebpackPlugin {
         })
     }
 }
-​
 module.exports = CopyrightWebpackPlugin;
 ```
-## a5、resolve 与 output&魔术注释：
+## a5、resolve 与 output
 
 ```js
 /**三种hash的区别：（3种hash都是应对浏览器缓存而建立的）
 hash：是跟整个项目的构建相关，只要项目里有文件更改，整个项目构建的hash值都会更改
 chunkhash：只要我们不改动公共库的代码，就可以保证其哈希值不会受影响。
-contenthash:
+contenthash: 文件有改动时只修改与该文件相关的打包文件
 */
 {
     // 只能有一个output
@@ -4170,6 +4307,7 @@ contenthash:
     // 项目中
     resolve:{
         extensions:['.js','.vue','.json'],
+        //--------【配置引入路径资源时使用的别名】
         alias:{'vue$':"vue/dist/vue.esm.js"}
     }
 }
@@ -4204,7 +4342,7 @@ export default new Router({
 ```
 
 - eval：不生成.js.map 文件，仅仅是在每一个模块后，增加 sourceURL 来关联模块处理前后对应的关系。
-- source-map：打包后有 map 文件，相应的要在浏览器设置中开启：设置齿轮/preference/Sources/Eable javascript sources。
+- source-map：打包后有 map 文件，相应的要在浏览器设置中开启：设置齿轮`/preference/Sources/Eable javascript sources`。
 - inline：该属性不会生成独立的 .map 文件，而是将 .map 文件以 dataURL 的形式插入。
 - cheap：该属性在打包后同样会为每一个文件模块生成 .map 文件
 - module：该属性的配置也是生成一个没有列的信息的 sourceMaps 文件，同时 loader 的 sourcemap 也被简化成为只包含对应行的。
@@ -4515,7 +4653,7 @@ require.context(
 ​		 获取多个组件实例：
 
 ```js
-const context = require("@/components", false, /\.vue$/);
+const context = require.context("@/components", false, /\.vue$/);
 //keys()方法可以获取所有匹配到的模块 ID 的数组
 const modules = context.keys().reduce((accu, file) => {
   accu[file] = context(file).default;
@@ -4528,7 +4666,7 @@ export default {
 // 全局注册示例
 context.keys().forEach(filename=>{
    // 获取组件实例
-  const component = context(fileName);
+  const component = context(filename);
   // 获取组件名
   const componentName = component.name;
   Vue.component(componentName, component.default);

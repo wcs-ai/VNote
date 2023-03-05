@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+  <style>
+
+  </style>
+</head>
+<body>
+  <input type="color"/><span id="value">色值：</span>
+  <img id="img" src=""/>
+  <script>
+    document.getElementById("img").addEventListener('click',function(e){
+      var x = e.offsetX;
+      var y = e.offsetY;
+
+      getColor(x,y);
+    });
+
+   function getColor(x, y) {
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    var img = new Image();
+
+    img.src = require("@/assets/images/sj13.jpg");
+    img.onload = function () {
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    var mgd = ctx.getImageData(0, 0, img.width, img.height);
+    var dt = mgd.data;
+    /*getImageData()得到的数据是一维数组，没相邻的4个值是一个点的rgba值，点是从左道右，从上到下排列的*/
+    //像素开始位置：(W*y + x)*4
+    var position = (img.width * Number(y) + Number(x)) * 4;
+
+    console.info(dt[position], dt[position + 1], dt[position + 2]);
+    document.getElementById("value").innerText = `色值：${dt[position]}${dt[position + 1]}${dt[position + 2]}`;
+    };
+  }
+  </script>
+</body>
+</html>

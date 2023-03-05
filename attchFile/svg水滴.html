@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<head>
+  <style>
+    .windows {
+      width: 425px;
+      height: 284px;
+      background: url(street.jpg);
+      position: relative;
+    }
+
+    .windows::before {
+      content: '';
+      display: block;
+      height: 100%;
+      background-color: #fff2;
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+
+    .dropplet {
+      position: absolute;
+    }
+
+    .dropplet:nth-child(1) {
+      top: 100px;
+      left: 100px;
+      width: 40px;
+      height: 32px;
+      border-radius: 50% 50% 50% 50% / 50% 50% 45% 45%;
+      background: radial-gradient(ellipse at center, white 40%, transparent 70%) no-repeat 60% 25% / 16% 15%;
+      box-shadow: inset 7px 0 2px -5px rgba(0, 0, 0, .2), inset 6px 0 1px -5px rgba(0, 0, 0, .2), inset 0 -1px 2px rgba(250, 241, 220, .5), inset 0 -10px 5px 1px rgba(255, 255, 255, .3), inset -10px 5px 2px -10px rgba(0, 0, 0, .3), inset -10px 7px 5px -10px rgba(0, 0, 0, .2), inset 0 10px 15px -2px rgba(0, 0, 0, .3), 0 2px 1px -1px rgba(245, 227, 183, .5), -1px 8px 1px -2px rgba(0, 0, 0, .5), -1px 10px 2px -2px rgba(0, 0, 0, .4), 1px -1px 2px 0 rgba(50, 50, 50, .5);
+    }
+
+    .dropplet:nth-child(2) {
+      top: 125px;
+      left: 155px;
+      width: 50px;
+      height: 40px;
+      border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, .1) 0%, white 10%, white 40%, transparent 60%) no-repeat 60% 25% / 18% 16%;
+      box-shadow: inset 0 1px 5px rgba(0, 0, 0, .2), inset 7px 2px 1px -5px rgba(169, 168, 168, .7), inset 0 -1px 2px rgba(250, 241, 220, .1), inset 0 -2px 10px rgba(255, 255, 255, .1), inset -1px 1px 1px rgba(169, 168, 168, .5), inset -11px 3px 1px -10px rgba(169, 168, 168, .3), inset -10px 7px 5px -10px rgba(0, 0, 0, .3), inset 0 1px rgba(58, 2, 2, .3), inset 0 15px 15px rgba(0, 0, 0, .2), 0 1px 1px -1px rgba(245, 227, 183, .6), 0 2px 1px -1px rgba(131, 131, 131, .5), -10px -2px 2px -10px #666, -11px 4px 2px -10px #666, -10px 8px 2px -10px #666, 8px 6px 2px -10px #666, 7px 9px 2px -10px #6c6c6c, -1px 8px 1px -2px rgba(0, 0, 0, .5), -1px 10px 2px -2px rgba(0, 0, 0, .3), 0 0 1px rgba(0, 0, 0, .1);
+    }
+
+    .dropplet:nth-child(3) {
+      top: calc(50% + 20px);
+      left: calc(50% + 80px);
+      width: 120px;
+      height: 120px;
+      border-radius: 90% 60% 100% 50% / 90% 50% 100% 45%;
+      background: radial-gradient(ellipse at center, white 40%, transparent 60%) no-repeat 60% 25% / 10% 10%;
+      box-shadow: inset 13px -4px 4px -10px rgba(0, 0, 0, .4), inset 14px -4px 10px -10px rgba(0, 0, 0, .2), inset 0 -3px 10px 1px rgba(250, 241, 220, .8), inset 0 -15px 10px 0 rgba(0, 0, 0, .2), inset -20px 10px 5px -20px rgba(0, 0, 0, .2), inset -20px 15px 10px -20px rgba(0, 0, 0, .2), inset 0 3px 2px 1px rgba(0, 0, 0, .2), inset 0 30px 20px -5px rgba(0, 0, 0, .3), 0 2px 1px -1px rgba(245, 227, 183, .8), -16px 13px 5px -20px black, 17px 13px 5px -20px black, 15px 19px 5px -20px black, -1px 16px 3px -5px rgba(0, 0, 0, .4), -1px 21px 3px -5px rgba(0, 0, 0, .3), 1px -1px 1px rgba(50, 50, 50, .1);
+      transform: scale(.4);
+    }
+
+    .dropplet:nth-child(4) {
+      top: 60px;
+      left: calc(50% + 90px);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, white 30%, transparent 60%) no-repeat 60% 25% / 12.5% 12.5%;
+      box-shadow: inset 15px 0 5px -10px rgba(0, 0, 0, .2), inset 13px 0 2px -10px rgba(0, 0, 0, .2), inset 0 -3px 5px 0 rgba(250, 241, 220, .5), inset 0 -20px 10px 1px rgba(255, 255, 255, .3), inset -23px 10px 5px -20px rgba(0, 0, 0, .3), inset -20px 15px 10px -20px rgba(0, 0, 0, .2), inset 0 25px 20px -5px rgba(0, 0, 0, .3), 0 2px 1px -1px rgba(245, 227, 183, .8), -17px 10px 5px -20px black, 14px 20px 5px -20px black, 16px 14px 5px -20px black, -2px 27px 5px -20px rgba(255, 255, 255, .3), -1px 14px 3px -5px rgba(0, 0, 0, .5), -1px 18px 3px -5px rgba(0, 0, 0, .4), 0 -1px 5px 0 rgba(85, 85, 85, .5);
+      transform: scale(.5);
+    }
+
+    .dropplet:nth-child(5) {
+      top: calc(50% + 30px);
+      left: calc(50% - 160px);
+      width: 65px;
+      height: 68px;
+      border-radius: 50% 50% 50% 50% / 50% 50% 45% 45%;
+      background: radial-gradient(ellipse at center, white 40%, transparent 60%) no-repeat 60% 25% / 10px 6px;
+      box-shadow: inset 12px 5px 5px -10px rgba(0, 0, 0, .3), inset 10px 5px 2px -10px rgba(0, 0, 0, .2), inset -1px -3px 5px 0 rgba(250, 241, 220, .5), inset -1px -20px 10px 1px rgba(255, 255, 255, .3), inset -20px 10px 5px -20px rgba(0, 0, 0, .4), inset -20px 15px 10px -20px rgba(0, 0, 0, .4), inset 0 20px 30px -5px rgba(0, 0, 0, .3), 0 2px 1px -1px rgba(245, 227, 183, .8), -18px 11px 5px -20px rgba(0, 0, 0, .9), -17px 19px 5px -20px rgba(0, 0, 0, .6), 17px 12px 5px -20px rgba(0, 0, 0, .9), 15px 18px 5px -20px rgba(0, 0, 0, .9), -4px 30px 1px -25px rgba(0, 0, 0, .4), -4px 32px 3px -25px rgba(255, 255, 255, .1), -1px 14px 3px -5px rgba(0, 0, 0, .5), -1px 19px 3px -5px rgba(0, 0, 0, .4), 1px -1px 5px 0 rgba(50, 50, 50, .5);
+      transform: scale(.5);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="windows">
+    <i class="dropplet"></i>
+    <i class="dropplet"></i>
+    <i class="dropplet"></i>
+    <i class="dropplet"></i>
+    <i class="dropplet"></i>
+  </div>
+  <svg width="0" height="0">
+    <filter id="water">
+      <feTurbulence type="fractalNoise" baseFrequency='0.03 0.06' numOctaves="10" result='noise' />
+      <feDiffuseLighting in='noise' lighting-color='#e2e1db' surfaceScale='4' result="texture">
+        <feDistantLight azimuth='45' elevation='35' />
+      </feDiffuseLighting>
+      <feComposite in="texture" in2="SourceGraphic" operator="in" />
+    </filter>
+  </svg>
+
+  <script>
+
+  </script>
+</body>
+
+</html>
