@@ -1127,7 +1127,7 @@ const loading = {
 export default loading; //导出后可在ajax拦截器，等全局使用。
 ```
 
-# 三、vue3及正确使用
+# 三、vue3使用
 
 ## 1、性能优化
 
@@ -1155,7 +1155,7 @@ export default loading; //导出后可在ajax拦截器，等全局使用。
 
 ## 2、vue3使用
 
-**v2到v3的改变**： （创建项目：npm init vue@latest）
+**v2到v3的改变**： （创建项目：`npm init vue@latest`）
 
 - 删除：过滤器、部分修饰符（keyCode/native等）、`$listeners` 被移除或整合到 `$attrs`、`<template>`的functional属性移除，等待。
 - 新特性：组合式API（reactive、ref等钩子）、setup、`<Telport>`组件、fragment组件、支持TreeShaking等。
@@ -1174,7 +1174,15 @@ export default loading; //导出后可在ajax拦截器，等全局使用。
 </Suspense>
 <div ref="el"></div>
 <script setup>
-import { reactive,ref,refs,defineAsyncComponent } from "vue";
+import { reactive,ref,refs,defineAsyncComponent,nextTick,watch,watchEffect,computed } from "vue";
+import {defineProps,defineExpose} from "vue";
+/***定义接收的参数***/
+defineProps({
+  isActive: {
+    type: Boolean,
+    default: false
+  }
+});
 const items = [1,2,3]; // 模板中可直接使用该数据，但它不是响应式的({a:1,b:2}); 
 const uu = reactive({a:1,b:2}); // 一个响应式对象
 let cc = ref(9); // 非原始值的响应创建
@@ -1198,6 +1206,11 @@ const AsyncComp = defineAsyncComponent({
   // 也会显示这里配置的报错组件，默认值是：Infinity
   timeout: 3000
 })
+/***<script setup>中使用，决定组件要暴露出去的属性***/
+defineExpose({
+    items,
+    uu
+});
 </script>
 ```
 
@@ -1285,6 +1298,22 @@ store.$subscribe((mutation, state) => {
 `vue-router`使用：[官网地址](https://router.vuejs.org/zh/guide/essentials/navigation.html)，[vite官网](https://cn.vitejs.dev/guide/)
 
 **SSR**：与SSG不同的是每次请求其渲染的内容可能不同，且Vue 也支持将组件在服务端直接渲染成 HTML 字符串，作为服务端响应返回给浏览器，最后在浏览器端将静态的 HTML“激活”(hydrate) 为能够交互的客户端应用。<a href="#ssg">SSG概念</a>
+
+**监听页面回退**：在路由钩子中扩展
+
+```js
+//离开页面后触发，可在此关闭加载动画。
+router.afterEach((to, from) => {
+  console.info('[router后]', to, from, router);
+  const _matched = to.matched;
+  if (!_matched || !_matched.length) return;
+  // 获取页面实例
+  const _component = _matched[0].components.default;
+  /***先拿到页面栈，判断该跳转是否是回退***/
+  // 实例中有监听返回函数则触发
+  _component.resume && _component.resume('hello');
+});
+```
 
 # 四、vue3原理
 
@@ -2142,7 +2171,7 @@ export const defineStore(idOrOptions, setup, setupOptions){
 
 
 
-# 五、React
+# 五、React使用
 
 react使用的架构模式并非mvc/mvvm，类似flux，但不是完全的遵循flux规则
 
@@ -2242,6 +2271,24 @@ class Demo extends React.Component{
 
 export default Demo;
 ```
+**事件绑定**：注意绑定的事件执行时的作用域，还有==列表循环中的事件传参==。处理如下
+
+```jsx
+class Page extends React.Component{
+    click(){console.info(this);}
+ 
+    render(){
+        function ppp(sid){console.info(sid);}
+        let dataList = [{id:9}];
+		dataList.map(item=>{
+            // 使用bind保留住参数
+        	return (<p onClick={ppp.bind(this,item.id)}></p>)
+    	})
+        return (<div onClick={click.bind(this)}></div>);
+    }
+}
+```
+
 **PureComponent**：与Component类似，但在比较state，props使用的是**浅比较**，`class Index extends React.PureComponent{}`
 **memo**：`const NewComponent = React.memo(Index,(preProps,nextProps)=>{return true;})`第2个参数返回true时表示不渲染(类，函数组件都可用)
 **Fragment**：用于包裹多个直接子节点使用`<React.Fragment><i></i><i></i></React.Fragment>`
@@ -2851,7 +2898,7 @@ var batchingStrategy = {
 };
 ```
 
-## 4、事务(Transaction)
+## 6、事务(Transaction)
 
 （保证数据的一致性，以及出错时候的回滚）将需要执行的 method 使用 wrapper **封装起来**，再通过 Transaction 提供的 perform 方法执行。而在 perform 之前，先执行所有 wrapper 中的 initialize 方法；perform 完成之后（即 method 执行后）再执行所有的 close 方法。==一组 initialize 及 close 方法称为一个 wrapper==；
 
@@ -2894,13 +2941,13 @@ var ON_DOM_READY_QUEUEING = {
 };
 ```
 
-5、编译
+7、编译
 
 参考脚本语言与非脚本语言的两种编译方式，前端也有这两种编译方案，如下：
 （1）AOT（Ahead Of Time）提前编译，宿主环境获得的已经是编译好了的代码。（vue的模板较为固定，用的就是此种方法）
 （2）JIT（Just In Time）即时编译，代码在宿主环境中运行时才编译。（Angular则可支持这两种类型，开发时用JIT，生产时用AOT）
 
-## 6、redux原理
+## 8、redux原理
 
 **运行过程**：`React组件`首先调用`ActionCreators`里事先定义好的方法，得到一个`actoion`,通过`dispatch(action)`达到派发`action`给`Reducer`的目的。`Reducer`通过接受的不同的`action`来对`state`数据进行处理，处理完成后，返回一个新的`state`,`state`变化后`React组件`进行重新渲染。
 
@@ -2950,7 +2997,7 @@ class Provider extends Component {
 
 **connect**：连接store和组件，将store，或其操作注入组件进行使用（大致是通过从`reactContext`中查找store进行操作）
 
-7、useState实现???????????????
+9、useState实现
 
 ```js
 function useState(initialState){
@@ -3046,9 +3093,18 @@ g、字典选择组件：字典一般从后端获取，这可能出现错误，�
 
 # 九、前端架构
 
-代码、流程、测试、文档
+## 1、架构准备
 
-## 1、模块化HTML与CSS
+（1）目标分解：了解要搭建的项目需要满足哪些类型的项目，哪些可以替换，稳定性/性能/开发速度等更重与哪一项指标等。
+（2）需求分解：对业务部分的需求将其分解为1或多个功能对应。
+（3）指标分解：使用“性能”、稳定性、可维护性（灵活扩展等）、安全性、开发速度等来指导技术的选择。
+
+2、工程化
+
+一般需要配置：babel编译、代码分割、代码压缩、资源压缩、别名、环境变量；
+具体参看web笔记篇中的工程化。
+
+## 1、模块化布局
 
 a、**OOCSS**：（Object-Oriented CSS，面向对象的 CSS）有**两个主要的原则**：**分离结构和外观**（意味着将视觉特性定义为可复用的单元，可以套用很多不同的外观样式），以及**分离容器和内容**（指的是不再将元素位置作为样式的限定词）
 
@@ -3466,3 +3522,71 @@ query {
 ```
 
 **编译**：`gridsome build`，直接将dist包拿去部署即可。（`npm i serve -g`然后`serve dist`尝试）
+
+# 十2、React Native
+
+简介：React Native以1个npm包的形式来创建项目，使用它的脚手架创建即可。
+
+**初始**：node版本`>14`
+（1）卸载以前的脚手架：`npm uninstall -g react-native-cli @react-native-community/cli`
+（2）创建项目：`npx react-native init AwesomeProject --version x.xx.x`；（--version指定使用的版本）
+（3）或者：`npx react-native init AwesomeTSProject --template react-native-template-typescript`（--template可指定模板）
+
+**环境配置**：（详细过程看中文档）
+（1）安装Android Studio / 里面安装android sdk / 下载一个android虚拟机 / 按照官网配置环境变量
+（2）`yarn install`安装package.json指定的依赖；
+（3）JDK：具体版本号根据react native的版本而定；
+（4）`yarn android`运行到android，期间会下载一些依赖（gradle管理）耗时较久，失败再重下，反复如此即可。
+（5）诊断：`npx react-native docter`给出所欠缺的配置。
+
+**基础使用**：
+
+```jsx
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import HomeScreen from './pages/index';
+
+function DetailsScreen({ navigation,route }) {
+  const { itemId, otherParam } = route.params; // 获取页面参数
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Details Screen</Text>
+      {/**路由跳转***
+      navigation.navigate('Details',{arg:'f',id:'hh'}); // 会添加到路由栈
+      navigation.goBack(); // 返回
+      */}
+      <Button title="Go to Details" onPress={() => navigation.navigate('Details')}/>{/*不会保存到路由栈*/}
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home" 
+        screenOptions={{
+          headerStyle: {backgroundColor: '#f4511e',},
+          headerTintColor: '#fff',
+          headerTitleStyle: {fontWeight: 'bold'},
+      	}}>
+        <Stack.Screen name="Home" component={HomeScreen} options={{title:'页面顶部标题'}}/>
+        <Stack.Screen name="Details" component={DetailsScreen} options={{headerTitle: (props) => <LogoTitle {...props}/>}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+```
+
+**获取设备id**：
+（1）下载依赖：`npm i react-native-device-info -S`
+（2）使用：`import { getUniqueId } from 'react-native-device-info';console.log("设备id", getUniqueId())`
+
+**vscode插件**：辅助react native项目开发；
+
+- `React Native Tools`（智能提示）
+- `ES7 React / Redux / GraphQL / React-Native snippets `：一些快速语法生成；
+- `react-beautify`：格式化代码
+
+**资源**：[中文档](https://reactnative.cn/docs/getting-started)、[第三方组件等资源](https://github.com/jondot/awesome-react-native)、[navite-gation文档](https://reactnavigation.org/docs/hello-react-navigation)

@@ -418,6 +418,39 @@ console.log(atob("amF2YXNjcmlwdA=="))// 'javascript'
   .toString(8); // =>"26"。//16进制转为8进制
 ```
 
+**utf-8编码**：要转为字节流时，将结果用**空格连接**（`bytes.join(' ')`）
+
+```js
+function encodeUtf8(text) {
+    const code = encodeURIComponent(text);
+    const bytes = [];
+    for (var i = 0; i < code.length; i++) {
+        const c = code.charAt(i);
+        if (c === '%') {
+            const hex = code.charAt(i + 1) + code.charAt(i + 2);
+            const hexVal = parseInt(hex, 16);
+            bytes.push(hexVal);
+            i += 2;
+        } else bytes.push(c.charCodeAt(0));
+    }
+    return bytes;
+}
+```
+
+**utf-8解码**：
+
+```js
+function decodeUtf8(bytes) {
+    var encoded = "";
+    for (var i = 0; i < bytes.length; i++) {
+        encoded += '%' + bytes[i].toString(16);
+    }
+    return decodeURIComponent(encoded);
+}
+```
+
+**base64编解码**：安装`npm i js-base64`，使用`import {encode,decode} from 'js-base64';`
+
 ## 3、其它：
 
 ### a、SSE 与 WebSocket:
@@ -489,7 +522,7 @@ function start() {
 })();
 ```
 
-- **一键复制功能**:
+### b1、一键复制功能
 
 ```html
 <button onclick="get()">点击复制</button>
@@ -508,6 +541,50 @@ function start() {
 - **三元运算符**：三元运算符与 if 语句同样的作用，例：if(x>10 && x<50){alert("hello");}替为 `x>10 && x<50?alert("hello"):alert("flase")`。(两者等价问号前为判断条件，问号后为执行语句，冒号后为 else 时的语句)。
   三元运算符用于赋值：val = val>20 ? 20 : 10;//表示如果 val 大于 20val 值就为 20，否则为 10；
   三元运算符中写多条语句：a == 20 ? (a=15,alert(a)) : (a = 21,alert(a))
+
+### b2、消息通知
+
+（1）传统实现：使用`document.title`反复变跟实现闪烁达到提醒功能。
+（2）H5 新增Web Notification。兼容性也还不错
+
+```js
+// 询问用户是否允许通知
+Notification.requestPermission().then(function(permission) {
+    Notification.permission;//获取当前的通知状态 granted, denied, 或default
+    // 创建通知
+    new Notification("标题", {
+        dir, // 表示提示主体内容的水平书写顺序
+        body, // 提示主体内容。字符串。会在标题的下面显示
+        tag, // 字符串。标记当前通知的标签
+        icon,//字符串。通知面板左侧那个图标地址。
+        data, // 任意类型和通知相关联的数据。
+        vibrate,//	通知显示时候，设备震动硬件需要的振动模式。例如[200, 100, 200]表示设备振动200毫秒，然后停止100毫秒，再振动200毫秒。
+        renotify, // 布尔值。新通知出现的时候是否替换之前的。如果设为true，则表示替换，
+        silent,//	布尔值。通知出现的时候，是否要有声音
+        sound,//字符串。音频地址。
+    });
+    Notification.close();
+    // 监听点击
+    Notification.onclick(()=>{});
+    Notification.onerror(()=>{}); // 异常时触发
+    Notification.onclose(()=>{}); // 关闭时触发
+    Notification.onshow(()=>{}); // 监听通知显示
+});
+// 示例
+if (Notification.permission == "granted") {
+    var notification = new Notification("Hi，帅哥：", {
+        body: '可以加你为好友吗？',
+        icon: 'mm1.jpg'
+    });
+    
+    notification.onclick = function() {
+        text.innerHTML = '张小姐已于' + new Date().toTimeString().split(' ')[0] + '加你为好友！';
+        notification.close();    
+    };
+}    
+```
+
+
 
 ### c2、页面间传值：
 
@@ -619,13 +696,22 @@ console 模块不只 log()一个函数，全部如下：
 
 ### f3、动画函数：
 
+使用定时器做动画并不是很精确，且设置的帧率不好则效果差。
+
 ```js
+/****requestAnimationFrame使用****/
 function play() {
   console.log(a);
   window.requestAnimationFrame(play);
 }
 window.requestAnimationFrame(play); //开始第一帧
 cancelAnimationFrame(); //方法取消动画。
+
+/****requestAnimationFrame兼容性写法****/
+window.requestNextAnimationFrame = (function(){
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
+})();
 ```
 
 ### g、js 垃圾回收机制：
@@ -1016,7 +1102,7 @@ document.body.dispatchEvent(k);
 ```
 
 **onselectStart 事件**：`<p onselectStart="return false">积分抵啊放假</p>`
-**监听浏览器刷新&退出**：
+**显示/退出/隐藏**：
 
 ```js
 window.onbeforeunload = onclose; //刷新和关闭操作都会触发onbeforeunload事件。
@@ -1029,15 +1115,28 @@ function onclose() {
     return "您要离开吗？";
   }
 }
-/*===========
-浏览器获得焦点与，失去焦点事件
-============*/
+/*&******浏览器获得焦点与，失去焦点事件**********/
 window.addEventListener("focus", function () {
   document.title = "获得焦点";
 }); // 刚打开页面不会触发。
 window.addEventListener("blur", function () {
   document.title = "去哪了，快回来！";
 }); // 切到其它网站页面时触发。
+/***页面显示***/
+window.addEventListener('pageshow', function () {
+    log('pageshow: 页面显示');
+});
+window.addEventListener('pagehide', function () {
+    log('pagehide: 页面隐藏');
+});
+
+document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+        log('visibilitychange: 页面隐藏');
+    } else {
+        log('visibilitychange: 页面显示');
+    }
+});
 ```
 
 ### d、资源加载事件:
@@ -1392,20 +1491,12 @@ function click() {
 
 ## 8、音视频：
 
-**调用摄像头**：[参考学习地址](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia)
-
-- [video 所有属性及 js 方法](https://www.cnblogs.com/TF12138/p/4448108.html)
+**调用摄像头**：[参考学习地址](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia)、[video 所有属性及 js 方法](https://www.cnblogs.com/TF12138/p/4448108.html)
 
 ```html
-<video
-  id="vd"
-  poster=""
-  loop
-  autoplay
-  controls
-  width="200"
-  height="300"
-></video>
+<video id="vd" poster="" loop autoplay controls width="200" height="300">
+	<source src="vv.mp4"/><!--用source标签可加载各种格式的视频-->
+</video>
 <!--
 poster：视频封面，没有播放时显示的图片
 preload：预加载
@@ -1516,12 +1607,30 @@ controls：浏览器自带的控制条
 </script>
 ```
 
+**canvas播放视频**：可用canvas对视频每帧处理之后再播放出来（一般处理不同格式视频）
+
+```js
+const video = document.getElementById('video');
+function animate(){
+    // 判断是否播完
+    if(!video.ended){
+        // 获取到的是视频当前播放帧
+        context.drawImage(video,0,0,canvas.width,canvas.height);
+        window.requestNextAnimationFrame(animate);
+    }
+}
+// 启动播放
+video.onload = function(e){video.play();window.requestNextAnimationFrame(animate);}
+```
+
 **webrtc**：运输层使用的 UDP 传输。web 端视频电话支持技术，里面处理了媒体流数据编码、杂音、画面去噪等功能。
 
 - <b c=r>web 端直播推流使用此方法（这里只有大致的思路）</b>
 - [参考学习地址](https://www.dazhuanlan.com/2019/12/24/5e0191c6d8816/)，[腾讯的一套 webrtc 直播 sdk](https://github.com/tencentyun/tweblive)
-- **HLS**：的工作原理是把整个流分成一个个小的基于 HTTP 的文件来下载，每次只下载一些。当媒体流正在播放时，客户端可以选择从许多不同的备用源中以不同的速率下载同样的资源，允许流媒体会话适应不同的数据速率。[hts 与 m3u8](https://www.jianshu.com/p/e97f6555a070)
-- **m3u8**：该文件实质是一个播放列表（playlist），其可能是一个媒体播放列表（Media Playlist），或者是一个主列表（Master Playlist）。但无论是哪种播放列表，其内部文字使用的都是 utf-8 编码。
+
+**HLS**：的工作原理是把整个流分成一个个小的基于 HTTP 的文件来下载，每次只下载一些。当媒体流正在播放时，客户端可以选择从许多不同的备用源中以不同的速率下载同样的资源，允许流媒体会话适应不同的数据速率。[hts 与 m3u8](https://www.jianshu.com/p/e97f6555a070)
+
+**m3u8**：该文件实质是一个播放列表（playlist），其可能是一个媒体播放列表（Media Playlist），或者是一个主列表（Master Playlist）。但无论是哪种播放列表，其内部文字使用的都是 utf-8 编码。
 
 ```js
 /*===*-----  直播端逻辑  ----*===*/
@@ -1960,7 +2069,7 @@ https://www.jb51.net/article/84596.htm
 
 ## 12、网络相关：
 
-### 1、ajax:
+### 1、ajax
 
 - **原生 ajax 的写法**：
 
@@ -1986,7 +2095,7 @@ xhr.send(obj);//发送数据,必须使用
 - **两种数据类型**：向服务端发送的数据有 Form Data 和 Request Payload 两种，这两种数据类型可以由请求头的 Content-Type 控制。
   
   > Form Data 类型：`Content-Type:"application/x-www-form-urlencoded"`#默认使用的类型，使用 POST，但数据不是 json 格式而是：`rpc.post(url,"key=234&v=9fdf0")`#的类型，在浏览器/netWork/Headers/最下方可以看到。
-  > Request Payload：`Content-Type:"application/json"`#现在几乎使用这种数据类型。使用 JSON.stringify()将数据转为 json 在发送是常用的形式。
+  > Request Payload：`Content-Type:"application/json"`#现在几乎使用这种数据类型。使用 JSON.stringify()将数据转为 json 在发送。
   > Raw：将 json 格式数据用字符串表示，如：`'{"name":"www","age":"15"}'`#注意，里面的引号是需要的。
 
 ### 2、ajax 上传文件
@@ -2155,6 +2264,38 @@ Expires: Tue,11 May 2021 02:38:34 GMT
 
 **最佳缓存实现**：html文件使用协商缓存，`js/css/img`使用==强制缓存==（这些文件可加上`contenthash`【文件内容改变时只改变相关文件的hash】），这样这部分文件有更新时由于之前用户本地没有这些文件，所以会==重新拉取==。[学习地址](https://juejin.cn/post/6844903737538920462)
 
+### 5、fetch
+
+Fetch还提供了单个逻辑位置来定义其他HTTP相关概念，例如CORS和HTTP的扩展（axios也使用了fetch）
+
+```js
+fetch(url, {
+    body: JSON.stringify(data), // must match 'Content-Type' header
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', //请求URL与调用脚本位于同一起源处时发送凭据；
+    //credentials: 'omit', 不发送凭据
+    //credentials: 'include' 让浏览器发送包含凭据的请求
+    headers: {
+      'user-agent': 'Mozilla/4.0 MDN Example',
+      'content-type': 'application/json'
+    },
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, cors, *same-origin
+    redirect: 'follow', // manual, *follow, error
+    referrer: 'no-referrer', // *client, no-referrer
+  }).then(response => response.json())
+```
+
+**中断fetch请求**：`AbortController`和`AbortSignal`所有现代浏览器均支持，我看了下
+
+```js
+const controller = new AbortController();
+// 取消当前请求
+controller.abort()
+```
+
+
+
 ## 13、js异步机制
 
 js是单线程运行，其异步机制（也叫事件循环）是通过3个队列（同步队列、微任务队列、宏任务队列）3者轮流运行实现。
@@ -2177,12 +2318,17 @@ js是单线程运行，其异步机制（也叫事件循环）是通过3个队�
 1、**解构赋值**：
 
 ```js
+let obj = {a:1,b:2,c:3};
+// map,array结构支持
 var [a,b,c] = [1,2,3]//a=1,b=2,c=3;
 var {a,b} = {a:1,b:2}//a=1,b=2;
 // 带默认值的结构
 const {a=0,b=''} = obj; // 等价于const a = obj.a || 0;
 // 改变变量名
 const {a:name,b} = obj;console.info(name);// a转变为了name
+// 剩余赋值
+const {a,...lack} = obj;
+console.info(lack); // {b:2,c:3} 【剩余的值都被赋予到lack】
 ```
 
 2、常用：
@@ -2267,7 +2413,7 @@ dog:
                  ...
 ```
 
-5、模块化：
+5、**模块化**：
 
 ```js
 //js文件中用export分别导出，可以是任意数据类型。
@@ -2284,9 +2430,13 @@ export default {
     av:{},
     ab:function(){}
 }
-// *****未使用export的文件，也可以使用import导入***********
+// *****全部导入***********
 import * as allModule from "./jquery.js";
 const moules = allModule.default; //从defalut中获取使用
+/***default 与其它可以一起导入***/
+import myDefault, {foo, bar} from '/modules/my-module.js';
+/***异步方式***/
+let module = await import('/modules/my-module.js');
 ```
 
 6、**Symbol使用**：可创建一个唯一值
@@ -3443,98 +3593,40 @@ MVP中，**主要逻辑都在控制器**，添加新功能也是在控制器进�
 
 在变量名后声明其类型。<b c=r>声明的变量类型是用小写的，不然某些情况编译不通过。</b>
 `unknown`：类型会更加严格，会进行某种检查？，不允许赋值给其他有明确类型的变量。
-`any`： 类型的值执行操作之前，我们不必进行任何检查。
+`any`： 类型的值执行操作之前，我们不必进行任何检查（一般用于**来自用户输入**，**或第三方库的数据**时使用）。
 `void`：表示没有任何类型（可以被赋值为 null 和 undefined）
-`never`： 表示一个不包含值的类型，即表示永远不存在值。
+`never`： 表示一个不包含值的类型，用于那些经常抛出异常或永远不会有返回的函数。
+是任何类型的子类型，**可以被赋值给任何类型**（但没有任何类型是never的子类型，**any也不可赋值给never**）
 `null & undefined`: 默认情况下 null 和 undefined 是所有类型的子类型。 就是说你可以把 null 和 undefined 赋值给 number 类型的变量。
 `const 和 readonly`: const可以防止变量的值被修改，readonly可以防止变量的属性被修改。
-`type`：与interface类似，可以声明基本类型，联合类型，元组，可以使用 typeof 获取实例的类型进行赋值。
-`interface`：自定义1个类型使用，**同名的interface会自动合并**，同名的interface和class会自动聚合。
+`type`：用于类型别名
+`interface`：接口，**同名的interface会自动合并**，同名的interface和class会自动聚合。
+**类型推断**：在声明就进行变量赋值时不需要再写类型（ts会自己根据值来推断）如：`const qq = [1,2,3];`
+**联合类型**：使用 `|`连接，表示两者之一；
+**交叉类型**：使用 `&` 连接，表示两者都有；
 
 `declare` ：是用来定义全局变量、全局函数、全局命名空间、js modules、class等
 `declare global` ：为全局对象 `window` 增加新的属性
 
-```ts
+```typescript
 let x: [string, number];//声明一个可以有多种类型的元组变量。(元组各元素类型不必相同)
 let decLiteral: number = 6;
 let isDone: boolean = false;
-let list: number[] = [1, 2, 3];//数组写法
-let list: Array<number> = [1, 2, 3];
 let notSure: any = 4;//any表示可以是任意类型。
 //默认情况下null和undefined是所有类型的子类型。 就是说你可以把null和undefined赋值给number类型的变量。
 let u: undefined = undefined;
 let n: null = null;
-//用枚举，可作为变量的类型。
-enum Color {Red, Green, Blue}
-let c: Color = Color.Green;
-//>>>>>>>>>>>>!使用
 let y:number
 y = null! //用在值后可以让不符合的类型编译通过。
-/*========================
-    未知对象类型使用,不要使用object
-==========================*/
-var cc:Record<string:unknow>;
-//-----------数值连接字符串：直接使用+或模板字符串连接会报错。
-let res:string = decLiteral.toString().concat(str);
-//interface用于创建一个类型要求例子，可以公共调用。
-/*==================
-        自定义类型
-====================*/
-interface LabelledValue {
-  readonly label: string;//对象必须含有该键值。readonly表示该属性只读。
-  color?: string;//带?号表示可选，在判断使用时会有一些友好的提示。
-}
-declare global { 
-   interface Window { 
-        csrf: string; 
-   }
-}
-/*==================
-        map方法
-====================*/
+/*************数组************/
+let list: number[] = [1, 2, 3];//数组写法
+let list: Array<number> = [1, 2, 3]; // 泛型
+let list2: any[] = [1,{a:3},[0,9]]; // any配合数组
+/*************map方法************/
+var cc:Record<string:unknow>; // 未知值类型写法
 let myMap = new Map();
 myMap.set("key",value); //set(),clear(),delete(),size()等方法
-```
-
-## 2、函数
-
-```ts
-//参数是函数时，参数函数也要定义类型
-interface fn1 {
-  (): void;
-}
-//有返回值的函数也是如此
-function warnUser(): string {
-  return "hello";
-}
-//void类型像是与any类型相反，它表示没有任何类型。
-function warnUser(a: number | string): void {
-  //参数也需要定义类型。
-  alert(a);
-}
-//never类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
-function error(message: string): never {
-  throw new Error(message);
-}
-
-function printLabel(labelledObj: LabelledValue) {
-  console.log(labelledObj.label);
-}
-//泛型变量：传给函数什么类型，函数就返回什么类型。
-function identity<T>(arg: T): T {
-  return arg;
-}
-
-function test(fn: fn1): void {
-  fn();
-}
-```
-
-## 3、枚举
-
-可支持放入不同的数据类型。
-
-```ts
+/*************枚举***********/
 enum FileAccess {
   // constant members
   None,
@@ -3549,12 +3641,54 @@ const enum Enum {
   A = 1,
   B = A * 2,
 }
-```
-
-## 4、类
-
-```ts
-class Animal {
+/***************函数***************/
+//有返回值的函数也是如此
+function warnUser(): string {
+  return "hello";
+}
+//void类型像是与any类型相反，它表示没有任何类型。
+function warnUser(a: number | string): void {
+  //参数也需要定义类型。
+  alert(a);
+}
+//never类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
+function error(message: string): never {
+  throw new Error(message);
+}
+function printLabel(labelledObj: LabelledValue) {
+  console.log(labelledObj.label);
+}
+//泛型变量：传给函数什么类型，函数就返回什么类型。
+function identity<T>(arg: T): T {
+  return arg;
+}
+/************接口（自定义类型）*************/
+interface LabelledValue {
+  readonly label: string;//对象必须含有该键值。readonly表示该属性只读。
+  color?: string;//带?号表示可选，在判断使用时会有一些友好的提示。
+}
+//参数是函数时，参数函数也要定义类型
+interface fn1 {
+  (a:number,t:string): void;
+}
+declare global { 
+   interface Window { 
+        csrf: string; 
+   }
+}
+// 继承接口
+interface qqv extends LabelledValue{
+    hh:number
+}
+interface AnimalType{
+    move:void,
+    constructor():void
+}
+interface dogType{
+    name:string
+}
+/****************************类******************/
+class Animal{
   public a: string = "11"; //默认都是public
   private name: string; //private将变量设为私有
   //这是构造函数，这些参数能在继承时作为接收参数使用。使用的protected表示被保护，不能直接用new继承这个类。
@@ -3562,8 +3696,8 @@ class Animal {
     this.name = "hh";
   }
 }
-
-class dog extends Animal {
+/***类与接口的结合**/
+class dog extends Animal implements AnimalType,dogType{
   //构造函数内调用super()这样，子类中也可以使用this指针。
   constructor(name: string) {
     super(name);
@@ -3573,9 +3707,71 @@ class dog extends Animal {
     super.move(distanceInMeters);
   }
 }
+/*******************别名使用*******************/
+type NG = global | LabelledValue;
+type qq = 'name' | 'age' | 'job';
+type vv = qqv;
 ```
 
-## 5、装饰器
+## 2、泛型
+
+**介绍**：定义函数、接口或类的时候，不预先指定具体类型，而在使用时再指定（如根据某一类型来动态变化，==运行时才会检测泛型部分==）
+`T`：指代任意输入的类型（然后函数/接口/类中**可使用泛型**）
+
+```typescript
+/*函数名后加<T>, value是不确定的泛型*/
+function createArray<T>(length:number,value:T):Array<T>{
+    let result = [];
+    for(let i=0;i<length;i++){
+        result[i] = value;
+    }
+    return result;
+}
+// 这里使用
+createArray<string>(3,'v');
+createArray(3,'t'); // 也可让其自动推断
+/***想用多个泛型时(定义多个泛型参数即可)***/
+function swap<T,U>(tuple:[T,U]):[U,T]{
+    return [tuple[1],tuple[0]];
+}
+/***接口中使用泛型***/
+interface CreateArrayFunc<T> {
+	(length: number, value: T): Array<T>;
+}
+let createArray: CreateArrayFunc<any>;
+createArray = function<T>(length: number, value: T): Array<T> {
+	let result = [];
+	for (let i = 0; i < length; i++) {
+	result[i] = value;
+	}
+	return result;
+}
+createArray(3, 'x');
+/******类中使用泛型*****/
+class GenericNumber<T> {
+	zeroValue: T;
+	add: (x: T, y: T) => T;
+}
+let myGenericNumber = new GenericNumber<number>();
+myGenericNumber.zeroValue = 0;
+myGenericNumber.add = function(x, y) { return x + y; };
+```
+
+**泛型约束**：以上泛型只是对原始值的指定，也可使用非原始值的约束定义
+
+```typescript
+interface Light{
+    hello: string
+}
+// 使用extends来扩展约束
+function long<T extends Light>(arg:T):T{
+    return arg;
+}
+```
+
+
+
+## 2、装饰器
 
 是一个方法，可以注入到类或类的方法、属性参数上来扩展类、属性、方法、参数的功能。<b c=r>只用于类或其中</b>。[更多学习地址。](https://blog.csdn.net/weixin_33928467/article/details/87963596)
 
@@ -3651,51 +3847,89 @@ class HttpClient {
 let http = new HttpClient();
 ```
 
-## 6、ts 中使用 js 库
+## 3、全局声明
 
-- 安装第三方 js 库，如 jquery：[安装 jquery](https://www.cnblogs.com/juliazhang/p/10103985.html)
+当想为一些全局变量声明，或第三方库的使用定义类型时可使用此方法。
+**声明文件**：放到1个声明文件中（`env.d.ts`，==声明文件必须是==`.d.ts`**结尾**）
 
-```js
-npm install jquery --save; //安装jquery
-npm install @types/jquery --save-dev; //jquery的类型定义文件，node_modules/@types/jquery下。
-// tsconfig.js的types中加入jquery，可全局使用。
-"types": ["jquery"];
-// 使用：
-<script lang="ts">
-import jquery from "jquery";
-jquery("#id");
-</script>
-```
-
-- **自定义 js 导入**：编写对应 js 文件的类型定义文件（.d.ts），使用处导入定义文件，html 文件导入对应 js 文件。
-
-```js
-//env.d.ts 类型声明文件：
-/// <reference types="vite/client" />
-/****导入vue文件的识别，可去除导入vue时的红色提示***/ 
+```typescript
+// 定义vue2文件模块的类型
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
   const component: DefineComponent<{}, {}, any>
   export default component
 }
-/****其它一些全局库、变量等的声明****/
-// declare module 'vue-schart';
-declare module Runoob {
-  export class Calc {
-     doSum(limit:number) : number;
-  }
+// 第三方库的定义
+declare module 'vue-schart';
+// 一些变量
+declare var gg: number;
+declare const qq: string;
+declare function f(s: string): number;
+declare enum dir {
+    top,
+    right,
 }
-//home.vue页面引入：
-<script lang="ts">
-//js部分引入类型定义文件，【注意前面3个斜杆！】
-/// <reference path="../assets/cool.d.ts" />
-var obj = new Runoob.Calc();    //使用,【重运行服务后，报错提示可去除】
-</script>
-//index.html文件,引入使用
-<script src="/assets/cool.js"></script>
+// 全局单体（namespace代表后面的全局变量是一个对象:）
+declare namespace global {
+    var n:number;
+    var s:string;
+}
 ```
 
-## 7、模块
+**配置和使用**：配置中将其包含进来
+
+```js
+// tsconfig.json
+{
+    ... // 其它配置
+    "include": ["env.d.ts", ...],
+}
+
+// 使用
+global = {
+    n: 23,
+    s: '55'
+}
+```
+
+## 4、高级使用
+
+开发中很多情况比较复杂，需要动态根据数据生成类型。
+
+```typescript
+interface Person{
+    name:string;
+    age:number;
+}
+//
+type Keys = keyof Person; // name | age根据Person类型动态生成
+type Name = Person['name']; // 访问其中一个key
+// 结合泛型使用的一个动态变化强的例子
+function pick<T,K extends keyof T>(o:T,name:K):T[K]{
+    return o[name];
+}
+// 使用
+const name:string = pick(person,'name'); //正确
+const age:string = pick(person,'age'); // 错误，age为number类型
+```
+
+**交叉类型**：例如一个人有姓名、年龄，学会游泳后可以有1个游戏能力。
+
+```typescript
+type Person = {
+    name:string;
+    age:number;
+}
+type Swim = {
+    swim: ()=>void;
+}
+// 用&连接，表示有以上两种合并
+type Swimmer = Person & Swim;
+```
+
+
+
+## 5、模块
 
 模块是相关变量、函数、类和接口的集合。 你可以将模块视为包含执行任务所需的一切的容器。可以导入模块以轻松地在项目之间共享代码
 
@@ -3715,15 +3949,20 @@ module module_name{
 }
 ```
 
-## 10、tsconfig配置
+## 10、配置文件
 
-配置ts的检测、类型等。
+`tsconfig.json`文件配置ts的检测、类型等。
 
 ```js
 {
   "extends": "@vue/tsconfig/tsconfig.node.json",
   "include": ["vite.config.*", "vitest.config.*", "cypress.config.*", "playwright.config.*"],
   "compilerOptions": {
+    "lib":[], // 要包含在编译中的库文件。
+    "allowJs": true, // 允许编译js文件
+    "checkJs": true, // 报告js中的错误
+    "jsx": "preserve", // jsx代码的生成，react-native / react
+    "removeComments": true, // 删除编译后的所有注释
     "composite": true,
     "types": ["node"],
     // paths与baseUrl一起配置，可支持项目中使用别名。
@@ -3736,4 +3975,4 @@ module module_name{
 
 ```
 
-[typescript 中文档](https://www.tslang.cn/docs/handbook/decorators.html)。[菜鸟教程](https://www.runoob.com/typescript/ts-ambient.html)。[tsconfig.js](https://segmentfault.com/a/1190000021749847)
+资源：[typescript 中文档](https://www.tslang.cn/docs/handbook/decorators.html)。[菜鸟教程](https://www.runoob.com/typescript/ts-ambient.html)。[tsconfig.js](https://segmentfault.com/a/1190000021749847)

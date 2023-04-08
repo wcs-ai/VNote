@@ -632,38 +632,42 @@ calc // 打开计算器。mstsc//打开远程连接
 shutdown -f // 重启服务;-i//显示GUI界面;-l//注销
 shutdown -s // 关机;-t 60//延迟60s关机;-r//重启计算机
 net view ip //ip是计算机地址(知道ip地址查看其计算机名)，可能会被拒绝
-ipconfig //查看本机ip，(第一个无线局域网适配器项)
-ipconfig/all    //查看该局域网内所有在线等电脑
 devmgmt.msc// 打开设备管理器
-// cmd命令开启防火墙中可被访问的端口号
-netsh firewall add portopening protocol = UDP port = 80 name = wcs
-net stop mpssvc // 关闭防火墙
-net start mpssvc // 开启防火墙
-where python //查看相应的安装路径
-time // 输入回车后可更改系统时间
+更改系统时间：time // 输入回车后可
+查看本机所有用户名：net user //   echo %username% //查看当前使用的用户
+查看cuda版本：nvcc -V //
+打开服务列表：services.mc //，windows update...项为系统更新。
+查看电脑一些信息：systeminfo 
 
-netsh winsock reset //重置网络，重启后生效
-net user //查看本机所有用户名   echo %username% //查看当前使用的用户
-nvcc -V //查看cuda版本
+**网络部分**：
 
-**打开磁盘清理工具**：cleanmgr
-打开缓存目录：%temp%（win+r时输入）
+查看本机ip：ipconfig //，(第一个无线局域网适配器项)
+查看该局域网内所有在线等电脑：ipconfig/all   
+开启防火墙中可被访问的端口号：netsh firewall add portopening protocol = UDP port = 80 name = wcs
+关闭防火墙：net stop mpssvc 
+开启防火墙：net start mpssvc 
+查看相应的安装路径：where python 
+重置网络：netsh winsock reset //，重启后生效
 
-截图工具：snippingtool
+**进程/端口**：
+查看所有端口：netstat -ano （最后一项为其`PID`）
+查看指定端口：netstat -ano|findstr "8081"
+查看进程信息：tasklist|findstr ”8808“
+终止进程：taskkill /pid 36660 （pid通过上面方法查找）
 
-https://www.cnblogs.com/accumulater/p/7110811.html
-**常用快捷键**：
+**常用快捷键**：https://www.cnblogs.com/accumulater/p/7110811.html
 切换窗口：alt+Table 或 win然后鼠标点击。
 关闭当前窗口：alt+F4。
 返回桌面：win+D
+截图工具：snippingtool
 
 **全屏截图**：Print Screen(PrtSc) / win+Print Screen （截图后无提示，在pc/pictures下可找到）
-
 **自选截屏**：win+shift+s
-
 **文件目录相关命令**：
 
 - cd G:/web,cd..，dir //进入文件目录、反回上一级、查看当前目录下所有目录及文件
+- 打开磁盘清理工具：cleanmgr
+  打开缓存目录：%temp%（win+r时输入）
 - 打开指定目录界面：explorer D:\DATA_FILE
 - 删除文件夹：del package    #显示目录结构：tree
 - 创建文件：md `C:\a.txt`
@@ -672,10 +676,10 @@ https://www.cnblogs.com/accumulater/p/7110811.html
 - 文件权限属性设置：attrib +R abc.js;    //+表示设置，-表示清除；文件可被删除
 （1）R 只读文件属性；（2）A 存档文件属性。（3）S 系统文件属性。（4）H 隐藏文件属性。
 
-services.mc //打开服务列表，windows update...项为系统更新。
-systeminfo //查看电脑一些信息
+
 **查看mac/物理地址**：ipconfig/all    #显示物理地址的那行。
-**查看系统型号**：win+r弹框中输入directx看到的系统型号即是电脑型号，或者鲁大师、电脑管家中的硬件检测工具中也会显示。
+**查看系统型号**：win+r弹框中输入`directx`看到的系统型号即是电脑型号，或者鲁大师、电脑管家中的硬件检测工具中也会显示。
+
 ## b、win常见问题：
 1. 有时常用的正常的网络会出现网速慢、无法连接等的问题这可以尝试打开设备管理器>网络适配器这下面是连接的网络点属性>高级,修改一下里面的值可能网速就会变得正常。连接不上网的话可以试试卸载该网的驱动再点检测硬件安装试试。
 2. 网络连接处显示红叉，但是重新插入便携式路由器后也无反应，不一定是路由器出问题、试试重启

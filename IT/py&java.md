@@ -1892,7 +1892,10 @@ javaFx：
 [javaFx 下载地址](https://gluonhq.com/products/javafx/)
 [javaFx 文档](http://www.javafxchina.net/blog/docs/)、[3d 模型文件导入](https://blog.csdn.net/weixin_38581615/article/details/70946391)
 
-a5、gradle
+### a5、gradle
+
+简介：Gradle是一个工具，也是一个编程框架。[graddle下载地址](https://services.gradle.org/distributions/)
+**本地依赖仓库**：环境变量中配置`GRADLE_USER_HOME`指定（gradle没有可指定仓库位置的配置）
 
 [安装](https://blog.csdn.net/Leoon123/article/details/125717416)
 
