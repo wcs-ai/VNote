@@ -5,7 +5,7 @@
 <!--cache.appcache放在与该html文件同目录下；文件中指定缓存相关的控制信息-->
 <html manifest="cache.appcache"></html>
 ```
-cache.appcache内容如下：
+cache.appcache内容如下：以后规范中会被废弃
 - 开头为默认区域；CACHE后面定义要缓存的文件；
 - FALLBACK定义未被离线缓存的资源，使用的默认；支持匹配；
 - NETWORK：定义不缓存的文件；
@@ -100,7 +100,7 @@ self.addEventListener('fetch', e => {
 
 - updated：页面显示的数据和 data 中的数据已经保持同步了，都是最新的。
 
-- beforeDestory：进入到了销毁阶段，这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于可用状态。还没有真正被销毁。
+- beforeDestroy：进入到了销毁阶段，这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于可用状态。还没有真正被销毁。
 
 - destroyed(组件已经被销毁)。
 
@@ -1174,10 +1174,10 @@ export default loading; //导出后可在ajax拦截器，等全局使用。
 </Suspense>
 <div ref="el"></div>
 <script setup>
-import { reactive,ref,refs,defineAsyncComponent,nextTick,watch,watchEffect,computed } from "vue";
-import {defineProps,defineExpose} from "vue";
+import { reactive,ref,refs,toRef,toRefs,defineAsyncComponent,nextTick,watch,watchEffect,computed } from "vue";
+import {defineProps,defineExpose,toRaw} from "vue";
 /***定义接收的参数***/
-defineProps({
+const props = defineProps({
   isActive: {
     type: Boolean,
     default: false
@@ -1185,9 +1185,15 @@ defineProps({
 });
 const items = [1,2,3]; // 模板中可直接使用该数据，但它不是响应式的({a:1,b:2}); 
 const uu = reactive({a:1,b:2}); // 一个响应式对象
+/******ref系列使用********/
 let cc = ref(9); // 非原始值的响应创建
-// 获取元素或组件,与上面ref绑定的值同名
-const el = ref();
+let hhhh = refs({a:1,b:2,c:3}); // 批量的转换
+...hhh;
+const fooRefc = toRef(uu, 'a');// 更改该 ref 会更新源属性，更新原属性也会更新ref（结合props参数使用较好）
+fooRefc.value++
+console.log(uu.a) // 2
+const opop = toRefs(uu);// 批量调用toRef
+console.info('原始数据',toRaw(opop));
 /****异步组件****/
 const AsyncComp = defineAsyncComponent(() =>
   import('./components/MyComponent.vue')
@@ -1206,11 +1212,68 @@ const AsyncComp = defineAsyncComponent({
   // 也会显示这里配置的报错组件，默认值是：Infinity
   timeout: 3000
 })
+/*******watchEffect：立即运行一个函数，同时响应式地追踪其依赖，并在依赖更改时重新执行******/
+watchEffect(async (onCleanup) => {
+  const { response, cancel } = doAsyncWork(id.value)
+  // `cancel` 会在 `id` 更改时调用
+  // 以便取消之前未完成的请求
+  onCleanup(cancel)
+  data.value = await response
+})
+/***defineEmits定义触发函数，与defineExpose可直接使用，无须导入（只能在<script setup>）***/
+const emit = defineEmits(['change', 'delete']);
+emit('change',3434); // 使用
+/***监听props数据变化****/
+watch(() => props.source, function (nVal) {
+  yieldView(nVal);
+});
 /***<script setup>中使用，决定组件要暴露出去的属性***/
 defineExpose({
     items,
     uu
 });
+</script>
+```
+
+组件`v-model`使用：v3支持多个v-model
+
+```vue
+<!--子组件-->
+<div>
+    <span @click="vv">{{ modelValue }}</span>
+</div>
+<script setup>
+const props = defineProps({
+    // 一个默认的v-model值时必须使用此名称
+    modelValue:{
+        default:""
+    },
+    name:{
+        default:""
+    }
+});
+/*使用watch来监听变化*/
+watch(props.modelValue,(newVal,oldVal)=>{
+   console.info('变化后的值',newVal); 
+});
+const emitor = defineEmits(['update:modelValue']);
+function vv(){
+    // update:前缀必须使用
+    emitor('update:modelValue','新值')
+}
+function bb(){
+    // update:前缀必须使用
+    emitor('update:name','新值2')
+}
+</script>
+<!--父组件使用-->
+<div>
+    <!--默认值与指定名称使用的情况-->
+    <child v-model="qq" v-model:name="tq"/>
+</div>
+<script setup>
+const qq = ref('');
+const tq = ref('');
 </script>
 ```
 
@@ -1228,7 +1291,21 @@ export default Heading;
 </script>
 ```
 
-**大菠萝**：（pinia）[官网地址](https://pinia.vuejs.org/zh/core-concepts/)
+**全量属性绑定**：
+
+```jsx
+<!--父组件传入整个attrs-->
+<Auth v-bind="attrs"></Auth>
+const attrs = {name:'afd',color:345};
+// 子组件中获取
+import {getCurrentInstance} from 'vue';
+const { proxy } = getCurrentInstance();
+console.info(proxy.$attrs);
+```
+
+## 3、大菠萝
+
+（pinia）[官网地址](https://pinia.vuejs.org/zh/core-concepts/)
 
 ```js
 /***定义1个store***/
@@ -2314,18 +2391,32 @@ const index = () => {
 
 ## d2.2、函数式组件
 
-与vue的函数式组件类似，一般只显示一些静态数据，无响应式，不过可以通过一些hooks添加状态（变为右状态组件）
+一般只显示一些静态数据，无响应式，不过可以通过一些hooks添加状态（变为右状态组件）
+**注**：不要在外层直接使用`setXX`改变数据，这回导致循环执行渲染函数
+
 ```jsx
 import React,{useEffect,useState,useRef} from 'react';
 
 function Detail(props){
   // data是状态数据，setData是用于改变其值的函数
   const [data,setData] = useState([]);
+  /***可传入初始函数，只会执行一次***/
+  const [count,setCount] = useState(()=>{
+     const qq = 1;
+     return qq+10;
+  });
+  /****set值后获取最新数据：set值后只有在下一轮执行渲染函数时才能获取到最新值，可用如下方式***/
+  function upu(){
+      setCount((preValue)=>{
+          const val = preValue+10; // 使用此作为最新的值
+          return val;
+      });
+  }
   const v = useRef();
   //useEffect相当于生命周期作用
   useEffect(()=>{
-    console.info('组件挂载时执行一次,和数组中有值发生改变时执行');
-
+    console.info('组件挂载后执行一次,和数组中有值发生改变时执行');
+	/**这里拿到的state数据是最新的**/
     },[data]);
 
   return (<div ref={v}>hello</div>);
@@ -2500,7 +2591,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 **简介**：reduce与flux架构模式的结合，有actions，和reducer构成，[官方文档](https://www.redux.org.cn/docs/basics/UsageWithReact.html)，[原理查看](##5、redux原理)
 **注意**：开发复杂的应用时，不可避免会有一些数据相互引用。建议你尽可能地把 state 范式化，==不存在嵌套==。把应用的 state 想像成数据库；
 
-1、action类型： 用于标记1个action，redux内容稍多时一般将其单独抽出来。
+1、**action类型**： 用于标记1个action，redux内容稍多时一般将其单独抽出来。
 
 ```js
 /*action 类型*/
@@ -2738,7 +2829,7 @@ ReactDOM.createRoot(rootNode).render(ele);
 
 ## 2、运行流程
 
-<div style="height:700px;overflow:scroll;padding-left:200px;padding-top:300px;"><img src="_v_images/React-origin.png" style="display:block;width: 1600px;transform:scale(2.2);"/></div>
+<div style="height:700px;overflow:scroll;"><img src="_v_images/React-origin.png" style="display:block;width: 5000px;"/></div>
 
 ## 3、Scheduler
 
@@ -3048,7 +3139,7 @@ MVC 强制将业务数据（Model）与用户界面（View）隔离，用控制�
 
 ## 2、MVVM
 
-MVVM 出现于 2005 年，在mvc基础上的改进，最大变化在于 VM（ViewModel）代替了 C（Controller）。其关键“改进”是**数据绑定**；即View 的数据状态发生变化可以直接影响 VM，反之亦然（指的是在view层代码是上添加功能描述，VM层可自行实现）。
+MVVM 出现于 2005 年，在mvc基础上的改进，最大变化在于 VM（ViewModel）代替了 C（Controller）其关键“改进”是**数据绑定**；即View 的数据状态发生变化可以直接影响 VM，反之亦然（指的是在view层代码是上添加功能描述，VM层可自行实现）。
 
 <img src="./_v_images/mvvm.png"/>
 
@@ -3060,7 +3151,7 @@ MVVM 出现于 2005 年，在mvc基础上的改进，最大变化在于 VM（Vie
 
 【1】Flux 的核心思想就是数据和逻辑永远单向流动。
 【2】各个角色之间不会像前端 MVC 模式中那样存在交错的连线。 
-【3】Flux 的 dispatcher 定义了严格的规则来限定我们对数据的修改操作。虽然每次 view 的渲染都是重渲染，但并不会影响页面的性能，因为重渲染的是 Virtual DOM。
+【3】Flux 的 dispatcher 定义了严格的规则来限定我们对数据的修改操作。虽然每次 view 的渲染都是重渲染，但并不会影响页面的性能，因为重渲染的是 Virtual DOM
 【4】对于一些**逻辑复杂的前端应用**，Flux 已经证明了自己确实能够极大地降低复杂度。但是对于许多原本使用 MVC 方式架构都绰绰有余的项目来说，Flux 看起来像是杀鸡用牛刀。
 
 <img src="./_v_images/flux.png"/>
@@ -3076,20 +3167,8 @@ MVVM 出现于 2005 年，在mvc基础上的改进，最大变化在于 VM（Vie
 a、无论框架，尽量使用函数式组件；
 b、根据组件的体量，使用 情况，考虑要不要再拆分成多个子组件；
 c、静态类数据（传入后不再改变，或子组件只用其显示，不再操作的）通过props传递，动态类数据（父组件数据改变，要触发子组件相应行为的）可通过  `ref.function()` 调用子组件函数时传入；
-d、数据单向流动，父组件传入子组件的数据，子组件不要直接修改（用于修改展示时需要copy），若要改变父组件数据，用`dispatch(父组件function)`的方式
+d、数据单向流动，父组件传入子组件的数据，子组件不要直接修改（用于修改展示时需要copy）若要改变父组件数据，用`dispatch(父组件function)`的方式
 e、一般涉及到网络请求，或需要改变父组件数据的操作都**需要emit出来**，让父组件去操作，以此解耦；
-
-# 八、系统功能
-
-## 1、后台管理系统
-
-a、页面标签功能：打开的页面**路由数据存储到全局**，标签提供**右键菜单功能**（刷新/关闭/关闭其它/新窗口打开），**提供缓存**、可配置的缓存功能
-b、导航栏功能：提供折叠左侧菜单功能、搜索菜单名称并定位的功能
-c、页面查询：多个搜索条件合并为1个输入框显示（选择输入项/对应的值，输入项/对应的值），或者用**收缩展开**功能；（流出更多表格空间）
-d、表格右键操作功能：操作列功能太多时，可使用此代替；
-e、引导功能：在首页提供一个步骤条式的操作指引，系统功能太多时也能让新手`快速熟练`；
-f、权限控制：使用动态路由，且支持可配置实现权限管理；
-g、字典选择组件：字典一般从后端获取，这可能出现错误，导致获取失败，字典选择类组件可统一使用一个组件，获取失败时提供1个重载按钮。
 
 # 九、前端架构
 
@@ -3098,13 +3177,16 @@ g、字典选择组件：字典一般从后端获取，这可能出现错误，�
 （1）目标分解：了解要搭建的项目需要满足哪些类型的项目，哪些可以替换，稳定性/性能/开发速度等更重与哪一项指标等。
 （2）需求分解：对业务部分的需求将其分解为1或多个功能对应。
 （3）指标分解：使用“性能”、稳定性、可维护性（灵活扩展等）、安全性、开发速度等来指导技术的选择。
+（4）**分层化思想**：一般所架构的框架是需要支持多种业务项目（比如同样的后台管理项目，有金融后台、商品管理后台等等）
 
-2、工程化
+## 2、工程化
 
-一般需要配置：babel编译、代码分割、代码压缩、资源压缩、别名、环境变量；
-具体参看web笔记篇中的工程化。
+1. 选择稳定的node版本；
+2. 选择合适的构建工具：vite速度快，但目前生态还比不了webpack，根据项目的稳定性决定选用。
+3. 常规配置：babel编译、代码分割、代码压缩、资源压缩、别名、环境变量；
+4. 具体参看web笔记篇中的工程化。
 
-## 1、模块化布局
+## 3、模块化布局
 
 a、**OOCSS**：（Object-Oriented CSS，面向对象的 CSS）有**两个主要的原则**：**分离结构和外观**（意味着将视觉特性定义为可复用的单元，可以套用很多不同的外观样式），以及**分离容器和内容**（指的是不再将元素位置作为样式的限定词）
 
@@ -3210,7 +3292,7 @@ f、**类名与数据属性的组合使用**：上面提到的修饰符一般都
 </style>
 ```
 
-## 2、js部分
+## 4、js部分
 
 **代码规范**：写好js代码的编写规则，并借助编辑器定制检测规则，具体的做法在web/IDE工具，和提交检测中有。注意那些可以提高性能的写法也把它加入到代码规范中。
 必要的设计模式：单体模式是必须的（每个项目都或多或少的需要一些全局变量）、再根据一些项目功能来编写必要的设计模式。
@@ -3241,12 +3323,16 @@ getDict("USER_TYPE").then(res=>{this.dict = res.data;});
 网络请求的封装：网络请求的请求拦截器和响应拦截器中考虑是否要添加（加密功能、统一错误码处理、业务上的错误码时提示、耗时计算等）
 时间处理库：统一使用moment
 
+
+
 ## 3、工作流
 
 常规：产品需求》项目设计》原型》前端开发》版本管理》测试》部署（探讨原型的环节前端工程师就应该开始参与其中）
 工作流工具：有一些集成了上面比较多的流程步骤的工具，如jinkings，有待学习。
 
-4、测试：以前的笔记中已经提到过测试的知识，不过还不系统，需要一遍重新的梳理
+4、测试
+
+以前的笔记中已经提到过测试的知识，不过还不系统，需要一遍重新的梳理
 
 5、文档
 
@@ -3527,22 +3613,67 @@ query {
 
 简介：React Native以1个npm包的形式来创建项目，使用它的脚手架创建即可。
 
-**初始**：node版本`>14`
+## a、基础
+
+**初始**：node版本`>14`（推荐16.20）
 （1）卸载以前的脚手架：`npm uninstall -g react-native-cli @react-native-community/cli`
-（2）创建项目：`npx react-native init AwesomeProject --version x.xx.x`；（--version指定使用的版本）
+（2）创建项目：`npx react-native init AwesomeProject --version x.xx.x`；（--version指定使用的版本，`0.71`开始默认为ts模板）
 （3）或者：`npx react-native init AwesomeTSProject --template react-native-template-typescript`（--template可指定模板）
 
 **环境配置**：（详细过程看中文档）
-（1）安装Android Studio / 里面安装android sdk / 下载一个android虚拟机 / 按照官网配置环境变量
+（1）安装Android Studio / 里面安装`android sdk`（） / 下载一个android虚拟机 / 按照官网配置环境变量
 （2）`yarn install`安装package.json指定的依赖；
 （3）JDK：具体版本号根据react native的版本而定；
-（4）`yarn android`运行到android，期间会下载一些依赖（gradle管理）耗时较久，失败再重下，反复如此即可。
-（5）诊断：`npx react-native docter`给出所欠缺的配置。
+（4）`yarn android`(react-native run android)运行到android，期间会下载一些依赖（gradle管理）耗时较久，失败再重下，反复如此即可。
+（5）诊断：**在项目下使用**`npx react-native doctor`给出所欠缺的配置（可用其提供的命令来解决问题）。
+（6）`react-native start`：app服务（文件改动到app界面变化是此服务负责）
 
-**基础使用**：
+**vscode插件**：辅助react native项目开发；
+
+- `React Native Tools`（智能提示）
+- `ES7 React / Redux / GraphQL / React-Native snippets `：一些快速语法生成；
+- `react-beautify`：格式化代码
+
+**页面开发基础**：
 
 ```jsx
-import {NavigationContainer} from '@react-navigation/native';
+import { StyleSheet, View,Text,Image,ToastAndroid,TouchableNativeFeedback } from 'react-native';
+/***布局使用此api创建***/
+const styles = StyleSheet.create({
+  loginPage: {
+    height: '100%',
+    backgroundColor: 'rgb(108,146,234)',
+    /***多使用flex布局（内部支持不错）***/
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingTop: 20
+  },
+  btn:{backgroundColor: 'red'}
+});
+
+function Page(props){
+    function handleClick(){}
+    // 安装上的提示
+    ToastAndroid.showWithGravity('请输入账号和密码', ToastAndroid.SHORT, ToastAndroid.CENTER);
+    return (<View style={styles.loginPage}>
+         {/***多个样式来源时写法，后面的同属性样式可以覆盖前面的***/}
+         <View style={[styles.loginPage,styles.btn]}></View>
+         <Text>文字必须放在该标签中</Text>
+         {/***非button元素想支持点击等手指事件必须使用该组件包裹
+         且一些不可触屏的设备上时，该组件支持【按键移动选择】
+         ***/}
+         <TouchableNativeFeedback onPress={handleClick}><View></View></TouchableNativeFeedback>
+    </View>);
+}
+```
+
+## b、路由
+
+**navigate-gation基础使用**：
+
+```jsx
+import {NavigationContainer,NavigationActions} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from './pages/index';
 
@@ -3554,6 +3685,8 @@ function DetailsScreen({ navigation,route }) {
       {/**路由跳转***
       navigation.navigate('Details',{arg:'f',id:'hh'}); // 会添加到路由栈
       navigation.goBack(); // 返回
+      // 或者直接使用
+      NavigationActions.navigate('Detail');
       */}
       <Button title="Go to Details" onPress={() => navigation.navigate('Details')}/>{/*不会保存到路由栈*/}
     </View>
@@ -3579,14 +3712,134 @@ function App() {
 }
 ```
 
+**嵌套的路由**（多级路由）
+
+```jsx
+function Home() {
+  return (<Tab.Navigator>
+      <Tab.Screen name="Feed" component={Feed} />
+      <Tab.Screen name="Messages" component={Messages} />
+    </Tab.Navigator>);
+}
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        {/***嵌套路由放到另一个Screen中即可**/}
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Settings" component={Settings} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+```
+
+**带底部导航路由**：`yarn add @react-navigation/bottom-tabs`
+
+```jsx
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+function BottomNaviGator() {
+  const TabNavigator = createBottomTabNavigator();
+  const secondPages = yieldRoutes(tabRouteList, TabNavigator);
+  // CustNav为自己写的导航条组件
+  return (<TabNavigator.Navigator tabBar={(props) => <CustNav {...props} />}>
+    {secondPages}
+  </TabNavigator.Navigator>);
+}
+```
+
+**字体图标使用**：
+（1）到阿里巴巴矢量库下载想要的图标（`symbol`格式）
+（2）放置到`项目/android/app/src/main/assets/fonts`下。
+（3）`android/build.gradle`文件下添加：
+
+```shell
+buildscript{
+	...
+	project.ext.vectoricons=[
+        iconFontNames:['iconfont.ttf']
+    ]
+}
+```
+
+（4）**使用**：
+
+```jsx
+import { StyleSheet, View,Text,Image } from 'react-native';
+
+(<Text style={{fontFamily: 'iconfont'}}>&#xe750;</Text>)
+```
+
+**全局变量与弹层**：`global`为默认的全局变量，将自己的属性挂载即可。
+全局的toast框、加载动画等可以将其组件放到`App.jsx`，然后用全局变量，方法控制其显示即可。
+
+```js
+// global.js文件 用户信息
+export const userInfo = {
+  account: '',
+  token: '',
+};
+
+// 添加到全局变量
+global.userInfo = userInfo;
+// App.jsx中导入此文件即可
+import './src/utils/global.js';
+```
+
 **获取设备id**：
 （1）下载依赖：`npm i react-native-device-info -S`
 （2）使用：`import { getUniqueId } from 'react-native-device-info';console.log("设备id", getUniqueId())`
 
-**vscode插件**：辅助react native项目开发；
+**获取设备宽高**：
 
-- `React Native Tools`（智能提示）
-- `ES7 React / Redux / GraphQL / React-Native snippets `：一些快速语法生成；
-- `react-beautify`：格式化代码
+```js
+import { Dimensions } from "react-native";
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+```
 
-**资源**：[中文档](https://reactnative.cn/docs/getting-started)、[第三方组件等资源](https://github.com/jondot/awesome-react-native)、[navite-gation文档](https://reactnavigation.org/docs/hello-react-navigation)
+**打包**：两端需要分别打包
+android打包：项目`android`目录下有`gradlew`文件，windows系统直接执行`gradlew clean`即可（清除之前的包并重新打包）
+（1）修改app名称：`android/app/src/main/AndroidManifest.xml`中可修改app名称（改为**中文名称后开发环境似乎有问题**【最好是开发时改为原名】）
+（2）**修改图标**：`app/src/main/res`下的各尺寸图标替换，到[图标生成网站](https://icon.wuruihong.com/)可生成各尺寸的图标。
+（3）生成密钥并配置在项目中：官网上查看详细过程。
+（4）android目录下使用：`gradlew assembleRelease`打包（第一次会下载资源，较慢）
+（5）apk文件位置：`android/app/build/outputs/apk/release/app-release.apk`
+（6）**注**：打包前尽量删一下`app/build`目录（部分静态文件可能不糊被替换）
+
+## h、资源&问题
+
+**资源**：[react-native中文档](https://reactnative.cn/docs/getting-started)、[第三方组件等资源](https://github.com/jondot/awesome-react-native)、[navite-gation文档](https://reactnavigation.org/docs/hello-react-navigation)、[Elements组件库](https://reactnativeelements.com/docs)、[图表使用](https://blog.csdn.net/iambool/article/details/129255879)、[两端可用的toast](https://blog.csdn.net/oihezz/article/details/107787792)、[底部导航条](https://blog.csdn.net/isKelel/article/details/123142013)、[native-echart官网](https://wuba.github.io/react-native-echarts/)
+**问题集**：
+
+- 初始时安卓依赖下载缓慢问题：`android/build.gradle`中更换下国内镜像，反复下载即可。
+- 端口8081被占用问题：android服务框里`a`重启app即可。
+- 出现`'Error: EPERM: operation not permitted'`：android/目录下，`gradlew clean`，`react-native run-android`运行。
+  或再尝试重新安装`node_modules`下依赖，重新编译运行。
+- node窗口经常退出问题：先尝试`yarn start`。可能是版本太高或太底导致，尝试更换不同版本试试。
+- please make sure your development：项目下`npx react-native doctor`没问题则先**重启电脑服务**反复尝试（3）即可。
+- 虚拟机提示`system ui isn't responding`：studio打开`View/Tool Window/Device Manager`对应虚拟机倒三角选择Wipe Data，再关闭虚拟机重启
+- app红屏提示`unable to load script`：下方提示缺少index.android.bundle情况，项目下使用`npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res`。等待它执行完成，再`yarn android`
+- 注：一般依赖，android资源有改变**需要重新打包**，若这些未改变则每次`yarn start`启动就好。
+- **键盘顶起底部元素问题**：`android/app/src/main/AndroidManifest.xml`，修改`android:windowSoftInputMode` 属性为`stateAlwaysHidden|adjustPan`
+- 打包提示`app/src，app/build`下有资源冲突：build目录下每次打包都会生成。将src/main/res下冲突的部分删除，关闭当前cmd窗口，重新打开执行。
+- **打包后无法访问网络问题**：[参考地址](https://www.freesion.com/article/4333752490/)
+
+  ```xml
+  <!--android/app/src/main/res下添加xml目录，xml下创建network_security_config.xml文件，内容如下-->
+  <?xml version="1.0" encoding="utf-8"?>
+  <network-security-config>
+      <base-config cleartextTrafficPermitted="true" />
+  </network-security-config>
+  <!--res/AndroidManifest.xml中添加如下配置-->
+  <application
+        ...
+        android:networkSecurityConfig="@xml/network_security_config" // 添加此行
+        android:label="@string/app_name">
+  	  ...
+  </application>
+  ```
+
+  

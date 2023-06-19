@@ -1,878 +1,6 @@
 # 一、HTML
 
-## 1、svg：
-
-### a、svg 标签使用
-
-```html
-<!--viewbox属性控制视图区域-->
-<!--xmlns：xlink表示前缀为xlink的元素应该由理解该规范的UA使用xlink规范来解释.xmlns定义了默认命名空间,因此不需要前缀,-->
-<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" version="1.1" viewbox="0 0 300 300">
-
-<!--rx，ry控制圆角-->
-<rect x="" y="" width="" rx="10" ry="20" height="" style="fill:red;stroke-width:2;stroke:blue;">
-    <!--***animate:动画，放在元素中，则改动画会执行此动画
-    -from:开始位置；
-    -to:结束位置；
-    -begin:开始时间；
-    -dur：持续时间；
-    -fill:remove表示结束动画时，回到起始位置；
-    -repeatCount:为执行的次数；
-    -path：有path的话则直接按path路线移动；
-	  -attributeName：指定在哪个属性上变化；
-	  -attributeType: 使用xml还是css样式变化；
-    -->
-    <animate id="one" attributeName="cx" attributeType="XML" from="30" to="470" begin="0s" dur="5s" fill="remove" repeatCount="1" />
-    <!--animation: 可多个组合使用的动画-->
-    <animateMotion path="M10,50 q60,50 100,0 q60,-50 100,0" begin="one.end" dur="10s" repeatCount="indefinite"></animateMotion>
-    <!--animationTransform:transform属性类动画，additive为sum时可组合使用-->
-    <animateTransform attributeName="transform" attributeType="XML" type="scale" from="1" to="3" begin="0s" dur="10s" repeatCount="indefinite" additive="sum"/>
-    <!--水平旋转可用：from:"0 0 0"  to:"360 0 0" 后面两位0与元素本身位置中心一样时达到自转效果-->
-    <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 30 20" to="360 30 20" begin="0s" dur="10s" fill="freeze" repeatCount="indefinite" additive="sum"></animateTransform>
-</rect>
-//rect标签绘制矩形，x,y为位置,fill,stroke等属性可写在style外。
-<circle cx="" cy="" r=""><title>hover提示作用标签</title><desc>描述作用，不显示，相当于文字注释</desc></circle>
-<ellipse cx="" cy="" rx="" ry=""/>绘制椭圆，cx,cy为位置，rx,ry为宽高。
-<line x1="0" y1="0" x2="20" y2="20"/>绘制线条，x1,y1,x2,y2为起始及结尾坐标。
-<polygon points="10,10 20,20 150,320"/>绘制多边形，points中没两个值是一对坐标。
-<!--set: 为元素设置属性值，一般配合动画使用-->
-<polyline points=""><set attributeName="fill" to="green"></set></polyline>绘制折线
-
-<!--****绘制任意路径、形状****
-  - d: 路径绘制，属性如下：
-    M：移动至起始点，必须。L：直线结束点。H：从当前点画水平线。
-    V:垂直线。C:三阶贝塞尔曲线。Q：二阶贝塞尔曲线。Z: 连接到起始点
-  - stroke-dasharray: 50 20; 边的一个线段长，线段之间的距离；
-  - stroke-dashoffset: 50; 指定dash模式到开始点的距离；
-【可让二者值相同，实现绘制线条的动画效果】
--->
-<path d="M10 5L100 15C19 60,50 99 C 20 20, 40 20, 50 10" style="stroke-dashoffset:330;stroke-dasharray:330;stroke:#000;"/>
-<image xlink:href="firefox.jpg" x="0" y="0" height="50px" width="50px"/>
-<g></g><!--其它元素可以放到里面，做一组使用，无其它实意-->
-<!--用于定义模板，一些效果类的东西可以放到里面，其它标签用xlink引用-->
-<defs>
-    <!--定义一个形状的裁剪;使用：clip-path="url(#cut)"【显示的是裁剪部分】-->
-    <clipPath id="cut">
-      <rect x="0" y="0" width="200" height="100" />
-    </clipPath>
-    <!--遮罩：可结合简便做淡入淡出动画-->
-    <mask id="Mask">
-      <rect x="0" y="0" width="200" height="200" fill="url(#Gradient)"  />
-    </mask>
-    <path id="a1" d="M0 50 C150 150 100 -50 300 50" stroke="#000" fill="none"/>
-    <!--linearGradient定义一组线性渐变，(x1,y1)和(x2,y2)两点构成的方向即是渐变的方向（用%）-->
-    <linearGradient id="gradient" x1="0%" y1="0%" x2="80%" y2="100%">
-        <stop offset="0%" stop-color="green" stop-opacity="0.8"/>
-        <stop offset="100%" stop-color="red" />
-    </linearGradient>
-    <!--
-      定义一组圆形渐变
-      -cx,cy: 定义渐变中心位置
-      -fx,fy: 定义渐变焦点
-      -使用示例：<circle cx="170" cy="170" r="30" fill="url(#eye_ra)"></circle>
-    -->
-    <radialGradient id="eye_ra" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-        <stop offset="0%" style="stop-color: rgb(249, 11, 11)" />
-        <stop offset="90%" style="stop-color: rgb(117, 19, 19)" />
-        <stop offset="100%" style="stop-color: rgb(58, 9, 9)" />
-    </radialGradient>
-</defs>
-<!--text用于在svg中放置文字，xlink:href为引用模式-->
-<text x="10" y="15">
-    <textPath xlink:href="#a1">在平坦的路上曲折前行</textPath>
-</text>
-<!--一系列坐标点时，每个坐标对应的1个字符-->
-<text x="0,20,40,60,70" y="0,20,40,60,70">This is some SVG</text>
-<!--foreignObject可用于放置html元素，（只能放到g元素内和外层）
-且显示其渲染效果，可利用其将dom转为图片（不过图片需用base64数据）
-背景图也需要转为base64数据，且用单引号，使用；
-【样式写在外面也能生效】
--->
-<foreignObject width="200" height="300" x="100" y="200"><div class="aa" xmlns="http://www.w3.org/1999/svg">contend:声称</div><style>.aa{color:red;background:url('data:image/svg+..');}</style></foreignObject>
-
-<!--强大特效，滤镜部分-->
-<filter id="filter"><!--定义一组滤镜-->
-<!--<feTurbulence/>滤镜：采用perlin算法（产生类似自然纹理）
-    -baseFrequency:噪声基本频率参数（【0-1】频率越高噪声越密集【越扭曲】）；
-    -numOctaves:倍频数量（只能为整数【1-3】，数值越大，噪声看起来越自然【颜色点越分散】），
-    -seed:伪随机数生成的起始值（改变噪声形状和位置）
-    -stitchTiles:定义噪声在边框外的行为表现；【no-Stitch(svg元素边界处不会平滑处理) / stitch(元素边界处会平滑处理)】
-    -type:【turbulence(端流，混乱) / fractalNoise(分形噪声)】
--->
-<feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="4" />
-<!--<feDisplacementMap/>滤镜：可让图形按R,G,B颜色通道进行位置的偏移；多和<feTurbulence/>一起使用
-    -scale:控制偏移程度；
-    -in:指输入，sourceGraphic表示原图像
-    -in2:第二个输入，turbulence，表示原图像断流处理过后的图像
-    -xChannelSelector:指定in2从哪个颜色通道在x轴移动in中的像素；
-    -yChannelSelector:指定in2从哪个颜色通道在y轴移动in中的像素；
--->
-<feDisplacementMap in="SourceGraphic" in2="turbulence" xChannelSelector="R" yChannelSelector="B" scale="170" />
-<!--光源滤镜，有3种光源可选；上面的滤镜和光源滤镜使用会失效；
-    -in:输入的初始图像
-    -lighting-color:灯光的颜色
-    -surfaceScale:值越大，灯光越亮
-    -diffuseConstant:光点的大小
--->
-<feDiffuseLighting in="SourceGraphic" lighting-color="red" surfaceScale="1" diffuseConstant="2">
-    <!--fePointLight：点光源，x,y,z控制光源位置（z由低到高，光会逐渐变亮）-->
-    <fePointLight x="150" y="60" z="20"/>
-    <!--feDistantLight：环境光；azimuth为平行光角度；elevation为平行光的海拔-->
-    <feDistantLight azimuth="240" elevation="20"/>
-    <!--feSpotLight：聚光灯效果；x,y,z控制光源位置；pointsAtX/Y/Z为聚光灯照向的位置;limitingConeAngle是灯光范围角度-->
-    <feSpotLight x="100" y="30" z="99" limitingConeAngle="20" pointsAtX="390" pointsAtY="80" pointsAtZ="0"/>
-</feDiffuseLighting>
-<!--高斯模糊滤镜：-in:输入的基础图像；-stdDeviation:控制模糊程度；-->
-<feGaussianBlur in="sourceGraphic" stdDeviation="4" />
-<!--fecomposite滤镜执行两个输入图像的智能像素组合
-在图像空间中使用以下 Porter-Duff 合成操作之一：over、in、atop、xor
-arithmetic 操作对组合来自<feDiffuseLighting>滤镜和来自<feSpecularLighting> 滤镜的输出以及组合纹理数据很有用。
-arithmetic操作，每个结果像素都要经过下面的方程式的计算：result = k1*i1*i2 + k2*i1 + k3*i2 + k4
--->
-<fecomposite in="light" in2="SourceGraphic" operator="arithmetic" k1="1" k2="0" k3="0" k4="0"></fecomposite>
-<!--图片滤镜
-- externalResourcesRequired：表示当前文档中是否需要外部资源。默认值为假
--->
-<feImage x="" y="" width="" height="" externalResourcesRequired="" preserveAspectRatio="" xlink:href="http://cc.jpg"/>
-<!--用于组合两个图像，mode为指定模式-->
-<feBlend in="" in2="BackgroundImage" mode="screen"/>
-<feMerge>
-<!--feFlood: 生成一层连续的颜色，填充元素的过滤器基本区域-->
-<feFlood width="" height="" x="" y="" flood-color="#fff" flood-opacity="0.7">
-<feMorphology operator="erode" radius="1"/>
-<!--对原图像进行偏移，多用于创建阴影-->
-<feOffset in="blur" dx="4" dy="4" result="offsetBlur"/>
-<!--也是一个光源滤镜-->
-<feSpecularLighting in="offsetBlur" surfaceScale="5" specularConstant=".75" specularExponent="20" lighting-color="#bbbbbb" result="specOut">
-  <fePointLight x="-5000" y="-10000" z="20000"/>
-</feSpecularLighting>
-<!--颜色变换过滤器
-***作为一个线性变换，在输入的图像的颜色上进行变换操作****
-- type: matrix，还有：saturate(饱和度)、hueRotate(色相旋转)
-- values: 4x5维的矩阵数据，（这里是趟平传参）各列值分别是：r,g,b,a,偏移量；
-    第一行控制“红色通道”，第二行控制“绿色通道”，第三行控制“蓝色通道”，最后一行为“透明通道”
--->
-<feColorMatrix type="matrix" values="110 10 20 1 0
-                                     210 12 21 0 1
-                                     210 12 21 0 1
-                                     210 12 21 0 0"/>
-</filter>
-<!--使用滤镜,指定滤镜元素id，css中也可以使用
-.css{filter:url(#filter);font-size:14px;}
--->
-<circle id="shape" cx="" cy="" r="" filter="url(#filter)"/>
-<!--symbol: 定义一组模板元素，一般与use配合使用-->
-<symbol id="symbol" width="10" height="20" viewBox="0 0 10 20">
-    <circle id="shape2" cx="" cy="" r="" filter="url(#filter)"/>
-</symbol>
-<!--use元素，用于复用其它图形，且可以使用其它svg标签中的图形-->
-<use xlink:href="#shape" x="50" y="50" />
-<use xlink:href="#symbol" x="200" y="50" />
-
-</svg>
-```
-
-[基础部分学习地址](http://www.mamicode.com/info-detail-1988813.html)
-
-### b、svg 内联
-
-css 的 background-img 的 url 可以显示链接图片和 base64 图片，将 svg 转为 base64 的也能在其中显示出来，部分版本较高的浏览器可以直接用 svg 代码，如下：
-**svg 文件引入**：.svg 文件可直接使用==img 的 src==，或 background-img 引入使用；`<img src="./img/图标.svg"/>或.el{background:url('./img/cc.svg');}`;(兼容性未知)
-
-```html
-<style>
-  /*这种内联的svg渲染几乎无延迟*/
-  .aa {
-    background: url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" version="1.1">...');
-  }
-
-  /*ie和一些浏览器中不能显示出来，但可以使用
--------js的encodeURIComponent()方法将其转码后使用,注意需要xmlns属性：
-*/
-  .bb {
-    background: url("data:image/svg+xml,%3Csvg%...") no-repeat center;
-  }
-  svg {
-    fill: currentColor;
-  }
-</style>
-<script>
-  // svg的fill设置为“currentColor”，其内部的元素“fill”的颜色可以跟随外层html元素的color变化；
-  var svg =
-    '<svg fill="currentColor" width="300" height="300" xmlns="http://www.w3.org/2000/svg" version="1.1">..</svg>';
-  console.log(encodeURIComponent(svg));
-</script>
-```
-
-注：利用 svg 的`viewBox`属性和其内部图形比例来控制它们；
-
-### c、svg 将 dom 转图片
-
-```js
-function dom2svgImage(dom) {
-  if (!(dom instanceof Object)) return;
-
-  var cloneDom = dom.cloneNode(true);
-  var SVG =
-    '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width=">' +
-    dom.offsetWidth +
-    '" height="' +
-    dom.offsetHeight +
-    '">';
-  var FOREG_PRE = '<foreignObject x="0" y="0" width="100%" height="100%">';
-  var FOREG_END = "</foreignObject></svg>";
-  // TODO:查询EL中的所有图片，转为base64表示;更完美的情况需要读取每个元素的样式，将他们都写到内嵌或style中
-  //cloneDom.setAttribute('xmlns','http://www.w3.org/2000/xhtml');
-  // 拼接为完整的svg；new XMLSerializer().serializeToString(cloneDom)将元素序列化；
-  var res =
-    SVG +
-    FOREG_PRE +
-    new XMLSerializer().serializeToString(cloneDom) +
-    FOREG_END;
-  // FIXME:注意处理一些特殊符号
-  res = res.replace(/\n/g, "").replace(/\t/g, ""); //.replace(/#/g,'%23')
-  // 转为img可使用形式
-  var svgImg = "data:image/svg+xml," + encodeURIComponent(res);
-
-  return svgImg;
-}
-var tt = dom2svgImage(document.getElementById("www"));
-// TODO:将数据写入图片；可再将此图片用canvas转为base64，然后下载至本地；
-document.getElementById("img").src = tt;
-```
-
-**注**：本地路径的图片是无法显示出来的，可以使用内联的图片数据，或者使用 http：开头的网络图；
-
-### d、vue 项目中使用 svgIcon
-
-1. 写一个公共组件放置引用 svg 图标：
-
-```html
-<template>
-  <div
-    v-if="isExternal"
-    :style="styleExternalIcon"
-    class="svg-external-icon svg-icon"
-    v-on="$listeners"
-  ></div>
-  <svg v-else :class="svgClass" aria-hidden="true" v-on="$listeners">
-    <use :xlink:href="iconName"></use>
-  </svg>
-</template>
-```
-2. js 文件中用 require.context()返回所有 svg 文件
-
-```js
-/**svg文件示例：code.svg
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg class="icon" xmlns="..."><defs><style type="text/css"></style></defs>
-<path d="..."/>
-</svg>
-*/
-import Vue from "vue";
-import SvgIcon from "@cmp/private/SvgIcon"; // svg component
-// register globally
-Vue.component("svg-icon", SvgIcon);
-
-const req = require.context("./svg", false, /\.svg$/); //返回一个webpack环境上下文（函数），包含文件id，keys等属性。
-const requireAll = (requireContext) =>
-  requireContext.keys().map(requireContext);
-requireAll(req); //全部遍历出来。
-```
-
-3. 入口引入，并在 webpack 中使用`svg-sprite-loader`，然后配置，处理这些 svg 文件。
-
-### e、动态添加svg元素
-
-SVG是基于XML格式定义图像的一种技术，因此创建节点的时候，需要指定命名空间（Namespace），也就是用createElementNS来代替createElement创建节点
-```js
-function makeSVG(tag, attrs) {
-    const ns = 'http://www.w3.org/2000/svg';
-
-    let el= document.createElementNS(ns, tag);
-    if (tag==='svg'){
-        el.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-    }
-    for (let k in attrs) {
-        if (k === 'xlink:href') {
-            el.setAttributeNS('http://www.w3.org/1999/xlink', k, attrs[k]);
-        } else {
-            el.setAttribute(k, attrs[k]);
-        }
-    }
-    return el;
-}
-
-window.addEventListener('load', function(){
-    let svg = makeSVG('svg');
-    let g = makeSVG('g');
-    let rect = makeSVG('rect',{x:'0',y:'0',width:'20',height:'20',fill:'blue'});
-    
-    g.appendChild(rect);
-    svg.appendChild(g);
-    document.body.appendChild(svg);
-});
-```
-
-
-
-## 2、canvas
-
-### a、概念
-
-**创建**：css设置宽高时是`canvas的大小`，但其**绘图面积大小**只能用内嵌`width,height`或js设置（默认绘图大小300x150）
-
-```html
-<style>
-    #canvas{
-        background: white; /*可设置canvas背景色*/
-    }
-</style>
-<!--浏览器不支持时会显示中间文字-->
-<canvas id="canvas" width="500" height="500">您的浏览器不支持canvas</canvas>
-```
-
-**2d上下文**：无论声明定义几个context，其实它们**都是一个**（全局上的操作是互相影响的）
-
-**离屏canvas**：指将canvas设置为`display:none;`但绘制操作依然在上面进行，显示时使用`toDataURL`()放置到`<img>`/另一个canvas中（设置为none后canvas上不会再渲染，因此==可以大幅度提升性能==）
-**注意**：canvas中**无法插入html代码**，因此许多canvas库都是再其上放置div来添加些额外功能。
-
-**图层**：多数canvas库都有图层概念，其应是利用可将其它canvas绘制进来（==1个canvas做1个图层==使用，）<a href="#canvas-inner">查看详情</a>
-
-**部分属性**：
-
-- `globalCompositeOperation`：将物体绘制到其它物体上时的绘制方式
-  "source-over"//图形重叠处理，source-in:重叠部分绘制，source-out:重叠位置不绘制、source-atop:重叠处类似遮罩的绘制；
-  lighter:颜色叠加效果、copy:只显示新内容、xor:互相重叠部分为透明、multiply:顶层像素与底层像素相乘，一般得到黑暗图形、screen:重叠处像素反转
-  overlay:multiply 与 screen 叠加效果、darken:变暗、lighten:叠加部分变量、color-dodge:底层像素值除顶层像素值、color-burn:颜色加深。
-
-- `globalAlpha`：全局透明设置。
-  `lineCap`：指示如何绘制线段的端点（有`butt/round/square`）
-  `lineJoin`：两台线相交时如何绘制焦点（有`bevel/round/miter`）
-  `miterLimit`：如何绘制miter形式的线段焦点
-  `shadowBlur`：如何延伸阴影效果
-
-### a1、保存和恢复
-
-**save**：保存绘制的一些状态数据（如`fillStyle,stokeStyle,globalAlpha`等context，canvas的一些配置，状态数据）保存到栈中；
-
-**restore**：从栈中弹出，则`fillStyle,stokeStyle`等一些状态数据恢复到了上一次保存的数据。
-
-**两者作用**：由于可以保存和恢复，可以保存好此此使用的配置，后面的绘制可以恢复到这个状态而==不用再次去用赋值的方式改变那些属性==
-
-```js
-var cn = document.getElementById("canvas");
-function play() {
-  var cv = cn.getContext("2d");
-  // 以下两个图形用一个2d对象绘制。
-  cv.globalCompositeOperation = "copy";
-  cv.beginPath();
-  cv.moveTo(10, 20);
-  cv.lineTo(150, 230);
-  cv.stroke();
-  // 绘制另一个图形中间添加globalCompositeOperation属性
-  cv.globalCompositeOperation = "source-over";
-  //cv.save();若只想用transform中的方法产生动画在这里加上save()末尾用
-  //restore()即可产生想要的结果。
-  cv.beginPath();
-  cv.moveTo(50, 200);
-  cv.lineTo(310, 430);
-  cv.stroke();
-  cv.restore();
-  // 使用这种模式，以上值处改为动态值即可产生动画
-  requestAnimationFrame(play);
-}
-```
-
-
-
-### b、基础绘制
-
-```js
-const canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d"); //获取2d对象
-/******文本部分******/
-ctx.font = "20px Arial"; //定义字体大小及类型。
-ctx.textAlign = "center"; //left,start,right,end
-ctx.fillStyle = "blue"; // 填充实体时使用的颜色（样式定义放到绘制前）
-ctx.strokeStyle = "red";// 填充边框时使用的颜色
-ctx.measureText("文本文字"); // 【返回这段文本所占的宽度】
-ctx.fillText("颜色填充文本实体", x, y,maxWidth); //填充文字时不能填充其它且不能绘制形状。
-ctx.strokeText("颜色填充文本边",x,y,maxWidth);
-
-ctx.fillRect(x, y, width, height); //矩形填充颜色...
-/***清空区域内所有图形操作（重新设置canvas宽高也会清空所有）***/
-ctx.clearRect(x, y, width, height);
-ctx.strokeRect(x, y, width, height); //绘制一个矩形框
-/****线的绘制*****/
-ctx.beginPath(); //绘制路径，不规则图圆时先调用
-ctx.lineWidth = 3; //线框
-ctx.filter = "blur(15px)"; //模糊滤镜。
-ctx.lineCap = "butt"; //线头样式,round:圆形头、square:方形头。
-ctx.setLineDash([2, 5, 20, 30]); //设置为虚线，断点距头位置。
-ctx.lineDashOffset = 10; //设置虚线起始偏离起始点距离。
-ctx.stroke();
-/***圆绘制***/
-ctx.beginPath(); //绘制路径，不规则图圆时先调用
-ctx.lineWidth = 8; // 设置边框的宽度
-ctx.arc(x,y,r,stAngle,Math.PI*2)//绘制圆,控制第5个参数大小控制弧长。
-ctx.ellipse(x,y,rx,ry,Math.PI/4)//绘制椭圆
-ctx.stroke()//绘制所描绘的路径
-```
-
-### b1、效果绘制
-
-```js
-//-----HTMLCanvasElement//表示页面内所有canvas元素，其余元素也有此类似对象。
-HTMLCanvasElement.toDataURL()//方法将画布转化为base64图片格式。
-HTMLCanvasElement.toBlob()//方法将画布转化为Blob对象。
-/****渐变****/
-a = ctx.createLinearGradient(0,0,300,0);//创建一个线性渐变，参数为区域
-a.addColorStop(0,"red");//渐变a中添加位置,颜色
-ctx.fillStyle = a; // (将渐变赋值给fillStyle等就可使用)
-b=ctx.createRadialGradient(x0,y0,r0,x1,y1,r1)//中心渐变，两个圆中间的区域
-patt=ctx.createPattern(ctx1,null)//创建一个填充块，参数1是另一个canvas对象
-/****阴影***/
-ctx.shadowBlur=20//阴影模糊程度
-ctx.shadowColor="red"//阴影颜色
-ctx.shadowOffsetX=2,ctx.shadowOffsetY=3//阴影偏移
-ctx.strokeStyle="orange"//设置边框颜色
-/*****贝塞尔曲线****/
-ctx.quadraticCurveTo(10,10,20,20)//二次贝塞尔曲线，中转点，结束点
-ctx.bezierCurveTo()//三次贝塞尔曲线
-/***********裁剪************
-使用之前先绘制一个路径区域，“之后绘制的图形”后只局限在该区域内
-【可控制裁剪区域大小变化来绘制伸缩式动画】
-*/
-ctx.clip()//裁剪
-ctx.globalAlpha=0.2;//设置画布全局透明度
-
-```
-
-
-
-### b2、图片绘制
-
-**基本使用**：图像数据的处理一般比较费时，可放到work中去做。
-
-```js
-/******
-img.width、img.height、img.data//直接获取该图片的宽高，像素数据。
-*/
-img=new Image();
-img.src = "http://xxx.jpg";
-img.onload = function(){
-    ctx.drawImage(img,sx,sy,sw,sh,dx,dy,dw,dh)//绘制图片,img可以是图片、svg、canvas的dom对象
-}
-// 获取指定画布区域数据
-dat=ctx.getImageData(x,y,width,height);//【速度较慢】
-dat.data;//获取像素矩阵
-// 创建1个imgData对象
-imgdata=ctx.createImageData(300,100)//创建一个全0像素矩阵,可操控每个点值
-
-img.src =canvas.toDataURL(type,scl);//将整个canvas上的像素数据转换为
-//base64格式,能直接显示到img中,type有图片格式,有:image/png(默认),
-//image/jpeg,image/webp;scl为缩放值(更改图片质量0~1)
-ctx.putImageData(imgdata,x,y)//【该方法不受一些全局设置的影响】
-```
-
-**绘图安全机制**：`drawImage`可允许你绘制其它域名的图片（`origin-clean`被设置为false），但不能用其它api修改它（如使用`toDataURL`后直接抛出异常）
-（1）解决方法1：获取图片的base64数据再绘制。
-（2）解决法2：可用`--allow-file-access-from-files`启动chrom浏览器。
-
-**性能对比**：
-（1）`drawImage()`方法比`putImageData()`方法性能更好；
-（2）`drawImage(canvas)`比`drawImage(img)`的速度要稍快
-（3）`getImageData`方法较耗时，尽量少使用。
-
-**嵌套canvas**：利用上面的`drawImage(canvas,0,0)`可以将其它canvas图像绘制进来，很方便管理（动画等复杂情况不用考虑另一个canvas）【<b id="canvas-inner">标记</b>】
-
-```js
-// 第1个canvas绘制
-context.beginPath();
-context.fillStyle = 'green';
-context.arc(100 + 100, 200, 50, 0, Math.PI * 2, false);
-context.fill();
-context.clip();
-// 第2个canvas dom
-var cc = document.createElement('canvas');
-cc.width = canvas.width;
-cc.height = canvas.height;
-var ctx = cc.getContext('2d');
-
-ctx.beginPath();
-ctx.fillStyle = 'blue';
-ctx.arc(100 + 40, 170, 50, 0, Math.PI * 2, false);
-ctx.fill();
-// 将第2个canvas加入进来（***最好先保存下添加之前的图形数据****）
-context.drawImage(cc, 20, 20);
-```
-
-**获取图片色值**：利用 getImageData()得到的是 rgba 数据。
-
-```js
-function getColor(x, y) {
-  var canvas = document.createElement("canvas");
-  var ctx = canvas.getContext("2d");
-  var img = new Image();
-
-  img.src = require("@/assets/images/sj13.jpg");
-  img.onload = function () {
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-    var mgd = ctx.getImageData(0, 0, img.width, img.height);
-    var dt = mgd.data;
-    /*getImageData()得到的数据是一维数组，没相邻的4个值是一个点的rgba值，点是从左道右，从上到下排列的*/
-    //像素开始位置：(W*y + x)*4
-    var position = (img.width * Number(y) + Number(x)) * 4;
-
-    console.info(dt[position], dt[position + 1], dt[position + 2]);
-  };
-}
-```
-
-**转灰度与反向**
-
-```js
-var img = new Image();
-img.crossOrigin = 'anonymous';
-img.src = './assets/rhino.jpg';
-
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-
-img.onload = function() {
-    ctx.drawImage(img, 0, 0);
-};
-// 原图
-var original = function() {
-    ctx.drawImage(img, 0, 0);
-};
-// 反向色处理函数
-var invert = function() {
-    ctx.drawImage(img, 0, 0);
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-    // 每个通道取反向色值即可
-    for (var i = 0; i < data.length; i += 4) {
-        data[i]     = 255 - data[i];     // red
-        data[i + 1] = 255 - data[i + 1]; // green
-        data[i + 2] = 255 - data[i + 2]; // blue
-    }
-    ctx.putImageData(imageData, 0, 0);
-};
-// 置灰处理
-var grayscale = function() {
-    ctx.drawImage(img, 0, 0);
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-    // 每个像素点取均值
-    for (var i = 0; i < data.length; i += 4) {
-        var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-        data[i]     = avg; // red
-        data[i + 1] = avg; // green
-        data[i + 2] = avg; // blue
-    }
-    ctx.putImageData(imageData, 0, 0);
-};
-
-const inputs = document.querySelectorAll('[name=color]');
-for (const input of inputs) {
-    input.addEventListener("change", function(evt) {
-        switch (evt.target.value) {
-            case "inverted":
-                return invert();
-            case "grayscale":
-                return grayscale();
-            default:
-                return original();
-        }
-    });
-}
-```
-
-
-
-### b3、常用绘制
-
-**网格绘制**：
-
-```js
-function drawGrid(context,color,stepx,stepy){
-      context.strokeStyel = color;
-      context.lineWidth = 0.5;
-
-      for(let i=stepx+0.5;i<context.canvas.width;i+=stepx){
-        context.beginPath();
-        // 向当前路径中增加1条子路径（不会从当前路径中清除其它子路径）
-        context.moveTo(i,0);
-        // 会加入1条新的子路径（当前无子路径时则与moveTo()一样）
-        context.lineTo(i,context.canvas.height);
-        context.stroke();
-      }
-      for(let i=stepy+0.5;i<context.canvas.height;i+=stepy){
-        context.beginPath();
-        context.moveTo(0,i);
-        context.lineTo(context.canvas.width,i);
-        context.stroke();
-      }
-}
-drawGrid(ctx,'lightgray',10,10);
-```
-
-**绘制坐标轴**：
-
-```js
-const AXIS_MARGIN = 40;
-const AXIS_ORIGIN = {x: AXIS_MARGIN,y:canvas.height-AXIS_MARGIN};
-const AXIS_TOP = AXIS_MARGIN,AXIS_RIGHT = canvas.width-AXIS_MARGIN;
-const HORIZONTAL_TICK_SPACING = 10,VERTICAL_TICK_SPACING = 10;
-const AXIS_WIDTH = AXIS_RIGHT - AXIS_ORIGIN.x,AXIS_HEIGHT = AXIS_ORIGIN.y - AXIS_TOP;
-const NUM_VERTICAL_TICKS = AXIS_WIDTH / VERTICAL_TICK_SPACING;
-const NUM_HORIZONTAL_TICKS = AXIS_WIDTH / HORIZONTAL_TICK_SPACING;
-const TICK_WIDTH = 10,TICKS_LINEWIDTH = 0.5,TICKS_COLOR = 'navy';
-const AXIS_LINEWIDTH = 1.0,AXIS_COLOR = 'blue';
-function drawAxes(){
-      ctx.save();
-      ctx.strokeStyel = AXIS_COLOR;
-      ctx.lineWidth = AXIS_LINEWIDTH;
-      drawHorizontalAxis();
-      drawVerticalAxis();
-
-      ctx.lineWidth = 0.5;
-      ctx.lineWidth = TICKS_LINEWIDTH;
-      ctx.strokeStyel = TICKS_COLOR;
-      drawVerticalAxisTicks();
-      drawHorizontalAxisTicks();
-      ctx.restore();
-}
-// x轴
-function drawHorizontalAxis(){
-      ctx.beginPath();
-      ctx.moveTo(AXIS_ORIGIN.x,AXIS_ORIGIN.y);
-      ctx.lineTo(AXIS_RIGHT,AXIS_ORIGIN.y);
-      ctx.stroke();
-}
-    // y轴
-function drawVerticalAxis(){
-      ctx.beginPath();
-      ctx.moveTo(AXIS_ORIGIN.x, AXIS_ORIGIN.y);
-      ctx.lineTo(AXIS_ORIGIN.x, AXIS_TOP);
-      ctx.stroke();
-    }
-    // y轴刻度线
-function drawVerticalAxisTicks(){
-      let deltaX;
-      for(let i=1;i<NUM_VERTICAL_TICKS;++i){
-        ctx.beginPath();
-        if(i%5===0) deltaX = TICK_WIDTH;
-        else deltaX = TICK_WIDTH / 2;
-
-        ctx.moveTo(AXIS_ORIGIN.x-deltaX,AXIS_ORIGIN.y-i*VERTICAL_TICK_SPACING);
-        ctx.lineTo(AXIS_ORIGIN.x+deltaX,AXIS_ORIGIN.y-i*VERTICAL_TICK_SPACING);
-        ctx.stroke();
-      }
-    }
-    // x轴刻度线
-function drawHorizontalAxisTicks(){
-      let deltaY;
-      for (let i = 1; i < NUM_VERTICAL_TICKS; ++i) {
-        ctx.beginPath();
-        if (i % 5 === 0) deltaY = TICK_WIDTH;
-        else deltaY = TICK_WIDTH / 2;
-
-        ctx.moveTo(AXIS_ORIGIN.x + i*HORIZONTAL_TICK_SPACING, AXIS_ORIGIN.y - deltaY);
-        ctx.lineTo(AXIS_ORIGIN.x + i*HORIZONTAL_TICK_SPACING, AXIS_ORIGIN.y + deltaY);
-        ctx.stroke();
-      }
-}
-drawAxes();
-```
-
-**多边形绘制**：利用线段的绘制来实现即可。
-
-**绘制弧形文本**：将一个文本中的每个字取出来单独绘制（利用旋转，移动等变换实现弧形效果）
-
-### c、坐标系
-
-**坐标处理**：将鼠标位置转换为canvas的坐标
-
-```js
-function windowTocanvas(canvas,x,y){
-    var bbox = canvas.getBoundingClientRect();
-    return {x:x-bbox.left*(canvas.width/bbox.width),y:y-bbox.top*(canvas.height/bbox.height)}
-}
-canvas.onmousemove = function(e){
-    var loc = windowTocanvas(canvas,e.clientX,e.clientY);
-}
-```
-
-**坐标变换**：先设置好变换后再绘制图形（与css3中先绘制好再变换**效果一样**）利用变换==可节省一些计算==。
-
-```js
-/***旋转操作****/
-context.rotate(Math.PI / 4); // 注意这里的角度值是以PI（弧度制）使用的
-context.beginPath();
-context.moveTo(20, 20);
-context.lineTo(100, 10);
-context.stroke();
-/****这些变换与fillStyle等属性一样都可被save()保存，恢复等****/
-context.save();
-/***偏移操作***/
-context.translate(100, 150);
-/***缩放操作***/
-context.scale(0.5,0.5);// 两个参数相同时则是同比列放大/缩小，不同时则有css3中的扭曲函数一样作用
-context.scale(-1,1);// -1,1则有水平镜像效果
-context.scale(1,-1);// 1,-1则有垂直镜像效果
-context.beginPath();
-context.moveTo(20, 20);
-context.lineTo(120, 105);
-```
-
-**变换矩阵**：有少数情况使用上面的几个变换不能满足（如错切）
-
-```js
-/*****与css3的matrix函数使用一样（a,d缩放，e,f管移动）
-transform有累积作用，可在上一次的transform基础上变换
-*/
-context.transform(a,b,c,d,e,f);
-// setTransform每次只在原状态上变换
-context.setTransform(a,b,c,d,e,f);
-/******计算公式******
-对（x,y）得到：_x = a*x+c*y+e;  _y = b*x+d*y+f;
-*/
-```
-
-
-
-### d、标绘
-
-**图形的保存与恢复**：使用获取像素数据来操作（==尽量限制在1个小的区域内==，这样速度更快）
-
-```js
-function saveDrawingSurface() {
-      drawingSurfaceImageData = context.getImageData(0, 0, canvas.width, canvas.height)
-}
-function restoreDrawingSurface() {
-      context.putImageData(drawingSurfaceImageData, 0, 0);
-}
-```
-
-**鼠标绘制**：思路如下
-（1）鼠标按下时：调用上面的`saveDrawingSurface`先保存之前的图形数据。
-（2）鼠标移动时：先调用上面的`restoreDrawingSurface`恢复之前的图像，再绘制出要绘制的图形。
-（3）鼠标松开时：依然是先调用恢复，再次绘制完（可添加绘制物体的概念，如将绘制3角形，将其所有数据保存到1个对象中管理）
-
-`context.isPointPath(x,y)`：检测点（x，y）是否在context绘制过的路径中。（即使用线段绘制的多边形，鼠标在多边形中时`isPointPath`方法也==返回true==）
-**选中检测**：由于上面`isPointPath`的性质，可以判断出选中了某个图形，但有多个图形时**可判断与哪个图形的中心点最近**就算选中的哪个。
-
-**编辑图形**：思路如下（编辑图形A）
-（1）点击编辑：用1个按钮给用户打开编辑，将所绘图形的点明显绘制出来（加大，颜色等）
-（2）鼠标按下时：用`isPointInPath`方法判断（效果不好），再鼠标点与该图形所有点计算，离哪个最近就算是选中了哪个点（**小于一定距离才算选中也可**）；
-（3）鼠标移动时：`restoreDrawingSurface`方法恢复绘制A图形之前时的画布图像，再修改当前选中点的坐标，与其它点再次绘制图形A（若画布上有多个图形，	有在A之后绘制的，那这里还要连这些图形都绘制出来）
-（4）鼠标松开时：更新自己保存的图形A数据。
-
-拖动图形：先使用选中检测，然后与清除，重绘的方式来实现拖动效果即可。
-
-### e、动画
-
-**剪辑区域实现动画**：这里主要利用`clip()`（所绘制**物体不多**，**涉及区域小时**考虑使用）
-（1）先绘制背景数据，然后`context.save()`；
-（2）然后绘制动画区域，再`context.clip()`设置该区域为剪辑；
-（2）使用`requestAnimationFrame`执行清除区域操作，再绘制背景（只会在clip区域内擦除和绘制）；
-（4）绘制动画图形，结束后用`context.restore()`（可==去除掉剪辑区域==）
-
-**模块恢复实现动画**：使用绘制其它canvas数据的方法（这种方法多数情况**比剪辑实现的要快**，不过多占点缓存）
-（1）建立1个离屏canvas，在离屏canvas中绘制背景。
-（2）在显示的canvas中清除数据`context.clearRect(0,0,canvas.width,canvas.height)`，再将离屏canvas绘制进来
-（3）绘制动画图形。
-
-**双缓存实现的动画**：清除和重绘期间如果速度稍慢点，可能会看到一瞬间白屏，双缓存则是全部图形都在离屏中绘制好，主屏中不使用清除，而是直接绘制刚才离屏中的图形。（浏览器canvas==已自带这种机制，所以不需要用户手动实现==。这种思路可以借阅）
-
-**时间动画**：指根据动画之前的运行属性，**计算**下个时间点其**按速率应该出现的位置**（不规则运动，计算相隔时间长则预计的出入会较大）
-
-- 就算动画帧率低也==应该保证帧速的稳定性==。同时播放多个动画时无疑会降低它们的速度。
-
-- 电脑屏幕一般刷新频率为75FPS，动画若赶不上这个速率可能有掉帧情况。
-
-- 根据物体的运动速度计算出它在两帧之间移动的**像素数**，则可以运用此稳定运行动画。公式如下：
-  $$
-  像素 / 帧 = (像素 / 秒) * (秒 / 帧)
-  $$
-
-  ```js
-  // discs是各动画的属性记录；lastTime是上一次计算的时间
-  let discs = [{ x: 0, y: 0, velocityX: 20, velocityY: 20, radius: 5 }], lastTime = 0;
-  // @time: 想计算的时间点，与lastTime越接近，其预测的运动轨迹越接近
-  function updateTimeBased(time) {
-    var disc = null, elapsedTime = time - lastTime;
-  
-    for (let i = 0; i<discs.length;++i){
-      disc = discs[i];
-      deltaX = disc.velocityX;
-      /****计算两个方向的
-       * 像素/帧 = (像素/秒) * (秒/帧)
-       * */ 
-      deltaX = disc.velocityX * (elapsedTime / 1000);
-      deltaY = disc.velocityY * (elapsedTime / 1000);
-      // 方向边界控制
-      if (disc.x + deltaX + disc.radius > canvas.width || disc.x +deltaX-disc.radius<0) {
-        disc.velocityX = -disc.velocityX;
-        deltaX = -deltaX;
-      }
-      if (disc.y + deltaY + disc.radius > canvas.length || disc.y + deltaY - disc.radius < 0) {
-        disc.velocityY = -disc.velocityY;
-        deltaY = - deltaY;
-      }
-      // 得到下一次x，y方向的像素位置
-      disc.x = disc.x + deltaX;
-      disc.y = disc.y + deltaY;
-      // 更新时间点，每个动画统一，所以使用1个时间
-      lastTime = time;
-    }
-  }
-  ```
-
-**视差动画**：将背景分为几个层次，远处的移动慢，近的移动块从而产生的3d效果。
-
-**canvas动画制作总结**：
-（1）尽量保证动画播放的稳定性，为此**可使用时间动画**方式。
-（2）不要在canvas动画中绘制带有阴影效果的绘制。
-（3）不要在动画代码中分配内存（如`var a=10,let,const`的使用）可提前就创建好它们。
-（4）尽量使用`requestAnimationFrame`方法运行动画。
-（5）复杂动画情况多用“模块复制”的形式
-（6）必要时使用1或多个离屏canvas提升背景绘制速度。
-
-### f、物理效果
-
-**重力下降**：主要模拟重力加速度效果（$g=9.81 m/s^2$）
-
-```js
-const GRAVITY_FORCE = 9.81; // 重力加速度
-const pixelsPerMeter = canvas.height / 10; // 电脑上用的是像素，因此取其1/10作为重力加速度对应的“距离”
-/********y位置计算
-ball.velocityY 是该物体的y方向加速度。
-fps 是动画帧率（每秒播放的帧数）
-*/
-const y += ball.velocityY / fps;
-/*******更新加速度*/
-ball.velocityY = GRAVITY_FORCE * (ball.moveTime/1000) * pixelsPerMeter;
-```
-
-抛物效果
-
-碰撞检测：检测两个物体边界间的距离是否靠近判断有无发生检测；
-（1）外接圆判断法：给物体设定1个圆心，半径，这样比较容易计算；
-（2）事先预测法：根据物体当前位置，速度等判断它们什么时候会碰撞；
-（3）碰撞后处理法：碰撞后才检测到，但要对发生的碰撞做一些处理？？
-
-游戏引擎：[lufylegend](http://lufylegend.com/lufylegend)
-
-### g、canvas与svg
-
-<img src="./_v_images/canvas-svg.PNG" style="height:260px;"/>
-
-## 3、页面渲染过程：
+## 3、页面渲染过程
 
 - 先向服务端请求 html 网页。对 html 内容由上至下进行扫描，然后从头加载。
 - 由上至下将内容构建 DOM 树和 CSSOM 树。
@@ -883,9 +11,9 @@ ball.velocityY = GRAVITY_FORCE * (ball.moveTime/1000) * pixelsPerMeter;
 
 **页面的重绘与重排**（回流）：元素颜色的改变、css3 的一些变换等会引起页面的重绘，不过重绘速度非常快。而元素大小、display、position、float、overflow，js 的 resize 等会导致对页面的重新布局，即重排（也称回流）。无论是渲染树构建过程和渲染完毕后。回流比重绘需要的时间多得多，**所以应该尽量避免重排**。
 
-## 4、第三方资源的加载：
+## 4、第三方资源的加载
 
-很多加载资源的标签：iframe,video,audio,img,script,link 等是用 src 属性或是用 href 属性，一些标签不能跨域加载资源多数标签允许跨域加载资源。除了 link 和 script 外其它标签几乎都有 onload 事件和 onerror 事件可在元素上添加这两个事件做加载成功和加载失败后的处理。js 代码中的函数块语句需要达到相应的条件才能触发（body，head 中添加的 onload 和`<script></script>`中的 window.onload=“”除外)就算是 onmouseout 指定的函数也不行，因为它运行的前提就是有 onmouseover 被触发。
+很多加载资源的标签：`iframe,video,audio,img,script,link` 等是用 src 属性或是用 href 属性，一些标签不能跨域加载资源多数标签允许跨域加载资源。除了 link 和 script 外其它标签几乎都有 onload 事件和 onerror 事件可在元素上添加这两个事件做加载成功和加载失败后的处理。js 代码中的函数块语句需要达到相应的条件才能触发（body，head 中添加的 onload 和`<script></script>`中的 `window.onload=“”`除外)就算是 onmouseout 指定的函数也不行，因为它运行的前提就是有 onmouseover 被触发。
 **link 标签**：link的加载是同步的，会阻塞渲染。
 
 ```html
@@ -895,12 +23,12 @@ ball.velocityY = GRAVITY_FORCE * (ball.moveTime/1000) * pixelsPerMeter;
 
 **外部资源引入标签**：
 `<embed></embed>、<iframe></iframe>、<object></object>`
-`<embed type="image/svg+xml" codebase="http:"></embed>`标签是 H5 新标签所有主流浏览器都支持，codebase 属性中写资源路径,可以引入脚本;类似 iframe 标签用于引入外资源(`<iframe>`标签只在大部分浏览器可用),但规范的 xhtml 和 html 中不支持`<embed>`标签.`<object data="rect.svg" type="image/svg+xml" codebase="http">`
+`<embed type="image/svg+xml" codebase="http:"></embed>`标签是 H5 新标签所有主流浏览器都支持，codebase 属性中写资源路径,可以引入脚本;类似 iframe 标签用于引入外资源(`<iframe>`标签只在大部分浏览器可用，但规范的 xhtml 和 html 中不支持`<embed>`标签.`<object data="rect.svg" type="image/svg+xml" codebase="http">`
 `</object>`标签是 H4 的新标签，浏览器支持性差，但不能引入脚本.(引入的文件中的 js 对象和本页的 js 对象是不能共用的,且在引入的文件中获取的 url 也不是该页的)
 **引入页面中刷新父页面更改浏览器 url**：
 在`<iframe><embed><object>`标签中若是有用到跳转页面使用 window.location.href 或 window.open()或 a 标签中的跳转，页面跳转后还是只是显示在\<iframe>...这些标签之中
-但使用 window.parent.frames.location.href = ""能让上一个页面跳转或直接`window.parent.location.href,window.top.location.href`让最外层的页面跳转，
-a 标签中的跳转可用 target="parent"和 target="top"来实现。获取前一页 url：document.referrer;//包括传参也会获取到
+但使用` window.parent.frames.location.href = ""`能让上一个页面跳转或直接`window.parent.location.href,window.top.location.href`让最外层的页面跳转，
+a 标签中的跳转可用 `target="parent"和 target="top"`来实现。获取前一页 `url：document.referrer`包括传参也会获取到
 **iframe 属性：**[参考地址](https://www.cnblogs.com/hzb462606/p/11394683.html)
 
 ```html
@@ -917,92 +45,25 @@ allow-scripts：允许脚本执行；
 
 **位图与矢量图**：位图又叫做点阵图，是一个个很小的颜色小方块组合在一起的图片。一个小方块代表 1px（像素）。矢量图是由一个个点链接在一起组成的，是根据几何特性来绘制的图像，和位图的分辨率是没有关系的。因此图片放大后也不会失真，不会出现位图的马赛克的样子，也就是说可以无限放大图片。
 
-> 图片处理专项：(png 转为 jpg 后一般能缩小一半，但 png 色彩更丰富，且透明背景属性，所以项目中一般使用的是 png)
-> jpg：全名是 JPEG，是数码相机的常用格式，特点呢就是色彩还原性好，天生适合风景照，可以在照片不明显失真的情况，大幅度降低体积。
-> png：png 是最适合网络的图片，色彩丰富，png 不适用于颜色很少，或亮度差异十分明显的较简单的图片。
+图片处理专项：(png 转为 jpg 后一般能缩小一半，但 png 色彩更丰富，且透明背景属性，所以项目中一般使用的是 png)
+jpg：全名是 JPEG，是数码相机的常用格式，特点呢就是色彩还原性好，天生适合风景照，可以在照片不明显失真的情况，大幅度降低体积。
+png：png 是最适合网络的图片，色彩丰富，png 不适用于颜色很少，或亮度差异十分明显的较简单的图片。
 
 **各设备屏幕尺寸**：手机屏宽范围：300 – 768 px; 平板屏宽范围: 769 – 1199px;笔记本屏宽范围:1200 – 1400px; 台式，一体机屏宽范围:1401 – 1920px;广场电视机:1921 – 99999px。
 
-**颜色表示**：有rgb，cmyk，hsl表示法
 
-- rgb：10进制的表示方法，将rgb转hsl只需每位转为16进制再拼接在一起即可。
 
-- hsl：16进制的表示方法，hsl转rgb只需每两位分开，各转为10进制，对应的就是rgb色值。
-
-  ```js
-  /****rgb转为hsl格式***/
-  function rgb2hls(that) {
-        //var that = this;
-        //十六进制颜色值的正则表达式
-        var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-        // 如果是rgb颜色表示
-        if (/^(rgb|RGB)/.test(that)) {
-          var aColor = that.replace(/(?:\(|\)|rgb|RGB)*/g, "").split(",");
-          var strHex = "#";
-          for (var i = 0; i < aColor.length; i++) {
-            var hex = Number(aColor[i]).toString(16);
-            if (hex.length < 2) {
-              hex = '0' + hex;
-            }
-            strHex += hex;
-          }
-          if (strHex.length !== 7) {
-            strHex = that;
-          }
-          return strHex;
-        } else if (reg.test(that)) {
-          var aNum = that.replace(/#/, "").split("");
-          if (aNum.length === 6) {
-            return that;
-          } else if (aNum.length === 3) {
-            var numHex = "#";
-            for (var i = 0; i < aNum.length; i += 1) {
-              numHex += (aNum[i] + aNum[i]);
-            }
-            return numHex;
-          }
-        }
-        return that;
-  };
-  /****hsl转为rgba格式***/
-  function hsl2rgb(rcolor, opacity) {
-        const _opc = typeof opacity === "number" ? opacity : 1;
-        var sColor = rcolor.toLowerCase();
-        //十六进制颜色值的正则表达式
-        var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-        // 如果是16进制颜色
-        if (sColor && reg.test(sColor)) {
-          if (sColor.length === 4) {
-            var sColorNew = "#";
-            for (var i = 1; i < 4; i += 1) {
-              sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
-            }
-            sColor = sColorNew;
-          }
-          //处理六位的颜色值
-          var sColorChange = [];
-          for (var i = 1; i < 7; i += 2) {
-            sColorChange.push(parseInt("0x" + sColor.slice(i, i + 2)));
-          }
-          return "rgba(" + sColorChange.join(",") + "," + _opc + ")";
-        }
-        return sColor;
-  };
-  const qp = rgb2hls('rgb(255,255,255)');
-  const pc = hsl2rgb('#ffffff');
-  ```
-
-  
-
-**缓存**：缓存分为 CDN 缓存、数据库缓存、代理服务器缓存和浏览器缓存，浏览器的缓存问题主要指的是 http 缓存即协议层，H5 新增的 storage 缓存 和数据库缓存是应用层缓存。（协议层缓存可以分为强制缓存和对比缓存)。
 **CDN**：Content Delivery Network，即内容分发网络。CDN 是构建在现有网络基础之上的智能虚拟网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN 的关键技术主要有内容存储和分发技术。<b c=v>中小企业使用 CDN 一般是使用其它服务商提供的 CDN 服务，类似在域名解析处更改 DNS 地址即可。</b>
-**OSS**：OSS 是一个分布式的对象存储服务，提供的是一个 Key-Value 对形式的对象存储服务。用户可以根据 Object 的名称（Key）唯一的获取该 Object 的内容。
 
 - bucket：存储空间。同一个存储空间的内部是扁平的，没有文件系统的目录等概念，所有的对象都直接隶属于其对应的存储空间。存储空间的名称在 OSS 范围内必须是全局唯一的，一旦创建之后无法修改名称。
+
 - 对象/文件：对象是 OSS 存储数据的基本单元，也被称为 OSS 的文件。对象由元信息（Object Meta），用户数据（Data）和文件名（Key）组成。对象由存储空间内部唯一的 Key 来标识。对象元信息是一个键值对，表示了对象的一些属性，比如最后修改时间、大小等信息，同时用户也可以在元信息中存储一些自定义的信息。
+
 - 访问域名：Endpoint 表示 OSS 对外服务的访问域名。OSS 以 HTTP RESTful API 的形式对外提供服务，当访问不同的 Region 的时候，需要不同的域名。
+
 - AccessKey：AccessKey，简称 AK，指的是访问身份验证中用到的 AccessKeyId 和 AccessKeySecret。OSS 通过使用 AccessKeyId 和 AccessKeySecret 对称加密的方法来验证某个请求的发送者身份。AccessKeyId 用于标识用户，AccessKeySecret 是用户用于加密签名字符串和 OSS 用来验证签名字符串的密钥。
-- [学习地址。](http://www.360doc.com/content/18/0823/22/49604565_780716594.shtml)
+
+  
 
 ## 6、web 安全
 
@@ -1010,7 +71,7 @@ allow-scripts：允许脚本执行；
 2. **XSS**： (Cross-Site Scripting)，跨站脚本攻击,因为缩写和 CSS 重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的 Web 网站注册用户的浏览器内运行非法的 HTML 标签或 JavaScript 进行的一种攻击。
 
 - 可能造成以下影响：利用虚假输入表单骗取用户个人信息。利用脚本窃取用户的 Cookie 值，被害者在不知情的情况下，帮助攻击者发送恶意请求。显示伪造的文章或图片。
-- 非持久型 XSS：（反射型 XSS ），有通过 url 传参的网页，攻击者可以直接通过 URL (类似：https://xxx.com/xxx?default=<script>alert(document.cookie)</script>) 注入可执行的脚本代码，如果目标网页获取该参数放于页面的话就会执行该脚本内容。不过一些浏览器如 Chrome 其内置了一些 XSS 过滤器，可以防止大部分反射型 XSS 攻击。
+- 非持久型 XSS：（反射型 XSS ），有通过 url 传参的网页，攻击者可以直接通过 URL (类似：`https://xxx.com/xxx?default=<script>alert(document.cookie)</script>`) 注入可执行的脚本代码，如果目标网页获取该参数放于页面的话就会执行该脚本内容。不过一些浏览器如 Chrome 其内置了一些 XSS 过滤器，可以防止大部分反射型 XSS 攻击。
 
 3. 持久型 XSS：（存储型 XSS）持久型 XSS 漏洞，一般存在于 Form 表单提交等交互功能，如文章留言，提交文本信息等，黑客利用的 XSS 漏洞，将脚本内容经正常功能提交进入数据库持久保存，当访问该文章时，前端页面获得后端从数据库中读出的内容放到页面上，就会将其渲染执行。
 
@@ -1114,9 +175,13 @@ addTask("task1");
    
    [web 端安全问题及应对方法。](https://www.cnblogs.com/pretty-sunshine/p/11442326.html)
 
+响应头中可设置的一些安全属性：（后端服务设置）<a href="#http-head">可查看这里</a>
+
+
+
 ## 7、常用标签
 
-### V、H5规范：
+### V、H5规范
 
 H5是新一代HTML规范，也是现代==富web内容的相关技术总称==。
 
@@ -1156,6 +221,12 @@ H5是新一代HTML规范，也是现代==富web内容的相关技术总称==。
 
 ```html
 <meta name="keywords" content="标签,属性,seo优化" />
+<!--html是否进行缓存的控制-->
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache">
+<meta http-equiv="Cache" content="no-cache"
+
 <meta
   http-equiv="Content-Type"
   content="text/html;charset=utf-8"
@@ -1295,7 +366,11 @@ if (!customElements.get('ui-import')) {
   <option label="Google" value="http://www.google.com" />
   <option label="Microsoft" value="http://www.microsoft.com" />
 </datalist>
-<input type="file" multiple /><!--multiple可选多个-->
+<!--文件选择
+****可以主动触发文件的点击函数，不过必须在用户有点击事件发生后调用****
+document.getElementById("file").click();
+-->
+<input id="file" type="file" multiple accept=".txt,.doc,.pdf"/><!--multiple可选多个-->
 <input
   type="url"
   required="required"
@@ -1353,9 +428,14 @@ tel、number、email、text、radio、checkbox、image、date、color、button�
     </tr>
   </tbody>
 </table>
+<style>
+    // css设置border类型
+    table{
+        border-collapse: collapse;
+    }
+    td{border: 1px solid gray;}
+</style>
 ```
-
-- [table 属性大全](https://www.w3school.com.cn/tags/tag_table.asp)
 
 ### 6、资源加载标签
 
@@ -1396,6 +476,42 @@ img {
 </style>
 ```
 
+`<inframe>`：加载一个网页到此容器中，允许它有完整的文档对象。
+
+```html
+<!--
+name：直接作为该iframe window的名称。
+allow="fullscreen": 可以通过调用 <iframe> 的 requestFullscreen() 方法激活全屏模式
+allow="payment": 跨域的 <iframe> 就可以调用 Payment Request API。
+importance="height|low": 资源加载优先级，height表示高。
+referrerpolicy：表示在获取 iframe 资源时如何发送 referrer 首部（Document.referrer 当前页面就是从这个 URI 所代表的页面跳转或打开的）
+	- no-referrer: 不发送 Referer 首部。
+	- origin: referrer 首部中仅包含来源页面的源
+	- same-origin: 对于 same origin（同源）请求，发送 referrer 首部，否则不发送。
+	- unsafe-url: 始终在 referrer 首部中包含源以及路径
+sandbox：对呈现在 iframe 框架中的内容启用一些额外的限制条件。
+	- allow-forms: 允许嵌入的浏览上下文提交表单。
+	- allow-modals: 允许嵌入的浏览上下文打开模态窗口
+	- allow-orientation-lock: 允许嵌入的浏览上下文锁定屏幕方向
+	- allow-downloads-without-user-activation 实验性: 允许在没有征求用户同意的情况下下载文件。
+	- allow-popups: 允许弹窗 (例如 window.open
+	- allow-same-origin: 如果没有使用该关键字，嵌入的浏览上下文将被视为来自一个独立的源
+	- allow-scripts: 允许嵌入的浏览上下文运行脚本
+	- allow-storage-access-by-user-activation 实验性: 允许嵌入的浏览上下文通过local/session使用父级的。
+	- allow-top-navigation: 允许嵌入的浏览上下文导航（加载）内容到顶级的浏览上下文
+srcdoc: 该属性是一段 HTML 代码，这些代码会被渲染到 iframe 中。
+-->
+<iframe name="iframeWindow" allow importance sandbox width="100%" height="700" src="" srcdoc></iframe>
+<!--主文档对象与嵌套文档对象
+主文档脚本可以通过 contentWindow 访问内联框架的 window 对象。
+内联的框架，就像 <frame> 元素一样，会被包含在 window.frames 伪数组。
+在框架内部，脚本可以通过 window.parent 引用父窗口对象。
+【消息通信】使用window.postMessage，两个窗口间都能很好的通信。
+-->
+```
+
+
+
 ### 8、MathML
 
 HTML5 可以在文档中使用 MathML 元素，对应的标签是 `<math>...</math>`
@@ -1426,64 +542,45 @@ MathML 是数学标记语言，是一种基于 XML（标准通用标记语言的
 </math>
 ```
 
-### 9、拖拽：
-
-将一个元素拖拽到另一个元素。
-
-```html
-<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-<div id="drag1" draggable="true" ondragstart="drag(event)">可拖拽对象</div>
-<script>
-  //    拖拽结束触发。
-  function allowDrop(ev) {
-    ev.preventDefault();
-  }
-
-  function drag(ev) {
-    //拖拽该元素时，设置一个键值对，第二个参数用于选中该元素。
-    ev.dataTransfer.setData("Text", ev.target.id);
-  }
-
-  function drop(ev) {
-    // 拖入到该元素上，松开鼠标触发，通过键获取元素id，
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("Text");
-    ev.target.appendChild(document.getElementById(data));
-  }
-</script>
-```
-
 # 二、CSS
 
-简介：css(Cascading Style Sheets)层叠样式表，1996-12-17css1 诞生，2003 年 1 月 svg 被定为 w3c 规范，但当时的网页只是图文内容，css 更受偏爱。
+简介：`css(Cascading Style Sheets)`层叠样式表，1996-12-17css1 诞生，2003 年 1 月 svg 被定为 w3c 规范，但当时的网页只是图文内容，css 更受偏爱。
 
-## 1、基础：
+## 1、基础
 
 - **流**：俗称文档流，指的是 css 中的基本的定位和布局机制，css 中的布局规则。所以从上而下从左至右的描述只是 css 的一个默认流而已。
+
 - **自适应布局**：对凡是具有自适应布局的一类统称，流体布局是自适应布局的一部分，但**流体布局**狭窄的多，如 div+css 就是流布局，而 table 布局则不属于流布局，因为 css 真正是从 css2.1 开始的，IE8 开始支持它，在这之前 table 就已经存在，所以 ie8 前的浏览器多数使用 table 布局。
+
 - **元素的 4 个盒子**（盒模型）：content-box、border-box、padding-box(`padding`的百分比值是根据**元素宽来计算**的)、margin-box;
   元素的两个元素：每个标签有两个元素组成，内部元素控制宽，高、尺寸等；因此有“行内快”属性（`display:inline-block;`）
   Box-sizing:`border-box`;可以将宽度作用到哪一个盒子，无法作用到 margin-box；
+  
 - **未定义行为**：相同的 css 代码在不同浏览器可能效果不一样，甚至不显示，这并非 bug。因为各浏览器厂商去实现 css 时有一些自己的理解和定义，导致一些特殊情况未在其规则内导致的差异，繁杂多变的情况总有遗漏。<b class="gray">如伪类::activity 元素上同时绑定事件，事件中使用`event.preventDefault()`#这样能使拖动之类的效果更流畅，但火狐上不会显示 active 定义的行为。</b>
 
 - FOUC(无样式内容闪烁)：Flash Of Unstyled Content ，`<style type="text/css" media="all">@import "../fouc.css";</style> `而引用 CSS 文件的@import 就是造成这个问题的罪魁祸首。IE 会先加载整个 HTML 文档的 DOM，然后再去导入外部的 CSS 文件，使用`<link/>`标签代替即可。<b c=gy>link 属于 HTML 标签，而@import 是 CSS 提供的、页面被加载的时，link 会同时被加载，而@import 引用的 CSS 会等到页面被加载完再加载。</b>
+
 - **BFC**：（块级格式化上下文），是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。
   
-  **BFC 的特性**：bfc 就是页面上的一个独立容器，容器里面的子元素不会影响外面元素。
-- **形成 BFC 的条件**：`<html>`根元素；
+  BFC 的特性：bfc 就是页面上的一个独立容器，容器里面的子元素不会影响外面元素。
+  
+  形成 BFC 的条件：`<html>`根元素；
   （1）float 的值不为 none；
   （2）overflow 的值为 auto、scroll 或 hidden；
   （3）display 的值为 table-cell、table-caption 和 inline-block 中的任何一个；
   （4）position 的值不为 relative 和 static
-
-- **css 选择器**：`div+p`#两个紧挨者的元素，`[attribute]`#选择带有 arrtibute 属性的元素。[attribute=value]选择等于指定值的。[attribute~=value]属性值中包含该值的。[attribute|=value]属性值中以该 value 开头的。
   
-  - `p:first-child`#选择 p 的父元素的第一个子元素(属于 p 元素)。p:last-child#选最后一个子元素。
+- **css 选择器**：`div+p`#两个紧挨者的元素，`[attribute]`#选择带有 arrtibute 属性的元素。`[attribute=value]`选择等于指定值的。[attribute~=value]属性值中包含该值的。[attribute|=value]属性值中以该 value 开头的。
+  
+  - `p:first-child`#选择 p 的父元素的第一个子元素(属于 p 元素)。`p:last-child`#选最后一个子元素。
   - `p:nth-child(n)`#选择第 n 个子元素(属于 p 元素)。
   - `p:nth-last-child(2)`#从最后子元素开始计数。[css 选择器全部](http://www.w3school.com.cn/cssref/css_selectors.asp)
   **选择器优先级**：带`!important>内嵌样式>id>类名==属性选择器>标签选择器>通配符(\*)>继承(继承父元素的属性)>浏览器默认属性`。子选择器用 id 选择时比 id 选择器优先级高。
   - **选择器的解析**：解析选择器时是==从右往左==的（如使用`#div>.cc`时是先取.cc 再取#div 的顺序去构建树【更容易把公共样式放在一个节点】）少用一些子选择器。
+  - **同时包含两个类名写法**：`.el-menu-item.is-active`（==紧挨一起即可==）
+  
 - **鼠标样式**：cursor:pointer;//手指,提示可点击。hand//IE5 使用的手指样式、wait;//等待、help;//帮助、no-drop;//无法释放、text;//文字，暗示为文字内容、move;//提示可移动对象、crosshair;//十字准心、n-resize;//向上改变大小箭头、s-resize;//向下改变大小箭头、e-resize;//向右改变大小箭头、w-resize;//向左改变大小箭头、ne-resize;//向右上改变大小箭头、nw-resize;//向左上改变大小箭头、se-resize;//向右下改变大小箭头、not-allowed;//禁止、progress;//处理中、default;//提示可移动对象、url();//引入外部文件作为鼠标样式，文件格式必须为.cur 或.ani。
+
 - **边框样式**：
 
 ```css
@@ -1494,100 +591,17 @@ border-width:think;/*think=1px,medium=3px,thick=4px*/
 border:10px solid transparent;
 ```
 
-- 外边框：`outline:#00FF00 solid thick;`#样式，样式，宽度。
-- **布局准则**：
-  （1）无浮动：浮动容错性差；
-  （2）无宽度：设置了宽度之后容器的“流动性”【width，padding 等尺寸上的自适应性】会丢失，元素宽发生改变后也会导致重绘；position:absolute;下的尺寸也具有流动性
-  （3）无图片
-- **流体布局下的宽度分离原则**：不用自己更多的计算，且更稳健;（也可以用`box-sizing:border-box;`把宽度作用到 border-box 上，但不大推荐如此）
+外边框：`outline:#00FF00 solid thick;`#样式，样式，宽度。
 
-```html
-<div id="farther"><div id="son"></div></div>
-<style>
-  /*父元素控制宽，子元素控制其它盒子的尺寸，而不用都放在一个元素上写他们*/
-  #farther {
-    width: 100px;
-  }
-  #son {
-    border: 2px solid black;
-    padding: 20px;
-  }
-</style>
-```
+**滚动相关**：
 
-- **height:100%;**：父元素有具体高度时，所有定位，使用 height:100%；均可生效；
-- **居中控制**：
-  （1）absolute定位+负margin实现（需要固定宽高）；
-  （2）absolute定位+translate实现（**无须固定宽高**）；
-  （3）absolute定位（上下左右值为0）+margin实现（需要固定宽高）；
-  （4）`calc`实现；
-  （5）flex实现；
-
-```html
-<div id="farther"><div id="son"></div></div>
-<style>
-  /*右对齐,不需要使用浮动*/
-  .son {
-    margin-left: auto;
-  }
-  /*左右居中*/
-  .son {
-    margin: 0 auto;
-  }
-  /*上下居中: 法一（但不能左右居中）*/
-  .father {
-    height: 200px;
-    /*改变文档流方向*/
-    writing-mode: vertical-lr;
-  }
-  .son {
-    height: 100px;
-    margin: auto;
-  }
-  /*上下，左右垂直居中*/
-  .father {
-    width: 300px;
-    height: 150px;
-    position: relative;
-  }
-  .son {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-  /*===============
-浮动实现块级元素同行布局（右侧或左侧不出现空白）
-=================*/
-  ul {
-    margin-right: -20px;
-  }
-  ul > li {
-    float: left;
-    width: 100px;
-    margin-right: 20px;
-  }
-/***absolute+translate实现*****/
-.box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-</style>
-```
-
-- **滚动容器底部留白**：有滚动的使用一般底部使用一些留白；使用`margin-bottom:20px;`来实现（所有浏览器几乎可以）使用 padding 则会有兼容性问题；
 - 平滑滚动：`scroll-behavior:smooth;`//发生滚动时更平滑(锚点跳转、改变 scrollTop 值)
 - **滚动锚定**：滚动时或点击加载更多，新的内容导致滚动条位置变化，
-  overflow-anchor:auto;状态会保持当前观看内容处于用户视线内，用户感觉不到滚动条位置变化。
-  overflow-anchor:none;关闭时则会优先显示加载的内容。
+  `overflow-anchor:auto;`状态会保持当前观看内容处于用户视线内，用户感觉不到滚动条位置变化。
+  `overflow-anchor:none;`关闭时则会优先显示加载的内容（最底部插入情况无效）。
 
 - **滚动条样式**：
+
 ```css
 .scrollbar ::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
@@ -1654,7 +668,7 @@ div{
 ```css
 /*文字超出省略*/
 el {
-  overflow: hidden !important; /*!important的优先级大于内嵌样式*/
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; //3个属性一起设置可以让超出的文本变为省略号。
 }
@@ -1668,7 +682,7 @@ el {
 }
 /***********禁止点击**********/
  {
-  pointer-events: none;
+  pointer-events: none; /**点击穿透，所有css,js的hover，点击等事件**/ 
 }
 /*===============
     禁止选择文本
@@ -1770,10 +784,10 @@ div {
 }
 ```
 
-- **var 函数**：用于使用自定义的 css 变量。IE9.1 开始支持。
+- **css变量**：用于使用自定义的 css 变量。IE9.1 开始支持。
 
 ```css
-/*:root中定义自己的遍历。*/
+/*:root中定义自己的遍历【全局可访问】*/
 :root {
   /*必须要--开头*/
   --wcs-bg: red;
@@ -1783,6 +797,20 @@ div {
 .div {
   background-color: var(--wcs-bg);
 }
+/****某个元素内使用【若与上层元素的变量有冲突则会覆盖上层的】****/
+.div{
+    --hh: 20px;
+    --cc: blue;
+}
+.div .a{
+    color: var(--cc); /**使用其父的变量**/
+}
+/**也可以内嵌使用**/
+<div style="--num:50;"></div>
+/****currentColor变量会跟随其父元素的color颜色值变化***/
+<div style="color:blue;">
+  	<svg fill="currentColor"><rect fill="currentColor"/></svg>  
+</div>
 ```
 
 - **展开/折叠动画**：展开折叠时一般要知道具体高才能设置 height 来完成过渡动画。这里使用 max-height 变化来绕开。
@@ -1861,7 +889,7 @@ transfer();
 
 ## 3、css3
 
-- **css3 倒影**
+### a、倒影&剪切
 
 ```css
 el {
@@ -1872,11 +900,7 @@ el {
     //都加上前缀。
     */
 }
-```
-
-- **css3 剪切**
-
-```css
+/********css3 剪切******/
 el {
   clip-path: polygon(50% 0, 10px 100px, 150px 100px); //多边形剪切，点位置
   clip-path: circle(50% at 50% 50%); //圆形剪切,半径，圆心坐标
@@ -1893,25 +917,34 @@ el {
 }
 ```
 
-- **css3 贝塞尔速度曲线**
+### b、渐变&阴影
 
 ```css
-el {
-  /*默认的贝塞尔速度曲线是从(0,0)到(1,1)的一条匀速直线，括号中的四个数值是.
-    perspective-orign:50% 50%;//改变视角位置坐标
-  //贝塞尔曲线中的两个点的位置，通过这两个点拉扯曲线，速度安装曲线弯曲度改变。*/
-  transition: all 1s cubic-bezier(0.7, 0.1, 0.9, 1);
+i {
+  /*第一个值为方向，可为：to right,to left,to top,to bottom,10deg*/
+  /*默认为to top，使用角度时为顺时针旋转*/
+  background: linear-gradient(
+    70deg,
+    #9b3675 15%,
+    #1597bb 40%,
+    #6155a6 90%,
+    #364547 100%
+  );
+  /*shape: circle, ellipse
+      size: farthest-cor,closest-side,closest-corner,fathest-side
+      position: center,top,bottom
+    */
+  background: radial-gradient(shape size at position, color);
+  background: radial-gradient(
+    closest-side at 50% 60%,
+    rgba(100, 90, 80, 0.2),
+    transparent 60%
+  );
+  /********repeating-linear-gradient********/
+  /*可利用此模板来绘制条纹背景*/
+  background:repeating-linear-gradient(50deg,red 0px,red 10px,blue 10px blue 20px);
 }
-/***过渡transition:对svg,<path/>的d属性也可生效****/
-path{
-  /*<path d="M0 0Q40 20,100 80"/>*/
-  transition: d 1s;
-}
-```
-
-- **阴影**
-
-```css
+/****************阴影*********************/
 div {
   /*x轴偏移度，y轴偏移度，阴影模糊度，阴影范围*/
   box-shadow: 1px 2px 10px 5px black;
@@ -1924,7 +957,8 @@ div {
   box-shadow: inset 15px 0 5px -10px rgba(0, 0, 0, .2), inset 13px 0 2px -10px rgba(0, 0, 0, .2), inset 0 -3px 5px 0 rgba(250, 241, 220, .5), inset 0 -20px 10px 1px rgba(255, 255, 255, .3), inset -23px 10px 5px -20px rgba(0, 0, 0, .3), inset -20px 15px 10px -20px rgba(0, 0, 0, .2), inset 0 25px 20px -5px rgba(0, 0, 0, .3), 0 2px 1px -1px rgba(245, 227, 183, .8), -17px 10px 5px -20px black, 14px 20px 5px -20px black, 16px 14px 5px -20px black, -2px 27px 5px -20px rgba(255, 255, 255, .3), -1px 14px 3px -5px rgba(0, 0, 0, .5), -1px 18px 3px -5px rgba(0, 0, 0, .4), 0 -1px 5px 0 rgba(85, 85, 85, .5);
 }
 ```
-- 变换&过渡
+### c、变换&过渡&动画
+
 ```css
 div{
   transition: height 2s;
@@ -1934,14 +968,15 @@ div{
   -ms-transform:scale(2,3);
 }
 ```
-- **matrix()使用**：`transform:matrix(a,b,c,d,e,f);`,matrix()以上几个的综合，a,b,c,d,e,f都是数值；作用在元素的==每1个像素点上==
-  变换过程如下(用于2d变换)：结果第1行为变换后的**水平坐标**x，第2行值为变换后的**垂直坐标**y值
-  $$
-  \left[\begin{matrix}a&c&e\\b&d&f\\0&0&1\end{matrix}\right]*\left[\begin{matrix}
-  x \\ y \\ 1\end{matrix}\right]=\left[\begin{matrix}
-    ax+cy+1 \\ bx+dy+f \\ 0+0+1\end{matrix}\right]
-  $$
-  ==移动情况==：水平移动的话，只需修改`e，f`即可
+**matrix()使用**：`transform:matrix(a,b,c,d,e,f);`,matrix()以上几个的综合，a,b,c,d,e,f都是数值；作用在元素的==每1个像素点上==
+变换过程如下(用于2d变换)：结果第1行为变换后的**水平坐标**x，第2行值为变换后的**垂直坐标**y值
+$$
+\left[\begin{matrix}a&c&e\\b&d&f\\0&0&1\end{matrix}\right]*\left[\begin{matrix}
+x \\ y \\ 1\end{matrix}\right]=\left[\begin{matrix}
+  ax+cy+1 \\ bx+dy+f \\ 0+0+1\end{matrix}\right]
+$$
+==移动情况==：水平移动的话，只需修改`e，f`即可
+
 ```css
 div{
   transform:matrix(1,0,0,1,x,y);
@@ -1953,7 +988,8 @@ div{
   transform:matrix(sx,0,0,sy,0,0);
 }
 ```
-- **动画**：
+**动画**：
+
 ```css
 /******动画填充模式*****
 none	默认值。动画在动画执行之前和之后不会应用任何样式到目标元素。
@@ -1987,7 +1023,8 @@ div{
   }
   ```
 
-  
+
+### d、杂项
 
 - **图片遮罩**：mask-image 优化 png 图片加载。如果是不需要透明属性的 png 图片我们可以直接转为 jpg，但如果有透明要求转为 jpg 后就会透明部分变成白色。
   所以使用 css 的 mask-image 属性有一张纯色 png 图(轮廓与原 png 一样，纯色填充后是以前的 1/100 大小)遮在 jpg 图上(png 转化后的)，这样使用 jpg 图片就能代替 png 了。
@@ -1997,43 +1034,24 @@ img {
   // 不用担心兼容性问题。
   -webkit-mask-image: url(card-mask.png);
   mask-image: url(card-mask.png);
+  /**用渐变做遮罩**/
+  mask: linear-gradient(transparent, #000);
+}
+/******贝塞尔速度曲线******/
+el {
+  /*默认的贝塞尔速度曲线是从(0,0)到(1,1)的一条匀速直线，括号中的四个数值是.
+    perspective-orign:50% 50%;//改变视角位置坐标
+  //贝塞尔曲线中的两个点的位置，通过这两个点拉扯曲线，速度安装曲线弯曲度改变。*/
+  transition: all 1s cubic-bezier(0.7, 0.1, 0.9, 1);
+}
+/***过渡transition:对svg,<path/>的d属性也可生效****/
+path{
+  /*<path d="M0 0Q40 20,100 80"/>*/
+  transition: d 1s;
 }
 ```
 
-- **渐变**：
-
-```css
-i {
-  /*第一个值为方向，可为：to right,to left,to top,to bottom,10deg*/
-  /*默认为to top，使用角度时为顺时针旋转*/
-  background: linear-gradient(
-    70deg,
-    #9b3675 15%,
-    #1597bb 40%,
-    #6155a6 90%,
-    #364547 100%
-  );
-  /*shape: circle, ellipse
-      size: farthest-cor,closest-side,closest-corner,fathest-side
-      position: center,top,bottom
-    */
-  background: radial-gradient(shape size at position, color);
-  background: radial-gradient(
-    closest-side at 50% 60%,
-    rgba(100, 90, 80, 0.2),
-    transparent 60%
-  );
-  /********repeating-linear-gradient********/
-  /*可利用此模板来绘制条纹背景*/
-  background:repeating-linear-gradient(50deg,red 0px,red 10px,blue 10px blue 20px);
-}
-```
-
-- **灰度**：
-
-  ```css
-  html{filter:grayscale(1);}
-  ```
+- **灰度**：`html{filter:grayscale(1);}`
 
   
 
@@ -2127,9 +1145,7 @@ i {
 
 ## 6、栅栏布局
 
-:::alert-info
 **简介**：栅栏布局也是 css3 的内容，是一种将元素分割为模块组合形式的布局方式。兼容性也还不错，ie9 中需要对父元素做清除浮动操作才能正常显示。
-:::
 
 ```html
 <div class="grid">
@@ -2316,7 +1332,7 @@ i {
   }
 }
 /*==========
-    最新语法使用::v-deep代替/deep/
+    最新语法使用:deep代替/deep/
 ============*/
 ::v-deep .el-input {
 }
@@ -2382,37 +1398,7 @@ $subMenuHover: #9900ff;
 }
 ```
 
-## 9、滚动进度条
 
-```html
-<body>
-    <h1>标题</h1><p>文本内容...</p>
-</body>
-<style>
-/***渐变背景做进度条***/
-body {
-    position: relative;
-    padding: 50px;
-    font-size: 24px;
-    line-height: 30px;
-    background-image: linear-gradient(to right top, #ffcc00 50%, #eee 50%);
-    background-size: 100% calc(100% - 100vh + 5px);
-    background-repeat: no-repeat;
-    z-index: 1;
-}
-/*****用作背景****/
-body::after {
-    content: "";
-    position: fixed;
-    top: 5px;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: #fff;
-    z-index: -1;
-}
-</style>
-```
 
 ## 10、css reset和normalize
 
@@ -2445,13 +1431,13 @@ body::after {
 - **查看指定日期的日志**：`git log --since="2022-10-01"`；=2.months（近两月）=2.days（近两天）
 - 查看所有分支：git branch -a //，-r 查看远程分支。
 - 查看远程信息：git remote -v
-- **查看分支关联关系**：git branch -vv
+- **查看分支关联关系**：`git branch -vv`
 
 2、**新建操作**：
 
-- **新建本地分支**：git checkout -b main origin/main //main 是本地分支，第二个是指从哪条源拉取代码，不写的话默认是 master。
+- **新建本地分支**：`git checkout -b main origin/main` 是本地分支，第二个是指从哪条源拉取代码，不写的话默认是 master。
 - **新建远程分支**：网站上手动新建可直接指定源与哪个分支，命令式需要新建一个本地分支，然后：`git push origin new_dev:new_dev`#推到远程。
-- 提交：git add filename，git commit -m '备注'，git push origin second //将本地分支推送到远程
+- 提交：`git add filename，git commit -m` ，备注，`git push origin second `。将本地分支推送到远程
 - **提交时丢弃修改**：
   （1）==add之前丢弃==：`git checkout -- src/av.js`（丢弃指定文件）`git checkout -- .vue`（可用正则项）
   （2）add之后：`git reset HEAD src/views/index.vue`丢弃指定文件
@@ -2661,42 +1647,432 @@ pre-commit.sample
 }
 ```
 
-# 四、库&工具
+# 四、nodejs
+
+:::alert-info
+**简介**：js 只能运行在浏览器内，相比于其它 python，java 之类的编程语言可以运行在桌面环境，js 弱了很多，而 node 提供了 js 可在系统运行的环境，内部加了一些内置 api，提供文件 io 等功能。node.js 的最大优点是处理并行访问，如果一个 web 应用程序同时会有很多访问连接，就能体现使用 node.js 的优势。另一个好处是，使用 javascript 作为服务器端脚本语言，可以消除答一些与浏览器端 js 脚本的冲突。甚至发挥 javascript 动态编程的特性，在服务器与浏览器之间建立直接的动态程序。而 npm 是其自带的一个包管理工具。[node中文档](https://www.nodeapp.cn/cli.html)
+:::
+**windows 上安装**：官网下载 node 的 zip 包，解压后将路径添加到 path 路径即可。
+**linux 上安装**：官网上下载 nodejs 的 linux 压缩包，解压进入，将 node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin 下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后 node -v 安装成功。
+**脚本语言**：又被称为扩建的语言，或者动态语言，是一种编程语言，用来控制软件应用程序，脚本通常以文本（如 ASCII)保存，只在被调用时进行解释或编译。
+
+## a0、配置文件
+
+package.json文件如下：
+
+```js
+{
+  "name": "@jeecg/antd-online-mini",
+  "version": "3.0.0-beta",
+  // 导入该项目时，默认导入的文件，一般做依赖包时配置
+  "main": "./dist/OnlineForm.umd.min.js", // 浏览器、node.js环境均可使用
+  "module": "./dist/cc.js", // ESM规范入口文件，浏览器、node.js环境均可使用
+  "browser": "./dist/bb.js", // 浏览器时文件入口
+  /****可运行的命令项：其使用的是node_modules/.bin下的命令工具***/
+  "scripts": {
+    "serve": "vue-cli-service serve --open",// 相当于node_modules/.bin vue-cli-service serve --openv
+    "build": "vue-cli-service build",
+  },
+  /**安装此包时会在对方项目下生成node_modules/.bin/create-project文件，可直接scripts中使用**/
+  "bin": {
+    "create-project": "bin/create-project" // create-project是无后缀名的
+  },
+  // npm安装1个依赖时，会安装依赖包的package.json中的dependencies项所列依赖
+  // 所以项目当做1个npm包使用时才体现出两者区别（前者的包放入后者则依赖下载不全，后者的包放入前者则是不必要的）
+  "dependencies": {}, // 放置生产环境必须使用的依赖
+  "devDependencies": {}, // 只放置开发环境使用的依赖
+}
+```
+
+`package-lock.json`的作用：保存依赖包解析的信息，**锁定安装模块的版本号**
+
+## a1、npm
+
+**npm install安装机制**：（npm各版本安装算法，策略不同，因此`package.json, package-lock.json`两个文件才能锁定统一）
+（1）`npm install`》检查config获取配置（配置文件优先级：`项目.npmrc>用户级.npmrc > 全局.npmrc > npm内置.npmrc`）
+（2）检查有无`package-lock.json`文件，有则检查其与`package.json`中包版本是否一致（package.json中会用==网络请求获取包信息==）
+ 一致：直接使用`package-lock.json`中的信息，从缓存或网络资源中加载依赖。
+**不一致**：根据npm版本有不同的处理（5.4.2以上是：两文件中依赖的两个版本兼容时根据`package-lock.json`安装，不兼容则根据`package.json`安装（有兼容计算，依赖树构建等操作）并更新`package-lock.json`文件）
+（3）无`package-lock.json`文件：则根据`package.json`的下载，下载时会检查是否有缓存，之后生成`package-lock.json`文件。
+
+**npm ci安装机制**：比npm install更加快速稳定。特性如下
+（1）只根据`package-lock.json`安装，因此安装过程中不进行依赖树构造分析等，速度更快。
+（2）`package-lock.json`与package.json记录有不同时直接报错，不过该命令不会对这两个文件进行任何更新。
+（3）安装时会先删除node_modules目录，重新安装。但它不能单独指定安装某个文件。
+
+`package-lock.json`**要不要提到仓库**：若是开发项目，根据上面的介绍==应该提交它==。**若是开发1个npm包**，公共库则可以不提交（最大化利用项目安装时的依赖）
+
+**依赖间结构**：
+（1）v3之前的依赖结构：按照依赖树结构，每个依赖下又安装它们自己的子依赖。==这造成过多重复的包==，很占用资源。
+（2）v3及之后的依赖：做了优化处理，每个依赖包会优先放在顶层，若有重复但版本不同也不兼容的依赖包还是会按照到其它依赖下。（在加上更新，卸载一些列操作，==还是会有一些重复的包按照==）可用`npm dedupe`==简化掉重复的包==（**yarn安装时会自动执行该命令**）
+
+**缓存机制**：初次下载依赖时会先将其放到缓存中，然后解压到项目。根据`package-lock.json`下载时则会用`integrity,version,name`信息生成1个key，它能对应到index-v5下的**缓存记录**，有缓存资源则会hash值查找`tar`包。（无`package-lock.json`文件==则不会使用缓存==）
+
+**验证包**：在全局npm包目录下放置1个包`npmPackage1`然后在你想启动的项目project下使用`npm link再npm link npmPackage1`将该包链接过来，使用完后`npm unlink`取消链接。（这样可很方便的对一个包进行测试）
+
+**npx**：解决npm面临快速开发，调试，项目内使用全局模块的痛点。且其安装完依赖后会进行删除
+位于`node_modules/.bin`下的脚本可直接使用`npx`调用。
+
+**pnpm**：其将项目下载的依赖存到同一个系统磁盘位置，当其它项目有下载依赖时到此位置检查是否存在，若存在则使用链接的方式链接到此引用（所以其速度和磁盘节约比yarn，npm都要好。缺点也明显：存储中1个依赖有改动则影响全部项目）
+
+**cnpm**：npm 本身指定的安装源是外国的，`npm install -g cnpm --registry=https://registry.npm.taobao.org`#安装淘宝镜像,使用时直接 cnpm install 即可
+**npm 指令**：
+
+```cmd
+# 官方镜像源：https://registry.npmjs.org
+npm config set registry https://registry.npm.taobao.org // 设置安装源(非临时)
+npm config get registry #获取当前使用的镜像源
+npm install --save lodash  #--save表示生产环境的依赖，--save-dev表示开发环境的依赖。
+npm cache clean -f       //清除缓存。
+npm get config cache // 得到配置缓存的根目录
+npm dedupe // 简化重复的安装包
+npm remove eslint        //移除包内的某个依赖。
+npm install vue@3.0      //安装指定版本写法
+npm unpdate xxx --save   //升级包的版本【对于已经安装的包，没有明确版本号的它会升级，npm install则会忽略】
+npm list -g --depth 0 	//查看全局安装的依赖
+```
 
 
 
-## 4、第三方平台：
+## a2、nvm
 
-1. **postman 的使用**：
-   (百度搜索下载 postman 安装)输入框左边选择请求方式，输入框中输入请求接口，下方 Params 项中输入要传的键值和 value 值，键值和 value 值的输入不需用单引号或双引号不然会出错,若报错可以在 body 项中选择 form-data 然后输入 Params 项中的键值和 value 值再点 Send。
+[windows 版 nvm 下载地址，下载 nvm-setup.zip 包](https://github.com/coreybutler/nvm-windows/releases)。安装后 cmd 使用 nvm 命令
 
-2. **集成网易云信 IM**：
-   下载 demo(下载后先 npm i 安装必要插件)
-   在 login.js 文件中，先将对应的 appkey 换成自己的。然后在获取到登录界面输入的账号，密码后添加一个网络请求，向自己的服务器获取用户在本应用下(对应的 appkey 应用下)的 im 用户 id 和云信服务器反给后台的云信 token,然后调用 cookie.setCookie()按格式放入到 cookie 中。
-   每次更改调试需要先 npm run dev 打包再 node server 启动本地服务。
-   要放到服务器使用的话直接将打包后的 dist 文件夹、regist.html,login.html,index.html 文件放到服务器即可，主入口是 index.html 文件，在自己的项目中直接访问该路径+路由，然后带上 uid,yxtoken 两个参数(在指定 im 页面获取参数调用 setCookie()登录，不然会报错)。
+- 查看可安装的NodeJS版本： `nvm list available`（LTS项为长期支持版本）
+- 安装node版本：`nvm install 8.16.0`
+- 切换 node 版本：`nvm use 8.16.0` （需要管理员权限）
+- 卸载指定版本：`nvm uninstall 8.16.0`
 
-3. **禅道**：文档、任务、bug的管理，[文档地址](https://www.zentao.net/book/zentaopmshelp/40.html)
+## a3、yarn
 
-## 5、动画开发
+**简介**：并行安装、离线模式、安装版本统一、多注册来源处理，也拥有缓存机制。npm v3时就已经出现
 
-- [anime.js 文档](https://www.animejs.cn/documentation/#direction)
+**安装机制**：检测环境》解析包》获取包》链接包》构建包
+（1）检测环境：检测项目中是否有npm相关文件（如`package-lock.json`提示可能会导致冲突）获取系统信息等
+（2）解析包：解析依赖树；从当前项目依赖包开始，再解析这些依赖下的依赖；`yarn.lock`中没有找到该包的信息则会网络请求包信息，然后添加到`yarn.lock`
+（3）获取包：先判断是否存在该包的依赖，存在则不用下载，否则从网络获取。
+（4）链接包：用扁平化原则，若出现同一个依赖包的多个版本安装，yarn会按照兼容策略，尽量安装1个版本的包。
+（5）构建包：若依赖包中存在二进制的包，则需要对它们进行编译。
 
-## 6、资源收集：
+安装yarn：`npm install yarn -g`；
+**yarn 使用**：安装好依赖后会生成`yarn-lock.json`（npm安装时，该文件不生效。因此==一个项目最好不要混用两者==）
+（1）安装全部依赖：yarn install。
+（2）安装单个依赖：`yarn add package@4.2 --dev`；
+（3）清除缓存：`yarn cache clean`；yarn cache dir（查看缓存目录）
+（4）移除依赖：`yarn remove xxx`
+（5）更新依赖：`yarn upgrade pack@version`
 
-**文章部分**：
-[张鑫旭空间](https://www.zhangxinxu.com/)、[前端技术文档大全](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
-[HTML 转义字符表](http://tool.oschina.net/commons?type=2)、[HTML 标签大全](http://www.w3school.com.cn/tags/index.asp%20)、[axure 各破解版本下载地址。](https://www.axure.com.cn/78629/)、[plotly.js 起始教程地址，里面有下载地址(dist 文件夹下)和源码文档](https://www.kutu66.com//GitHub/article_132050)、[javascript 事件集](http://www.w3school.com.cn/html5/html5_ref_eventattributes.asp)、[支付宝 H5 开发文档](https://myjsapi.alipay.com/alipayjsapi/index.html#3__E5_BF_AB_E9_80_9F_E5_BC_80_E5_A7_8B)、[marquee 标签属性大全](https://blog.csdn.net/bright_101/article/details/52124278)、[validator 官网 git 地址，里面有使用示例](https://github.com/yiminghe/async-validator#start-of-content)
-[jest 使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)、[谷歌浏览器插件开发文档](https://developer.chrome.com/extensions/getstarted.html)
-**工具部分**：[很多实用前端工具。](https://www.zhihu.com/question/20241338?sort=created)
+## a4、项目依赖管理
 
-- [属性兼容性查看网站](https://caniuse.com/?search=flex)：红色为完全不支持的版本，棕色为部分支持的版本，绿色为几乎全部支持的版本。命令使用：npm install -g caniuse-cmd
-- [配色网站](https://colorhunt.co/)：很多不错的颜色值组合
-- [诸多在线工具网站](https://tool.lu/)、[windows 部分批处理命令学习](https://blog.csdn.net/qq_17204441/article/details/89062591)
+1、第一次搭建项目时使用`npm install`安装好所有包，无问题后`package.json, package-lock.json`都提到仓库。
+2、其它成员拉下来后，使用`npm ci`进行所有包的安装。
+3、依赖更新：小版本更新用`npm update`，大版本更新用`npm install package@version`，或修改版本号后重新npm install；确认无问题后，更新的`package-lock.json`依然提交到仓库，其它成员再次用`npm ci`安装。
+4、降级依赖：直接使用`npm install package@version`安装，再按上面同样方法处理；
+5、删除依赖：用`npm uninstall package`，无问题后按上同样处理。
+6、任何时候都不要手动修改`package-lock.json`文件，该文件出现冲突后需删除它，重新`npm install`生成；
+7、不要出现两个成员同时安装依赖的情况；
+8、安装依赖后推荐使用`npm dedupe`简化重复的包；
+9、项目成员最好完全统一node，npm/yarn版本，且不要出现混用包管理工具的情况；
 
-## 8、IDE 工具:
+## a5、私服搭建与发包
 
-### a、vscode：
+**安装verdaccio**：`npm install -g verdaccio`。这是1个开源的npm私服工具（更适合小服务使用）
+**启动**：`verdaccio`，启动后会提示配置文件位置（启动后可根据提示地址**打开管理网页**）
+
+```yaml
+storage: ./storage # 包存放地址
+auth:
+  htpasswd:
+    file: ./htpasswd
+# 定义可用镜像源
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+# 可定义哪些规则的包使用哪个镜像源
+packages:
+  '@*/*':
+    access: $all
+    publish: $authenticated
+    proxy: npmjs # 私服上找不到该包时会从此镜像源下载
+  '**': # 表示所有的包
+  	access: $all
+    publish: $authenticated
+    proxy: npmjs # 私服上找不到该包时会从此镜像源下载
+log: { type: stdout, format: pretty, level: http }
+listen:
+  - 0.0.0.0:4873 # 注释解开（同局域网其它人可访问）
+```
+
+**发包**：大致过程如下（先**配置镜像源为本机**的`npm config set registry http://本机ip:4873`，否则下面都要用`--registry`指定源来操作）
+（1）若要将别人的公共包发布到自己的私有平台上需要先将上面`packages`配置下面的`proxy`**注释掉**（不然发包时会去这些平台检测是否存在该包）
+（2）`npm adduser`先按指示添加信息（已有想要的用户则可跳过）
+（3）`npm login`根据提示登录。
+（4）在要发布的包下用`npm publish`，到网页上刷新可看到发布的包。
+（5）注：npm包的格式只需含有`package.json`就可发包。
+
+**使用pm2**：用于提供一个较文档的verdaccio服务（服务不易卡顿，终止）
+
+[文档地址](https://verdaccio.org/docs/setup-npm)、[参考地址](https://zhuanlan.zhihu.com/p/585897251)
+
+## b、文件操作
+
+**读写操作**：
+
+```js
+var fs = require("fs");
+// 判断目录/文件 是否存在
+fs.existsSync('./field');
+// 读取指定目录下的所有一级目录或文件。
+fs.readdir(MODULE_PATH, function (err, files) {
+  if (err) {
+    console.error(err);
+  } else {
+    pages = files;
+  }
+});
+/*几乎所有的这类放发都有Sync，为同步读取*/
+var pages = fs.readdirSync(MODULE_PATH);
+
+const option = { flag: "w", encoding: "utf-8", mode: "0666" }; //flag指定使用的模式。
+// 写
+fs.writeFile("test.text", "内容", option, function (err) {
+  if (err) {
+    console.log("写入错误" + err);
+  } else {
+    console.log("写入成功" + err);
+  }
+});
+// 一般使用writeFileSync()完成文件复制操作。
+/***读，readFileSync为同步读取***/
+fs.readFile(
+  "test.text",
+  { flag: "r", encoding: "utf-8" },
+  function (err, data) {
+    if (!err) {
+      console.log("文件数据" + data);
+    }
+  }
+);
+```
+
+**移动&删除**：
+
+```js
+const fs = require('fs');
+/***文件或目录判断***/
+fs.stat(path,function(err,stat){
+    if (err) {
+        console.error(err);
+        throw err;
+    }
+    console.info(path+"是一个"+stat.isFile());
+    console.info(path+"是一个"+stat.isDirectory());
+});
+/***复制文件***/
+fs.copyFile('a.text','b.text');
+// recursive: true时可复制目录，否则只能复制文件
+fs.cp('./aa', './bb', { recursive: true }, (err) => {
+  if (err) { // 移动成功时err为null
+    console.error(err);
+  }
+});
+/****删除文件****/
+fs.unlink('../a.txt',(e)=>{});
+fs.unlinkSync('../a.txt'); // 同步的删除
+/**删除目录（目录为空时才能删除）**/
+fs.rmdir(path, callback); // 异步
+fs.rmdirSync(path); // 同步
+```
+
+
+
+## c1、常用模块
+
+1、**chalk 的使用**：一个给字体添加样式的包，支持模板使用：
+
+```js
+const chalk = require("chalk");
+//字体颜色、粗体、背景色。
+console.log(chalk.red.bold.bgWhite("内容"));
+//模板写法
+console.info(chalk`{blue.bold 内容}`);
+```
+
+2、**path**：路径处理相关
+
+```js
+var path = require("path");
+/*resolve() 的作用是拼接路径（基础路径加上参数路径），参数个数无限制
+基础路径是当前工作路径（执行命令时的所在目录，即process.cwd()）
+*/ 
+const p = path.resolve("demo","img");
+const p2 = path.resolve(__dirname,"demo","img"); // 若参数中有绝对路径开头则不会再拼接基础路径
+
+/*****node执行环境属性****/
+__dirname //获取当前文件所属目录的绝对路径
+__filename //获取当前文件的绝对路径
+// 返回path的最后一部分
+path.basename('/foo/bar/baz/asdf/quux.html'); // 返回: 'quux.html'
+// 将路径联合起来格式化path路径
+path.join('///foo', 'bar', '//baz/asdf', 'quux', '..');   // 返回 '/foo/bar/baz/asdf'
+```
+
+3、**execa**：命令执行作用
+
+```js
+const execa = require('execa');
+// 第1个参数是脚本名，后面的数组接相当于参数‘空格’隔开的
+const subprocess = execa('babel',['--config-file',p,'packages/jsTools/utils','--out-dir','dist']).then(()=>{
+    // 执行完成进入
+}).catch(er=>{
+    console.log('执行失败',er);
+});
+subprocess.close(); // 取消执行
+// 可同步执行
+execa.sync('babel',[]);
+```
+
+
+
+## c2、进程
+
+process是node线程的一个容器。
+
+1、**属性**：
+
+```js
+process.env; // 当前线程的用户环境变量
+process.argv; // 当前进程中，在命令行中输入的命令的数组
+process.pid //获取当前进程id
+process.ppid //当前进程对应的父进程
+process.platform //获取当前进程运行的操作系统平台
+process.uptime() //当前进程已运行时间
+process.cwd(); // 工作目录（输入命令时的目录路径）
+process.exit(200); // 退出程序，可传1个状态码
+process.nextTick(()=>{}); // NodeJs是基于事件轮询，在这个过程中，同一时间只会处理一件事情
+```
+
+2、**输入输出**：
+
+```js
+//方法一
+process.stdin.resume();
+process.stdin.setEncoding("utf-8"); //设置字符集
+process.stdout.write("请输入:"); //标准输出
+process.stdin.on("data", function (data) {
+  var str = data.slice(0, -2); //slice选取字符。不使用也可
+  process.stdin.emit("end"); //输入结束，触发
+  process.stdout.write("输入的:" + str);
+});
+process.stdin.on("end", function () {
+  //    监听上面的end事件。
+  process.stdin.pause();
+});
+//------- 方法二
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+//获取输入
+read.on("line", (line) => {
+  inputArray.push(line);
+  console.warn(">", inputArray);
+  if (inputArray.length === 2) read.close();
+});
+rl.question("你认为 Node.js 中文网怎么样？", (answer) => {
+  // 对答案进行处理
+  console.log(`多谢你的反馈：${answer}`);
+  rl.close();
+});
+rl.on("close", function () {
+  process.exit(); //退出命令行。
+});
+```
+
+## c3、网络部分
+
+```js
+const net = require('net')
+/*****监听某端口号是否被使用****/
+function isPortOccupied(port) {
+    // 创建1个服务
+    var server = net.createServer().listen(port)
+    return new Promise((resolve, reject) => {
+        // 如果监听成功，表示端口没有被其他服务占用，端口可用，取消监听，返回端口给调用者。
+        server.on("listening", () => {
+            console.log('未使用端口 ' + port)
+            server.close(); // 关闭该服务
+            resolve(port)
+        })
+        // 如果监听出错，端口+1，继续监听，直到监听成功。
+        server.on("error", (err) => {
+            if (err.code === 'EADDRINUSE') {
+                resolve(isPortOccupied(port + 1))
+                console.log('端口已被占用')
+            } else {
+                reject(err)
+            }
+        })
+    })
+}
+/*****获取本机ip****/
+function getIpAddress() {
+  /**os.networkInterfaces() 返回一个对象，该对象包含已分配了网络地址的网络接口 */
+  var interfaces = os.networkInterfaces();
+  for (var devName in interfaces) {
+    var iface = interfaces[devName];
+    for (var i = 0; i < iface.length; i++) {
+      var alias = iface[i];
+      if (
+        alias.family === "IPv4" &&
+        alias.address !== "127.0.0.1" &&
+        !alias.internal
+      ) {
+        return alias.address;
+      }
+    }
+  }
+}
+```
+
+# 五、库&工具
+
+## 1、jsDoc
+
+**简介**：jsDoc是一个用于JavaScript的**API文档生成器**，类似于Javadoc或phpDocumentor。他可以将文档注释直接添加到源代码中，就在代码本身旁边。JSDoc工具可以将扫描源代码并为您成一个HTML文档网站。==引用这些方法时vscode会根据其进行友好的提示==
+**安装**：`npm install jsdoc -g`
+
+**使用**：vscode已内置jsDoc插件，按其语法编写注释时其会自动高亮。
+
+```js
+/**
+ * 作用简短描述
+ * @typedef {Object} Book	// 定义1个通用类型,其它地方可使用（@property 与其功能相同）
+ * @param {Object} book 
+ * @param {string} book.title
+ * @param {string} book.author
+ * @param {Book} aBook
+ * 
+ * @return {number} 描述
+ * @return {Promise<number>}  // promise情况
+ */
+function buyBook(book,aBook) {    
+
+}
+```
+
+**生成文档**：`jsdoc book.js`
+
+## 2、杂项
+
+**禅道**：文档、任务、bug的管理，[文档地址](https://www.zentao.net/book/zentaopmshelp/40.html)
+
+ 动画开发：[anime.js 文档](https://www.animejs.cn/documentation/#direction)
+
+## 3、IDE 工具
+
+### a、vscode
 
 支持各种语言的开发,但需要对应的插件来支持,所以会有一定缺陷。打开 vscode 点击第四个图标(方形)，安装 python 在点右边的安装。
 **快速打开**`settings.json`：左下角齿轮/设置/右上角文本按钮。
@@ -2864,7 +2240,7 @@ var c=89;
 Anaconda 环境设置：插件安装栏搜索 anaconda 安装运行即可。
 写 python 代码没有提示和补全：先确保安装了 kite Autocomplete(一个 python 和 javascript 的自动补全插件)插件(顺便安装 kiteConnect 插件)，若安装重启 vscode 后还未生效，右下角会有 kite query install ...的提示，点击 install 按钮跳到 git 地址，下方有各系统下载地址，按照教程安装，使用即可，安装后重启 vscode 即可生效。[git 地址。](https://github.com/kiteco/vscode-plugin#installation)
 
-### b、sublim 编辑器：
+### b、sublim 编辑器
 
 sublim 使用起来在提示方面和运行速度方面都很不错，要使用 Anaconda 中的环境需要安装一些插件:
 CTRL+SHIFT+p 打开输入框输入 install Package Control 回车安装再：install Package 都安装好后就可以在搜索框中搜索 Anaconda 回车安装了(左下角)
@@ -2886,7 +2262,7 @@ https://www.jianshu.com/p/0ad5625e9717
 }
 ```
 
-### c、jetBring 公司产品：
+### c、jetBring 公司产品
 
 **主题样式下载**：http://www.riaway.com/theme.php。
 **更换主题后字体会变小问题**：在 setting>Editor>Color Scheme>color scheme Font 中设置字体大小。注意不是 consol Font
@@ -2904,7 +2280,7 @@ https://www.jianshu.com/p/0ad5625e9717
 - [linux 上安装 pycharm。](https://blog.csdn.net/xiaoxiaofengsun/article/details/82257391)
   **使用 Anaconda 环境**：setting>project:name>Project interpreter 下拉框中选择运行的环境，添加新的运行环境：下拉框点 show all 后点击+号>选第二个单选文件夹中选择 Anaconda 安装目录>envs>wcs>python.exe(envs 是自己在 anaconda 创建的所有环境,wcs 是自己创建的一个环境,每个环境下都有一个 python.exe)不过似乎还会要下载点东西，网速不好就恼火咯，包括 sublim 中切换环境也是切换 python.exe 的位置。
 
-### d、jupyter:
+### d、jupyter
 
 一个 web 式的 ide 工具，通过电脑上安装 jupyter notebook 工具，运行后会开通一个本地服务，按照其给出的链接进入 web 页面，在上面进行编辑代码。支持 50 多种语言。
 
@@ -2916,7 +2292,7 @@ https://www.jianshu.com/p/0ad5625e9717
   下载安装：到官网下载社区版，社区版可免费使用。选中安装位置、下载位置、工具位置。
   新建项目：左上角新建项目。源文件下新建 c++文件。
 
-## 9、调试
+## 4、调试
 
 **真机调试**：
 
@@ -2937,7 +2313,7 @@ pc 端和手机端都下载 google 浏览器，手机上打开开发者选项并
 - 日志类型：console栏，点击几种类型的输出，更精准查看；
 - 请求记录：network栏，点击all/fetch/XHR/JS/CSS，查看各种类型，网络请求记录
 
-## 11、uni-app 的使用：
+## 5、uni-app 的使用
 
 **介绍**：uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到 iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉/淘宝）、快应用等多个平台。结合 Hbuilder x 使用，文件新建一个项目选择 uni-app 项目(网站、app、小程序都选这个)。[uni-app 官网。](https://uniapp.dcloud.io/)[插件市场](https://ext.dcloud.net.cn/search?q=uni-ui)。
 **项目目录结构**：pages 文件夹存放业务页面，pages/index/index.vue 页面是 app 打开时的引导页面。创建其它页面时新建一个文件夹然后在文件夹内建页面，可以多个页面放一个文件夹。
@@ -3082,146 +2458,9 @@ getApp().globalData.idenInfo = res;
   （1）H5 端，页面刷新有时会有无法回退、页面不加载等问题。
   （2）打开小程序报：errno: -4083：维新开发工具/设置/安全/打开服务端口
 
-## 12、富文本编辑器：
-
-web 中使用的富文本编辑器比较多，这里是两个自己尝试过的：
-wangeditor：比较轻便，所以功能没有其它几样多，因为简便所以比较容易引入，几乎不会报异常错误。[wangeditor 使用参考地址。](https://www.jianshu.com/p/52852d39f869)
-vue 项目中安装：`npm i wangeditor -S`#使用配置如下：
-
-```html
-<template>
-  <div id="wangeditor">
-    <div ref="editorElem" style="text-align:left;"></div>
-  </div>
-</template>
-<script>
-  import E from "wangeditor";
-  export default {
-    name: "Editor",
-    data() {
-      return {
-        editor: null,
-        editorContent: "",
-      };
-    },
-    mounted() {
-      this.editor = new E(this.$refs.editorElem);
-      // 编辑器的事件，每次改变会获取其html内容
-      this.editor.customConfig.onchange = (html) => {
-        this.editorContent = html;
-        this.catchData(this.editorContent); // 把这个html通过catchData的方法传入父组件
-      };
-      this.editor.customConfig.menus = [
-        // 菜单配置
-        "head", // 标题
-        "bold", // 粗体
-        "fontSize", // 字号
-        "fontName", // 字体
-        "italic", // 斜体
-        "underline", // 下划线
-        "strikeThrough", // 删除线
-        "foreColor", // 文字颜色
-        "backColor", // 背景颜色
-        "link", // 插入链接
-        "list", // 列表
-        "justify", // 对齐方式
-        "quote", // 引用
-        "emoticon", // 表情
-        "image", // 插入图片
-        "table", // 表格
-        "code", // 插入代码
-        "undo", // 撤销
-        "redo", // 重复
-      ];
-      this.editor.create(); // 创建富文本实例
-    },
-  };
-</script>
-```
-
-**tinymce**：国外的，默认是英文，中文版的需要下载语言包。[参考学习地址。](https://www.cnblogs.com/wisewrong/p/8985471.html)[语言包下载地址。](https://www.tiny.cloud/get-tiny/language-packages/)
-引入后报..dont support (text/html) ..css 的错误：在`<style></style>`中用@import url("");引入 css 样式。
-出现找不到中文语言包的问题：！暂未解决。
-[百度 umeditor 下载地址(选择 jsp)。](http://ueditor.baidu.com/website/download.html)[使用参考学习地址。](https://blog.csdn.net/fanhu6816/article/details/81223909)
-
-## 13、axios：
-
-axios支持XMLhttpRequest和Fetch，且支持node环境；引入的拦截器思想比较受欢迎。
-
-```js
-import axios from "axios";
-const URL = require("./index");
-// 响应时间
-axios.defaults.timeout = 5000;
-axios.defaults.baseURL = "https://nb.com";
-// 请求拦截器
-axios.interceptors.request.use((config) => {
-    // 可以通过axios.post(url,data,params)#params传递参数。
-    if (config.params["switchType"]) {
-      config.headers["Content-Type"] = "application/json";
-    }
-    return config;
-  },
-  (err) => {
-    // 加载动画关闭
-    console.info("请求错误");
-    return Promise.reject(err);
-  }
-);
-// 响应拦截器
-axios.interceptors.response.use((res) => {
-    return Promise.resolve(res.data);
-  },(err) => {
-    return Promise.reject(err);
-  }
-);
-export default axios;
-```
-
-**返回的内容**：`{config:{},data:{},headers:{},request:{},status:200,statusText:'ok'}`
-
-- config 中包括设置 axios 时的 url、请求方式、headers、baseUrl 等。
-- data 是服务端返回的数据内容。
-- headres 是请求中使用的头部内容。
-- request：包含 custom、onerror、onabort 等。
-
-**调用**：
-
-```js
-// 这两个方法不支持then回调，一般封装到promise中。
-axios.post(url, data, { params: { a: 1, b: 2 } });
-axios.gt(url, { params: { a: 1, b: 4 } });
-//===params中的键值对会被拼接到url后。
-axios.request({
-  url: "",
-  method: "POST",
-  data: {},
-  session: true, // 自定义值，请求拦截器、响应拦截器，中都能拿到。
-  params: { token: 1234 },
-});
-```
-
-**自定义Adapter**：可自定义使用的请求方式
-
-```js
-// 自定义的adapter
-function getDefaultAdapter(){
-    let adapter;
-    if(typeof XMLHttpRequest !=='undefined'){
-        adapter = require('./adapters/xhr');
-    }else if(typeof process!=='undefined'){
-        adapter = require('./adapters/http');
-    }
-}
-// 使用：在config中配置即可
-{
-    adapter: getDefaultAdapter()
-}
-```
 
 
-
-## 14、html2canvas 使用：
+## 6、html2canvas 使用
 
 用于将页面的 html 节点转化为图片，注意若其中包含图片，使用 img 标签而不要使用背景图。否则生成的图片不清晰。
 
@@ -3244,7 +2483,7 @@ new html2canvas(_el, {
 });
 ```
 
-# 五、移动端开发
+# 六、移动端开发
 
 1、**移动H5开发**：手机浏览器显示的前端项目。一般也要求在app打开正常使用，一些兼容性问题如下：
 
@@ -3515,220 +2754,9 @@ wx.chooseImage({
 渲染引擎依靠**跨平台的Skia图形库**来实现，依赖系统的只有图形绘制相关的接口，可以在最大程度上保证不同平台、不同设备的体验一致性，逻辑处理使用支持AOT的Dart语言，执行效率也比JavaScript高得多。
 在Android Studio和VS Code两个IDE上都提供了全功能的支持。Flutter所使用的Dart语言同时支持AOT和JIT运行方式
 
-# 六、nodejs
 
-:::alert-info
-**简介**：js 只能运行在浏览器内，相比于其它 python，java 之类的编程语言可以运行在桌面环境，js 弱了很多，而 node 提供了 js 可在系统运行的环境，内部加了一些内置 api，提供文件 io 等功能。node.js 的最大优点是处理并行访问，如果一个 web 应用程序同时会有很多访问连接，就能体现使用 node.js 的优势。另一个好处是，使用 javascript 作为服务器端脚本语言，可以消除答一些与浏览器端 js 脚本的冲突。甚至发挥 javascript 动态编程的特性，在服务器与浏览器之间建立直接的动态程序。而 npm 是其自带的一个包管理工具。
-:::
-**windows 上安装**：官网下载 node 的 zip 包，解压后将路径添加到 path 路径即可。
-**linux 上安装**：官网上下载 nodejs 的 linux 压缩包，解压进入，将 node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin 下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后 node -v 安装成功。
-**脚本语言**：又被称为扩建的语言，或者动态语言，是一种编程语言，用来控制软件应用程序，脚本通常以文本（如 ASCII)保存，只在被调用时进行解释或编译。
 
-## a0、配置文件
-
-package.json文件如下：
-
-```js
-{
-  "name": "@jeecg/antd-online-mini",
-  "version": "3.0.0-beta",
-  // 导入该项目时，默认导入的文件，一般做依赖包时配置
-  "main": "./dist/OnlineForm.umd.min.js", // 浏览器、node.js环境均可使用
-  "module": "./dist/cc.js", // ESM规范入口文件，浏览器、node.js环境均可使用
-  "browser": "./dist/bb.js", // 浏览器时文件入口
-  //可运行的命令项
-  "scripts": {
-    "serve": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
-  },
-  // npm安装1个依赖时，会安装依赖包的package.json中的dependencies项所列依赖
-  // 所以项目当做1个npm包使用时才体现出两者区别（前者的包放入后者则依赖下载不全，后者的包放入前者则是不必要的）
-  "dependencies": {}, // 放置生产环境必须使用的依赖
-  "devDependencies": {}, // 只放置开发环境使用的依赖
-}
-```
-
-`package-lock.json`的作用：保存依赖包解析的信息，**锁定安装模块的版本号**
-
-## a1、npm
-
-**npm install安装机制**：（npm各版本安装算法，策略不同，因此`package.json, package-lock.json`两个文件才能锁定统一）
-（1）`npm install`》检查config获取配置（配置文件优先级：`项目.npmrc>用户级.npmrc > 全局.npmrc > npm内置.npmrc`）
-（2）检查有无`package-lock.json`文件，有则检查其与`package.json`中包版本是否一致（package.json中会用==网络请求获取包信息==）
- 一致：直接使用`package-lock.json`中的信息，从缓存或网络资源中加载依赖。
-**不一致**：根据npm版本有不同的处理（5.4.2以上是：两文件中依赖的两个版本兼容时根据`package-lock.json`安装，不兼容则根据`package.json`安装（有兼容计算，依赖树构建等操作）并更新`package-lock.json`文件）
-（3）无`package-lock.json`文件：则根据`package.json`的下载，下载时会检查是否有缓存，之后生成`package-lock.json`文件。
-
-**npm ci安装机制**：比npm install更加快速稳定。特性如下
-（1）只根据`package-lock.json`安装，因此安装过程中不进行依赖树构造分析等，速度更快。
-（2）`package-lock.json`与package.json记录有不同时直接报错，不过该命令不会对这两个文件进行任何更新。
-（3）安装时会先删除node_modules目录，重新安装。但它不能单独指定安装某个文件。
-
-`package-lock.json`**要不要提到仓库**：若是开发项目，根据上面的介绍==应该提交它==。**若是开发1个npm包**，公共库则可以不提交（最大化利用项目安装时的依赖）
-
-**依赖间结构**：
-（1）v3之前的依赖结构：按照依赖树结构，每个依赖下又安装它们自己的子依赖。==这造成过多重复的包==，很占用资源。
-（2）v3及之后的依赖：做了优化处理，每个依赖包会优先放在顶层，若有重复但版本不同也不兼容的依赖包还是会按照到其它依赖下。（在加上更新，卸载一些列操作，==还是会有一些重复的包按照==）可用`npm dedupe`==简化掉重复的包==（**yarn安装时会自动执行该命令**）
-
-**缓存机制**：初次下载依赖时会先将其放到缓存中，然后解压到项目。根据`package-lock.json`下载时则会用`integrity,version,name`信息生成1个key，它能对应到index-v5下的**缓存记录**，有缓存资源则会hash值查找`tar`包。（无`package-lock.json`文件==则不会使用缓存==）
-
-**验证包**：在全局npm包目录下放置1个包`npmPackage1`然后在你想启动的项目project下使用`npm link再npm link npmPackage1`将该包链接过来，使用完后`npm unlink`取消链接。（这样可很方便的对一个包进行测试）
-
-**npx**：解决npm面临快速开发，调试，项目内使用全局模块的痛点。且其安装完依赖后会进行删除
-
-**cnpm**：npm 本身指定的安装源是外国的，`npm install -g cnpm --registry=https://registry.npm.taobao.org`#安装淘宝镜像,使用时直接 cnpm install 即可
-**npm 指令**：
-
-```cmd
-npm config set registry https://registry.npm.taobao.org // 临时设置安装源
-npm install --save lodash  #--save表示生产环境的依赖，--save-dev表示开发环境的依赖。
-npm cache clean -f       //清除缓存。
-npm get config cache // 得到配置缓存的根目录
-npm dedupe // 简化重复的安装包
-npm remove eslint        //移除包内的某个依赖。
-npm install vue@3.0      //安装指定版本写法
-npm unpdate xxx --save   //升级包的版本【对于已经安装的包，没有明确版本号的它会升级，npm install则会忽略】
-npm list -g --depth 0 	//查看全局安装的依赖
-```
-
-npm私服配置：修改安装源即可（主义配置优先级：`.npmrc > 环境变量中配置的>命令行设置的`）npm私服搭建：[参考地址](https://www.jianshu.com/p/bb4e90b2f7b7)
-
-**编写npm包**：可以自己按照 npm 包的规则来写一个包，然后发布到 npm 平台使用。步骤如下：
-
-- [先到 npm 官网注册一个人账号。](https://www.npmjs.com/signup)
-- 进入一个人文件夹，使用 npm init，填写一些信息（会生成 package.json 文件），初始化一个 npm 包。其中**main 指定入口文件**如：`./moment.js`。
-- 安装依赖：如果自己的这个 npm 包需要其它依赖，直接该目录下 npm i ... --save 即可。
-- 登录：npm login 登录账号。
-- 指定的入口 js 文件最后需要用：`module.exports = obj`//的形式导出一个模块。
-- 发布：npm publish。撤销发布：npm unpublish
-
-## a2、nvm
-
-[windows 版 nvm 下载地址，下载 nvm-setup.zip 包](https://github.com/coreybutler/nvm-windows/releases)。安装后 cmd 使用 nvm 命令
-
-- 查看可安装的NodeJS版本: nvm list available（LTS项为长期支持版本）
-- 安装node版本：`nvm install 8.16.0`
-- 切换 node 版本：`nvm use 8.16.0`
-- 卸载指定版本：`nvm uninstall 8.16.0`
-
-## a3、yarn
-
-**简介**：并行安装、离线模式、安装版本统一、多注册来源处理，也拥有缓存机制。npm v3时就已经出现
-
-**安装机制**：检测环境》解析包》获取包》链接包》构建包
-（1）检测环境：检测项目中是否有npm相关文件（如`package-lock.json`提示可能会导致冲突）获取系统信息等
-（2）解析包：解析依赖树；从当前项目依赖包开始，再解析这些依赖下的依赖；`yarn.lock`中没有找到该包的信息则会网络请求包信息，然后添加到`yarn.lock`
-（3）获取包：先判断是否存在该包的依赖，存在则不用下载，否则从网络获取。
-（4）链接包：用扁平化原则，若出现同一个依赖包的多个版本安装，yarn会按照兼容策略，尽量安装1个版本的包。
-（5）构建包：若依赖包中存在二进制的包，则需要对它们进行编译。
-
-安装yarn：`npm install yarn -g`；
-**yarn 使用**：安装好依赖后会生成`yarn-lock.json`（npm安装时，该文件不生效。因此==一个项目最好不要混用两者==）
-（1）安装全部依赖：yarn install。
-（2）安装单个依赖：`yarn add package@4.2 --dev`；
-
-## a4、项目依赖管理
-
-1、第一次搭建项目时使用`npm install`安装好所有包，无问题后`package.json, package-lock.json`都提到仓库。
-2、其它成员拉下来后，使用`npm ci`进行所有包的安装。
-3、依赖更新：小版本更新用`npm update`，大版本更新用`npm install package@version`，或修改版本号后重新npm install；确认无问题后，更新的`package-lock.json`依然提交到仓库，其它成员再次用`npm ci`安装。
-4、降级依赖：直接使用`npm install package@version`安装，再按上面同样方法处理；
-5、删除依赖：用`npm uninstall package`，无问题后按上同样处理。
-6、任何时候都不要手动修改`package-lock.json`文件，该文件出现冲突后需删除它，重新`npm install`生成；
-7、不要出现两个成员同时安装依赖的情况；
-8、安装依赖后推荐使用`npm dedupe`简化重复的包；
-9、项目成员最好完全统一node，npm/yarn版本，且不要出现混用包管理工具的情况；
-
-## b、文件操作
-
-读写操作：
-
-```js
-var fs = require("fs");
-// 读取指定目录下的所有一级目录或文件。
-fs.readdir(MODULE_PATH, function (err, files) {
-  if (err) {
-    console.error(err);
-  } else {
-    pages = files;
-  }
-});
-/*几乎所有的这类放发都有Sync，为同步读取*/
-var pages = fs.readdirSync(MODULE_PATH);
-
-const option = { flag: "w", encoding: "utf-8", mode: "0666" }; //flag指定使用的模式。
-// 写
-fs.writeFile("test.text", "内容", option, function (err) {
-  if (err) {
-    console.log("写入错误" + err);
-  } else {
-    console.log("写入成功" + err);
-  }
-});
-// 一般使用writeFileSync()完成文件复制操作。
-// 读，readFileSync为同步读取。
-fs.readFile(
-  "test.text",
-  { flag: "r", encoding: "utf-8" },
-  function (err, data) {
-    if (!err) {
-      console.log("文件数据" + data);
-    }
-  }
-);
-```
-
-## c1、chalk 的使用
-
-一个给字体添加样式的包，支持模板使用：
-
-```js
-const chalk = require("chalk");
-//字体颜色、粗体、背景色。
-console.log(chalk.red.bold.bgWhite("内容"));
-//模板写法
-console.info(chalk`{blue.bold 内容}`);
-```
-
-## c2、输入输出
-
-```js
-//方法一
-process.stdin.resume();
-process.stdin.setEncoding("utf-8"); //设置字符集
-process.stdout.write("请输入:"); //标准输出
-process.stdin.on("data", function (data) {
-  var str = data.slice(0, -2); //slice选取字符。不使用也可
-  process.stdin.emit("end"); //输入结束，触发
-  process.stdout.write("输入的:" + str);
-});
-process.stdin.on("end", function () {
-  //    监听上面的end事件。
-  process.stdin.pause();
-});
-//------- 方法二
-const readline = require("readline");
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-//获取输入
-read.on("line", (line) => {
-  inputArray.push(line);
-  console.warn(">", inputArray);
-  if (inputArray.length === 2) read.close();
-});
-rl.question("你认为 Node.js 中文网怎么样？", (answer) => {
-  // 对答案进行处理
-  console.log(`多谢你的反馈：${answer}`);
-  rl.close();
-});
-rl.on("close", function () {
-  process.exit(); //退出命令行。
-});
-```
-
-# 七、测试：
+# 七、测试
 
 单元测试：对软件中的最小可测试单元进行检查和验证。
 功能测试：对产品的各功能进行验证。
@@ -3742,7 +2770,7 @@ rl.on("close", function () {
   （3）命令指定配置：自定义配置文件使用。需要注意与 babel 版本有关，一下是一个合适版本的组合。
   （4）项目也安装：`npm install -D jest`。
   
-  ```
+  ```json
   {
     "scripts": {
       "test": "jest --config test/config.js"
@@ -3851,14 +2879,14 @@ test('回调检测',()=>{
 })
 ```
 
-
+组件测试：
 
 - **错误集**：
   jest SecurityError: localStorage is not available..：配置文件中将环境改为 node 即可，`testEnvironment: "node"`。
 
 **2、mock 数据做测试**：mock 也可用作直观的测试使用。
 
-1. 使用 mockjs
+1. 使用 mockjs：其只能代理ajax的接口，feth的代理需要使用`mock-fetch`依赖
 
 - 安装：npm i mockjs -D。建立一个放置数据的目录，用 json 文件存放数据，新建一个 mock.js 文件。
 - mock.js 文件配置请求的路径和对应的数据：
@@ -3882,7 +2910,7 @@ Mock.mock(`${_url}/index/add`, "post", function(arg){
 });
 ```
 
-- **导入**：main.js 将其导入即可。使用 mock 数据时**不要与代理路径一样，或干脆不用代理**。
+- **导入**：main.js 将其导入即可。
 
 ```js
 // 使用环境判断，开发时才导入
@@ -3947,13 +2975,77 @@ pMonitor.getTimeoutRes = (limit = TIMEOUT) => {
 ```
 
 2、**检测白屏**：白屏是资源未加载完全造成的，可以通过定时获取app内的某一元素来判断，如果未获取到，说明还未加载出来，属于白屏。
+3、**资源重载**：可监听若某个资源加载失败，对其重新加载；
+
+```js
+const jsSource = [];
+const RELOAD_SOURCE_COUNT = {};
+var scriptTimer = null;
+window.addEventListener('error',function(e){
+    if(!(e instanceof ErrorEvent)){
+        if(window.navigator.onLine===false) return; // 离线情况则不处理
+        const target = e.target || {};
+        // 这里是对css资源的重载
+        if(target.tagName==='LINK'){
+            const url = target.href;
+            // 防止资源反复加载失败造成循环
+            if(url in RELOAD_SOURCE_COUNT){
+                if(RELOAD_SOURCE_COUNT[url]>2) return;
+            }else{
+                RELOAD_SOURCE_COUNT[url] = 0;
+            }
+            const link = document.createElement('link');
+            link.href = url;
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            document.body.appendChild(link); // 插入标签进行重试
+            RELOAD_SOURCE_COUNT[url]++; // 加载次数增加
+        }else if(target.tagName==='SCRIPT'){
+            // 添加完所有加载失败的js后再按顺序重载
+            scriptTimer && window.clearTimeout(scriptTimer);
+            jsSource.push(target.src); // 保存所有加载错误的js脚本
+            scriptTimer = window.setTimeout(()=>{
+                reloadJsResources(jsSource,0);
+            },250);
+        }
+    }
+},true);
+// js资源需要按顺序重载，因为其可能有依赖关系
+function reloadJsResources(urls,index){
+    const url = urls[index];
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload=()=>{
+        // 加载完后继续重载下一个资源
+        if(urls[index+1]) reloadJsResources(urls,index+1);
+    }
+    document.head.appendChild(script);
+}
+```
+
+4、**资源地址切换**：若几次重载失败可再尝试其余备用的资源地址。
 
 # 玖、格式化与检查
 
 简介：eslint有检测代码是否符合规则，和代码格式（较弱）的能力。`prettier`则是专门格式化代码的工具（两者均有依赖和vscode插件可用）
 
 **综合运用**：prettier可与eslint结合使用（`vscode的eslint`插件在代码多，格式复杂时处理较差）可尝试格式化部分全部用prettier，其它用eslint配合使用。
-**安装eslint**：`npm install eslint -D`，还有一些结合vue等的依赖，可看情况安装。
+**安装eslint依赖**：`npm install eslint -D`，还有一些结合vue等的依赖，可看情况安装。
+**安装eslint插件**：vscode中搜索安装，配置中设置启动，如下：
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+}
+```
+
 资源：[学习地址](https://blog.csdn.net/Jsoning/article/details/103577402)。[prettierpeiz 官网](https://prettier.io/docs/en/options.html)。[prettier与eslint冲突相关](https://zhuanlan.zhihu.com/p/347339865)、[eslint中文网](http://eslint.cn/docs/user-guide/configuring)
 **eslint命令**： 
 
@@ -4660,7 +3752,7 @@ function webpackBundle({modules,entry}){
 （3）使用babel将相关模块编译为复合ES5规范的代码。
 （4）为每个依赖产出1个唯一ID，方便后续读取模块内容。
 （5）将每个依赖及结果babel编译后的内容存储在1个对象中进行维护。
-（6）遍历上一步中的对象，构建1个依赖图。
+（6）遍历上一步中的对象，构建1个依赖图。 
 （7）将各依赖模块内容合成为bundle产出。
 
 ## q1、core-js
@@ -4685,8 +3777,7 @@ import _flat from 'core-js-pure/features/array/flat'
 
 ## q2、Babel
 
-JavaScript编译器，庞大且复杂，有与core-js结合（babel根据配置的`browsers`**浏览器支持范围**，引入合适的polyfill方案）；
-babel默认会将`ESM`规范编译为`CJS`规范。[babel官网](https://www.babeljs.cn/docs/config-files)
+JavaScript编译器，庞大且复杂，有与core-js结合（babel根据配置的`browsers`**浏览器支持范围**，引入合适的polyfill方案）。[babel官网](https://www.babeljs.cn/docs/config-files)
 （1）`@babel/core`：babel实现转换的核心，根据配置进行源码的编译转换；
 （2）`@babel/cli`：babel提供的命令行，可在中断通过命令行方式运行，编译文件，获取配置等；
 （3）`@babel/standalone`：可支持在非Node环境下编译type为`text/bebel或text/jsx`的script标签；
@@ -4708,6 +3799,46 @@ babel默认会将`ESM`规范编译为`CJS`规范。[babel官网](https://www.bab
 （19）`@babel/loader`：同样是编译作用（默认会忽略node_modules下文件），不过是专门与webpack结合使用的（如此的还有很多）
 （20）`@babel/eslint-parser`：配合eslint检查合法babel代码的解析器
 
+**babel编译模块规范**：babel默认会将`ESM`规范编译为`CJS`规范。其会根据两者规范导入导出时使用的属性，行为来兼容另一种规范使用（多数npm包也是被编译为cjs规范，但兼容esm规范使用的形式，所以你才可以在项目中使用esm导入它们）
+
+- `import react from 'react'`【会被翻译成】`const react = require('react').default`。
+- 对于cjs中使用 `module.exports = function() {};`导出的包，esm只能用 `import * as React from 'react';`方式使用
+- ==babel的处理esm为cjs==，如下：
+
+```js
+/********编译前（ESM）*********/
+import './src/utils/index';
+
+export var q = 10;
+export var b = 20;
+
+export default {
+  q,b
+}
+/********编译后（CJS）*********/
+'use strict';
+/*********添加1个__esModule属性标记，处理时特殊处理
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+如此：导入的模块有__esModule时则直接返回，不然则再包裹一层作为cjs规范处理
+*/
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+// import的导入被编译成了require导入
+require("./src/utils/index");
+// exports.q的方式可支持其它文件使用 import {q} from 'index';的方式按需引入。
+exports.q = 10;
+exports.b = 20;
+// 在exports上挂载default属性才能支持esm的 import tool from 'index';方式使用
+var _default = {
+  q:10,b:20
+};
+exports.default = _default;
+```
+
 **babel编译第三方库**：可能部分npm包中还存在es6语法，低端浏览器时无法解析；这是多数打包工具打包时默认忽略node_modules下依赖造成的。
 （a）详细问题：`plugin-transform-runtime`会根据sourceType选择注入import还是require（默认注入import）；而webpack不会处理包含import/export中的`module.exports`导出；
 （b）解决：需要让babel自动判断sourceType，决定向文件中注入import/require。配置如下
@@ -4722,13 +3853,11 @@ module.exports={
 }
 ```
 
-**webpack中babel配置推荐**：安装`@babel/core, @babel/preset-env`配置统一标准化的babel方案；使用`@lucas/babel-preset/app`编译node_modules外的业务代码，使用`@lucas/babel-preset/dependencies`编译node_modules下的包；
-
 **babel配置文件**：可在项目下使用babel.config.json / .babelrc文件配置参数
 
 ```json
 {
-　　// 此项指明，转码的规则
+　　// 此项指明，转码的规则，预设好的配置
   "presets": [
     [
       "@babel/env",
@@ -4786,7 +3915,7 @@ export function bb(){return 20;}
 ```js
 {
     //"sideEffects": false, // 指所有文件都用Tree Shaking
-    "sideEffects": ["./src/util/aa.js","*.css"], // 指定文件
+    "sideEffects": ["./src/util/aa.js","*.css"], // 指定文件不需要treeshaking
 }
 ```
 
@@ -4833,7 +3962,7 @@ const dynamicImport = url =>{
 
 ## d1、vite
 
-基于浏览器原生ES imports的开发服务器；（开发环境使用`esbuild`，生产打包使用`rollup`）
+基于浏览器原生ES imports的开发服务器；（开发环境使用`esbuild`，生产打包使用`rollup`）[参考](https://github.com/Sorryhx/xixi/blob/master/package.json)
 （1）开发环境：利用浏览器解析imports（es6模块）服务端按需编译返回，完全跳过打包概念。
 （2）和浏览器建立socket连接，用watcher监听文件变动，推送新模块给浏览器，完成HMR（热更新）
 
@@ -4922,8 +4051,6 @@ require(["module"], function (module) {});
 
 **安装**：npm install webpack -g#全局安装。目录下使用：npm init#会在当前路径下生成一个 mypackage 文件夹，里面有 package.json 文件、webpack.config.js 文件和 src 文件夹。
 
-**配置**：[webpack 详细配置学习地址](https://blog.csdn.net/c_kite/article/details/71279853)。[devserver 属性学习地址。](https://blog.csdn.net/franktaoge/article/details/80083317)
-
 **热更新过程**：
 1、当修改了一个或多个文件；
 2、文件系统接收更改并通知`webpack`；
@@ -4931,19 +4058,19 @@ require(["module"], function (module) {});
 4、HMR Server 使用`webSocket`通知HMR runtime 需要更新，HMR运行时通过HTTP请求更新jsonp；
 5、HMR运行时替换更新中的模块，如果确定这些模块无法更新，则触发整个页面刷新
 
-### 2、loader：
+### 2、loader
 
-- vue-loader：解析 vue 文件。
 - css-loader：一般 vue-loader 解析过后结果 css-loader,处理过后会把样式都变成 module 形式，然后直接导出这个模块，模块中包含了 css 的源码跟模块的 id。
 - style-loader：会引用 css-loader 生成的模块，然后在 Html 的 head 中加入 style 标签，当然也支持 link 引入等其它方式。
-- vue-style-loader：在 style-loader 上的一层封装，不过还加了一些支持服务端的渲染。
 - postcss-loader：把 CSS 解析成 JavaScript 可以操作的 AST，第二个就是调用插件来处理 AST 并得到结果，还能自动添加 css 前缀，如果要与 MiniCssExtractPlugin 的 loader 一起使用还要配置其它选项。所以一般是放在 css-loader 之后，less-loader 等之前。
 - less-loader,sass-loader,scss-loader：css 的预处理使用。scss 是 sass 的 3.0 版本引入的语法，去除了之前的一些严格规则，且规则与 css 一致。
 - `style-resource-loader`：向样式文件中添加全局的样式属性。
-- url-loader：用来为资源文件生成路径的。允许你有条件地将文件转换为内联的 base-64 URL。
-- file-loader：可以指定要复制和放置资源文件的位置
+- `thread-loader`：webpack4开始可安装该loader内置，==使用多线程来出来该项==（放置在对应loader之前）`npm i thread-loader -D`
+- **自动导入插件**：`unplugin-auto-import`（暂时支持vue3钩子函数，vue-route等）
 
 ```js
+const TerserPlugin = require("terser-webpack-plugin");
+const threads = os.cpus().length;
 //这三个loader均可以类似如下配置。
 module: {
   rules: [
@@ -4952,6 +4079,12 @@ module: {
       //use: ['babel-loader?cacheDirectory'],//use指定对文件使用的插件，可以多项，配置规则。
       use: [
         {
+            loader:'thread-loader',
+            options: {
+                  workers: threads, //开启个进程数量
+            },
+        }, // 放在babel-loader前
+        {
           loader: "babel-loader", //指定使用的插件。
           options: {
             // 这里可以写.bablesrc中的格式配置。
@@ -4959,14 +4092,19 @@ module: {
           },
           // enforce:'post' 的含义是把该 Loader 的执行顺序放到最后。还可以是 pre，代表把 Loader 的执行顺序放到最前面
           enforce: "post",
-        },
+        }
       ],
       // 只命中src目录里的js文件，加快 Webpack 搜索速度
       include: path.resolve(__dirname, "src"),
       exclude: /node_modules/, //指定不需要编译的目录。
     },
     ];
-}
+},
+plugins:[
+    new TerserPlugin({
+      parallel: threads // 开启多进程
+    })
+]
 ```
 
 **编写 loader**：loader文件hello-loader.js （最后只使用此文件）
@@ -5021,7 +4159,7 @@ module.exports = {
 
 [参考地址 1](https://www.lmlphp.com/user/16516/article/item/464591/)、[参考地址 2](https://wenku.baidu.com/view/51088c0dccc789eb172ded630b1c59eef8c79a61.html)
 
-### 3、Plugin：
+### 3、Plugin
 
 <b c=b>plugin 在 loader 之后执行，目的在于解决 loader 无法实现的其他事。</b>这些 plugin 除了 webpack 自带的，其它插件还是需要 npm 安装的。
 
@@ -5141,10 +4279,11 @@ contenthash: 文件有改动时只修改与该文件相关的打包文件
 */
 {
     output:{
+        clean: true, // 在生成文件之前清空 output 目录
         filename:"[name].js",//为从入口处涉及到的bundle命名，name为占位，[fullhash]为使用hash。
         chunkFilename:"chunk[hash].js",//为按需加载类型的js命名。可以在路由处import给chunk命名。
         path:__dirname + '/dist',// 输出位置
-        publicPath:"/" //各个资源路径前面添加的前缀。
+        publicPath:process.env==='development' ? "./":"/" //各个资源路径前面添加的前缀【生产环境一定要用绝对路径】
     },
     // 项目中
     resolve:{
@@ -5306,7 +4445,7 @@ require.context(
 )
 ```
 
-​		 获取多个组件实例：
+获取多个组件实例：
 
 ```js
 const context = require.context("@/components", false, /\.vue$/);
@@ -5378,6 +4517,39 @@ export default {
 webpack配置：先安装`npm install --save-dev webpack webpack-cli`，然后正常配置入口，输出等；
 **其它**：开发环境和生产环境的依赖需要严格分隔安装，不要提交`package-lock.json`。
 
+**monoRepo**：这是一种仓库风格。多个子仓库代码放到1个大仓库中统一管理。将所有子项目放到packages下，大致结构如下。
+
+```shell
+.
+├── packages
+│      ├─ module-a
+│      │    ├─ src            # 模块 a 的源码
+│      │    └─ package.json   # 自动生成的，仅模块 a 的依赖
+│      └─ module-b
+│           ├─ src            # 模块 b 的源码
+│           └─ package.json   # 自动生成的，仅模块 b 的依赖
+├── tsconfig.json             # 配置文件，对整个项目生效
+├── .eslintrc                 # 配置文件，对整个项目生效
+├── node_modules              # 整个项目只有一个外层 node_modules
+└── package.json              # 包含整个项目所有依赖
+```
+
+在主项目的`package.json`中配置`weokspace`属性将它们软链接到当前依赖下使用（`install`就生效）
+
+```json
+{
+	"workspaces": [
+    	"packages/*"
+  	],
+    "private": true,
+}
+```
+
+**安装依赖**：主项目下安装即可`yarn install`若要使用npm，则需`node>16`==以上配置才会生效==（子项目指定的依赖也**会被安装到主项目**的`node_modules`中，其是1个软链接，因此修改这些依赖包只需在`packages/`对应的代码改动即可）
+
+**打包**：主项目打包时可==遍历各子项目，将它们分别打包==，可分为3种打包类型，组件库类（由于涉及到vue,css图片等较多资源**可用webpack打包**）js方法类（此几乎只涉及到js，**可单独用babel编译即可**）其它静态资源（如图片，完全可用的js等直接复制到结果目录）然后放到同1个目录下，再合并出`package.json`。
+资源：[参考地址1](https://juejin.cn/post/7065141885576151070)、[参考地址2](https://zhuanlan.zhihu.com/p/65533186)
+
 # 十3、脚手架开发
 
 **用到的关键依赖如下**：
@@ -5391,3 +4563,369 @@ webpack配置：先安装`npm install --save-dev webpack webpack-cli`，然后�
 - `execa`：使用类似gei的外部命令；`pkg-install`：用Yarn/npm安装依赖；
 
 思路：读取用户输入的命令行参数、获取用户选择的模板，功能等参数、根据这些参数拷贝模板功能等文件。
+
+**命令解析部分参考**：
+
+```js
+import arg from 'arg';
+import inquirer from 'inquirer';
+import { createProject } from './main';
+
+// 解析命令行参数
+function parseArgumentsInstoOptions(rawArgs) {
+  // arg解析
+  const args = arg({
+    '--git': Boolean,
+    '--yes': Boolean,
+    '--install': Boolean,
+    '-g': '--git',
+    '-y': '--yes',
+    '-i': '--install'
+  }, {
+    argv: rawArgs.slice(2)
+  });
+
+  return {
+    skipPrompts: args['--yes'] || false,
+    git: args['--git'] || false,
+    template: args._[0],
+    runInstall: args['--install'] || false
+  }
+}
+
+// 询问用户的选择
+async function promptForMissingOptions(options) {
+  const defaultTemplate = 'javascript';
+  // 使用默认模板则直接返回
+  if (options.skipPrompts) {
+    return {
+      ...options,
+      template: options.template || defaultTemplate,
+    }
+  }
+
+  const questions = [];
+  if (!options.template) {
+    questions.push({
+      type: 'list',
+      name: 'template',
+      message: 'please choose which project template to use',
+      choices: ['javascript', 'typescript'],
+      default: defaultTemplate,
+    })
+  }
+  // 用inquirer进行交互式查询
+  const answers = await inquirer.prompt(questions);
+  return {
+    ...options,
+    template: options.template || answers.template,
+    git: options.git || answers.git
+  }
+}
+
+export async function cli(args) {
+  let options = parseArgumentsInstoOptions(args);
+  options = await promptForMissingOptions(options);
+  await createProject(options)
+}
+```
+
+**项目创建部分参考**：
+
+```js
+import chalk from "chalk";
+import fs from "fs";
+import ncp from "ncp";
+import path from "path";
+import { promisify } from "util";
+import execa from 'execa';
+import Listr from 'list';
+import { projectInstall } from 'pkg-install';
+
+const access = promisify(fs.access);
+const copy = promisify(ncp);
+
+// 递归拷贝文件
+async function copyTemplateFiles(options) {
+  return copy(options.templateDirectory, options.targetDirectory, {
+    clobber: false,
+  });
+}
+
+// 初始化git
+async function initGit(options) {
+  const result = await execa('git', ['init'], {
+    cwd: options.targetDirectory,
+  });
+  if (result.failed) {
+    return Promise.reject(new Error('failed to initialize git'));
+  }
+  return;
+}
+
+// 创建项目
+export async function createProject(options) {
+  options = {
+    ...options,
+    targetDirectory: options.targetDirectory || process.cwd(),
+  };
+  // 当前模块url
+  const currentFileUrl = import.meta.url;
+  const templateDir = path.resolve(
+    new URL(currentFileUrl).pathname,
+    "../../templates",
+    options.template.toLowerCase
+  );
+  options.templateDirectory = templateDir;
+
+  try {
+    // 模块是否存在
+    await access(templateDir, fs.constants.R_OK);
+  } catch (err) {
+    console.error("%sInvalid template name", chalk.red.bold("ERROR"));
+    process.exit(1); // 退出
+  }
+  const tasks = new Listr([{
+    title: 'copy project',
+    task: () => copyTemplateFiles(options)
+  }, {
+    title: 'initialize git',
+    task: () => initGit(options),
+    enabled: () => options.git
+  }, {
+    title: 'install dependencies',
+    task: () => projectInstall({ cwd: options.targetDirectory }),
+    skip: () => !options.runInstall ? 'pass --install to autma' : undefined
+  }]);
+  await tasks.run();
+  // 拷贝模板
+  //await copyTemplateFiles(options);
+
+  console.log("%s project ready", chalk.green.bold("DONE"));
+  return true;
+}
+```
+
+
+
+# 十4、浏览器原理
+
+这里记录的是《webkit技术内幕》一书内容，及部分其它知识来源。下面多数指的是webkit内核支持的使用，而非网页开发可直接控制。
+**资源**：[webkit源码地址](www.webkit.org)、[chromium源码地址](www.chromium.org)
+**注1**：webkit是1个基础内核，chromium则是google在webkit基础上改造的
+**注2**：以下未提及内核时默认指webkit，提及chromium有不同之处时会单独指明。
+
+## a、多进程模型
+
+以下是所包含的进程及关系，有线连接的表述它们之间有进程通信。
+
+**browser主进程**：浏览器的主进程，负责界面显示，页面管理，其它进程的销毁创建，是其它所有**其它类型进程的祖先**，有且只有1个。
+
+<img src="./_v_images/browser_process.png"/>
+
+**Rendere渲染进程**：**负责页面的渲染**工作，可以有多个，但其数量不一定与打开的页面数量一致，其设计上比较灵活。几种创建方式如下：
+
+- process-per-site-instance：为每个页面创建独立的渲染进程，即使它们来自同一域，好处是各页面不会互相影响，坏处是创建会重新渲染，较浪费资源
+- process-per-site：属于**同一域**的页面**共享一个进程**，不同域的分属不同进程，这样**同一域的新页面不会耗费资源小**，渲染快。启动参数`--process-per-site`
+- process-per-table：**默认行为**，为每个浏览器都创建1个独立进程。
+- single process：不会为新页面创建独立线程，都是在主进程中进行，==Android webview中使用的该模式==。
+
+**NPAPI插件进程**：每个类型的插件会被创建1次，即使多个页面使用了同一插件。
+**GPU进程**：只有1个，调用GPU加速时才会被创建，主要用于对3D图形的加速。
+**Pepper插件进程**：与NPAPI插件进程类似，不过是为了pepper类型的插件创建的。
+其它进程：还有一些sandbox安全机制，等进程。
+
+**设计特点**：
+（1）broser进程和页面的渲染是分开的，这使得页面的执行，渲染等崩溃不会影响主界面。
+（2）每个网页是独立的进程，这使得各页面不会互相影响，更加安全。
+（3）插件进程与GPU进程也独立，它们出现问题都不会影响到页面。
+
+## b、多线程模型
+
+上面每个浏览器进程都**有多个线程**，其如此设计主要是为了**保持用户界面的高响应度**，保证ui线程不被其它费时操作而影响用户操作
+**如**：browser进程包含：ui线程，io线程等。render进程包含：渲染线程，io线程等。
+
+**运行过程**：
+（1）browser进程收到用户请求，首先由ui线程处理，文件下载等任务交给io线程，它随即会将该任务传递给render进程。
+（2）render的io线程经过简单解释后**交给渲染线程**。
+（3）渲染线程接到请求后进行加载网页和渲染，然后render进程**将结果由io线程传递**给browser进程。
+（4）browser将结果**绘制**出来。
+
+## c、资源&网络
+
+**可加载的资源类型**：html文件、js文件、css样式表、css shader、图片、svg文件、音视频、字体文件、xsl样式表（xslt语言编写）
+
+**资源缓存**：webkit有建立一个资源缓存池，每次获取资源都会先从缓存池中尝试获取（内存，非外存）若缓存池中存在则携带资源信息先发起请求。
+**若后端配制**了协商缓存等策略，**且资源未过期**，那么==返回的状态码是304==，则使用缓存资源，**状态200的都是非缓存资源**。
+（`html`文件浏览器是默认会缓存的，其不需要配置协商缓存）
+
+**资源加载器**：webkit中有3类资源加载器，如下
+（1）针对每种资源的**特定加载器**，此类资源加载其某有公共基础类。
+（2）有缓存机制的加载器(`CachedResourceLoader`类)，所有特定加载器都共享它来查找插入缓存资源，特定加载器会先通过它来查找是否有缓存。
+（3）通用资源加载器(`ResourceLoader`类)，需要从网络或文件系统中获取资源时使用，该类只获取数据，被特定加载器所共享
+**同异步加载**：资源加载较为耗时，图片，css类文件一般是异步加载的，部分文件是同步加载（如js未设置异步加载的情况），不然阻塞进程。
+
+**chrominum多进程加载资源**：render进程中就会涉及到加载资源，但考虑到**安全性**（沙箱机制）和**资源共享**等问题==render进程并没有权限获取资源==，而是通过进程通信告知`browser`进程来执行获取。
+
+**webkit网络设施**：webkit中仅有一些消息头，MIME消息，状态码等信息的描述，因此各浏览器的网络实现部分差异较大。
+
+**chromium网络栈**：包含有http支持、udp支持、ssl支持、安全证书模块、spdy协议支持、ftp文件传输、android系统特殊网络支持等。
+DNS解析：解析过的域名浏览器也会有所缓存。
+磁盘缓存：单独设计的一个线程来访问磁盘，且支持文件缓存到磁盘中。
+**DNS预取和TCP预连接**：chromium会扫描网页中的链接，判断对哪些进行预解析DNS和TCP预连接。
+HTTP管线化：指同时将多个http请求提交（多个请求填充到1个TCP数据包）只有GET,HEAD等请求可用，且需要后端支持。
+**SPDY协议支持**：使用后时间消耗可比http减少`64%`，http2.0中有实现，其是位于http与tcp之间。其大致原理是多路复用，整个网页中的请求是通过一个连接来传输
+
+## d、HTML解释器
+
+解释过程：字节流》字符流》词语》节点》DOM树。
+（1）整个文档是Document类，其下有HTMLDocument类和XMLDocument类，有不同的规范。
+（2）`DocumentLoader`类：帮助加载html文档。
+（3）`DocumentWrite`类：辅助类，它会创建dom树**根节点**`HTMLDocument`对象。
+（4）`HTMLDocumentParser`类：一个管理类，有词法分析器，检查类等。
+（5）`EventTarget`类：（每个节点类都会继承这个类）用于处理节点的事件及行为。
+
+**解析详细**：
+（1）`ResourceLoader`类和`CachedRawLoader`类接收到字节流；
+（2）然后它们调用`DocumentLoader`类，再用`DocumentWrite`类创建1个`HTMLDocument`对象。
+（3）然后将数据输送到`HTMLDocumentParser`类，解释成词语，创建节点。
+（4）词法分析：检查网页定义的编码格式，用其将字节流转成字符串。使用`HTMLTokenizer`类词法分析。
+（5）验证词语：词法分析结果交给`XSSAuditor`验证词语（会做一些**防XSS攻击**的验证）
+（6）dom树：最后交给`HTMLConstructionSite`构建（cssom树在dom树之后建立，在渲染树之前建立）
+（7）**线程化**：render进程中会单独启一个线程来完成此任务。
+
+**执行js**：HTML解析过程中会遇到js脚本，若不含有async属性，则会先调用`HTMLScriptRunner`类执行，由于js中可以有修改dom的行为，所以设计成阻塞后面的节点创建。
+
+**影子DOM**：为了方便HTML中使用控件，比如`<video>,<audio>`元素，一个标签就呈现了复杂的界面和功能，而这些==控件也是由一些HTML元素组成==的。
+（1）影子DOM技术就是将这些内部的DOM封装隐藏，在网页结构中不会呈现其内部dom结构。
+（2）也**不会受普通css样式的直接影响**，使得其可以很好的任意位置使用。
+（3）只有通过一些其特定的接口来改变其样式，功能等。
+
+**web开发中用影子DOM**：（**安全性方面**可考虑使用）普通元素下的dom树被称为光明树，而影子DOM所在dom树称为影子树。
+
+```js
+// 为新元素创建一个类
+class WordCount extends HTMLParagraphElement {
+  constructor() {
+    // 在构造器中先调用一下 super
+    super();
+    // 计数器指向元素的父级
+    var wcParent = this.parentNode;
+    function countWords(node){
+      var text = node.innerText || node.textContent
+      return text.trim().split(/\s+/g).length;
+    }
+    var count = 'Words: ' + countWords(wcParent);
+    /*************创建一个 shadow root**
+    若不放在类中，则这里的this替换成某个元素就行
+    */
+    var shadow = this.attachShadow({mode: 'open'});
+    // 创建文本节点并向其添加计数器
+    var text = document.createElement('span');
+    text.textContent = count;
+    // 将其添加到 shadow root 上
+    shadow.appendChild(text);
+    // 当元素内容发生变化时更新计数
+    setInterval(function() {
+      var count = 'Words: ' + countWords(wcParent);
+      text.textContent = count;
+    }, 200);
+  }
+}
+
+// customElements可以定义新元素（<word-count></word-count>使用即可）
+window.customElements.define('word-count', WordCount, { extends: 'p' });
+
+/*******webkit内核中使用方式**/
+var div = document.getElementById('div');
+var root = div.webkitCreateShadowRoot(); // 创建影子root节点
+roo.appendChild(document.createElement('img')); // 在下面添加节点即可。
+```
+
+shdowDom中添加插槽等：[学习地址](https://www.w3cschool.cn/qoyhx/qoyhx-fac93q8k.html)
+
+## d1、渲染基础
+
+**渲染树**：对于可视的节点会创建`renderObject`，对非可视节点（`head,meta`等元素）则不会创建。
+
+==renderLayer==：
+（1）网页是**有层次结构设计**的，一是为开发者方便控制，也方便webkit方便处理。
+（2）webkit会为网页层次创建`renderLayer`对象（当遇到**某些css样式**【==如transform==】或部分`renderObject`时会进行分层）
+
+以下`renderObject`型节点会触发创建`renderLayer`：==renderLayer能较好的减少重新渲染的开销==。
+（1）网页根节点。
+（2）显示指定css位置的`renderObject`（定位样式，transform等）
+（3）有益处或反射效果的`renderObject`节点（overflow，alpha等css属性）
+（4）canvas，video元素。
+（5）有透明效果的。
+
+**层的渲染**：
+（1）上面提到的多数层中都是使用的CPU渲染。
+（2）webkit**会根据情况**，可以使用cpu，gpu结合的渲染，纯gpu的渲染。
+（3）两种渲染方式各有优劣，比如网页中1个动画只用更新其中一部分区域，cpu可能只计算这一小部分，而gpu则可能计算全部再更新。
+（4）gpu资源一般较为宝贵，gpu使用占用较多的情况还强制使用的话其效果不一定比cpu快。
+（5）一般都是2d图形使用cpu，3d图形使用gpu。
+
+**对renderObject的渲染**：分为3个阶段进行
+（1）首先是渲染其边框和背景。
+（2）再次渲染其内部的浮动的部分。
+（3）最后渲染它的内容。
+
+合成器：一个网页会有多个`renderLayer`组成，合成器对它们进行合成为一张图展示出来。
+**合成过程**：
+（1）创建输出结果的目标对象surface（合成结果的存放）
+（2）开始一个新的帧，计算网页布局，滚动，绘制每个合成层等
+（3）Layer树中的变动同步到LayerIml树中。
+（4）合成LayerIml树中的各个层，并交换前后帧缓冲区，完成一帧的绘制显示。
+**性能优化建议**：根据以上的描述可以得到一些开发中的推荐如下
+（1）适当的给页面划分层次，特别是动画，过渡效果部分视图。
+（2）`css3d`是通过**合成层来**计算得到的效果，而**不需要进行布局，滚动等计算**。因此使用它速度更快。
+（3）复杂的动画中可以将不变的部分分到一层，常变化的放到另一层（无论是普通dom，还是canvas）
+
+## e、JS引擎
+
+**性能问题**：js的主要性能影响就是因为其是无类型语言，只有在运行时才能知道其值具体是什么类型。
+**比如**：`c++`这中已知数据类型的，其在执行获取一个对象数据时就知道各属性所占字节长，只需用**初始位置加上所取属性的偏移量**即可。甚至编译时直接计算其存储地址。而js这种只能取读取地址）
+
+**js引擎组成**：`javascriptCore`引擎是webkit的默认引擎。
+（1）编译器：主要工作是将源代码编译成抽象语法树，某些引擎中还包含有将语法树转成字节码的功能。
+（2）解释器：主要是接收字节码，解释执行这些字节码的同时也依赖垃圾回收机制等。
+（3）JIT工具：（`JUST-IN-TIME`）可将抽象语法树或字节码转成本地代码（汇编代码可直接被CPU运行）
+（4）垃圾回收器和分析工具：负责收集分析引擎信息，辅助改善性能。
+
+**桥接接口**：js引擎和渲染引擎是两个独立模块，js要访问渲染引擎的信息则需要提供桥接接口，渲染引擎在其中调用，回传给js引擎。
+js的三种指针：隐藏类指针、属性值表指针、元素表指针。
+（1）v8引擎隐藏类：假如有两个对象，它们中有部分相同的属性名和值，那它们就会被分为1个组即隐藏类，它们有相同的偏移值。
+（2）内嵌缓存：内部有对已使用的数据，它们的位置做缓存。
+（3）`JIT`编译：引擎会对部分js代码做jit编译为本地代码。
+
+开发中的性能提升：
+（1）在对象中尽量放置少量类型数据，以方便js引擎使用隐藏类对它们做位置偏移共享，分析等。
+（2）开发中尽量少出现修改变量类型的操作。
+
+## f、安全机制
+
+网络安全：默认不允许不同的域之间互相访问
+（1）可以控制不被iframe嵌套，也不可以访问iframe嵌套的网页元素（其它域）
+（2）http头中可支持配置各种协议控制，如下：（<b id="http-head">调转标记</b>）
+
+```shell
+# nginx中的配置
+server {
+		# 安全策略，简称CSP，主要的思想是通过内容来源白名单机制，使浏览器仅渲染或执行来自这些来源的资源。CSP 可能是创建和维护花费时间最多的而且也是最容		易出问题的(较少使用)
+        add_header Content-Security-Policy "default-src: 'self'";
+        add_header X-Frame-Options "SAMEORIGIN";  # 表示该页面可以在相同域名页面的 frame 中展示。
+        add_header X-Content-Type-Options "nosniff"; # 禁用MIME类型嗅探。
+        add_header X-XSS-Protection "1; mode=block"; # 启用XSS过滤。如果检测到 XSS 攻击，浏览器将不会清除页面，而是阻止页面加载。
+}
+```
+
+**沙箱模型**：
+（1）主要是保证浏览器及其所在系统的安全
+（2）以进程为单位（两个进程，**代理进程与目标进程**），对当前程序内的能力进行限制（访问本地资源，功能调用等）
+（3）比较各系统提供的安全机制，因此各系统上的实现，效果各不相同。
+（4）linux上：第一层阻止某个或某些进程能访问的资源。第二层防止进程访问能攻击内核的接口或面。
+（5）**资源访问功能**：渲染进程中不能访问系统资源，因此诸如文件获取这类操作都是由代理进程（**Browser进程**）实现，然后通信。
+（6）linux为新进程分配不同的uid组id，linux本身就将不同用户的数据隔离。
+（7）`android`虽是由linux编写而来，但其并未实现（4）中所说的第二层机制。
+（8）windows上则是利用**令牌**、winJob对象、winDesktop对象，每个进程有1个令牌，令牌中有1个`SID`,多个组的SID，**资源ACE标记**中描述了可由哪些SID访问，执行操作等。

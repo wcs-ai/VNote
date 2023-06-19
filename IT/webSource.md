@@ -1,19 +1,22 @@
-# 自学前端程序 私藏工具和网站分享
+# 网站资源
 
-## 01.JavaScript
+## 01.常用库文档
 
-- [JavaScript 教程 | 通俗易懂的JavaScript教程](https://wangdoc.com/javascript/)
-- [ES6 入门教程 | 通俗易懂的ES6入门教程](https://es6.ruanyifeng.com/)
-- [JavaScript 30  |  使用原生JavaScript在30天内完成30个项目](https://javascript30.com/)
-- [现代 JavaScript 教程 |  最近很流行的JavaScript教程](https://zh.javascript.info/)
-- [Node.js学习指南 | 系统的Node.js学习教程和笔记系统整理](https://blog.poetries.top/node-learning-notes/)
-- [JS 代码规范 | 优秀的 JS代码规范](https://github.com/ryanmcdermott/clean-code-javascript)
-- [TypeScript 教程 | 通俗易懂的TypeScript教程](https://github.com/xcatliu/typescript-tutorial)
-- [TypeScript 教程 |  最好的TypeScript 视频+图文教程](https://jspang.com/detailed?id=63)
-
+- [nodejs中文档](https://www.npmjs.cn/)、[nodejs官方文档](https://www.nodeapp.cn/)
+- [前端官方技术文档](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
+- [rollup官网](https://rollupjs.org/)、[webpack 中文文档地址](https://webpack.docschina.org/concepts/)
+- [axios官方文档](https://www.axios-http.cn/docs/intro)、[vue-route官方文档](https://router.vuejs.org/zh/)
+- [HTML 转义字符表](http://tool.oschina.net/commons?type=2)、[HTML 标签大全](http://www.w3school.com.cn/tags/index.asp%20)
+- [unity3D官网](https://unity.cn/)
+- [leaflet地图官网](https://leafletjs.cn/)、[高德地图官网](https://lbs.amap.com/api/javascript-api/reference/math)
+- [sheetJS-xlsx文档](https://docs.sheetjs.com/docs/demos/frontend/vue)、[pdf.js官网](https://mozilla.github.io/pdf.js/)
+- [w3c school网](https://www.w3cschool.cn/unity3d_jc/)
+- [脚本之家电子书网](https://www.jb51.net/books/)
+- [plotly.js 起始教程地址](https://www.kutu66.com//GitHub/article_132050)、[jest 使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)、[谷歌浏览器插件开发文档](https://developer.chrome.com/extensions/getstarted.html)
 
 ## 02.CSS样式
-- [CSS Tricks 效果大全 | CSS的各种效果实现 有很多动画效果](https://lhammer.cn/You-need-to-know-css/#/zh-cn/)
+
+- [CSS Tricks 效果大全 | CSS的各种效果实现 有很多动画效果](https://lhammer.cn/You-need-to-know-css/#/translucent-borders)
 - [CSS Inspiration |  CSS灵感的诞生地  我每天都的网站](https://github.com/chokcoco/CSS-Inspiration)
 - [ CSS 常用样式 |  有很多常用的CSS样式](https://github.com/QiShaoXuan/css_tricks)
 - [ Animista | CSS动画库  主打按需定制CSS动画效果](https://animista.net/)
@@ -22,17 +25,6 @@
 - [ Sass: Sass 文档 | Sass 中文网  成熟、稳定、强大的CSS扩展语言](https://sass.bootcss.com/documentation)
 - [ Less 快速入门 | Less.js 中文文档 将CSS赋予了动态语言特性的样式语言](https://less.bootcss.com/)
 - [ stylus | CSS扩展  富有变现里、动态、健壮的CSS](https://stylus-lang.com/)
-
-## 03.算法数据
-
-- [ JavaScript 算法与数据结构 | 多种基于JavaScript的算法与数据结构](http://github.com/trekhleb/javascript-algorithms)
-- [ leetcode 解题之路 |  私藏LeetCode解题攻略 ](https://github.com/azl397985856/leetcode)
-- [ 五分钟学算法 |  每天拿出五分钟  学学算法  比如上个厕所就学了 ](https://github.com/MisterBooo/LeetCodeAnimation)
-- [数据结构与算法项目推荐 | Github上170K+Star的前端学习数据结构和算法题目 ](https://github.com/biaochenxuying/blog/issues/43)
-- [JavaScript  十大经典排序算法 | JavaScript排序必会题目  作者功力很深 值得学习 ](https://github.com/biaochenxuying/blog/issues/42)
-- [算法可视化工具 |  用可视化工具和交互方式 让你从代码中可视化算法 ](https://github.com/algorithm-visualizer/algorithm-visualizer)
-- [算法可视化来源 ](https://visualgo.net/en)
-- [算法的工作方式 | 变量和操作的可视化表示 增强了控制流和实际源代码 ](https://github.com/skidding/illustrated-algorithms)
 
 ## 04.前端面试
 
@@ -53,6 +45,7 @@
 - [更多前端面试开源项目](https://github.com/search?o=desc&p=1&q=%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95&s=stars&type=Repositories)
 
 ## 05.技术社区
+
 - [GitHub  |  高质量内容创作和分享平台](https://github.com/)
 - [Stackoverflow |一个回答技术问题的网站](https://stackoverflow.com/)
 - [掘金 | 国内的很多优质前端文章都掘金](https://juejin.cn/)
@@ -65,11 +58,11 @@
 - [博客杂志站点 | 一个 web 技术类的博客杂志站点](https://www.smashingmagazine.com/)
 - [JS 技术的网站 | 每天推出一个JS技巧的网站](https://www.jstips.co/)
 - [W3Cplus | 推广国内行业的技术博客](https://www.jstips.co/)
-- [印记中文 | 最权威的技术中文文档社区](https://docschina.org/)
 
 ## 06.前端博客
 
 - [技术胖博客 |  专注前端 每年100集免费前端视频](https://jspang.com/)
+- [张鑫旭空间](https://www.zhangxinxu.com/)
 - [腾讯Alloy Team  | 腾讯前端博客 每天必看](http://www.alloyteam.com/)
 - [腾讯用户体验博客 | 专注于前端用户体验](https://isux.tencent.com/)
 - [淘系前端博客 |  淘宝前端博客 代表中国最强前端实力](https://fed.taobao.org/)
@@ -78,15 +71,6 @@
 - [百度前端博客  |  百度前端团队旗下博客](http://fex.baidu.com/)
 - [360奇舞团  |  360公司前端团队](https://75.team/)
 - [美团技术博客  |  美团技术团队博客](https://tech.meituan.com/)
-
-## 07.构建工具
-- [NPM |  包管理 和 项目构建工具](https://www.npmjs.com/)
-- [webpack  | 前端最流行的项目构建工具](https://webpack.js.org/)
-- [Yarn  |  后起之秀 优秀的包管理和构建工具](https://yarnpkg.com/)
-- [Gulp  |  老牌构建工具](https://www.gulpjs.com.cn/)
-- [Babel  | ES6构建转换工具](https://babeljs.io/)
-- [ESLint  | 可组装的JavaScript和JSX检查工具](https://cn.eslint.org/)
-- [PostCSS | 用JavaScript转换CSS代码的工具](https://www.postcss.com.cn/)
 
 ## 08.部署工具
 
@@ -112,11 +96,6 @@
 - [ESLint  |  代码规范检查和格式化工具](https://eslint.org/)
 - [Prettier  | VSCode 最热门的代码格式化工具  让你写出漂亮的代码](https://prettier.io/)
 
-## 11.调试抓包
-
-- [Whistle  |  代理抓包工具  我一直在用的工具 很好很强大](https://wproxy.org/whistle/)
-- [Fiddler  |  使用人数最多的抓包工具](https://www.telerik.com/fiddler)
-
 ## 12.在线工具
 
 - [CodePen  |  前端在线测试和演示工具  国外站点](https://codepen.io/)
@@ -130,15 +109,10 @@
 - [Wappalyzer  |  检测某个网站的技术栈  ](https://www.wappalyzer.com/)
 - [CODEIF | 变量方法起名工具  人工智能加持  ](https://unbug.github.io/codelf)
 - [ tool.lu  |  程序员在线工具大全   ](https://tool.lu/)
-- [配色网站](https://www.materialpalette.com/)
-
-## 13.开发工具
-
-- [ VSCode  |  前端最流行的编辑器   ](https://code.visualstudio.com/)
-- [ Sublime Text  |  轻量级代码编辑工具 曾经我的最爱   ](https://www.sublimetext.com/)
-- [ WebStom |  忠爱粉最多的编辑器 ](https://www.jetbrains.com/webstorm/)
-- [ Atom  |   用的人很多  我却不喜欢的编辑器 ](https://atom.io/)
-- [ Typora |  程序人Mrakdown笔记  一直在用的笔记工具 ](https://www.typora.io/)
+- [很多实用前端工具](https://www.materialpalette.com/)
+- [属性兼容性查看网站](https://caniuse.com/?search=flex)：红色为完全不支持的版本，棕色为部分支持的版本，绿色为几乎全部支持的版本
+- [配色网站1](https://colors.muz.li/)、[配色网站2](https://colors.eva.design/)
+- [诸多在线工具网站](https://tool.lu/)、[windows 部分批处理命令学习](https://blog.csdn.net/qq_17204441/article/details/89062591)
 
 
 ## 14.开发者大会

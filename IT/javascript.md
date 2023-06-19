@@ -1,6 +1,5 @@
 # A、javascript
 
-
 **简介**：JavaScript 由 3 部分组成：**ECMAScript**：解释器。翻译兼容性：完全兼容。**DOM**：Document Object Model （文本对象）兼容性：部分不兼容。**BOM**：Browser Object Model （浏览器对象）兼容性：不兼容（例如 IE，谷歌，火狐，不可能兼容），核心是 window，全局对象。dom 针对的是标准的客户端控件，html 标记的这些浏览器展现的内容。bom 针对的是浏览器，BOM 是浏览器对象模型，DOM 是文档对象模型，前者是对浏览器本身进行操作，而后者是对浏览器（可看成容器）内的内容进行操作。js 是**脚本语言**、**单线程**语言。
 **为什么是单线程**：加入它是1个多线程，那肯定会出现两个线程同时操作1个dom的复杂情况（因此workers中就是不允许操作dom的）
 
@@ -354,6 +353,9 @@ console.info(_typ);
 3.可以遍历，方法有add, delete,has
 */
 var st = new Set();
+st.size; // 长度
+st.keys();
+st.values(); // 可迭代
 /*****WeakSet*****
 1. 成员都是对象
 2. 成员都是弱引用，随时可以消失。 可以用来保存DOM节点，不容易造成内存泄漏
@@ -455,7 +457,7 @@ function decodeUtf8(bytes) {
 
 ### a、SSE 与 WebSocket:
 
-SSE(Server-Sent Eevents，服务器发送事件)用于创建到服务器的单向连接。
+SSE(Server-Sent Eevents，服务器发送事件)用于创建到服务器的单向连接。[参考地址](https://zhuanlan.zhihu.com/p/611159540?utm_id=0)
 
 ```js
 // EventSource接受的参数必须同源。
@@ -497,7 +499,7 @@ if(window.WebSocket){
 else{alert("连接错误")}
 ```
 
-### b、H5 web Workers:
+### b、Workers与PostMessage
 
 workers 是让一个 js 文件在后台执行不影响页面执行速度的一种技术,对一些需要处理大型的数据是一个不错的优化选择，且主流浏览器都支持(除了 IE）。可以用在 canvas 绘制大量图形时，将计算结果返回到主线程然后渲染。<b c=r>worker 是一个线程而不是微任务，宏任务的概念</b>
 
@@ -521,6 +523,37 @@ function start() {
   }
 })();
 ```
+
+**PostMessage**：多使用在两个窗口之间（如`window.open(), <iframe>`）带来的窗口
+
+```js
+/*子窗口
+childWindow: 是window.open(), iframe打开的新窗口的引用。
+message：将要发送到其他 window 的数据。
+targetOrigin：通过窗口的 origin 属性来指定哪些窗口能接收到消息事件，其值可以是字符串"*"（表示无限制）或者一个 URI。
+transfer 可选是一串和 message 同时传递的 Transferable 对象。这些对象的所有权将被转移给消息的接收方
+*/
+childWindow.postMessage(message, targetOrigin, [transfer]);
+/***父窗口可以这样来监听消息***/
+window.addEventListener("message", receiveMessage, false);
+
+function receiveMessage(event)
+{
+  // For Chrome, the origin property is in the event.originalEvent
+  // object.
+  // 这里不准确，chrome 没有这个属性
+  // var origin = event.origin || event.originalEvent.origin;
+  var origin = event.origin;
+  var data = event.data; // 对方传递的数据
+  var source = event.source; //对发送消息的窗口对象的引用; 您可以使用此来在具有不同 origin 的两个窗口之间建立双向通信。
+  if (origin !== "http://example.org:8080")
+    return;
+
+  // ...
+}
+```
+
+
 
 ### b1、一键复制功能
 
@@ -546,6 +579,7 @@ function start() {
 
 （1）传统实现：使用`document.title`反复变跟实现闪烁达到提醒功能。
 （2）H5 新增Web Notification。兼容性也还不错
+（3）**注意**：嵌套的ifram中使用无效。`web work`中也可使用。`https`环境才可用（本地文件，http环境均不可用）
 
 ```js
 // 询问用户是否允许通知
@@ -571,17 +605,64 @@ Notification.requestPermission().then(function(permission) {
     Notification.onshow(()=>{}); // 监听通知显示
 });
 // 示例
-if (Notification.permission == "granted") {
-    var notification = new Notification("Hi，帅哥：", {
-        body: '可以加你为好友吗？',
-        icon: 'mm1.jpg'
-    });
+if (window.Notification) {
+    var button = document.getElementById('button'), text = document.getElementById('text');
     
-    notification.onclick = function() {
-        text.innerHTML = '张小姐已于' + new Date().toTimeString().split(' ')[0] + '加你为好友！';
-        notification.close();    
+    var popNotice = function() {
+        if (Notification.permission == "granted") {
+            var notification = new Notification("Hi，帅哥：", {
+                body: '可以加你为好友吗？',
+                icon: '//image.zhangxinxu.com/image/study/s/s128/mm1.jpg'
+            });
+            
+            notification.onclick = function() {
+                text.innerHTML = '张小姐已于' + new Date().toTimeString().split(' ')[0] + '加你为好友！';
+                notification.close();    
+            };
+        }    
     };
-}    
+    
+    button.onclick = function() {
+        if (Notification.permission == "granted") {
+            popNotice();
+        } else if (Notification.permission != "denied") {
+            Notification.requestPermission(function (permission) {
+              popNotice();
+            });
+        }
+    };
+} else {
+    alert('浏览器不支持Notification');    
+}   
+```
+
+
+
+### b3、拖拽
+
+将一个元素拖拽到另一个元素。
+
+```html
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<div id="drag1" draggable="true" ondragstart="drag(event)">可拖拽对象</div>
+<script>
+  //    拖拽结束触发。
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function drag(ev) {
+    //拖拽该元素时，设置一个键值对，第二个参数用于选中该元素。
+    ev.dataTransfer.setData("Text", ev.target.id);
+  }
+
+  function drop(ev) {
+    // 拖入到该元素上，松开鼠标触发，通过键获取元素id，
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("Text");
+    ev.target.appendChild(document.getElementById(data));
+  }
+</script>
 ```
 
 
@@ -597,7 +678,8 @@ if (Notification.permission == "granted") {
 // 页面a：
 var a = 55; // 页面a的对象
 el.onclick = function () {
-  window.open("b.html");
+  /*****第二个参数为窗口名称，如果窗口名称已存在则会跳到该窗口并将地址带给它（就算url相同也会刷新对应页面，且子页面可跳到父页）*/
+  window.open("b.html",'windowName','left=10, width=1000, height=800, menubar=yes, toolbar=no, personalbar=no');
 }; //打开一个新窗口
 // 页面b:
 console.log(window.opener.a); //window.opener会将前一个页面的所有对象封装为
@@ -608,7 +690,7 @@ console.log(window.opener.a); //window.opener会将前一个页面的所有对�
 
 ```js
 const el = document.getElementById("form");
-let fd = new FormData(el);    # 不传入元素时是一个空的表单。
+let fd = new FormData(el);    // 不传入元素时是一个空的表单。
 formData.append("k1", "v2");
 formData.delete("k1");
 formData.has("k1"); // true
@@ -696,7 +778,11 @@ console 模块不只 log()一个函数，全部如下：
 
 ### f3、动画函数：
 
-使用定时器做动画并不是很精确，且设置的帧率不好则效果差。
+（1）使用定时器做动画并不是很精确（**定时器时间会有少许偏差，并不完全准确**）
+（2）`requestAnimationFrame`会根据系统**屏幕帧的刷新频率**来调整调用频率（最佳选择，不易丢帧，多数为`60FPS`即60次/s）
+（3）该函数也会根据系统卡顿情况做出相应调整频次（如==离开当前页面时就不在执行==）
+（4）浏览器或系统卡顿时其执行依然是不稳定的，因此动画函数最好做**时间动画**处理
+（5）动画函数中最好不要有新建变量的操作，每次执行尽量计算量相同（具体查看`webVision.md`笔记）
 
 ```js
 /****requestAnimationFrame使用****/
@@ -864,6 +950,11 @@ if (a < 10) {
 - 执行完毕后执行环境被销毁。
 
 - 动态作用域：使用了 with、catch(){}子句、eval()函数的可以看做时动态作用域情况
+
+```js
+// new形式构造函数的用法，最后一个是函数体内容
+var fn = new Function(arg1,arg2,'return arg1+arg2');
+```
 
 
 **性能优化方法**：
@@ -1190,7 +1281,8 @@ function printExample() {
   newWin.document.body.appendChild(clone);
 
   newWin.document.close(); //关闭文档输入流（window.close()和document.close()的区别）
-  newWin.focus();
+  newWin.focus(); // 让该窗口获取焦点
+  newWin.closed; // 可获取窗口是否已经关闭
   setTimeout(() => {
     //定时器等待，JS单线程，异步执行此行代码
     newWin.print();
@@ -1352,15 +1444,13 @@ window.onerror = function(message,source,lineno,colno,error){
 
 
 
-## 7、DOM：
+## 7、DOM
 
-:::alert-primary
 js 执行 dom 操作后，其任务会被放到**ui 任务队列**，按顺序交给**ui 线程**执行；不过，其余**同步 js 执行完毕后**才会将任务加入到队列。
 js 由 javascipt 引擎执行，dom 渲染时由单独的 webCore 来实现，渲染和 js 的执行（dom 操作结束后的代码）是**异步**的！
 js 的执行和 dom 的渲染是两个引擎执行的，所以每次交互时，其之间的触发就会较慢。
-:::
 
-### [1]DOM 操作：
+### （1）DOM 操作：
 
 1. **获取元素尺寸相关**
 
@@ -1428,7 +1518,7 @@ myIdElement.classList.add("name");
 var beforeStyle = window.getComputedStyle(myIdElement, ":before");
 ```
 
-6. 动态添加 style 标签
+6. **动态添加 style 标签**
 
 ```js
 var style = document.createElement("style");
@@ -1443,7 +1533,44 @@ var head = document.getElementsByTagName("head")[0];
 head.appendChild(style);
 ```
 
-### [2]性能探究：
+### （2）元素全屏
+
+1、进入全屏：`document.getElementById('div').requestFullscreen();`（若该元素无背景色则会默认使用黑色为背景色）
+2、退出全屏：`document.getElementById('div').exitFullscreen();`（全屏后该元素可能变成1个特殊标记，此可能不生效`document.exitFullscreen`即可）
+
+```js
+// 兼容性的写法
+// 退出全屏
+function exitScreen(){
+	if (document.exitFullscreen) {
+                document.exitFullscreen();
+	} else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+	} else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+	} else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+	}
+}
+// 全屏事件
+function screen(){
+	if (element.requestFullscreen) {
+                element.requestFullscreen();
+	} else if (element.webkitRequestFullScreen) {
+                element.webkitRequestFullScreen();
+	} else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+	} else if (element.msRequestFullscreen) {
+                // IE11
+                element.msRequestFullscreen();
+	}
+	console.log('已全屏！');
+}
+```
+
+
+
+### （3）性能探究：
 
 - `js`执行线程与**渲染线程**是互斥的，==一个执行时，另一个线程会挂起==，所以添加1个`dom`元素后，下文`js`代码中可获取其实例
 - 尽量避免 DOM 修改次数；
@@ -1696,6 +1823,18 @@ add(3)
   .catch((res) => {
     console.info(res);
   }).finally(()=>{});
+/***多个then的使用：如果then函数中有返回值，则可作为下一个then函数的参数传入***/
+function tt() {
+      return new Promise((rs, rj) => {
+        rs(99);
+      }).then(res => {
+          console.log('aa', res); return res+1; // 有返回值
+      });
+}
+
+tt().then(res => {
+   console.log(res); // res为100
+})
 ```
 
 - **同步使用**：只有在同一作用域才有同步效果
@@ -1714,6 +1853,9 @@ async 函数返回一个 Promise 对象
 // usep内的执行是
 async function usep(){
   console.info('第1个输出');
+  /****使用await时，如果目标promise返回reject()部分，则会报错，且不执行后面的逻辑
+  好的做法是try{ await pcase(); }catch(){}来捕获它，但太麻烦。可以对此专门做一个封装来使用。
+  ****/
   let d = await pcase();
   console.info('第4个输出');
 }
@@ -1733,8 +1875,10 @@ const p2 = new Promise((resolve,reject)=>{
 const p3 = Promise.reject('error');
 
 Promise.all([p1,p2]).then(data=>{
+    // 所有promise进入到resolve后才会触发
     console.log(data)  // data为一个数组  ['请求成功','上传成功']
 }).catch(err=>{
+    // 有1个加入到reject()就会加入catch。
     console.log(err)
 })
  
@@ -1980,6 +2124,111 @@ function read2base64(blob) {
 }
 ```
 
+### k1、文件api
+
+**File**：可以创建代表任何本地文件的 File 对象。`File` 对象是**特殊类型**的 [`Blob`](https://developer.mozilla.org/zh-CN/docs/Web/API/Blob)，且可以用在任意的 Blob 类型的 context 中。
+
+```js
+/*
+array：一个数组，成员可以是二进制对象或字符串，表示文件的内容。
+name：字符串，表示文件名或文件路径。
+options：配置对象，设置实例的属性。该参数可选。
+*/
+const file = new File(array, name ,options);
+/**部分属性
+file.lastModified：最后修改时间
+file.name：文件名或文件路径
+file.size：文件大小（单位字节）
+file.type：文件的 MIME 类型
+*/
+```
+
+**FileReader使用**：用于读取File对象。
+
+```js
+let fileReader = new FileReader();
+fileReader.readAsArrayBuffer(file); // 开始读取指定的 Blob中的内容，一旦完成，result 属性中保存的将是被读取文件的 ArrayBuffer 数据
+FileReader.readAsDataURL(); // 开始读取指定的Blob中的内容。一旦完成，result属性中将包含一个data: URL 格式的 Base64 字符串
+FileReader.readAsBinaryString(); //非标准 result属性中将包含所读取文件的原始二进制数据
+FileReader.readAsText(); // result属性中将包含一个字符串以表示所读取的文件内容。
+fileReader.abort(); // 终止读取
+fileReader.onload = (e) => {
+  console.log(fileReader.result); // 根据使用的读取器获得的数据不同。
+}
+```
+
+**本地pdf文件预览**：
+
+```js
+// arrayData情况可先转为blob
+let file = new Blob([res.data], {type: "application/pdf;chartset=UTF-8"});
+// file是一个File对象 或上面的blob对象
+let fileURL = URL.createObjectURL(file);
+
+window.open(fileURL);
+```
+
+
+
+### k2、新型数据
+
+**Uint8Array**：数组类型，表示一个 8 位无符号整型数组，创建时内容被初始化为 0。创建完后，可以以对象的方式或使用数组下标索引的方式引用数组中的元素。
+
+```js
+// 几种使用形式
+new Uint8Array(); // ES2017 最新语法
+new Uint8Array(length); // 创建初始化为 0 的，包含 length 个元素的无符号整型数组
+new Uint8Array(typedArray);
+new Uint8Array(object);
+new Uint8Array(buffer ,[byteOffset ,length]);
+
+Uint8Array.from([1,2,3]); //从一个数组或可迭代的对象创建一个新的Uint8Array数组
+```
+
+**ArrayBuffer** ：用来表示通用的、固定长度的原始二进制数据缓冲区。它是一个字节数组，通常在其他语言中称为“byte array”
+
+```js
+// 创建了一个 8 字节的缓冲区
+const buffer = new ArrayBuffer(8);
+const view = new Int32Array(buffer);
+```
+
+**Blob**：表示一个不可变、原始数据的类文件对象。它的数据可以按文本或二进制的格式进行读取，也可以转换成 [`ReadableStream`](https://developer.mozilla.org/zh-CN/docs/Web/API/ReadableStream) 来用于数据操作
+
+```js
+// 创建1个blob
+const obj = {hello: 'world'};
+const blob = new Blob([JSON.stringify(obj, null, 2)], {type : 'application/json'});
+/**部分方法【这些都是异步方法，返回1个promise】***/
+blob.arrayBuffer(); // 返回一个 promise，其会兑现一个包含 Blob 所有内容的二进制格式的 ArrayBuffer。
+blob.slice(); // 返回一个新的 Blob 对象，包含了源 Blob 对象中指定范围内的数据
+blob.stream(); // 返回一个能读取 Blob 内容的
+blob.text(); // 返回一个 promise，其会兑现一个包含 Blob 所有内容的 UTF-8 格式的字符串。
+```
+
+**URL**：统一资源定位器（**URL**）是指定在 Internet 上可以找到资源的位置的文本字符串（一般页面上用于引用显示时使用它）
+
+```js
+/**该静态方法会创建一个 DOMString，其中包含一个表示参数中给出的对象的 URL。
+这个 URL 的生命周期和创建它的窗口中的 document 绑定。
+这个新的 URL 对象表示指定的 File 对象或 Blob 对象。
+- obj：用于创建 URL 的 File 对象、Blob 对象或者 MediaSource 对象。
+*/
+const urlObj = URL.createObjectURL(obj);  // 创建一个唯一的对象 URL，即使你已经为该文件创建了一个对象 URL
+window.open(urlObj);// 可直接用于窗口资源，如打开本地pdf文件。
+// 每一个 URL 都必须被释放。虽然它们会在文档卸载时自动释放，但如果你的页面动态地使用它们
+URL.revokeObjectURL(urlObj); // 释放该URL
+/***继承式的使用***/
+const url = new URL('../cats', 'http://www.example.com/dogs');
+console.log(url.hostname); // "www.example.com"
+console.log(url.pathname); // "/cats"
+// 其它属性：url.hash, url.host, url.href, url.protocol, ...
+url.toString(); //返回包含整个 URL 的USVString。它是URL.href的同义词，尽管它不能用于修改值。
+url.toJson(); // 返回包含整个 URL 的USVString。它返回与href属性相同的字符串。
+```
+
+
+
 ### e、base64 转 file
 
 ```js
@@ -1996,7 +2245,7 @@ function base642file(base64, filename) {
 }
 ```
 
-### f、base64 转 blob
+### f、base64 与 blob互转
 
 ```js
 function base642blob(base64Data) {
@@ -2015,6 +2264,21 @@ function base642blob(base64Data) {
   var blob = new Blob([ia], { type: mimeString });
   return blob;
 }
+
+export function blob2Base64 (blob) {
+	return new Promise((resolve, reject) => {
+		const fileReader = new FileReader()
+		fileReader.onload = (e) => {
+			resolve(e.target.result)
+		}
+		// readAsDataURL
+		fileReader.readAsDataURL(blob)
+		fileReader.onerror = () => {
+			reject(new Error('blobToBase64 error'))
+		}
+	})
+}
+
 ```
 
 ### h、文件转 base64
@@ -2294,7 +2558,30 @@ const controller = new AbortController();
 controller.abort()
 ```
 
+### 6、爬虫请求：
 
+由于爬虫的兴起，互联网制定了robots协议（**并非强制的规范**），其是一个存与网站根目录下的`robots.txt`文件，该文件告知了允许爬取哪些内容，如下：
+
+```shell
+# User-aget代表允许爬虫的搜索引擎
+User-agent: baidu
+# 该属性代表爬取的时间间隔
+crawl-delay: 1
+
+# *表示对所有搜索引擎
+User-agent: *
+# Disallow表示禁止爬取的目录，Allow表示允许爬取的目录，文件
+Disallow: /*/pulse
+Disallow: /*/tree/
+Allow: /gist/
+```
+
+善意的爬虫会遵循该协议来爬取，但恶意的爬虫也会完全忽视该声明。
+
+**爬虫诱捕**：可在禁止爬虫的页面上用一个隐藏的链接`<a href='/catch-bad' style="display:none;"/>`来然恶意爬虫识别到时进行爬取，然后后台通过访问记录获取恶意爬虫者的信息。判断其访问频率可能是爬虫则将**其ip加入黑名单**。
+
+**信息加密**：使用css的自定义字体，将页面文字信息加密（页面上正常显示，但爬虫获取的是加密后的）
+校验拦截：规定访问资源时必须加上指定报文头。
 
 ## 13、js异步机制
 
@@ -2315,7 +2602,7 @@ js是单线程运行，其异步机制（也叫事件循环）是通过3个队�
 ## 14、es6 语法
 
 因为是在 2015 发布的，所以又用 ES2015+来代替。
-1、**解构赋值**：
+1、**解构赋值&扩展符**：
 
 ```js
 let obj = {a:1,b:2,c:3};
@@ -2329,6 +2616,10 @@ const {a:name,b} = obj;console.info(name);// a转变为了name
 // 剩余赋值
 const {a,...lack} = obj;
 console.info(lack); // {b:2,c:3} 【剩余的值都被赋予到lack】
+/***扩展符:将对象中的值分散出来（只有1个浅拷贝作用）***/
+let aa = [1,2,3];
+let bb = {a:1,b:[2,3]};
+let tt = {...bb}, cc = [...aa];
 ```
 
 2、常用：
@@ -2351,14 +2642,9 @@ var name = `your name is ${f_name} ${5>0 ? l_name:'dfd'}`;// 变量写在${}中
 // 可在${}用js语法
 
 //------- 对象属性简写：{name,age,pos}
-/*********延展操作符：************/
-var a = [1,2,3,4,5];
-    function c(v){
-        console.log(arguments);
-    }
-c(...a);// 将a中的每个元素拿出来放到c中。
+
 /*********对象可选链操作符***********/
-const cc = obj?.name; // 同es5的 const name = obj && obj.name;
+const cc = obj?.name; // 同es5的 obj.name && (cc=obj.name);
 /*********对象属性表达式**********/
 var obj = {[cc]:'属性写法'};
 obj[`name${i}`] = 1234;
@@ -2436,6 +2722,10 @@ const moules = allModule.default; //从defalut中获取使用
 /***default 与其它可以一起导入***/
 import myDefault, {foo, bar} from '/modules/my-module.js';
 /***异步方式***/
+import('/modules/my-module.js').then((module) => {
+    // Do something with the module.
+});
+// 同步使用方式
 let module = await import('/modules/my-module.js');
 ```
 
@@ -2495,6 +2785,25 @@ Reflect.get(obj,'a');
 Reflect.set(obj,'c',9);
 Reflect.deleteProperty(obj, a);
 ...
+```
+
+9、**迭代器&生成器**
+
+```js
+function* counter(value) {
+  let step;
+  // yield关键字是一个基于生成器的版本的 return 关键字，实际返回一个 IteratorResult 对象
+  while (true) {
+    step = yield value++;
+    if (step) {
+      value += step;
+    }
+  }
+}
+
+const generatorFunc = counter(0);
+console.log(generatorFunc.next().value); // 0
+console.log(generatorFunc.next().value); // 1  generatorFunc.next().done为布尔值，表示是否最后一个值
 ```
 
 
