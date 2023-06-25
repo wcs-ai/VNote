@@ -2148,9 +2148,9 @@ file.type：文件的 MIME 类型
 ```js
 let fileReader = new FileReader();
 fileReader.readAsArrayBuffer(file); // 开始读取指定的 Blob中的内容，一旦完成，result 属性中保存的将是被读取文件的 ArrayBuffer 数据
-FileReader.readAsDataURL(); // 开始读取指定的Blob中的内容。一旦完成，result属性中将包含一个data: URL 格式的 Base64 字符串
-FileReader.readAsBinaryString(); //非标准 result属性中将包含所读取文件的原始二进制数据
-FileReader.readAsText(); // result属性中将包含一个字符串以表示所读取的文件内容。
+fileReader.readAsDataURL(); // 开始读取指定的Blob中的内容。一旦完成，result属性中将包含一个data: URL 格式的 Base64 字符串
+fileReader.readAsBinaryString(); //非标准 result属性中将包含所读取文件的原始二进制数据
+fileReader.readAsText(); // result属性中将包含一个字符串以表示所读取的文件内容。
 fileReader.abort(); // 终止读取
 fileReader.onload = (e) => {
   console.log(fileReader.result); // 根据使用的读取器获得的数据不同。

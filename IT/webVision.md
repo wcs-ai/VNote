@@ -3,8 +3,14 @@
 也称计算机图形学，它是研究图形的输入、模型(图形对象)的构造和表示、图形数据库管理、图形[数据通信](https://baike.baidu.com/item/数据通信/897073?fromModule=lemma_inlink)、图形的操作、[图形数据](https://baike.baidu.com/item/图形数据/5199438?fromModule=lemma_inlink)的分析，以及如何以[图形信息](https://baike.baidu.com/item/图形信息/5199461?fromModule=lemma_inlink)为媒介实现人机交互作用的方法、技术和应用的一门学科。它包括图形系统硬件(图形输入-输出设备、[图形工作站](https://baike.baidu.com/item/图形工作站/7557182?fromModule=lemma_inlink))图形软件、算法和应用等几个方面。
 
 **抗锯齿**：是一种能够消除显示器输出的画面中图物边缘出现凹凸锯齿的技术，在开启抗锯齿后会使得图像边缘看起来更平滑，更接近实物的物体
+**图像alpha通道**：是指一张[图片](https://baike.baidu.com/item/图片?fromModule=lemma_inlink)的[透明](https://baike.baidu.com/item/透明?fromModule=lemma_inlink)和[半透明度](https://baike.baidu.com/item/半透明度?fromModule=lemma_inlink)。
+**色调**：各种图像色彩模式下原色的明暗程度（**红、绿、蓝**三种原色的明暗程度）
+**色相**：就是颜色，调整色相就是调整景物的颜色。
+**饱和度**：指图像中颜色的浓度。饱和度越高，颜色越饱满，即所谓的青翠欲滴的感觉。饱和度越低，颜色就会显得越陈旧、惨淡。
+**对比度**：指不同颜色之间的差别。对比度越大，不同颜色之间的反差越大。
+**亮度**：各种图像色彩模式下原色的明暗程度。图像亮度增加时，就会显得耀眼或刺眼，亮度越小时，图像就会显得灰暗。
 
-**颜色**：有rgb，cmyk，hsl表示法
+**颜色表示**：有rgb，cmyk，hsl表示法
 
 - rgb：10进制的表示方法，将rgb转hsl只需每位转为16进制再拼接在一起即可。
 
@@ -721,10 +727,19 @@ img.onload = function(){
 }
 // 获取指定画布区域数据
 dat=ctx.getImageData(x,y,width,height);//【速度较慢】
-dat.data;//获取像素矩阵
+/****获取像素矩阵***
+长度为：width*height*4的一维数组 每相连4个值为一组 rgba值【4个值的范围都是0~255】，按横纵的顺序获取到的
+*/
+dat.data;
+for (let i = 0, x, y; i < data.data.length; i += 4) {
+        data.data[i] = 0;
+        data.data[i + 1] = 0;
+        data.data[i + 2] = 0;
+        data.data[i + 3] = 100;
+}
 // 创建1个imgData对象
 imgdata=ctx.createImageData(300,100)//创建一个全0像素矩阵,可操控每个点值
-
+imgdata.data[0] = 122; // 在data中赋值
 img.src =canvas.toDataURL(type,scl);//将整个canvas上的像素数据转换为
 //base64格式,能直接显示到img中,type有图片格式,有:image/png(默认),
 //image/jpeg,image/webp;scl为缩放值(更改图片质量0~1)
@@ -1834,7 +1849,7 @@ var cube = new THREE.Mesh(cubeGeom, faceMaterial);
 
 # 五、Unity3D
 
-## a、起始
+## a、介绍
 
 **简介**：Unity3D可以制作2D，3D游戏，或者AR、VR、pc端、移动端、一些可视化项目等。制作风格为可视化的编辑，也可结合编程方式来开发项目。
 其设计风格与Threejs的风格类似（都受opengl影响）
@@ -1892,31 +1907,32 @@ Unity 提供以下渲染管线：
 （上project setting界面quality项，右侧的`render pipline assets`选中它使用）
 （project窗口刚才生成的渲染管线选中它，检查器窗口可调整光照、阴影、抗锯齿等设置）
 
-（3）probuild：扩建地形，图形创建等功能。
-（同样的安装和渲染管线支持勾选。安装好后Tool项可使用）
+（3）probuild：扩建地形，图形创建等功能（同样的安装和渲染管线支持勾选。安装好后Tool项可使用）
+（4）`cinemachine`：可跟随移动的物体。
+（安装后一般在顶部导航栏，或GameObject菜单项下）
+（点击创建虚拟相机，body选framing，aim选do nothing，将要跟随的物体拖拽到fllow）
 
 **shader介绍**：
-（1）类别：在 Unity 中，着色器分为三大类。每个类别的用途不同，使用方式也不同。
+（1）类别：在 Unity 中，着色器分为三大类。每个类别的用途不同，使用方式也不同（可用shader创建`Material`）
 
 - 第一类：作为[图形管线](https://en.wikipedia.org/wiki/Graphics_pipeline)一部分的着色器。它们执行一些计算来确定屏幕上像素的颜色。通常是通过 [Shader 对象](https://docs.unity.cn/cn/current/Manual/shader-objects.html)使用这种类型的着色器。
 - 第二类：[计算着色器](https://docs.unity.cn/cn/current/Manual/class-ComputeShader.html)在常规图形管线之外，在 GPU 上执行计算。
 - 第三类：光线追踪着色器执行与光线追踪相关的计
 
-（2）相关术语：
+（2）**Shader 对象** - `Shader` 类的一个实例。Shader 对象是着色器程序和其他信息的封装器。
+（3）**Shader Graph** - 一种无需编写代码即可创建着色器的工具（双击它可以开启编辑）。
+（4）**ShaderLab** - 一种用于编写着色器的 Unity 特定语言。
+（5）**着色器资源** - Unity 项目中扩展名为 `.shader` 的文件。它定义一个 Shader 对象。
 
-- **Shader 对象** - `Shader` 类的一个实例。Shader 对象是着色器程序和其他信息的封装器。
-- **ShaderLab** - 一种用于编写着色器的 Unity 特定语言。
-- **Shader Graph** - 一种无需编写代码即可创建着色器的工具。
-- **着色器资源** - Unity 项目中扩展名为 `.shader` 的文件。它定义一个 Shader 对象。
-- **Shader Graph 资源** - Unity 项目中的文件。它定义一个 Shader 对象。
-
-组件：inspector窗口显示的都算是组件
+**组件**：inspector窗口显示的都算是组件
 （1）用来给物体增添功能，可以是自写的脚本、unity自带的组件（音频、视频、2d文本、图像等）
 （2）新增组件：inspector窗口，最下方添加即可。
 
+**prefab预设体**：将一些能够复用的对象制作成预设体（可以是模型，窗口，特效等），通过动态加载的方式加载到场景中并进行实例化。
 
 
-## b、对象
+
+## b、基础操作
 
 **对象基础**：
 （1）左侧Hierachy区域，可创建目录和对象。
@@ -1925,9 +1941,9 @@ Unity 提供以下渲染管线：
 （4）**活跃状态**：点中物体，层级窗口左上角可勾选，不勾选时则是隐藏该物体（其所有组件，其它脚本对它的控制都会失效）
 （5）**静态状态**：层级窗口右上角，unity中一些全局光照、遮挡、批处理等会根据其是静态来操作（代码中可控制静态属性）
 （6）**标签 (Tag)**提供一种在场景中标记和识别 GameObject 类型的方式。
-（7）**层 (Layer)**提供一种类似但不同的方式在某些内置操作（例如[渲染](https://docs.unity.cn/cn/current/Manual/class-MeshRenderer.html)或[物理碰撞](https://docs.unity.cn/cn/current/Manual/CollidersOverview.html)）中包括或排除 GameObject 组。
+（7）**层 (Layer)**带功能作用的标签（例如[渲染](https://docs.unity.cn/cn/current/Manual/class-MeshRenderer.html)或[物理碰撞](https://docs.unity.cn/cn/current/Manual/CollidersOverview.html)）中包括或排除 GameObject 组。`ignore Raycast`可忽略射线碰撞
 
-导入模型文件：
+**导入模型文件**：
 （1）unity支持`.fbx,.dec,.dxf,.obj`格式模型文件（**推荐fbx格式**）
 （2）在资源区域（c）右键/选import newAssets然后导入模型。
 （3）鼠标选中模型文件拖入到场景中即可显示。
@@ -1946,6 +1962,25 @@ Unity 提供以下渲染管线：
 （2）可以在脚本代码中禁用其它不用的摄像机，指剩余1个来显示当前视图。
 （3）可以控制渲染哪些层级的物体。
 
+**Shader Graph使用**：
+（1）创建：project窗口中右键/shader graph/选各种渲染管线的shader。
+（2）双击它打开编辑界面，左上角为变量创建（可拖到中间编辑区域使用），中间为节点逻辑，右上角为节点、变量的参数设置。
+（4）节点：右键/创建，常用如下：
+
+- `Fresnel Effect`可作为一个初始节点。
+- `Multiply`节点（连接两个节点，将它们的结果相乘）。
+- `Dither`节点（制造噪声效果）。
+- `Feagment`节点：最终计算得到的片段。
+
+**遮挡剔除**：可指定被物体遮挡时**不渲染这些物体**被遮挡住的部分。
+（1）静态遮挡剔除：针对不会移动的静态物体。选中物体，检查器窗口static选择`Occluder Static`。
+（2）动态遮挡剔除：动态对象只能是被遮挡剔除的对象，不能设置为遮挡的对象（可以在任何类型的渲染器组件上设置 Dynamic Occlusion 属性）
+（3）动态部分遮挡：动态对象移动到静态物体后，对动态物体进行部分遮挡（如只显示其轮廓）
+
+- 创建1个简单材质，遮挡时使用此材质显示）
+- 渲染管线【_Render结尾】中添加1个`Render Feature/Render Objects`勾选`Depth`，Depth test选generate，选择刚才的材质。`Layer mask`选要mask的动态对象所在层级。该个Render Feature作为**遮挡时渲染使用**。
+- 渲染管线中再添加一个`Render Feature/Render Objects`，选择Layer mask接口，作为**未遮挡时的渲染使用**。
+
 **场景**：File下可新建场景，点击保存后将其放到scenes目录下，project窗口双击另一个场景即可切换过去。
 
 **光照**：
@@ -1955,13 +1990,27 @@ Unity 提供以下渲染管线：
 （4）自发光相关改变后，需要`window/reding/lighting/scene` 点击`generate lighting`重新计算光照效果。
 （5）反射探测器：物体上创建后会增强可反射的图像。
 
+## b1、材质&着色器
+
+可以用着色器生成材质，不同渲染管线的材质，着色器实现、效果都有不同，一般低级的渲染管线材质可转为高级正常显示，但高级渲染管线的材质转为低级一般显示不了原来的效果，需要收到调整之类的。
+
+**URP材质**：检查器窗口选项`Universal Render Pipeline`下的着色器类型如下
+
+- 2D：开发2D项目时使用此着色器。
+- Autodesk Interactive（Autodes交互）：着色器经过优化，可以在您在Autodesk应用程序中进行调整时向着色器**提供实时更新**，反之亦然。
+- Nature（自然）：包含专用于速度树的着色器。
+- Particles（粒子）：包含与粒子相同的四个轻型着色器。
+- Terrain（地形）：与Unity的原始地形着色器相同。
+- Baked Lit：将此Shader用于仅需要通过光照贴图和光探测器进行烤光的风格化游戏或应用。此着色器不使用基于物理的着色，也没有实时光照，因此从“着色器”代码中删除了所有与实时相关的着色器关键字和变体，从而可以更快地进行计算。
+- `Lit`：Lit着色器”使您可以以**逼真的质量渲染**真实世界的表面，例如石头，木材，玻璃，塑料和金属。您的光线水平和反射看起来栩栩如生，并且在各种光照条件下（例如明亮的阳光或黑暗的洞穴）都可以正确反应。此着色器使用URP中计算量最大的着色模型。 
+- `Simple Lit`（简化Lit）：当性能比真实感更重要时，请使用此着色器。此着色器使用简单的照明近似值。
+- Unlit：一个无光着色器采样全局照明的选项。这将替换Unity的原始无光着色器。
 
 
-## b1、自然环境
+
+## b2、自然环境
 
 1、**天空盒**
-
-创建：
 （1）新建1个材质：**Assets > Create > Material**。
 （2）inspector检查器窗口的shader选择`skyBox/6 slide`，然后将准备好的6个方向（上下前后左右）图片放到显示的对应位置。
 （3）获者shader选择`skyBox/cubeMap`，选一个全景图类型的导入（Texture shape材质形状选择cube，点击应用）。
@@ -1975,15 +2024,28 @@ Unity 提供以下渲染管线：
 
 <img src="./_v_images/unity-terrains.png" />
 
-c、动画
+## c、动画
 
 一些简单的动画效果直接使用运动摄像头，3d变换即可完成。复杂的动画是通过帧形式的组合而成（如人形动画）
 
-动画控制器：project窗口可创建动画控制器，添加多个动画，控制动画之间的连接顺序，过渡条件等。
+**动画控制器**：添加多个动画，控制动画之间的连接顺序，过渡条件等。
+（1）物体对象上先创建1个`Animator`组件。
+（2）project窗口可创建动画控制器，将其拖拽到刚才创建的Animator组件上的controller中。
+（3）双击新建的动画控制器进行编辑（左侧为参数添加，中间为节点编辑，右侧inspector窗口为参数调整）
+（4）中间`右键/create state/new form blender tree`，双击该节点进行节点编辑界面。
+（5）左侧parameters栏添加一个参数，检查器窗口中选择该参数，下方添加motion（动画）将已有的动画拖到里面，设置不同的阀值。
+（6）可修改各节点间指向，节点互有指向时表示指向完当前动画时切换到所指动画。
+（7）各节点可设置是否循环，是否过渡到自身。可创建1个**默认动画**（什么都不做时显示使用，entry连接到该节点）
+（8）**点击路径**可在检查器窗口编辑该路径参数复合的条件。
+（9）脚本中通过控制参数的值，Animator组件自动切换动画。
+
+
 
 ## d、脚本
 
-unity中推荐`c#`编程，还有`javascript`等一些脚本支持（可以为每个对象挂载一个脚本，==先停止游戏再改动代码==）
+unity中推荐`c#`编程【C# 是 .Net 框架的一部分】（可以为每个对象挂载一个脚本，==先停止游戏再改动代码==）。
+**.Net 框架**：是多平台的应用程序。框架的设计方式使它适用于下列各种语言：C#、C++、Visual Basic、Jscript、COBOL 等等。所有这些语言可以访问框架，彼此之间也可以互相交互。
+
 **创建**：主菜单选择 **Assets > Create > C# Script** 来新建脚本（文件名与类名一致）
 
 ```c#
@@ -2083,7 +2145,7 @@ void start(){
 }
 ```
 
-**输入监听**：虚拟轴，unity有划分一些操作轴（水平、垂直等，`Edit/project setting/input manage`下可看到其所有轴，**每项有描述轴的名称、控制的键等**）
+**3d输入监听**：虚拟轴，unity有划分一些操作轴（水平、垂直等，`Edit/project setting/input manage`下可看到其所有轴，**每项有描述轴的名称、控制的键等**）
 
 ```c#
 public class NewBehaviourScript : MonoBehaviour {
@@ -2111,18 +2173,115 @@ public class NewBehaviourScript : MonoBehaviour {
 }
 ```
 
+**UI处理**：获取输入，点击监听等。
+
+```c#
+using UnityEngine;
+using UnityEngine.UI;
+// 将此脚本挂载到canvas对象上
+public class UiManage : MonoBehaviour
+{
+    InputField inp;
+    Button btn;
+    // Start is called before the first frame update
+    void Start()
+    {
+        // 查找canvas下的子物体。
+        inp = transform.Find("InputField").GetComponent<InputField>();
+        btn = transform.Find("Button").GetComponent<Button>(); 
+        // 向按钮绑定点击事件
+        btn.onClick.AddListener(btnEvent); 
+    }
+    void btnEvent(){
+        string aa = inp.text; // 获取输入的数据
+    }
+}
+```
+
+**常用类**：
+
+- `NavMeshAgent`**导航代理**：此组件附加到游戏中的某个移动角色，以允许该角色使用导航网格在场景中导航（`UnityEngine.AI`下）
+
+  ```c#
+  private NavMeshAgent agent;
+  agent = GetComponent<NavMeshAgent>(); // 获取当前物体的导航组件
+  agent.velocity; // 获取 NavMeshAgent 组件的当前速度，或者设置一个速度来手动控制代理。
+  agent.height; // 代理高度（为了从障碍物下穿过，等）
+  agent.speed; // 遵循路径时的最大移动速度
+  agent.pathStatus; // 当前路径的状态（完整、部分或无效）
+  agent.destination; // 获取代理在世界坐标系单位中的目标或尝试设置代理在其中的目标。
+  ```
+
+  
+
+- `UnityEvent<T0>`**事件监听器**：提供一个通用事件发布订阅模式，其它脚本类也可订阅它（`UnityEngine.Events`下）
+
+  ```c#
+  [System.Serializable]
+  public class MyIntEvent : UnityEvent<Vector3>{} // 泛型<Vector3>表示可向下面的事件接收器传入对应类型的数据
+  
+  public MyIntEvent OnMouseClicked = new MyIntEvent();
+  void fn(Vector3 point){}; // 可接事件触发时传来的值
+  MyIntEvent.AddListener(fn); // 添加1个监听函数
+  OnMouseClicked.Invoke(new Vector3(1,1,1)); // 触发事件并传入值
+  ```
+
+- `RaycastHit`**射线信息**：用于从射线投射获取信息的结构（`UnityEngine`下）
+
+- `Ray`射线表示形式：射线是从 [origin](https://docs.unity.cn/cn/current/ScriptReference/Ray-origin.html) 开始并按照某个 [direction](https://docs.unity.cn/cn/current/ScriptReference/Ray-direction.html) 行进的无限长的线（`UnityEngine`下）
+
+- `Camera`**摄像机**：获取摄像机实例（`UnityEngine`下）
+
+  ```c#
+  Camera.allCameras; // 获取所有摄像机
+  Camera.main; // 主摄像机
+  Camera.current; // 当前使用的摄像机
+  // 摄像机实例可用方法
+  Camera.main.enabled = true; // 可用于切换摄像机【切换时得把其它摄像机关闭】
+  Ray ray = Camera.current.ScreenPointToRay(Input.mousePosition); // 从当前摄像机发送一条射线（到鼠标所点位置）
+  ```
+
+- `Physics`**物理计算**：全局物理属性和 Helper 方法（`UnityEngine`下）
+
+  ```c#
+  // 【Physics.Raycast】向场景中的所有碰撞体投射一条射线，该射线起点为 /origin/，朝向 /direction/，长度为 /maxDistance/。
+  public static bool Raycast (Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float maxDistance, int layerMask, QueryTriggerInteraction queryTriggerInteraction);
+  // 两个点之间计算投射【这之间有物体则返回true】
+  Physics.Raycast(transform.position, new Vector3(1,1,1), 10);
+  Physics.Raycast(ray,out hitInfo); // 直接计算某条射线是否有碰撞物并“碰撞物输出给hitInfo”,Ray ray, RaycastHit hitInfo
+  ```
+
+- `Animator`动画组件：控制动画的切换（`UnityEngine`下）
+
+  ```c#
+  private Animator anim;
+  anim = GetComponent<Animator>(); // 获取该物体的动画组件
+  // 设置其参数，speed为存在的参数名。
+  anim.SetFloat("speed",0.7);
+  anim.speed; // 动画器的播放速度。1 为正常播放速度。
+  anim.velocity; // 获取上一个已计算帧的化身速度。
+  ```
+
+  
+
+
 ## e、2dUI
 
-**画布**：用于承载，绘制2维图形，每个2d对象都必须在1个画布上（初始使用时下方会提示导入部分资源）
+**画布**：用于承载，绘制2维图形，每个2d对象都必须在1个画布上（初始使用时下方会**提示导入部分资源**）
 （1）层级/ui下可创建ui元素。下方同时会创建1个事件系统。
-（2）检查器窗口的渲染模式决定其与3d图形覆盖时的处理。
+（2）检查器窗口的`render mode`决定其与3d图形覆盖时的处理（`screen scpace-overly`：ui一直显示在相机前，一般显示在两侧）。
 （3）画布`inspector`窗口可挂载一个摄像机到画布上，这样方便跳转。
+（4）game窗口可以看到其实际位置。
+（5）`render mode`选`world space`后画布可有3d属性，拥有x，y，z坐标设置其在场景中的位置。
 
 **图像**：
 （1）**图片设置为精灵图**：选中图片，检查器窗口选中设置为**精灵图**，之后可以放到画布的image上，也可作为材质使用。
 （2）图像元素检查器窗口设置图片，下方勾选原生大小即可。
 
-无法输入中文问题：？？？
+**显示中文**：unity edit未直接包含中文字体。
+（1）`c:\windows\Fonts\`下找到一个简体中文的字体包，拖入项目中。
+（2）选中刚才拖入的一个字体文件，`Asset/create/TextMeshPro/Font Asset`创建字体资源。
+（3）相应使用的地方选中这个字体资源即可。
 
 ## f、物理系统
 
