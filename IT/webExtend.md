@@ -3802,12 +3802,12 @@ const windowHeight = Dimensions.get("window").height;
 
 **打包**：两端需要分别打包
 android打包：项目`android`目录下有`gradlew`文件，windows系统直接执行`gradlew clean`即可（清除之前的包并重新打包）
-（1）修改app名称：`android/app/src/main/AndroidManifest.xml`中可修改app名称（改为**中文名称后开发环境似乎有问题**【最好是开发时改为原名】）
+（1）修改app名称：`android/app/src/main/AndroidManifest.xml`中可修改app名称（改为==中文名称后开发环境似乎有问题==【最好是开发时改为原名】）
 （2）**修改图标**：`app/src/main/res`下的各尺寸图标替换，到[图标生成网站](https://icon.wuruihong.com/)可生成各尺寸的图标。
 （3）生成密钥并配置在项目中：官网上查看详细过程。
 （4）android目录下使用：`gradlew assembleRelease`打包（第一次会下载资源，较慢）
 （5）apk文件位置：`android/app/build/outputs/apk/release/app-release.apk`
-（6）**注**：打包前尽量删一下`app/build`目录（部分静态文件可能不糊被替换）
+（6）**注**：打包前尽量删一下`app/build`目录（部分静态文件可能不会被替换）
 
 ## h、资源&问题
 
@@ -3824,6 +3824,7 @@ android打包：项目`android`目录下有`gradlew`文件，windows系统直接
 - 虚拟机提示`system ui isn't responding`：studio打开`View/Tool Window/Device Manager`对应虚拟机倒三角选择Wipe Data，再关闭虚拟机重启
 - app红屏提示`unable to load script`：下方提示缺少index.android.bundle情况，项目下使用`npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res`。等待它执行完成，再`yarn android`
 - 注：一般依赖，android资源有改变**需要重新打包**，若这些未改变则每次`yarn start`启动就好。
+- HAXM安装失败：`biso`中要开启虚拟化，程序功能中关闭`hypv`
 - **键盘顶起底部元素问题**：`android/app/src/main/AndroidManifest.xml`，修改`android:windowSoftInputMode` 属性为`stateAlwaysHidden|adjustPan`
 - 打包提示`app/src，app/build`下有资源冲突：build目录下每次打包都会生成。将src/main/res下冲突的部分删除，关闭当前cmd窗口，重新打开执行。
 - **打包后无法访问网络问题**：[参考地址](https://www.freesion.com/article/4333752490/)
