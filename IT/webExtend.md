@@ -3815,6 +3815,7 @@ android打包：项目`android`目录下有`gradlew`文件，windows系统直接
 **问题集**：
 
 - 初始时安卓依赖下载缓慢问题：`android/build.gradle`中更换下国内镜像，反复下载即可。
+- **无法找到android SDK**：确保是先下载了所有gradle依赖，执行过一次`yarn android`后（对sdk编译后才会正常），若还显示找不到可用`doctor`诊断中的修复尝试，或用android studio打开项目下的`android`目录，会生成local.properties文件。
 - 端口8081被占用问题：android服务框里`a`重启app即可。
 - 出现`'Error: EPERM: operation not permitted'`：android/目录下，`gradlew clean`，`react-native run-android`运行。
   或再尝试重新安装`node_modules`下依赖，重新编译运行。

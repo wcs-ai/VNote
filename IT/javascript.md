@@ -1116,7 +1116,7 @@ el.addEventListener("click", function (e) {
 ```
 
 **事件委托/代理**：利用事件冒泡，我们想让用户点击一个块的每个子元素都触发一个事件，可以将该事件绑定再这些子元素的父元素上就可以不用每个子元素都去绑定了。
-**移除事件监听**：`window.removeEventListener(元素,事件名,fun)`；fun为监听时的函数
+**移除事件监听**：`window.removeEventListener(事件名,fun)`；fun为监听时的函数
 
 **获取鼠标事件目标的属性**：
 
