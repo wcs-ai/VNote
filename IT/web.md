@@ -808,6 +808,7 @@ div {
 /**也可以内嵌使用**/
 <div style="--num:50;"></div>
 /****currentColor变量会跟随其父元素的color颜色值变化***/
+/**js设置css变量： dom.style.setProperty('--color','red')**/
 <div style="color:blue;">
   	<svg fill="currentColor"><rect fill="currentColor"/></svg>  
 </div>
@@ -2047,7 +2048,7 @@ function getIpAddress() {
 
 ```js
 /**
- * 作用简短描述
+ * @desc 作用简短描述
  * @typedef {Object} Book	// 定义1个通用类型,其它地方可使用（@property 与其功能相同）
  * @param {Object} book 
  * @param {string} book.title

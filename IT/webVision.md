@@ -201,13 +201,13 @@
 
 <!--rx，ry控制圆角-->
 <rect x="" y="" width="" rx="10" ry="20" height="" style="fill:red;stroke-width:2;stroke:blue;">
-    <!--***animate:动画，放在元素中，则改动画会执行此动画
+    <!--***animate:动画，放在元素中，则改动画会执行此动画【同一元素下可放多个控制不同属性】
     -from:开始位置；
     -to:结束位置；
     -begin:开始时间；
     -dur：持续时间；
-    -fill:remove表示结束动画时，回到起始位置；
-    -repeatCount:为执行的次数；
+    -fill:remove表示结束动画时，回到起始位置，freeze 表示动画结束时使用其最后的状态；
+    -repeatCount:为执行的次数；indefinite为无限
     -path：有path的话则直接按path路线移动；
 	  -attributeName：指定在哪个属性上变化；
 	  -attributeType: 使用xml还是css样式变化；

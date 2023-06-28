@@ -13,18 +13,9 @@
 - [w3c school网](https://www.w3cschool.cn/unity3d_jc/)
 - [脚本之家电子书网](https://www.jb51.net/books/)
 - [plotly.js 起始教程地址](https://www.kutu66.com//GitHub/article_132050)、[jest 使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)、[谷歌浏览器插件开发文档](https://developer.chrome.com/extensions/getstarted.html)
+- [sass文档](https://sass.bootcss.com/documentation)、[less文档](https://less.bootcss.com/)、[CSS灵感的诞生地 ](https://github.com/chokcoco/CSS-Inspiration)、[CSS Tricks 效果大全 ](https://lhammer.cn/You-need-to-know-css/#/translucent-borders)
 
-## 02.CSS样式
 
-- [CSS Tricks 效果大全 | CSS的各种效果实现 有很多动画效果](https://lhammer.cn/You-need-to-know-css/#/translucent-borders)
-- [CSS Inspiration |  CSS灵感的诞生地  我每天都的网站](https://github.com/chokcoco/CSS-Inspiration)
-- [ CSS 常用样式 |  有很多常用的CSS样式](https://github.com/QiShaoXuan/css_tricks)
-- [ Animista | CSS动画库  主打按需定制CSS动画效果](https://animista.net/)
-- [ Animista | CSS动画库  主打按需定制CSS动画效果](https://animista.net/)
-- [ CSS Minifier | 在线CSS代码简化/压缩工具](https://cssminifier.com/)
-- [ Sass: Sass 文档 | Sass 中文网  成熟、稳定、强大的CSS扩展语言](https://sass.bootcss.com/documentation)
-- [ Less 快速入门 | Less.js 中文文档 将CSS赋予了动态语言特性的样式语言](https://less.bootcss.com/)
-- [ stylus | CSS扩展  富有变现里、动态、健壮的CSS](https://stylus-lang.com/)
 
 ## 04.前端面试
 
@@ -49,19 +40,15 @@
 - [GitHub  |  高质量内容创作和分享平台](https://github.com/)
 - [Stackoverflow |一个回答技术问题的网站](https://stackoverflow.com/)
 - [掘金 | 国内的很多优质前端文章都掘金](https://juejin.cn/)
-- [博客园  | 一个很纯粹的技术博客平台](https://www.cnblogs.com/)
-- [知乎 |  很多程序人喜欢泡在知乎](https://www.zhihu.com/)
-- [CSDN  | 老牌社区  程序员必上的一个社区](https://www.csdn.net/)
 - [v2ex  | 程序员分享和探索的社区](https://www.v2ex.com/)
 - [segmentfault  | 低调技术博客社区](https://segmentfault.com/)
 - [Node.js 中文社区 |  node专业中文社区](https://cnodejs.org/)
 - [博客杂志站点 | 一个 web 技术类的博客杂志站点](https://www.smashingmagazine.com/)
-- [JS 技术的网站 | 每天推出一个JS技巧的网站](https://www.jstips.co/)
-- [W3Cplus | 推广国内行业的技术博客](https://www.jstips.co/)
 
 ## 06.前端博客
 
 - [技术胖博客 |  专注前端 每年100集免费前端视频](https://jspang.com/)
+- [JS 技术的网站 | 每天推出一个JS技巧的网站](https://www.jstips.co/)
 - [张鑫旭空间](https://www.zhangxinxu.com/)
 - [腾讯Alloy Team  | 腾讯前端博客 每天必看](http://www.alloyteam.com/)
 - [腾讯用户体验博客 | 专注于前端用户体验](https://isux.tencent.com/)
