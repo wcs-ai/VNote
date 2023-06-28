@@ -2006,6 +2006,31 @@ Unity 提供以下渲染管线：
 - `Simple Lit`（简化Lit）：当性能比真实感更重要时，请使用此着色器。此着色器使用简单的照明近似值。
 - Unlit：一个无光着色器采样全局照明的选项。这将替换Unity的原始无光着色器。
 
+**HDRP材质**：同URP类似，支持的着色器如下
+
+- **Lit着色器：**可用于模拟大多数材质效果，是HDRP中最常用的着色器。后面部分我将会使用Lit着色器为大家讲解典型材质的制作方法。
+  `Metallic`：（金属度）可控制金属质感。
+  `Smoothness`：（光滑度）调节光滑度，光滑材质可以有镜面效果。
+  `Base Map`：基础贴图（一般是基础的颜色形状纹理）。`Mask Map`：遮罩贴图，`Normal Map`：法线贴图。
+  `surface type`：opaque（不透明）transparent（透明）
+  `Material Type`：材质类型，标准（Standard）Subsurface Scattering（次表面散射），Anisotropy（各向异性），Iridescence（彩虹色），Specular Color（高光色），Translucent（半透明）。
+
+  控制纹理的**平铺**（Tiling）和偏移（Offset）数值。
+  **Detail Inputs**：可以关联一个额外的细节纹理，用于为物体表面添加更多微观细节。
+
+  **Emission Inputs（自发光输入）：**此处用于控制所有与自发光相关的参数
+
+- **Layered Lit着色器：**可在同一个材质上叠加多个Lit材质，并使用遮罩来对材质做分层，确保在需要的地方显示正确的材质。
+- **Lit Tessellation着色器：**可用于为物体表面**添加更多自适应的顶点细节**而无需为模型添加更多的顶点。如图5所示，Lit Tessellation比Lit多了一个Tessellation Options选项区。Lit Tessellation可认为是Lit着色器的升级版本，当然性能上也会更费一些。
+- **Layer Lit Tessellation着色器：**与Layered Lit着色器功能一样，区别是它使用的材质是Lit Tessellation而不是Lit。
+- **Eye Shader（眼球着色器）：**眼球着色器可用于制作各种类型的眼睛。
+-  **Hair Shader（头发着色器）：**用于模拟长毛和短毛。它是基于发卡（Hair Cards）方式来渲染毛发的。
+- **Fabric（布料）着色器：**目前HDRP有两种布料相关的着色器。Cotton/Wool Shader（棉/毛着色器）Silk Shader（丝绸着色器）
+- **Terrain Lit Shader（地形着色器）：**用于在HDRP中应用到Unity的Terrain上。此着色器是一个简化过的Lit着色器。
+- **Decal Shader（贴花）：** 贴花可被用于为物体表面添加更多细节，而且使用起来非常灵活便利。我们可以使用同一个纹理。
+- **Unlit Shader（无光照着色器）：**无光照着色器不受场景灯光的影响，因此非常适合**用于制作UI**这种不需要接受光照的组件。
+-  **Shader Graph 中用于制作自定义着色器**
+
 
 
 ## b2、自然环境
