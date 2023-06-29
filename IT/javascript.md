@@ -753,12 +753,13 @@ var student = new Student("zhangsan", 22, "二年级"); //方法Student()也是o
 function hhh(){
     Person.apply(this,['name','age']);// 第二个参数作为Person的参数列表
 }
-/****bind****/
+/****bind：可将传入的作用域，参数保存，返回1个新函数****/
 function a(h){
    console.info(h,this.k);
 }
-var t = a.bind({k:22},11);
-t();
+var t = a.bind({k:22},11); // 保存参数
+t(); // 上面绑定的参数会传给函数“a”
+t(99); // 依然可以再传参数，依然会被传给函数“a”
 ```
 
 ### f2、console：
