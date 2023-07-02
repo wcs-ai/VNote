@@ -2738,8 +2738,7 @@ let obj = {name:'aa'};
 不传入参数也可获得一个Symbol值
 */ 
 const bb = Symbol('name'); 
-obj[name] = 'cc';
-console.info(obj.name); // aa 
+obj.vv = bb;
 // （用Symbol值创建的对象属性只能用Object.getOwnPropertySymbols方法才能获取）
 console.info(Object.getOwnPropertySymbols(obj)); // [Symbol(name)]
 /******Symbol方法******/

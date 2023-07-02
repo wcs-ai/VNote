@@ -2,6 +2,8 @@
 
 也称计算机图形学，它是研究图形的输入、模型(图形对象)的构造和表示、图形数据库管理、图形[数据通信](https://baike.baidu.com/item/数据通信/897073?fromModule=lemma_inlink)、图形的操作、[图形数据](https://baike.baidu.com/item/图形数据/5199438?fromModule=lemma_inlink)的分析，以及如何以[图形信息](https://baike.baidu.com/item/图形信息/5199461?fromModule=lemma_inlink)为媒介实现人机交互作用的方法、技术和应用的一门学科。它包括图形系统硬件(图形输入-输出设备、[图形工作站](https://baike.baidu.com/item/图形工作站/7557182?fromModule=lemma_inlink))图形软件、算法和应用等几个方面。
 
+## 1、术语
+
 **抗锯齿**：是一种能够消除显示器输出的画面中图物边缘出现凹凸锯齿的技术，在开启抗锯齿后会使得图像边缘看起来更平滑，更接近实物的物体
 **图像alpha通道**：是指一张[图片](https://baike.baidu.com/item/图片?fromModule=lemma_inlink)的[透明](https://baike.baidu.com/item/透明?fromModule=lemma_inlink)和[半透明度](https://baike.baidu.com/item/半透明度?fromModule=lemma_inlink)。
 **色调**：各种图像色彩模式下原色的明暗程度（**红、绿、蓝**三种原色的明暗程度）
@@ -9,6 +11,14 @@
 **饱和度**：指图像中颜色的浓度。饱和度越高，颜色越饱满，即所谓的青翠欲滴的感觉。饱和度越低，颜色就会显得越陈旧、惨淡。
 **对比度**：指不同颜色之间的差别。对比度越大，不同颜色之间的反差越大。
 **亮度**：各种图像色彩模式下原色的明暗程度。图像亮度增加时，就会显得耀眼或刺眼，亮度越小时，图像就会显得灰暗。
+
+**渲染管线**：对象从原始定义空间通过一系列的中介空间直至最终映射至屏幕对的象数据转换操作（如高效的光照计算、视椎体擦除）
+
+**VR**：虚拟现实技术(英文名称：Virtual Reality，缩写为[VR](https://baike.baidu.com/item/VR/764830?fromModule=lemma_inlink))，又称[虚拟实境](https://baike.baidu.com/item/虚拟实境/10403543?fromModule=lemma_inlink)或灵境技术，是20世纪发展起来的一项全新的[实用技术](https://baike.baidu.com/item/实用技术/9916621?fromModule=lemma_inlink)。虚拟现实技术囊括计算机、[电子信息](https://baike.baidu.com/item/电子信息/5578438?fromModule=lemma_inlink)、[仿真技术](https://baike.baidu.com/item/仿真技术/7181700?fromModule=lemma_inlink)，其基本实现方式是以[计算机技术](https://baike.baidu.com/item/计算机技术/1127562?fromModule=lemma_inlink)为主，利用并综合[三维图形](https://baike.baidu.com/item/三维图形/5612976?fromModule=lemma_inlink)技术、[多媒体技术](https://baike.baidu.com/item/多媒体技术/143527?fromModule=lemma_inlink)、仿真技术、[显示技术](https://baike.baidu.com/item/显示技术/5851114?fromModule=lemma_inlink)、伺服技术等多种高科技的最新发展成果，借助计算机等设备产生一个逼真的三维视觉、触觉、嗅觉等多种感官体验
+
+**AR**：增强现实([Augmented Reality](https://baike.baidu.com/item/Augmented Reality/5372911?fromModule=lemma_inlink)，[AR](https://baike.baidu.com/item/AR/3404706?fromModule=lemma_inlink))技术是一种将虚拟信息与[真实世界](https://baike.baidu.com/item/真实世界/631440?fromModule=lemma_inlink)巧妙融合的技术，广泛运用了多媒体、[三维建模](https://baike.baidu.com/item/三维建模/4672401?fromModule=lemma_inlink)、实时跟踪及注册、智能交互、传感等多种技术手段，将计算机生成的文字、图像、[三维模型](https://baike.baidu.com/item/三维模型/6846264?fromModule=lemma_inlink)、音乐、视频等虚拟信息模拟仿真后，应用到真实世界中，两种信息互为补充，从而实现对真实世界的“增强”
+
+## 2、颜色
 
 **颜色表示**：有rgb，cmyk，hsl表示法
 
@@ -87,9 +97,88 @@
   
   <img src="./_v_images/rgb.webp" style="height:260px;"/>
   
-  **VR**：虚拟现实技术(英文名称：Virtual Reality，缩写为[VR](https://baike.baidu.com/item/VR/764830?fromModule=lemma_inlink))，又称[虚拟实境](https://baike.baidu.com/item/虚拟实境/10403543?fromModule=lemma_inlink)或灵境技术，是20世纪发展起来的一项全新的[实用技术](https://baike.baidu.com/item/实用技术/9916621?fromModule=lemma_inlink)。虚拟现实技术囊括计算机、[电子信息](https://baike.baidu.com/item/电子信息/5578438?fromModule=lemma_inlink)、[仿真技术](https://baike.baidu.com/item/仿真技术/7181700?fromModule=lemma_inlink)，其基本实现方式是以[计算机技术](https://baike.baidu.com/item/计算机技术/1127562?fromModule=lemma_inlink)为主，利用并综合[三维图形](https://baike.baidu.com/item/三维图形/5612976?fromModule=lemma_inlink)技术、[多媒体技术](https://baike.baidu.com/item/多媒体技术/143527?fromModule=lemma_inlink)、仿真技术、[显示技术](https://baike.baidu.com/item/显示技术/5851114?fromModule=lemma_inlink)、伺服技术等多种高科技的最新发展成果，借助计算机等设备产生一个逼真的三维视觉、触觉、嗅觉等多种感官体验
   
-  **AR**：增强现实([Augmented Reality](https://baike.baidu.com/item/Augmented Reality/5372911?fromModule=lemma_inlink)，[AR](https://baike.baidu.com/item/AR/3404706?fromModule=lemma_inlink))技术是一种将虚拟信息与[真实世界](https://baike.baidu.com/item/真实世界/631440?fromModule=lemma_inlink)巧妙融合的技术，广泛运用了多媒体、[三维建模](https://baike.baidu.com/item/三维建模/4672401?fromModule=lemma_inlink)、实时跟踪及注册、智能交互、传感等多种技术手段，将计算机生成的文字、图像、[三维模型](https://baike.baidu.com/item/三维模型/6846264?fromModule=lemma_inlink)、音乐、视频等虚拟信息模拟仿真后，应用到真实世界中，两种信息互为补充，从而实现对真实世界的“增强”
+
+## 3、直线相关
+
+这里记录的是底层绘制直线的实现相关方法。主要解决的是**线段穿过两像素点之间时**，怎么取y值用**上/下**侧的像素点。
+
+**DDA算法**：使用微分思想计算下一个y值：$\begin{cases}x_{i+1}=x_i+\Delta x\\ y_{i+1}=y_i+k*\Delta x\end{cases}$绘制时$\Delta x$都是取1（即每次增加1个像素单位）DDA算法根据k值来取使用哪一个y位置的像素点，如下：$y_{i+1}=\begin{cases}y_i+1 &,k>=0.5\\ y_i &,k<0.5\end{cases}$（yi表示上一个点的y值）
+【缺点】：涉及浮点运算，对y取整要花费时间，不利于硬件实现。
+
+**Bresenham算法**：起始点`(xi,yi)`主方向增加1个单位（这里用`y'`表示直线数学公式计算的理想y值，`di=-0.5`）
+（1）主方向增量加1后，计算$d_{i+1}=y^{'}_{i+1}-y_i$。然后：$y_{i+1}=\begin{cases}y_i+1 &,d_{i+1}>=0\\ y_i &,d_{i+1}<0\end{cases}$
+（2）再下一个增量，若$y_{i+1}-y_{i}<0$,则计算$d_{i+2}=y^{'}_{i+2}-y_{i+1}+d_i-0.5$
+（3）若$y_{i+1}-y_{i}>=0$则将刚计算的$d_{i+2}-1$。
+（4）d的计算每次都会`-0.5`这里为了消除浮点数的影响（不同DDA算法中那样用了浮点数0.5）
+【缺点】计算中$y_{i+1}-y_{i}$依然会出现浮点数，比纯整数计算慢。
+
+**整数Bresenham算法**：对上面的改进（消除小数部分）初始的$d_i=-\Delta x=-1$,差值计算$d_{i+1}=d_{i}+2(y'_{i+1}-y_i)
+$。
+主方向xi+1后，$y_{i+1}=\begin{cases}y_i+1 &,d_{i+1}>=0\\ y_i &,d_{i+1}<0\end{cases}$。
+
+**渐变色直线**：使用颜色线性插值公式
+（1）公式$p=(1-t)p_0+tp_1$，将p0为直线1起点p1为终点，将x，y分别代入。
+（2）然后根据已知的x或y表达计算出`t`。
+（3）再根据这个公式$c=c_0(1-t)+tc_1$代入颜色，即可得到各点处的颜色值（rgb）
+
+**反走样**：当绘制非垂直、水平、45度直线时由于上面类似算法的像素点选择会**分部在理想直线两侧**，当分辨率不够高时就易看出来。
+这是数字化图像无法避免的问题，只能改善。硬件的改善就是靠增加分辨率（由于制作成本等很少会）
+
+**反走样算法思想**：线两侧的像素点都参与显示直线，如背景白色，线黑色，若理想点直接计算在像素点上那直接显示黑色就行，若计算得在**两像素点中间**，那上下两个像素点颜色根据靠近理想点的距离决定（**靠得近越黑，离得远越灰色**，它们==总值和要为1==，实现中可用透明度控制）
+可就用`Bresenham算法`中的计算d决定（但不再减去0.5）
+
+## 4、变换
+
+**二维变换**：有移动、旋转、缩放、反射、错切5种变换。
+利用矩阵乘积后得到变换后的x，y值反推各矩阵值，如下：
+$$
+\left[\begin{matrix}a&c&e\\b&d&f\\0&0&1\end{matrix}\right]*\left[\begin{matrix}
+x \\ y \\ 1\end{matrix}\right]=\left[\begin{matrix}
+  ax+cy+e \\ bx+dy+f \\ 0+0+1\end{matrix}\right]
+$$
+==移动情况==：水平移动的话，只需修改`e，f`即可，a=d=1，c=b=0，其它为0
+
+==缩放情况==：修改第`a，d`值即是缩放，其余值为0（这里的缩放中心是坐标原点，改变缩放中心可以通过`e,f`来调节）
+
+**旋转变换**：通过正余弦表达计算旋转后的点，得$a=cos(β),c=-sin(β),b=sin(β),d=cos(β),e=f=0$（这里的旋转中心为原点，β为逆时针旋转角度）
+
+**反射变换**：较为简单，用坐标轴做反射情况改变x，y正负即可。
+（1）原点反射：$a=d=-1$其余为0。
+（2）x轴反射：a=1，d=-1。其余为0。
+（3）y轴反射：a=-1，d=1。其余为0。
+
+错切变换：点p迎x，y轴发生不等量变换到p1的过程。a=d=1，e=f=0，控制c，b达到错切效果
+
+**三维变换**：与二维类似。与css3中的变换矩阵同理（利用相乘得到变换后的坐标和计算过程**反推哪些值的作用即可**！）
+$$
+\left[\begin{matrix}x^`\\y^`\\z^`\\1\end{matrix}\right] = \left[\begin{matrix}a&b&c&d\\e&f&g&h\\i&j&k&l\\m&n&o&p\end{matrix}\right]*\left[\begin{matrix}
+x \\ y \\z\\ 1\end{matrix}\right] 
+&相当于\begin{cases}x^`=ax+by+cz+d\\ y^`=ex+fy+gz+h\\ z^`=ix+jy+kz+l\\ 1=mx+ny+oz+p\end{cases}
+$$
+要只想有平移效果：`d,h,l`为x，y，z轴上的平移量，主对角线为1，其它为0即可；
+要只想有旋转效果：`a,b,e,f`为相关三角函数值，其余主对角线值为1，剩余值为0；
+要只想有缩放效果：`a,f,k为x,y,z`轴的缩放程度，p=1，其余为0即可。
+
+## 5、曲线
+
+二维，3维图形中用到的曲线，曲面多都是用2阶/3阶贝塞尔曲线完成，
+
+**二阶**：用3个点p0，p1，p2控制
+（1）用$p^1_0=(1-t)p_0+tp_1$公式在两个点中插值一个点，多次插值后连一起看起来就是一条曲线。
+（2）从插值公式中可看出其就是在两个点之间，用一个系数`0<t<1`求两个点的中间某一点。
+（3）现在p0，p1两点间插值得到p01，再p1，p2中插值得到p12，再p01，p12中插值，完成第1趟插值。
+（4）p0,  p01,  p02用（3）中的方式插一遍。p02，p12，p2也用（3）中插一遍。
+（5）按上面方式每3个点插完一遍后丢弃中间节点。
+
+三阶：用4个点p0，p1，p2，p3控制
+（1）同二阶一样的公式，两个点间逐渐插值。p0-p1，p1-p2，p2-p3查完一遍。
+（4）丢弃中间的两个点，用新得到的两个插值点放到中间。
+（4）再每4个点进行一次插值。
+
+6、光照
+
+点光源实现：照射到物体时根据光的颜色和物体材质的颜色对照射区域提高色彩的亮度。注意要保证rgb色彩值的比例与原比例相同，使用相乘实现
 
 # 零1、css特效
 
@@ -652,19 +741,24 @@ function play() {
 ```js
 const canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d"); //获取2d对象
+/***清空区域内所有图形操作（重新设置canvas宽高也会清空所有）***/
+ctx.clearRect(x, y, width, height);
+
 /******文本部分******/
 ctx.font = "20px Arial"; //定义字体大小及类型。
 ctx.textAlign = "center"; //left,start,right,end
+/**fillStyle可以是颜色值、渐变色、可复制的图像模式**/
 ctx.fillStyle = "blue"; // 填充实体时使用的颜色（样式定义放到绘制前）
 ctx.strokeStyle = "red";// 填充边框时使用的颜色
 ctx.measureText("文本文字"); // 【返回这段文本所占的宽度】
 ctx.fillText("颜色填充文本实体", x, y,maxWidth); //填充文字时不能填充其它且不能绘制形状。
 ctx.strokeText("颜色填充文本边",x,y,maxWidth);
-
+/******矩形******/
 ctx.fillRect(x, y, width, height); //矩形填充颜色...
-/***清空区域内所有图形操作（重新设置canvas宽高也会清空所有）***/
-ctx.clearRect(x, y, width, height);
 ctx.strokeRect(x, y, width, height); //绘制一个矩形框
+/****椭圆***/
+ctx.ellipse(100, 100, 50, 75, Math.PI / 4, 0, 2 * Math.PI);
+
 /****线的绘制*****/
 ctx.beginPath(); //绘制路径，不规则图圆时先调用
 ctx.lineWidth = 3; //线框
@@ -672,10 +766,16 @@ ctx.filter = "blur(15px)"; //模糊滤镜。
 ctx.lineCap = "butt"; //线头样式,round:圆形头、square:方形头。
 ctx.setLineDash([2, 5, 20, 30]); //设置为虚线，断点距头位置。
 ctx.lineDashOffset = 10; //设置虚线起始偏离起始点距离。
+/*****贝塞尔曲线****/
+ctx.quadraticCurveTo(10,10,20,20)//二次贝塞尔曲线，中转点，结束点
+ctx.bezierCurveTo()//三次贝塞尔曲线
+/***子路径连接处的样式***/
+ctx.lineJoin = "bevel"; // "round"  "miter"
+ctx.closePath(); // 当前点连接到路径起始点
 ctx.stroke();
+
 /***圆绘制***/
 ctx.beginPath(); //绘制路径，不规则图圆时先调用
-ctx.lineWidth = 8; // 设置边框的宽度
 ctx.arc(x,y,r,stAngle,Math.PI*2)//绘制圆,控制第5个参数大小控制弧长。
 ctx.ellipse(x,y,rx,ry,Math.PI/4)//绘制椭圆
 ctx.stroke()//绘制所描绘的路径
@@ -698,9 +798,7 @@ ctx.shadowBlur=20//阴影模糊程度
 ctx.shadowColor="red"//阴影颜色
 ctx.shadowOffsetX=2,ctx.shadowOffsetY=3//阴影偏移
 ctx.strokeStyle="orange"//设置边框颜色
-/*****贝塞尔曲线****/
-ctx.quadraticCurveTo(10,10,20,20)//二次贝塞尔曲线，中转点，结束点
-ctx.bezierCurveTo()//三次贝塞尔曲线
+
 /***********裁剪************
 使用之前先绘制一个路径区域，“之后绘制的图形”后只局限在该区域内
 【可控制裁剪区域大小变化来绘制伸缩式动画】
@@ -862,7 +960,37 @@ for (const input of inputs) {
 
 
 
-## b3、常用绘制
+## b3、其它api
+
+**选中检测**：
+（1）==canvas中某一时刻只能存在一条路径==，一条路径可以有子路径（`beginPath`就是启用一条新的路径，`lineTo`等新加一条时就==是其子路径==）
+（2）一般==最后一次绘制==的路径就是canvas的**当前路径**。
+（3）**是否在路径上**：`ctx.isPointInPath`，对于路径，只有**绘制时的节点**才能用该方法检测到，==线条上的其它点不行==（如`ctx.moveTo(100,200),ctx.lineTo(200,200)`只有这两个坐标点才能检测到选中）`150,200`明显在该线上，但用该方法得到false。
+（4）使用`closePath()`完成的路径，坐标在其中间也可判断出选中。
+（5）**是否在路径的线上**：`ctx.isPointInStroke(x,y)`与`isPointInPath`相反。
+（6）选中增强：对于比较细的线条选中比较困难，可以绘制一个透明的图形作为它的border，增强判断。
+
+```js
+cx.beginPath();
+cx.moveTo(120, 130);
+cx.lineTo(200, 130);
+cx.lineTo(200, 200);
+cx.closePath();
+cx.stroke();
+
+console.info(cx.isPointInStroke(150, 130), cx.isPointInPath(150, 140)); // true true
+
+// 绘制重复图像源， repetition 参数在指定的方向上重复元图像
+const pattern = ctx.createPattern(img, "repeat"); // 参数2值还有 repeat-x repeat-y no-repeat
+ctx.fillStyle = pattern;
+ctx.fillRect(0, 0, 300, 300);
+// 重置transform
+ctx.resetTransform();
+```
+
+
+
+## b4、常用绘制
 
 **网格绘制**：
 
@@ -1032,8 +1160,11 @@ function restoreDrawingSurface() {
 （2）鼠标移动时：先调用上面的`restoreDrawingSurface`恢复之前的图像，再绘制出要绘制的图形。
 （3）鼠标松开时：依然是先调用恢复，再次绘制完（可添加绘制物体的概念，如将绘制3角形，将其所有数据保存到1个对象中管理）
 
-`context.isPointPath(x,y)`：检测点（x，y）是否在context绘制过的路径中。（即使用线段绘制的多边形，鼠标在多边形中时`isPointPath`方法也==返回true==）
-**选中检测**：由于上面`isPointPath`的性质，可以判断出选中了某个图形，但有多个图形时**可判断与哪个图形的中心点最近**就算选中的哪个。
+**选中检测**：
+（1）法1：在一个离屏canvas（和显示用的canvas相同大小位置）中绘制图形，然后用`isPointInPath`方法检测是否在路径中（图形多时计算量较大）
+（2）法2：给图形定1个中心点和最大半径，计算鼠标当前点与此图形中心点距离判断（对于不规则图形不算精确）
+（3）法3：用算法实现检测一个点是否在一个面中，检测线条是否选中用其它算法。
+（4）使用法1和2的结合，靠近某个图形时才用法1的方法检测是否选中。
 
 **编辑图形**：思路如下（编辑图形A）
 （1）点击编辑：用1个按钮给用户打开编辑，将所绘图形的点明显绘制出来（加大，颜色等）
@@ -1522,15 +1653,7 @@ var u_SinB = gl.getUniformLocation(shaderProgram,'u_SinB');
 gl.uniform1f(u_CosB,cosb);gl.uniform1f(u_SinB,sinb);
 ```
 
-**矩阵计算方式**：与css3中的变换矩阵同理（利用相乘得到变换后的坐标和计算过程**反推哪些值的作用即可**！）
-$$
-\left[\begin{matrix}x^`\\y^`\\z^`\\1\end{matrix}\right] = \left[\begin{matrix}a&b&c&d\\e&f&g&h\\i&j&k&l\\m&n&o&p\end{matrix}\right]*\left[\begin{matrix}
-x \\ y \\z\\ 1\end{matrix}\right] 
-&相当于\begin{cases}x^`=ax+by+cz+d\\ y^`=ex+fy+gz+h\\ z^`=ix+jy+kz+l\\ 1=mx+ny+oz+p\end{cases}
-$$
-要只想有平移效果：`d,h,l`为x，y，z轴上的平移量，主对角线为1，其它为0即可；
-要只想有旋转效果：`a,b,e,f`为相关三角函数值，其余主对角线值为1，剩余值为0；
-要只想有缩放效果：`a,f,k为x,y,z`轴的缩放程度，p=1，其余为0即可。
+
 
 **矩阵方式的旋转实现**：
 
