@@ -2139,10 +2139,12 @@ Unity 提供以下渲染管线：
   `Material Type`：材质类型，标准（Standard）Subsurface Scattering（次表面散射），Anisotropy（各向异性），Iridescence（彩虹色），Specular Color（高光色），Translucent（半透明）。
 
   控制纹理的**平铺**（Tiling）和偏移（Offset）数值。
+  `Alpha Clipping`：勾选后设置其`Threshold` 值（alpha通道低于该值时不渲染对应像素，制作镂空效果）
+
   **Detail Inputs**：可以关联一个额外的细节纹理，用于为物体表面添加更多微观细节。
 
   **Emission Inputs（自发光输入）：**此处用于控制所有与自发光相关的参数
-
+  
 - **Layered Lit着色器：**可在同一个材质上叠加多个Lit材质，并使用遮罩来对材质做分层，确保在需要的地方显示正确的材质。
 - **Lit Tessellation着色器：**可用于为物体表面**添加更多自适应的顶点细节**而无需为模型添加更多的顶点。如图5所示，Lit Tessellation比Lit多了一个Tessellation Options选项区。Lit Tessellation可认为是Lit着色器的升级版本，当然性能上也会更费一些。
 - **Layer Lit Tessellation着色器：**与Layered Lit着色器功能一样，区别是它使用的材质是Lit Tessellation而不是Lit。
