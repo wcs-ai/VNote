@@ -1606,7 +1606,7 @@ front/index.html  //忽略front文件夹下的Index.html文件
 
 git在提交的各个阶段有对外暴露了一些钩子供开发人员使用，具体如下：
 
-`pre-commit`：提交commit信息之前运行，一般用此做一些代码检测，运行测试等；
+`pre-commit`：提交commit信息之前运行，一般用此做一些代码检测，运行测试等，以非0值退出会放弃提交；
 `prepare-commit-msg`：commit提交后，信息保存前运行；
 `commit-msg`：接收存有当前提交信息的临时文件路径并将其作为参数，如果该钩子脚本==以非0值退出那么git会放弃提交==；
 
@@ -1620,7 +1620,7 @@ git在提交的各个阶段有对外暴露了一些钩子供开发人员使用�
 `update`：与`pre-receive`类似，不过它会为每个准备更新的分支都运行一次；
 `post-receive`：推送全部完成后运行，可用来更新其它系统服务，或通知用户（**自动部署常在这里触发**）
 
-**钩子目录**：各钩子脚本文件会放到`.git/hooks`文件夹下，各对应文件如下：（这些是shell/perl脚本）
+**钩子目录**：各钩子脚本文件会放到`.git/hooks`文件夹下，使用对应钩子时将对应文件的`.sample`后缀**删除**，并写上自己要执行的语句。
 
 ```
 applypatch-msg.sample       pre-push.sample
@@ -1632,27 +1632,27 @@ pre-commit.sample
 
 **linst-staged**：提供在git暂存文件上操作（`git add`的文件）结合钩子让它们**只在add之后的文件上进行操作**，安装：`npm install -D lint-staged`
 
-**husky**：开源社区的git hook工具，安装：`npm install -D husky`，需在`package.json`中配置如下
+**husky**：开源社区的git hook工具，安装：`npm install -D husky`，==与eslint使用的示例==：
 
 ```json
 {
+    "script":{"precommit": "lint-staged"}
     "husky":{
         "pre-commit":"lint-staged",
-        "commit-msg":"commitlint -E HUSKY_GIT_PARAMS",
-        "post-commit":"",
-        ...
     },
     "lint-staged": {
-    	"src/**": ["eslint --fix","git add"]
+    	"src/**": ["eslint --ext .js,.vue src --fix","git add"]
   	}
 }
 ```
 
+复制一份`.git/hooks/pre-commit.sample`文件，改名为`pre-commit`，删除里面的示例内容，改为：`npm run precommit`
+
 # 四、nodejs
 
-:::alert-info
+
 **简介**：js 只能运行在浏览器内，相比于其它 python，java 之类的编程语言可以运行在桌面环境，js 弱了很多，而 node 提供了 js 可在系统运行的环境，内部加了一些内置 api，提供文件 io 等功能。node.js 的最大优点是处理并行访问，如果一个 web 应用程序同时会有很多访问连接，就能体现使用 node.js 的优势。另一个好处是，使用 javascript 作为服务器端脚本语言，可以消除答一些与浏览器端 js 脚本的冲突。甚至发挥 javascript 动态编程的特性，在服务器与浏览器之间建立直接的动态程序。而 npm 是其自带的一个包管理工具。[node中文档](https://www.nodeapp.cn/cli.html)
-:::
+
 **windows 上安装**：官网下载 node 的 zip 包，解压后将路径添加到 path 路径即可。
 **linux 上安装**：官网上下载 nodejs 的 linux 压缩包，解压进入，将 node_v...包拿出来放到相放的位置并重命名，然后建立软链接`ln -s /home/wcs/software/nodejs/bin/npm /usr/local/bin/ `(usr/local/bin 下的命令是可直接访问到的，不然要加入环境变量才行)再`ln -s /root/hone/wcs/software/bin/node /usr/local/bin/`#然后 node -v 安装成功。
 **脚本语言**：又被称为扩建的语言，或者动态语言，是一种编程语言，用来控制软件应用程序，脚本通常以文本（如 ASCII)保存，只在被调用时进行解释或编译。
