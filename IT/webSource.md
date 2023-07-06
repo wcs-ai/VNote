@@ -14,6 +14,7 @@
 - [脚本之家电子书网](https://www.jb51.net/books/)
 - [plotly.js 起始教程地址](https://www.kutu66.com//GitHub/article_132050)、[jest 使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)、[谷歌浏览器插件开发文档](https://developer.chrome.com/extensions/getstarted.html)
 - [sass文档](https://sass.bootcss.com/documentation)、[less文档](https://less.bootcss.com/)、[CSS灵感的诞生地 ](https://github.com/chokcoco/CSS-Inspiration)、[CSS Tricks 效果大全 ](https://lhammer.cn/You-need-to-know-css/#/translucent-borders)
+- [typescript中文档](https://www.tslang.cn/docs/handbook/typescript-in-5-minutes.html)
 
 
 
