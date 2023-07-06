@@ -2,7 +2,7 @@
 
 ## 01.常用库文档
 
-- [nodejs中文档](https://www.npmjs.cn/)、[nodejs官方文档](https://www.nodeapp.cn/)
+- [nodejs中文档](https://www.npmjs.cn/)、[nodejs官方文档](https://www.nodeapp.cn/)、[npm包使用查询网站](https://www.npmjs.com/package/unplugin-auto-import)
 - [前端官方技术文档](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
 - [rollup官网](https://rollupjs.org/)、[webpack 中文文档地址](https://webpack.docschina.org/concepts/)
 - [axios官方文档](https://www.axios-http.cn/docs/intro)、[vue-route官方文档](https://router.vuejs.org/zh/)
@@ -14,6 +14,7 @@
 - [脚本之家电子书网](https://www.jb51.net/books/)
 - [plotly.js 起始教程地址](https://www.kutu66.com//GitHub/article_132050)、[jest 使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)、[谷歌浏览器插件开发文档](https://developer.chrome.com/extensions/getstarted.html)
 - [sass文档](https://sass.bootcss.com/documentation)、[less文档](https://less.bootcss.com/)、[CSS灵感的诞生地 ](https://github.com/chokcoco/CSS-Inspiration)、[CSS Tricks 效果大全 ](https://lhammer.cn/You-need-to-know-css/#/translucent-borders)
+- [typescript中文档](https://www.tslang.cn/docs/handbook/typescript-in-5-minutes.html)
 
 
 

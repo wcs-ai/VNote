@@ -2162,7 +2162,7 @@ Unity 提供以下渲染管线：
   `Material Type`：材质类型，标准（Standard）Subsurface Scattering（次表面散射），Anisotropy（各向异性），Iridescence（彩虹色），Specular Color（高光色），Translucent（半透明）。
 
   控制纹理的**平铺**（Tiling）和偏移（Offset）数值。
-  `Alpha Clipping`：勾选后设置其`Threshold` 值（alpha通道低于该值时不渲染对应像素，制作镂空效果）
+  `Alpha Clipping`：勾选后设置其`Threshold` 值（alpha通道低于该值时不渲染对应像素，制作**镂空效果**）
 
   **Detail Inputs**：可以关联一个额外的细节纹理，用于为物体表面添加更多微观细节。
 
