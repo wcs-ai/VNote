@@ -1637,6 +1637,10 @@ vertexBuffer.numberOfItems = 4; // 告知缓冲中的顶点个数
 第3个参数为定义需要使用的顶点数量
 */
 gl.drawArrays(gl.TRIABGLE_STRIP, 0, vertexBuffer.numberOfItems);// 利用TRIABGLE_STRIP的特性，4个顶点即可绘两个三角形
+/***另一种绘制方法
+按照顶点索引进行绘制的方法，部分重复的点可指定索引，这样可以节省空间和时间
+***/
+gl.drawElements(mode,count,type,offst);
 ```
 
 ## c、变换
