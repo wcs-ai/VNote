@@ -256,6 +256,7 @@ secα=斜边/邻边； cscα=斜边/对边；`sinα/cosα＝tanα＝secα/cscα`
 **空间直线表示**：同二维类似，但只有一个表现形式。$\frac{x2-x}{x1-x}=\frac{y2-y}{y1-y}=\frac{z2-z}{z1-z}$。
 
 **求空间平面方程**：知道3个点，带入`Ax+By+Cz+D=0`求出它们的参数即可。
+求平面法向量：用屏幕上3个点，得到两个向量，再两个向量的叉乘即可得到$m_1=p_1-p_2,~m_2=p_1-p_3,~N=m_1\times m_2$
 
 **旋转面**：一条平面曲线绕平面上一条直线旋转。L 为 YOZ 平面上曲线：$\begin{cases}f(y,z)=0\\x=0\end{cases}$
 
@@ -266,7 +267,7 @@ secα=斜边/邻边； cscα=斜边/对边；`sinα/cosα＝tanα＝secα/cscα`
 - 准线为$T:\begin{cases}f(x,y)=0\\z=0\end{cases}$,母线平行于 z 轴的柱面方程：f(x,y)=0
 - 准线为$T:\begin{cases}F(x,y)=0\\G(x,y)=0\end{cases}$,母线平行于 z 轴的柱面方程：F(x,y,z)=0 和 G(x,y,z)=0 联立消去 z 所得二元方程 H(x,y)=0。
 
-**曲面的切平面与法线**：【曲面无切向量？】
+**曲面的切平面与法线**：
 $$\begin{cases}曲面F(x,y,z)=0 & 法向量：n=(F'_x,F'_y,F'_z) \\ 曲面z=f(x,y) & 法向量：n=(f'_x,f'_y,-1)\end{cases}$$
 
 - 平面方程：一般形如：`Ax+By+Cz+D=0`；
