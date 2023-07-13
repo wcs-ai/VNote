@@ -1685,6 +1685,7 @@ if(a_position<0) console.error('faild to get the storage of a_position');
 gl.vertexAttrib3f(a_position,0.0,0.0,0.0);
 gl.vertexAttrib1f(a_PointSize,5.0);
 gl.uniform4f(u_FragColor,1.0,0.0.0.0,1.0); // 赋予颜色值
+gl.uniformMatrix4fv(u_matrix,false,[0,1,2,34,...]); // 矩阵类型的值传递
 /***同系列的还有vertexAttrib2f，vertexAttrib4f 方法
 分别可传的精度值个数与其中数值一样。
 */
@@ -1710,9 +1711,9 @@ gl.enableVertexAttribArray(a_position); // 激活这个变量的使用
 	gl.LINE_STRIP: 绘制一个线条。即，绘制一系列线段，上一点连接下一点。
 	gl.LINE_LOOP: 绘制一个线圈。即，绘制一系列线段，上一点连接下一点，并且最后一点与第一个点相连。
 	gl.LINES: 绘制一系列单独线段。每两个点作为端点，线段之间不连接。
-	gl.TRIANGLE_STRIP：绘制一个三角带。
+	gl.TRIANGLE_STRIP：绘制一个三角带。【其内部会自动复用前两个点作为下一次三角形绘制的其中两个点】
 	gl.TRIANGLE_FAN：绘制一个三角扇。
-	gl.TRIANGLES: 绘制一系列三角形。每三个点作为顶点。	
+	gl.TRIANGLES: 绘制一系列三角形。【点数必须为3的倍数，即使配合drawElements方法】	
 参数2：表示，用数组中的哪1个顶点作为第1个顶点；
 参数3：为定义需要使用的顶点数量
 */
