@@ -1451,7 +1451,7 @@ js 执行 dom 操作后，其任务会被放到**ui 任务队列**，按顺序�
 js 由 javascipt 引擎执行，dom 渲染时由单独的 webCore 来实现，渲染和 js 的执行（dom 操作结束后的代码）是**异步**的！
 js 的执行和 dom 的渲染是两个引擎执行的，所以每次交互时，其之间的触发就会较慢。
 
-### （1）DOM 操作：
+### a、DOM 操作：
 
 1. **获取元素尺寸相关**
 
@@ -1534,7 +1534,7 @@ var head = document.getElementsByTagName("head")[0];
 head.appendChild(style);
 ```
 
-### （2）元素全屏
+### b、元素全屏
 
 1、进入全屏：`document.getElementById('div').requestFullscreen();`（若该元素无背景色则会默认使用黑色为背景色）
 2、退出全屏：`document.getElementById('div').exitFullscreen();`（全屏后该元素可能变成1个特殊标记，此可能不生效`document.exitFullscreen`即可）
@@ -1569,9 +1569,33 @@ function screen(){
 }
 ```
 
+### c、元素变化监听
+
+```js
+const divElem = document.getElementById("div");
+// 创建监听器
+const resizeObserver = new ResizeObserver((entries) => {
+  for (const entry of entries) {
+      // entry.borderBoxSize 是border盒模型的信息
+    if (entry.contentBoxSize) {
+      const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize;
+	  console.log('content盒子宽：',contentBoxSize.inlineSize);
+    } else {
+     
+    }
+  }
+  console.log('元素尺寸变化触发：',entries);
+  console.log('目标元素：',entry.target);
+});
+// 开启监听
+resizeObserver.observe(divElem);
+// 关闭监听
+resizeObserver.unobserve(divElem);
+```
 
 
-### （3）性能探究：
+
+### d、性能探究：
 
 - `js`执行线程与**渲染线程**是互斥的，==一个执行时，另一个线程会挂起==，所以添加1个`dom`元素后，下文`js`代码中可获取其实例
 - 尽量避免 DOM 修改次数；
