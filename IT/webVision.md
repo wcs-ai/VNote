@@ -186,10 +186,15 @@ $$
 x \\ y \\z\\ 1\end{matrix}\right] 
 &相当于\begin{cases}x^`=ax+by+cz+d\\ y^`=ex+fy+gz+h\\ z^`=ix+jy+kz+l\\ 1=mx+ny+oz+p\end{cases}
 $$
-要只想有平移效果：`d,h,l`为x，y，z轴上的平移量，主对角线为1，其它为0即可；
-要只想有旋转效果：`a,b,e,f`为相关三角函数值，其余主对角线值为1，剩余值为0；
-要只想有缩放效果：`a,f,k为x,y,z`轴的缩放程度，p=1，其余为0即可。
+平移效果：`d,h,l`为x，y，z轴上的平移量，主对角线为1，其它为0即可。
+缩放效果：`a,f,k为x,y,z`轴的缩放程度，p=1，其余为0即可。
 
+旋转效果：`a,b,e,f`为相关三角函数值，其余主对角线值为1，剩余值为0；绕各轴时具体情况如下：
+$$
+T_x=\left[\begin{matrix} 1&0&0&0\\ 0&\cos\beta &-\sin\beta &0\\0&\sin\beta&\cos\beta&0\\0&0&0&1 \end{matrix}\right],~~
+T_y=\left[\begin{matrix} \cos\beta&0&\sin\beta&0\\ 0&1 &0 &0\\-\sin\beta&0&\cos\beta&0\\0&0&0&1 \end{matrix}\right],~~
+T_z=\left[\begin{matrix} \cos\beta&-\sin\beta&0&0\\ \sin\beta&\cos\beta&0 &0\\0&0&1&0\\0&0&0&1 \end{matrix}\right]
+$$
 
 
 ## 5、投影
@@ -204,17 +209,90 @@ $$
 $$
 <img src="./_v_images/xie-shadow.jpg" style="width:500px;"/> <img src="./_v_images/tou-shi.webp" style="width:500px;"/>
 
-**透视投影**：在人与物体之间，设立一个**透明的平面**，称作画面(即投影面)，人眼的位置称**视点**(即投影中心)，由视点至物体上各个点连线。
+**透视投影**：仅是使用三维变换操作物体得到的视图并不真实，通过透视投影后得到的图形**更接近人眼观察**到的有3维感。
+在人与物体之间，设立一个**透明的平面**，称作画面(即投影面)，人眼的位置称**视点**(即投影中心)，由视点至物体上各个点连线。
 （1）观察物体的各点到视点的连线称为**视线**。观察中只存==在一个视平面==（不一定用**屏幕**）**主视线**：中心视线向量，与视平面垂直
 （2）==垂直于==`视平面`的视线与视平面的交点为**视心**。视点到视心的**距离**称为**视距**`d`。视点到观察点的**距离**称为**视径**`R`
-（3）**世界坐标系到观察坐标系的变换**：两者的z轴方向相反，`视径R - 物体的世界坐标系的z值`即可转换完成（x，y不变）
-（4）观察坐标系到屏幕坐标系的变换：这一步通过投影完成，计算同斜投影方法类似。
-（5）视点$O_v，视心O_s,观察点p_v(x_v,y_v,z_v),投射到视平面的点p_s(x_s,y_s,z_s)$
-（6）以上两次转换都分别可以用转换矩阵来完成，如下：左侧为屏幕坐标，右侧为物体坐标。中间矩阵分别为**投影矩阵**，**透视矩阵**
-$$
-\left[\begin{matrix} x_s\\y_s\\z_s\\1\end{matrix}\right]=\left[\begin{matrix} 1&0&0&0\\ 0&1&0&0\\0&0&0&0\\0&0&0&1
-\end{matrix}\right]\left[\begin{matrix} 1&0&0&0\\ 0&1&0&0\\ 0&0&1&0\\ 0&0&1/d&1\end{matrix}\right]\left[\begin{matrix} x_v\\y_v\\z_v\\1\end{matrix}\right]~~,视距d可以给一个固定值
-$$
+（3）**确定观察坐标系**：需要用视点和观察点确定 观察坐标系的`z轴向量`，用人眼**上方向**确定观察坐标系的`y轴向量`。用这两个向量来计算观察坐标系的`x轴向量`。
+（4）世界坐标系转观察坐标系：物体的世界坐标系方向，距离都是相对于原点的，需要将它们都改为观察坐标系中的方向及位置。（如图需要将p点处x0方向坐标映射到xv方向，z0方向变换到zv方向，y轴坐标也类似）
+<img src="./_v_images/toushi-touy.png"/>
+
+（4）观察坐标系到屏幕坐标系的变换：这一步通过投影完成，计算同斜投影方法类似。如p点映射到p1点。
+（5）两步变换分别用两个矩阵表示，具体js代码如下：
+
+```js
+
+/**** 构造透视矩阵 ****/
+function createViewMatrix(eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ) {
+  // 向量归一化
+  const normalize = (v) => {
+    const length = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+    return [v[0] / length, v[1] / length, v[2] / length];
+  };
+  // 相减生成向量
+  const subtract = (v1, v2) => {
+    return [v1[0] - v2[0], v1[1] - v2[1], v1[2] - v2[2]];
+  };
+  // 向量的叉乘得到它们的法向量
+  const cross = (v1, v2) => {
+    return [
+      v1[1] * v2[2] - v1[2] * v2[1],
+      v1[2] * v2[0] - v1[0] * v2[2],
+      v1[0] * v2[1] - v1[1] * v2[0],
+    ];
+  };
+  // 计算视向量，并归一化
+  const zAxis = normalize(subtract([eyeX, eyeY, eyeZ], [atX, atY, atZ]));
+  // 得到 视向量 与 上方向 的法向量 并归一化 （即：视觉坐标系的x轴方向）
+  const xAxis = normalize(cross([upX, upY, upZ], zAxis));
+  // 得到 视向量 与 x轴 的法向量 并归一化 （即：视觉坐标系的y轴方向）
+  const yAxis = normalize(cross(zAxis, xAxis));
+
+  return new Float32Array([
+    xAxis[0],yAxis[0],zAxis[0],0,
+    xAxis[1],yAxis[1],zAxis[1],0,
+    xAxis[2],yAxis[2],zAxis[2],
+    0,
+    -(xAxis[0] * eyeX + xAxis[1] * eyeY + xAxis[2] * eyeZ),
+    -(yAxis[0] * eyeX + yAxis[1] * eyeY + yAxis[2] * eyeZ),
+    -(zAxis[0] * eyeX + zAxis[1] * eyeY + zAxis[2] * eyeZ),
+    1,
+  ]);
+}
+
+function angleToRadian(angle) {
+  return (Math.PI * angle) / 180;
+}
+
+/***** 构建投影矩阵 ****
+fov： 表示观察者的可视范围的角度。
+aspect： 投影面的宽高比 ，一般就用 canvas.width / canvas.height
+newar: 近距离，1。 far：观测最远距离 100
+*/
+function createPerspective(fov, aspect, near, far) {
+  fov = angleToRadian(fov); // 角度转弧度
+  const f = 1.0 / Math.tan(fov / 2);
+  const nf = 1 / (near - far);
+  // prettier-ignore
+  return new Float32Array([
+        f / aspect, 0, 0, 0,
+        0, f, 0, 0,
+        0, 0, (far + near) * nf, -1,
+        0, 0, 2 * far * near * nf, 0,
+      ]);
+}
+// 透视矩阵
+const viewMatrix = createViewMatrix(
+        3, 4, 8, // 观察点
+        0, 0, 0, // 视点
+        0, 1, 0 // 上方向
+      );
+// 投影矩阵
+const projMatrix = createPerspective(30, canvas.width / canvas.height, 1, 100);
+
+/****再用 透视矩阵 x 投影矩阵 x 物体坐标***/
+```
+
 **zBuffer算法**：透视投影时如果有多个物体互相遮挡，用于分清哪个点投影到视图上。
 （1）设置帧缓冲器颜色为背景色，
 （2）设置帧缓冲器的宽、高、初始深度（一般初始深度设为最大值）
@@ -257,7 +335,7 @@ $$
 **发射光模型**：描述物体的自发光，不参与它附近物体的光照。
 **环境光模型**：天空，大地，周围场景的投射光。简单光照模型中用一个常项来近似模拟。$I_e=K_aI_a~~,K_a\in [0,1]为材质反射率,I_a$为环境光强.
 
-**漫反射光模型**：点光源照射下被物体吸收重新反射出来的光，其从一点照射，从个方向散射，漫反射光只与光源位置有光，==与视点位置无关==。
+**漫反射光模型**：对于粗糙物体处理反射光的一种模型，其从一点照射，从个方向散射，漫反射光只与光源位置有光，==与视点位置无关==。
 Lambert余弦定律给出的`p点`漫反射模型：$I_d=K_dI_p\cos\theta,~~\theta\in [0,2\pi],K_d\in[0,1],~~I_p$为点光源入射光强，K_d_为材质漫反射率，θ为入射光与表面p点的法向量夹角，可有$\cos\theta = N*L$，NL为p点入射光与法向量乘积（==小于0时也取0，表示非正面照射到p点==）
 
 **镜面反射光模型**：有很强的方向性，只有在反射方向才能看到反射光效果，因此与视点位置有关。从L方向照入，从R方向反射出，视点方向与R方向越靠近光越亮
@@ -310,14 +388,45 @@ $$
 （a）这需要两次映射，第一次是从纹理空间映射到参数空间（物体空间），第二次是从参数空间映射到屏幕空间（透射投影完成）
 
 颜色纹理：定义好纹理的漫反射率，镜面反射率等，用光照渲染时依然可以呈现相应的明暗效果。
-
-几何纹理：适当的扰乱物体网格表面部分法向量，使光照渲染时产生阴暗，光亮交错产生凹凸效果。
-
-**简单纹理读入**：
+**简单纹理读入**：（曲面拉伸也会导致纹理随着拉伸）
 （1）先得到真实纹理的坐标空间。
 （2）确定当前曲面空间（如曲面x，y值的最大最小）
 （3）曲面上某一点(x0,y0,z0)，用插值公式和当前曲面空间计算得出两个方向的`t`。
 （4）再在纹理空间上，根据插值公式计算得出对应纹理坐标（u,v）取像素点色值。
+
+**几何纹理**：适当的扰乱物体网格表面部分法向量，使光照渲染时产生阴暗，光亮交错产生凹凸效果。
+
+**两步纹理映射**：先将纹理映射到一个中介曲面（`S映射`），再从其映射到三维物体上（`O映射`），解决了无参数化的纹理映射。
+（1）目标物体为回转体，中介曲面一般选用圆柱。圆柱用参数公式（极坐标）表示：【1】$\begin{cases}x=r\sin\theta\\ y=hφ\\z=r\cos\theta\end{cases},~~0<\varphi <1,0<\theta <2\pi$。
+（2）与纹理坐标空间的**对应关系**：$u=\frac{\theta}{2\pi},~~v=\varphi=\frac{y}{h}$。
+（3）**3维物体**上一点$(x_w,y_w,z_w)$先计算对应的：$(\theta,\varphi)=(\arctan(x_w/z_w),y_w/h)$（==O映射中会得到该物体的点==）
+（4）然后计算S映射：$(\theta,h)=[c(\theta,\theta_0),(h-h_0)/d]$，将**最后得到的**h，θ，φ代入【1】【2】中就可得到圆柱上那个点用哪个纹理像素
+（5）上式中：`c,d`是纹理比例系数。$\theta_0,h_0$是初始值，对应纹理在柱面上的**初始位置**。
+（6）O映射：可用此方法将其映射到任何物体上。有以下几个方法（把圆柱体放到空间中计算它们的相交？？）
+
+- 反射光线法：视点出发向物体发出一条光线，跟踪其与物体表面发出的反射光线（这个点代入（3）中）直至其与中介曲面相交（**常用**）
+
+- 物体法向法：跟踪物体表面的法线，直至其与中介曲面相交。然后将这个物体表面的点代入（3）
+
+- 物体中心法：跟踪物体中心与物体上一点的连线，直至其与曲面相交。
+
+- 中介曲面法向法：跟踪从中介曲面上的一点沿其法线方向发出的一条光线，与物体表面的交点。
+
+  |                | 平面 | 圆柱面 | 立方体   | 球面     |
+  | -------------- | ---- | ------ | -------- | -------- |
+  | 物体法向法     | 冗余 | 不合适 | 不太合适 | 不太合适 |
+  | 物体中心法     | 冗余 | 不合适 | 合适     | 合适     |
+  | 中介曲面法向法 | 合适 | 合适   | 合适     | 冗余     |
+
+**环境映射**：有镜面效果的材质需要映射出周围的环境。基于光线追踪的方法较为费时；速度快的方法是先将其它渲染好的物体作为一副场景图保存，然后渲染该物体计算环境映射时从其表面计算反射光线，用交于周围环境的点作为其映射上。
+
+**投影纹理映射**：该方法先将纹理投影到一个表面上，然后将这个表面投影到场景中。
+（a）这不需要预先绑定纹理坐标，这与纹理图象无关，要更换纹理时改变投影机即可。
+（b）可有效避免纹理扭曲。
+
+**三维纹理**：平面纹理包裹曲面是一种非线性映射，3维物体为三角形拼接，在交点处很难保持连续性。三维纹理是计算机生成的纹理，在这些交点处使用特殊的处理函数。
+
+MinMap纹理反走样：
 
 # 零1、css特效
 
@@ -1922,11 +2031,30 @@ var a_texcord = gl.getAttribLocation(prgram,'a_texcord');
 gl.vertexAttribPointer(a_texcord, vertexBuffer.itemSize, gl.FLOAT, 0, 0);// 传入纹理坐标数据
 
 var u_sampler = gl.getUniformLocation(prgram,'u_sampler');
-var texture = gl.creataTexture(); // 创建纹理对象
+var texture = gl.createTexture(); // 创建纹理对象
 gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,1);// 对纹理图象进行y轴翻转
 gl.activeTexture(gl.TEXTURE0); // 开启0号纹理单元
 gl.bindTexture(gl.TEXTURE_2D,texture); // 绑定
-gl.textParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINER); // 配置纹理参数
+/**配置纹理参数
+参数1：可以是
+- gl.TEXTURE_CUBE_MAP: 立方体纹理。
+- gl.TEXTURE_2D: 二维纹理。
+参数2：要配置的目标参数。
+- gl.TEXTURE_MAG_FILTER：纹理放大滤波器
+- gl.TEXTURE_MIN_FILTER	纹理缩小滤波器
+- gl.TEXTURE_WRAP_S	纹理坐标水平填充 
+- gl.TEXTURE_WRAP_T	纹理坐标垂直填充
+- ext.TEXTURE_MAX_ANISOTROPY_EXT	纹理最大向异性
+- gl.TEXTURE_BASE_LEVEL	纹理映射等级
+- gl.TEXTURE_COMPARE_FUNC	纹理对比函数
+- gl.TEXTURE_COMPARE_MODE	纹理对比模式
+- gl.TEXTURE_MAX_LEVEL	最大纹理映射数组等级 整数值
+- gl.TEXTURE_MAX_LOD	纹理最大细节层次值 整数值
+- gl.TEXTURE_MIN_LOD	纹理最小细节层次值 任何浮点型值。
+- gl.TEXTURE_WRAP_R	纹理坐标r包装功能
+参数3为该目标参数的值。
+*/
+gl.textParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINER); 
 gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,image); // image是 new Image()；实例。
 gl.uniformli(u_sampler,0); // 将0号纹理传递给着色器
 ```
