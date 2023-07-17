@@ -2,7 +2,7 @@
 
 ## 01.常用库文档
 
-- [nodejs中文档](https://www.npmjs.cn/)、[nodejs官方文档](https://www.nodeapp.cn/)、[npm包使用查询网站](https://www.npmjs.com/package/unplugin-auto-import)
+- [npm中文档](https://www.npmjs.cn/)、[nodejs官方文档](https://www.nodeapp.cn/)、[npm包使用查询网站](https://www.npmjs.com/package/unplugin-auto-import)
 - [前端官方技术文档](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
 - [rollup官网](https://rollupjs.org/)、[webpack 中文文档地址](https://webpack.docschina.org/concepts/)
 - [axios官方文档](https://www.axios-http.cn/docs/intro)、[vue-route官方文档](https://router.vuejs.org/zh/)
