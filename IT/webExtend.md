@@ -1392,6 +1392,46 @@ router.afterEach((to, from) => {
 });
 ```
 
+## 4、结合ts使用
+
+**全局库或文件的声明**：在一个`.d.ts`中声明它们，不然会提示`can not find module`情况。
+
+```typescript
+// 全局声明一些第三方库
+declare module 'vue';
+
+declare module 'element-plus';
+// 声明一些类型文件
+
+declare module '*.svg';
+declare module '*.vue';
+declare module '*.png';
+```
+
+**给vue钩子附加类型标注**：vue钩子支持ts从钩子中的数据进行类型推断，但复杂的数据不太有效。[参考地址](https://www.xjx100.cn/news/24610.html?action=onClick)
+
+```typescript
+type PropType = {
+  showSearch: boolean,
+  columns: Array<{ key: number|string, label: string, visible: boolean }>,
+  search: boolean,
+  gutter: number
+};
+// props 的标注可以使用泛型方式
+const props = defineProps<PropType>();
+
+// 对defineEmits 标注它们的函数类型
+const emit = defineEmits<{(e: 'change', id: number): void(e: 'update', value: string): void}>();
+
+// 对ref的标注类似
+const year = ref<string | number>('2020');
+
+// 对reactive
+const book: Book = reactive({ title: 'Vue 3 指引' });
+```
+
+
+
 # 四、vue3原理
 
 ## 1、基础

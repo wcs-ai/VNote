@@ -1709,12 +1709,15 @@ package.json文件如下：
 
 **缓存机制**：初次下载依赖时会先将其放到缓存中，然后解压到项目。根据`package-lock.json`下载时则会用`integrity,version,name`信息生成1个key，它能对应到index-v5下的**缓存记录**，有缓存资源则会hash值查找`tar`包。（无`package-lock.json`文件==则不会使用缓存==）
 
-**验证包**：在全局npm包目录下放置1个包`npmPackage1`然后在你想启动的项目project下使用`npm link再npm link npmPackage1`将该包链接过来，使用完后`npm unlink`取消链接。（这样可很方便的对一个包进行测试）
+**npm link使用**：在1个npm包目录下使用`npm link`再`npm ls -g deepth=0`可查看该包被链接到全局。
+（b）想使用的项目下：`npm link 包名`将该包链接过来，使用完后`npm unlink`取消链接。（这样可很方便的对一个包进行测试）
 
 **npx**：解决npm面临快速开发，调试，项目内使用全局模块的痛点。且其安装完依赖后会进行删除
 位于`node_modules/.bin`下的脚本可直接使用`npx`调用。
 
 **pnpm**：其将项目下载的依赖存到同一个系统磁盘位置，当其它项目有下载依赖时到此位置检查是否存在，若存在则使用链接的方式链接到此引用（所以其速度和磁盘节约比yarn，npm都要好。缺点也明显：存储中1个依赖有改动则影响全部项目）
+（1）安装：`npm install -g pnpm`。
+（2）安装依赖：`pnpm install`。
 
 **cnpm**：npm 本身指定的安装源是外国的，`npm install -g cnpm --registry=https://registry.npm.taobao.org`#安装淘宝镜像,使用时直接 cnpm install 即可
 **npm 指令**：
@@ -3644,18 +3647,22 @@ define(function (require, exports, module) {
 
 （3）**ESM规范**：EcmaScript Module，即es6的模块；
 **特点**：import模块名只能是字符串常量，只能在模块顶层出现、它依赖的内容不可变；支持静态分析。
+`.mjs`**文件**：node支持的，表示一个使用 `ECMAScript `模块（ESM）规范编写的 JavaScript 文件。相对于普通的 .js 文件.mjs 文件采用了更现代化的模块化编程方式。工程中可直接使用
 
 ```js
 // a.js
 export default {a:1,b:2};
 // b.js
 import aa from './a.js';
+// .mjs使用
+import {aa} from './tool.mjs';
 ```
 
 2、Node端
 （1）**CommonJS规范**：（`CJS`）一个单独的文件就是一个模块。每一个模块都是一个单独的作用域；
 一般应用于服务端（Node.js平台）采用的是**同步方式**（因为服务端模块**加载一般很迅速**）；
 只有在执行代码后才能**动态确定依赖模块**，不大具备可静态分析能力；
+`.cjs`文件：node支持的 commonjs 规范文件，且只能是该规范。
 
 ```js
 // 导出写法
