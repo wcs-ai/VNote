@@ -2533,8 +2533,8 @@ Unity 提供以下渲染管线：
 3、**地形**：可以先到资源商店搜`Terrain Sample Asset Pack`导入使用，其有许多地形使用的资源
 （1）创建：左侧`Hierarchy`区域`右键/3d Object/Terrains`。
 （2）第1个图标：选中后显示附近区域，鼠标右键点击空区域可将当前地形拷贝一份过去。
-（3）第2个图标：下拉/`paint texture`下方创建个材质，然后下拉/`raise or lower`场景地图上按下鼠标拖动可以随机生成山丘（不断覆盖则高度增加）`Paint Holes`选项可在地形上开洞，悬崖处理。
-（4）第5个图标：设置地图的大小，距离等一些参数。
+（3）第2个图标：【a】`paint texture`下方创建个材质；【b】`set Height`设置1个高后可刷出一个固定高地形；【c】`raise or lower`场景地图上按下鼠标拖动可以随机生成山丘（不断覆盖则高度增加）【d】`Paint Holes`选项可在地形上开洞，悬崖处理。
+（4）第5个图标：设置地图的大小，距离等一些参数（height值稍高一点，这样才能绘制凹地）
 
 <img src="./_v_images/unity-terrains.png" />
 
