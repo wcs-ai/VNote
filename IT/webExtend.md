@@ -1419,6 +1419,13 @@ type PropType = {
 };
 // props 的标注可以使用泛型方式
 const props = defineProps<PropType>();
+// 也可以在 type部分使用类型定义
+const props2 = defineProps({
+    imgs:{
+        type: Array<string>,
+        default: ()=>['aa.jpg']
+    }
+});
 
 // 对defineEmits 标注它们的函数类型
 const emit = defineEmits<{(e: 'change', id: number): void(e: 'update', value: string): void}>();
