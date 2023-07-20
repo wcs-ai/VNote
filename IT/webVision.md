@@ -1849,160 +1849,7 @@ gl.drawElements(mode,count,type,offst);
 
 **渲染大致过程**：缓冲区对象点数据》赋值给顶点着色器》图形装配》光栅化》片元着色器（注意：==每个顶点都会执行一次这个过程==）
 
-## b、基本绘制
 
-**绘制基本流程**：是创建要用的着色器对象，创建要用的缓冲数据；同一个图形你可以将数据分开，然后**多次调用**下面的绘制方法绘制出来（但**性能差**）
-
-```js
-// 公共部分
-var canvas = document.getElementById('canvas');
-var gl = createGLContext(canvas);
-setupShaders();
-gl.clearColor(0.0, 0.0, 0.0, 1.0); // 定义清除色
-gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight); // 视窗大小
-gl.clear(gl.COLOR_BUFFER_BIT); // 先清除图形上的颜色
-```
-
-**绘制一个点**：使用上面已有的前置代码，然后
-
-```js
-// 0表示从第0个点开始绘制，第3个参数则是顶点的数量
-gl.drawArrays(gl.POINTS, 0, 1); // 绘制原点（点位置已在顶点着色器中直接设置）
-```
-
-**绘制多个点**：上面的做法只是传入1个点的坐标，然后绘制。可以**使用缓冲对象**，一次传入多个点数据（每创建1个缓冲区，并分配给变量，启用变量后才能创建下一个缓冲区）
-
-```js
-function setupBuffers() {
-  vertexBuffer = gl.createBuffer(); // 创建一个缓冲对象
-  gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer); // 在gl.ARRAY_BUFFER上绑定这个对象
-  var triangleVertices = [0.0, 0.5, 0.0, -0.5, -0.5, 0.0, 0.5, -0.5, 0.0]; // 3个点的数据
-  //Float32Array()为1个内置的，高效的二进制处理方法
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVertices), gl.STATIC_DRAW); // 缓冲1个三角形顶点数据
-  vertexBuffer.itemSize = 3; // 每个属性有多少个分量
-  vertexBuffer.numberOfItems = 3; // 告知缓冲中的顶点个数
-}
-var a_position = gl.getAttribLocation(shaderProgram, "a_Position");
-/***将缓冲区对象分配给a_Position，第2个参数为缓冲区对象中每个顶点的分量值（一般就是x,y,z坐标数）***/
-gl.vertexAttribPointer(a_position, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
-/***启用a_position这个变量，可用disableVertexAttribArray()方法关闭***/
-gl.enableVertexAttribArray(a_position);
-gl.drawArrays(gl.POINTS, 0, vertexBuffer.numberOfItems);
-```
-
-**不同顶点的不同大小**：给`gl_PointSize`同样传入一个缓冲区数据，对应各顶点的大小即可。
-
-```js
-var vertexShaderSource =
-	"attribute vec4 a_Position;                  \n" +
-	"attribute float a_PointSize;                \n" +
-	"void main(){                                \n" +
-	"  gl_Position = a_Position; \n" + 
-    "  gl_PointSize = a_PointSize; \n" +
-	"}                                           \n";
-var sizes = new Float32Array([5.0,10.0,15.0]); // 3个顶点的大小
-// ...点大小的缓冲创建
-gl.vertexAttribPointer(a_PointSize,1,gl.FLOAT,false,0,0);
-/*****也可以将点的大小同位置写在同一个buffer对象中（常用）利用vertexAttribPointer的第5,6个参数实现*****/
-var verticesSize = new Float32Array([
-        -0.5, 0.5, 0.0, 5.0, // 第4个值是该点的大小
-        -0.5, -0.5, 0.0, 8.0,
-        0.5, 0.5, 0.0, 4.0,
-        0.5, -0.5, 0.0, 10.0
-      ]);
-var FSIZE = verticesSize.BYTES_PER_ELEMENT; // 每个元素的字节数
-/***vertexAttribPointer()
-第2个参数是每个点的分量（这里每个点x，y，z坐标3个值，所以取3）
-第5个参数是“步进数”即：每个点的间隔字节（每个点4个数字【包括大小】所以取4）
-第6个参数为“偏移量”，从0开始就是坐标数据，所以这里偏移量为0
-*/
-gl.vertexAttribPointer(a_position, 3, gl.FLOAT, false, FSIZE * 4, 0);
-/*****为点大小赋值
-第2个参数：每个点只有最后1个值是大小，所以这里取1（表示每次取1个值，4个点共取4次）
-第5个参数：同上
-第6个参数：每个点前3个值都是坐标数据，所以偏移量为3（表示从第3个值开始取）
-*/
-gl.vertexAttribPointer(a_PointSize, 1, gl.FLOAT, false, FSIZE * 4, FSIZE * 3);
-```
-
-**绘制三角形**：将上面的drawArrays改为`gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.itemSize);`即可
-绘制矩形：需要两个三角形拼接出来，关键部分如下：
-
-```js
-var triangleVertices = [-0.5, 0.5, 0.0,-0.5, -0.5, 0.0,0.5, 0.5, 0.0,0.5, -0.5, 0.0]; // 4个点的数据
-vertexBuffer.numberOfItems = 4; // 告知缓冲中的顶点个数
-/*****绘制方法之一（没有顶点共享的情况时推荐使用）
-第1个参数表示绘制的图元类型；
-第2个参数表示，用数组中的哪1个顶点作为第1个顶点；
-第3个参数为定义需要使用的顶点数量
-*/
-gl.drawArrays(gl.TRIABGLE_STRIP, 0, vertexBuffer.numberOfItems);// 利用TRIABGLE_STRIP的特性，4个顶点即可绘两个三角形
-/***另一种绘制方法
-按照顶点索引进行绘制的方法，部分重复的点可指定索引，这样可以节省空间和时间
-***/
-gl.drawElements(mode,count,type,offst);
-```
-
-## c、变换
-
-**平移操作**：在顶点着色器中新建1个平移变量与位置变量相加，绘制时传入平移变量，即可完成平移操作。
-
-```js
-var vertexShaderSource =
-	"attribute vec4 a_Position;                  \n" +
-	"uniform vec4 u_Translation;                 \n" +
-	"void main(){                                \n" +
-	"  gl_Position = a_Position + u_Translation; \n" + // 点位置与位移数据相加
-	"}                                           \n";
-// 传入位移数据
-var u_Translation = gl.getUniformLocation(shaderProgram,"u_Translation");
-gl.uniform4f(u_Translation,0.2,0.2,0.2,0.0);
-// ...绘制
-```
-
-**旋转操作**：正余弦公式来计算对应角度后的坐标即可。另一个方法是利用矩阵计算
-
-```js
-var vertexShaderSource =
-	"attribute vec4 a_Position;                  \n" +
-	"uniform float u_CosB,u_SinB;                \n" +
-	"void main(){                                \n" +
-	"  gl_Position.x = a_Position.x * u_CosB - a_Position.y * u_SinB; \n" + // 旋转计算
-	"  gl_Position.y = a_Position.x * u_SinB + a_Position.y * u_CosB; \n" + // 旋转计算
-    "   gl_Position.z = a_Position.z; \n"+ // z轴不变（绕z轴的旋转）
-    "  gl_Position.w = 1.0; \n" + // 齐次坐标
-	"}                                           \n";
-var radian = Math.PI *90.0 /180.0; // 这里是旋转90度
-var cosb = Math.cos(radian);
-var sinb = Math.sin(radian);
-var u_CosB = gl.getUniformLocation(shaderProgram,'u_CosB');
-var u_SinB = gl.getUniformLocation(shaderProgram,'u_SinB');
-gl.uniform1f(u_CosB,cosb);gl.uniform1f(u_SinB,sinb);
-```
-
-
-
-**矩阵方式的旋转实现**：
-
-```js
-var vertexShaderSource =
-	"attribute vec4 a_Position;                  \n" +
-	"uniform mat4 u_xformMatrix;                 \n" +
-	"void main(){                                \n" +
-	"  gl_Position = u_xformMatrix * a_Position; \n" + // 计算
-	"}                                           \n";
-var xformMatrix = new Float32Array([
-    cosB, sinB,0.0,0.0,
-    -sinB,cosB,0.0,0.0,
-    0.0, 0.0, 1.0, 0.0,
-    0.0, 0.0, 0.0, 1.0
-]);
-var u_xformMatrix = gl.getUniformLocation(shaderProgram,'u_xformMatrix');
-// 矩阵类型的赋值方法
-gl.uniformMatrix4fv(u_xformMatrix,false,xformMatrix);
-```
-
-**动画基础**：与2d时类似，通过清除上一次的绘制，然后变换数据，重新绘制来实现动画效果
 
 ## d、纹理
 
@@ -2073,7 +1920,11 @@ webgl中的es并非支持所有的es语言特性
 
 分支和循环：可以使用条件语句和for循环，与js用法一致。
 
-内置函数：`sin,cos,tan,pow,log,sqrt,acos,length(),distance()`等等。
+**内置函数**：这些函数的使用，计算的操作都==必须放到 函数中执行==。
+（1）三角函数：`sin,cos,tan,asin,acos,atan,,acos`等等。
+（2）指数相关：`pow,log,sqrt,log2`。
+（3）几何部分：`length()`矢量长度。`distance()`计算两点距离。`dot()`计算向量内积，`cross()`向量叉乘。`normalize()`归一化。`reflect(),faceforward()`
+（4）通用函数：`max(), min(), mod(取余)，abs(), sign(取正负号)，floor(), ceil(), mix(线性内插), step()`
 
 **限定符**：
 （1）修饰限定符

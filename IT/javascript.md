@@ -4015,6 +4015,7 @@ interface qqv extends LabelledValue{
 }
 interface AnimalType{
     move:void,
+    clickFn: (arg: any) => void,
     constructor():void
 }
 interface dogType{
