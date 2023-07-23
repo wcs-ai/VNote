@@ -18,7 +18,7 @@
 
 实时渲染：对图形数据的实时计算和输出。要求能在短时间内渲染出一张图片。
 
-离线渲染：根据预定的数据设置对场景进行渲染生成，一般用于影业特效，超真实的渲染。
+离线渲染：根据预定的数据 设置对场景进行渲染生成，一般用于影业特效，超真实的渲染。
 
 **空间**：有纹理空间、三维空间、屏幕空间等术语。三维空间到屏幕空间显示是一个**透视投影的操作**。物体空间（曲面体常用参数`(Θ,φ)`表示，也称**参数空间**）
 
@@ -338,7 +338,9 @@ $$
 **漫反射光模型**：对于粗糙物体处理反射光的一种模型，其从一点照射，从个方向散射，漫反射光只与光源位置有光，==与视点位置无关==。
 Lambert余弦定律给出的`p点`漫反射模型：$I_d=K_dI_p\cos\theta,~~\theta\in [0,2\pi],K_d\in[0,1],~~I_p$为点光源入射光强，K_d_为材质漫反射率，θ为入射光与表面p点的法向量夹角，可有$\cos\theta = N*L$，NL为p点法向量与入射光点积（==小于0时也取0，表示非正面照射到p点==）
 
-**镜面反射光模型**：有很强的方向性，只有在反射方向才能看到反射光效果，因此与视点位置有关。从L方向照入，从`R`方向反射出，`V`为当前点到视点向量
+**镜面反射光模型**：有很强的方向性，只有在反射方向才能看到反射光效果，因此与视点位置有关。
+（a）`R`是反射向量，记入射向量`L=光点 - 当前点`（注意这个方向）
+（b）`V`为当前点到视点向量：`V=视点 - 当前点`（注意这个方向）
 $$
 I_s=K_sI_p\cos^n\alpha~~,0\leq\alpha\leq2\pi,K_s\in [0,1]~~,\begin{cases}I_p为p点处入射光强\\ K_s为材质镜面反射率\\ 
 \alpha为视点位置方向V与反射方向R的夹角\\ \cos\alpha=RV, 小于0时也取0 \\ n为材质的高光指数 \end{cases}
@@ -349,6 +351,11 @@ $$
 **最终简单光照模型Phong**：还要**添加颜色**，材质是有多种颜色的，因此计算上3个颜色通道都要进行如下公式计算。
 （a）$I=K_aI_a+\sum^{n-1}_{i=0}f(d)*[K_dI_{p,i}*max(NL,0)+K_sI_{p,i}*max(RV,0)^n]$，求和是多个点光源时的写法。每个点将各颜色通道值代入此式计算
 （b）对最终结果==再进行归一化处理==（其可能会超过色值）与物体材质对应像素点设置进行 乘 或 加的操作。
+
+<span style="color:red;font-weight:600;">注：</span>渲染时，==让它们在同一坐标系中完成计算==。
+（1）光源位置要变化到观察坐标系：`透视矩阵 x 光源位置`。
+（2）当前像素点要转到观察坐标系：`透视矩阵 x 当前点`。
+（3）面的法向量也要转换：`转置(透视矩阵前3维) x 当前点的法向量`
 
 **表面模型**：使用三角形可以逼近任意的面。
 （1）点元表示法：使用三角形的3个顶点来表示，但进行填充时需要计算哪些点在其内。
@@ -421,13 +428,26 @@ $$
 
 **环境映射**：有镜面效果的材质需要映射出周围的环境。基于光线追踪的方法较为费时；速度快的方法是先将其它渲染好的物体作为一副场景图保存，然后渲染该物体计算环境映射时从其表面计算反射光线，用交于周围环境的点作为其映射上。
 
+- **球面映射**：把物体当成球体看待，计算物体p点的法向量，然后计算其对应到的纹理坐标。
+  （2）视向量V，p点处法向量N，p点反射向量R。$N=R+V=(r_x,r_y,r_z)$。（把已渲染好的场景当做一张纹理图）
+  （3）N对应的**纹理坐标**为：$u=r_x/m + 1/2,~~v=r_y/m+ 1/2,~~m=2\sqrt{r^2_x+r^2_y+r^2_z}$。
+  （4）在上下两极点处会出现比较严重的纹理变形。
+- **立方体映射**：是闭球面映射更加常用的方法。
+  （1）生成特殊的6张图形，对应立方体的6个面。通过物体点p处的反射向量`R=(rx,ry,rz)`（该物体形状的真实反射向量）
+  （2）从R中找到绝对值最大的那个分量值（再根据正负号用对应那个方向的面的纹理图），然后其余两个分量 比上这个绝对值，再归一化处理。
+  （3）如`R=(-3.2,5.1,-8.4)`则计算的纹理坐标：$u=(-3.2/8.4 + 1.0)/2,~~v=(5.1/8.4 + 1.0)/2$用==背面方向的纹理图==（-8.4为指向z负半轴）
+
 **投影纹理映射**：该方法先将纹理投影到一个表面上，然后将这个表面投影到场景中。
 （a）这不需要预先绑定纹理坐标，这与纹理图象无关，要更换纹理时改变投影机即可。
 （b）可有效避免纹理扭曲。
 
-**三维纹理**：平面纹理包裹曲面是一种非线性映射，3维物体为三角形拼接，在交点处很难保持连续性。三维纹理是计算机生成的纹理，在这些交点处使用特殊的处理函数。
+**三维纹理**：平面纹理包裹曲面是一种非线性映射，3维物体为三角形拼接，在交点处很难保持连续性。三维纹理是计算机生成的纹理，在这些交点处使用特殊的处理函数。【！！待深入】
 
-MinMap纹理反走样：
+**MinMap纹理反走样**：一般纹理贴到3维物体上，如一个长方形透视投影后近处的纹理被放大，远处的缩小，所以常出现**摩尔纹**（数码相机也常遇到）
+（1）MipMap思想是对原图进行几次缩小（每次缩小为原来一半）分别得到几张分辨率不同的纹理图片（缩小是用 ==每4个像素点的均值变为1个像素点==实现）
+（2）然后如果哪个平面使用了此图，它会在**距离视点近的像素**部点部分使用高清的纹理图上的像素，**远离视点部分**使用分辨率较低的纹理图。
+（3）可生成的不同分辨率图片数：$m=log_2n+1$，n为图片宽（一般用`256x256`的做原图，要满足$2^n$）
+（4）所选取的高清，和低分辨率像素点的中间 部分，可使用线性插值完成填充。
 
 # 零1、css特效
 
@@ -1797,10 +1817,17 @@ if(a_position<0) console.error('faild to get the storage of a_position');
 gl.vertexAttrib3f(a_position,0.0,0.0,0.0);
 gl.vertexAttrib1f(a_PointSize,5.0);
 gl.uniform4f(u_FragColor,1.0,0.0.0.0,1.0); // 赋予颜色值
-gl.uniformMatrix4fv(u_matrix,false,[0,1,2,34,...]); // 矩阵类型的值传递
+/**区别如下（f/i）表数据类型，带v 表示传递一个数组***/                                    
+void gl.uniform3f(location, v0, v1, v2);
+void gl.uniform3fv(location, value);
+void gl.uniform3i(location, v0, v1, v2);
+void gl.uniform3iv(location, value);
 /***同系列的还有vertexAttrib2f，vertexAttrib4f 方法
 分别可传的精度值个数与其中数值一样。
 */
+
+// 矩阵时多个参数
+gl.uniformMatrix4fv(u_matrix,false,[0,1,2,34,...]); // 矩阵类型的值传递
 
 /*【批量的传递】诉显卡从当前绑定的缓冲区（bindBuffer() 指定的缓冲区）中读取顶点数据
 参数1：要传递的着色器变量。
@@ -1852,7 +1879,7 @@ gl.drawElements(mode,count,type,offst);
 
 
 
-## d、纹理
+## b、纹理
 
 **图元光栅化**：发生在顶点着色器和片元着色器之间的从图形到片元的转化。
 **纹理**：将图形映射到图形或三维图对象 的表面上。
@@ -1907,6 +1934,52 @@ gl.bindTexture(gl.TEXTURE_2D,texture); // 绑定
 gl.textParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINER); 
 gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,image); // image是 new Image()；实例。
 gl.uniformli(u_sampler,0); // 将0号纹理传递给着色器
+```
+
+**注**：对立方体这种有重用点的情况，你依然得定义每个面时它们使用的 纹理坐标。若读取纹理的时候为异步操作，最好是==同步绘制每个物体==
+
+## d、光照
+
+主要在片段着色器计算各面的光照强弱，然后乘以纹理像素得到最终色值。
+
+```js
+<script id="grag-shader" type="x-shader/x-fragment">
+    precision highp float;
+
+    varying vec2 v_textureCorrdinates;
+    varying vec3 v_position;
+    uniform sampler2D uSampler;
+
+    varying vec3 v_normalization; // v 点法向量
+    varying vec3 v_lightPosition;
+
+    vec3 v_pointLight = vec3(6.0,6.0,6.0); // 点光 (全 4.0~8.0 较正常)
+    vec3 v_envLight = vec3(0.2,0.2,0.2); // 环境光
+    
+    vec3 v_eyePosition = vec3(3,4,8); // 视点位置
+
+    vec3 km = vec3(0.45,0.40,0.42); // 漫反射率
+    vec3 ke = vec3(0.21,0.22,0.20); // 环境光反射率
+    vec3 kr = vec3(0.1,0.1,0.1); // 镜面反射率
+
+    void main() {
+      float d = distance(v_position,v_lightPosition);
+      float fd = min(1.0,1.0/(1.5 + 0.2*d + 0.4*d*d )); // 光源衰减
+      vec3 in_lightNormal = normalize(v_lightPosition - v_position); // 得到 光源<-当前点的 向量
+
+      float point_cos = max(0.0,dot(in_lightNormal,v_normalization)); // 点光源部分
+
+      vec3 eye_normalization = v_eyePosition - v_position; // 当前点 -> 眼睛 的视线向量
+      vec3 ref_vector = reflect(in_lightNormal,v_normalization); // 光的反射方向 向量
+
+      vec3 lightWeight = v_envLight*ke + fd * ( v_pointLight*km * point_cos + v_pointLight * kr * 		            max(0.0,dot(eye_normalization,ref_vector)) );
+
+      vec4 texelColor = texture2D(uSampler, v_textureCorrdinates);
+
+      gl_FragColor = vec4(texelColor.rgb * lightWeight.rgb,texelColor.a);
+      //gl_FragColor = texelColor;
+    }
+  </script>
 ```
 
 
