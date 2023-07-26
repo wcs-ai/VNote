@@ -3974,7 +3974,7 @@ const enum Enum {
   A = 1,
   B = A * 2,
 }
-/***************函数***************/
+/***************【函数】***************/
 //有返回值的函数也是如此
 function warnUser(): string {
   return "hello";
@@ -3991,10 +3991,9 @@ function error(message: string): never {
 function printLabel(labelledObj: LabelledValue) {
   console.log(labelledObj.label);
 }
-//泛型变量：传给函数什么类型，函数就返回什么类型。
-function identity<T>(arg: T): T {
-  return arg;
-}
+/*****【Promise】类型定义******/
+type proType = Promise<string>; // string表示其返回值
+
 /************接口（自定义类型）*************/
 interface LabelledValue {
   readonly label: string;//对象必须含有该键值。readonly表示该属性只读。
