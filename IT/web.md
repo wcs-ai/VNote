@@ -1604,7 +1604,9 @@ front/index.html  //忽略front文件夹下的Index.html文件
 
 ## h、git Hook
 
-git在提交的各个阶段有对外暴露了一些钩子供开发人员使用，具体如下：
+git在提交的各个阶段有对外暴露了一些钩子供开发人员使用，有本地钩子和服务端钩子。
+
+**本地钩子**：`.git/hooks`目录下，`.git`目录是==不会被提交到远程仓库==。
 
 `pre-commit`：提交commit信息之前运行，一般用此做一些代码检测，运行测试等，以非0值退出会放弃提交；
 `prepare-commit-msg`：commit提交后，信息保存前运行；
@@ -1616,9 +1618,6 @@ git在提交的各个阶段有对外暴露了一些钩子供开发人员使用�
 
 `post-commit`：提交完成后运行，不接受任何参数，一般用于提交通知触发一些自定义行为；
 `pre-push`：push时，接受远程分支的名字和位置作为参数，如果以**非0值退出**则会终止推送；
-`pre-receive`：获取一系列被推送的引用，若以**非0值退出**则所有推送内容都不会被接收；
-`update`：与`pre-receive`类似，不过它会为每个准备更新的分支都运行一次；
-`post-receive`：推送全部完成后运行，可用来更新其它系统服务，或通知用户（**自动部署常在这里触发**）
 
 **钩子目录**：各钩子脚本文件会放到`.git/hooks`文件夹下，使用对应钩子时将对应文件的`.sample`后缀**删除**，并写上自己要执行的语句。
 
@@ -1646,7 +1645,15 @@ pre-commit.sample
 }
 ```
 
-复制一份`.git/hooks/pre-commit.sample`文件，改名为`pre-commit`，删除里面的示例内容，改为：`npm run precommit`
+复制一份`.git/hooks/pre-commit.sample`文件，改名为`pre-commit`，删除里面的示例内容，改为：`npm run precommit`。
+**新版本husk**：使用了从git 2.9开始引入的一个新功能core.hooksPath。core.hooksPath可以让你指定git hooks所在的目录而不是使用默认的.git/hooks/。这样husky可以使用`husky install`将git hooks的目录指定为`.husky/`，然后使用`husky add`命令向.husky/中添加hook。
+
+**服务端钩子**：推送到达服务端后执行的钩子，有如下：
+
+- **pre-receive**：更新仓库的提交引用之前被执行。这个钩子脚本应该放置于远程仓库，用于接收推送，而不是发起推送的仓库。
+  适合用于强制开发规范。对于诸如谁不能执行推送到什么分支，提交信息格式不合规范时，可以通过该脚本对其进行拒绝操作。
+- `update`：在`pre-receive`之后被触发执行，该钩子仍然是在发生任何改变之前被执行，但它是根据推送的多个引用分别被调用。
+- `post-receive`：在成功推送操作之后被触发，因此适合用于发送通知。
 
 # 四、nodejs
 
@@ -1673,6 +1680,8 @@ package.json文件如下：
   "scripts": {
     "serve": "vue-cli-service serve --open",// 相当于node_modules/.bin vue-cli-service serve --openv
     "build": "vue-cli-service build",
+    /*******【一些会自动触发的钩子】https://www.npmjs.cn/misc/scripts/ ******/
+    "prepare": "", // install 之后会自动执行
   },
   /**安装此包时会在对方项目下生成node_modules/.bin/create-project文件，可直接scripts中使用**/
   "bin": {
