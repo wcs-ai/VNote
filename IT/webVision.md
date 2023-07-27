@@ -36,6 +36,16 @@
 
 ## 2、颜色
 
+**光谱**（spectrum）
+（1）是[复色光](https://baike.baidu.com/item/复色光/1169071?fromModule=lemma_inlink)经过色散系统（如棱镜、光栅）[分光](https://baike.baidu.com/item/分光/8370907?fromModule=lemma_inlink)后，被[色散](https://baike.baidu.com/item/色散/862554?fromModule=lemma_inlink)开的[单色光](https://baike.baidu.com/item/单色光/1168886?fromModule=lemma_inlink)按波长（或频率）大小而依次排列的图案，全称为光学频谱。
+（2）光谱中最大的一部分**可见光谱**是[电磁波谱](https://baike.baidu.com/item/电磁波谱/907208?fromModule=lemma_inlink)中人眼可见的一部分，在这个[波长范围](https://baike.baidu.com/item/波长范围/5463020?fromModule=lemma_inlink)内的[电磁辐射](https://baike.baidu.com/item/电磁辐射/484252?fromModule=lemma_inlink)被称作可见光。
+（3）光谱并没有包含人类大脑视觉所能区别的所有颜色，譬如褐色和粉红色。
+（4）**红外光谱**：在一些[可见光谱](https://baike.baidu.com/item/可见光谱/10914339?fromModule=lemma_inlink)的`红端之外`，存在着波长更长的[红外线](https://baike.baidu.com/item/红外线/115851?fromModule=lemma_inlink)；
+（5）**紫外光谱**：同样，在紫端之外，则存在有波长更短的[紫外线](https://baike.baidu.com/item/紫外线/95551?fromModule=lemma_inlink)。红外线和紫外线都不能为肉眼所觉察，但可通过仪器加以记录
+（6）SPD（光谱功率分布）如下图，不同的波长有对应不同的颜色，因此需要一个`SPD函数`来**表达它们之间的关系**。
+
+<img src="./_v_images/light-rgb.webp" style="height:300px;"/>
+
 **颜色表示**：有rgb，cmyk，hsl表示法
 
 - rgb：10进制的表示方法，将rgb转hsl只需每位转为16进制再拼接在一起即可。
@@ -110,8 +120,13 @@
   （1）`rgb(255,0,0)，rgb(0,255,0)，rgb(0,0,255)`为红色、绿色、蓝色。
   （2）`rgb(255,250,0)`安照下图所示为深黄色，==b值逐渐增加时逐渐变为明亮==（淡黄向白色逼近）其它两种情况也是如此。
   （3）按照这种规律，看到色值时可以大致判断出它的颜色。
-  
+  （4）与SPD的映射计算：
+  $$
+  \left[\begin{matrix} r\\g\\ b\end{matrix}\right]=\left[\begin{matrix}\int R(λ)X(λ)d_λ &\int R(λ)Y(λ)d_λ&\int R(λ)Z(λ)d_λ \\ \int G(λ)X(λ)d_λ&\int G(λ)Y(λ)d_λ &\int G(λ)Z(λ)d_λ \\ \int B(λ)X(λ)d_λ &\int B(λ)Y(λ)d_λ &\int B(λ)Z(λ)d_λ   \end{matrix}\right]\left[\begin{matrix} x_λ\\ y_λ\\ z_λ\end{matrix}\right]
+  $$
   <img src="./_v_images/rgb.webp" style="height:260px;"/>
+  
+  **xyz颜色**： 就是在[RGB](https://baike.baidu.com/item/RGB/342517?fromModule=lemma_inlink)系统的基础上，用数学方法，选用三个理想的原色来代替实际的三原色，与rgb对应，值范围都在`0~1`
   
   
 
