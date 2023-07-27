@@ -3994,10 +3994,31 @@ function printLabel(labelledObj: LabelledValue) {
 /*****【Promise】类型定义******/
 type proType = Promise<string>; // string表示其返回值
 
+/*****【dom事件类型】****/
+ClipboardEvent<T = Element> 剪贴板事件对象
+DragEvent<T = Element> 拖拽事件对象
+ChangeEvent<T = Element> Change 事件对象
+KeyboardEvent<T = Element> 键盘事件对象
+MouseEvent<T = Element> 鼠标事件对象
+TouchEvent<T = Element> 触摸事件对象
+WheelEvent<T = Element> 滚轮事件对象
+AnimationEvent<T = Element> 动画事件对象
+TransitionEvent<T = Element> 过渡事件对象
+
+// 自定义事件 CustomEventInit 中有定义 “detail” 值
+let mapDom = document.getElementById('vv');
+mapDom && mapDom.addEventListener('close-window', function(e:CustomEventInit) {
+    // 关闭信息窗口
+    console.info(e.detail);
+});
+
 /************接口（自定义类型）*************/
 interface LabelledValue {
   readonly label: string;//对象必须含有该键值。readonly表示该属性只读。
   color?: string;//带?号表示可选，在判断使用时会有一些友好的提示。
+}
+interface windowType {
+  [key: string]: string
 }
 //参数是函数时，参数函数也要定义类型
 interface fn1 {
