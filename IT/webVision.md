@@ -189,7 +189,10 @@ $。
 （1）设置1个角度`angle`（可被180整除，angle越小越精度越高），按该角度从下向上做切面。
 （2）每个切面依然按`angle`划分，可得到`360/angle`个点。
 （3）将球心坐标设置为`(0,0,0)`方便计算，且可省去各点法向量的计算（`球面点 - 球心`）
-（4）按以下两个角度直接计算出各点的坐标。
+（4）按以下两个角度直接计算出各点的坐标（用α和R计算bp，再利用角θ计算p点的`x,z`坐标）
+<img src="./_v_images/yield-sphare.png"/>
+
+（5）为了保证一致的索引读取，得保证每个切面的点数相同，因此 最上/下端切面即使只有1个点，也复制多个保存。
 
 ```js
 // 顶点生成
@@ -233,8 +236,7 @@ function SphareIndexs(arrayData) {
    * 5, 6, 7, 8, 9,
    * 0, 1, 2, 3, 4,
    * -----0,1,5为第1个三角形。1,5,6位第2个
-   * 第1个三角形 i,i+1,i+horizonFen
-   * 第2个三角形 i+1, i+1+horizonFen, i+horizonFen
+   * 第1个三角形 i,i+1,i+horizonFen。第2个三角形 i+1, i+1+horizonFen, i+horizonFen
    * ***/
   const { directorFen, horizonFen, points } = arrayData;
   const indexs = [];
@@ -250,8 +252,12 @@ function SphareIndexs(arrayData) {
 }
 ```
 
-
-
+**二次贝塞尔曲面**：二次贝塞尔曲线的延伸，一个曲面需要9个顶点来进行控制。参数上也需要两个参数（`u,v`）控制，替代之前的t。
+<img src="./_v_images/bsr-plain.jpg" style="width:500px;"/>
+$$
+p(u,v)=\sum^2_{i=0}\sum^2_{j=0}p_{ij}B_i(u)*B_j(v),~~\begin{cases}B_0(u)=(1-u)^2 \\ B_1(u)=-2u^2+2u ,~~ B_2(u)=u^2 \\ B_0(v)=(1-v)^2\\ B_1(v)=-2v^2+2v ,~~ B_2(v)=v^2 \end{cases},~~ u,v\in[0,1]
+$$
+利用此公式在曲面中绘制多个点，然后同球面生成一样去读取它们，生成三角形绘制。
 
 ## 4、变换
 
