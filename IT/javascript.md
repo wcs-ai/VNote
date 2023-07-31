@@ -457,7 +457,7 @@ function decodeUtf8(bytes) {
 
 ### a、SSE 与 WebSocket:
 
-SSE(Server-Sent Eevents，服务器发送事件)用于创建到服务器的单向连接。[参考地址](https://zhuanlan.zhihu.com/p/611159540?utm_id=0)
+SSE(Server-Sent Eevents，服务器发送事件)用于创建到服务器的单向连接（连接断开后其会**自动**进行==一次重连==）。[参考地址](https://zhuanlan.zhihu.com/p/611159540?utm_id=0)
 
 ```js
 // EventSource接受的参数必须同源。

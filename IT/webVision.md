@@ -161,13 +161,96 @@ $。
 
 **曲线**：二维，3维图形中用到的曲线，曲面多都是用2阶/3阶贝塞尔曲线完成，
 
-**二阶**：用3个点p0，p1，p2控制
+**二阶贝塞尔**：用3个点p0，p1，p2控制
 （1）p0，p1之间插值：$p_{01}=(1-t)p_0+tp_1$。系数`0<t<1`求两个点的中间某一点。
 （2）p1，p2之间进行插值：$p_{12}=(1-t)p_1+tp_2$。
 （3）合并1,2中俩式得：$p=(1-t)^2p_0+(-2t^2+2t)p_1+t^2p_2$，t可从`0~1`逐渐取值（如`0.05,0.1,0.15,...`），x，y坐标都使用此计算。
 
-三阶：用4个点p0，p1，p2，p3控制，p1，p2是中间控制弯曲的点。
-（1）同二阶一样的公式，合并得到：$p=$
+**三阶贝塞尔**：用4个点p0，p1，p2，p3控制，p1，p2是中间控制弯曲的点。
+（1）p0，p1间插值：$p_{01}=tp_1+(1-t)p_0$。
+（2）p1，p2间插值：$p_{12}=tp_2+(1-t)p_1$。
+（3）p2，p3间插值：$p_{23}=tp_3+(1-t)p_2$。
+（4）p01，p12间插值：$p_{01-12}=tp_{12}+(1-t)p_{01}$。
+（5）p12，p23间插值：$p_{12-23}=tp_{23}+(1-t)p_{12}$。
+（6）合并以上得：$p=(1-t)^3p_0+(3t^3-6t^2+3t)p_1+(-3t^3+3t^2)p_2+t^3p_3$。t同上使用。
+
+## 3.1、面相关
+
+**表面模型**：使用三角形可以逼近任意的面。
+（1）点元表示法：使用三角形的3个顶点来表示，但进行填充时需要计算哪些点在其内。
+（2）片元表示法：使用三角形内所有像素点来表示这个三角形，可直接进行填充。
+
+**三角形着色模式**：
+（1）平面着色模式：即使三角形各点颜色不一样，也只取其中一个颜色填充整个三角形。边界处会出现明显的对比度。
+（2）光滑着色模式：从一个顶点向另外两个点的方向使用**双线性插值**（两个方向都计算插值）
+（3）边界处理：填充三角形时对于边界，应只绘制其下侧边界，其它边界由其它三角形绘制时填充。
+
+**生成球体**：
+（1）设置1个角度`angle`（可被180整除，angle越小越精度越高），按该角度从下向上做切面。
+（2）每个切面依然按`angle`划分，可得到`360/angle`个点。
+（3）将球心坐标设置为`(0,0,0)`方便计算，且可省去各点法向量的计算（`球面点 - 球心`）
+（4）按以下两个角度直接计算出各点的坐标。
+
+```js
+// 顶点生成
+function SphareArray(r, precision) {
+  const a = 0, b = 0, c = 0;
+  const angle = precision; // 每份所占角度
+  const hudu = (s) => (s / 180) * Math.PI;
+  const directorFen = 180 / angle + 1;
+  const horizonFen = 2 * directorFen - 1;
+  const sin = Math.sin, cos = Math.cos;
+  const points = []; // 球面顶点
+  const normalization = []; // 各点法向量
+  // 底部顶点（全同）
+  for (let i = 0; i < horizonFen; i++) {
+    points.push(a, b - r, c);
+    //normalization.push(0, 1, 0);
+  }
+  // 第1个 和最后1个 单独添加
+  for (let i = 1, by, br; i < directorFen - 1; i++) {
+    by = (b - r * cos(hudu(i * angle))).toFixed(4); // y坐标
+    br = Math.abs(r * sin(hudu(i * angle)));
+    for (let j = 0, bx, bz; j < horizonFen; j++) {
+      bx = (a + br * sin(hudu(j * angle))).toFixed(4);
+      bz = (c + br * cos(hudu(j * angle))).toFixed(4);
+      points.push(Number(bx), Number(by), Number(bz));
+      //normalization.push(Number(bx) - a, Number(by) - b, Number(bz) - c);
+    }
+  }
+  // 顶部顶点（全同）
+  for (let i = 0; i < horizonFen; i++) {
+    points.push(a, b + r, c);
+    //normalization.push(0, -1, 0);
+  }
+  return {
+    points, directorFen, horizonFen
+  };
+}
+// 按三角形 读取索引
+function SphareIndexs(arrayData) {
+  /***
+   * 5, 6, 7, 8, 9,
+   * 0, 1, 2, 3, 4,
+   * -----0,1,5为第1个三角形。1,5,6位第2个
+   * 第1个三角形 i,i+1,i+horizonFen
+   * 第2个三角形 i+1, i+1+horizonFen, i+horizonFen
+   * ***/
+  const { directorFen, horizonFen, points } = arrayData;
+  const indexs = [];
+
+  for (let j = 0, i; j < directorFen - 1; j++) {
+    let s = j * horizonFen;
+    for (let m = 0; m < horizonFen; m++) {
+      i = s + m;
+      indexs.push(i, i + 1, i + horizonFen, i + 1, i + 1 + horizonFen, i + horizonFen);
+    }
+  }
+  return indexs;
+}
+```
+
+
 
 
 ## 4、变换
@@ -372,15 +455,6 @@ $$
 （1）光源位置要变化到观察坐标系：`透视矩阵 x 光源位置`。
 （2）当前像素点要转到观察坐标系：`透视矩阵 x 当前点`。
 （3）面的法向量也要转换：`转置(透视矩阵前3维) x 当前点的法向量`
-
-**表面模型**：使用三角形可以逼近任意的面。
-（1）点元表示法：使用三角形的3个顶点来表示，但进行填充时需要计算哪些点在其内。
-（2）片元表示法：使用三角形内所有像素点来表示这个三角形，可直接进行填充。
-
-**三角形着色模式**：
-（1）平面着色模式：即使三角形各点颜色不一样，也只取其中一个颜色填充整个三角形。边界处会出现明显的对比度。
-（2）光滑着色模式：从一个顶点向另外两个点的方向使用**双线性插值**（两个方向都计算插值）
-（3）边界处理：填充三角形时对于边界，应只绘制其下侧边界，其它边界由其它三角形绘制时填充。
 
 **多边形的光滑着色**：每个平面都单个颜色时着色效果依然是有马赫带的，虽然增添三角形数量可以改善，但这带来更多消耗。
 **GrouraudShader算法**：相邻的三角形都有1个共享点，该共享点法向量使用这些相邻平面的法向量求平均得到（最后每个三角形点都有其法向量），在渲染光照效果时使用此法向量代替光照模型中使用到的法向量，具体过程如下：
