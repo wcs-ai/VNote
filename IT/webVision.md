@@ -259,7 +259,13 @@ SphareIndexs(data);
 $$
 p(u,v)=\sum^2_{i=0}\sum^2_{j=0}p_{ij}B_i(u)*B_j(v),~~\begin{cases}B_0(u)=(1-u)^2 \\ B_1(u)=-2u^2+2u ,~~ B_2(u)=u^2 \\ B_0(v)=(1-v)^2\\ B_1(v)=-2v^2+2v ,~~ B_2(v)=v^2 \end{cases},~~ u,v\in[0,1]
 $$
-利用此公式在曲面中绘制多个点，然后同球面生成一样去读取它们，生成三角形绘制。
+利用此公式在曲面中绘制多个点。实现如下：
+
+**三次贝塞尔曲面**：与二次类似，需要16个点来控制。
+$$
+p(u,v)=\sum^3_{i=0}\sum^3_{j=0}p_{ij}*B_i(u)*B_j(v),~~\begin{cases}B_0(u)=(1-u)^3,~~B_1(u)=-3u^3-6u^2+3u\\ B_2(u)=-3u^3+3u^2,~~B_3(u)=u^3\\ B_0(v)=(1-v)^3,~~B_1(v)=-3v^3-6v^2+3v\\ B_2(v)=-3v^3+3v^2,~~B_3(v)=v^3\end{cases}
+$$
+同二次曲面一样，生成出一些插值点，然后读取生成三角形绘制出来。**可优化**：足够平坦时可停止插值，使用简单的点就可绘制平坦的部分
 
 ## 4、变换
 
@@ -446,7 +452,7 @@ $$
 Lambert余弦定律给出的`p点`漫反射模型：$I_d=K_dI_p\cos\theta,~~\theta\in [0,2\pi],K_d\in[0,1],~~I_p$为点光源入射光强，K_d_为材质漫反射率，θ为入射光与表面p点的法向量夹角，可有$\cos\theta = N*L$，NL为p点法向量与入射光点积（==小于0时也取0，表示非正面照射到p点==）
 
 **镜面反射光模型**：有很强的方向性，只有在反射方向才能看到反射光效果，因此与视点位置有关。
-（a）`R`是反射向量，记入射向量`L=光点 - 当前点`（注意这个方向）
+（a）`R`是反射向量，记入射向量`L=光点 - 当前点`（注意这个方向）`webgl 中 R=reflect(-L,N)`==负的入射向量拿去计算==
 （b）`V`为当前点到视点向量：`V=视点 - 当前点`（注意这个方向）
 $$
 I_s=K_sI_p\cos^n\alpha~~,0\leq\alpha\leq2\pi,K_s\in [0,1]~~,\begin{cases}I_p为p点处入射光强\\ K_s为材质镜面反射率\\ 
@@ -462,7 +468,9 @@ $$
 <span style="color:red;font-weight:600;">注：</span>渲染时，==让它们在同一坐标系中完成计算==。
 （1）光源位置要变化到观察坐标系：`透视矩阵 x 光源位置`。
 （2）当前像素点要转到观察坐标系：`透视矩阵 x 当前点`。
-（3）面的法向量也要转换：`转置(透视矩阵前3维) x 当前点的法向量`
+（3）面的法向量也要转换：`转置(透视矩阵前3维) x 当前点的法向量`。
+（4）涉及到变换的话：上面乘积之间 还要加上**变换矩阵处理**。
+（5）注意视点位置与用于计算透视矩阵的那个 **视点向量一致**。
 
 **多边形的光滑着色**：每个平面都单个颜色时着色效果依然是有马赫带的，虽然增添三角形数量可以改善，但这带来更多消耗。
 **GrouraudShader算法**：相邻的三角形都有1个共享点，该共享点法向量使用这些相邻平面的法向量求平均得到（最后每个三角形点都有其法向量），在渲染光照效果时使用此法向量代替光照模型中使用到的法向量，具体过程如下：
@@ -2041,41 +2049,74 @@ gl.uniformli(u_sampler,0); // 将0号纹理传递给着色器
 主要在片段着色器计算各面的光照强弱，然后乘以纹理像素得到最终色值。
 
 ```js
-<script id="grag-shader" type="x-shader/x-fragment">
+<script id="point-shader" type="x-shader/x-vertex">
+    attribute vec4 a_position; // 当前点位置
+    attribute vec3 a_eyePosition; // 视点位置
+    attribute vec2 a_textureCoordinates; // 纹理坐标
+    attribute vec3 a_normalization; // a 点的法向量
+
+    uniform mat4 u_transMatrix;  // 变换矩阵
+    uniform mat4 u_ViewMatrix; // 视图矩阵
+    uniform mat3 u_ViewMatrix3; // 视图矩阵 的3级子式（转置后）
+    uniform mat4 u_ProjMatrix; // 正射投影矩阵
+    uniform vec3 u_lightPosition; // 光源位置
+    
+    varying vec2 v_textureCorrdinates;
+    varying vec3 v_position; // 当前计算点
+    varying vec3 v_normalization; // 当前点的 点法向量
+    varying vec3 v_lightPosition; // 点光源位置
+    varying vec3 v_eyePosition; // 视点位置
+
+    void main() {
+     vec4 viewPosition = u_ViewMatrix * u_transMatrix * a_position;
+
+     gl_Position = u_ProjMatrix * u_transMatrix * viewPosition;
+     v_position = vec3(viewPosition.xyz / viewPosition.w); // 使用转换到观察坐标系的点
+
+     vec4 lightPositionEye4 = u_ViewMatrix * u_transMatrix * vec4(u_lightPosition, 1.0); // 光源位置转换到 观察坐标系
+     v_lightPosition = vec3(lightPositionEye4.xyz / lightPositionEye4.w); // 也是转到视坐标系？
+     
+     vec3 tfa = vec3(u_transMatrix * vec4(a_normalization,1.0));
+     v_normalization = normalize(u_ViewMatrix3 * tfa); // 将法向量也变换到视坐标系中
+     v_textureCorrdinates = a_textureCoordinates;
+
+     v_eyePosition = a_eyePosition; // 传递给片元着色器
+    }
+  </script>
+  <!--片段着色器vec4(v_color,1.0)-->
+  <script id="grag-shader" type="x-shader/x-fragment">
     precision highp float;
 
     varying vec2 v_textureCorrdinates;
     varying vec3 v_position;
     uniform sampler2D uSampler;
-
     varying vec3 v_normalization; // v 点法向量
     varying vec3 v_lightPosition;
+    varying vec3 v_eyePosition; // 视点位置
 
     vec3 v_pointLight = vec3(6.0,6.0,6.0); // 点光 (全 4.0~8.0 较正常)
     vec3 v_envLight = vec3(0.2,0.2,0.2); // 环境光
-    
-    vec3 v_eyePosition = vec3(3,4,8); // 视点位置
-
     vec3 km = vec3(0.45,0.40,0.42); // 漫反射率
-    vec3 ke = vec3(0.21,0.22,0.20); // 环境光反射率
+    vec3 ke = vec3(0.10,0.1,0.1); // 环境光反射率
     vec3 kr = vec3(0.1,0.1,0.1); // 镜面反射率
 
     void main() {
       float d = distance(v_position,v_lightPosition);
-      float fd = min(1.0,1.0/(1.5 + 0.2*d + 0.4*d*d )); // 光源衰减
+      float fd = min(1.0,1.0/(0.5 + 0.1*d + 0.2*d*d )); // 光源衰减
       vec3 in_lightNormal = normalize(v_lightPosition - v_position); // 得到 光源<-当前点的 向量
 
-      float point_cos = max(0.0,dot(in_lightNormal,v_normalization)); // 点光源部分
+      float point_cos = max(0.0,dot(v_normalization,in_lightNormal)); // 点光源部分
 
-      vec3 eye_normalization = v_eyePosition - v_position; // 当前点 -> 眼睛 的视线向量
-      vec3 ref_vector = reflect(in_lightNormal,v_normalization); // 光的反射方向 向量
+      vec3 eye_normalization = normalize(v_eyePosition - v_position); // 当前点 -> 眼睛 的视线向量
 
-      vec3 lightWeight = v_envLight*ke + fd * ( v_pointLight*km * point_cos + v_pointLight * kr * 		            max(0.0,dot(eye_normalization,ref_vector)) );
+      vec3 ref_vector = normalize(reflect(-in_lightNormal,v_normalization)); // 光的反射方向 向量
 
+      vec3 lightWeight = v_envLight*ke + fd * ( v_pointLight*km * point_cos + v_pointLight * kr * max(0.0,dot(eye_normalization,ref_vector)) );
+      // 纹理处理
       vec4 texelColor = texture2D(uSampler, v_textureCorrdinates);
 
-      gl_FragColor = vec4(texelColor.rgb * lightWeight.rgb,texelColor.a);
-      //gl_FragColor = texelColor;
+      gl_FragColor = vec4(lightWeight,1.0); // 无纹理情况的赋值
+      //gl_FragColor = vec4(texelColor.rgb * lightWeight.rgb,texelColor.a); // 与纹理结合情况的赋值
     }
   </script>
 ```
