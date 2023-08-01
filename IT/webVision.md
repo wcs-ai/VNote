@@ -250,6 +250,8 @@ function SphareIndexs(arrayData) {
   }
   return indexs;
 }
+const data = SphareArray(5,20);
+SphareIndexs(data);
 ```
 
 **二次贝塞尔曲面**：二次贝塞尔曲线的延伸，一个曲面需要9个顶点来进行控制。参数上也需要两个参数（`u,v`）控制，替代之前的t。
