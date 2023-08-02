@@ -259,7 +259,51 @@ SphareIndexs(data);
 $$
 p(u,v)=\sum^2_{i=0}\sum^2_{j=0}p_{ij}B_i(u)*B_j(v),~~\begin{cases}B_0(u)=(1-u)^2 \\ B_1(u)=-2u^2+2u ,~~ B_2(u)=u^2 \\ B_0(v)=(1-v)^2\\ B_1(v)=-2v^2+2v ,~~ B_2(v)=v^2 \end{cases},~~ u,v\in[0,1]
 $$
-利用此公式在曲面中绘制多个点。实现如下：
+利用此公式在曲面中绘制多个点。实现如下：可用上面球体中读取索引生成三角形的方式来读取下方曲面的三角形。
+
+```js
+function Bezier2Plain() {
+  /*
+    p20     p21      p22
+    p10     p11      p12
+    p00     p01      p02
+    */
+  const pmap = {
+      p20: [-1.0, 0, -1.0],p21: [0, 0, -1.0],p22: [1.0, 0, -1.0],
+      p10: [-1.0, 0.4, 0],p11: [0, 0.8, 0],p12: [1.0, 0, 0],
+      p00: [-1.0, 0, 1.0],p01: [0, 0.2, 1.0],p02: [1.0, 0, 1.0],
+  };
+  // 插值序数
+  const B = [
+    (t) => Math.pow(1 - t, 2),
+    (t) => -2 * Math.pow(t, 2) + 2 * t,
+    (t) => Math.pow(t, 2)
+  ];
+
+  function _calc(tu, tv) {
+    let s = [0, 0, 0];
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        s[0] += pmap[`p${i}${j}`][0] * B[i](tu) * B[j](tv);
+        s[1] += pmap[`p${i}${j}`][1] * B[i](tu) * B[j](tv);
+        s[2] += pmap[`p${i}${j}`][2] * B[i](tu) * B[j](tv);
+      }
+    }
+    return s.map(v => Number(v.toFixed(4)));
+  }
+    
+  let points = [], point;
+  // 插值参数从0开始
+  for (let u = 0; u <= 1; u += precise) {
+    for (let v = 0; v <= 1; v += precise) {
+      point = _calc(u, v);
+      points.push(...point);
+    }
+  }
+  // TODO: 计算周围三角的法向量平均值 作为各点法向量
+  return points;
+}
+```
 
 **三次贝塞尔曲面**：与二次类似，需要16个点来控制。
 $$

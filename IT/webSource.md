@@ -15,6 +15,7 @@
 - [plotly.js 起始教程地址](https://www.kutu66.com//GitHub/article_132050)、[jest 使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)
 - 【css】[sass文档](https://sass.bootcss.com/documentation)、[less文档](https://less.bootcss.com/)、[CSS灵感的诞生地 ](https://github.com/chokcoco/CSS-Inspiration)、[CSS Tricks 效果大全 ](https://lhammer.cn/You-need-to-know-css/#/translucent-borders)
 - 【文档生成】[vitePress-vue组件文档生成](https://vitepress.dev/guide/getting-started)、[jsdoc-js文档生成](https://jsdoc.bootcss.com/)、[ts-doc]()
+- 【视频播放】[flv.js](https://gitee.com/mirrors/flv.js/blob/master/docs/api.md#flvjsevents)、[easyPlay](https://www.tsingsee.com/developers)。
 - [git使用文档](https://git-scm.com/docs/git-init#_template_directory)
 
 
