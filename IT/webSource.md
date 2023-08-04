@@ -8,7 +8,7 @@
 - 【图形】[svg.js官网](https://svgjs.dev/docs/3.0/getting-started/)
 - [HTML 转义字符表](http://tool.oschina.net/commons?type=2)、[HTML 标签大全](http://www.w3school.com.cn/tags/index.asp%20)
 - [unity3D官网](https://unity.cn/)
-- 【地图】[leaflet地图官网](https://leafletjs.cn/)、[高德地图官网](https://lbs.amap.com/api/javascript-api/reference/math)
+- 【地图】[leaflet地图官网](https://leafletjs.cn/)、[高德地图官网](https://lbs.amap.com/api/javascript-api/reference/math)、[MapBox](https://docs.mapbox.com/#maps)、[arcGIS](https://developers.arcgis.com/documentation/)
 - 【第三方库】[sheetJS-xlsx文档](https://docs.sheetjs.com/docs/demos/frontend/vue)、[pdf.js官网](https://mozilla.github.io/pdf.js/)、[axios官方文档](https://www.axios-http.cn/docs/intro)、[vue-route官方文档](https://router.vuejs.org/zh/)、[typescript中文档](https://www.tslang.cn/docs/handbook/typescript-in-5-minutes.html)、[lodash中文档](http://lodash.net/docs/4.16.1.html#_findcollection-predicate_identity-fromindex0)、[mqtt中文网](http://mqtt.p2hp.com)、[day.js官网](https://dayjs.fenxianglu.cn/category/#node-js)、[qs-url参数转换](https://www.npmjs.com/package/qs)
 - [w3c school网](https://www.w3cschool.cn/unity3d_jc/)、[谷歌浏览器插件开发文档](https://developer.chrome.com/extensions/getstarted.html)
 - [脚本之家电子书网](https://www.jb51.net/books/)
