@@ -545,6 +545,52 @@ $$
 （1）用点光源的位置与物体表面当前点，用斜投影计算其在平面上的位置。
 （2）若当前点的法向量与当前点的光源向量夹角`>90`则不计算该点。
 （3）用计算了投影的点按其以前的三角形顶点顺序绘制为阴影。
+（4）优缺点：计算快，适合高性能要求的场景。但是只适合投影到平面上。
+
+```js
+/**
+   * 投影阴影计算
+   * @param {number[]} lightPoint 点光源位置
+   * @param {{points,indexs,normalizations}} objData 图形数据（） 
+   plainY: 投影面的 y值
+  */
+  function castShadow(lightPoint, objData,plainY=-1) { 
+    const { points, indexs, normalizations } = objData;
+    const len = points.length;
+    // 利用空间直线方程，与平面相交的计算
+    let ry;
+    let shadowArr = [],ligNOrmal,ixs = [];
+    for (let i = 0,j=0, x; i < len; i+=3,j++){
+      x = i;
+      // 计算是否光线可照射到
+      ligNOrmal = Vector3.calc(lightPoint, points.slice(x, x + 3), '-');
+      if (Vector3.dot(ligNOrmal, normalizations.slice(x, x + 3)) < 0) continue;
+      // 这里假设投影的平面为 xoz 平面，因此 y=plainY
+      ry = (points[x + 1] - plainY) / (lightPoint[1] - points[x + 1]);
+
+      shadowArr.push(points[x] - (lightPoint[0] - points[x]) * ry, plainY, points[x + 2] - (lightPoint[2] - points[x + 2]) * ry);
+      ixs.push(j);
+    }
+    // 检测每个索引三角，如果1个三角形的3个索引 都在
+    let indexArr = [];
+    for (let j = 0, xi, yi, zi; j < indexs.length; j += 3){
+      xi = ixs.indexOf(indexs[j]);
+      yi = ixs.indexOf(indexs[j + 1]);
+      zi = ixs.indexOf(indexs[j + 2]);
+      
+      if (xi>-1 && yi>=-1 && zi>=-1) indexArr.push(xi,yi,zi);
+    }
+
+    return {shadowArr,indexArr};
+  }
+```
+
+**阴影贴图**：光源看不到的点都在阴影中！
+（1）第一轮：将摄像机放到光源位置，使用`z-buffer`来计算得到深度缓冲区（并不渲染出来，因此不用进行光照着色等计算）
+（2）保存当前使用的`MVP`矩阵（`模型变换矩阵x透视矩阵x投影矩阵`）称为`shadowMVP`矩阵。
+（3）第二轮：正常渲染场景，对于每个像素点使用`shadowMVP`矩阵**转换到第一轮时对于的点**，然后查找其深度缓冲区中对应的点。
+（4）若光源到该像素点距离“大于” 其在深度缓冲区点点与光源的 距离，则说明该点在阴影中。
+（5）对此点的光源计算可只**采用环境光**。
 
 ## 8、纹理
 
@@ -1857,7 +1903,7 @@ var gl = createGLContext(canvas);
 （7）**点精灵**：用`gl.POINTS`指定，可设置点的大小，这和硬件可支持程度有关，es代码中`gl_PoinstSize=5.0`就是指定其大小（一般用于粒子效果，**模拟真实**的自然环境特效）
 
 **图形装配**：将传入的顶点坐标装配成几何图形；
-**光栅化**：将装配好的几何图形转为片元。
+**光栅化**：将装配好的几何图形转为片元。其实质是对图元**进行插值**，如我们传入的三角形，3个点不同颜色，其栅格化时使用双线性插值去**生成中间的色值**。
 
 **顶点组绕顺序**：
 （1）三角图形中按照顺逆时针，可分为**顺时针组绕的三角形**和**逆时针组绕的三角形**；（==逆时针绘制的才会显示出来==）
@@ -2173,7 +2219,7 @@ gl.uniformli(u_sampler,0); // 将0号纹理传递给着色器
 
 
 
-## e、es着色器语言
+## e、GLSL ES语言
 
 webgl中的es并非支持所有的es语言特性
 
@@ -2186,8 +2232,11 @@ webgl中的es并非支持所有的es语言特性
 **内置函数**：这些函数的使用，计算的操作都==必须放到 函数中执行==。
 （1）三角函数：`sin,cos,tan,asin,acos,atan,,acos`等等。
 （2）指数相关：`pow,log,sqrt,log2`。
-（3）几何部分：`length()`矢量长度。`distance()`计算两点距离。`dot()`计算向量内积，`cross()`向量叉乘。`normalize()`归一化。`reflect(),faceforward()`
+（3）几何部分：`length()`矢量长度。`distance()`计算两点距离。`dot()`计算向量内积，`cross()`向量叉乘。`normalize()`归一化。`reflect(R,N)//N必须已经被归一化,faceforward()`
 （4）通用函数：`max(), min(), mod(取余)，abs(), sign(取正负号)，floor(), ceil(), mix(线性内插), step()`
+（5）纹理查询函数：`vec4 texture2D(sampler,vec[234] coord)`使用纹理坐标coord从sampler绑定的二维纹理中读取相应的纹素。
+（6）阴影纹理函数：`vec4 texture2DProj(sampler,vec[34] coord,float bias)`阴影纹理使用，纹理坐标从coord的最后一个分量读出。
+（7）立方体纹理：`vec4 textureCube(sampler,vec3 coord)`用纹理坐标coord从绑定的立方体纹理sampler中读取
 
 **限定符**：
 （1）修饰限定符
@@ -2196,25 +2245,62 @@ webgl中的es并非支持所有的es语言特性
 - `attribute`：声明全局变量，声明的变量可用于逐顶点操作（只能用于顶点着色器中）==可供js传递数据进来==
 - `uniform`：声明数组，结构体之外的数据，只读属性。
 - `varying`：全局变量，可从==顶点着色器向片元着色器传递数据==。
+- 使用`attribute`定义的变量在栅格化过程中都是插值生成，而`uniform`变量则不会。
 
 （2）类型修饰符：float、int，bool。
 
 - **矢量类型**：`vec2,vec3,vec4`具有2,3,4个浮点数的元素矢量。
   `ivec2,ivec3,ivec4`具有2,3,4个整型的元素矢量。`bvec2,bvec3,bvec4`具有2,3,4个布尔值的。
+  
+  ```glsl
+  vec3 v3 = vec3(1.0,2.0,3.0);
+  float f = v3.x; // v3.y, v3.z , v3.xy, v3.yz 获取里面的值
+  float f2 = v3.r; // v3.g , v3.b  ... v3.x == v3.r
+  
+  vec4 v4 = vec4(1.0,2.0,3.0,1.0); // 可以分别对应如下
+  /*
+  x, y, z, w
+  r, g, b, a
+  s, t, p, q
+  */
+  ```
+  
 - **矩阵**：`mat2,mat3,mat4`具有`2x2,3x3,4x4`尺寸的矩阵类型。矩阵相乘：`matrx1 * matrx2`
 - 精度限定字：`low,mediump,highp`
 
-内置变量：
+**内置变量**：
 （1）`gl_Position`：内置用于绘制位置，可以是一个矢量，矩阵。
 （2）`gl_FragColor`：绘制颜色使用，可以是1个矢量，矩阵。
 （3）`gl_PointSize`：点的大小控制，一个浮点 或 整型。
 
-f、三维与光照
+## f、杂项
 
-视点&观察目标&上方向：利用这3者建立视图矩阵。
-屏幕依然只是二维的，因此绘制3d图形只是利用视觉，视差结合第3个维度坐标绘制效果。
+```js
+/***渲染缓冲区*****/ 
+var renderbuffer = gl.createRenderbuffer();
+// bindRenderbuffer：绑定一个渲染缓冲区。RENDERBUFFER：可渲染的内部格式对单个图像进行缓冲数据存储。
+gl.bindRenderbuffer(gl.RENDERBUFFER, renderbuffer);
 
-光照效果则是根据光源类型，距离、位置来动态改变我们所传给绘制物体的颜色值。
+/****帧缓冲区***/
+var framebuffer = gl.createFramebuffer();
+// gl.FRAMEBUFFER: 收集用于渲染图像的颜色，alpha，深度和模板缓冲区的缓冲区数据存储。
+gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+
+/****绑定一个纹理对象到帧缓冲区***/
+const framebufferTexture = gl.createTexture()
+gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, framebufferTexture, 0);
+
+/****创建一个renderBuffer的存储***
+参数1：来源的数据
+参数2：要存储的数据源的指定信息。gl.RGBA4（设置信息） DEPTH_COMPONENT16（深度值信息）
+*/
+gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, 256, 256);
+// 附加一个 渲染buffer信息 到帧缓冲区中
+gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depthBuffer);
+
+```
+
+[阴影参考](https://juejin.cn/post/7246672925666033721?searchId=20230805150932998D44DEB10850986806)
 
 # 四、Threejs
 
