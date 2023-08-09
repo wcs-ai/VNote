@@ -659,7 +659,7 @@ div{
 ```
 
 - **文本控制**：
-  （1）调整字间距：letter-spacing:5px；
+  （1）调整字间距：`letter-spacing:5px；`
   （2）两端对齐：text-align：justify;和 text-align-last:justify;(一起使用)。最好将要对其子元素设置为 inline-block 元素。
   （3）**自动换行**：word-break：break-all 或 white—space：normal 来实现自动换行。
   （4）删除线：text-decoration:line-through;
@@ -974,7 +974,7 @@ div{
 $$
 \left[\begin{matrix}a&c&e\\b&d&f\\0&0&1\end{matrix}\right]*\left[\begin{matrix}
 x \\ y \\ 1\end{matrix}\right]=\left[\begin{matrix}
-  ax+cy+1 \\ bx+dy+f \\ 0+0+1\end{matrix}\right]
+  ax+cy+e \\ bx+dy+f \\ 0+0+1\end{matrix}\right]
 $$
 ==移动情况==：水平移动的话，只需修改`e，f`即可
 
@@ -1139,6 +1139,8 @@ path{
   //flex:1;能让子元素自适应宽或高。
   flex: 0 1 auto; //flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
 }
+/***【子元素过多又不希望转行，会导致子元素收缩】***/
+.child{ flex-shrink: 0; } // flex-shrink设置为0 表示不让其收缩
 ```
 
 [flex 布局学习地址。](https://www.runoob.com/w3cnote/flex-grammar.html)
