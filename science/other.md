@@ -146,5 +146,41 @@ $a=\frac{v-v_0}{t}，v=v_0+at，s=v_0t+at^2/2，v^2-v_0^2=2as$
   反对关系：所有是与所有非，有的是与有的非。
   包容关系：所有 → 某个 → 有的；A且B → A →A或B
 
+# 四、投资理财
 
+储蓄：
+
+**基金**：意指具有特定目的和用途的资金。我们提到的基金主要是指证券投资基金。
+（a）根据基金单位是否可增加或赎回，可分为[开放式基金](https://baike.baidu.com/item/开放式基金?fromModule=lemma_inlink)和[封闭式基金](https://baike.baidu.com/item/封闭式基金/260502?fromModule=lemma_inlink)。
+（2）**开放式基金**：不上市交易（这要看情况），通过银行、[券商](https://baike.baidu.com/item/券商?fromModule=lemma_inlink)、基金公司申购和赎回，基金规模不固定；
+（3）**封闭式基金**：有固定的[存续期](https://baike.baidu.com/item/存续期?fromModule=lemma_inlink)，一般在[证券交易](https://baike.baidu.com/item/证券交易?fromModule=lemma_inlink)场所上市交易，投资者通过[二级市场](https://baike.baidu.com/item/二级市场?fromModule=lemma_inlink)买卖基金单位。
+（b）根据组织形态的不同，可分为公司型基金和[契约型基金](https://baike.baidu.com/item/契约型基金?fromModule=lemma_inlink)。
+（5）**公司型基金**：基金通过发行基金股份成立投资基金公司的形式设立；由[基金管理人](https://baike.baidu.com/item/基金管理人?fromModule=lemma_inlink)、[基金托管人](https://baike.baidu.com/item/基金托管人?fromModule=lemma_inlink)和投资人三方通过[基金契约](https://baike.baidu.com/item/基金契约?fromModule=lemma_inlink)设立。
+（6）**契约型基金**：我国的证券投资基金均为契约型基金。
+（c）根据投资风险与收益的不同，可分为成长型、收入型和平衡型基金。
+
+**股票**：是股份公司所有权的一部分，也是发行的[所有权](https://baike.baidu.com/item/所有权/505079?fromModule=lemma_inlink)凭证，**是股份公司为筹集资金而发行**给各个股东作为持股凭证，并借以**取得股息和红利**的一种[有价证券](https://baike.baidu.com/item/有价证券/2064993?fromModule=lemma_inlink)。
+（1）股票是[资本市场](https://baike.baidu.com/item/资本市场/969?fromModule=lemma_inlink)的长期[信用工具](https://baike.baidu.com/item/信用工具/5789858?fromModule=lemma_inlink)，可以转让，买卖。
+（2）[股东](https://baike.baidu.com/item/股东/876529?fromModule=lemma_inlink)凭借它可以**分享公司的利润**，但也要承担公司运作错误所带来的[风险](https://baike.baidu.com/item/风险/2833020?fromModule=lemma_inlink)。
+（3）每股股票都代表[股东](https://baike.baidu.com/item/股东/876529?fromModule=lemma_inlink)对企业拥有一个[基本](https://baike.baidu.com/item/基本?fromModule=lemma_inlink)单位的所有权。每家上市公司都会发行股票。
+
+a、投资有盈利就有亏、投资切勿贪多。分散投资更有收益。储蓄、债券、保险较稳定不易亏损，股票、基金收益较高但风险也高。
+
+b、警惕投资陷阱：
+（1）有分红操作的。
+（2）收益率很高的。
+（3）电信诈骗、网络投资（不出名的投资平台）
+
+c、注意跟随宏观经济。
+
+d、投资前要搞清楚：
+（1）投资的钱的去处，对方是怎么用资金去赚钱的。
+（2）有没有第三方对他们进行监督。是否有保障。
+（3）理财产品可以卖掉吗，如果不能卖自己可以用吗。
+
+e、通货膨胀问题
+（1）钱会贬值，储蓄、债券会一般仅能抵消其问题。
+（2）可购买增值性强的黄金。
+（3）银行理财产品收益较好。
+（4）考虑基金的购买。
 
