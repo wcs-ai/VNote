@@ -1339,6 +1339,7 @@ path{
 ============*/
 ::v-deep .el-input {
 }
+:deep(.el-scroll){display:none;}
 
 // 定义变量
 $menuBg: #9966ff;

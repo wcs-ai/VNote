@@ -1460,7 +1460,7 @@ el.offsetHeight; // 包括边框+内边距+内容尺寸
 el.offsetTop; // 距父元素左边距含margin值
 el.clientHeight; // 内边距+内容尺寸
 el.clientTop; // 到上边框距离
-el.scrollTop; // 元素当前内部滚动的距离
+el.scrollTop; // 元素当前内部滚动的距离 【el.scrollHeight - el.offsetHeight = el.scrollTop 时就是滚动到了底部的情况】
 el.scrollHeight; // 元素内部可滚动的距离，一般比clientHeight大。
 ele.style.left = ""; // 来重新写入该元素的位置，否则返回的永远都只是该元素的初始位置
 ele.getBoundingRect().left; // 使用可实时获取元素位置。
