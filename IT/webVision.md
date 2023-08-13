@@ -587,10 +587,36 @@ $$
 
 **阴影贴图**：光源看不到的点都在阴影中！
 （1）第一轮：将摄像机放到光源位置，使用`z-buffer`来计算得到深度缓冲区（并不渲染出来，因此不用进行光照着色等计算）
-（2）保存当前使用的`MVP`矩阵（`模型变换矩阵x透视矩阵x投影矩阵`）称为`shadowMVP`矩阵。
+（2）保存当前使用的`MVP`矩阵（`投影矩阵x透视矩阵x模型变换矩阵`）称为`shadowMVP`矩阵。
 （3）第二轮：正常渲染场景，对于每个像素点使用`shadowMVP`矩阵**转换到第一轮时对于的点**，然后查找其深度缓冲区中对应的点。
 （4）若光源到该像素点距离“大于” 其在深度缓冲区点点与光源的 距离，则说明该点在阴影中。
-（5）对此点的光源计算可只**采用环境光**。
+（5）对此点的光源计算可只**采用环境光**，然后`shadowS = z1>z2 ? 0.5 : 1.0`与其相乘得到最后颜色值。
+
+- **注意1**：一些库获取到的**深度值**是特殊归一化过的，第2轮计算深度值时也要==同样方法归一化==（`opengl:`$z=(Position.xyz/Position.w)/2.0+0.5$）
+- **注意2**：`opengl`使用的纹理需要是`2^n`大小，因此你第一轮生成的纹理也要如此大小。
+- **伪影1**：一些非阴影的地方也会变成阴影。比较时要给纹理上得到的深度值加偏移量`0.005`，
+  **因为：**纹理的RGBA分量都是8位，而第2次计算的深度值一般`>16`位，所以纹理中的深度值会稍小。
+- **伪影2**：一个阴影面中可能会出现部分分离出去的阴影块，可以对得到的纹理设置到夹紧边缘。
+  `gl.texParameteri(gl.TEXTURE_2D,gl.texture_wrap_S,gl.CLAMP_TO_EDGE);  gl.texParameteri( 同左侧 ,gl.texture_wrap_T, 同左侧);`
+- 阴影锯齿：常因为光源离物体较远造成。
+
+**柔和阴影**：以上两种阴影绘制中都是绘制出的硬阴影，柔和阴影也可以优化阴影锯齿问题。
+（a）而生活中常见的阴影有距离物体近阴影重，距离阴影远淡的特点（有个渐变效果）
+（b）因为生活中多数时候都是平行光，而非点光源（最真实情况是平行光面上 每个点都对物体上各点进行投影得到阴影）
+（c）渲染实现中则需要使用更节省性能的方法。即使用`PCF`（百分比邻近滤波，**在阴影贴图上查找**其周围像素）
+（d）**方法一**：对邻近阴影的**64个**像素点使用其周围像素的均值，采样像素点多则效果好（更耗性能）
+（e）**方法二**：只对当前像素点的周围`4个`像素点采样，因为像素点少，直接使用邻近像素**会造成结块**情况，因此需要加入抖动（随机）决定
+
+- 用当前像素点在阴影贴图上的位置`texture_coord mod 2`（**模运算**）会得到4种结果：`(0,0), (0,1), (1,0), (1,1)`对应采样点如下：
+  结果`(0,0)`：$p_1=(s_x-1.5,s_y+1.5),~p_2=(s_x-1.5,s_y-0.5),~p_3=(s_x+0.5,s_y+1.5),~p_4=(s_x+0.5,s_y-0.5)$
+  结果`(0,1)`：$p_1=(s_x-1.5,s_y+0.5),~p_2=(s_x-1.5,s_y-1.5),~p_3=(s_x+0.5,s_y+0.5),~p_4=(s_x+0.5,s_y-1.5)$
+  结果`(1,0)`：$p_1=(s_x-0.5,s_y+1.5),~p_2=(s_x-0.5,s_y-0.5),~p_3=(s_x+1.5,s_y+1.5),~p_4=(s_x+1.5,s_y-0.5)$
+  结果`(1,1)`：$p_1=(s_x-0.5,s_y+0.5),~p_2=(s_x-0.5,s_y-1.5),~p_3=(s_x+1.5,s_y+0.5),~p_4=(s_x+1.5,s_y-1.5)$
+  得到的4个采样点坐标，获取它们是否在阴影中（如`shadow=在阴影中?0.5: 1.0`），`相加/4.0`作为光照中的系数使用。
+
+**阴影体**：
+（1）计算物体阴影所绘覆盖的空间范围，然后计算在次范围内的物体，给它们着色时绘制阴影效果
+（2）此方法不容易产生伪影，但十分消耗性能。
 
 ## 8、纹理
 
@@ -650,6 +676,22 @@ $$
 （2）然后如果哪个平面使用了此图，它会在**距离视点近的像素**部点部分使用高清的纹理图上的像素，**远离视点部分**使用分辨率较低的纹理图。
 （3）可生成的不同分辨率图片数：$m=log_2n+1$，n为图片宽（一般用`256x256`的做原图，要满足$2^n$）
 （4）所选取的高清，和低分辨率像素点的中间 部分，可使用线性插值完成填充。
+
+## 9、天空&背景
+
+入股使用普通的添加模型，背景，再透视投影为3d场景这将会非常消耗性能。
+
+**天空盒**：使用立方体贴图，将有天空，地平线背景的图像作为纹理使用。
+（1）实例化1个立方体对象。
+（2）准备立方体贴图素材，因为放到立方体中看起来又不能是立方体效果，所以需要特殊处理过的6张纹理图（用工具处理）
+（3）相机放置于立方体中，立方体并不需要绘制得特别大，只需要合适的大小。
+（4）然后绘制立方体贴图时**禁用深度测试**，这样贴图部分深度值就始终为1（最小值）
+（5）绘制场景内物体时再开启深度测试。
+（6）立方体贴图容**易受到接缝处畸变**的影响。
+
+**穹顶**：是用带纹理的球体或半球体实现天空效果。
+（1）不易收到畸变、接缝的影响。
+（2）比立方体贴图需要更多的点，更复杂。
 
 # 零1、css特效
 
@@ -1912,7 +1954,7 @@ var gl = createGLContext(canvas);
 
 ```js
 // 定义那个组绕顺序用作正面
-gl.FrontFace(gl.CCW); //gl.CCW表逆时针组绕的（默认），gl.CW表顺时针组绕的
+gl.frontFace(gl.CCW); //gl.CCW表逆时针组绕的（默认），gl.CW表顺时针组绕的
 gl.enable(gl.CULL_FACE); //面的剔除功能，这里表示激活这个功能
 gl.cullFace(gl.BACK); //表示剔除背面三角形（默认）
 ```
@@ -2272,22 +2314,34 @@ webgl中的es并非支持所有的es语言特性
 （1）`gl_Position`：内置用于绘制位置，可以是一个矢量，矩阵。
 （2）`gl_FragColor`：绘制颜色使用，可以是1个矢量，矩阵。
 （3）`gl_PointSize`：点的大小控制，一个浮点 或 整型。
+（4）`gl_FragCoord`：当前绘制片元的**屏幕坐标**，`gl_FragCoord.z`则是其zbuffer得到的深度值（$=(gl_Position.xyz/gl_Position.w)/2.0+0.5$）
 
-## f、杂项
+## f、帧缓冲区
+
+**简介**：
+（1）其可以用来代替**颜色**缓冲区和**深度**缓冲区。
+（2）绘制的图像会被保存到帧缓冲区中，而不会被绘制在canvas上。
+（3）其只是作为一个载体，绘制操作并不是直接在帧缓冲区进行。
+（4）一个帧缓冲区有3个关联对象，颜色关联对象、深度关联对象、模板关联对象，分别代替 **颜色缓冲区**、**深度缓冲区**、**模板缓冲区**。
+（5）以上3个关联对象又有**两种类型**：纹理对象，渲染缓冲区对象。
+（6）由于纹理对象要求`2^n`大小，渲染缓冲区范围**大小也要一致**，因此要保证canvas大小，或`viewport()`区域大小如此。
 
 ```js
+/****创建帧缓冲区***/
+var framebuffer = gl.createFramebuffer();
+// gl.FRAMEBUFFER: 收集用于渲染图像的颜色，alpha，深度和模板缓冲区的缓冲区数据存储。
+gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer); 
+
+
 /***渲染缓冲区*****/ 
 var renderbuffer = gl.createRenderbuffer();
 // bindRenderbuffer：绑定一个渲染缓冲区。RENDERBUFFER：可渲染的内部格式对单个图像进行缓冲数据存储。
 gl.bindRenderbuffer(gl.RENDERBUFFER, renderbuffer);
 
-/****帧缓冲区***/
-var framebuffer = gl.createFramebuffer();
-// gl.FRAMEBUFFER: 收集用于渲染图像的颜色，alpha，深度和模板缓冲区的缓冲区数据存储。
-gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
 
 /****绑定一个纹理对象到帧缓冲区***/
 const framebufferTexture = gl.createTexture()
+// 将帧缓冲区中的【颜色关联对象】指定为一个纹理对象
 gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, framebufferTexture, 0);
 
 /****创建一个renderBuffer的存储***
@@ -2295,12 +2349,57 @@ gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fra
 参数2：要存储的数据源的指定信息。gl.RGBA4（设置信息） DEPTH_COMPONENT16（深度值信息）
 */
 gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, 256, 256);
-// 附加一个 渲染buffer信息 到帧缓冲区中
+// 将帧缓冲区中的【深度关联对象】 指定为一个渲染缓冲区对象
 gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depthBuffer);
 
+// 检查是否配置正确
+var frameStatus = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+if (frameStatus != gl.FRAMEBUFFER_COMPLETE) {
+      console.error('[帧缓冲区错误]')
+}
+
+// 清空绑定
+gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+gl.bindTexture(gl.TEXTURE_2D, null);
+gl.bindRenderbuffer(gl.RENDERBUFFER, null);
 ```
 
-[阴影参考](https://juejin.cn/post/7246672925666033721?searchId=20230805150932998D44DEB10850986806)
+**使用示例**：绘制的帧缓存用于一下次绘制使用
+
+```js
+// 第一轮的 片段着色器部分
+var shadowVertex = `
+	precision highp float;
+
+    void main() {
+      // 这里只存储深度信息 gl_FragCoord.z， 存储颜色信息只要换成颜色即可
+      gl_FragColor = vec4(gl_FragCoord.z,0.0,0.0,0.0);
+    }`;
+initFrameBuffer(); // 上面的 framebuffer创建及绑定
+// 【开启帧缓冲区】
+gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,framebufferTexture,0);
+drawFirst(); // 要绘制的图形
+
+// 第2轮片段着色器
+var vertex = `
+	uniform sampler2D shadowTexture; // 第一轮得到的纹理
+	...
+`;
+// 【关闭帧缓冲】进行正常绘制
+gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+// 正常绘制图形
+drawSecond(){
+    // 记得依然要进行 纹理开启操作。
+    const shadowTexture = gl.getUniformLocation(gl.program, "shadowTexture");
+    gl.bindTexture(gl.TEXTURE_2D, framebufferTexture);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.uniform1i(shadowTexture, 0); // 0号纹理传递给着色器
+    ...
+}
+```
+
+
 
 # 四、Threejs
 
