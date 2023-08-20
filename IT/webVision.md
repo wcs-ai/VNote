@@ -654,7 +654,19 @@ $$
 （3）曲面上某一点(x0,y0,z0)，用插值公式和当前曲面空间计算得出两个方向的`t`。
 （4）再在纹理空间上，根据插值公式计算得出对应纹理坐标（u,v）取像素点色值。
 
-**几何纹理**：适当的扰乱物体网格表面部分法向量，使光照渲染时产生阴暗，光亮交错产生凹凸效果。
+**几何纹理**：适当的扰乱物体网格表面部分法向量，使光照渲染时产生阴暗，光亮交错产生凹凸效果。可使用正弦函数对其扰动
+
+```glsl
+float a = 0.25,b = 100.0; // a 控制凸起高度,b控制凸起宽度
+float x = originalVertex.x, y = originalVertex.y, z = originalVertex.z;
+vec3 N = originalVertex + vec3(a*sin(b*x), a*sin(b*y), a*sin(b*z));
+```
+
+**法线贴图**：直接将**法向量存储在一张贴图**中，替代几何纹理的一种方法。
+（a）法向量的`x,y,z`对应图像中的`r,g,b`来存储。
+（b）rgb的存储范围是`[0,1]`但法向量单位化后的存储空间为`[-1,1]`所以需要转换。$R=(N_x+1)/2,G=(N_y+1)/2,B=(N_z+1)/2$。
+
+高度图：使用纹理图像来存储高度值，贴图时提升顶点的高度方法。
 
 **两步纹理映射**：先将纹理映射到一个中介曲面（`S映射`），再从其映射到三维物体上（`O映射`），解决了无参数化的纹理映射。
 （1）目标物体为回转体，中介曲面一般选用圆柱。圆柱用参数公式（极坐标）表示：【1】$\begin{cases}x=r\sin\theta\\ y=hφ\\z=r\cos\theta\end{cases},~~0<\varphi <1,0<\theta <2\pi$。
@@ -688,10 +700,17 @@ $$
   （1）生成特殊的6张图形，对应立方体的6个面。通过物体点p处的反射向量`R=(rx,ry,rz)`（该物体形状的真实反射向量）
   （2）从R中找到绝对值最大的那个分量值（再根据正负号用对应那个方向的面的纹理图），然后其余两个分量 比上这个绝对值，再归一化处理。
   （3）如`R=(-3.2,5.1,-8.4)`则计算的纹理坐标：$u=(-3.2/8.4 + 1.0)/2,~~v=(5.1/8.4 + 1.0)/2$用==背面方向的纹理图==（-8.4为指向z负半轴）
+- **反射映射**：
+  （1）将摄像机放置到可反射的表面中间位置，绘制此处观察到的场景作为纹理。
+
+  （2）第2论绘制此面时，使用其法向量和视线向量计算各点处的反射向量。
+  （3）用该反射向量来查找纹理进行渲染。
 
 **投影纹理映射**：该方法先将纹理投影到一个表面上，然后将这个表面投影到场景中。
 （a）这不需要预先绑定纹理坐标，这与纹理图象无关，要更换纹理时改变投影机即可。
 （b）可有效避免纹理扭曲。
+
+法线贴图：
 
 **三维纹理**：平面纹理包裹曲面是一种非线性映射，3维物体为三角形拼接，在交点处很难保持连续性。三维纹理是计算机生成的纹理，在这些交点处使用特殊的处理函数。【！！待深入】
 
@@ -703,7 +722,7 @@ $$
 
 ## 9、天空&背景
 
-入股使用普通的添加模型，背景，再透视投影为3d场景这将会非常消耗性能。
+如果使用普通的添加模型，背景，再透视投影为3d场景这将会非常消耗性能。
 
 **天空盒**：使用立方体贴图，将有天空，地平线背景的图像作为纹理使用。
 （1）实例化1个立方体对象。
@@ -716,6 +735,21 @@ $$
 **穹顶**：是用带纹理的球体或半球体实现天空效果。
 （1）不易收到畸变、接缝的影响。
 （2）比立方体贴图需要更多的点，更复杂。
+
+**简单天空盒实现**：
+（1）准备6个面的6张图片。
+（2）准备绘制一个立方体。
+（3）依然使用2D纹理，对应的纹理绘制到立法体每个面上即可。
+
+**立方体贴图实现**：多数图形学库都有支持立方体贴图api，可直接使用。
+（a）注意：绘制的立方体顶点的**组绕顺序** ==需要是顺时针==的，因为相机是放到立方体中的。
+（b）如果依然使用逆时针+改变正面设置情况，会发现所有的图片是反过来的。！待验证
+（c）立方体不用绘制太大，不然拉伸图片也会导致失真。
+
+**穹顶实现**：
+（1）绘制一个半球形物体。准备一张全景图。
+（2）使用2d贴图，球体的每个顶点坐标都要有一个纹理坐标对应。
+（3）对应关系就是（半球体顶点坐标展开也是一个长方形形状）中间点用`0~1`中的比例位置。
 
 # 零1、css特效
 
@@ -1981,6 +2015,8 @@ var gl = createGLContext(canvas);
 gl.frontFace(gl.CCW); //gl.CCW表逆时针组绕的（默认），gl.CW表顺时针组绕的
 gl.enable(gl.CULL_FACE); //面的剔除功能，这里表示激活这个功能
 gl.cullFace(gl.BACK); //表示剔除背面三角形（默认）
+gl.enable(gl.DEPTH_TEST); // 启用深度测试
+gl.disable(gl.DEPTH_TEST); // 关闭深度测试
 ```
 
 **顶点着色器**：对顶点进行着色（控制点的位置，大小），通过es语言创建；
@@ -2155,6 +2191,8 @@ gl.drawElements(mode,count,type,offst);
 **纹理坐标**：对图像定义的坐标，无论图片的像素大小还是比列如何，其纹理坐标都是x，y轴都为0-1（x,y用t，s称呼）
 纹理单元：每个纹理单元有1个单元编号来管理一张纹理图象。
 
+**a、2d纹理**
+
 ```js
 var vertexShaderSource =
 	"attribute vec4 a_Position;                  \n" +
@@ -2205,6 +2243,67 @@ gl.uniformli(u_sampler,0); // 将0号纹理传递给着色器
 ```
 
 **注**：对立方体这种有重用点的情况，你依然得定义每个面时它们使用的 纹理坐标。若读取纹理的时候为异步操作，最好是==同步绘制每个物体==
+
+**b、立方体贴图**：
+
+```js
+// 创建立方体纹理贴图
+let cubeTexture = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_CUBE_MAP, cubeTexture);
+// 各个面对应的 名称【坐标轴的正方向为 POSITIVE, 负向为 NEGATIVE】
+let forwardMap = {
+     right: gl.TEXTURE_CUBE_MAP_POSITIVE_X ,
+     left: gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
+     front: gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
+     back: gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
+     up: gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
+	down: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y
+};
+// 将各面的图片 都用 texImage2D 绑定
+["front", "back", "down", "up", "left", "right"].forEach((v, ix) => {
+  let img = new Image();
+  img.src = `./static/skycubemap_${v}.jpg`;
+  img.forward = v;
+  img.onload = function () {
+    gl.texImage2D(forwardMap[img.forward],0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
+  };
+});
+// 一些参数设置
+gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+// 开启纹理 和传递
+let cubemap = gl.getUniformLocation(program, "uCubemap");
+gl.activeTexture(gl.TEXTURE0);
+gl.bindTexture(gl.TEXTURE_CUBE_MAP, cubeTexture);
+gl.uniform1i(cubemap, 0);
+```
+
+着色器部分：
+
+```glsl
+//-------顶点着色器部分
+attribute vec4 a_position;
+uniform mat4 u_mvpMatrix;
+varying vec3 texCoord;  
+
+void main(){
+	texCoord = a_position.xyz; // 【需要向片段着色器传递坐标】这里只绘制了一个立方体，所以直接用了顶点坐标
+	gl_Position = u_mvpMatrix * a_position;
+}
+//-----片段着色器部分
+precision highp float;
+
+varying vec3 texCoord;
+uniform samplerCube uCubemap;
+
+void main(){
+	gl_FragColor = textureCube(uCubemap, texCoord); // 【使用1个三维坐标来读取纹理】
+}
+```
+
+
 
 ## d、光照
 
