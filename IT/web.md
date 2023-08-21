@@ -792,6 +792,8 @@ div {
   /*必须要--开头*/
   --wcs-bg: red;
   --wcs-size: 80px;
+  /***【变量可以互相引用】****/
+  --wcs-nav-bg: linear-gradient(90deg,var(--wcs-bg) 10%,blue 100%);
 }
 /*var()中调用对应的变量值*/
 .div {
@@ -808,10 +810,15 @@ div {
 /**也可以内嵌使用**/
 <div style="--num:50;"></div>
 /****currentColor变量会跟随其父元素的color颜色值变化***/
-/**js设置css变量： dom.style.setProperty('--color','red')**/
 <div style="color:blue;">
   	<svg fill="currentColor"><rect fill="currentColor"/></svg>  
 </div>
+<script>
+/**js设置css变量： **/
+dom.style.setProperty('--color','red');
+/**documentElement 中设置才能改变所有引用了该变量的效果**/
+document.documentElement.style.setProperty('--el-color-primary', 'red');
+</script>
 ```
 
 - **展开/折叠动画**：展开折叠时一般要知道具体高才能设置 height 来完成过渡动画。这里使用 max-height 变化来绕开。
@@ -954,7 +961,7 @@ div {
   /*实现内边框原角*/
   box-shadow: 0 0 0 5px black;
   border-radius: 10px; /*可以作用在阴影上，结合实现边框效果*/
-  /*各边分开写法*/
+  /*你可以写【任意多个阴影】 用inset表明的是内阴影，用“逗号”分隔每个阴影*/
   box-shadow: inset 15px 0 5px -10px rgba(0, 0, 0, .2), inset 13px 0 2px -10px rgba(0, 0, 0, .2), inset 0 -3px 5px 0 rgba(250, 241, 220, .5), inset 0 -20px 10px 1px rgba(255, 255, 255, .3), inset -23px 10px 5px -20px rgba(0, 0, 0, .3), inset -20px 15px 10px -20px rgba(0, 0, 0, .2), inset 0 25px 20px -5px rgba(0, 0, 0, .3), 0 2px 1px -1px rgba(245, 227, 183, .8), -17px 10px 5px -20px black, 14px 20px 5px -20px black, 16px 14px 5px -20px black, -2px 27px 5px -20px rgba(255, 255, 255, .3), -1px 14px 3px -5px rgba(0, 0, 0, .5), -1px 18px 3px -5px rgba(0, 0, 0, .4), 0 -1px 5px 0 rgba(85, 85, 85, .5);
 }
 ```

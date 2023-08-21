@@ -850,6 +850,16 @@ vec3 N = originalVertex + vec3(a*sin(b*x), a*sin(b*y), a*sin(b*z));
 </div>
 ```
 
+**突出块**：用绘制阴影方向，模仿光照上去的效果
+
+```css
+.el{
+box-shadow: 20px 20px 20px rgba(29, 36, 56, 0.05), -20px -20px 20px rgba(255, 255, 255, 0.5), 6px 6px 6px rgba(29, 36, 56, 0.05), -6px -6px 6px rgba(255, 255, 255, 0.5);
+}
+```
+
+
+
 # 一、svg
 
 ## a、svg 标签
@@ -2304,6 +2314,7 @@ void main(){
 ```
 
 
+[立方体纹理使用](https://zhuanlan.zhihu.com/p/232102177)
 
 ## d、光照
 
