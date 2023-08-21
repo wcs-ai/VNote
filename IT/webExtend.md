@@ -1285,7 +1285,9 @@ import { h } from "vue";
 function Heading(props, ctx) {
   //context 包含三个属性：attrs、emit 和 slots
   console.log(ctx);
-  return h(`div`, ctx.attrs, [h('p',{id:'s'},[...]),h(...)]);
+  // 【slots】可以传入多个默认插槽，elarr = ctx.slots.default();  
+  
+  return h(`div`, ctx.attrs, [h('p',{id:'s'},[...]),ctx.slots]);
 }
 export default Heading;
 </script>
