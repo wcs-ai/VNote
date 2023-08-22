@@ -710,8 +710,6 @@ vec3 N = originalVertex + vec3(a*sin(b*x), a*sin(b*y), a*sin(b*z));
 （a）这不需要预先绑定纹理坐标，这与纹理图象无关，要更换纹理时改变投影机即可。
 （b）可有效避免纹理扭曲。
 
-法线贴图：
-
 **三维纹理**：平面纹理包裹曲面是一种非线性映射，3维物体为三角形拼接，在交点处很难保持连续性。三维纹理是计算机生成的纹理，在这些交点处使用特殊的处理函数。【！！待深入】
 
 **MinMap纹理反走样**：一般纹理贴到3维物体上，如一个长方形透视投影后近处的纹理被放大，远处的缩小，所以常出现**摩尔纹**（数码相机也常遇到）
@@ -2182,8 +2180,11 @@ gl.drawArrays(gl.TRIABGLE_STRIP, 0, vertexBuffer.numberOfItems);// 利用TRIABGL
 	gl.TRIANGLES: 为一组三个顶点绘制一个三角形。
 参数2：指定要渲染的元素数量。
 参数3：指定元素数组缓冲区中的值的类型。可能的值是：
-	gl.UNSIGNED_BYTE
-	gl.UNSIGNED_SHORT
+	gl.UNSIGNED_BYTE	无符号字节【对应js的 Uint8Array】
+	gl.UNSIGNED_SHORT	短整型【对应Int16Array】
+	gl.UNSIGNED_INT		无符号整型【Uint32Array】
+	gl.INT				整型【对应js的 Int32Array】
+	gl.FLOAT		   浮点型【Float32Array】
 参数4：指定元素数组缓冲区中的偏移量。必须是给定类型大小的有效倍数。
 ***/
 gl.drawElements(mode,count,type,offst);
