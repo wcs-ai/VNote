@@ -2,7 +2,7 @@
 
 也称计算机图形学，它是研究图形的输入、模型(图形对象)的构造和表示、图形数据库管理、图形[数据通信](https://baike.baidu.com/item/数据通信/897073?fromModule=lemma_inlink)、图形的操作、[图形数据](https://baike.baidu.com/item/图形数据/5199438?fromModule=lemma_inlink)的分析，以及如何以[图形信息](https://baike.baidu.com/item/图形信息/5199461?fromModule=lemma_inlink)为媒介实现人机交互作用的方法、技术和应用的一门学科。它包括图形系统硬件(图形输入-输出设备、[图形工作站](https://baike.baidu.com/item/图形工作站/7557182?fromModule=lemma_inlink))图形软件、算法和应用等几个方面。
 
-## 1、术语
+## a1、术语
 
 **抗锯齿**：是一种能够消除显示器输出的画面中图物边缘出现凹凸锯齿的技术，在开启抗锯齿后会使得图像边缘看起来更平滑，更接近实物的物体
 **图像alpha通道**：是指一张[图片](https://baike.baidu.com/item/图片?fromModule=lemma_inlink)的[透明](https://baike.baidu.com/item/透明?fromModule=lemma_inlink)和[半透明度](https://baike.baidu.com/item/半透明度?fromModule=lemma_inlink)。
@@ -34,7 +34,7 @@
 
 **AR**：增强现实([Augmented Reality](https://baike.baidu.com/item/Augmented Reality/5372911?fromModule=lemma_inlink)，[AR](https://baike.baidu.com/item/AR/3404706?fromModule=lemma_inlink))技术是一种将虚拟信息与[真实世界](https://baike.baidu.com/item/真实世界/631440?fromModule=lemma_inlink)巧妙融合的技术，广泛运用了多媒体、[三维建模](https://baike.baidu.com/item/三维建模/4672401?fromModule=lemma_inlink)、实时跟踪及注册、智能交互、传感等多种技术手段，将计算机生成的文字、图像、[三维模型](https://baike.baidu.com/item/三维模型/6846264?fromModule=lemma_inlink)、音乐、视频等虚拟信息模拟仿真后，应用到真实世界中，两种信息互为补充，从而实现对真实世界的“增强”
 
-## 2、颜色
+## a2、颜色
 
 **光谱**（spectrum）
 （1）是[复色光](https://baike.baidu.com/item/复色光/1169071?fromModule=lemma_inlink)经过色散系统（如棱镜、光栅）[分光](https://baike.baidu.com/item/分光/8370907?fromModule=lemma_inlink)后，被[色散](https://baike.baidu.com/item/色散/862554?fromModule=lemma_inlink)开的[单色光](https://baike.baidu.com/item/单色光/1168886?fromModule=lemma_inlink)按波长（或频率）大小而依次排列的图案，全称为光学频谱。
@@ -130,7 +130,7 @@
   
   
 
-## 3、线相关
+## b1、线相关
 
 这里记录的是底层绘制直线的实现相关方法。主要解决的是**线段穿过两像素点之间时**，怎么取y值用**上/下**侧的像素点。
 
@@ -174,7 +174,7 @@ $。
 （5）p12，p23间插值：$p_{12-23}=tp_{23}+(1-t)p_{12}$。
 （6）合并以上得：$p=(1-t)^3p_0+(3t^3-6t^2+3t)p_1+(-3t^3+3t^2)p_2+t^3p_3$。t同上使用。
 
-## 3.1、面相关
+## b2、面相关
 
 **表面模型**：使用三角形可以逼近任意的面。
 （1）点元表示法：使用三角形的3个顶点来表示，但进行填充时需要计算哪些点在其内。
@@ -311,7 +311,7 @@ p(u,v)=\sum^3_{i=0}\sum^3_{j=0}p_{ij}*B_i(u)*B_j(v),~~\begin{cases}B_0(u)=(1-u)^
 $$
 同二次曲面一样，生成出一些插值点，然后读取生成三角形绘制出来。**可优化**：足够平坦时可停止插值，使用简单的点就可绘制平坦的部分
 
-## 4、变换
+## b3、变换
 
 **二维变换**：有移动、旋转、缩放、反射、错切5种变换。
 利用矩阵乘积后得到变换后的x，y值反推各矩阵值，如下：
@@ -354,7 +354,7 @@ $$
 （b）==矩阵栈==：可以把有单独变换要求的模型的“变换”矩阵都放入一个栈中进行管理。
 （c）如：绘制上手臂A时，将A的变换矩阵压入栈中（`ma`），对下手臂B进行绘制时其变换矩阵`mb`压入如栈中，对B进行的变换就是`mb * ma`。
 
-## 5、投影
+## b4、投影
 
 **正交投影**：坐标以垂直方向投影到对应的面，投影后与面垂直方向的轴坐标变得与平面此轴坐标一致，其它两个轴左边不变。
 
@@ -471,7 +471,7 @@ $$
 （3）归一化：将N归一化为`n`，V归一化为`v`。
 （4）计算夹角：$n\cdot v=cos\theta$，$0\leq\theta\leq 90时\cos\theta>0$，表面可见。$90\leq\theta\leq 180,\cos\theta <0$，表面不可见。
 
-## 6、光照
+## c1、光照
 
 **简述**：完善的光照处理非常复杂，这些因素都影响渲染效果：光源与物体的距离、光的颜色、光的类型（环境光、自发光）物体与视点的距离（距离远则看到的光照效果弱）材质对光的反射、透射、吸收，其它物体的反射光影响等等。
 
@@ -540,7 +540,7 @@ $$
 - 然后对各顶点的法向量计算光强。
 - 对比GrouraudShader算法，有**更柔和，更平滑**。
 
-## 7、阴影
+## c2、阴影
 
 **投影阴影**：利用投影中的“斜投影”，来计算一个物体投影到平面上的图形。
 （1）用点光源的位置与物体表面当前点，用斜投影计算其在平面上的位置。
@@ -642,7 +642,7 @@ $$
 （1）计算物体阴影所绘覆盖的空间范围，然后计算在次范围内的物体，给它们着色时绘制阴影效果
 （2）此方法不容易产生伪影，但十分消耗性能。
 
-## 8、纹理
+## c3、纹理
 
 **简介**：纹理定义在纹理空间中，用规范的`(u,v)`坐标表示（左下为`(0,0)`，右上为`(1,1)`**真实的纹理坐标**为其**图像的宽高空间**）纹理映射要建立物体表面各点与纹理各点的对应，取图像上各像素点的色值映射到物体。
 （a）这需要两次映射，第一次是从纹理空间映射到参数空间（物体空间），第二次是从参数空间映射到屏幕空间（透射投影完成）
@@ -718,7 +718,7 @@ vec3 N = originalVertex + vec3(a*sin(b*x), a*sin(b*y), a*sin(b*z));
 （3）可生成的不同分辨率图片数：$m=log_2n+1$，n为图片宽（一般用`256x256`的做原图，要满足$2^n$）
 （4）所选取的高清，和低分辨率像素点的中间 部分，可使用线性插值完成填充。
 
-## 9、天空&背景
+## c4、天空&背景
 
 如果使用普通的添加模型，背景，再透视投影为3d场景这将会非常消耗性能。
 
@@ -731,7 +731,7 @@ vec3 N = originalVertex + vec3(a*sin(b*x), a*sin(b*y), a*sin(b*z));
 （6）立方体贴图容**易受到接缝处畸变**的影响。
 
 **穹顶**：是用带纹理的球体或半球体实现天空效果。
-（1）不易收到畸变、接缝的影响。
+（1）`不易受到畸变、接缝的影响`。
 （2）比立方体贴图需要更多的点，更复杂。
 
 **简单天空盒实现**：
@@ -748,6 +748,43 @@ vec3 N = originalVertex + vec3(a*sin(b*x), a*sin(b*y), a*sin(b*z));
 （1）绘制一个半球形物体。准备一张全景图。
 （2）使用2d贴图，球体的每个顶点坐标都要有一个纹理坐标对应。
 （3）对应关系就是（半球体顶点坐标展开也是一个长方形形状）中间点用`0~1`中的比例位置。
+
+## d1、雾
+
+现实生活中大多数情况都存在雾，只是雾在较少时我们不太关注。场景中可**适当加入雾**来凸显真实。
+
+**线性雾**：比较简单的实现，如下
+（1）在指定范围内用当前点计算其距离雾的起点 和终点距离的比值，作为当前点颜色与雾的颜色的插值参数。
+（2）**插值得到的色值**作为最终显示的色值。
+
+```glsl
+// 顶点着色器部分
+varying float v_dist;
+
+void main(){
+    // 转换到视空间后的点计算其到视点的距离
+    v_dist = distance(u_modelMatrix * a_position,u_eye);
+}
+
+// 片段着色器部分
+vec4 u_fogColor = vec4(0.7,0.8,0.9,1.0); // 雾的颜色一般偏灰色，或淡蓝
+float fogStart = 0.2; float fogEnd = 5.0; // 雾距离视点的起始 和结束距离
+void main(){
+    vec4 obj_color = vec4(1.0,0.2,0.8,1.0); // 图形的本色
+    // 计算插值比例 并保证其在 0~1之间
+    float fogFactor = clamp( (fogEnd-v_dist)/(fogEnd-fogStart),0.0,1.0 );
+    // 使用查值函数，插值参数 计算当前得到的颜色
+    gl_FragColor = mix(u_fogColor,obj_color,fogFactor);
+}
+```
+
+## d2、混合&透明
+
+透明效果的绘制其实就是：能看到有透明度的物体后面的物体，因此在绘制实现时需要**在能看到后侧物体的地方改变颜色**，将后者颜色与前者颜色混合显示
+（1）实现中可使用第4个齐次坐标**当做颜色中的a通道**。
+（2）先绘制的物体的像素称其为**“目标像素”**被保存在帧缓冲区中，后绘制上去的同位置的像素称为**“源像素”**。
+（3）当同一个位置出现 源像素与 目标像素时，对它们进行插值计算`结果=a*源像素 + (1-a)*目标像素`得最终色值。
+（4）webgl已经内置了此功能，可绘制前开启混合：`gl.enable(gl.BLEND)`，设置混合函数：`gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA)`
 
 # 零1、css特效
 
@@ -2181,7 +2218,7 @@ gl.drawArrays(gl.TRIABGLE_STRIP, 0, vertexBuffer.numberOfItems);// 利用TRIABGL
 参数2：指定要渲染的元素数量。
 参数3：指定元素数组缓冲区中的值的类型。可能的值是：
 	gl.UNSIGNED_BYTE	无符号字节【对应js的 Uint8Array】
-	gl.UNSIGNED_SHORT	短整型【对应Int16Array】
+	gl.UNSIGNED_SHORT	短整型【对应Int16Array Uint16Array】
 	gl.UNSIGNED_INT		无符号整型【Uint32Array】
 	gl.INT				整型【对应js的 Int32Array】
 	gl.FLOAT		   浮点型【Float32Array】
@@ -2191,6 +2228,8 @@ gl.drawElements(mode,count,type,offst);
 ```
 
 **渲染大致过程**：缓冲区对象点数据》赋值给顶点着色器》图形装配》光栅化》片元着色器（注意：==每个顶点都会执行一次这个过程==）
+
+**注：**传入buffer的数据要使用`Float32Array, Uint8Array`这一系列创建的数据（对应位只能存储指定范围大小内的值，==超过则会溢出==）
 
 
 
@@ -2414,6 +2453,18 @@ webgl中的es并非支持所有的es语言特性
 （5）纹理查询函数：`vec4 texture2D(sampler,vec[234] coord)`使用纹理坐标coord从sampler绑定的二维纹理中读取相应的纹素。
 （6）阴影纹理函数：`vec4 texture2DProj(sampler,vec[34] coord,float bias)`阴影纹理使用，纹理坐标从coord的最后一个分量读出。
 （7）立方体纹理：`vec4 textureCube(sampler,vec3 coord)`用纹理坐标coord从绑定的立方体纹理sampler中读取
+
+```glsl
+vec4 point = vec4(1.0,1.0,0.5,1.0);
+// 计算需在函数中进行
+void main(){
+    float d = length(point.xyz); // 计算坐标到 相机（0,0,0）的距离
+    // -----将x限制在v1， v2之间
+    float a = clamp(x,v1,v2); // = min( max(x,v1),v2 ) 
+    // ----x, y之间进行线性内插 
+    float c = mix(x,y,a); // = x*(1-a)+ y*a  可以是向量类型
+}
+```
 
 **限定符**：
 （1）修饰限定符
