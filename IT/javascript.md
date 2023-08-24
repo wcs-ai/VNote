@@ -1824,7 +1824,7 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 - 推流协议使用 rtmp，之前的借助 flash 插件实现 rtmp 推流，但 flash 插件各浏览器几乎已不支持。
 - 这个协议建立在 TCP 协议或者轮询 HTTP 协议之上。所以理论上可以用 js 实现 rtmp 协议，似乎也有人这么做，但没找到相关的解析 rtmp 协议的 js 库。
 - [git 地址](https://github.com/chxj1992/rtmp-streamer)
-- [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)
+- [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)、[参考](https://juejin.cn/post/7210574986780426277?searchId=2023082311312768B28DB46AC2D3039196)、[一个开源webrtc](https://github.com/mpromonet/webrtc-streamer)
 
 ## 9、promise
 
