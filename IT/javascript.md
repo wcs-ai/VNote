@@ -1643,7 +1643,7 @@ function click() {
 
 ## 8、音视频：
 
-**调用摄像头**：[参考学习地址](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia)、[video 所有属性及 js 方法](https://www.cnblogs.com/TF12138/p/4448108.html)
+**video使用**：
 
 ```html
 <video id="vd" poster="" loop autoplay controls width="200" height="300">
@@ -1657,10 +1657,6 @@ loop：循环播放
 controls：浏览器自带的控制条
 -->
 <video id="video">调用摄像头</video>
-<canvas id="canvas"></canvas>
-<button onclick="get()">打开摄像头</button>
-<button onclick="show()">拍照</button>
-<button onclick="deviceClose()">关闭所有设备</button>
 <script>
   var width = window.innerWidth;
   var height = window.innerHeight;
@@ -1678,84 +1674,6 @@ controls：浏览器自带的控制条
   video.volume = value; //音量
   video.muted = value; //静音
 
-  // 点击调用摄像头
-  function get() {
-    // obj传到getUserMedia()方法中
-    var obj = {
-      // 设置视图大小，允许录制音频
-      video: {
-        width: width,
-        height: height,
-        bitrate: 1500 * 1000,
-        keyInterval: 2,
-        // 帧率设置
-        frameRate: {
-          min: 5,
-          ideal: 10, // 期望最合适的帧率
-          max: 15,
-        },
-        facingMode: "user", // 前后置摄像头设置，user:前，environment:后
-      },
-      audio: true,
-    };
-    /*    
-        ==============================
-                兼容性处理
-        ==============================
-        注意：这些情况才能调用：地址为localhost:// 访问时、地址为https:// 时、为文件访问file:///
-        http访问时，navigator.mediaDevices为undefined。
-    */
-    let photo =
-      navigator.mediaDevices.getUserMedia(obj) ||
-      navigator.webkitGetUserMedia(obj) ||
-      navigator.mozGetUserMedia(obj) ||
-      navigator.msGetUserMedia(obj);
-    // 会先获取权限(用户控制)，调用成功的话则运行then()方法
-    photo.then(function (MediaStream) {
-      // srcObject属性，兼容性处理。
-      stream = MediaStream;
-      if ("srcObject" in video) {
-        video.srcObject = stream; //图像显示到video元素中
-      } else {
-        video.src = window.URL.createObjectURL(stream);
-      }
-      // 导入完毕时显示。
-      video.onloadedmetadata = function (e) {
-        video.play();
-      };
-    });
-    // 调用失败则运行catch()方法
-    photo.catch(function () {
-      alert("调用摄像头失败");
-    });
-  }
-  // 点击拍照
-  function show() {
-    var canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext("2d");
-    // 上面获取到的but是RGB数组对象。
-    ctx.drawImage(video, 0, 0, width, height);
-  }
-  // 关闭所有设备
-  function deviceClose() {
-    const devices = stream.getTracks();
-    /**数据格式。
-        [{contentHint: ""
-        enabled: true
-        id: "0f4862bc-40cf-4e12-9134-a87f88f8a5b0"
-        kind: "audio"
-        label: "默认 - 麦克风 (Realtek(R) Audio)"
-        muted: false
-        onended: null
-        onmute: null
-        onunmute: null
-        readyState: "ended"
-        }]
-    */
-    devices.map((v) => {
-      v.stop();
-    });
-  }
 </script>
 ```
 
