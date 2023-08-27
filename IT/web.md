@@ -510,6 +510,23 @@ srcdoc: 该属性是一段 HTML 代码，这些代码会被渲染到 iframe 中�
 -->
 ```
 
+**操纵`<iframe>`中的dom**：注意必须是同源的情况才可行。
+
+```html
+<iframe id="frameEl"></iframe>
+<script>
+	var _win = document.getElementById("frameEl").contentWindow; // 拿到iframe的 window对象
+    // 等到该页面加载完成后才能进行操作
+    _win.onload = function () {
+    	var el = document.createElement('h1');
+    	el.innerText = '插入节点';
+    	console.log('元素--',_win.document.body);
+    	//aa.getElementById('app2').innerHTML = '写入的数据';
+    	_win.document.body.appendChild(el);
+  	};
+</script>
+```
+
 
 
 ### 8、MathML
