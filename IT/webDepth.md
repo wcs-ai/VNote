@@ -191,3 +191,73 @@ function deviceClose() {
 （6）然后向web服务器发送信令相关信息（web服务器要将其发送给对端浏览器）
 
 对等连接：WebRTC 对等连接并不是TCP 意义上的那种连接。它是一组路径建立进程(ICE)以及一个可确定应建立哪些媒体和数据路径的协商器。RTCPeerConnection 对象的构造函数有一个配置对象，该配置对象包含一系列属性其中最重要的是 iceServers，此属性是一个服务器地址列表，用于帮助通过 NAT 和防火墙建立会话。
+
+## m、其它方案参考
+
+**webrtc相关库**：[腾讯的一套 webrtc 直播 sdk](https://github.com/tencentyun/tweblive)、[一个开源webrtc](https://github.com/mpromonet/webrtc-streamer)、[方案参考](https://juejin.cn/post/7210574986780426277?searchId=2023082311312768B28DB46AC2D3039196)、
+
+**rtsp**：实时流[传输协议](https://link.juejin.cn/?target=https%3A%2F%2Fbaike.baidu.com%2Fitem%2F%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE%2F8048821%3FfromModule%3Dlemma_inlink)（RTSP）是**公有**协议，流媒体传输协议。
+
+- 是`TCP/IP`协议体系中的一个应用层协议。
+- 该协议定义了[一对多](https://link.juejin.cn/?target=https%3A%2F%2Fbaike.baidu.com%2Fitem%2F%E4%B8%80%E5%AF%B9%E5%A4%9A%2F1327103%3FfromModule%3Dlemma_inlink)[应用程序](https://link.juejin.cn/?target=https%3A%2F%2Fbaike.baidu.com%2Fitem%2F%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%2F5985445%3FfromModule%3Dlemma_inlink)如何有效地通过IP网络传送多媒体数据。
+- 服务端可以自行选择使用TCP或UDP来传送串流内容。
+- 它的语法和运作跟HTTP 1.1类似，但并**不特别强调时间同步**，所以比较能容忍网络延迟。
+- url格式：类似`rtsp://host[:port]/[abs_path]/content_name`。
+- **无法直接使用**现有的web技术进行播放rtsp直播数据流的（hls，rtmp其实是对该方案的替代实现）
+
+**HLS**：常用与流媒体播放，也有利用其推流的技术
+（1）的工作原理是把整个流**分成一个个小的基于 HTTP 的文件**来下载，每次只下载一些。
+（2）当媒体流正在播放时，客户端可以选择从许多不同的备用源中以不同的速率下载同样的资源，
+（3）允许流媒体会话适应不同的数据速率。
+（4）客户端首先需要下载描述不同码流元数据的**M3U8索引文件**
+（5）**m3u8**：该文件实质是一个播放列表（playlist）其可能是一个媒体播放列表（Media Playlist），或者是一个主列表（Master Playlist）。但无论是哪种播放列表，其内部文字使用的都是 utf-8 编码。
+
+```js
+/*===*-----  直播端逻辑  ----*===*/
+var stream = await navigator.mediaDevices.getUserMedia({ audio, video });
+var rtc = new RTCPeerConnection(null);
+// 将每帧流添加到rtc中。
+stream.getTracks().forEach(function (track) {
+  //将一个新的媒体音轨添加到一组音轨中，这些音轨将被传输给另一个对等点。
+  rtc.addTrack(track);
+});
+var offer = await rtc.createOffer(); // 返回一个本地会话描述。
+await rtc.setLocalDescription(offer); // 设置本地描述,然后通过其信令通道将此会话描述发送
+// 将信令sdp发送，并获取服务端用于与该客户端连接的sdp。
+const sdp = await ajax({ url, data: { sdp: offer.sdp, streamurl: "" } });
+// 将此获取到的sdp设为远程会话描述。
+await offer.setRemoteDescription(
+  new RTCSessionDescription({ type: "answer", sdp: sdp })
+);
+/*=========
+    收看端
+===========*/
+// 使用hls.js进行拉流，内部原理暂未了解！。
+if (video.canPlayType("application/vnd.apple.mpegurl")) {
+  video.src = "http://fjjla.m3u8";
+  video.play();
+} else if (Hls.isSupported()) {
+  // hls.js播放m3u8视频流
+  that.flvPlayer = new Hls();
+  that.flvPlayer.loadSource("http://fjjla.m3u8");
+  that.flvPlayer.attachMedia(video);
+  video.play();
+}
+```
+
+**websocket方案**：`flv.js`是此方案实现的
+（a）服务器端用 websocket 接受 [rtsp](https://link.juejin.cn/?target=https%3A%2F%2Fso.csdn.net%2Fso%2Fsearch%3Fq%3Drtsp%26spm%3D1001.2101.3001.7020) ，然后，推送至客户端。
+（b）客户端将其解析转变转成mp4，放到vidoe标签中进行播放。
+
+**flv.js**：用于在Web浏览器中播放FLV格式的视频文件。
+（a）flv.js的原理是通过将FLV文件从HTTP请求中通过AJAX异步请求获取到，然后将FLV文件转换成JavaScript对象的形式，
+（b）然后将音视频数据按照FLV协议解析出来，并通过HTML5的Video组件或Flash组件进行展示播放。
+（c）是**使用WebSocket**在服务端和客户端之间进行数据传输
+
+**rtmp**：是`Adobe`的**私有协议**，流媒体传输协议
+
+- 推流协议使用 rtmp，之前的借助` flash` 插件实现 rtmp 推流，但 flash 插件各浏览器几乎已不支持。
+- 这个协议建立在 TCP 协议或者轮询 HTTP 协议之上。所以理论上可以用 js 实现 rtmp 协议，似乎也有人这么做，但**没找到相关**的解析 rtmp 协议的 js 库。
+- [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)、[git 地址](https://github.com/chxj1992/rtmp-streamer)
+
+**JSMpeg方案**：ffmpeg + http server(接流)+ websocket(server中继转发,client接收流) + [jsmpeg.js](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fphoboslab%2Fjsmpeg)

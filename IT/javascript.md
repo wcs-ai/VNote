@@ -1693,56 +1693,7 @@ function animate(){
 video.onload = function(e){video.play();window.requestNextAnimationFrame(animate);}
 ```
 
-**webrtc**：运输层使用的 UDP 传输。web 端视频电话支持技术，里面处理了媒体流数据编码、杂音、画面去噪等功能。
 
-- <b c=r>web 端直播推流使用此方法（这里只有大致的思路）</b>
-- [参考学习地址](https://www.dazhuanlan.com/2019/12/24/5e0191c6d8816/)，[腾讯的一套 webrtc 直播 sdk](https://github.com/tencentyun/tweblive)
-
-**HLS**：的工作原理是把整个流分成一个个小的基于 HTTP 的文件来下载，每次只下载一些。当媒体流正在播放时，客户端可以选择从许多不同的备用源中以不同的速率下载同样的资源，允许流媒体会话适应不同的数据速率。[hts 与 m3u8](https://www.jianshu.com/p/e97f6555a070)
-
-**m3u8**：该文件实质是一个播放列表（playlist），其可能是一个媒体播放列表（Media Playlist），或者是一个主列表（Master Playlist）。但无论是哪种播放列表，其内部文字使用的都是 utf-8 编码。
-
-```js
-/*===*-----  直播端逻辑  ----*===*/
-var stream = await navigator.mediaDevices.getUserMedia({ audio, video });
-var rtc = new RTCPeerConnection(null);
-// 将每帧流添加到rtc中。
-stream.getTracks().forEach(function (track) {
-  //将一个新的媒体音轨添加到一组音轨中，这些音轨将被传输给另一个对等点。
-  rtc.addTrack(track);
-});
-var offer = await rtc.createOffer(); // 返回一个本地会话描述。
-await rtc.setLocalDescription(offer); // 设置本地描述,然后通过其信令通道将此会话描述发送
-// 将信令sdp发送，并获取服务端用于与该客户端连接的sdp。
-const sdp = await ajax({ url, data: { sdp: offer.sdp, streamurl: "" } });
-// 将此获取到的sdp设为远程会话描述。
-await offer.setRemoteDescription(
-  new RTCSessionDescription({ type: "answer", sdp: sdp })
-);
-/*=========
-    收看端
-===========*/
-// 使用hls.js进行拉流，内部原理暂未了解！。
-if (video.canPlayType("application/vnd.apple.mpegurl")) {
-  video.src = "http://fjjla.m3u8";
-  video.play();
-} else if (Hls.isSupported()) {
-  // hls.js播放m3u8视频流
-  that.flvPlayer = new Hls();
-  that.flvPlayer.loadSource("http://fjjla.m3u8");
-  that.flvPlayer.attachMedia(video);
-  video.play();
-}
-```
-
-**flv.js**：解析 flv 文件的拉流实现。flv.js 这个项目解决了 HTML5 支持 flash 协议的问题，这就是 flv.js 应运而生短期爆红的历史背景。flv.js 中的 demux 就是一套 FLV 媒体数据格式的解析器，[原理讲解地址](https://www.cnblogs.com/saysmy/p/10209581.html)
-
-**rtmp 推拉流**：
-
-- 推流协议使用 rtmp，之前的借助 flash 插件实现 rtmp 推流，但 flash 插件各浏览器几乎已不支持。
-- 这个协议建立在 TCP 协议或者轮询 HTTP 协议之上。所以理论上可以用 js 实现 rtmp 协议，似乎也有人这么做，但没找到相关的解析 rtmp 协议的 js 库。
-- [git 地址](https://github.com/chxj1992/rtmp-streamer)
-- [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)、[参考](https://juejin.cn/post/7210574986780426277?searchId=2023082311312768B28DB46AC2D3039196)、[一个开源webrtc](https://github.com/mpromonet/webrtc-streamer)
 
 ## 9、promise
 
