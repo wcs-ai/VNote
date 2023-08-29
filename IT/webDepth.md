@@ -216,7 +216,116 @@ WebRTC 对等连接并不是TCP 意义上的那种连接。它是一组路径建
 （c）随后，另一方予以回应，此过程称为“`应答`”此**应答将列出**，在第一方提议的会话功能特性中，另一方能够或愿意在此会话中==支持或使用哪些功能特性==。
 （d）应答将被发送回第一方，并且也**通过信令通道传输**。从生成提议到收到应答的整个交换过程就称为**“提议 /应答协商”**
 （e）比如确定媒体的类型（是只有音频还是视频）使用的解码器，及其参数。
-（f）复杂的情况可能要进行多次 提议/应答协商。webrtc中使用专门的`RTCSessionDescriptio`来进行这一描述。
+（f）复杂的情况可能要进行多次 提议/应答协商。webrtc中使用专门的`RTCSessionDescription`来进行这一描述。
+
+**建立对等连接实现**：这里只给出相关部分代码逻辑
+
+```js
+const config = []; // 连接配置
+var doNothing = function() {};
+var constraints = {
+    mandatory: {OfferToReceiveAudio: true,OfferToReceiveVideo: true}
+};
+if (stunuri) {
+    // 谷歌的一台 stun服务器
+    config.push({"url":"stun:stun.l.google.com:19302"});
+  }
+  if (turnuri) {
+    if (stunuri) {
+      // 不能使用仅支持turn的 turn服务器（google中有bug） 需要使用同时有 stun的服务器
+      config.push({"url":"turn:user@turn.webrtcbook.com","credential":"test"});
+    } else {
+      // 一台仅有turn的服务器
+      config.push({"url":"turn:user@turn-only.webrtcbook.com","credential":"test"});
+    }
+}
+/***创建 对等连接 实体****/
+var pc = new RTCPeerConnection({iceServers:config});
+pc.onicecandidate = onIceCandidate;
+pc.onaddstream = onRemoteStreamAdded;
+pc.onremovestream = onRemoteStreamRemoved;
+
+// 如果有另一个候选项，则发送给对等端 （？？？）
+function onIceCandidate(e) {
+  if (e.candidate) {
+    // 用网络发送给对等端，对等端接收到后会添加该候选项。
+    rpc.send({type: 'candidate',mlineindex: e.candidate.sdpMLineIndex,candidate: e.candidate.candidate});
+  }
+}
+
+// 检测到另一端加入了媒体流，则将其显示出来
+function onRemoteStreamAdded(e) {
+  var yourVideoStream = e.stream;
+  var yourVideoDom = document.getElementById("yourVideo");
+  attachMediaStream(yourVideoDom, yourVideoStream);
+}
+
+// 对等端 移除了媒体流时触发
+function onRemoteStreamRemoved(e) {}
+
+// 告诉浏览器要将 本地流加入对等连接，但实际还不会真正的产生流
+pc.addStream(myVideoStream);
+
+// 为提议生成会话描述。
+function call() {
+  pc.createOffer(gotDescription, doNothing, constraints);
+}
+
+// 为应答生成会话描述
+function answer() {
+  pc.createAnswer(gotDescription, doNothing, constraints);
+}
+
+/*
+生成的会话描述都要添加到本地，用于发送给另一端。
+设置了本地描述浏览器才能 两端之间发送媒体流。
+*/
+function gotDescription(localDesc) {
+  pc.setLocalDescription(localDesc);
+  rpc.send(localDesc);
+}
+
+/***连接过程中的消息处理***/
+function rpcConnect(){
+    ...
+    // 连接中接收到 会话描述 时进行相应的操作
+    if (msg.type === "offer") {
+      pc.setRemoteDescription(new RTCSessionDescription(msg));
+      answer();
+    } else if (msg.type === "answer") {
+      // 设置远程会话描述
+      pc.setRemoteDescription(new RTCSessionDescription(msg));
+    } else if (msg.type === "candidate") {
+      // 添加候选项！！
+      pc.addIceCandidate(new RTCIceCandidate({sdpMLineIndex:msg.mlineindex,candidate:msg.candidate}));
+    }
+    ...
+}
+```
+
+f、搭建 STUN/TURN
+
+目前比较流行的 STUN/TURN 服务器是 [coturn](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fcoturn%2Fcoturn)，使用它搭建 STUN/TURN 服务非常的方便。
+
+```
+git clone https://github.com/coturn/coturn.git
+// 编译
+cd coturn
+./configure --prefix=/usr/local/coturn
+sudo make -j 4 && make install
+
+// 配置
+listening-port=3478        #指定侦听的端口
+external-ip=39.105.185.198 #指定云主机的公网IP地址
+user=aaaaaa:bbbbbb         #访问 stun/turn服务的用户名和密码
+realm=stun.xxx.cn          #域名，这个一定要设置
+
+// 启动 stun/turn 服务
+cd /usr/local/coturn/bin
+turnserver -c ../etc/turnserver.conf
+```
+
+
 
 ## m、其它方案参考
 
