@@ -266,7 +266,7 @@ function onRemoteStreamRemoved(e) {}
 // 告诉浏览器要将 本地流加入对等连接，但实际还不会真正的产生流
 pc.addStream(myVideoStream);
 
-// 为提议生成会话描述。
+// 为提议生成会话描述【连接之后可主动调用，也可让用户点击按钮触发】
 function call() {
   pc.createOffer(gotDescription, doNothing, constraints);
 }
