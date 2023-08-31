@@ -396,3 +396,5 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 - [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)、[git 地址](https://github.com/chxj1992/rtmp-streamer)
 
 **JSMpeg方案**：ffmpeg + http server(接流)+ websocket(server中继转发,client接收流) + [jsmpeg.js](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fphoboslab%2Fjsmpeg)
+
+**srs音视频服务器**：支持RTMP、WebRTC、HLS、HTTP-FLV、SRT等多种实时流媒体协议。[官网](http://www.ossrs.net/lts/zh-cn/docs/v5/tutorial/srs-server)
