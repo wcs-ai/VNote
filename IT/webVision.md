@@ -794,7 +794,189 @@ void main(){
 }
 ```
 
+## d2、噪声
 
+使用噪声可以模拟出许多自然现象，比如火影、水、烟雾、木纹、矿物、地形等。【[各种噪声参考](https://zhuanlan.zhihu.com/p/346844820)】
+从数学上讲噪声函数实际上是一个从$R^n$到R的映射。它以n维点作为输入返回一个浮点数。1D噪声通常用于物体动画，2D和3D噪声用于生成物体表面纹理，另外3D噪声对于体积渲染特别有用。4D噪声则是加上第4个维度参数，比如时间，可以做动画。
+
+**白噪声**：指随机无规律生成的噪声。
+
+**value噪声**：与perlin噪声类似，不过线性插值参数的平滑是使用周围9个点的权重平均处理得到的。
+
+- **1维噪声生成**：
+
+  ```js
+  const MAX_VERICES = 10;
+  // 线性插值
+  function lerp(a,b,t){
+      return a + t*(b-a);
+  }
+  
+  function cosineRemap(t,a, b) {
+  	// 简谐运动函数，对t进行偏移
+      const tRemapCosine = (1 - Math.cos(t * Math.PI)) * 0.5;
+      return lerp(a, b,tRemapCosine);
+  }
+  
+  function valueNoise1D(x) {
+  	const xFloor = Math.floor(x);
+  	// 超过最大值就循环处理
+  	const xMin = xFloor % MAX_VERICES;
+  	const t = x - xFloor; // 小数部分用作插值参数
+      // <9时用 其 +1 作为另一端插值，
+      const xMax = (xMin === MAX_VERICES - 1) ? 0 : xMin + 1;
+  
+      return cosineRemap(xMin, xMax, t);
+  }
+  ```
+
+- **二维噪声生成**：[掘金参考地址](https://juejin.cn/post/7147492992540999716)
+
+  ```js
+  // 线性插值参数平滑函数
+  function smoothStep(min, max, t) {
+      const rRemapSmoothStep = t * t * (3 - 2 * t);
+  	return lerp(min, max, rRemapSmoothStep);
+  }
+  
+  class ValueNoise2D {
+    constructor() {
+      this.vertices = [];
+      this.K_MAX_TABLE_SIZE = 256;
+      this.K_MAX_TABLE_SIZE_MASK = this.K_MAX_TABLE_SIZE - 1;
+  	// 随机生成值作为
+      for (let i = 0; i < this.K_MAX_TABLE_SIZE * this.K_MAX_TABLE_SIZE; i++) {
+        this.vertices[i] = Math.random();
+      }
+    }
+  
+    computeX(p) {
+      const xi = Math.floor(p.x);
+      const yi = Math.floor(p.y);
+      // 两个方向的插值参数
+      const s = p.x - xi;
+      const t = p.y - yi;
+  
+      const rx0 = xi & this.K_MAX_TABLE_SIZE_MASK;
+      const rx1 = (rx0 + 1) & this.K_MAX_TABLE_SIZE_MASK;
+      const ry0 = yi & this.K_MAX_TABLE_SIZE_MASK;
+      const ry1 = (ry0 + 1) & this.K_MAX_TABLE_SIZE_MASK;
+      //通过置换表查找四个顶点处的随机值
+      const c00 = this.vertices[ry0 * this.K_MAX_TABLE_SIZE_MASK + rx0];
+      const c10 = this.vertices[ry0 * this.K_MAX_TABLE_SIZE_MASK + rx1];
+      const c01 = this.vertices[ry1 * this.K_MAX_TABLE_SIZE_MASK + rx0];
+      const c11 = this.vertices[ry1 * this.K_MAX_TABLE_SIZE_MASK + rx1];
+      //对得到的s和t做平滑处理
+      const ss = smoothStep(s);
+      const st = smoothStep(t);
+      //双线性插值得到p的值
+      const a = lerp(c00, c10, ss);
+      const b = lerp(c01, c11, ss);
+  
+      return lerp(a, b, st);
+    }
+  }
+  ```
+
+**perlin噪声**：柏林噪声，一个噪声函数基本上是一个种子随机发生器。
+它需要一个整数作为参数，然后根据这个参数返回一个随机数。如果你两次都传**同一个参数**进来，它就会**产生两次相同的数**（重要的点）
+
+- **2维噪声生成**：对于2d坐标系中的一个点`p(x,y)`，如下操作（数学坐标系）
+  （1）对p点，其整数部分作为晶格左下脚顶点`pn`，小数部分作为两个方向插值参数。
+  （2）两个插值参数进行平滑处理（不然由于不自然变化的梯度值，会**导致块状**）
+  （3）`pn`两个轴各`+1`得到其它3个晶格顶点（$(x+1,y), (x,y+1),(x+1,y+1)$）
+  （4）再根据这4个晶格点从哈希表中获取它们对应的`hash`值的**梯度向量**。
+  （5）用`p`减去4个晶格点，得到4个向量，4个向量分别与对应点的`hash梯度向量`，做==点积==，得到**4个标量**。
+  （6）对4个标量进行双线性插值，得到最后1个浮点数即为`p点`对应的噪声值。
+  （7）对最后的值校验，需要在（-1,1）区间，与rbg值相乘？？
+
+  ```js
+  // 生成0-255 哈希值表 （图片一般根据mipmap 宽/高为 2^n）
+  const hash256 = [];
+  for(let i=0;i<256;i++){
+      hash256.push(parseInt(Math.random()*256));
+  }
+  const hash512 = [...hash256,...hash256]; // 防止索引溢出而放置的 两倍
+  
+  // 梯度的得来 hash = p[px mod 255 + py mod 255] 共有4个方向的梯度向量
+  function dot(hash,x,y){
+      // hash值与3 做与运算 得到0~3
+      switch(hash & 3){
+          case 0: return x+y; // 对应的梯度向量 (1,1)
+          case 1: return -x+y; // 对应的梯度向量 (-1,1)
+          case 2: return x-y; // 对应的梯度向量 (1,-1)
+          case 3: return -x-y; // 对应的梯度向量 (-1,-1)
+      }
+  }
+  
+  // 对插值参数的平滑处理
+  function fade(t){
+      return Math.pow(3,5) * (t * (t*6 - 15) + 10);
+  }
+  // 线性插值
+  function lerp(t,a,b){
+      return a + t*(b-a);
+  }
+  
+  function perlin2D(x,y){
+      const p = {x:x,y:y};
+  	// 计算作为 晶格网中的第一个点（坐下点）
+  	var xn = Math.floor(p.x), yn = Math.floor(p.y);
+  	// 用于双线性插值 的参数
+  	const fx = p.x - xn, fy = p.y - yn;
+      const u = fade(fx), v = fade(fy);
+      xn = xn & 255; yn = yn & 255; // 与运算， 使值限定在0-255内
+  	// 4个晶格 哈希值
+      const aa = hash512[hash512[xn] + yn]; // 晶格左下脚哈希值
+      const ab = hash512[hash512[xn+1] + yn]; // 晶格右下脚哈希值
+      const ba = hash512[hash512[xn] + yn + 1]; // 晶格左上脚哈希值
+      const bb = hash512[hash512[xn + 1] + yn + 1]; // 晶格右上脚哈希值
+      // 分别插值
+      const v1 = lerp(u, dot(aa,fx,fy), dot(ab,fx-1, fy)); // x轴下方两个值 插值
+      const v2 = lerp(u, dot(ba,fx,fy-1), dot(bb,fx-1,fy-1)); // x轴上方两个值 插值
+      const v3 = lerp(v, v1, v2);
+      return v3;
+  }
+  ```
+
+- **3维柏林噪声**：在2维的基础上增加晶格点数，计算的向量数，哈希值数也增加，最后变为3维线性插值，即该柏林算法时间复杂度为$O(2^n)$
+
+**FBM分形噪声**：`(Fractal Brown Motion)`分形布朗运动，分形噪声叠加。是1968年Mandelbrot和Ness两人提出的一种数学模型，它主要**用于描述**自然界的山脉、云层、地形地貌以及模拟星球表面等不规则形状阶。它又是理想的不规则扩散和分形随机行走的基础。
+
+```js
+// 引入振幅amplitude，频率frequency，与噪声函数运算 叠加几次后往往得到更接近自然的随机
+const amplitude = 1;
+const frequency = 1;
+// 分形叠加次数 通常被设置为 3，5 或者 7
+const layers = 5;
+let noiseSum = 0;
+for (let i = 0; i < layers; i++) {
+	noiseSum += perlin2D(x * frequency, y*frequency) * amplitude;
+    amplitude *= 0.5;
+    frequency *= 2;
+}
+
+```
+
+**simplex噪声**：与perline噪声类似，且也是同一作者。
+（a）指在N维下， N+1个点即可构成凸多面体。比如在二维下，平面可以看成**正三角形的拼接**。在三维下，空间可以看成正四面体的拼接。
+（b）可以减少我们插值时所需要的顶点的个数，加快运行速度。运行**时间复杂度**由$O(2^n)$降低为$O(n^2)$，因此噪声维度越高，优化效果就越明显。
+（c）单形网格与直角坐标网格的互相变换：
+$$
+单形网格到坐标网格=\begin{cases}F=\frac{\sqrt{3}-1}{2}\\ x'=x+(x+y)*F\\ y'=y+(x+y)*F\end{cases},~~
+更多维时=\begin{cases}F=\frac{\sqrt{N}-1}{N}\\ x'=x+(x+y+z+..)*F\\ y'=y+(x+y+z+..)*F\end{cases},~~
+坐标到单形=\begin{cases}G=\frac{3-\sqrt{3}}{6}\\ x=x'-(x'+y')*G\\ y=y'+(x'+y')*G\end{cases}
+$$
+（d）有了以上转换后，对于输入的点`p(x,y)`同样找到晶格网中的4个直角坐标点，再转换到单形网格中。
+（e）`simplex`中只需要**3个点**即可，通过判断输入点是在**上三角形**还是在**下三角形**，来选择用哪3个点。
+（f）对**点p**，`x<=y`则用上三角形，`x>y`则用下三角形。
+
+<img src="_v_images/simplex.webp" style="height:250px;"/>
+
+
+（g）依然同perlin噪声一样，计算p到3个单形网格点的向量、3个点的hash梯度向量，计算点积。
+（h）**衰减函数**：晶格网中不适合线性插值，是衰减函数替代它。$f(r,x,y)=(max[0,(r^2-x^2-y^2)])^4$（==单形网中的x，y==）r是以点`(x,y)`为中心，到对面三角形底的高度值。
+（m）最后归一化：`70.0 * (n0 + n1 + n2)`，70.0是二维情况使用。
 
 # 零1、css特效
 

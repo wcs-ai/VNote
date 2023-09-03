@@ -148,7 +148,7 @@ $a=\frac{v-v_0}{t}，v=v_0+at，s=v_0t+at^2/2，v^2-v_0^2=2as$
 
 # 四、投资理财
 
-储蓄：
+储蓄：存入银行，
 
 **基金**：意指具有特定目的和用途的资金。我们提到的基金主要是指证券投资基金。
 （a）根据基金单位是否可增加或赎回，可分为[开放式基金](https://baike.baidu.com/item/开放式基金?fromModule=lemma_inlink)和[封闭式基金](https://baike.baidu.com/item/封闭式基金/260502?fromModule=lemma_inlink)。
