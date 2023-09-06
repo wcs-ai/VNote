@@ -303,7 +303,7 @@ function rpcConnect(){
 }
 ```
 
-f、搭建 STUN/TURN
+## f、搭建 STUN/TURN
 
 目前比较流行的 STUN/TURN 服务器是 [coturn](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fcoturn%2Fcoturn)，使用它搭建 STUN/TURN 服务非常的方便。
 
@@ -384,17 +384,19 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 （a）服务器端用 websocket 接受 [rtsp](https://link.juejin.cn/?target=https%3A%2F%2Fso.csdn.net%2Fso%2Fsearch%3Fq%3Drtsp%26spm%3D1001.2101.3001.7020) ，然后，推送至客户端。
 （b）客户端将其解析转变转成mp4，放到vidoe标签中进行播放。
 
-**flv.js**：用于在Web浏览器中播放FLV格式的视频文件。
-（a）flv.js的原理是通过将FLV文件从HTTP请求中通过AJAX异步请求获取到，然后将FLV文件转换成JavaScript对象的形式，
+**http+FLV**：用于在Web浏览器中播放FLV格式的视频文件（==只能播放==）
+（a）`flv.js`的原理是通过将FLV文件从HTTP请求中通过AJAX异步请求获取到，然后将FLV文件转换成JavaScript对象的形式，
 （b）然后将音视频数据按照FLV协议解析出来，并通过HTML5的Video组件或Flash组件进行展示播放。
 （c）是**使用WebSocket**在服务端和客户端之间进行数据传输
 
-**rtmp**：是`Adobe`的**私有协议**，流媒体传输协议
+**rtmp**：是`Adobe`的**私有协议**，流媒体传输协议（==没有找到rtmp推拉流方法==）
 
 - 推流协议使用 rtmp，之前的借助` flash` 插件实现 rtmp 推流，但 flash 插件各浏览器几乎已不支持。
 - 这个协议建立在 TCP 协议或者轮询 HTTP 协议之上。所以理论上可以用 js 实现 rtmp 协议，似乎也有人这么做，但**没找到相关**的解析 rtmp 协议的 js 库。
 - [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)、[git 地址](https://github.com/chxj1992/rtmp-streamer)
 
-**JSMpeg方案**：ffmpeg + http server(接流)+ websocket(server中继转发,client接收流) + [jsmpeg.js](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fphoboslab%2Fjsmpeg)
+**JSMpeg方案**：ffmpeg + http server(接流)+ websocket(server中继转发,client接收流) + jsmpeg.js
 
-**srs音视频服务器**：支持RTMP、WebRTC、HLS、HTTP-FLV、SRT等多种实时流媒体协议。[官网](http://www.ossrs.net/lts/zh-cn/docs/v5/tutorial/srs-server)
+- `FFmpeg`：一套可以用来记录、转换[数字音频](https://baike.baidu.com/item/数字音频/5942163?fromModule=lemma_inlink)、视频，并能将其转化为流的开源计算机[程序](https://baike.baidu.com/item/程序/13831935?fromModule=lemma_inlink)。它提供了**录制、转换以及流化音视频的完整解决方案**。有非常强大的功能包括[视频采集](https://baike.baidu.com/item/视频采集/3430654?fromModule=lemma_inlink)功能、[视频格式转换](https://baike.baidu.com/item/视频格式转换/9399376?fromModule=lemma_inlink)、视频[抓图](https://baike.baidu.com/item/抓图/317285?fromModule=lemma_inlink)、给视频加水印等。
+
+**srs音视频服务器**：支持RTMP、WebRTC、HLS、HTTP-FLV、SRT等多种实时流媒体协议。[官网](http://www.ossrs.net/lts/zh-cn/docs/v5/tutorial/srs-server)、[一篇web端博客参考](http://lihuaxi.xjx100.cn/news/1454821.html?action=onClick)、[参考地址2](https://juejin.cn/post/7158670561906786311?searchId=20230904094835C3F484E35148A8D12263)、
