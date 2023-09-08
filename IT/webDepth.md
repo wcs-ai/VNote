@@ -30,7 +30,7 @@ webGIS的二维底图主要有矢量地图和瓦片地图两种形式，可以�
 
 ## a、简介
 
-webrtc并非只用于互联网，或者简单的浏览器与服务器之间，下面是它可以搭配的一些设备及其场景。
+webrtc并非只用于互联网，或者简单的浏览器与服务器之间，**使用的传输协议是**`UDP、DTLS、RTP/SRTP`，音视频编码是`I420/VP8、iLIBC/iSAC、G722、PCM16`等。下面是它可以搭配的一些设备及其场景。
 
 **webrtc三角形**：两个浏览器从同一个服务器下载同一份webrtc程序运行，==两个浏览器之间建立对等连接，直接传输数据==，但浏览器与服务器都有连接（webrtc中信令并未实现标准化。有时候将浏览器与服务器之间的连接称为信令）
 
@@ -327,7 +327,7 @@ turnserver -c ../etc/turnserver.conf
 
 
 
-## m、其它方案参考
+## m、其它流传输参考
 
 **webrtc相关库**：[腾讯的一套 webrtc 直播 sdk](https://github.com/tencentyun/tweblive)、[一个开源webrtc](https://github.com/mpromonet/webrtc-streamer)、[方案参考](https://juejin.cn/post/7210574986780426277?searchId=2023082311312768B28DB46AC2D3039196)、
 
@@ -384,19 +384,41 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 （a）服务器端用 websocket 接受 [rtsp](https://link.juejin.cn/?target=https%3A%2F%2Fso.csdn.net%2Fso%2Fsearch%3Fq%3Drtsp%26spm%3D1001.2101.3001.7020) ，然后，推送至客户端。
 （b）客户端将其解析转变转成mp4，放到vidoe标签中进行播放。
 
+**GB28181协议**：是**视频监控**领域的国家标准。
+
+- 该标准规定了公共安全视频监控联网系统的互联结构， 传输、交换、控制的基本要求和安全性要求， 以及控制、传输流程和协议接口等技术要求，是视频监控领域的国家标准。GB28181协议信令层面使用的是SIP（Session Initiation Protocol）协议。
+- 流媒体传输层面使用的是实时传输协议（Real-time Transport Protocol，RTP）协议。
+- 因此可以理解为GB28181是在国际通用标准的基础之上进行了私有化定制以满足视频监控联网系统互联传输的标准化需求。本文旨在说明在FFmpeg中增加对GB28181协议的支持，使其可以与支持GB28181协议的设备进行通信与控制，实现设备的注册、保活以及流媒体的传输。
+
 **http+FLV**：用于在Web浏览器中播放FLV格式的视频文件（==只能播放==）
 （a）`flv.js`的原理是通过将FLV文件从HTTP请求中通过AJAX异步请求获取到，然后将FLV文件转换成JavaScript对象的形式，
 （b）然后将音视频数据按照FLV协议解析出来，并通过HTML5的Video组件或Flash组件进行展示播放。
 （c）是**使用WebSocket**在服务端和客户端之间进行数据传输
 
+**HLS与FLV的区别如下**：
+
+- 分片方式不同：HLS将视频分成5秒~10秒的视频小分片，然后用m3u8索引表进行管理；FLV只是在大块的视频帧和音视频头部加入一些标记头信息。
+- 延迟不同：HLS由于客户端下载到的视频都是5秒-10秒的完整数据，**故视频的流畅性很好**，但也同样**引入了很大的延迟**（HLS的一般延迟在10秒~30秒左右）；FLV在延迟表现和大规模并发方面都很成熟，唯一的不足就是在手机浏览器上的支持非常有限，但是用作手机端App直播协议却异常合适。
+- 支持不同：相比于FLV，HLS在iPhone和大部分Android手机浏览器上的支持非常给力，所以常用于QQ和微信朋友圈的URL分享。
+
 **rtmp**：是`Adobe`的**私有协议**，流媒体传输协议（==没有找到rtmp推拉流方法==）
 
 - 推流协议使用 rtmp，之前的借助` flash` 插件实现 rtmp 推流，但 flash 插件各浏览器几乎已不支持。
-- 这个协议建立在 TCP 协议或者轮询 HTTP 协议之上。所以理论上可以用 js 实现 rtmp 协议，似乎也有人这么做，但**没找到相关**的解析 rtmp 协议的 js 库。
+- 其主要作用为直播。
+- 其传输协议为`TCP`协议，可以在一定程度上保证传输质量。RTMP采用了`FLV`作为封装格式，`H.264`作为视频编码格式，`AAC`作为音频编码格式。
 - [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)、[git 地址](https://github.com/chxj1992/rtmp-streamer)
 
 **JSMpeg方案**：ffmpeg + http server(接流)+ websocket(server中继转发,client接收流) + jsmpeg.js
 
 - `FFmpeg`：一套可以用来记录、转换[数字音频](https://baike.baidu.com/item/数字音频/5942163?fromModule=lemma_inlink)、视频，并能将其转化为流的开源计算机[程序](https://baike.baidu.com/item/程序/13831935?fromModule=lemma_inlink)。它提供了**录制、转换以及流化音视频的完整解决方案**。有非常强大的功能包括[视频采集](https://baike.baidu.com/item/视频采集/3430654?fromModule=lemma_inlink)功能、[视频格式转换](https://baike.baidu.com/item/视频格式转换/9399376?fromModule=lemma_inlink)、视频[抓图](https://baike.baidu.com/item/抓图/317285?fromModule=lemma_inlink)、给视频加水印等。
 
-**srs音视频服务器**：支持RTMP、WebRTC、HLS、HTTP-FLV、SRT等多种实时流媒体协议。[官网](http://www.ossrs.net/lts/zh-cn/docs/v5/tutorial/srs-server)、[一篇web端博客参考](http://lihuaxi.xjx100.cn/news/1454821.html?action=onClick)、[参考地址2](https://juejin.cn/post/7158670561906786311?searchId=20230904094835C3F484E35148A8D12263)、
+**srs音视频服务器**：支持RTMP、WebRTC、HLS、HTTP-FLV、SRT等多种实时流媒体协议。[官网](http://www.ossrs.net/lts/zh-cn/docs/v5/tutorial/srs-server)、[一篇web端博客参考](http://lihuaxi.xjx100.cn/news/1454821.html?action=onClick)、[webrtc推服务端](https://juejin.cn/post/7158670561906786311?searchId=20230904094835C3F484E35148A8D12263)、
+
+**各种协议使用/转换/特点总结**：
+
+- **GB28181**：是主要用于**视频监控**，因此它对**音频的支持较弱**，且其有许多坑点，但多数摄像头都会支持该协议。
+- **hls与flv**：这两个浏览器端都可以支持，一般做直播收看端可用，或播放些流媒体数据，`hls比flv`更稳定，但延迟更高。
+- **webrtc**：点对点传输方案是**所有流传输方案**中==延迟最低的==，但成功率只有`85%`。也可与服务端传输，一般对接其它流传输协议，或多人音视频会议时使用。
+- **流转换**：服务端一般都可以对以上各种流传输协议转换，但部分可能转换比较麻烦。
+- **web端推流**：目前只有webrtc推流一种方案。
+- **rtmp**：其使用的http传输，因此实时性不如webrtc，主要用途是直播。

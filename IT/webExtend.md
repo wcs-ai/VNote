@@ -2050,6 +2050,7 @@ function mountComponent(vnode,container,anchor){
 `<keepAlive>`实现：传入`<keepAlive>`的组件会在卸载时会**放入一个隐藏容器**（视图及组件实例，并非真正销毁组件），挂载时只是从这个隐藏容器放入以前的位置（查看上方patch函数代码）
 `include与exclude`：使用正则表达式，通过组件的name名，决定哪些缓存和不缓存
 **缓存策略**：`<keepAlive>`中可同时缓存多个子组件，可设置max最大缓存多少个（超出时默认缓存最新的），==可支持传入一个cache函数==，实现用户自定义缓存哪些组件。
+（a）注意：`keep-alive`只是缓存组件状态，不会缓存组件中的`<iframe>`这些外链资源。
 
 ```js
 const keepAlive = {

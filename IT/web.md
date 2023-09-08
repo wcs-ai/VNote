@@ -254,7 +254,7 @@ H5是新一代HTML规范，也是现代==富web内容的相关技术总称==。
 
 注释常用语：`//TODO`(待实现的功能)、`//FIXME`(需要修正的功能)、`//XXX`(需要改进的功能)
 
-1.2、link标签
+### 1.2、link标签
 
 使用下面自定义可用`<link>`导入html页面展示；
 
@@ -285,7 +285,7 @@ if (!customElements.get('ui-import')) {
 // <link rel="import" href="header.html" is="ui-import">
 ```
 
-
+link标签**无法预加载html页面**，可以使用预加载任一支持的资源，然后**服务端对其重定向**为一个`html`页面达到缓存的效果。
 
 ### 2、hr 标签
 
