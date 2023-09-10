@@ -534,12 +534,6 @@ $$
 （a）$I=K_aI_a+\sum^{n-1}_{i=0}f(d)*[K_dI_{p,i}*max(NL,0)+K_sI_{p,i}*max(RV,0)^n]$，求和是多个点光源时的写法。每个点将各颜色通道值代入此式计算
 （b）对最终结果==再进行归一化处理==（其可能会超过色值）与物体材质对应像素点设置进行 乘 或 加的操作。
 
-<span style="color:red;font-weight:600;">注：</span>渲染时，==让它们在同一坐标系中完成计算==。
-（1）光源位置要变化到观察坐标系：`透视矩阵 x 光源位置`（若此光源有变换矩阵，中间也可以添加）
-（2）当前像素点要转到观察坐标系：`透视矩阵 x 变换矩阵 x 当前点`。
-（3）面的法向量也要转换：`转置(透视矩阵前3维) x 逆转置(变换矩阵) x 当前点的法向量`。
-（4）注意视点位置与用于计算透视矩阵的那个 **视点向量一致**。
-
 **多边形的光滑着色**：每个平面都单个颜色时着色效果依然是有马赫带的，虽然增添三角形数量可以改善，但这带来更多消耗。
 **GrouraudShader算法**：相邻的三角形都有1个共享点，该共享点法向量使用这些相邻平面的法向量求平均得到（最后每个三角形点都有其法向量），在渲染光照效果时使用此法向量代替光照模型中使用到的法向量，具体过程如下：
 
@@ -935,7 +929,7 @@ void main(){
   
   // 对插值参数的平滑处理
   function fade(t){
-      return Math.pow(3,5) * (t * (t*6 - 15) + 10);
+      return Math.pow(t,3) * (t * (t*6 - 15) + 10);
   }
   // 线性插值
   function lerp(t,a,b){
@@ -966,6 +960,23 @@ void main(){
 - **3维柏林噪声**：在2维的基础上增加晶格点数，计算的向量数，哈希值数也增加，最后变为3维线性插值，即该柏林算法时间复杂度为$O(2^n)$
 
 - 噪声归一化：最好的归一化方法是能知道最大的噪声值，然后`每个噪声值/最大噪声值`，或者用1个较大的噪声值代替最大值，最后值用于颜色值。
+
+- **使用参考**：
+
+  ```js
+  let arr = [];
+  let temp = 0;
+  // 中间需要有小数，所以每次 +=0.1。25.5就相当于生成1个 255x255的图像
+  for (let i = 0; i < 25.5; i += 0.1) {
+  	for (let j = 0; j < 25.5; j += 0.1) {
+          // +1  /2 是为了将区间调整到 0-1
+          temp = Math.round((ns.perlin2D(i, j) + 1) / 2 * M);
+          arr.push(temp, temp, temp, 255);
+      }
+  }
+  ```
+
+  
 
 **FBM分形噪声**：`(Fractal Brown Motion)`分形布朗运动，分形噪声叠加。是1968年Mandelbrot和Ness两人提出的一种数学模型，它主要**用于描述**自然界的山脉、云层、地形地貌以及模拟星球表面等不规则形状阶。它又是理想的不规则扩散和分形随机行走的基础。
 
@@ -2577,77 +2588,74 @@ void main(){
 
 主要在片段着色器计算各面的光照强弱，然后乘以纹理像素得到最终色值。
 
-```js
-<script id="point-shader" type="x-shader/x-vertex">
-    attribute vec4 a_position; // 当前点位置
-    attribute vec3 a_eyePosition; // 视点位置
-    attribute vec2 a_textureCoordinates; // 纹理坐标
-    attribute vec3 a_normalization; // a 点的法向量
+**顶点着色器部分**：
 
-    uniform mat4 u_transMatrix;  // 变换矩阵
-    uniform mat4 u_ViewMatrix; // 视图矩阵
-    uniform mat3 u_ViewMatrix3; // 视图矩阵 的3级子式（转置后）
-    uniform mat4 u_ProjMatrix; // 正射投影矩阵
-    uniform vec3 u_lightPosition; // 光源位置
-    
-    varying vec2 v_textureCorrdinates;
-    varying vec3 v_position; // 当前计算点
-    varying vec3 v_normalization; // 当前点的 点法向量
-    varying vec3 v_lightPosition; // 点光源位置
-    varying vec3 v_eyePosition; // 视点位置
+```glsl
+attribute vec4 a_position;
+attribute vec3 a_normalization;
+attribute vec3 a_eyePosition; // 视点位置
 
-    void main() {
-     vec4 viewPosition = u_ViewMatrix * u_transMatrix * a_position;
+uniform mat4 u_viewMatrix;
+uniform mat4 u_castMatrix;
+uniform mat4 u_transformMatrix;
 
-     gl_Position = u_ProjMatrix * u_transMatrix * viewPosition;
-     v_position = vec3(viewPosition.xyz / viewPosition.w); // 使用转换到观察坐标系的点
+attribute vec2 a_textureCoord;
+varying vec2 v_textureCoord;
+varying vec3 v_lightWeight;
 
-     vec4 lightPositionEye4 = u_ViewMatrix * u_transMatrix * vec4(u_lightPosition, 1.0); // 光源位置转换到 观察坐标系
-     v_lightPosition = vec3(lightPositionEye4.xyz / lightPositionEye4.w); // 也是转到视坐标系？
-     
-     vec3 tfa = vec3(u_transMatrix * vec4(a_normalization,1.0));
-     v_normalization = normalize(u_ViewMatrix3 * tfa); // 将法向量也变换到视坐标系中
-     v_textureCorrdinates = a_textureCoordinates;
+vec3 u_lightPosition = vec3(8.0, 10.0, 12.0); // 光源位置
+vec3 pointLight = vec3(1.0, 1.0, 1.0); // 点光 (全 4.0~8.0 较正常)
+vec3 envLight = vec3(0.4, 0.4, 0.4); // 环境光
+vec3 k_man = vec3(0.45, 0.40, 0.42); // 漫反射率
+vec3 k_ref = vec3(0.1, 0.1, 0.1); // 镜面反射率
+/*简单光照计算
+- normal: 顶点法向量
+- lightLocation: 点光源位置
+- eyePosition: 视点位置
+*/
+vec3 sampleLight(vec3 normal, vec3 lightLocation, vec3 eyePosition,vec4 transPosition) {
+  /***计算变换后的法向量【未见过】***/
+  vec3 normalTarget = vec3(a_position) + normal;	
+  vec3 newNormal = (u_transformMatrix * vec4(normalTarget, 1)).xyz - (transPosition).xyz;
+  newNormal = normalize(newNormal); 	//对法向量规格化
+  //计算从表面点到摄像机的向量
+  vec3 eye = normalize(eyePosition - (transPosition).xyz);
+  //计算从表面点到光源位置的向量vp
+  vec3 vp = normalize(lightLocation - (transPosition).xyz);
 
-     v_eyePosition = a_eyePosition; // 传递给片元着色器
-    }
-  </script>
-  <!--片段着色器vec4(v_color,1.0)-->
-  <script id="grag-shader" type="x-shader/x-fragment">
-    precision highp float;
+  vec3 halfVector = normalize(vp + eye);	//求视线与光线的半向量
+  float shininess = 5.0;				//粗糙度，越小越光滑
+  float nDotViewPosition = max(0.0, dot(newNormal, vp)); 	//求法向量与vp的点积与0的最大值
+  float nDotViewHalfVector = dot(newNormal, halfVector);	//法线与半向量的点积
+  float powerFactor = max(0.0, pow(nDotViewHalfVector, shininess)); 	//镜面反射光强度因子
+  vec3 specular = pointLight * k_ref * powerFactor;    			//计算镜面光的最终强度
+  // 环境光 + 点光 + 镜面反射光（这里没有给环境光加反射率，也没有加光源衰减）
+  return envLight + pointLight * nDotViewPosition + specular;
+}
 
-    varying vec2 v_textureCorrdinates;
-    varying vec3 v_position;
-    uniform sampler2D uSampler;
-    varying vec3 v_normalization; // v 点法向量
-    varying vec3 v_lightPosition;
-    varying vec3 v_eyePosition; // 视点位置
+void main() {
+  vec4 transPosition = u_transformMatrix * a_position;
+  gl_Position = u_castMatrix * u_viewMatrix * transPosition;
+  // 得到光照
+  v_lightWeight = sampleLight(normalize(a_normalization), u_lightPosition, a_eyePosition,transPosition);
+  v_textureCoord = a_textureCoord;
+}
+```
 
-    vec3 v_pointLight = vec3(6.0,6.0,6.0); // 点光 (全 4.0~8.0 较正常)
-    vec3 v_envLight = vec3(0.2,0.2,0.2); // 环境光
-    vec3 km = vec3(0.45,0.40,0.42); // 漫反射率
-    vec3 ke = vec3(0.10,0.1,0.1); // 环境光反射率
-    vec3 kr = vec3(0.1,0.1,0.1); // 镜面反射率
+**片段着色器**：
 
-    void main() {
-      float d = distance(v_position,v_lightPosition);
-      float fd = min(1.0,1.0/(0.5 + 0.1*d + 0.2*d*d )); // 光源衰减
-      vec3 in_lightNormal = normalize(v_lightPosition - v_position); // 得到 光源<-当前点的 向量
+```glsl
+precision highp float;
 
-      float point_cos = max(0.0,dot(v_normalization,in_lightNormal)); // 点光源部分
+varying vec2 v_textureCoord;
+varying vec3 v_lightWeight;
+uniform sampler2D uSampler;
 
-      vec3 eye_normalization = normalize(v_eyePosition - v_position); // 当前点 -> 眼睛 的视线向量
-
-      vec3 ref_vector = normalize(reflect(-in_lightNormal,v_normalization)); // 光的反射方向 向量
-
-      vec3 lightWeight = v_envLight*ke + fd * ( v_pointLight*km * point_cos + v_pointLight * kr * max(0.0,dot(eye_normalization,ref_vector)) );
-      // 纹理处理
-      vec4 texelColor = texture2D(uSampler, v_textureCorrdinates);
-
-      gl_FragColor = vec4(lightWeight,1.0); // 无纹理情况的赋值
-      //gl_FragColor = vec4(texelColor.rgb * lightWeight.rgb,texelColor.a); // 与纹理结合情况的赋值
-    }
-  </script>
+void main() {
+  vec4 textureColor = texture2D(uSampler, v_textureCoord);
+  // 光源与纹理色值相乘
+  gl_FragColor = vec4(v_lightWeight.rgb * textureColor.rgb, 1.0);
+}
 ```
 
 
