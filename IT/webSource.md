@@ -5,14 +5,13 @@
 - [前端官方技术文档](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/ondevicechange)
 - 【打包工具】[rollup官网](https://rollupjs.org/)、[webpack 中文文档地址](https://webpack.docschina.org/concepts/)
 - 【node】[npm中文档](https://www.npmjs.cn/)、[nodejs官方文档](https://www.nodeapp.cn/)、[npm包使用查询网站](https://www.npmjs.com/package/unplugin-auto-import)
-- 【图形学】[外网超棒学习站](https://www.scratchapixel.com/)、[svg.js官网](https://svgjs.dev/docs/3.0/getting-started/)、
+- 【图形学】[外网超棒学习站](https://www.scratchapixel.com/)、[学习网站2](https://iquilezles.org/articles/)、[svg.js官网](https://svgjs.dev/docs/3.0/getting-started/)、[unity3D官网](https://unity.cn/)、
+- 【前端特效作品】[51前端](https://www.51qianduan.com/)、[17素材网](https://www.17sucai.com/)、
 - [HTML 转义字符表](http://tool.oschina.net/commons?type=2)、[HTML 标签大全](http://www.w3school.com.cn/tags/index.asp%20)
-- [unity3D官网](https://unity.cn/)
 - 【地图】[leaflet地图官网](https://leafletjs.cn/)、[高德地图官网](https://lbs.amap.com/api/javascript-api/reference/math)、[MapBox](https://docs.mapbox.com/#maps)、[arcGIS](https://developers.arcgis.com/documentation/)
 - 【第三方库】[sheetJS-xlsx文档](https://docs.sheetjs.com/docs/demos/frontend/vue)、[pdf.js官网](https://mozilla.github.io/pdf.js/)、[axios官方文档](https://www.axios-http.cn/docs/intro)、[vue-route官方文档](https://router.vuejs.org/zh/)、[typescript中文档](https://www.tslang.cn/docs/handbook/typescript-in-5-minutes.html)、[lodash中文档](http://lodash.net/docs/4.16.1.html#_findcollection-predicate_identity-fromindex0)、[mqtt中文网](http://mqtt.p2hp.com)、[day.js官网](https://dayjs.fenxianglu.cn/category/#node-js)、[qs-url参数转换](https://www.npmjs.com/package/qs)
-- [w3c school网](https://www.w3cschool.cn/unity3d_jc/)、[谷歌浏览器插件开发文档](https://developer.chrome.com/extensions/getstarted.html)
+- 【学习网】[w3c school网](https://www.w3cschool.cn/unity3d_jc/)、[谷歌浏览器插件开发文档](https://developer.chrome.com/extensions/getstarted.html)、[plotly.js 起始教程地址](https://www.kutu66.com//GitHub/article_132050)、[jest 使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)、
 - [脚本之家电子书网](https://www.jb51.net/books/)
-- [plotly.js 起始教程地址](https://www.kutu66.com//GitHub/article_132050)、[jest 使用](https://www.cnblogs.com/chenwenhao/p/12007184.html)
 - 【css】[sass文档](https://sass.bootcss.com/documentation)、[less文档](https://less.bootcss.com/)、[CSS灵感的诞生地 ](https://github.com/chokcoco/CSS-Inspiration)、[CSS Tricks 效果大全 ](https://lhammer.cn/You-need-to-know-css/#/translucent-borders)
 - 【文档生成】[vitePress-vue组件文档生成](https://vitepress.dev/guide/getting-started)、[jsdoc-js文档生成](https://jsdoc.bootcss.com/)、[ts-doc]()
 - 【视频播放】[flv.js](https://gitee.com/mirrors/flv.js/blob/master/docs/api.md#flvjsevents)、[easyPlay](https://www.tsingsee.com/developers)。

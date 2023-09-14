@@ -853,8 +853,7 @@ void main(){
   ```js
   // 线性插值参数平滑函数
   function smoothStep(min, max, t) {
-      const rRemapSmoothStep = t * t * (3 - 2 * t);
-  	return lerp(min, max, rRemapSmoothStep);
+      return t * t * (3 - 2 * t);
   }
   
   class ValueNoise2D {
@@ -989,6 +988,8 @@ const layers = 5;
 let noiseSum = 0;
 for (let i = 0; i < layers; i++) {
 	noiseSum += perlin2D(x * frequency, y*frequency) * amplitude;
+    // 对噪声取绝对值一般可以得到 尖锐的湍流（turbulence）效果
+    // noiseSum += Math.abs(perlin2D(x * frequency, y*frequency)) * amplitude;
     amplitude *= 0.5;
     frequency *= 2;
 }
