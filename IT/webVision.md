@@ -2460,6 +2460,40 @@ gl.drawElements(mode,count,type,offst);
 
 **注：**传入buffer的数据要使用`Float32Array, Uint8Array`这一系列创建的数据（对应位只能存储指定范围大小内的值，==超过则会溢出==）
 
+## a1、事件
+
+**上下文丢失事件**：gpu资源较为宝贵，若有程序占用了gpu资源，当前的webgl程序运行可能会丢失其上下文，如下处理。
+
+```js
+// 监听发生了丢失
+canvas.addEventListener('webglcontextlost', (event) {
+	event.preventDefault();
+	// 如果有运行动画之类的操作 要先取消！
+    cancelRequestAnimFrame(pwgl.requestId);
+
+    // 需要重新加载纹理等资源，监听到恢复上下文后再去使用
+    for (var i = 0; i < pwgl.ongoingImageLoads.length; i++) {
+      pwgl.ongoingImageLoads[i].onload = undefined;
+    }
+
+}, false);
+```
+
+**上下文恢复事件**：监听到恢复上下文后再去重新绘制场景
+
+```js
+canvas.addEventListener('webglcontextrestored', (event) {
+	// 重新创建buffer，纹理对象等
+      setupShaders();
+      setupBuffers();
+      setupTextures();
+      gl.clearColor(0.0, 0.0, 0.0, 1.0);
+      gl.enable(gl.DEPTH_TEST);
+	// 有动画则进行动画，否则直接绘制场景即可
+      pwgl.requestId = requestAnimFrame(draw, canvas);
+}, false);
+```
+
 
 
 ## b、纹理

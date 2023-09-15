@@ -327,20 +327,22 @@ turnserver -c ../etc/turnserver.conf
 
 
 
-## m、其它流传输参考
+# 三、流传输方法
 
-**webrtc相关库**：[腾讯的一套 webrtc 直播 sdk](https://github.com/tencentyun/tweblive)、[一个开源webrtc](https://github.com/mpromonet/webrtc-streamer)、[方案参考](https://juejin.cn/post/7210574986780426277?searchId=2023082311312768B28DB46AC2D3039196)、
+## 1、RTSP
 
-**rtsp**：实时流[传输协议](https://link.juejin.cn/?target=https%3A%2F%2Fbaike.baidu.com%2Fitem%2F%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE%2F8048821%3FfromModule%3Dlemma_inlink)（RTSP）是**公有**协议，流媒体传输协议。
+**介绍**：实时流[传输协议](https://link.juejin.cn/?target=https%3A%2F%2Fbaike.baidu.com%2Fitem%2F%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE%2F8048821%3FfromModule%3Dlemma_inlink)（RTSP）是**公有**协议，流媒体传输协议。
 
 - 是`TCP/IP`协议体系中的一个应用层协议。
 - 该协议定义了[一对多](https://link.juejin.cn/?target=https%3A%2F%2Fbaike.baidu.com%2Fitem%2F%E4%B8%80%E5%AF%B9%E5%A4%9A%2F1327103%3FfromModule%3Dlemma_inlink)[应用程序](https://link.juejin.cn/?target=https%3A%2F%2Fbaike.baidu.com%2Fitem%2F%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%2F5985445%3FfromModule%3Dlemma_inlink)如何有效地通过IP网络传送多媒体数据。
 - 服务端可以自行选择使用TCP或UDP来传送串流内容。
 - 它的语法和运作跟HTTP 1.1类似，但并**不特别强调时间同步**，所以比较能容忍网络延迟。
 - url格式：类似`rtsp://host[:port]/[abs_path]/content_name`。
-- **无法直接使用**现有的web技术进行播放rtsp直播数据流的（hls，rtmp其实是对该方案的替代实现）
+- **无法直接使用**现有的web技术进行播放rtsp直播数据流的（`hls，rtmp`其实是对该方案的替代实现）
 
-**HLS**：常用与流媒体播放，也有利用其推流的技术
+## 2、HLS
+
+**介绍**：常用与流媒体**播放**，也有利用其推流的技术（==web端只能拉流播放==）
 （1）的工作原理是把整个流**分成一个个小的基于 HTTP 的文件**来下载，每次只下载一些。
 （2）当媒体流正在播放时，客户端可以选择从许多不同的备用源中以不同的速率下载同样的资源，
 （3）允许流媒体会话适应不同的数据速率。
@@ -380,18 +382,10 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 }
 ```
 
-**websocket方案**：`flv.js`是此方案实现的
-（a）服务器端用 websocket 接受 [rtsp](https://link.juejin.cn/?target=https%3A%2F%2Fso.csdn.net%2Fso%2Fsearch%3Fq%3Drtsp%26spm%3D1001.2101.3001.7020) ，然后，推送至客户端。
-（b）客户端将其解析转变转成mp4，放到vidoe标签中进行播放。
+## 3、FLV
 
-**GB28181协议**：是**视频监控**领域的国家标准。
-
-- 该标准规定了公共安全视频监控联网系统的互联结构， 传输、交换、控制的基本要求和安全性要求， 以及控制、传输流程和协议接口等技术要求，是视频监控领域的国家标准。GB28181协议信令层面使用的是SIP（Session Initiation Protocol）协议。
-- 流媒体传输层面使用的是实时传输协议（Real-time Transport Protocol，RTP）协议。
-- 因此可以理解为GB28181是在国际通用标准的基础之上进行了私有化定制以满足视频监控联网系统互联传输的标准化需求。本文旨在说明在FFmpeg中增加对GB28181协议的支持，使其可以与支持GB28181协议的设备进行通信与控制，实现设备的注册、保活以及流媒体的传输。
-
-**http+FLV**：用于在Web浏览器中播放FLV格式的视频文件（==只能播放==）
-（a）`flv.js`的原理是通过将FLV文件从HTTP请求中通过AJAX异步请求获取到，然后将FLV文件转换成JavaScript对象的形式，
+**介绍**：用于在Web浏览器中播放FLV格式的视频文件（==只能播放==）
+（a）`flv`的原理是通过将FLV文件从HTTP请求中通过AJAX异步请求获取到，然后将FLV文件转换成JavaScript对象的形式，
 （b）然后将音视频数据按照FLV协议解析出来，并通过HTML5的Video组件或Flash组件进行展示播放。
 （c）是**使用WebSocket**在服务端和客户端之间进行数据传输
 
@@ -401,18 +395,40 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 - 延迟不同：HLS由于客户端下载到的视频都是5秒-10秒的完整数据，**故视频的流畅性很好**，但也同样**引入了很大的延迟**（HLS的一般延迟在10秒~30秒左右）；FLV在延迟表现和大规模并发方面都很成熟，唯一的不足就是在手机浏览器上的支持非常有限，但是用作手机端App直播协议却异常合适。
 - 支持不同：相比于FLV，HLS在iPhone和大部分Android手机浏览器上的支持非常给力，所以常用于QQ和微信朋友圈的URL分享。
 
-**rtmp**：是`Adobe`的**私有协议**，流媒体传输协议（==没有找到rtmp推拉流方法==）
+## 4、GB28181
+
+**介绍**：是**视频监控**领域的国家标准。
+
+- 该标准规定了公共安全视频监控联网系统的互联结构， 传输、交换、控制的基本要求和安全性要求， 以及控制、传输流程和协议接口等技术要求，是视频监控领域的国家标准。GB28181协议信令层面使用的是SIP（Session Initiation Protocol）协议。
+- 流媒体传输层面使用的是实时传输协议（Real-time Transport Protocol，RTP）协议。
+- 因此可以理解为GB28181是在国际通用标准的基础之上进行了私有化定制以满足视频监控联网系统互联传输的标准化需求。本文旨在说明在FFmpeg中增加对GB28181协议的支持，使其可以与支持GB28181协议的设备进行通信与控制，实现设备的注册、保活以及流媒体的传输。
+
+## 5、RTMP
+
+**介绍**：是`Adobe`的**私有协议**，流媒体传输协议（==web端没有找到rtmp推拉流方法==，一些收费的第三方暂未了解）
 
 - 推流协议使用 rtmp，之前的借助` flash` 插件实现 rtmp 推流，但 flash 插件各浏览器几乎已不支持。
 - 其主要作用为直播。
 - 其传输协议为`TCP`协议，可以在一定程度上保证传输质量。RTMP采用了`FLV`作为封装格式，`H.264`作为视频编码格式，`AAC`作为音频编码格式。
 - [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)、[git 地址](https://github.com/chxj1992/rtmp-streamer)
 
-**JSMpeg方案**：ffmpeg + http server(接流)+ websocket(server中继转发,client接收流) + jsmpeg.js
+## 6、编码/压缩
 
-- `FFmpeg`：一套可以用来记录、转换[数字音频](https://baike.baidu.com/item/数字音频/5942163?fromModule=lemma_inlink)、视频，并能将其转化为流的开源计算机[程序](https://baike.baidu.com/item/程序/13831935?fromModule=lemma_inlink)。它提供了**录制、转换以及流化音视频的完整解决方案**。有非常强大的功能包括[视频采集](https://baike.baidu.com/item/视频采集/3430654?fromModule=lemma_inlink)功能、[视频格式转换](https://baike.baidu.com/item/视频格式转换/9399376?fromModule=lemma_inlink)、视频[抓图](https://baike.baidu.com/item/抓图/317285?fromModule=lemma_inlink)、给视频加水印等。
+**H.265**：ITU-T国际标准之一，全称是`High Efficiency Video Coding（High-Efficiency Video Coding）`，是一种针对**视频编码**技术的高级**视频压缩格式**。H.265是一种新的视频压缩格式，它继承了`H.264`的高压缩率、高实时性以及低延迟等优点，同时引入了新的编码工具和算法，使得其在相同压缩率下比H.264具有更高的画质和性能。
+
+## 7、库与工具
 
 **srs音视频服务器**：支持RTMP、WebRTC、HLS、HTTP-FLV、SRT等多种实时流媒体协议。[官网](http://www.ossrs.net/lts/zh-cn/docs/v5/tutorial/srs-server)、[一篇web端博客参考](http://lihuaxi.xjx100.cn/news/1454821.html?action=onClick)、[webrtc推服务端](https://juejin.cn/post/7158670561906786311?searchId=20230904094835C3F484E35148A8D12263)、
+
+**webrtc相关库**：[腾讯的一套 webrtc 直播 sdk](https://github.com/tencentyun/tweblive)、[一个开源webrtc](https://github.com/mpromonet/webrtc-streamer)、[方案参考](https://juejin.cn/post/7210574986780426277?searchId=2023082311312768B28DB46AC2D3039196)、
+
+`FFmpeg`：一套可以用来记录、转换[数字音频](https://baike.baidu.com/item/数字音频/5942163?fromModule=lemma_inlink)、视频，并能将其转化为流的开源计算机[程序](https://baike.baidu.com/item/程序/13831935?fromModule=lemma_inlink)。它提供了**录制、转换以及流化音视频的完整解决方案**。有非常强大的功能包括[视频采集](https://baike.baidu.com/item/视频采集/3430654?fromModule=lemma_inlink)功能、[视频格式转换](https://baike.baidu.com/item/视频格式转换/9399376?fromModule=lemma_inlink)、视频[抓图](https://baike.baidu.com/item/抓图/317285?fromModule=lemma_inlink)、给视频加水印等。
+
+`flv.js`：flv的实现，封装实现不占体积，且已是一个较成熟的库。
+
+`easyPlayer.js`：一个较新于`flv.js`的库，支持`HTTP-FLV/WS-FLV, m3u8/HLS，mp4`播放，还有截屏、录像、自动重连，播放质量似乎也高于`flv.js`
+
+## 8、总结
 
 **各种协议使用/转换/特点总结**：
 
