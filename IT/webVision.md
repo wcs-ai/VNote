@@ -230,28 +230,38 @@ function SphareArray(r, precision) {
     points, directorFen, horizonFen
   };
 }
-// 按三角形 读取索引
-function SphareIndexs(arrayData) {
+/**
+* 将数据按 三角形绘制 的索引读出（点的生成需要是 从低到高生成的）
+* @param {number} rows 行数
+* @param {number} columns 列数
+* @param {boolean} [circle=true] 是否为环形
+*/
+yieldTriangleIndexs(rows, columns, circle = true) {
   /***
-   * 5, 6, 7, 8, 9,
-   * 0, 1, 2, 3, 4,
+   * 5, 6, 7, 8, 9, 5
+   * 0, 1, 2, 3, 4, 0
    * -----0,1,5为第1个三角形。1,5,6位第2个
-   * 第1个三角形 i,i+1,i+horizonFen。第2个三角形 i+1, i+1+horizonFen, i+horizonFen
+   * 第1个三角形 i,i+1,i+columns
+   * 第2个三角形 i+1, i+1+columns, i+columns
    * ***/
-  const { directorFen, horizonFen, points } = arrayData;
   const indexs = [];
-
-  for (let j = 0, i; j < directorFen - 1; j++) {
-    let s = j * horizonFen;
-    for (let m = 0; m < horizonFen; m++) {
+  // j为行号，m为当前行偏移值， i为实际数组中的索引号
+  for (let j = 0, i; j < rows - 1; j++) {
+    let s = j * columns;
+    for (let m = 0; m < columns - 1; m++) {
       i = s + m;
-      indexs.push(i, i + 1, i + horizonFen, i + 1, i + 1 + horizonFen, i + horizonFen);
+      indexs.push(i, i + 1, i + columns, i + 1, i + 1 + columns, i + columns);
+    }
+
+    if (circle) {
+      ++i;
+      indexs.push(i,i - columns + 1,i + columns,i - columns + 1,i + 1,i + columns);
     }
   }
+
   return indexs;
 }
 const data = SphareArray(5,20);
-SphareIndexs(data);
 ```
 
 **二次贝塞尔曲面**：二次贝塞尔曲线的延伸，一个曲面需要9个顶点来进行控制。参数上也需要两个参数（`u,v`）控制，替代之前的t。
@@ -775,13 +785,92 @@ void generate3Dpattern(){
 
 **立方体贴图实现**：多数图形学库都有支持立方体贴图api，可直接使用。
 （a）注意：绘制的立方体顶点的**组绕顺序** ==需要是顺时针==的，因为相机是放到立方体中的。
-（b）如果依然使用逆时针+改变正面设置情况，会发现所有的图片是反过来的。！待验证
+（b）可以使用设置组绕顺序方向来绘制。
 （c）立方体不用绘制太大，不然拉伸图片也会导致失真。
 
 **穹顶实现**：
 （1）绘制一个半球形物体。准备一张全景图。
 （2）使用2d贴图，球体的每个顶点坐标都要有一个纹理坐标对应。
 （3）对应关系就是（半球体顶点坐标展开也是一个长方形形状）中间点用`0~1`中的比例位置。
+（4）以下是1个半球体，带底面的坐标生成。
+
+```js
+
+function shpareSkyArray(r, precision, circle = true) {
+  if (90 % precision !== 0) {
+    return console.error("[sky arr] precision 必须可被 90 整除");
+  }
+  const a = 0, b = 0, c = 0;
+  const angle = precision; // 每份所占角度
+  const hudu = (s) => (s / 180) * Math.PI;
+  const rows = 90 / angle + 1; // 所拥有的行数
+  const columns = 360 / angle; // 每行的列数
+  const sin = Math.sin, cos = Math.cos;
+  const points = []; // 球面顶点
+  const normalization = []; // 各点法向量
+  const textureCoord = []; // 对应的 纹理坐标
+
+  const fix6Fn = (n) => Number(n.toFixed(6));
+  const xsCoord = [];
+
+  /* 底部顶点（全同，这里是底面的中心顶点）*/
+  let _columns = circle ? columns + 1 : columns;
+
+  for (let i = 0; i < _columns; i++) {
+    points.push(a, b, c);
+    normalization.push(0, -1, 0);
+    xsCoord.push(fix6Fn(i / (_columns - 1)));
+    textureCoord.push(xsCoord[i], 0.0);
+  }
+
+  // 中间顶点
+  for (let i = 0, by, br; i < rows - 1; i++) {
+    by = fix6Fn(b + r * sin(hudu(i * angle))); // y坐标
+    br = Math.abs(r * cos(hudu(i * angle))); // 当前所在行的半径
+
+    let fp, fn;
+
+    for (let j = 0, bx, bz; j < columns; j++) {
+      bx = fix6Fn(a + br * sin(hudu(j * angle)));
+      bz = fix6Fn(c + br * cos(hudu(j * angle)));
+      // 保存起始点
+      if (j === 0) {
+        fp = [bx, by, bz];
+        fn = [bx - a, by - b, bz - c];
+      }
+
+      points.push(bx, by, bz);
+      normalization.push(bx - a, by - b, bz - c);
+      // 不需要底
+      //textureCoord.push(xsCoord[j], fix6Fn(i / (rows - 1)));
+      // 有底的处理
+      textureCoord.push(xsCoord[j], fix6Fn((i + 1) / rows));
+    }
+    // 结尾点与起始点重合，这样在其球形纹理才能很好的贴合
+    if (circle) {
+      points.push(...fp);
+      normalization.push(...fn);
+      textureCoord.push(xsCoord[xsCoord.length - 1], fix6Fn((i + 1) / rows));
+    }
+  }
+  // 顶部顶点（全同）
+  for (let i = 0; i < _columns; i++) {
+    points.push(a, b + r, c);
+    normalization.push(0, 1, 0);
+    textureCoord.push(xsCoord[i], 1.0);
+  }
+
+  return {
+    points,
+    rows: rows + 1, //rows+1 【不要底时为rows】
+    columns: _columns,
+    normalization,
+    textureCoord,
+  };
+}
+```
+
+
 
 ## d1、雾
 
@@ -807,7 +896,7 @@ void main(){
     vec4 obj_color = vec4(1.0,0.2,0.8,1.0); // 图形的本色
     // 计算插值比例 并保证其在 0~1之间
     float fogFactor = clamp( (fogEnd-v_dist)/(fogEnd-fogStart),0.0,1.0 );
-    // 使用查值函数，插值参数 计算当前得到的颜色
+    // 使用插值函数，插值参数 计算当前得到的颜色
     gl_FragColor = mix(u_fogColor,obj_color,fogFactor);
 }
 ```
@@ -2504,7 +2593,7 @@ canvas.addEventListener('webglcontextrestored', (event) {
 **纹理坐标**：对图像定义的坐标，无论图片的像素大小还是比列如何，其纹理坐标都是x，y轴都为0-1（x,y用t，s称呼）
 纹理单元：每个纹理单元有1个单元编号来管理一张纹理图象。
 
-**a、2d纹理**
+### 1、2d纹理
 
 ```js
 var vertexShaderSource =
@@ -2556,8 +2645,34 @@ gl.uniformli(u_sampler,0); // 将0号纹理传递给着色器
 ```
 
 **注**：对立方体这种有重用点的情况，你依然得定义每个面时它们使用的 纹理坐标。若读取纹理的时候为异步操作，最好是==同步绘制每个物体==
+**注2**：**先加载**纹理图片，再开始整个绘制程序，不然会导致**背景色丢失**！如下
 
-**b、立方体贴图**：
+```js
+pwgl.floorImage = new Image();
+    pwgl.floorImage.onload = () => {
+      const texture = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, pwgl.floorImage);
+      gl.bindTexture(gl.TEXTURE_2D, null);
+      pwgl.texture = texture;
+      // 加载后才开始整个绘制
+      draw();
+}
+pwgl.floorImage.src = './static/wood_floor.jpg';
+// 真正绘制某个物体时拿来使用
+gl.bindTexture(gl.TEXTURE_2D, pwgl.texture);
+const uSampler = gl.getUniformLocation(program, "uSampler");
+gl.activeTexture(gl.TEXTURE0); // 开启0号纹理
+gl.uniform1i(uSampler, 0); // 0号纹理传递给着色器
+```
+
+### 2、立方体贴图
 
 ```js
 // 创建立方体纹理贴图
@@ -2616,8 +2731,40 @@ void main(){
 }
 ```
 
-
 [立方体纹理使用](https://zhuanlan.zhihu.com/p/232102177)
+
+### 3、3d纹理
+
+```js
+const texture = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_3D, texture);
+gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.CLAMP_TO_EDGE);
+// 将数据传送给3d纹理
+gl.texImage3D(gl.TEXTURE_3D,0,gl.RGBA,width,height,depth,0,gl.RGBA,gl.UNSIGNED_BYTE, new Uint8Array([0xff, 0x00, 0x00, 0x00]));
+```
+
+**值传递部分**：与2d类似
+
+```js
+// 片段着色器部分
+const fs = `
+ uniform sampler3D texture;
+ varying vec2 v_uv;
+
+ void main() {
+   gl_FragColor = texture3D(texture, v_uv);
+ }`;
+
+gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
+gl.activeTexture(gl.TEXTURE0);
+gl.bindTexture(gl.TEXTURE_3D, texture);
+```
+
+
 
 ## d、光照
 
@@ -2795,8 +2942,13 @@ gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fra
 参数2：要存储的数据源的指定信息。gl.RGBA4（设置信息） DEPTH_COMPONENT16（深度值信息）
 */
 gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, 256, 256);
+/****绘制【颜色缓冲区时使用】*****/
+//gl.renderbufferStorage(gl.RENDERBUFFER,gl.RGBA4,256, 256);
+
 // 将帧缓冲区中的【深度关联对象】 指定为一个渲染缓冲区对象
 gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depthBuffer);
+/****绘制【颜色缓冲区时使用】*****/
+//gl.framebufferRenderbuffer(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.RENDERBUFFER,depthBuffer);
 
 // 检查是否配置正确
 var frameStatus = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
