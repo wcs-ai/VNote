@@ -1682,6 +1682,15 @@ pre-commit.sample
 - `update`：在`pre-receive`之后被触发执行，该钩子仍然是在发生任何改变之前被执行，但它是根据推送的多个引用分别被调用。
 - `post-receive`：在成功推送操作之后被触发，因此适合用于发送通知。
 
+## M、各种LICENSE介绍
+
+1. **BSD** 。商业软件可以使用，也可以修改使用BSD协议的代码。
+2. **GPL** 。GNU General Public License，商业软件不能使用GPL协议的代码。
+3. **LGPL** 。GNU Lesser General Public License，商业软件可以使用，但不能修改LGPL协议的代码。
+4. **CDDL**：**Common Development and Distribution License** 。商业软件可以使用，也可以修改CDDL协议的代码。
+5. **EPL**：**Eclipse Public License** 。EPL是一个与CPL相类似的许可证，任何扩展自Eclipse源码的代码也必须是开源的。
+6. **MIT**：允许软件在保留版权和许可证声明的前提下，免费使用、复制、修改、合并、出版、分发、再授权和销售等，适用于几乎所有类型的软件，包括商业软件和专有软件。
+
 # 四、nodejs
 
 

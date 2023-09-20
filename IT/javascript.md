@@ -408,11 +408,7 @@ encodeURIComponent("<svg>")#不会对 ASCII 字母和数字,标点字特殊符�
 encodeURI('汉字');//url传参汉字时可以先encodeURI()对中文编码,浏览器会自动解码
 decodeURI();// 再用decodeURI()转码，对汉字解码则不变。
 
-escape()与unescape()://将url地址作为参数传参时可用
-document.write(escape("Visit W3School!"))// Visit%20W3School%21
-// escape()方法对输入内容进行编码转为机械码能让所有机型识别
-document.write(unescape("?!=()#%&"))// %3F%21%3D%28%29%23%25%26
-//unescape()方法对机械码进行转码，转为可识别码
+
 //btoa()和atob(),这是属于base64的编解码。
 var str = "javascript";
 console.log(window.btoa(str))//amF2YXNjcmlwdA==
@@ -1390,6 +1386,16 @@ history.go(2);
 history.pushState(data, title, url);
 // 替换掉当前页
 history.replaceState(data, title, url);
+// 状态记录，可获取到 前后路由的路径
+history.state;
+/*
+back: "/index"
+current: "/system/user"
+forward: null
+position: 1
+replaced: false
+scroll: null
+*/
 ```
 
 **跳转监听**：

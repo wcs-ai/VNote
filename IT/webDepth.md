@@ -410,13 +410,29 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 - 推流协议使用 rtmp，之前的借助` flash` 插件实现 rtmp 推流，但 flash 插件各浏览器几乎已不支持。
 - 其主要作用为直播。
 - 其传输协议为`TCP`协议，可以在一定程度上保证传输质量。RTMP采用了`FLV`作为封装格式，`H.264`作为视频编码格式，`AAC`作为音频编码格式。
-- [流媒体服务框架](https://github.com/ZLMediaKit/ZLMediaKit)、[EasyMedia 浏览器 rtmp 播放](https://gitee.com/52jian/EasyMedia#https://download.csdn.net/download/Janix520/15785632)、[git 地址](https://github.com/chxj1992/rtmp-streamer)
+- web端中也==有一些第三方库支持rtm==p，如`video.js`
 
-## 6、编码/压缩
+## 6、RTP&RTCP
+
+**RTP**：全称实时传输协议
+
+- 应用场景主要包括交**互式视频音频**或模拟数据的传输，可以在组播或单播网络服务下进行数据传输。
+- 本身并**没有提供按时发送机制**或其他服务质量保证，它依赖于底层服务去实现这一过程。
+- RTP并不保证传送或防止无序传送，也不确定底层网络的可靠性。
+- RTP为**直播或会议等实时传输**应用提供了端到端的服务，其可以与一些传输协议（如UDP或TCP）配合使用，在网络中实现多媒体数据流的传输。
+
+**RTCP**：实时传输控制协议 是由IETF定义的一个与`RTP`配套的协议（==RTCP负责质量控制，RTP负责传输==）
+
+- 负责管理传输质量，提供流量控制和拥塞控制服务。
+- RTCP为RTP流媒体提供信道外控制。RTCP**本身并不传输数据**，但是和RTP一起合作将多媒体数据打包和发送。
+- RTCP在RTP会话期间，每个会话参与者周期性地向所有其他参与者**发送RTCP控制信息包**。
+- 功能是为应用程序提**供会话质量**或者广播性能质量的信息。
+
+## 7、编码/压缩
 
 **H.265**：ITU-T国际标准之一，全称是`High Efficiency Video Coding（High-Efficiency Video Coding）`，是一种针对**视频编码**技术的高级**视频压缩格式**。H.265是一种新的视频压缩格式，它继承了`H.264`的高压缩率、高实时性以及低延迟等优点，同时引入了新的编码工具和算法，使得其在相同压缩率下比H.264具有更高的画质和性能。
 
-## 7、库与工具
+## 8、库与工具
 
 **srs音视频服务器**：支持RTMP、WebRTC、HLS、HTTP-FLV、SRT等多种实时流媒体协议。[官网](http://www.ossrs.net/lts/zh-cn/docs/v5/tutorial/srs-server)、[一篇web端博客参考](http://lihuaxi.xjx100.cn/news/1454821.html?action=onClick)、[webrtc推服务端](https://juejin.cn/post/7158670561906786311?searchId=20230904094835C3F484E35148A8D12263)、
 
@@ -428,7 +444,7 @@ if (video.canPlayType("application/vnd.apple.mpegurl")) {
 
 `easyPlayer.js`：一个较新于`flv.js`的库，支持`HTTP-FLV/WS-FLV, m3u8/HLS，mp4`播放，还有截屏、录像、自动重连，播放质量似乎也高于`flv.js`
 
-## 8、总结
+## 9、总结
 
 **各种协议使用/转换/特点总结**：
 
