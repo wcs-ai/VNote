@@ -2739,7 +2739,6 @@ void main(){
 const texture = gl.createTexture();
 gl.bindTexture(gl.TEXTURE_3D, texture);
 gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.CLAMP_TO_EDGE);
@@ -2752,7 +2751,8 @@ gl.texImage3D(gl.TEXTURE_3D,0,gl.RGBA,width,height,depth,0,gl.RGBA,gl.UNSIGNED_B
 ```js
 // 片段着色器部分
 const fs = `
- uniform sampler3D texture;
+ precision highp float;
+ uniform highp sampler3D texture; // 必须加上【精度指定】
  varying vec2 v_uv;
 
  void main() {

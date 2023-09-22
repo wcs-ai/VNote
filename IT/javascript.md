@@ -136,7 +136,7 @@ const _all = [1, 2, 3].every((v) => {
 var r = arr.filter(function (s) {
   return s == 2; // 注意：IE9以下的版本没有trim()方法
 });
-//----sort()实现的排序的思想，传入函数作为参数，以灵活的用于各种情况。
+/*****sort()实现的排序的思想，传入函数作为参数，以灵活的用于各种情况******/
 arr.sort(); //不传参数的话，默认将arr中的值看成字符串来排序。
 arr.sort(function (a, b) {
   //火狐使用归并排序，google使用快速+插入。b在a之前，循环用a与b比较。
@@ -148,13 +148,16 @@ arr.sort(function (a, b) {
     return 0;
   }
 });
-//----reduce()计算总和。
+/***reduce()计算总和****/
 function getSum(total, num) {
   //total是上一次return的结果，num是数组元素
   console.info(">", total, num);
   return total + num;
 }
 console.warn(numbers.reduce(getSum));
+/*****创建指定长度数组*****/
+var f = new Array(10); // 1个number参数时，会创建指定长度数组
+var arr = new Array(5).fill(1.0); // 创建指定长度，全1 的数组
 ```
 
 - 注意：按引用类型操作的值，其后面操作改变了值，但前面值打印出来和改变后是一样的。
