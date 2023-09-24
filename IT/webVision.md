@@ -2429,7 +2429,7 @@ function setupShaders() {
 }
 ```
 
-**buffer数据使用**：要传入的顶点数据，颜色数据等操作
+**缓冲区buffer数据使用**：要传入的顶点数据，颜色数据，==所有缓冲区应该绘制前就创建==，绘制时再绑定读取，速度更快。
 
 ```js
 vertexBuffer = gl.createBuffer(); // 创建并初始化一个用于储存顶点数据或着色数据的WebGLBuffer对象
@@ -2735,33 +2735,154 @@ void main(){
 
 ### 3、3d纹理
 
-```js
-const texture = gl.createTexture();
-gl.bindTexture(gl.TEXTURE_3D, texture);
-gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.CLAMP_TO_EDGE);
-// 将数据传送给3d纹理
-gl.texImage3D(gl.TEXTURE_3D,0,gl.RGBA,width,height,depth,0,gl.RGBA,gl.UNSIGNED_BYTE, new Uint8Array([0xff, 0x00, 0x00, 0x00]));
+3d纹理只有`webgl2`中才支持，大致实现如下。
+
+```glsl
+// 顶点着色器
+#version 300 es
+layout(location = 0) in vec4 position;
+out vec4 v_position;
+uniform mat4 u_castViewMatrix;
+uniform mat4 u_transformMatrix;
+void main() {
+  v_position = position; // 使用原顶点数据作为纹理 坐标
+  gl_Position = u_castViewMatrix * u_transformMatrix * position;
+}
+// 片段着色器
+#version 300 es
+precision mediump float;
+in vec4 v_position;
+out vec4 fragColor;
+uniform mediump sampler3D uSampler; // 需要加精度限定
+void main() {
+  // 纹理函数 texture， 坐标数据在（-1,1）情况，这里需要转到 0-1 区间
+  fragColor = texture(uSampler, vec3(v_position) / 2.0f + 0.5f);
+}
 ```
 
 **值传递部分**：与2d类似
 
 ```js
-// 片段着色器部分
-const fs = `
- uniform sampler3D texture;
- varying vec2 v_uv;
+const texHeight = 128, texWidth = 128, texDepth = 128;
+var tex3Dpattern = new Array(texWidth).fill(0);
 
- void main() {
-   gl_FragColor = texture3D(texture, v_uv);
- }`;
+// 生成3d数据
+function generate3Dpattern() {
+  for (let x = 0; x < texWidth; x++) {
+    tex3Dpattern[x] = new Array(texHeight).fill(0);
+    for (let y = 0; y < texHeight; y++) {
+      tex3Dpattern[x][y] = new Array(texDepth).fill(0);
+      for (let z = 0; z < texDepth; z++) {
+        if ((y / 10) % 2 == 0) tex3Dpattern[x][y][z] = 0;
+        else tex3Dpattern[x][y][z] = 1;
+      }
+    }
+  }
+}
+// 用蓝色、黄色 填充字节数据
+function fillDataArray(data) {
+  for (let i = 0; i < texWidth; i++) {
+    for (let j = 0; j < texHeight; j++) {
+      for (let k = 0, _temp; k < texDepth; k++) {
+        _temp = i * texWidth * texHeight * 4 + j * texHeight * 4 + k * 4;
 
-gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
-gl.activeTexture(gl.TEXTURE0);
-gl.bindTexture(gl.TEXTURE_3D, texture);
+        if (tex3Dpattern[i][j][k] === 1) {
+          data[_temp + 0] = 255;
+          data[_temp + 1] = 255;
+          data[_temp + 2] = 0;
+          data[_temp + 3] = 255;
+        } else {
+          // 蓝色
+          data[_temp + 0] = 0;
+          data[_temp + 1] = 0;
+          data[_temp + 2] = 255;
+          data[_temp + 3] = 255;
+        }
+      }
+    }
+  }
+}
+
+function load3DTexture() {
+  var colorData = new Array(texWidth * texHeight * texDepth * 4).fill(0.0);
+  fillDataArray(colorData);
+
+  const texture = gl.createTexture(
+    gl.TEXTURE_3D,
+    gl.RGBA,
+    texWidth,
+    texHeight,
+    texHeight
+  );
+  gl.bindTexture(gl.TEXTURE_3D, texture);
+  gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texStorage3D(gl.TEXTURE_3D, 1, gl.RGBA8, texWidth, texHeight, texDepth);
+  /*gl.texImage3D(gl.TEXTURE_3D, 0, gl.RGBA, texWidth,texHeight,texDepth, 
+    0, gl.RGBA, gl.UNSIGNED_BYTE,new Uint8Array(colorData));
+  */
+  gl.texSubImage3D(gl.TEXTURE_3D,0,0,0, 0,
+    texWidth,
+    texHeight,
+    texDepth,
+    gl.RGBA,
+    gl.UNSIGNED_BYTE,
+    new Uint8Array(colorData)
+  );
+
+  return texture;
+}
+```
+
+**执行绘制**：依然是绘制自己的图形，正常启动纹理单元
+
+```js
+
+function drawCueb(program, texture) {
+  const pointerBuffer = gl.createBuffer();
+  const indexBuffer = gl.createBuffer();
+
+  // prettier-ignore
+  const vertexs = new Float32Array([
+        1, 1, 1,
+        -1, 1, 1,
+        -1, -1, 1,
+        1, -1, 1,
+        1, -1, -1,
+        1, 1, -1,
+        -1, 1, -1,
+        -1, -1, -1,
+      ]);
+
+  // prettier-ignore
+  const indices = new Uint8Array([
+        0, 1, 2, 0, 2, 3, // 正面
+        0, 3, 4, 0, 4, 5, // 右面
+        0, 5, 6, 0, 6, 1, // 上面
+        1, 6, 7, 1, 7, 2, // 左面
+        7, 4, 3, 7, 3, 2, // 下面
+        4, 7, 6, 4, 6, 5, // 背面
+      ]);
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, pointerBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, vertexs, gl.STATIC_DRAW);
+
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
+  gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(0);
+
+  gl.bindTexture(gl.TEXTURE_3D, texture);
+  const uSampler = gl.getUniformLocation(program, "uSampler");
+  gl.activeTexture(gl.TEXTURE0); // 开启0号纹理
+  gl.uniform1i(uSampler, 0);
+
+  gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_BYTE, 0);
+}
+
+generate3Dpattern();
+var stripTexture = load3DTexture();
+drawCueb(program, stripTexture);
 ```
 
 
@@ -2842,7 +2963,7 @@ void main() {
 
 
 
-## e、GLSL ES语言
+## e、GLSL ES1.0
 
 webgl中的es并非支持所有的es语言特性
 
@@ -2908,6 +3029,97 @@ void main(){
 （2）`gl_FragColor`：绘制颜色使用，可以是1个矢量，矩阵。
 （3）`gl_PointSize`：点的大小控制，一个浮点 或 整型。
 （4）`gl_FragCoord`：当前绘制片元的**屏幕坐标**，`gl_FragCoord.z`则是其zbuffer得到的深度值（$=(gl_Position.xyz/gl_Position.w)/2.0+0.5$）
+
+## e1、webgl2&es 3.0
+
+使用`canvas.getContext('webgl')`获取到的是webgl1版本内容，其对应使用的es着色器版本为`1.0`，而`webgl2`与`es3.0`版本对应，改动如下：
+
+- **in**表示参数按值传送，函数不能修改。【[es 3.0学习参考地址](https://www.glumes.com/opengl-glsl-3-mark/)】
+- **out**表示该变量的值不能传入函数，但是在函数返回时修改；
+- **inout**表示变量按照引用传入函数，如果该值修改，它将在函数退出后变化。
+- **uniform**变量在全局作用域中可见，所以在顶点着色器和片段着色器中是共享的，因此顶点和片段中的声明必须一致。
+- **精度限定符**：指定着色器变量计算精度，可以声明为低 、中、高精度（`lowp,mediump,highp`）名称与1版本已有所不同
+- **invariant关键字**来规定用于计算输出的相同计算的值必须相同。
+- **统一变量块**：uniform变量可放到一起声明，一次性赋值，更高效。
+- **layout 限定符**：其主要用于设置变量的存储索引（即引用）值。
+  layout 限定符必须在存储限定符之前使用，且 layout 限定符修饰的变量或接口块的作用域必须是全局的
+
+```glsl
+# version 300 es // 声明使用es3.0版本 ，只能放第一行，不使用则默认为 1.0版本语法
+// 设置我们传入的顶点，颜色 存储位置，js传值时直接使用这个索引即可
+layout (location = 0) in vec3 aPosition;
+layout (location = 1) in vec4 aColor;
+// 统一变量块
+uniform TransformBlock {
+    mat4 matViewProj;
+    mat3 marNormal;
+    mat3 matTexGen;
+};
+// 可在顶点着色器中定义一个 out 变量，片段着色器中用 in接收
+out varyColor;
+```
+
+**webgl2示例**：新增3d纹理等功能。
+
+```js
+const canvas = document.getElementById("canvas22");
+/****注意传入的webgl2***/
+var gl = canvas.getContext("webgl2", {preserveDrawingBuffer: true});
+if (!gl) {console.error("WebGL 2 not supported");} 
+else {console.log("WebGL 2 supported")}
+
+const vertexSource = `#version 300 es
+    layout (location = 0) in vec4 a_position; // 定义传入的顶点变量的 存储索引
+    void main(void){
+      //gl_PointSize = 5.0;
+      gl_Position = a_position; // gl_Position已经被预定义输出，因此不用 out声明
+    }`;
+const fragSource = `#version 300 es
+    precision mediump float;
+    out vec4 color; // 需要out 声明1个任意色值 作为片段着色
+    void main(void){
+      color = vec4(1.0, 1.0, 0.0, 1.0);
+    }`;
+
+const vsShader = gl.createShader(gl.VERTEX_SHADER);
+gl.shaderSource(vsShader, vertexSource);
+gl.compileShader(vsShader);
+
+const fsShader = gl.createShader(gl.FRAGMENT_SHADER);
+gl.shaderSource(fsShader, fragSource);
+gl.compileShader(fsShader);
+
+
+const program = gl.createProgram();
+gl.attachShader(program, vsShader);
+gl.attachShader(program, fsShader);
+gl.linkProgram(program);
+/***检测链接状态***/
+if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+  alert("Failed to setup shaders");
+}
+gl.useProgram(program);
+
+gl.clearColor(0.0, 0.0, 0.0, 1.0);
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+gl.enable(gl.DEPTH_TEST);
+
+const positionBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+gl.bufferData(
+  gl.ARRAY_BUFFER,
+  new Float32Array([-0.2, 0.0, 0.0, 0.4, -0.2, 0, 0, 0.5, 0]),
+  gl.STATIC_DRAW
+);
+// 这里直接使用存储索引传值，而不是 1版本一样获取变量位置
+gl.vertexAttribPointer(0, 3, gl.FLOAT, gl.FALSE, 0, 0);
+gl.enableVertexAttribArray(0);
+
+gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+```
+
+
 
 ## f、帧缓冲区
 
