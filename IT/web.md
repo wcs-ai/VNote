@@ -11,35 +11,7 @@
 
 **页面的重绘与重排**（回流）：元素颜色的改变、css3 的一些变换等会引起页面的重绘，不过重绘速度非常快。而元素大小、display、position、float、overflow，js 的 resize 等会导致对页面的重新布局，即重排（也称回流）。无论是渲染树构建过程和渲染完毕后。回流比重绘需要的时间多得多，**所以应该尽量避免重排**。
 
-## 4、资源加载标签
 
-很多加载资源的标签：`iframe,video,audio,img,script,link` 等是用 src 属性或是用 href 属性，一些标签不能跨域加载资源多数标签允许跨域加载资源。除了 link 和 script 外其它标签几乎都有 onload 事件和 onerror 事件可在元素上添加这两个事件做加载成功和加载失败后的处理。js 代码中的函数块语句需要达到相应的条件才能触发（body，head 中添加的 onload 和`<script></script>`中的 `window.onload=“”`除外)就算是 onmouseout 指定的函数也不行，因为它运行的前提就是有 onmouseover 被触发。
-**link 标签**：link的加载是同步的，会阻塞渲染。
-
-```html
-<link href="http://a...pp.jpg" rel="prefetch" /><!--prefetch表示预加载-->
-<link href="http://a...pp.css" rel="stylesheet" /><!--导入css-->
-```
-
-**外部资源引入标签**：
-`<embed></embed>、<iframe></iframe>、<object></object>`
-`<embed type="image/svg+xml" codebase="http:"></embed>`标签是 H5 新标签所有主流浏览器都支持，codebase 属性中写资源路径,可以引入脚本;类似 iframe 标签用于引入外资源(`<iframe>`标签只在大部分浏览器可用，但规范的 xhtml 和 html 中不支持`<embed>`标签.`<object data="rect.svg" type="image/svg+xml" codebase="http">`
-`</object>`标签是 H4 的新标签，浏览器支持性差，但不能引入脚本.(引入的文件中的 js 对象和本页的 js 对象是不能共用的,且在引入的文件中获取的 url 也不是该页的)
-**引入页面中刷新父页面更改浏览器 url**：
-在`<iframe><embed><object>`标签中若是有用到跳转页面使用 window.location.href 或 window.open()或 a 标签中的跳转，页面跳转后还是只是显示在\<iframe>...这些标签之中
-但使用` window.parent.frames.location.href = ""`能让上一个页面跳转或直接`window.parent.location.href,window.top.location.href`让最外层的页面跳转，
-a 标签中的跳转可用 `target="parent"和 target="top"`来实现。获取前一页 `url：document.referrer`包括传参也会获取到
-**iframe 属性：**[参考地址](https://www.cnblogs.com/hzb462606/p/11394683.html)
-
-```html
-<iframe frameborder="0" sandbox=""></iframe>
-<!--sandbox:
-allow-same-origin：允许 iframe 内容被视为与包含文档有相同的来源；
-allow-top-navigation：允许 iframe 内容从包含文档导航（加载）内容；
-allow-forms：允许表单提交；
-allow-scripts：允许脚本执行；
--->
-```
 
 ## 5、概念
 
@@ -476,7 +448,7 @@ img {
 </style>
 ```
 
-`<inframe>`：加载一个网页到此容器中，允许它有完整的文档对象。
+`<iframe>`：加载一个网页到此容器中，允许它有完整的文档对象。
 
 ```html
 <!--
